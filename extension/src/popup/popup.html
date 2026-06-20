@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AutoCVApply</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            width: 320px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 16px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .logo {
+            width: 28px;
+            height: 28px;
+            background: #3b82f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        .header-title { font-weight: 700; font-size: 14px; }
+        .header-subtitle { font-size: 11px; color: #64748b; margin-top: 1px; }
+        .body { padding: 14px 16px; }
+        .status-card {
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+        }
+        .status-card.auth {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .status-card.unauth {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .status-row { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
+        .dot.green { background: #22c55e; }
+        .dot.red { background: #ef4444; }
+        .profile-name { font-size: 12px; color: #94a3b8; margin-top: 4px; padding-left: 16px; }
+        .btn {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: opacity 0.15s;
+            margin-bottom: 8px;
+        }
+        .btn:hover { opacity: 0.85; }
+        .btn.primary { background: #3b82f6; color: white; }
+        .btn.secondary { background: rgba(255,255,255,0.06); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1); }
+        .btn.danger { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .token-section { margin-top: 4px; }
+        .token-label { font-size: 11px; color: #64748b; margin-bottom: 6px; }
+        .token-input-row { display: flex; gap: 6px; }
+        .token-input {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            padding: 7px 10px;
+            color: #f1f5f9;
+            font-size: 12px;
+            font-family: monospace;
+        }
+        .token-input::placeholder { color: #475569; }
+        .token-save-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 7px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        .toggle-label { font-size: 12px; color: #94a3b8; }
+        .toggle {
+            position: relative;
+            width: 36px;
+            height: 20px;
+        }
+        .toggle input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #334155;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .slider:before {
+            content: '';
+            position: absolute;
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+        .toggle input:checked + .slider { background: #3b82f6; }
+        .toggle input:checked + .slider:before { transform: translateX(16px); }
+        .footer {
+            padding: 10px 16px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            text-align: center;
+        }
+        .footer a { font-size: 11px; color: #475569; text-decoration: none; }
+        .footer a:hover { color: #94a3b8; }
+        #message { font-size: 12px; margin-bottom: 8px; padding: 8px 10px; border-radius: 6px; display: none; }
+        #message.success { background: rgba(34, 197, 94, 0.15); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3); }
+        #message.error { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">⚡</div>
+        <div>
+            <div class="header-title">AutoCVApply</div>
+            <div class="header-subtitle">Job form autofill</div>
+        </div>
+    </div>
+
+    <div class="body">
+        <div id="message"></div>
+
+        <!-- Authenticated state -->
+        <div id="auth-state" style="display:none">
+            <div class="status-card auth">
+                <div class="status-row">
+                    <div class="dot green"></div>
+                    Connected
+                </div>
+                <div class="profile-name" id="profile-name"></div>
+            </div>
+
+            <div class="toggle-row">
+                <span class="toggle-label">Enable autofill on job sites</span>
+                <label class="toggle">
+                    <input type="checkbox" id="enabled-toggle" checked />
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <button class="btn secondary" id="open-dashboard-btn">Open Dashboard</button>
+            <button class="btn danger" id="logout-btn">Sign Out</button>
+        </div>
+
+        <!-- Unauthenticated state -->
+        <div id="unauth-state" style="display:none">
+            <div class="status-card unauth">
+                <div class="status-row">
+                    <div class="dot red"></div>
+                    Not connected
+                </div>
+            </div>
+            <div class="token-section">
+                <div class="token-label">Paste your API token from autocvapply.com/dashboard</div>
+                <div class="token-input-row">
+                    <input class="token-input" type="password" id="token-input" placeholder="Paste token here..." />
+                    <button class="token-save-btn" id="save-token-btn">Connect</button>
+                </div>
+            </div>
+            <div style="margin-top: 10px;">
+                <button class="btn primary" id="open-site-btn">Get your token →</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="https://autocvapply.com" target="_blank">autocvapply.com</a>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

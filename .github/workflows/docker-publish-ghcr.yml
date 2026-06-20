@@ -1,0 +1,104 @@
+name: docker-publish-ghcr
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - 'AGENTS.md'
+      - 'GEMINI.md'
+      - '.cursor/**'
+      - '.agents/**'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository_owner }}/baseproject
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    outputs:
+      image_tag: ${{ steps.cal.outputs.tag }}
+      image: ${{ steps.cal.outputs.image }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Calendar + commit tag
+        id: cal
+        run: |
+          echo "tag=$(date -u +%Y%m%d)-${GITHUB_SHA:0:7}" >> "$GITHUB_OUTPUT"
+          echo "image=$(echo '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+
+      # Registry cache (GHCR) instead of Actions Cache (type=gha) to avoid flaky 502/HTML responses on cache export.
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          provenance: false
+          sbom: false
+          cache-from: type=registry,ref=${{ steps.cal.outputs.image }}:buildcache
+          cache-to: type=registry,ref=${{ steps.cal.outputs.image }}:buildcache,mode=max
+          tags: |
+            ${{ steps.cal.outputs.image }}:latest
+            ${{ steps.cal.outputs.image }}:sha-${{ github.sha }}
+            ${{ steps.cal.outputs.image }}:${{ steps.cal.outputs.tag }}
+
+  deploy:
+    name: Deploy to production server
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch') && secrets.DEPLOY_SSH_HOST != '' && secrets.DEPLOY_SSH_PRIVATE_KEY != ''
+    env:
+      DEPLOY_SSH_HOST: ${{ secrets.DEPLOY_SSH_HOST }}
+    steps:
+      - name: SSH — pull image from GHCR and restart stack
+        uses: appleboy/ssh-action@v1.2.2
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHCR_USER: ${{ github.actor }}
+          IMAGE: ${{ needs.build-and-push.outputs.image }}:latest
+        with:
+          host: ${{ env.DEPLOY_SSH_HOST }}
+          username: root
+          key: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          envs: GHCR_TOKEN,GHCR_USER,IMAGE
+          script_stop: true
+          script: |
+            set -euo pipefail
+            if ! command -v docker >/dev/null 2>&1; then
+              echo "::error::Docker is not installed on the server."
+              exit 1
+            fi
+            echo "${GHCR_TOKEN}" | docker login ghcr.io -u "${GHCR_USER}" --password-stdin
+            docker pull "${IMAGE}"
+            cd /root/deployment
+            test -f .env || cp env.example .env
+            sed -i '/^APP_IMAGE=/d' .env
+            echo "APP_IMAGE=${IMAGE}" >> .env
+            export APP_IMAGE="${IMAGE}"
+            if ! grep -qE '^APP_KEY=base64:' .env; then
+              docker compose run --rm --no-deps app php artisan key:generate --force
+            fi
+            docker compose up -d
+            docker compose exec -T app php artisan migrate --force
+            docker compose exec -T app php artisan storage:link --force

@@ -1,0 +1,48 @@
+{
+    "manifest_version": 3,
+    "name": "AutoCVApply",
+    "version": "1.0.0",
+    "description": "Auto-fill job application forms on Workday, Indeed, LinkedIn, Greenhouse, and Lever using your AutoCVApply profile.",
+    "permissions": ["storage", "tabs", "scripting"],
+    "host_permissions": [
+        "https://*.workday.com/*",
+        "https://*.myworkdayjobs.com/*",
+        "https://www.indeed.com/*",
+        "https://www.linkedin.com/*",
+        "https://*.greenhouse.io/*",
+        "https://*.lever.co/*",
+        "https://autocvapply.com/*"
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_title": "AutoCVApply",
+        "default_icon": {
+            "16": "icons/icon16.png",
+            "48": "icons/icon48.png",
+            "128": "icons/icon128.png"
+        }
+    },
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*.workday.com/*",
+                "https://*.myworkdayjobs.com/*",
+                "https://www.indeed.com/*",
+                "https://www.linkedin.com/*",
+                "https://*.greenhouse.io/*",
+                "https://*.lever.co/*"
+            ],
+            "js": ["content.js"],
+            "run_at": "document_idle"
+        }
+    ]
+}

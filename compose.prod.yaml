@@ -1,0 +1,67 @@
+# Production stack for AutoCVApply
+# Usage: docker compose -f compose.prod.yaml --env-file .env up -d
+
+services:
+  app:
+    image: ghcr.io/tmwclaxton/autoapplycv:latest
+    stop_grace_period: 120s
+    env_file: .env
+    environment:
+      WWWUSER: "1337"
+      WWWGROUP: "1000"
+      DB_HOST: postgres
+      REDIS_HOST: redis
+    ports:
+      - "8094:80"
+    networks:
+      - autocvapply
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/up"]
+      retries: 3
+      timeout: 5s
+      start_period: 40s
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - autocvapply-postgres:/var/lib/postgresql/data
+    networks:
+      - autocvapply
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}"]
+      retries: 10
+      timeout: 10s
+      start_period: 30s
+    restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - autocvapply-redis:/data
+    networks:
+      - autocvapply
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      retries: 3
+      timeout: 5s
+    restart: unless-stopped
+
+networks:
+  autocvapply:
+    driver: bridge
+
+volumes:
+  autocvapply-postgres:
+    driver: local
+  autocvapply-redis:
+    driver: local

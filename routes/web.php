@@ -1,0 +1,32 @@
+<?php
+
+use App\Http\Controllers\Api\ExtensionTokenController;
+use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\CvUploadController;
+use App\Http\Controllers\OnboardingController;
+use App\Http\Controllers\Settings\ProfileController as SettingsProfileController;
+use Illuminate\Support\Facades\Route;
+use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
+
+Route::inertia('/', 'Welcome')->name('home');
+
+Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function () {
+    Route::get('/onboarding', [OnboardingController::class, 'index'])->name('onboarding');
+    Route::get('/dashboard', [OnboardingController::class, 'dashboard'])->name('dashboard');
+
+    Route::post('/cv/upload', [CvUploadController::class, 'store'])->name('cv.upload');
+    Route::patch('/cv/profile', [CvUploadController::class, 'updateProfile'])->name('cv.profile.update');
+
+    Route::get('/settings/profile', [SettingsProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/settings/profile', [SettingsProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/settings/profile', [SettingsProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::inertia('/settings/appearance', 'settings/Appearance')->name('appearance.edit');
+});
+
+Route::middleware(['auth:sanctum'])->prefix('api')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('api.profile');
+    Route::post('/tokens', [ExtensionTokenController::class, 'store'])->name('api.tokens.store');
+    Route::delete('/tokens/{token}', [ExtensionTokenController::class, 'destroy'])->name('api.tokens.destroy');
+});
+
+require __DIR__.'/auth.php';
