@@ -72,17 +72,11 @@ jobs:
           EOF
 
       - name: Copy deploy files to server
-        env:
-          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
-          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
         run: |
           scp compose.prod.yaml ${{ env.DEPLOY_HOST }}:${{ env.DEPLOY_DIR }}/compose.prod.yaml
           scp scripts/deploy-production.sh ${{ env.DEPLOY_HOST }}:${{ env.DEPLOY_DIR }}/deploy-production.sh
 
       - name: Deploy to server
-        env:
-          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
-          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
         run: |
           ssh ${{ env.DEPLOY_HOST }} "
             set -e
