@@ -62,7 +62,6 @@ const PLATFORM_SELECTORS = {
 };
 
 let profile = null;
-let isEnabled = true;
 let fillButton = null;
 
 function detectPlatform() {
