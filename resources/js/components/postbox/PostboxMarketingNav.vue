@@ -1,0 +1,71 @@
+<script setup lang="ts">
+import { Link, usePage } from '@inertiajs/vue3';
+import { ArrowRight, Github } from 'lucide-vue-next';
+import { computed } from 'vue';
+import { useCurrentUrl } from '@/composables/useCurrentUrl';
+import { GITHUB_REPOSITORY_URL, MARKETING_NAV_LINKS } from '@/lib/site';
+import {
+    about,
+    contact,
+    dashboard,
+    home,
+    howTo,
+    login,
+} from '@/routes';
+
+const page = usePage();
+const { isCurrentUrl } = useCurrentUrl();
+
+const routeMap = {
+    'how-to': howTo,
+    about,
+    contact,
+} as const;
+
+const navLinkClass = (href: string): string =>
+    isCurrentUrl(href)
+        ? 'border-postbox-red bg-postbox-grey text-postbox-navy'
+        : 'border-transparent text-postbox-navy hover:border-postbox-navy hover:bg-postbox-grey';
+
+const isAuthenticated = computed(() => Boolean(page.props.auth.user));
+</script>
+
+<template>
+    <div class="flex flex-wrap items-center gap-2">
+        <Link
+            :href="home()"
+            class="postbox-btn-ghost hidden border-2 text-sm sm:inline-flex"
+            :class="navLinkClass(home().url)"
+        >
+            Home
+        </Link>
+
+        <Link
+            v-for="item in MARKETING_NAV_LINKS"
+            :key="item.route"
+            :href="routeMap[item.route]().url"
+            class="postbox-btn-ghost hidden border-2 text-sm sm:inline-flex"
+            :class="navLinkClass(routeMap[item.route]().url)"
+        >
+            {{ item.label }}
+        </Link>
+
+        <a
+            :href="GITHUB_REPOSITORY_URL"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="postbox-btn-outline hidden px-3 py-2 sm:inline-flex"
+        >
+            <Github class="size-4" />
+            GitHub
+        </a>
+
+        <Link v-if="isAuthenticated" :href="dashboard()" class="postbox-btn">
+            Dashboard
+        </Link>
+        <Link v-else :href="login()" class="postbox-btn">
+            Get started
+            <ArrowRight class="size-4" />
+        </Link>
+    </div>
+</template>

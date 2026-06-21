@@ -18,10 +18,18 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
     layout: (name) => {
+        const standalonePages = [
+            'Welcome',
+            'About',
+            'Contact',
+            'HowTo',
+            'Onboarding',
+            'Dashboard',
+        ];
+
         switch (true) {
-            case name === 'Welcome':
-            case name === 'Onboarding':
-            case name === 'Dashboard':
+            case standalonePages.includes(name):
+            case name.startsWith('Legal/'):
                 return null;
             case name.startsWith('settings/'):
             case name.startsWith('teams/'):

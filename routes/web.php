@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Route;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 
 Route::inertia('/', 'Welcome')->name('home');
+Route::inertia('/about', 'About')->name('about');
+Route::inertia('/how-to', 'HowTo')->name('how-to');
+Route::inertia('/contact', 'Contact')->name('contact');
+Route::inertia('/terms', 'Legal/Terms')->name('terms');
+Route::inertia('/privacy', 'Legal/Privacy')->name('privacy');
 
 Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function () {
     Route::get('/onboarding', [OnboardingController::class, 'index'])->name('onboarding');

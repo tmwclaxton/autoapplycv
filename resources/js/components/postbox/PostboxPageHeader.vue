@@ -1,0 +1,24 @@
+<script setup lang="ts">
+defineProps<{
+    title: string;
+    description?: string;
+    badge?: string;
+}>();
+</script>
+
+<template>
+    <header class="mb-8 max-w-3xl">
+        <span v-if="badge" class="postbox-badge mb-4 inline-flex">
+            {{ badge }}
+        </span>
+        <h1 class="text-3xl font-bold tracking-tight text-balance text-postbox-navy sm:text-4xl">
+            {{ title }}
+        </h1>
+        <p
+            v-if="description"
+            class="mt-3 text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
+        >
+            {{ description }}
+        </p>
+    </header>
+</template>
