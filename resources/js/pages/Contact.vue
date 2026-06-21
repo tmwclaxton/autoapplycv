@@ -22,7 +22,7 @@ import { howTo } from '@/routes';
             description="No sales team. No chat widget. Just a couple of sensible ways to reach us."
         />
 
-        <div class="grid max-w-3xl gap-4 sm:grid-cols-2">
+        <div class="grid gap-4 sm:grid-cols-2">
             <a
                 :href="`mailto:${CONTACT_EMAIL}`"
                 class="postbox-panel flex gap-4 p-5 transition-colors hover:bg-postbox-grey/40"
@@ -62,7 +62,7 @@ import { howTo } from '@/routes';
             </a>
         </div>
 
-        <div class="postbox-panel-muted mt-6 max-w-3xl p-5">
+        <div class="postbox-panel-muted mt-6 p-5">
             <div class="flex gap-3">
                 <MessageSquare class="mt-0.5 size-5 shrink-0 text-postbox-navy" />
                 <p class="text-sm leading-relaxed text-muted-foreground">

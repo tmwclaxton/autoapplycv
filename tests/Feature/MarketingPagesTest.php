@@ -16,6 +16,7 @@ class MarketingPagesTest extends TestCase
             'home' => ['home', 'Welcome'],
             'about' => ['about', 'About'],
             'how-to' => ['how-to', 'HowTo'],
+            'pricing' => ['pricing', 'Pricing'],
             'contact' => ['contact', 'Contact'],
             'terms' => ['terms', 'Legal/Terms'],
             'privacy' => ['privacy', 'Legal/Privacy'],

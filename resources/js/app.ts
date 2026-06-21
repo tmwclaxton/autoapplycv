@@ -23,6 +23,7 @@ createInertiaApp({
             'About',
             'Contact',
             'HowTo',
+            'Pricing',
             'Onboarding',
             'Dashboard',
             'Billing',

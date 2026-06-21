@@ -23,17 +23,7 @@ class BillingController extends Controller
 
         return Inertia::render('Billing', [
             'subscription' => $this->aiTokens->summary($user),
-            'tiers' => collect(SubscriptionTier::ordered())
-                ->map(fn (SubscriptionTier $tier) => [
-                    'key' => $tier->value,
-                    'name' => $tier->label(),
-                    'description' => $tier->description(),
-                    'price' => $tier->formattedPrice(),
-                    'price_pence' => $tier->pricePence(),
-                    'monthly_tokens' => $tier->monthlyTokens(),
-                    'is_paid' => $tier->isPaid(),
-                ])
-                ->values(),
+            'tiers' => SubscriptionTier::marketingTiers(),
         ]);
     }
 

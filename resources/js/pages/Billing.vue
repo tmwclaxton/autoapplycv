@@ -1,18 +1,10 @@
 <script setup lang="ts">
 import { Head, router, usePage } from '@inertiajs/vue3';
-import { Check, Sparkles } from 'lucide-vue-next';
 import { computed } from 'vue';
+import PostboxPricingTiers, {
+    type PricingTier,
+} from '@/components/postbox/PostboxPricingTiers.vue';
 import PostboxShell from '@/components/postbox/PostboxShell.vue';
-
-interface Tier {
-    key: string;
-    name: string;
-    description: string;
-    price: string;
-    price_pence: number;
-    monthly_tokens: number;
-    is_paid: boolean;
-}
 
 interface SubscriptionSummary {
     tier: string;
@@ -29,7 +21,7 @@ interface SubscriptionSummary {
 
 const props = defineProps<{
     subscription: SubscriptionSummary;
-    tiers: Tier[];
+    tiers: PricingTier[];
 }>();
 
 const page = usePage();
@@ -51,10 +43,6 @@ const usagePercent = computed(() => {
 
 function formatTokens(value: number): string {
     return new Intl.NumberFormat('en-GB').format(value);
-}
-
-function selectTier(tier: Tier) {
-    router.post('/billing/checkout', { tier: tier.key });
 }
 
 function cancelSubscription() {
@@ -143,80 +131,10 @@ function cancelSubscription() {
             </button>
         </div>
 
-        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <article
-                v-for="tier in tiers"
-                :key="tier.key"
-                class="postbox-panel flex flex-col p-6"
-                :class="
-                    subscription.tier === tier.key
-                        ? 'ring-2 ring-postbox-red'
-                        : ''
-                "
-            >
-                <div class="mb-4 flex items-center justify-between gap-2">
-                    <h2 class="text-lg font-bold text-postbox-navy">
-                        {{ tier.name }}
-                    </h2>
-                    <span
-                        v-if="subscription.tier === tier.key"
-                        class="postbox-stamp px-2 py-1 text-[10px]"
-                    >
-                        Current
-                    </span>
-                </div>
-
-                <p class="text-2xl font-bold text-postbox-red">
-                    {{ tier.price }}
-                </p>
-
-                <p class="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
-                    <Sparkles class="size-4 shrink-0 text-postbox-red" />
-                    {{ formatTokens(tier.monthly_tokens) }} AI tokens / month
-                </p>
-
-                <p class="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-                    {{ tier.description }}
-                </p>
-
-                <ul class="mt-4 space-y-2 text-sm text-postbox-navy">
-                    <li class="flex items-start gap-2">
-                        <Check class="mt-0.5 size-4 shrink-0 text-postbox-red" />
-                        CV parsing with AI extraction
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <Check class="mt-0.5 size-4 shrink-0 text-postbox-red" />
-                        Browser extension autofill
-                    </li>
-                    <li
-                        v-if="tier.is_paid"
-                        class="flex items-start gap-2"
-                    >
-                        <Check class="mt-0.5 size-4 shrink-0 text-postbox-red" />
-                        Billed monthly via Direct Debit
-                    </li>
-                </ul>
-
-                <button
-                    type="button"
-                    class="mt-6 w-full"
-                    :class="
-                        subscription.tier === tier.key
-                            ? 'postbox-btn-outline'
-                            : 'postbox-btn'
-                    "
-                    :disabled="subscription.tier === tier.key"
-                    @click="selectTier(tier)"
-                >
-                    {{
-                        subscription.tier === tier.key
-                            ? 'Current plan'
-                            : tier.is_paid
-                              ? 'Upgrade via Direct Debit'
-                              : 'Switch to Free'
-                    }}
-                </button>
-            </article>
-        </div>
+        <PostboxPricingTiers
+            :tiers="tiers"
+            :current-tier="subscription.tier"
+            mode="billing"
+        />
     </PostboxShell>
 </template>

@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-    <header class="mb-8 max-w-3xl">
+    <header class="mb-8">
         <span v-if="badge" class="postbox-badge mb-4 inline-flex">
             {{ badge }}
         </span>

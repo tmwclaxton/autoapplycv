@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { FOOTER_LINKS, GITHUB_REPOSITORY_URL } from '@/lib/site';
-import { about, contact, home, howTo, privacy, terms } from '@/routes';
+import { about, contact, home, howTo, pricing, privacy, terms } from '@/routes';
 
 const routeMap = {
     'how-to': howTo,
+    pricing,
     about,
     contact,
     terms,

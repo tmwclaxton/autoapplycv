@@ -20,7 +20,7 @@ defineProps<{
             <PostboxMarketingNav />
         </template>
 
-        <section class="max-w-3xl">
+        <section>
             <span class="postbox-badge mb-5 inline-flex gap-1.5">
                 <Stamp class="size-3.5" />
                 Open source · Free to use
@@ -34,7 +34,7 @@ defineProps<{
             </h1>
 
             <p
-                class="mt-5 max-w-2xl text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
+                class="mt-5 text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
             >
                 Job forms ask the same questions again and again. AutoCVApply
                 stores your CV profile and stamps answers onto Workday, Indeed,

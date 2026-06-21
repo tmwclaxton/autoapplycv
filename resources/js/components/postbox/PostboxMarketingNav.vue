@@ -11,6 +11,7 @@ import {
     home,
     howTo,
     login,
+    pricing,
 } from '@/routes';
 
 const page = usePage();
@@ -18,6 +19,7 @@ const { isCurrentUrl } = useCurrentUrl();
 
 const routeMap = {
     'how-to': howTo,
+    pricing,
     about,
     contact,
 } as const;

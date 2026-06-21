@@ -33,12 +33,14 @@ export const SETUP_STEPS = [
 
 export const MARKETING_NAV_LINKS = [
     { label: 'How to', route: 'how-to' },
+    { label: 'Pricing', route: 'pricing' },
     { label: 'About', route: 'about' },
     { label: 'Contact', route: 'contact' },
 ] as const;
 
 export const FOOTER_LINKS = [
     { label: 'How to', route: 'how-to' },
+    { label: 'Pricing', route: 'pricing' },
     { label: 'About', route: 'about' },
     { label: 'Contact', route: 'contact' },
     { label: 'Terms', route: 'terms' },
