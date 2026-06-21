@@ -3,6 +3,11 @@ const APP_URL = 'https://autocvapply.com';
 const authState = document.getElementById('auth-state');
 const unauthState = document.getElementById('unauth-state');
 const profileName = document.getElementById('profile-name');
+const usageCard = document.getElementById('usage-card');
+const planLabel = document.getElementById('plan-label');
+const usageCount = document.getElementById('usage-count');
+const usageFill = document.getElementById('usage-fill');
+const usageMeta = document.getElementById('usage-meta');
 const messageEl = document.getElementById('message');
 const tokenInput = document.getElementById('token-input');
 const saveTokenBtn = document.getElementById('save-token-btn');
@@ -30,6 +35,25 @@ async function loadProfile() {
     });
 }
 
+function formatTokens(value) {
+    return new Intl.NumberFormat('en-GB').format(value);
+}
+
+function renderSubscription(subscription) {
+    if (!subscription || !usageCard) {
+        return;
+    }
+
+    usageCard.style.display = 'block';
+    planLabel.textContent = `${subscription.tier_label} plan`;
+    usageCount.textContent = `${formatTokens(subscription.tokens_used)} / ${formatTokens(subscription.monthly_tokens)}`;
+    const percent = subscription.monthly_tokens > 0
+        ? Math.min(100, Math.round((subscription.tokens_used / subscription.monthly_tokens) * 100))
+        : 0;
+    usageFill.style.width = `${percent}%`;
+    usageMeta.textContent = `${formatTokens(subscription.tokens_remaining)} AI tokens left · resets ${new Date(subscription.period_resets_at).toLocaleDateString('en-GB')}`;
+}
+
 async function init() {
     const { isAuthenticated } = await checkAuth();
     const { isEnabled } = await chrome.storage.local.get(['isEnabled']);
@@ -45,9 +69,15 @@ async function init() {
         if (profileData?.profile?.full_name) {
             profileName.textContent = profileData.profile.full_name;
         }
+        if (profileData?.subscription) {
+            renderSubscription(profileData.subscription);
+        }
     } else {
         authState.style.display = 'none';
         unauthState.style.display = 'block';
+        if (usageCard) {
+            usageCard.style.display = 'none';
+        }
     }
 }
 

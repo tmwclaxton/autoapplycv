@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\SubscriptionStatus;
+use App\Enums\SubscriptionTier;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -13,7 +15,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 #[Fillable(['name', 'email', 'workos_id', 'avatar'])]
-#[Hidden(['workos_id', 'remember_token'])]
+#[Hidden(['workos_id', 'remember_token', 'gocardless_mandate_id', 'gocardless_subscription_id', 'gocardless_billing_request_id'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -24,7 +26,20 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'ai_tokens_period_start' => 'datetime',
         ];
+    }
+
+    public function subscriptionTier(): SubscriptionTier
+    {
+        return SubscriptionTier::tryFrom($this->subscription_tier)
+            ?? SubscriptionTier::Free;
+    }
+
+    public function subscriptionStatus(): SubscriptionStatus
+    {
+        return SubscriptionStatus::tryFrom($this->subscription_status)
+            ?? SubscriptionStatus::Active;
     }
 
     public function cvProfile(): HasOne

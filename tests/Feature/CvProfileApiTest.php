@@ -46,6 +46,14 @@ class CvProfileApiTest extends TestCase
             ->assertJsonStructure([
                 'user' => ['name', 'email'],
                 'profile' => ['full_name', 'email', 'phone', 'skills', 'experience', 'education'],
+                'subscription' => [
+                    'tier',
+                    'tier_label',
+                    'monthly_tokens',
+                    'tokens_used',
+                    'tokens_remaining',
+                    'can_use_ai',
+                ],
             ]);
     }
 

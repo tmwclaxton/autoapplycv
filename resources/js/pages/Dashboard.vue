@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, router } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import {
     Briefcase,
     Copy,
@@ -7,10 +7,11 @@ import {
     Key,
     Loader2,
     Puzzle,
+    Sparkles,
     User,
     X,
 } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { updateProfile as cvProfileUpdate } from '@/actions/App/Http/Controllers/CvUploadController';
 import PostboxShell from '@/components/postbox/PostboxShell.vue';
 
@@ -47,12 +48,28 @@ interface CvProfile {
     parsing_complete: boolean;
 }
 
+interface SubscriptionSummary {
+    tier: string;
+    tier_label: string;
+    status: string;
+    status_label: string;
+    monthly_tokens: number;
+    tokens_used: number;
+    tokens_remaining: number;
+    period_start: string | null;
+    period_resets_at: string;
+    can_use_ai: boolean;
+}
+
 const props = defineProps<{
     cvProfile: CvProfile;
+    subscription: SubscriptionSummary;
 }>();
 
 const profile = ref<CvProfile>({ ...props.cvProfile });
-const activeTab = ref<'profile' | 'experience' | 'extension'>('profile');
+const activeTab = ref<'profile' | 'experience' | 'extension' | 'plan'>(
+    'profile',
+);
 const isSaving = ref(false);
 const newSkill = ref('');
 const extensionToken = ref<string | null>(null);
@@ -62,7 +79,27 @@ const tabs = [
     { key: 'profile' as const, label: 'CV profile', icon: User },
     { key: 'experience' as const, label: 'Experience', icon: Briefcase },
     { key: 'extension' as const, label: 'Extension', icon: Puzzle },
+    { key: 'plan' as const, label: 'Plan', icon: Sparkles },
 ];
+
+const usagePercent = computed(() => {
+    if (props.subscription.monthly_tokens === 0) {
+        return 0;
+    }
+
+    return Math.min(
+        100,
+        Math.round(
+            (props.subscription.tokens_used /
+                props.subscription.monthly_tokens) *
+                100,
+        ),
+    );
+});
+
+function formatTokens(value: number): string {
+    return new Intl.NumberFormat('en-GB').format(value);
+}
 
 function addSkill() {
     const skill = newSkill.value.trim();
@@ -373,6 +410,63 @@ async function copyToken() {
                               : 'Generate token'
                     }}
                 </button>
+            </div>
+        </div>
+
+        <div v-else-if="activeTab === 'plan'" class="space-y-4">
+            <div class="postbox-panel p-6">
+                <div class="flex flex-wrap items-start justify-between gap-4">
+                    <div>
+                        <h2 class="postbox-label">Current plan</h2>
+                        <p class="text-xl font-bold text-postbox-navy">
+                            {{ subscription.tier_label }}
+                        </p>
+                        <p class="mt-1 text-sm text-muted-foreground">
+                            {{ subscription.status_label }}
+                        </p>
+                    </div>
+                    <Link href="/billing" class="postbox-btn-outline shrink-0">
+                        Manage plan
+                    </Link>
+                </div>
+
+                <div class="mt-6">
+                    <div class="mb-2 flex justify-between text-sm">
+                        <span class="font-medium text-postbox-navy">
+                            {{ formatTokens(subscription.tokens_used) }} AI
+                            tokens used
+                        </span>
+                        <span class="text-muted-foreground">
+                            {{ formatTokens(subscription.monthly_tokens) }} /
+                            month
+                        </span>
+                    </div>
+                    <div
+                        class="h-3 overflow-hidden rounded-full bg-postbox-navy/10"
+                    >
+                        <div
+                            class="h-full rounded-full bg-postbox-red transition-all"
+                            :style="{ width: `${usagePercent}%` }"
+                        />
+                    </div>
+                    <p class="mt-2 text-sm text-muted-foreground">
+                        {{ formatTokens(subscription.tokens_remaining) }}
+                        remaining. Resets
+                        {{
+                            new Date(
+                                subscription.period_resets_at,
+                            ).toLocaleDateString('en-GB')
+                        }}.
+                    </p>
+                </div>
+
+                <p
+                    v-if="!subscription.can_use_ai"
+                    class="mt-4 rounded-md border border-postbox-red/30 bg-postbox-red/5 p-3 text-sm text-postbox-navy"
+                >
+                    You have no AI tokens left this month. Upgrade your plan or
+                    wait until the next reset to parse a CV again.
+                </p>
             </div>
         </div>
     </PostboxShell>

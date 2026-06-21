@@ -46,4 +46,10 @@ return [
         'base_url' => env('NANOGPT_BASE_URL', 'https://nano-gpt.com/api/v1'),
     ],
 
+    'gocardless' => [
+        'access_token' => env('GOCARDLESS_ACCESS_TOKEN'),
+        'webhook_secret' => env('GOCARDLESS_WEBHOOK_SECRET'),
+        'environment' => env('GOCARDLESS_ENVIRONMENT'),
+    ],
+
 ];

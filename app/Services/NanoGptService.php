@@ -22,8 +22,9 @@ class NanoGptService
     /**
      * @param  array<array{role: string, content: string}>  $messages
      * @param  array<string, mixed>  $options
+     * @return array{content: string, tokens: int}|null
      */
-    public function chat(array $messages, array $options = []): ?string
+    public function chatWithUsage(array $messages, array $options = []): ?array
     {
         $response = Http::withToken($this->apiKey)
             ->post("{$this->baseUrl}/chat/completions", [
@@ -42,7 +43,27 @@ class NanoGptService
             return null;
         }
 
-        return $response->json('choices.0.message.content');
+        $usage = $response->json('usage');
+        $tokens = (int) ($usage['total_tokens'] ?? $this->estimateTokens($messages));
+        $content = $response->json('choices.0.message.content');
+
+        if (! is_string($content)) {
+            return null;
+        }
+
+        return [
+            'content' => $content,
+            'tokens' => max(1, $tokens),
+        ];
+    }
+
+    /**
+     * @param  array<array{role: string, content: string}>  $messages
+     * @param  array<string, mixed>  $options
+     */
+    public function chat(array $messages, array $options = []): ?string
+    {
+        return $this->chatWithUsage($messages, $options)['content'] ?? null;
     }
 
     /**
@@ -50,16 +71,34 @@ class NanoGptService
      */
     public function chatJson(array $messages, array $options = []): ?array
     {
-        $content = $this->chat($messages, array_merge($options, [
+        $result = $this->chatWithUsage($messages, array_merge($options, [
             'response_format' => ['type' => 'json_object'],
         ]));
 
-        if ($content === null) {
+        if ($result === null) {
             return null;
         }
 
-        $decoded = json_decode($content, true);
+        $decoded = json_decode($result['content'], true);
 
-        return is_array($decoded) ? $decoded : null;
+        if (! is_array($decoded)) {
+            return null;
+        }
+
+        $decoded['_tokens_used'] = $result['tokens'];
+
+        return $decoded;
+    }
+
+    /**
+     * @param  array<array{role: string, content: string}>  $messages
+     */
+    private function estimateTokens(array $messages): int
+    {
+        $characters = collect($messages)
+            ->pluck('content')
+            ->implode('');
+
+        return max(1, (int) ceil(mb_strlen($characters) / 4));
     }
 }

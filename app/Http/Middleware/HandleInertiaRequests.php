@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\AiTokenService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -31,6 +32,9 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $user,
             ],
+            'subscription' => $user
+                ? app(AiTokenService::class)->summary($user)
+                : null,
         ];
     }
 }

@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\AiTokenService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
+    public function __construct(
+        private readonly AiTokenService $aiTokens,
+    ) {}
+
     public function show(Request $request): JsonResponse
     {
         $user = $request->user();
@@ -36,6 +41,7 @@ class ProfileController extends Controller
                 'education' => $profile->education ?? [],
                 'extra_context' => $profile->extra_context,
             ],
+            'subscription' => $this->aiTokens->summary($user),
         ]);
     }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\CvProfile;
 use App\Models\CvUpload;
+use App\Models\User;
+use App\Services\AiTokenService;
 use App\Services\CvParserService;
 use App\Services\NanoGptService;
 use Illuminate\Http\JsonResponse;
@@ -16,6 +18,7 @@ class CvUploadController extends Controller
     public function __construct(
         private readonly CvParserService $cvParser,
         private readonly NanoGptService $nanoGpt,
+        private readonly AiTokenService $aiTokens,
     ) {}
 
     public function store(Request $request): JsonResponse
@@ -32,6 +35,15 @@ class CvUploadController extends Controller
         $user = $request->user();
 
         $rawText = $this->cvParser->extractText($file);
+        $estimatedTokens = $this->aiTokens->estimateCvParseTokens($rawText);
+
+        if (! $this->aiTokens->canConsume($user, $estimatedTokens)) {
+            return response()->json([
+                'success' => false,
+                'error' => 'You have used all of your AI tokens for this billing period.',
+                'subscription' => $this->aiTokens->summary($user),
+            ], 402);
+        }
 
         $storedPath = $file->store("cv-uploads/{$user->id}", 'local');
 
@@ -43,7 +55,7 @@ class CvUploadController extends Controller
             'file_size' => $file->getSize(),
         ]);
 
-        $parsed = $this->parseWithAi($rawText);
+        $parsed = $this->parseWithAi($user, $rawText);
 
         $profile = CvProfile::updateOrCreate(
             ['user_id' => $user->id],
@@ -56,6 +68,7 @@ class CvUploadController extends Controller
         return response()->json([
             'success' => true,
             'profile' => $profile,
+            'subscription' => $this->aiTokens->summary($user),
         ]);
     }
 
@@ -86,7 +99,7 @@ class CvUploadController extends Controller
     /**
      * @return array<string, mixed>|null
      */
-    private function parseWithAi(string $rawText): ?array
+    private function parseWithAi(User $user, string $rawText): ?array
     {
         if (empty(trim($rawText))) {
             return null;
@@ -119,6 +132,15 @@ class CvUploadController extends Controller
                 PROMPT,
             ],
         ]);
+
+        if ($result === null) {
+            return null;
+        }
+
+        $tokensUsed = (int) ($result['_tokens_used'] ?? $this->aiTokens->estimateCvParseTokens($truncated));
+        unset($result['_tokens_used']);
+
+        $this->aiTokens->consume($user, $tokensUsed, 'cv_parse');
 
         return $result;
     }

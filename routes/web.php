@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Api\ExtensionTokenController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CvUploadController;
+use App\Http\Controllers\GoCardlessWebhookController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\Settings\ProfileController as SettingsProfileController;
 use Illuminate\Support\Facades\Route;
@@ -15,12 +17,19 @@ Route::inertia('/contact', 'Contact')->name('contact');
 Route::inertia('/terms', 'Legal/Terms')->name('terms');
 Route::inertia('/privacy', 'Legal/Privacy')->name('privacy');
 
+Route::post('/webhooks/gocardless', GoCardlessWebhookController::class)->name('webhooks.gocardless');
+
 Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function () {
     Route::get('/onboarding', [OnboardingController::class, 'index'])->name('onboarding');
     Route::get('/dashboard', [OnboardingController::class, 'dashboard'])->name('dashboard');
 
     Route::post('/cv/upload', [CvUploadController::class, 'store'])->name('cv.upload');
     Route::patch('/cv/profile', [CvUploadController::class, 'updateProfile'])->name('cv.profile.update');
+
+    Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
+    Route::post('/billing/checkout', [BillingController::class, 'checkout'])->name('billing.checkout');
+    Route::get('/billing/complete', [BillingController::class, 'complete'])->name('billing.complete');
+    Route::post('/billing/cancel', [BillingController::class, 'cancel'])->name('billing.cancel');
 
     Route::get('/settings/profile', [SettingsProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/settings/profile', [SettingsProfileController::class, 'update'])->name('profile.update');

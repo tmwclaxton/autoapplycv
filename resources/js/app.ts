@@ -25,6 +25,7 @@ createInertiaApp({
             'HowTo',
             'Onboarding',
             'Dashboard',
+            'Billing',
         ];
 
         switch (true) {
