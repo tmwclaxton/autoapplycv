@@ -13,6 +13,8 @@ services:
       REDIS_HOST: redis
     ports:
       - "8094:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - autocvapply
     depends_on:

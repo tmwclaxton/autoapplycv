@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Mail\PostalTransport;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -23,7 +25,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->registerPostalMailer();
         $this->configureDefaults();
+    }
+
+    protected function registerPostalMailer(): void
+    {
+        Mail::extend('postal', function () {
+            return new PostalTransport(
+                apiKey: (string) config('services.postal.key'),
+                baseUrl: (string) config('services.postal.base_url'),
+            );
+        });
     }
 
     /**

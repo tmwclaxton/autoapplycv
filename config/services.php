@@ -52,4 +52,10 @@ return [
         'environment' => env('GOCARDLESS_ENVIRONMENT'),
     ],
 
+    'postal' => [
+        'key' => env('POSTAL_API_KEY'),
+        'base_url' => env('POSTAL_BASE_URL', 'https://postal.grantgunner.org'),
+        'webhook_secret' => env('POSTAL_WEBHOOK_SECRET'),
+    ],
+
 ];
