@@ -1,15 +1,15 @@
-import { createInertiaApp } from '@inertiajs/vue3';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { createInertiaApp } from '@inertiajs/vue3';
+import { createPinia } from 'pinia';
+import { createApp, h } from 'vue';
 import { initializeTheme } from '@/composables/useAppearance';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { initializeFlashToast } from '@/lib/flashToast';
-import { createPinia } from 'pinia';
-import { createApp, h } from 'vue';
 
 library.add(fas, far, fab);
 

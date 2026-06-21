@@ -15,7 +15,10 @@ withDefaults(
 
 <template>
     <section>
-        <h2 v-if="title" class="text-2xl font-bold text-postbox-navy sm:text-3xl">
+        <h2
+            v-if="title"
+            class="text-2xl font-bold text-postbox-navy sm:text-3xl"
+        >
             {{ title }}
         </h2>
         <p v-if="description" class="mt-2 text-muted-foreground">

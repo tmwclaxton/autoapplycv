@@ -2,8 +2,8 @@
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { Check, Sparkles } from 'lucide-vue-next';
 import { computed } from 'vue';
-import billing from '@/routes/billing';
 import { dashboard, login } from '@/routes';
+import billing from '@/routes/billing';
 
 export interface PricingTier {
     key: string;
@@ -50,7 +50,9 @@ function tierButtonLabel(tier: PricingTier): string {
     }
 
     if (tier.is_paid) {
-        return isAuthenticated.value ? 'Choose this plan' : 'Sign in to subscribe';
+        return isAuthenticated.value
+            ? 'Choose this plan'
+            : 'Sign in to subscribe';
     }
 
     return isAuthenticated.value ? 'Go to dashboard' : 'Get started free';
@@ -63,9 +65,7 @@ function tierButtonLabel(tier: PricingTier): string {
             v-for="tier in tiers"
             :key="tier.key"
             class="postbox-panel flex flex-col p-6"
-            :class="
-                currentTier === tier.key ? 'ring-2 ring-postbox-red' : ''
-            "
+            :class="currentTier === tier.key ? 'ring-2 ring-postbox-red' : ''"
         >
             <div class="mb-4 flex items-center justify-between gap-2">
                 <h2 class="text-lg font-bold text-postbox-navy">
@@ -83,7 +83,9 @@ function tierButtonLabel(tier: PricingTier): string {
                 {{ tier.price }}
             </p>
 
-            <p class="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
+            <p
+                class="mt-3 flex items-center gap-2 text-sm text-muted-foreground"
+            >
                 <Sparkles class="size-4 shrink-0 text-postbox-red" />
                 {{ formatTokens(tier.monthly_tokens) }} AI tokens / month
             </p>
@@ -92,7 +94,9 @@ function tierButtonLabel(tier: PricingTier): string {
                 {{ tier.cv_parses_label }}
             </p>
 
-            <p class="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+            <p
+                class="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground"
+            >
                 {{ tier.description }}
             </p>
 
@@ -139,11 +143,7 @@ function tierButtonLabel(tier: PricingTier): string {
                 {{ tierButtonLabel(tier) }}
             </Link>
 
-            <Link
-                v-else
-                :href="login()"
-                class="mt-6 w-full postbox-btn"
-            >
+            <Link v-else :href="login()" class="postbox-btn mt-6 w-full">
                 {{ tierButtonLabel(tier) }}
             </Link>
         </article>

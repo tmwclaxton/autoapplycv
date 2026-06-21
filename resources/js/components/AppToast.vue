@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useToastStore, MAX_TOASTS, type Toast } from '@/stores/toastStore';
 import { CheckCircle, Info, TriangleAlert, XCircle, X } from 'lucide-vue-next';
 import { computed, onUnmounted, watch } from 'vue';
+import { useToastStore, MAX_TOASTS } from '@/stores/toastStore';
+import type { Toast } from '@/stores/toastStore';
 
 const toastStore = useToastStore();
 const timers = new Map<string, ReturnType<typeof setTimeout>>();
@@ -14,9 +15,11 @@ const icons = {
 };
 
 const styles = {
-    success: 'bg-green-50 border-green-200 text-green-800 dark:bg-green-950 dark:border-green-800 dark:text-green-200',
+    success:
+        'bg-green-50 border-green-200 text-green-800 dark:bg-green-950 dark:border-green-800 dark:text-green-200',
     error: 'bg-red-50 border-red-200 text-red-800 dark:bg-red-950 dark:border-red-800 dark:text-red-200',
-    warning: 'bg-yellow-50 border-yellow-200 text-yellow-800 dark:bg-yellow-950 dark:border-yellow-800 dark:text-yellow-200',
+    warning:
+        'bg-yellow-50 border-yellow-200 text-yellow-800 dark:bg-yellow-950 dark:border-yellow-800 dark:text-yellow-200',
     info: 'bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-950 dark:border-blue-800 dark:text-blue-200',
 };
 
@@ -63,7 +66,11 @@ onUnmounted(() => {
 
 <template>
     <Teleport to="body">
-        <div class="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2" role="region" aria-label="Notifications">
+        <div
+            class="fixed right-4 bottom-4 z-50 flex flex-col items-end gap-2"
+            role="region"
+            aria-label="Notifications"
+        >
             <Transition
                 enter-active-class="transition-all duration-200 ease-out"
                 enter-from-class="opacity-0 scale-95"
@@ -74,7 +81,7 @@ onUnmounted(() => {
             >
                 <button
                     v-if="isAtLimit"
-                    class="text-muted-foreground hover:text-foreground flex items-center gap-1.5 text-xs transition-colors"
+                    class="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
                     @click="dismissAll"
                 >
                     <X class="size-3" />
@@ -93,11 +100,22 @@ onUnmounted(() => {
                 <div
                     v-for="toast in toastStore.toasts"
                     :key="toast.id"
-                    :class="['flex w-80 max-w-sm items-start gap-3 rounded-lg border px-4 py-3 shadow-lg', styles[toast.type]]"
+                    :class="[
+                        'flex w-80 max-w-sm items-start gap-3 rounded-lg border px-4 py-3 shadow-lg',
+                        styles[toast.type],
+                    ]"
                     role="alert"
                 >
-                    <component :is="icons[toast.type]" :class="['mt-0.5 size-4 shrink-0', iconStyles[toast.type]]" />
-                    <p class="flex-1 text-sm font-medium">{{ toast.message }}</p>
+                    <component
+                        :is="icons[toast.type]"
+                        :class="[
+                            'mt-0.5 size-4 shrink-0',
+                            iconStyles[toast.type],
+                        ]"
+                    />
+                    <p class="flex-1 text-sm font-medium">
+                        {{ toast.message }}
+                    </p>
                     <button
                         class="shrink-0 opacity-60 transition-opacity hover:opacity-100 focus:outline-none"
                         aria-label="Dismiss"

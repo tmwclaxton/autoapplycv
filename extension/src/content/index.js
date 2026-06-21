@@ -66,25 +66,38 @@ let fillButton = null;
 
 function detectPlatform() {
     for (const [name, config] of Object.entries(PLATFORM_SELECTORS)) {
-        if (config.detect()) { return { name, config }; }
+        if (config.detect()) {
+ return { name, config }; 
+}
     }
+
     return null;
 }
 
 function getFirstName(fullName) {
-    if (!fullName) { return ''; }
+    if (!fullName) {
+ return ''; 
+}
+
     const parts = fullName.trim().split(' ');
+
     return parts[0] || '';
 }
 
 function getLastName(fullName) {
-    if (!fullName) { return ''; }
+    if (!fullName) {
+ return ''; 
+}
+
     const parts = fullName.trim().split(' ');
+
     return parts.slice(1).join(' ') || '';
 }
 
 function setFieldValue(element, value) {
-    if (!element || !value) { return false; }
+    if (!element || !value) {
+ return false; 
+}
 
     const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set
         || Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value')?.set;
@@ -98,14 +111,19 @@ function setFieldValue(element, value) {
     element.dispatchEvent(new Event('input', { bubbles: true }));
     element.dispatchEvent(new Event('change', { bubbles: true }));
     element.dispatchEvent(new Event('blur', { bubbles: true }));
+
     return true;
 }
 
 function findElement(selectors) {
     for (const selector of selectors) {
         const el = document.querySelector(selector);
-        if (el) { return el; }
+
+        if (el) {
+ return el; 
+}
     }
+
     return null;
 }
 
@@ -127,10 +145,16 @@ function fillForm(platformConfig, p) {
     };
 
     for (const [fieldKey, value] of Object.entries(fieldMappings)) {
-        if (!value || !fields[fieldKey]) { continue; }
+        if (!value || !fields[fieldKey]) {
+ continue; 
+}
+
         const element = findElement(fields[fieldKey]);
+
         if (element && !element.value) {
-            if (setFieldValue(element, value)) { filled++; }
+            if (setFieldValue(element, value)) {
+ filled++; 
+}
         }
     }
 
@@ -156,7 +180,9 @@ async function loadProfile() {
 }
 
 function createFillButton() {
-    if (fillButton) { fillButton.remove(); }
+    if (fillButton) {
+ fillButton.remove(); 
+}
 
     fillButton = document.createElement('div');
     fillButton.id = 'autocvapply-fill-btn';
@@ -193,7 +219,10 @@ function createFillButton() {
     const btn = fillButton.querySelector('div');
     btn.addEventListener('click', async () => {
         const platform = detectPlatform();
-        if (!platform) { return; }
+
+        if (!platform) {
+ return; 
+}
 
         if (!profile) {
             await loadProfile();
@@ -201,13 +230,18 @@ function createFillButton() {
 
         if (!profile) {
             btn.textContent = '⚠ Sign in to AutoCVApply first';
-            setTimeout(() => { btn.textContent = 'AutoFill with AutoCVApply'; }, 3000);
+            setTimeout(() => {
+ btn.textContent = 'AutoFill with AutoCVApply'; 
+}, 3000);
+
             return;
         }
 
         const count = fillForm(platform, profile);
         btn.textContent = count > 0 ? `✓ Filled ${count} fields` : '✓ Already filled';
-        setTimeout(() => { btn.innerHTML = btn.innerHTML.replace(/✓.*/, 'AutoFill with AutoCVApply'); }, 3000);
+        setTimeout(() => {
+ btn.innerHTML = btn.innerHTML.replace(/✓.*/, 'AutoFill with AutoCVApply'); 
+}, 3000);
     });
 
     document.body.appendChild(fillButton);
@@ -215,10 +249,16 @@ function createFillButton() {
 
 async function init() {
     const platform = detectPlatform();
-    if (!platform) { return; }
+
+    if (!platform) {
+ return; 
+}
 
     const { isEnabled: enabled } = await chrome.storage.local.get(['isEnabled']);
-    if (enabled === false) { return; }
+
+    if (enabled === false) {
+ return; 
+}
 
     await loadProfile();
     createFillButton();

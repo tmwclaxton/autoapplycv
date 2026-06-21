@@ -1,4 +1,5 @@
-export const GITHUB_REPOSITORY_URL = 'https://github.com/tmwclaxton/autoapplycv';
+export const GITHUB_REPOSITORY_URL =
+    'https://github.com/tmwclaxton/autoapplycv';
 
 export const CONTACT_EMAIL = 'hello@autocvapply.com';
 

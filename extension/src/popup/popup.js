@@ -20,7 +20,9 @@ function showMessage(text, type = 'success') {
     messageEl.textContent = text;
     messageEl.className = type;
     messageEl.style.display = 'block';
-    setTimeout(() => { messageEl.style.display = 'none'; }, 3000);
+    setTimeout(() => {
+ messageEl.style.display = 'none'; 
+}, 3000);
 }
 
 async function checkAuth() {
@@ -66,15 +68,18 @@ async function init() {
         authState.style.display = 'block';
         unauthState.style.display = 'none';
         const profileData = await loadProfile();
+
         if (profileData?.profile?.full_name) {
             profileName.textContent = profileData.profile.full_name;
         }
+
         if (profileData?.subscription) {
             renderSubscription(profileData.subscription);
         }
     } else {
         authState.style.display = 'none';
         unauthState.style.display = 'block';
+
         if (usageCard) {
             usageCard.style.display = 'none';
         }
@@ -83,10 +88,13 @@ async function init() {
 
 saveTokenBtn.addEventListener('click', async () => {
     const token = tokenInput.value.trim();
+
     if (!token) {
         showMessage('Please paste your API token.', 'error');
+
         return;
     }
+
     chrome.runtime.sendMessage({ type: 'SET_TOKEN', token }, async (response) => {
         if (response?.success) {
             tokenInput.value = '';

@@ -5,9 +5,8 @@ import PostboxCta from '@/components/postbox/PostboxCta.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
-import PostboxPricingTiers, {
-    type PricingTier,
-} from '@/components/postbox/PostboxPricingTiers.vue';
+import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
+import type { PricingTier } from '@/components/postbox/PostboxPricingTiers.vue';
 import { login } from '@/routes';
 
 defineProps<{
@@ -33,7 +32,9 @@ defineProps<{
 
         <div class="mt-10 grid gap-4 lg:grid-cols-3">
             <div class="postbox-panel p-6">
-                <div class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey">
+                <div
+                    class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                >
                     <Sparkles class="size-5 text-postbox-red" />
                 </div>
                 <h2 class="text-lg font-bold text-postbox-navy">
@@ -47,7 +48,9 @@ defineProps<{
             </div>
 
             <div class="postbox-panel p-6">
-                <div class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey">
+                <div
+                    class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                >
                     <Infinity class="size-5 text-postbox-red" />
                 </div>
                 <h2 class="text-lg font-bold text-postbox-navy">
@@ -61,7 +64,9 @@ defineProps<{
             </div>
 
             <div class="postbox-panel p-6">
-                <div class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey">
+                <div
+                    class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                >
                     <Stamp class="size-5 text-postbox-red" />
                 </div>
                 <h2 class="text-lg font-bold text-postbox-navy">
@@ -83,7 +88,9 @@ defineProps<{
                     <dt class="font-semibold text-postbox-navy">
                         Do I need a paid plan to use the extension?
                     </dt>
-                    <dd class="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    <dd
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
                         No. The free tier includes extension autofill and enough
                         tokens for a few CV parses each month.
                     </dd>
@@ -92,7 +99,9 @@ defineProps<{
                     <dt class="font-semibold text-postbox-navy">
                         Can I upgrade later?
                     </dt>
-                    <dd class="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    <dd
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
                         Yes. Sign in, pick a plan, and complete Direct Debit
                         setup. You can cancel back to Free any time.
                     </dd>
@@ -101,7 +110,9 @@ defineProps<{
                     <dt class="font-semibold text-postbox-navy">
                         What are AI tokens?
                     </dt>
-                    <dd class="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    <dd
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
                         Small units the language model counts when reading your
                         CV and returning structured data — not job applications
                         or form fills.
@@ -111,7 +122,9 @@ defineProps<{
                     <dt class="font-semibold text-postbox-navy">
                         Is autofill really unlimited?
                     </dt>
-                    <dd class="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    <dd
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
                         Yes. Once your profile is saved, the extension reads it
                         locally — no AI call, no token cost.
                     </dd>
@@ -128,7 +141,9 @@ defineProps<{
 
         <p class="mt-6 text-center text-sm text-muted-foreground">
             Already have an account?
-            <Link :href="login()" class="postbox-link">Sign in to manage billing</Link>
+            <Link :href="login()" class="postbox-link"
+                >Sign in to manage billing</Link
+            >
         </p>
     </PostboxMarketingLayout>
 </template>

@@ -18,7 +18,7 @@ const sizeClasses = {
 <template>
     <div
         :class="[
-            'postbox-stamp flex shrink-0 items-center justify-center font-bold uppercase tracking-tighter',
+            'postbox-stamp flex shrink-0 items-center justify-center font-bold tracking-tighter uppercase',
             sizeClasses[size],
         ]"
         aria-hidden="true"

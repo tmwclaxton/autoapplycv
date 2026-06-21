@@ -42,12 +42,17 @@ defineProps<{
                 marathon.
             </p>
 
-            <div class="mt-8 flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div
+                class="mt-8 flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap"
+            >
                 <Link :href="login()" class="postbox-btn w-full sm:w-auto">
                     <FileUp class="size-5" />
                     Upload your CV
                 </Link>
-                <Link :href="howTo()" class="postbox-btn-outline w-full sm:w-auto">
+                <Link
+                    :href="howTo()"
+                    class="postbox-btn-outline w-full sm:w-auto"
+                >
                     How it works
                     <ArrowRight class="size-4" />
                 </Link>

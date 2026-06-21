@@ -32,9 +32,9 @@ import { contact } from '@/routes';
             <h2>The service</h2>
             <p>
                 AutoCVApply helps you store CV profile data and autofill job
-                application forms in your browser. We provide the software as-is.
-                We do not guarantee employment outcomes, form compatibility with
-                every site, or uninterrupted availability.
+                application forms in your browser. We provide the software
+                as-is. We do not guarantee employment outcomes, form
+                compatibility with every site, or uninterrupted availability.
             </p>
 
             <h2>Your account and data</h2>
@@ -48,14 +48,17 @@ import { contact } from '@/routes';
             <h2>Acceptable use</h2>
             <ul>
                 <li>Do not attempt to access other users' data.</li>
-                <li>Do not scrape, overload, or reverse-engineer the service maliciously.</li>
+                <li>
+                    Do not scrape, overload, or reverse-engineer the service
+                    maliciously.
+                </li>
                 <li>Do not upload content you do not have the right to use.</li>
             </ul>
 
             <h2>Open-source software</h2>
             <p>
-                AutoCVApply is open source. Third-party components may have their
-                own licences. Source code is available on GitHub under the
+                AutoCVApply is open source. Third-party components may have
+                their own licences. Source code is available on GitHub under the
                 project's stated licence.
             </p>
 
@@ -76,7 +79,8 @@ import { contact } from '@/routes';
             <h2>Contact</h2>
             <p>
                 Questions about these terms? See the
-                <Link :href="contact()" class="postbox-link">contact page</Link>.
+                <Link :href="contact()" class="postbox-link">contact page</Link
+                >.
             </p>
         </PostboxProse>
     </PostboxMarketingLayout>

@@ -103,9 +103,11 @@ function formatTokens(value: number): string {
 
 function addSkill() {
     const skill = newSkill.value.trim();
+
     if (skill && !profile.value.skills.includes(skill)) {
         profile.value.skills = [...profile.value.skills, skill];
     }
+
     newSkill.value = '';
 }
 
@@ -115,15 +117,20 @@ function removeSkill(index: number) {
 
 function saveProfile() {
     isSaving.value = true;
-    router.patch(cvProfileUpdate().url, profile.value as Record<string, unknown>, {
-        onFinish: () => {
-            isSaving.value = false;
+    router.patch(
+        cvProfileUpdate().url,
+        profile.value as Record<string, unknown>,
+        {
+            onFinish: () => {
+                isSaving.value = false;
+            },
         },
-    });
+    );
 }
 
 async function generateToken() {
     isGeneratingToken.value = true;
+
     try {
         const response = await fetch('/api/tokens', {
             method: 'POST',
@@ -161,7 +168,9 @@ async function copyToken() {
         max-width="5xl"
     >
         <template #nav>
-            <span class="hidden text-sm font-medium text-muted-foreground sm:block">
+            <span
+                class="hidden text-sm font-medium text-muted-foreground sm:block"
+            >
                 {{ $page.props.auth.user?.name }}
             </span>
         </template>

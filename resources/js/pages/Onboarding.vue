@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
-import {
-    Check,
-    Chrome,
-    Download,
-    Loader2,
-    Upload,
-    X,
-} from 'lucide-vue-next';
+import { Check, Chrome, Download, Loader2, Upload, X } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
-import { store as cvUpload, updateProfile as cvProfileUpdate } from '@/actions/App/Http/Controllers/CvUploadController';
+import {
+    store as cvUpload,
+    updateProfile as cvProfileUpdate,
+} from '@/actions/App/Http/Controllers/CvUploadController';
 import PostboxShell from '@/components/postbox/PostboxShell.vue';
 import { dashboard } from '@/routes';
 
@@ -92,6 +88,7 @@ function stepClass(index: number): string {
     if (index < currentStepIndex.value) {
         return 'postbox-step-done';
     }
+
     if (index === currentStepIndex.value) {
         return 'postbox-step-active';
     }
@@ -102,6 +99,7 @@ function stepClass(index: number): string {
 function onDrop(event: DragEvent) {
     isDragging.value = false;
     const file = event.dataTransfer?.files?.[0];
+
     if (file) {
         handleFile(file);
     }
@@ -109,6 +107,7 @@ function onDrop(event: DragEvent) {
 
 function onFileInput(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
+
     if (file) {
         handleFile(file);
     }
@@ -120,14 +119,17 @@ function handleFile(file: File) {
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'application/msword',
     ];
+
     if (
         !allowed.includes(file.type) &&
         !file.name.match(/\.(pdf|docx|doc)$/i)
     ) {
         uploadError.value =
             'Please upload a PDF or Word document (.pdf, .doc, .docx)';
+
         return;
     }
+
     selectedFile.value = file;
     uploadError.value = null;
     uploadCv();
@@ -137,6 +139,7 @@ async function uploadCv() {
     if (!selectedFile.value) {
         return;
     }
+
     isUploading.value = true;
     uploadError.value = null;
 
@@ -163,12 +166,14 @@ async function uploadCv() {
         if (!response.ok) {
             uploadError.value =
                 data.message ?? 'Upload failed. Please try again.';
+
             return;
         }
 
         if (data.profile) {
             profile.value = data.profile;
         }
+
         step.value = 'review';
     } catch {
         uploadError.value = 'Something went wrong. Please try again.';
@@ -179,9 +184,11 @@ async function uploadCv() {
 
 function addSkill() {
     const skill = newSkill.value.trim();
+
     if (skill && !profile.value.skills.includes(skill)) {
         profile.value.skills = [...profile.value.skills, skill];
     }
+
     newSkill.value = '';
 }
 
@@ -191,14 +198,18 @@ function removeSkill(index: number) {
 
 async function saveProfile() {
     isSaving.value = true;
-    router.patch(cvProfileUpdate().url, profile.value as Record<string, unknown>, {
-        onSuccess: () => {
-            step.value = 'download';
+    router.patch(
+        cvProfileUpdate().url,
+        profile.value as Record<string, unknown>,
+        {
+            onSuccess: () => {
+                step.value = 'download';
+            },
+            onFinish: () => {
+                isSaving.value = false;
+            },
         },
-        onFinish: () => {
-            isSaving.value = false;
-        },
-    });
+    );
 }
 </script>
 
@@ -269,12 +280,8 @@ async function saveProfile() {
                     v-if="isUploading"
                     class="flex flex-col items-center gap-4"
                 >
-                    <Loader2
-                        class="size-10 animate-spin text-postbox-red"
-                    />
-                    <p class="font-bold text-postbox-navy">
-                        Reading your CV…
-                    </p>
+                    <Loader2 class="size-10 animate-spin text-postbox-red" />
+                    <p class="font-bold text-postbox-navy">Reading your CV…</p>
                     <p class="text-sm text-muted-foreground">
                         About ten seconds, give or take.
                     </p>
@@ -440,10 +447,7 @@ async function saveProfile() {
                         :disabled="isSaving"
                         @click="saveProfile"
                     >
-                        <Loader2
-                            v-if="isSaving"
-                            class="size-4 animate-spin"
-                        />
+                        <Loader2 v-if="isSaving" class="size-4 animate-spin" />
                         {{ isSaving ? 'Saving…' : 'Save & continue' }}
                     </button>
                 </div>
@@ -499,7 +503,8 @@ async function saveProfile() {
                         <li class="flex gap-3">
                             <span class="postbox-badge shrink-0">2</span>
                             Open
-                            <code class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
+                            <code
+                                class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
                                 >chrome://extensions</code
                             >
                         </li>

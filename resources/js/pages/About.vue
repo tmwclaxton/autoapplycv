@@ -33,18 +33,22 @@ import { GITHUB_REPOSITORY_URL } from '@/lib/site';
 
             <h2>What it does not do</h2>
             <p>
-                We do not apply to jobs on your behalf, track every form you have
-                ever filled, or sell your data. The extension reads your profile
-                and stamps fields in the browser. That is the whole pitch.
+                We do not apply to jobs on your behalf, track every form you
+                have ever filled, or sell your data. The extension reads your
+                profile and stamps fields in the browser. That is the whole
+                pitch.
             </p>
 
             <h2>Open source</h2>
             <p>
                 The project lives on GitHub at
-                <a :href="GITHUB_REPOSITORY_URL" target="_blank" rel="noopener noreferrer">
-                    tmwclaxton/autoapplycv
-                </a>.
-                Contributions, issues, and pull requests are welcome.
+                <a
+                    :href="GITHUB_REPOSITORY_URL"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    tmwclaxton/autoapplycv </a
+                >. Contributions, issues, and pull requests are welcome.
             </p>
 
             <h2>Who runs it</h2>

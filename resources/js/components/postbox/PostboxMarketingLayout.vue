@@ -36,7 +36,9 @@ const maxWidthClass = {
                 <Link :href="home()" class="flex min-w-0 items-center gap-3">
                     <PostboxMark />
                     <div class="min-w-0">
-                        <p class="text-base font-bold tracking-tight sm:text-lg">
+                        <p
+                            class="text-base font-bold tracking-tight sm:text-lg"
+                        >
                             AutoCVApply
                         </p>
                         <p class="postbox-tagline truncate text-xs sm:text-sm">

@@ -34,7 +34,9 @@ import { howTo } from '@/routes';
                 </div>
                 <div>
                     <p class="postbox-label">Email</p>
-                    <p class="font-bold text-postbox-navy">{{ CONTACT_EMAIL }}</p>
+                    <p class="font-bold text-postbox-navy">
+                        {{ CONTACT_EMAIL }}
+                    </p>
                     <p class="mt-1 text-sm text-muted-foreground">
                         General questions and feedback.
                     </p>
@@ -64,11 +66,15 @@ import { howTo } from '@/routes';
 
         <div class="postbox-panel-muted mt-6 p-5">
             <div class="flex gap-3">
-                <MessageSquare class="mt-0.5 size-5 shrink-0 text-postbox-navy" />
+                <MessageSquare
+                    class="mt-0.5 size-5 shrink-0 text-postbox-navy"
+                />
                 <p class="text-sm leading-relaxed text-muted-foreground">
                     We do not offer phone support or live chat. If you are stuck
                     during setup, read the
-                    <Link :href="howTo()" class="postbox-link">how-to guide</Link>
+                    <Link :href="howTo()" class="postbox-link"
+                        >how-to guide</Link
+                    >
                     first — most questions are answered there.
                 </p>
             </div>

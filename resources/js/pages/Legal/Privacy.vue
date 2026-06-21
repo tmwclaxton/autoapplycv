@@ -24,15 +24,16 @@ import { contact } from '@/routes';
         <PostboxProse>
             <h2>Overview</h2>
             <p>
-                AutoCVApply stores the information you provide so you can autofill
-                job application forms. We do not sell your personal data.
+                AutoCVApply stores the information you provide so you can
+                autofill job application forms. We do not sell your personal
+                data.
             </p>
 
             <h2>What we collect</h2>
             <ul>
                 <li>
-                    <strong>Account data:</strong> name, email, and authentication
-                    details via WorkOS when you sign in.
+                    <strong>Account data:</strong> name, email, and
+                    authentication details via WorkOS when you sign in.
                 </li>
                 <li>
                     <strong>CV profile:</strong> information extracted from your
@@ -40,12 +41,12 @@ import { contact } from '@/routes';
                     extra context, etc.).
                 </li>
                 <li>
-                    <strong>Uploaded files:</strong> your CV file is stored so you
-                    can re-process it if needed.
+                    <strong>Uploaded files:</strong> your CV file is stored so
+                    you can re-process it if needed.
                 </li>
                 <li>
-                    <strong>API tokens:</strong> issued for the browser extension
-                    to read your profile securely.
+                    <strong>API tokens:</strong> issued for the browser
+                    extension to read your profile securely.
                 </li>
             </ul>
 
@@ -59,12 +60,10 @@ import { contact } from '@/routes';
 
             <h2>Third parties</h2>
             <ul>
+                <li><strong>WorkOS</strong> — authentication and sign-in.</li>
                 <li>
-                    <strong>WorkOS</strong> — authentication and sign-in.
-                </li>
-                <li>
-                    <strong>AI parsing provider</strong> — CV text processing for
-                    field extraction.
+                    <strong>AI parsing provider</strong> — CV text processing
+                    for field extraction.
                 </li>
                 <li>
                     <strong>Hosting infrastructure</strong> — application and
@@ -78,10 +77,10 @@ import { contact } from '@/routes';
 
             <h2>Browser extension</h2>
             <p>
-                The extension fetches your profile from our API using your token.
-                It fills forms locally in your browser. It does not send completed
-                application submissions to us or store a history of every form you
-                fill.
+                The extension fetches your profile from our API using your
+                token. It fills forms locally in your browser. It does not send
+                completed application submissions to us or store a history of
+                every form you fill.
             </p>
 
             <h2>Retention and deletion</h2>

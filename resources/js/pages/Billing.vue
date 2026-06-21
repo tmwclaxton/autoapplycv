@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { Head, router, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import PostboxPricingTiers, {
-    type PricingTier,
-} from '@/components/postbox/PostboxPricingTiers.vue';
+import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
+import type { PricingTier } from '@/components/postbox/PostboxPricingTiers.vue';
 import PostboxShell from '@/components/postbox/PostboxShell.vue';
 
 interface SubscriptionSummary {
@@ -25,7 +24,9 @@ const props = defineProps<{
 }>();
 
 const page = usePage();
-const flashSuccess = computed(() => page.props.flash?.success as string | undefined);
+const flashSuccess = computed(
+    () => page.props.flash?.success as string | undefined,
+);
 
 const usagePercent = computed(() => {
     if (props.subscription.monthly_tokens === 0) {
@@ -35,7 +36,8 @@ const usagePercent = computed(() => {
     return Math.min(
         100,
         Math.round(
-            (props.subscription.tokens_used / props.subscription.monthly_tokens) *
+            (props.subscription.tokens_used /
+                props.subscription.monthly_tokens) *
                 100,
         ),
     );
@@ -96,7 +98,11 @@ function cancelSubscription() {
                 </div>
                 <div class="text-right text-sm text-muted-foreground">
                     Resets
-                    {{ new Date(subscription.period_resets_at).toLocaleDateString('en-GB') }}
+                    {{
+                        new Date(
+                            subscription.period_resets_at,
+                        ).toLocaleDateString('en-GB')
+                    }}
                 </div>
             </div>
 
@@ -109,7 +115,9 @@ function cancelSubscription() {
                         {{ formatTokens(subscription.monthly_tokens) }} / month
                     </span>
                 </div>
-                <div class="h-3 overflow-hidden rounded-full bg-postbox-navy/10">
+                <div
+                    class="h-3 overflow-hidden rounded-full bg-postbox-navy/10"
+                >
                     <div
                         class="h-full rounded-full bg-postbox-red transition-all"
                         :style="{ width: `${usagePercent}%` }"
