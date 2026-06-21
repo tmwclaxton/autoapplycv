@@ -92,6 +92,11 @@ COPY --from=assets /app/public/extension ./public/extension
 COPY . .
 RUN mkdir -p storage/framework/{views,cache/data,sessions} storage/logs bootstrap/cache public/images
 
+# Static brand assets — copied last so deploy cache cannot serve stale favicons
+ARG GIT_SHA=dev
+RUN echo "AutoCVApply image built from ${GIT_SHA}"
+COPY public/favicon.ico public/favicon.svg public/apple-touch-icon.png ./public/
+
 COPY docker/production/nginx.conf /etc/nginx/nginx.conf
 COPY docker/production/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker/production/www-pool.conf /etc/php/8.5/fpm/pool.d/www.conf

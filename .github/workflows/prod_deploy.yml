@@ -36,6 +36,7 @@ jobs:
             --file DockerfileProd \
             --cache-from ${{ env.IMAGE }} \
             --build-arg BUILDKIT_INLINE_CACHE=1 \
+            --build-arg GIT_SHA=${{ github.sha }} \
             --tag ${{ env.IMAGE }} .
 
       - name: Push Docker image to GHCR
