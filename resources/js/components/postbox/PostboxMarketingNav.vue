@@ -54,16 +54,20 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
             :href="GITHUB_REPOSITORY_URL"
             target="_blank"
             rel="noopener noreferrer"
-            class="postbox-btn-outline hidden px-3 py-2 sm:inline-flex"
+            class="postbox-btn-outline hidden shrink-0 sm:inline-flex"
         >
             <Github class="size-4" />
             GitHub
         </a>
 
-        <Link v-if="isAuthenticated" :href="dashboard()" class="postbox-btn">
+        <Link
+            v-if="isAuthenticated"
+            :href="dashboard()"
+            class="postbox-btn shrink-0"
+        >
             Dashboard
         </Link>
-        <Link v-else :href="login()" class="postbox-btn">
+        <Link v-else :href="login()" class="postbox-btn shrink-0">
             Get started
             <ArrowRight class="size-4" />
         </Link>
