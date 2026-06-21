@@ -3,12 +3,12 @@ import { SETUP_STEPS } from '@/lib/site';
 
 withDefaults(
     defineProps<{
-        title?: string;
-        description?: string;
+        title?: string | null;
+        description?: string | null;
     }>(),
     {
-        title: 'Three steps. No nonsense.',
-        description: 'Set up once. Then let the extension do the boring bit.',
+        title: null,
+        description: null,
     },
 );
 </script>
@@ -25,7 +25,7 @@ withDefaults(
             {{ description }}
         </p>
 
-        <ol class="mt-8 grid gap-4 md:grid-cols-3">
+        <ol class="grid gap-4 md:grid-cols-3" :class="title || description ? 'mt-8' : ''">
             <li
                 v-for="step in SETUP_STEPS"
                 :key="step.number"
