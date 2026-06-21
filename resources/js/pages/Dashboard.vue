@@ -1,8 +1,18 @@
 <script setup lang="ts">
 import { Head, router } from '@inertiajs/vue3';
+import {
+    Briefcase,
+    Copy,
+    Download,
+    Key,
+    Loader2,
+    Puzzle,
+    User,
+    X,
+} from 'lucide-vue-next';
 import { ref } from 'vue';
 import { updateProfile as cvProfileUpdate } from '@/actions/App/Http/Controllers/CvUploadController';
-import { logout } from '@/routes';
+import PostboxShell from '@/components/postbox/PostboxShell.vue';
 
 interface Experience {
     title: string;
@@ -48,6 +58,12 @@ const newSkill = ref('');
 const extensionToken = ref<string | null>(null);
 const isGeneratingToken = ref(false);
 
+const tabs = [
+    { key: 'profile' as const, label: 'CV profile', icon: User },
+    { key: 'experience' as const, label: 'Experience', icon: Briefcase },
+    { key: 'extension' as const, label: 'Extension', icon: Puzzle },
+];
+
 function addSkill() {
     const skill = newSkill.value.trim();
     if (skill && !profile.value.skills.includes(skill)) {
@@ -63,7 +79,9 @@ function removeSkill(index: number) {
 function saveProfile() {
     isSaving.value = true;
     router.patch(cvProfileUpdate().url, profile.value as Record<string, unknown>, {
-        onFinish: () => { isSaving.value = false; },
+        onFinish: () => {
+            isSaving.value = false;
+        },
     });
 }
 
@@ -73,8 +91,13 @@ async function generateToken() {
         const response = await fetch('/api/tokens', {
             method: 'POST',
             headers: {
-                'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content ?? '',
-                'Accept': 'application/json',
+                'X-CSRF-TOKEN':
+                    (
+                        document.querySelector(
+                            'meta[name="csrf-token"]',
+                        ) as HTMLMetaElement
+                    )?.content ?? '',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
         });
@@ -94,169 +117,263 @@ async function copyToken() {
 
 <template>
     <Head title="Dashboard — AutoCVApply" />
-    <div class="min-h-screen bg-slate-900 text-white">
-        <!-- Header -->
-        <header class="border-b border-white/10 px-6 py-4">
-            <div class="mx-auto flex max-w-5xl items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-500">
-                        <font-awesome-icon :icon="['fas', 'file-lines']" class="text-xs text-white" />
-                    </div>
-                    <span class="font-bold">AutoCVApply</span>
-                </div>
-                <div class="flex items-center gap-4">
-                    <span class="hidden text-sm text-slate-400 sm:block">{{ $page.props.auth.user?.name }}</span>
-                    <Link :href="logout()" method="post" as="button" class="text-sm text-slate-400 hover:text-white">
-                        Sign out
-                    </Link>
-                </div>
+
+    <PostboxShell
+        tagline="Your profile, ready to post."
+        :show-sign-out="true"
+        max-width="5xl"
+    >
+        <template #nav>
+            <span class="hidden text-sm font-medium text-muted-foreground sm:block">
+                {{ $page.props.auth.user?.name }}
+            </span>
+        </template>
+
+        <div class="mb-8 flex items-center justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
+                    Your profile
+                </h1>
+                <p class="mt-1 text-sm text-muted-foreground">
+                    Edit details, review experience, connect the extension.
+                </p>
             </div>
-        </header>
-
-        <div class="mx-auto max-w-5xl px-6 py-8">
-            <div class="mb-8 flex items-center justify-between">
-                <h1 class="text-2xl font-bold">Your Profile</h1>
-                <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-sm font-bold">
-                    {{ profile.full_name?.charAt(0)?.toUpperCase() ?? '?' }}
-                </div>
-            </div>
-
-            <!-- Tabs -->
-            <div class="mb-6 flex border-b border-white/10">
-                <button
-                    v-for="tab in [{ key: 'profile', label: 'CV Profile', icon: 'user' }, { key: 'experience', label: 'Experience', icon: 'briefcase' }, { key: 'extension', label: 'Extension', icon: 'puzzle-piece' }]"
-                    :key="tab.key"
-                    @click="activeTab = tab.key as typeof activeTab.value"
-                    class="flex items-center gap-2 border-b-2 px-5 py-3 text-sm font-medium transition-all"
-                    :class="activeTab === tab.key ? 'border-blue-500 text-white' : 'border-transparent text-slate-400 hover:text-white'"
-                >
-                    <font-awesome-icon :icon="['fas', tab.icon]" class="text-xs" />
-                    {{ tab.label }}
-                </button>
-            </div>
-
-            <!-- Profile Tab -->
-            <div v-if="activeTab === 'profile'" class="space-y-6">
-                <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
-                    <h2 class="mb-5 font-semibold">Basic Information</h2>
-                    <div class="grid gap-4 sm:grid-cols-2">
-                        <div>
-                            <label class="mb-1.5 block text-sm text-slate-400">Full Name</label>
-                            <input v-model="profile.full_name" type="text" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none" />
-                        </div>
-                        <div>
-                            <label class="mb-1.5 block text-sm text-slate-400">Email</label>
-                            <input v-model="profile.email" type="email" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none" />
-                        </div>
-                        <div>
-                            <label class="mb-1.5 block text-sm text-slate-400">Phone</label>
-                            <input v-model="profile.phone" type="text" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none" />
-                        </div>
-                        <div>
-                            <label class="mb-1.5 block text-sm text-slate-400">Location</label>
-                            <input v-model="profile.location" type="text" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none" />
-                        </div>
-                        <div>
-                            <label class="mb-1.5 block text-sm text-slate-400">LinkedIn URL</label>
-                            <input v-model="profile.linkedin_url" type="url" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none" />
-                        </div>
-                        <div>
-                            <label class="mb-1.5 block text-sm text-slate-400">Website / Portfolio</label>
-                            <input v-model="profile.website_url" type="url" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
-                    <h2 class="mb-5 font-semibold">Professional Summary</h2>
-                    <textarea v-model="profile.summary" rows="4" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none"></textarea>
-                </div>
-
-                <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
-                    <h2 class="mb-5 font-semibold">Skills</h2>
-                    <div class="mb-3 flex flex-wrap gap-2">
-                        <span
-                            v-for="(skill, i) in profile.skills"
-                            :key="i"
-                            class="flex items-center gap-1.5 rounded-full border border-blue-500/40 bg-blue-500/10 px-3 py-1 text-sm text-blue-300"
-                        >
-                            {{ skill }}
-                            <button @click="removeSkill(i)" class="text-blue-400 hover:text-red-400">
-                                <font-awesome-icon :icon="['fas', 'xmark']" class="text-xs" />
-                            </button>
-                        </span>
-                    </div>
-                    <div class="flex gap-2">
-                        <input v-model="newSkill" type="text" class="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none" placeholder="Add a skill..." @keydown.enter.prevent="addSkill" />
-                        <button @click="addSkill" class="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium hover:bg-blue-500">Add</button>
-                    </div>
-                </div>
-
-                <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
-                    <h2 class="mb-2 font-semibold">Extra Context</h2>
-                    <p class="mb-4 text-sm text-slate-400">Additional info the extension will use when filling forms.</p>
-                    <textarea v-model="profile.extra_context" rows="4" class="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none"></textarea>
-                </div>
-
-                <div class="flex justify-end">
-                    <button @click="saveProfile" :disabled="isSaving" class="flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-3 font-semibold transition hover:bg-blue-500 disabled:opacity-60">
-                        <font-awesome-icon v-if="isSaving" :icon="['fas', 'spinner']" class="animate-spin" />
-                        {{ isSaving ? 'Saving...' : 'Save Changes' }}
-                    </button>
-                </div>
-            </div>
-
-            <!-- Experience Tab -->
-            <div v-else-if="activeTab === 'experience'">
-                <div v-if="profile.experience.length" class="space-y-4">
-                    <div
-                        v-for="(exp, i) in profile.experience"
-                        :key="i"
-                        class="rounded-2xl border border-white/10 bg-white/5 p-6"
-                    >
-                        <div class="mb-1 flex items-start justify-between">
-                            <div>
-                                <p class="font-semibold">{{ exp.title }}</p>
-                                <p class="text-sm text-blue-400">{{ exp.company }}</p>
-                                <p class="text-sm text-slate-400">{{ exp.location }} · {{ exp.start_date }} – {{ exp.end_date }}</p>
-                            </div>
-                        </div>
-                        <p v-if="exp.description" class="mt-3 text-sm text-slate-300">{{ exp.description }}</p>
-                    </div>
-                </div>
-                <div v-else class="rounded-2xl border border-dashed border-white/20 p-12 text-center text-slate-400">
-                    No experience extracted. Re-upload your CV or edit from the profile tab.
-                </div>
-            </div>
-
-            <!-- Extension Tab -->
-            <div v-else-if="activeTab === 'extension'" class="space-y-4">
-                <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
-                    <h2 class="mb-2 font-semibold">Download Extension</h2>
-                    <p class="mb-5 text-sm text-slate-400">The browser extension auto-fills job application forms using your profile.</p>
-                    <a href="/extension/autoapplycv.zip" class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium hover:bg-blue-500">
-                        <font-awesome-icon :icon="['fas', 'download']" />
-                        Download Chrome Extension
-                    </a>
-                </div>
-
-                <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
-                    <h2 class="mb-2 font-semibold">API Token</h2>
-                    <p class="mb-5 text-sm text-slate-400">Generate a token to connect the extension to your account. The extension will ask for this on first install.</p>
-                    <div v-if="extensionToken" class="mb-4 flex gap-2">
-                        <input :value="extensionToken" readonly class="flex-1 rounded-lg border border-green-500/40 bg-green-500/10 px-4 py-2.5 text-sm font-mono text-green-300" />
-                        <button @click="copyToken" class="rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium hover:bg-green-500">
-                            <font-awesome-icon :icon="['fas', 'copy']" />
-                        </button>
-                    </div>
-                    <button @click="generateToken" :disabled="isGeneratingToken" class="flex items-center gap-2 rounded-lg border border-white/20 px-5 py-2.5 text-sm font-medium hover:border-white/40 disabled:opacity-60">
-                        <font-awesome-icon v-if="isGeneratingToken" :icon="['fas', 'spinner']" class="animate-spin" />
-                        <font-awesome-icon v-else :icon="['fas', 'key']" />
-                        {{ isGeneratingToken ? 'Generating...' : extensionToken ? 'Regenerate Token' : 'Generate Token' }}
-                    </button>
-                    <p v-if="extensionToken" class="mt-3 text-xs text-slate-500">This token won't be shown again. Copy it now.</p>
-                </div>
+            <div
+                class="postbox-stamp flex size-12 shrink-0 items-center justify-center text-base"
+            >
+                {{ profile.full_name?.charAt(0)?.toUpperCase() ?? '?' }}
             </div>
         </div>
-    </div>
+
+        <div class="mb-6 flex border-b-2 border-postbox-navy/20">
+            <button
+                v-for="tab in tabs"
+                :key="tab.key"
+                type="button"
+                class="flex items-center gap-2 border-b-2 border-transparent px-4 py-3 text-sm transition-colors"
+                :class="
+                    activeTab === tab.key
+                        ? 'postbox-tab-active'
+                        : 'text-muted-foreground hover:text-postbox-navy'
+                "
+                @click="activeTab = tab.key"
+            >
+                <component :is="tab.icon" class="size-4" />
+                {{ tab.label }}
+            </button>
+        </div>
+
+        <div v-if="activeTab === 'profile'" class="space-y-6">
+            <div class="postbox-panel p-6">
+                <h2 class="postbox-label">Basic information</h2>
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <div>
+                        <label class="postbox-label">Full name</label>
+                        <input
+                            v-model="profile.full_name"
+                            type="text"
+                            class="postbox-input"
+                        />
+                    </div>
+                    <div>
+                        <label class="postbox-label">Email</label>
+                        <input
+                            v-model="profile.email"
+                            type="email"
+                            class="postbox-input"
+                        />
+                    </div>
+                    <div>
+                        <label class="postbox-label">Phone</label>
+                        <input
+                            v-model="profile.phone"
+                            type="text"
+                            class="postbox-input"
+                        />
+                    </div>
+                    <div>
+                        <label class="postbox-label">Location</label>
+                        <input
+                            v-model="profile.location"
+                            type="text"
+                            class="postbox-input"
+                        />
+                    </div>
+                    <div>
+                        <label class="postbox-label">LinkedIn</label>
+                        <input
+                            v-model="profile.linkedin_url"
+                            type="url"
+                            class="postbox-input"
+                        />
+                    </div>
+                    <div>
+                        <label class="postbox-label">Website</label>
+                        <input
+                            v-model="profile.website_url"
+                            type="url"
+                            class="postbox-input"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <div class="postbox-panel p-6">
+                <h2 class="postbox-label">Professional summary</h2>
+                <textarea
+                    v-model="profile.summary"
+                    rows="4"
+                    class="postbox-input"
+                />
+            </div>
+
+            <div class="postbox-panel p-6">
+                <h2 class="postbox-label">Skills</h2>
+                <div class="mb-3 flex flex-wrap gap-2">
+                    <span
+                        v-for="(skill, i) in profile.skills"
+                        :key="i"
+                        class="postbox-skill-tag"
+                    >
+                        {{ skill }}
+                        <button
+                            type="button"
+                            class="text-postbox-red"
+                            @click="removeSkill(i)"
+                        >
+                            <X class="size-3.5" />
+                        </button>
+                    </span>
+                </div>
+                <div class="flex gap-2">
+                    <input
+                        v-model="newSkill"
+                        type="text"
+                        class="postbox-input flex-1"
+                        placeholder="Add a skill…"
+                        @keydown.enter.prevent="addSkill"
+                    />
+                    <button
+                        type="button"
+                        class="postbox-btn-outline shrink-0"
+                        @click="addSkill"
+                    >
+                        Add
+                    </button>
+                </div>
+            </div>
+
+            <div class="postbox-panel p-6">
+                <h2 class="postbox-label">Extra context</h2>
+                <p class="mb-4 text-sm text-muted-foreground">
+                    Used when the extension fills longer or free-text fields.
+                </p>
+                <textarea
+                    v-model="profile.extra_context"
+                    rows="4"
+                    class="postbox-input"
+                />
+            </div>
+
+            <div class="flex justify-end">
+                <button
+                    type="button"
+                    class="postbox-btn"
+                    :disabled="isSaving"
+                    @click="saveProfile"
+                >
+                    <Loader2 v-if="isSaving" class="size-4 animate-spin" />
+                    {{ isSaving ? 'Saving…' : 'Save changes' }}
+                </button>
+            </div>
+        </div>
+
+        <div v-else-if="activeTab === 'experience'">
+            <div v-if="profile.experience.length" class="space-y-4">
+                <article
+                    v-for="(exp, i) in profile.experience"
+                    :key="i"
+                    class="postbox-panel p-6"
+                >
+                    <p class="font-bold text-postbox-navy">{{ exp.title }}</p>
+                    <p class="text-sm font-semibold text-postbox-red">
+                        {{ exp.company }}
+                    </p>
+                    <p class="text-sm text-muted-foreground">
+                        {{ exp.location }} · {{ exp.start_date }} –
+                        {{ exp.end_date }}
+                    </p>
+                    <p
+                        v-if="exp.description"
+                        class="mt-3 text-sm leading-relaxed text-muted-foreground"
+                    >
+                        {{ exp.description }}
+                    </p>
+                </article>
+            </div>
+            <div
+                v-else
+                class="postbox-panel-muted border-dashed p-12 text-center text-muted-foreground"
+            >
+                Nothing extracted yet. Re-upload your CV from onboarding.
+            </div>
+        </div>
+
+        <div v-else-if="activeTab === 'extension'" class="space-y-4">
+            <div class="postbox-panel p-6">
+                <h2 class="postbox-label">Download extension</h2>
+                <p class="mb-5 text-sm text-muted-foreground">
+                    Stamps your profile onto job application forms.
+                </p>
+                <a
+                    href="/extension/autoapplycv.zip"
+                    class="postbox-btn inline-flex"
+                >
+                    <Download class="size-4" />
+                    Download Chrome extension
+                </a>
+            </div>
+
+            <div class="postbox-panel p-6">
+                <h2 class="postbox-label">API token</h2>
+                <p class="mb-5 text-sm text-muted-foreground">
+                    Paste this into the extension on first install. We won't
+                    show it again.
+                </p>
+                <div v-if="extensionToken" class="mb-4 flex gap-2">
+                    <input
+                        :value="extensionToken"
+                        readonly
+                        class="postbox-input flex-1 font-mono text-xs"
+                    />
+                    <button
+                        type="button"
+                        class="postbox-btn-outline shrink-0 px-3"
+                        @click="copyToken"
+                    >
+                        <Copy class="size-4" />
+                    </button>
+                </div>
+                <button
+                    type="button"
+                    class="postbox-btn-outline"
+                    :disabled="isGeneratingToken"
+                    @click="generateToken"
+                >
+                    <Loader2
+                        v-if="isGeneratingToken"
+                        class="size-4 animate-spin"
+                    />
+                    <Key v-else class="size-4" />
+                    {{
+                        isGeneratingToken
+                            ? 'Generating…'
+                            : extensionToken
+                              ? 'Regenerate token'
+                              : 'Generate token'
+                    }}
+                </button>
+            </div>
+        </div>
+    </PostboxShell>
 </template>
