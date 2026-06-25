@@ -266,8 +266,8 @@ PROMPT;
             if (! is_array($section)) {
                 continue;
             }
-            $heading = trim((string) ($section['heading'] ?? ''));
-            $beats = trim((string) ($section['beats'] ?? ''));
+            $heading = self::normalizePlanText($section['heading'] ?? '');
+            $beats = self::normalizePlanText($section['beats'] ?? '');
             if ($heading === '' || $beats === '') {
                 continue;
             }
@@ -289,6 +289,29 @@ PROMPT;
             'sources' => $sources,
             'sections' => array_slice($sections, 0, $sectionCount),
         ];
+    }
+
+    public static function normalizePlanText(mixed $value): string
+    {
+        if (is_string($value)) {
+            return trim($value);
+        }
+
+        if (is_array($value)) {
+            $parts = collect($value)
+                ->map(fn (mixed $part): string => self::normalizePlanText($part))
+                ->filter(fn (string $part): bool => $part !== '')
+                ->values()
+                ->all();
+
+            return trim(implode(' ', $parts));
+        }
+
+        if (is_scalar($value)) {
+            return trim((string) $value);
+        }
+
+        return '';
     }
 
     public static function normalizeBlogBodyForDisplay(string $body, string $pageTitle): string
