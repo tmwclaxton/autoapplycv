@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Form } from '@inertiajs/vue3';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
-import Heading from '@/components/Heading.vue';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -16,26 +15,35 @@ import {
 </script>
 
 <template>
-    <div class="space-y-6">
-        <Heading
-            variant="small"
-            title="Delete account"
-            description="Delete your account and all of its resources"
-        />
+    <div
+        class="space-y-4 border-t-2 border-postbox-navy/10 pt-8"
+        data-test="delete-user-section"
+    >
+        <div>
+            <h2 class="text-lg font-bold text-postbox-navy">Delete account</h2>
+            <p class="mt-1 text-sm text-muted-foreground">
+                Permanently remove your account and all associated data.
+            </p>
+        </div>
+
         <div
-            class="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10"
+            class="rounded-md border-2 border-postbox-red/40 bg-postbox-red/5 p-4"
         >
-            <div class="relative space-y-0.5 text-red-600 dark:text-red-100">
-                <p class="font-medium">Warning</p>
-                <p class="text-sm">
-                    Please proceed with caution, this cannot be undone.
-                </p>
-            </div>
+            <p class="font-semibold text-postbox-red">Warning</p>
+            <p class="mt-1 text-sm text-postbox-navy">
+                This cannot be undone. Your CV profile and extension tokens will
+                be deleted.
+            </p>
+
             <Dialog>
                 <DialogTrigger as-child>
-                    <Button variant="destructive" data-test="delete-user-button"
-                        >Delete account</Button
+                    <button
+                        type="button"
+                        class="postbox-btn mt-4 bg-postbox-red hover:bg-postbox-red/90"
+                        data-test="delete-user-button"
                     >
+                        Delete account
+                    </button>
                 </DialogTrigger>
                 <DialogContent>
                     <Form
@@ -48,10 +56,9 @@ import {
                         v-slot="{ processing, reset, clearErrors }"
                     >
                         <DialogHeader class="space-y-3">
-                            <DialogTitle
-                                >Are you sure you want to delete your
-                                account?</DialogTitle
-                            >
+                            <DialogTitle>
+                                Are you sure you want to delete your account?
+                            </DialogTitle>
                             <DialogDescription>
                                 Once your account is deleted, all of its
                                 resources and data will also be permanently

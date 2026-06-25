@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { Head, Link, router, setLayoutProps, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
 import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
-import PostboxShell from '@/components/postbox/PostboxShell.vue';
 import { dashboard } from '@/routes';
+
+setLayoutProps({
+    tagline: 'Extension autofills reset monthly.',
+});
 
 interface SubscriptionSummary {
     tier: string;
@@ -65,12 +68,7 @@ function cancelSubscription() {
 <template>
     <Head title="Plans & billing — AutoCVApply" />
 
-    <PostboxShell
-        tagline="Extension autofills reset monthly."
-        :show-sign-out="true"
-        max-width="5xl"
-    >
-        <div class="mb-8">
+    <div class="mb-8">
             <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
                 Plans & billing
             </h1>
@@ -171,5 +169,4 @@ function cancelSubscription() {
             mode="billing"
             :is-authenticated="true"
         />
-    </PostboxShell>
 </template>

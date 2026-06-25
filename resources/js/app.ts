@@ -7,7 +7,7 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { createPinia } from 'pinia';
 import { createApp, h } from 'vue';
 import { initializeTheme } from '@/composables/useAppearance';
-import AppLayout from '@/layouts/AppLayout.vue';
+import PostboxAppLayout from '@/layouts/PostboxAppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { initializeFlashToast } from '@/lib/flashToast';
 
@@ -24,9 +24,6 @@ createInertiaApp({
             'Contact',
             'HowTo',
             'Pricing',
-            'Onboarding',
-            'Dashboard',
-            'Billing',
         ];
 
         switch (true) {
@@ -36,9 +33,9 @@ createInertiaApp({
                 return null;
             case name.startsWith('settings/'):
             case name.startsWith('teams/'):
-                return [AppLayout, SettingsLayout];
+                return [PostboxAppLayout, SettingsLayout];
             default:
-                return AppLayout;
+                return PostboxAppLayout;
         }
     },
     progress: {

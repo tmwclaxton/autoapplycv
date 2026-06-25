@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, setLayoutProps } from '@inertiajs/vue3';
 import { Check, Chrome, Download, Loader2, Upload, X } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import {
     store as cvUpload,
     updateProfile as cvProfileUpdate,
 } from '@/actions/App/Http/Controllers/CvUploadController';
-import PostboxShell from '@/components/postbox/PostboxShell.vue';
 import { dashboard } from '@/routes';
+
+setLayoutProps({
+    tagline: 'One CV. Many applications.',
+    maxWidth: '4xl',
+});
 
 interface CvProfile {
     id?: number;
@@ -216,12 +220,7 @@ async function saveProfile() {
 <template>
     <Head title="Set up your profile — AutoCVApply" />
 
-    <PostboxShell
-        tagline="One CV. Many applications."
-        :show-sign-out="true"
-        max-width="4xl"
-    >
-        <nav
+    <nav
             class="mb-10 flex items-center justify-center gap-2 sm:gap-3"
             aria-label="Setup progress"
         >
@@ -530,5 +529,4 @@ async function saveProfile() {
                 </div>
             </div>
         </div>
-    </PostboxShell>
 </template>

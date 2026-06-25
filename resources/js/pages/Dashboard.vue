@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, router } from '@inertiajs/vue3';
+import { Head, Link, router, setLayoutProps } from '@inertiajs/vue3';
 import {
     Briefcase,
     Copy,
@@ -10,9 +10,13 @@ import {
     User,
     X,
 } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { updateProfile as cvProfileUpdate } from '@/actions/App/Http/Controllers/CvUploadController';
-import PostboxShell from '@/components/postbox/PostboxShell.vue';
+import billing from '@/routes/billing';
+
+setLayoutProps({
+    tagline: 'Your profile, ready to post.',
+});
 
 interface Experience {
     title: string;
@@ -73,6 +77,25 @@ const tabs = [
     { key: 'experience' as const, label: 'Experience', icon: Briefcase },
     { key: 'extension' as const, label: 'Extension', icon: Puzzle },
 ];
+
+const usagePercent = computed(() => {
+    if (props.subscription.monthly_autofills === 0) {
+        return 0;
+    }
+
+    return Math.min(
+        100,
+        Math.round(
+            (props.subscription.autofills_used /
+                props.subscription.monthly_autofills) *
+                100,
+        ),
+    );
+});
+
+function formatAutofills(value: number): string {
+    return new Intl.NumberFormat('en-GB').format(value);
+}
 
 function addSkill() {
     const skill = newSkill.value.trim();
@@ -135,20 +158,7 @@ async function copyToken() {
 <template>
     <Head title="Dashboard — AutoCVApply" />
 
-    <PostboxShell
-        tagline="Your profile, ready to post."
-        :show-sign-out="true"
-        max-width="5xl"
-    >
-        <template #nav>
-            <span
-                class="hidden text-sm font-medium text-muted-foreground sm:block"
-            >
-                {{ $page.props.auth.user?.name }}
-            </span>
-        </template>
-
-        <div class="mb-8 flex items-center justify-between gap-4">
+    <div class="mb-8 flex items-center justify-between gap-4">
             <div>
                 <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
                     Your profile
@@ -163,6 +173,50 @@ async function copyToken() {
                 {{ profile.full_name?.charAt(0)?.toUpperCase() ?? '?' }}
             </div>
         </div>
+
+    <div class="postbox-panel mb-8 p-5">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+            <div>
+                <p class="postbox-label">Extension autofills</p>
+                <p class="text-lg font-bold text-postbox-navy">
+                    {{ subscription.tier_label }}
+                </p>
+                <p class="mt-1 text-sm text-muted-foreground">
+                    {{ formatAutofills(subscription.autofills_remaining) }}
+                    remaining this month
+                </p>
+            </div>
+            <Link :href="billing.index()" class="postbox-btn-outline text-sm">
+                Manage plan
+            </Link>
+        </div>
+        <div class="mt-4">
+            <div class="mb-2 flex justify-between text-sm">
+                <span class="font-medium text-postbox-navy">
+                    {{ formatAutofills(subscription.autofills_used) }} used
+                </span>
+                <span class="text-muted-foreground">
+                    {{ formatAutofills(subscription.monthly_autofills) }} /
+                    month
+                </span>
+            </div>
+            <div class="h-2 overflow-hidden rounded-full bg-postbox-navy/10">
+                <div
+                    class="h-full rounded-full bg-postbox-red transition-all"
+                    :style="{ width: `${usagePercent}%` }"
+                />
+            </div>
+        </div>
+        <p
+            v-if="!subscription.can_autofill"
+            class="mt-4 rounded-md border border-postbox-red/30 bg-postbox-red/5 p-3 text-sm text-postbox-navy"
+        >
+            You have used all autofills this month.
+            <Link :href="billing.index()" class="font-semibold text-postbox-red">
+                Upgrade your plan
+            </Link>
+        </p>
+    </div>
 
         <div class="mb-6 flex border-b-2 border-postbox-navy/20">
             <button
@@ -394,5 +448,4 @@ async function copyToken() {
                 </button>
             </div>
         </div>
-    </PostboxShell>
 </template>

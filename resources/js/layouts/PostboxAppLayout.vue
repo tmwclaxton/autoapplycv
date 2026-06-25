@@ -1,0 +1,32 @@
+<script setup lang="ts">
+import AppToast from '@/components/AppToast.vue';
+import PostboxAppNav from '@/components/postbox/PostboxAppNav.vue';
+import PostboxShell from '@/components/postbox/PostboxShell.vue';
+
+withDefaults(
+    defineProps<{
+        tagline?: string;
+        maxWidth?: '4xl' | '5xl' | '6xl';
+    }>(),
+    {
+        tagline: 'Stop retyping your life story.',
+        maxWidth: '5xl',
+    },
+);
+</script>
+
+<template>
+    <PostboxShell
+        :tagline="tagline"
+        :show-sign-out="true"
+        :max-width="maxWidth"
+    >
+        <template #nav>
+            <PostboxAppNav />
+        </template>
+
+        <slot />
+    </PostboxShell>
+
+    <AppToast />
+</template>

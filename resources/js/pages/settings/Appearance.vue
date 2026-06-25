@@ -1,18 +1,10 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
+import { setLayoutProps } from '@inertiajs/vue3';
 import AppearanceTabs from '@/components/AppearanceTabs.vue';
-import Heading from '@/components/Heading.vue';
-import { edit } from '@/routes/appearance';
 
-defineOptions({
-    layout: {
-        breadcrumbs: [
-            {
-                title: 'Appearance settings',
-                href: edit(),
-            },
-        ],
-    },
+setLayoutProps({
+    tagline: 'Light mode or dark — your call.',
 });
 </script>
 
@@ -22,11 +14,15 @@ defineOptions({
     <h1 class="sr-only">Appearance settings</h1>
 
     <div class="space-y-6">
-        <Heading
-            variant="small"
-            title="Appearance settings"
-            description="Update your account's appearance settings"
-        />
+        <div>
+            <h2 class="text-lg font-bold text-postbox-navy">
+                Theme preference
+            </h2>
+            <p class="mt-1 text-sm text-muted-foreground">
+                Choose how AutoCVApply looks on this device.
+            </p>
+        </div>
+
         <AppearanceTabs />
     </div>
 </template>

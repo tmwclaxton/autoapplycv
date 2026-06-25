@@ -1,31 +1,20 @@
 <script setup lang="ts">
 import { Form, Head, usePage } from '@inertiajs/vue3';
+import { setLayoutProps } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DeleteUser from '@/components/DeleteUser.vue';
-import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { edit } from '@/routes/profile';
+
+setLayoutProps({
+    tagline: 'Your account, your control.',
+});
 
 type Props = {
     status?: string;
 };
 
 defineProps<Props>();
-
-defineOptions({
-    layout: {
-        breadcrumbs: [
-            {
-                title: 'Profile settings',
-                href: edit(),
-            },
-        ],
-    },
-});
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
@@ -36,23 +25,26 @@ const user = computed(() => page.props.auth.user);
 
     <h1 class="sr-only">Profile settings</h1>
 
-    <div class="flex flex-col space-y-6">
-        <Heading
-            variant="small"
-            title="Profile information"
-            description="Update your name and email address"
-        />
+    <div class="space-y-8">
+        <div>
+            <h2 class="text-lg font-bold text-postbox-navy">
+                Profile information
+            </h2>
+            <p class="mt-1 text-sm text-muted-foreground">
+                Update your name and email address.
+            </p>
+        </div>
 
         <Form
             v-bind="ProfileController.update.form()"
             class="space-y-6"
             v-slot="{ errors, processing }"
         >
-            <div class="grid gap-2">
-                <Label for="name">Name</Label>
-                <Input
+            <div>
+                <label for="name" class="postbox-label">Name</label>
+                <input
                     id="name"
-                    class="mt-1 block w-full"
+                    class="postbox-input mt-1"
                     name="name"
                     :default-value="user.name"
                     required
@@ -62,12 +54,12 @@ const user = computed(() => page.props.auth.user);
                 <InputError class="mt-2" :message="errors.name" />
             </div>
 
-            <div class="grid gap-2">
-                <Label for="email">Email address</Label>
-                <Input
+            <div>
+                <label for="email" class="postbox-label">Email address</label>
+                <input
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
+                    class="postbox-input mt-1 opacity-70"
                     name="email"
                     :default-value="user.email"
                     required
@@ -79,12 +71,17 @@ const user = computed(() => page.props.auth.user);
             </div>
 
             <div class="flex items-center gap-4">
-                <Button :disabled="processing" data-test="update-profile-button"
-                    >Save</Button
+                <button
+                    type="submit"
+                    class="postbox-btn"
+                    :disabled="processing"
+                    data-test="update-profile-button"
                 >
+                    Save changes
+                </button>
             </div>
         </Form>
-    </div>
 
-    <DeleteUser />
+        <DeleteUser />
+    </div>
 </template>
