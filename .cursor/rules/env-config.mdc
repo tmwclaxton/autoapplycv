@@ -1,0 +1,41 @@
+---
+description: Avoid unnecessary environment variables; prefer config defaults and commented code for unreleased features
+alwaysApply: true
+---
+
+# Environment Variables
+
+Do not add new `.env` keys unless the value must differ per deployment or contain a secret.
+
+## Prefer config defaults
+
+Put stable defaults in `config/*.php`. Use `env()` only for secrets and deployment-specific values (URLs, API keys, credentials).
+
+```php
+// ❌ BAD — new env key for a fixed product default
+'fair_use_cv_parses_per_month' => (int) env('FAIR_USE_CV_PARSES_PER_MONTH', 20),
+
+// ✅ GOOD — hardcoded default in config
+'fair_use_cv_parses_per_month' => 20,
+```
+
+## Unreleased features
+
+Do not gate unfinished features with env flags like `FEATURE_X_ENABLED`. Comment out routes, controllers, or UI until the feature ships, then enable in code.
+
+```php
+// ❌ BAD
+'billing_enabled' => env('SUBSCRIPTION_BILLING_ENABLED', false),
+
+// ✅ GOOD — comment out billing routes/methods until Pro launches
+// Route::post('/billing/checkout', ...);
+```
+
+## When env keys are appropriate
+
+- API keys and tokens (`WORKOS_API_KEY`, `GOCARDLESS_ACCESS_TOKEN`)
+- URLs that change per environment (`APP_URL`)
+- Mail/database credentials
+- Third-party service endpoints that differ between local and production
+
+Before adding a key, ask: *Does this need to change between developers or environments?* If not, use config.

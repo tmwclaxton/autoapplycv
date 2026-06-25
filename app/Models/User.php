@@ -32,8 +32,7 @@ class User extends Authenticatable
 
     public function subscriptionTier(): SubscriptionTier
     {
-        return SubscriptionTier::tryFrom($this->subscription_tier)
-            ?? SubscriptionTier::Free;
+        return SubscriptionTier::resolve($this->subscription_tier);
     }
 
     public function subscriptionStatus(): SubscriptionStatus

@@ -63,17 +63,13 @@ Autofill works on the boards that actually hire:
 ### 📬 Postbox design
 British utilitarian UI — Royal Mail red, navy, warm paper tones. Built to feel like sending a letter, not filling in a spreadsheet.
 
-### 💳 Subscription tiers
-Free tier included. Paid plans via GoCardless Direct Debit with monthly AI token allowances for CV parsing.
+### 💳 Pricing
 
-| Plan | Price | AI tokens / month |
-|------|-------|-------------------|
-| **Free** | £0 | 10,000 |
-| **Standard** | £9/mo | 100,000 |
-| **Pro** | £19/mo | 500,000 |
-| **Power** | £49/mo | 2,000,000 |
+AutoCVApply is **free during early access**. CV parsing, profile editing, and unlimited extension autofill are all included.
 
-> Extension autofill does not consume AI tokens. Tokens are used for CV parsing and reset on the 1st of each month.
+A **Pro** plan (£7/mo) is planned for future features like multiple CV profiles — not for basic parsing or autofill.
+
+> A fair-use upload limit applies behind the scenes to prevent abuse. Normal job seekers will never hit it.
 
 ## Tech stack
 

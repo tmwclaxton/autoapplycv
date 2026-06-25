@@ -21,22 +21,22 @@ class AiTokenServiceTest extends TestCase
         $this->service = app(AiTokenService::class);
     }
 
-    public function test_free_tier_user_gets_default_monthly_allowance(): void
+    public function test_free_tier_user_can_parse_by_default(): void
     {
         $user = User::factory()->create();
 
-        $this->assertSame(10_000, $this->service->allowance($user));
-        $this->assertSame(10_000, $this->service->remaining($user));
+        $this->assertTrue($this->service->canParseCv($user));
+        $this->assertSame(0, $this->service->parsesUsed($user));
     }
 
-    public function test_consuming_tokens_reduces_remaining_balance(): void
+    public function test_recording_a_parse_increments_monthly_usage(): void
     {
         $user = User::factory()->create();
 
-        $this->service->consume($user, 250, 'cv_parse');
+        $this->service->recordParse($user);
 
-        $this->assertSame(250, $this->service->used($user->fresh()));
-        $this->assertSame(9_750, $this->service->remaining($user->fresh()));
+        $this->assertSame(1, $this->service->parsesUsed($user->fresh()));
+        $this->assertSame(19, $this->service->parsesRemaining($user->fresh()));
     }
 
     public function test_usage_resets_when_a_new_month_starts(): void
@@ -44,7 +44,7 @@ class AiTokenServiceTest extends TestCase
         Carbon::setTestNow('2026-05-15 12:00:00');
 
         $user = User::factory()->create([
-            'ai_tokens_used' => 5000,
+            'ai_tokens_used' => 5,
             'ai_tokens_period_start' => '2026-05-01 00:00:00',
         ]);
 
@@ -56,20 +56,27 @@ class AiTokenServiceTest extends TestCase
         $this->assertTrue($user->fresh()->ai_tokens_period_start->isSameMonth(Carbon::parse('2026-06-01')));
     }
 
-    public function test_summary_includes_tier_and_token_details(): void
+    public function test_fair_use_limit_blocks_additional_parses(): void
     {
         $user = User::factory()->create([
-            'subscription_tier' => 'pro',
-            'ai_tokens_used' => 1000,
+            'ai_tokens_used' => 20,
             'ai_tokens_period_start' => now()->startOfMonth(),
+        ]);
+
+        $this->assertFalse($this->service->canParseCv($user));
+    }
+
+    public function test_summary_includes_plan_details(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'standard',
         ]);
 
         $summary = $this->service->summary($user);
 
-        $this->assertSame('pro', $summary['tier']);
-        $this->assertSame('Pro', $summary['tier_label']);
-        $this->assertSame(500_000, $summary['monthly_tokens']);
-        $this->assertSame(1000, $summary['tokens_used']);
-        $this->assertTrue($summary['can_use_ai']);
+        $this->assertSame('free', $summary['tier']);
+        $this->assertSame('Free', $summary['tier_label']);
+        $this->assertTrue($summary['can_parse_cv']);
+        $this->assertContains('Unlimited CV parsing', $summary['features']);
     }
 }

@@ -4,10 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\CvProfile;
 use App\Models\User;
-use App\Services\GoCardlessService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
-use Mockery\MockInterface;
 use Tests\TestCase;
 
 class SubscriptionTest extends TestCase
@@ -31,39 +29,7 @@ class SubscriptionTest extends TestCase
             ->assertJson([
                 'component' => 'Billing',
             ])
-            ->assertJsonPath('props.subscription.tier', 'free')
-            ->assertJsonCount(4, 'props.tiers');
-    }
-
-    public function test_user_can_switch_to_free_tier_without_gocardless(): void
-    {
-        $user = User::factory()->create([
-            'subscription_tier' => 'standard',
-            'gocardless_subscription_id' => 'SB123',
-        ]);
-
-        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
-            $mock->shouldReceive('cancelSubscription')->once();
-        });
-
-        $this->actingAs($user)
-            ->post(route('billing.checkout'), ['tier' => 'free'])
-            ->assertRedirect(route('billing.index'));
-    }
-
-    public function test_paid_checkout_redirects_to_gocardless(): void
-    {
-        $user = User::factory()->create();
-
-        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
-            $mock->shouldReceive('createCheckoutFlow')
-                ->once()
-                ->andReturn('https://pay.gocardless.com/flow/test');
-        });
-
-        $this->actingAs($user)
-            ->post(route('billing.checkout'), ['tier' => 'standard'])
-            ->assertRedirect('https://pay.gocardless.com/flow/test');
+            ->assertJsonPath('props.subscription.tier', 'free');
     }
 
     public function test_dashboard_includes_subscription_summary(): void
@@ -76,6 +42,6 @@ class SubscriptionTest extends TestCase
             ->get(route('dashboard'))
             ->assertStatus(200)
             ->assertJsonPath('props.subscription.tier', 'free')
-            ->assertJsonPath('props.subscription.monthly_tokens', 10_000);
+            ->assertJsonPath('props.subscription.can_parse_cv', true);
     }
 }

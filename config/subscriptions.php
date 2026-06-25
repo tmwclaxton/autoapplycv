@@ -4,30 +4,29 @@ return [
 
     'default_tier' => 'free',
 
+    'fair_use_cv_parses_per_month' => 20,
+
     'tiers' => [
         'free' => [
             'name' => 'Free',
-            'description' => 'CV parsing and extension autofill with a starter monthly allowance.',
+            'description' => 'Upload your CV, edit your profile, and autofill applications on supported job sites.',
             'price_pence' => 0,
-            'monthly_tokens' => 10_000,
-        ],
-        'standard' => [
-            'name' => 'Standard',
-            'description' => 'For regular applications with room for re-parsing and updates.',
-            'price_pence' => 900,
-            'monthly_tokens' => 100_000,
+            'available' => true,
+            'features' => [
+                'Unlimited CV parsing',
+                'Profile editing',
+                'Unlimited extension autofill',
+            ],
         ],
         'pro' => [
             'name' => 'Pro',
-            'description' => 'Heavy monthly usage for active job hunters.',
-            'price_pence' => 1900,
-            'monthly_tokens' => 500_000,
-        ],
-        'power' => [
-            'name' => 'Power',
-            'description' => 'Maximum AI capacity for intensive application campaigns.',
-            'price_pence' => 4900,
-            'monthly_tokens' => 2_000_000,
+            'description' => 'Multiple CV profiles and more — coming soon.',
+            'price_pence' => 700,
+            'available' => false,
+            'features' => [
+                'Multiple CV profiles',
+                'Everything in Free',
+            ],
         ],
     ],
 

@@ -49,10 +49,9 @@ class CvProfileApiTest extends TestCase
                 'subscription' => [
                     'tier',
                     'tier_label',
-                    'monthly_tokens',
-                    'tokens_used',
-                    'tokens_remaining',
-                    'can_use_ai',
+                    'plan_description',
+                    'features',
+                    'can_parse_cv',
                 ],
             ]);
     }

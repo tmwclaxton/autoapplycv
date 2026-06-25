@@ -22,34 +22,38 @@ class AiTokenService
         return $user->refresh();
     }
 
-    public function allowance(User $user): int
+    public function monthlyParseLimit(): int
     {
-        return $user->subscriptionTier()->monthlyTokens();
+        return max(1, (int) config('subscriptions.fair_use_cv_parses_per_month', 20));
     }
 
-    public function used(User $user): int
+    public function parsesUsed(User $user): int
     {
         $this->ensureCurrentPeriod($user);
 
         return $user->ai_tokens_used;
     }
 
-    public function remaining(User $user): int
+    public function parsesRemaining(User $user): int
     {
-        return max(0, $this->allowance($user) - $this->used($user));
+        return max(0, $this->monthlyParseLimit() - $this->parsesUsed($user));
     }
 
-    public function canConsume(User $user, int $tokens): bool
+    public function canParseCv(User $user): bool
     {
-        return $this->remaining($user) >= $tokens;
+        if ($user->subscriptionStatus() !== SubscriptionStatus::Active) {
+            return false;
+        }
+
+        return $this->parsesRemaining($user) > 0;
     }
 
-    public function consume(User $user, int $tokens, string $source = 'ai'): void
+    public function recordParse(User $user): void
     {
         $this->ensureCurrentPeriod($user);
 
         $user->forceFill([
-            'ai_tokens_used' => $user->ai_tokens_used + max(0, $tokens),
+            'ai_tokens_used' => $user->ai_tokens_used + 1,
         ])->save();
     }
 
@@ -69,12 +73,10 @@ class AiTokenService
      *     tier_label: string,
      *     status: string,
      *     status_label: string,
-     *     monthly_tokens: int,
-     *     tokens_used: int,
-     *     tokens_remaining: int,
-     *     period_start: string|null,
+     *     plan_description: string,
+     *     features: array<int, string>,
+     *     can_parse_cv: bool,
      *     period_resets_at: string,
-     *     can_use_ai: bool,
      * }
      */
     public function summary(User $user): array
@@ -92,12 +94,10 @@ class AiTokenService
             'tier_label' => $tier->label(),
             'status' => $status->value,
             'status_label' => $status->label(),
-            'monthly_tokens' => $this->allowance($user),
-            'tokens_used' => $this->used($user),
-            'tokens_remaining' => $this->remaining($user),
-            'period_start' => $periodStart->toDateString(),
+            'plan_description' => $tier->description(),
+            'features' => $tier->features(),
+            'can_parse_cv' => $this->canParseCv($user),
             'period_resets_at' => $periodStart->copy()->addMonth()->startOfMonth()->toDateString(),
-            'can_use_ai' => $status === SubscriptionStatus::Active && $this->remaining($user) > 0,
         ];
     }
 }

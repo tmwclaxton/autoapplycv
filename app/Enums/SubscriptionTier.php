@@ -11,27 +11,27 @@ enum SubscriptionTier: string
 
     public function label(): string
     {
-        return config("subscriptions.tiers.{$this->value}.name", ucfirst($this->value));
+        return config("subscriptions.tiers.{$this->configKey()}.name", ucfirst($this->value));
     }
 
     public function description(): string
     {
-        return config("subscriptions.tiers.{$this->value}.description", '');
+        return config("subscriptions.tiers.{$this->configKey()}.description", '');
     }
 
     public function pricePence(): int
     {
-        return (int) config("subscriptions.tiers.{$this->value}.price_pence", 0);
-    }
-
-    public function monthlyTokens(): int
-    {
-        return (int) config("subscriptions.tiers.{$this->value}.monthly_tokens", 0);
+        return (int) config("subscriptions.tiers.{$this->configKey()}.price_pence", 0);
     }
 
     public function isPaid(): bool
     {
         return $this->pricePence() > 0;
+    }
+
+    public function isAvailable(): bool
+    {
+        return (bool) config("subscriptions.tiers.{$this->configKey()}.available", false);
     }
 
     public function formattedPrice(): string
@@ -43,17 +43,12 @@ enum SubscriptionTier: string
         return '£'.number_format($this->pricePence() / 100, 2).'/mo';
     }
 
-    public function cvParsesPerMonthLabel(): string
+    /**
+     * @return array<int, string>
+     */
+    public function features(): array
     {
-        $tokens = $this->monthlyTokens();
-        $low = max(1, (int) floor($tokens / 7000));
-        $high = max(1, (int) floor($tokens / 2500));
-
-        if ($low === $high) {
-            return "~{$high} CV parses";
-        }
-
-        return "~{$low}–{$high} CV parses";
+        return config("subscriptions.tiers.{$this->configKey()}.features", []);
     }
 
     /**
@@ -63,9 +58,10 @@ enum SubscriptionTier: string
      *     description: string,
      *     price: string,
      *     price_pence: int,
-     *     monthly_tokens: int,
-     *     cv_parses_label: string,
+     *     features: array<int, string>,
      *     is_paid: bool,
+     *     is_available: bool,
+     *     coming_soon: bool,
      * }
      */
     public function toMarketingArray(): array
@@ -76,21 +72,33 @@ enum SubscriptionTier: string
             'description' => $this->description(),
             'price' => $this->formattedPrice(),
             'price_pence' => $this->pricePence(),
-            'monthly_tokens' => $this->monthlyTokens(),
-            'cv_parses_label' => $this->cvParsesPerMonthLabel(),
+            'features' => $this->features(),
             'is_paid' => $this->isPaid(),
+            'is_available' => $this->isAvailable(),
+            'coming_soon' => ! $this->isAvailable() && $this->isPaid(),
         ];
     }
 
     /**
      * @return array<int, array<string, mixed>>
      */
-    public static function marketingTiers(): array
+    public static function marketingPlans(): array
     {
         return array_map(
             fn (self $tier) => $tier->toMarketingArray(),
-            self::ordered(),
+            self::visible(),
         );
+    }
+
+    /**
+     * @return array<int, self>
+     */
+    public static function visible(): array
+    {
+        return array_values(array_filter(
+            self::ordered(),
+            fn (self $tier) => $tier->isAvailable() || ($tier->isPaid() && ! $tier->isAvailable()),
+        ));
     }
 
     /**
@@ -100,9 +108,34 @@ enum SubscriptionTier: string
     {
         return [
             self::Free,
-            self::Standard,
             self::Pro,
-            self::Power,
         ];
+    }
+
+    public static function resolve(?string $value): self
+    {
+        $tier = self::tryFrom($value ?? '');
+
+        if ($tier === null) {
+            return self::Free;
+        }
+
+        if ($tier === self::Pro && $tier->isAvailable()) {
+            return self::Pro;
+        }
+
+        if ($tier === self::Free) {
+            return self::Free;
+        }
+
+        return self::Free;
+    }
+
+    private function configKey(): string
+    {
+        return match ($this) {
+            self::Standard, self::Power => 'free',
+            default => $this->value,
+        };
     }
 }

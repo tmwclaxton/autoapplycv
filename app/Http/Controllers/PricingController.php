@@ -11,7 +11,7 @@ class PricingController extends Controller
     public function index(): Response
     {
         return Inertia::render('Pricing', [
-            'tiers' => SubscriptionTier::marketingTiers(),
+            'plans' => SubscriptionTier::marketingPlans(),
         ]);
     }
 }

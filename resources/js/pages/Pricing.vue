@@ -1,34 +1,41 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import { Infinity, Sparkles, Stamp } from 'lucide-vue-next';
+import { computed } from 'vue';
 import PostboxCta from '@/components/postbox/PostboxCta.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
-import type { PricingTier } from '@/components/postbox/PostboxPricingTiers.vue';
-import { login } from '@/routes';
+import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
+import { dashboard, login } from '@/routes';
 
 defineProps<{
-    tiers: PricingTier[];
+    plans: PricingPlan[];
 }>();
+
+const page = usePage();
+const isAuthenticated = computed(() => Boolean(page.props.auth.user));
 </script>
 
 <template>
     <Head title="Pricing — AutoCVApply" />
 
-    <PostboxMarketingLayout tagline="Pay for parsing. Autofill is free.">
+    <PostboxMarketingLayout tagline="Free to use. Autofill forever.">
         <template #nav>
             <PostboxMarketingNav />
         </template>
 
         <PostboxPageHeader
             badge="Pricing"
-            title="Simple plans for CV parsing."
-            description="Extension autofill is unlimited on every plan. You only spend AI tokens when you upload or re-parse a CV."
+            title="Everything you need is free."
+            description="Upload your CV once, edit your profile any time, and autofill job applications without limits. No credit card required."
         />
 
-        <PostboxPricingTiers :tiers="tiers" />
+        <PostboxPricingTiers
+            :plans="plans"
+            :is-authenticated="isAuthenticated"
+        />
 
         <div class="mt-10 grid gap-4 lg:grid-cols-3">
             <div class="postbox-panel p-6">
@@ -38,12 +45,11 @@ defineProps<{
                     <Sparkles class="size-5 text-postbox-red" />
                 </div>
                 <h2 class="text-lg font-bold text-postbox-navy">
-                    What uses tokens?
+                    CV parsing included
                 </h2>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    Uploading a PDF or Word CV and running AI extraction. Each
-                    parse typically uses 2,500–7,000 tokens depending on CV
-                    length.
+                    Upload or re-upload your CV whenever you update it. AI
+                    extraction is included — no token counting, no top-ups.
                 </p>
             </div>
 
@@ -54,12 +60,12 @@ defineProps<{
                     <Infinity class="size-5 text-postbox-red" />
                 </div>
                 <h2 class="text-lg font-bold text-postbox-navy">
-                    What is free?
+                    Autofill is unlimited
                 </h2>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
                     Editing your profile, generating extension tokens, and
                     autofilling job forms on Workday, Indeed, LinkedIn,
-                    Greenhouse, and Lever.
+                    Greenhouse, and Lever never costs anything.
                 </p>
             </div>
 
@@ -70,11 +76,11 @@ defineProps<{
                     <Stamp class="size-5 text-postbox-red" />
                 </div>
                 <h2 class="text-lg font-bold text-postbox-navy">
-                    When do they reset?
+                    Pro is on the way
                 </h2>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    AI tokens reset on the 1st of each month. Paid plans bill
-                    via UK Direct Debit through GoCardless.
+                    Paid plans will arrive when there are features worth paying
+                    for — like multiple CV profiles — not for basic parsing.
                 </p>
             </div>
         </div>
@@ -86,36 +92,36 @@ defineProps<{
             <dl class="mt-6 grid gap-6 sm:grid-cols-2">
                 <div>
                     <dt class="font-semibold text-postbox-navy">
-                        Do I need a paid plan to use the extension?
+                        Is it really free?
                     </dt>
                     <dd
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
-                        No. The free tier includes extension autofill and enough
-                        tokens for a few CV parses each month.
+                        Yes. CV parsing, profile editing, and extension
+                        autofill are all included at no cost during early
+                        access.
                     </dd>
                 </div>
                 <div>
                     <dt class="font-semibold text-postbox-navy">
-                        Can I upgrade later?
+                        Will you add paid plans?
                     </dt>
                     <dd
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
-                        Yes. Sign in, pick a plan, and complete Direct Debit
-                        setup. You can cancel back to Free any time.
+                        Eventually — for power features like multiple CV
+                        profiles, not for basic autofill or parsing.
                     </dd>
                 </div>
                 <div>
                     <dt class="font-semibold text-postbox-navy">
-                        What are AI tokens?
+                        Do I need a card to sign up?
                     </dt>
                     <dd
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
-                        Small units the language model counts when reading your
-                        CV and returning structured data — not job applications
-                        or form fills.
+                        No. Create an account, upload your CV, and connect the
+                        extension. That is the whole flow.
                     </dd>
                 </div>
                 <div>
@@ -126,7 +132,7 @@ defineProps<{
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
                         Yes. Once your profile is saved, the extension reads it
-                        locally — no AI call, no token cost.
+                        locally — no AI call, no usage meter.
                     </dd>
                 </div>
             </dl>
@@ -134,16 +140,19 @@ defineProps<{
 
         <PostboxCta
             class="mt-10"
-            title="Start on the free plan"
-            description="Upload your CV, connect the extension, and only pay if you need more parsing."
+            title="Start for free"
+            description="Upload your CV, connect the extension, and apply without retyping."
             button-label="Get started free"
         />
 
         <p class="mt-6 text-center text-sm text-muted-foreground">
             Already have an account?
-            <Link :href="login()" class="postbox-link"
-                >Sign in to manage billing</Link
+            <Link
+                :href="isAuthenticated ? dashboard() : login()"
+                class="postbox-link"
             >
+                {{ isAuthenticated ? 'Go to dashboard' : 'Sign in' }}
+            </Link>
         </p>
     </PostboxMarketingLayout>
 </template>

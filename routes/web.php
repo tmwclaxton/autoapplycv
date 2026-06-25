@@ -29,9 +29,10 @@ Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function ()
     Route::patch('/cv/profile', [CvUploadController::class, 'updateProfile'])->name('cv.profile.update');
 
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
-    Route::post('/billing/checkout', [BillingController::class, 'checkout'])->name('billing.checkout');
-    Route::get('/billing/complete', [BillingController::class, 'complete'])->name('billing.complete');
-    Route::post('/billing/cancel', [BillingController::class, 'cancel'])->name('billing.cancel');
+    // Paid billing — uncomment when Pro launches
+    // Route::post('/billing/checkout', [BillingController::class, 'checkout'])->name('billing.checkout');
+    // Route::get('/billing/complete', [BillingController::class, 'complete'])->name('billing.complete');
+    // Route::post('/billing/cancel', [BillingController::class, 'cancel'])->name('billing.cancel');
 
     Route::get('/settings/profile', [SettingsProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/settings/profile', [SettingsProfileController::class, 'update'])->name('profile.update');

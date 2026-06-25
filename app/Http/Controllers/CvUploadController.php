@@ -35,12 +35,11 @@ class CvUploadController extends Controller
         $user = $request->user();
 
         $rawText = $this->cvParser->extractText($file);
-        $estimatedTokens = $this->aiTokens->estimateCvParseTokens($rawText);
 
-        if (! $this->aiTokens->canConsume($user, $estimatedTokens)) {
+        if (! $this->aiTokens->canParseCv($user)) {
             return response()->json([
                 'success' => false,
-                'error' => 'You have used all of your AI tokens for this billing period.',
+                'error' => 'You have reached the monthly CV upload limit. Please try again next month.',
                 'subscription' => $this->aiTokens->summary($user),
             ], 402);
         }
@@ -137,10 +136,9 @@ class CvUploadController extends Controller
             return null;
         }
 
-        $tokensUsed = (int) ($result['_tokens_used'] ?? $this->aiTokens->estimateCvParseTokens($truncated));
         unset($result['_tokens_used']);
 
-        $this->aiTokens->consume($user, $tokensUsed, 'cv_parse');
+        $this->aiTokens->recordParse($user);
 
         return $result;
     }
