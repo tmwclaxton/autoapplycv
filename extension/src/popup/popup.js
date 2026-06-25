@@ -232,6 +232,28 @@ async function injectLinkedInBot(tabId) {
 
 document.getElementById('start-bot-btn').addEventListener('click', async () => {
     try {
+        const profile = await loadProfile();
+
+        if (profile?.error) {
+            showMessage(profile.error, 'error');
+
+            return;
+        }
+
+        if (!profile?.subscription?.can_autofill) {
+            showMessage('Autofill limit reached. Upgrade your plan or wait for the monthly reset.', 'error');
+
+            return;
+        }
+
+        const cvProfile = profile.profile || {};
+
+        if (!cvProfile.full_name || !cvProfile.email || !cvProfile.phone) {
+            showMessage('Add your name, email, and phone on autocvapply.com before starting the bot.', 'error');
+
+            return;
+        }
+
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
         if (!tab?.url?.includes('linkedin.com/jobs')) {
@@ -248,6 +270,8 @@ document.getElementById('start-bot-btn').addEventListener('click', async () => {
         if (response?.success) {
             showMessage('LinkedIn bot started.');
             await updateBotCounters();
+        } else if (response?.error) {
+            showMessage(response.error, 'error');
         }
     } catch (error) {
         showMessage('Could not start bot. Reload the LinkedIn page and try again.', 'error');

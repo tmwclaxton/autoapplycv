@@ -14,6 +14,7 @@ import {
 import JobApplicationsPanel, {
     type JobApplicationRecord,
 } from '@/components/cv/JobApplicationsPanel.vue';
+import ApplicationToolsPanel from '@/components/cv/ApplicationToolsPanel.vue';
 import { computed, ref } from 'vue';
 import {
     store as cvUpload,
@@ -53,6 +54,7 @@ const props = defineProps<{
 }>();
 
 const profile = ref<CvProfile>(normalizeCvProfile(props.cvProfile));
+const subscription = ref<SubscriptionSummary>({ ...props.subscription });
 const documents = ref<ProfileDocument[]>([...props.documents]);
 const activeTab = ref<'profile' | 'experience' | 'applications' | 'extension'>('profile');
 const isSaving = ref(false);
@@ -73,15 +75,15 @@ const tabs = [
 ];
 
 const usagePercent = computed(() => {
-    if (props.subscription.monthly_autofills === 0) {
+    if (subscription.value.monthly_autofills === 0) {
         return 0;
     }
 
     return Math.min(
         100,
         Math.round(
-            (props.subscription.autofills_used /
-                props.subscription.monthly_autofills) *
+            (subscription.value.autofills_used /
+                subscription.value.monthly_autofills) *
                 100,
         ),
     );
@@ -409,6 +411,10 @@ async function copyToken() {
 
         <div v-else-if="activeTab === 'applications'">
             <JobApplicationsPanel :applications="applications" />
+            <ApplicationToolsPanel
+                :subscription="subscription"
+                @subscription-updated="subscription = $event"
+            />
         </div>
 
         <div v-else-if="activeTab === 'extension'" class="space-y-4">

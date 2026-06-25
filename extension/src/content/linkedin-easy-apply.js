@@ -125,7 +125,159 @@ async function buildBotConfig() {
     willingToRelocate: settings.willingToRelocate || 'yes',
     driversLicense: settings.driversLicense || 'yes',
     autoNextPage: settings.autoNextPage !== false,
+    subscription: profileData.subscription || null,
   };
+}
+
+function scrapeFullJobDescription() {
+  const selectors = [
+    '#job-details .jobs-description__content',
+    '.jobs-description__content',
+    '.jobs-box__html-content',
+    '[data-test-id="job-details-description"]',
+    '.jobs-description-content__text',
+    '.jobs-description',
+  ];
+
+  for (const selector of selectors) {
+    const element = document.querySelector(selector);
+
+    if (element?.textContent?.trim()) {
+      return element.textContent.trim().substring(0, 15000);
+    }
+  }
+
+  return '';
+}
+
+function getFieldLabel(modal, field) {
+  let labelText = '';
+
+  labelText += ' ' + (field.getAttribute('aria-label') || '');
+  labelText += ' ' + (field.getAttribute('name') || '');
+  labelText += ' ' + (field.getAttribute('placeholder') || '');
+
+  const fieldId = field.getAttribute('id');
+
+  if (fieldId) {
+    const labelEl = modal.querySelector(`label[for="${fieldId}"]`);
+
+    if (labelEl) {
+      labelText += ' ' + labelEl.textContent;
+    }
+  }
+
+  const parentLabel = field.closest('label');
+
+  if (parentLabel) {
+    labelText += ' ' + parentLabel.textContent;
+  }
+
+  const legend = field.closest('fieldset')?.querySelector('legend, .fb-form-element-label');
+
+  if (legend) {
+    labelText += ' ' + legend.textContent;
+  }
+
+  return labelText.replace(/\s+/g, ' ').trim();
+}
+
+function collectUnfilledQuestions(modal) {
+  const questions = [];
+  const seen = new Set();
+
+  modal.querySelectorAll('textarea').forEach((textarea) => {
+    if (textarea.value?.trim()) {
+      return;
+    }
+
+    const label = getFieldLabel(modal, textarea);
+
+    if (!label || seen.has(label)) {
+      return;
+    }
+
+    seen.add(label);
+    questions.push({
+      label,
+      field_type: 'textarea',
+      max_chars: textarea.maxLength > 0 ? textarea.maxLength : 2000,
+    });
+  });
+
+  return questions.slice(0, 5);
+}
+
+async function fillTextareasWithAi(modal, jobContext) {
+  const questions = collectUnfilledQuestions(modal);
+
+  if (questions.length === 0) {
+    return 0;
+  }
+
+  log(`🤖 Requesting AI answers for ${questions.length} open question(s)...`);
+
+  try {
+    const response = await new Promise((resolve, reject) => {
+      chrome.runtime.sendMessage({
+        type: 'ASSIST_QUESTIONS',
+        job: jobContext,
+        questions,
+        settings: {
+          visaSponsorship: config.visaSponsorship,
+          legallyAuthorized: config.legallyAuthorized,
+          willingToRelocate: config.willingToRelocate,
+          driversLicense: config.driversLicense,
+          yearsOfExperience: config.yearsOfExperience,
+          expectedSalary: config.expectedSalary,
+        },
+      }, (result) => {
+        if (chrome.runtime.lastError) {
+          reject(new Error(chrome.runtime.lastError.message));
+        } else {
+          resolve(result);
+        }
+      });
+    });
+
+    if (!response?.success || !Array.isArray(response.answers)) {
+      log(`⚠️ AI assist unavailable: ${response?.error || 'unknown error'}`);
+
+      return 0;
+    }
+
+    let filled = 0;
+
+    for (const answer of response.answers) {
+      if (!answer?.answer) {
+        continue;
+      }
+
+      for (const textarea of modal.querySelectorAll('textarea')) {
+        if (textarea.value?.trim()) {
+          continue;
+        }
+
+        const label = getFieldLabel(modal, textarea).toLowerCase();
+        const answerLabel = String(answer.label || '').toLowerCase();
+
+        if (!label || (!label.includes(answerLabel.substring(0, 20)) && !answerLabel.includes(label.substring(0, 20)))) {
+          continue;
+        }
+
+        fill(textarea, answer.answer.substring(0, textarea.maxLength > 0 ? textarea.maxLength : 2000));
+        log(`✅ AI filled: ${answer.label.substring(0, 40)}`);
+        filled++;
+        break;
+      }
+    }
+
+    return filled;
+  } catch (error) {
+    log(`⚠️ AI assist failed: ${error.message}`);
+
+    return 0;
+  }
 }
 
 async function loadResumeForBot() {
@@ -774,11 +926,26 @@ async function mainLoop() {
         job.scrollIntoView({ block: 'start', behavior: 'smooth' });
         await wait(500);
 
+        const jobLink = job.querySelector('a')?.href || window.location.href;
+
         const link = job.querySelector('a');
         if (link) {
           await click(link);
-          await wait(600); // Ultra optimized job link wait
+          await wait(600);
         }
+
+        const scrapedDescription = scrapeFullJobDescription();
+
+        if (scrapedDescription) {
+          jobDescription = scrapedDescription;
+        }
+
+        const jobContext = {
+          title: jobTitle,
+          company: jobCompany,
+          description: jobDescription,
+          link: jobLink,
+        };
 
         // Chercher Easy Apply (Python ligne 1853)
         let easyApplyBtn = document.querySelector('button.jobs-apply-button[aria-label*="Easy"]');
@@ -901,9 +1068,6 @@ async function mainLoop() {
           updateSkippedCount();
           continue;
         }
-
-        // Infos du job déjà extraites plus haut pour blacklist, on les réutilise
-        const jobLink = job.querySelector('a')?.href || window.location.href;
 
         // Remplir formulaire multi-étapes avec TIMEOUT (Python ligne 528-529)
         let step = 0;
@@ -1494,6 +1658,7 @@ async function mainLoop() {
             }
           }
 
+          await fillTextareasWithAi(modal, jobContext);
           await wait(1500);
 
           // Chercher bouton Next ou Submit
@@ -1634,6 +1799,7 @@ async function mainLoop() {
                   title: jobTitle,
                   company: jobCompany,
                   link: jobLink,
+                  job_description: jobDescription || null,
                   source: 'linkedin',
                   applied_at: new Date().toISOString(),
                 },
@@ -1705,6 +1871,11 @@ async function mainLoop() {
       }
 
       // Page suivante (Python ligne 2047) - IMPROVED WITH FALLBACKS
+      if (config.autoNextPage === false) {
+        log('autoNextPage disabled - stopping after this results page');
+        break;
+      }
+
       log('🔍 Recherche page suivante...');
       let nextPageClicked = false;
 
@@ -1993,6 +2164,24 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     try {
       if (request.action === 'start') {
         config = await buildBotConfig();
+
+        if (!config.subscription?.can_autofill) {
+          sendResponse({
+            success: false,
+            error: 'Autofill limit reached. Upgrade your plan or wait for the monthly reset.',
+          });
+
+          return;
+        }
+
+        if (!config.email || !config.firstName || !config.phone) {
+          sendResponse({
+            success: false,
+            error: 'Complete your profile (name, email, phone) on autocvapply.com before starting the bot.',
+          });
+
+          return;
+        }
 
         const local = await chrome.storage.local.get(['appliedCount', 'skippedCount', 'appliedJobs']);
         appliedCount = local.appliedCount || 0;

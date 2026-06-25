@@ -18,6 +18,7 @@ class JobApplication extends Model
         'company',
         'link',
         'location',
+        'job_description',
         'source',
         'applied_at',
     ];

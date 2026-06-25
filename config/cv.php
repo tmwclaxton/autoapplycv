@@ -62,4 +62,9 @@ return [
 
     'max_profile_documents' => (int) env('CV_MAX_PROFILE_DOCUMENTS', 25),
 
+    'ai_assist' => [
+        'cover_letter_cost' => (int) env('CV_AI_COVER_LETTER_COST', 8),
+        'ats_score_cost' => (int) env('CV_AI_ATS_SCORE_COST', 5),
+    ],
+
 ];

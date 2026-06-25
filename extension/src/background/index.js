@@ -38,6 +38,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
 
+    if (message.type === 'ASSIST_QUESTIONS') {
+        assistQuestions(message).then(sendResponse).catch((err) => sendResponse({ error: err.message, success: false }));
+
+        return true;
+    }
+
     if (message.type === 'SET_TOKEN') {
         chrome.storage.local.set({ apiToken: message.token }, () => {
             cachedProfile = null;
@@ -177,6 +183,44 @@ async function recordApplication(application) {
 
     if (!response.ok) {
         throw new Error(data.error || data.message || 'Failed to record application');
+    }
+
+    return data;
+}
+
+async function assistQuestions(payload) {
+    const apiToken = await getApiToken();
+
+    const response = await fetch(`${API_BASE}/api/applications/assist/questions`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            job: payload.job,
+            questions: payload.questions,
+            settings: payload.settings || {},
+        }),
+    });
+
+    const data = await response.json();
+
+    if (response.status === 402) {
+        if (cachedProfile) {
+            cachedProfile.subscription = data.subscription;
+        }
+
+        throw new Error(data.error || 'Autofill limit reached');
+    }
+
+    if (!response.ok) {
+        throw new Error(data.error || data.message || 'Failed to get AI answers');
+    }
+
+    if (cachedProfile && data.subscription) {
+        cachedProfile.subscription = data.subscription;
     }
 
     return data;

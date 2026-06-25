@@ -22,6 +22,7 @@ class JobApplicationController extends Controller
                 'title' => $validated['title'],
                 'company' => $validated['company'],
                 'location' => $validated['location'] ?? null,
+                'job_description' => $validated['job_description'] ?? null,
                 'source' => $validated['source'] ?? 'linkedin',
                 'applied_at' => $validated['applied_at'] ?? now(),
             ],

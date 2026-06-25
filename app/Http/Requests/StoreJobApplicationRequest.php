@@ -21,6 +21,7 @@ class StoreJobApplicationRequest extends FormRequest
             'company' => ['required', 'string', 'max:255'],
             'link' => ['required', 'url', 'max:2048'],
             'location' => ['nullable', 'string', 'max:255'],
+            'job_description' => ['nullable', 'string', 'max:20000'],
             'source' => ['nullable', 'string', 'max:32'],
             'applied_at' => ['nullable', 'date'],
         ];
