@@ -29,14 +29,25 @@ class AiTokenServiceTest extends TestCase
         $this->assertTrue($this->service->canAutofill($user));
     }
 
-    public function test_recording_an_autofill_increments_monthly_usage(): void
+    public function test_recording_autofills_increments_monthly_usage(): void
     {
         $user = User::factory()->create();
 
-        $this->service->recordAutofill($user);
+        $this->service->recordAutofill($user, 4);
 
-        $this->assertSame(1, $this->service->autofillsUsed($user->fresh()));
-        $this->assertSame(249, $this->service->autofillsRemaining($user->fresh()));
+        $this->assertSame(4, $this->service->autofillsUsed($user->fresh()));
+        $this->assertSame(246, $this->service->autofillsRemaining($user->fresh()));
+    }
+
+    public function test_can_autofill_checks_requested_field_count(): void
+    {
+        $user = User::factory()->create([
+            'ai_tokens_used' => 248,
+            'ai_tokens_period_start' => now()->startOfMonth(),
+        ]);
+
+        $this->assertTrue($this->service->canAutofill($user, 2));
+        $this->assertFalse($this->service->canAutofill($user, 3));
     }
 
     public function test_usage_resets_when_a_new_month_starts(): void

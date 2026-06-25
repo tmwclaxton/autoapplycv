@@ -39,21 +39,29 @@ class AiTokenService
         return max(0, $this->monthlyAutofillAllowance($user) - $this->autofillsUsed($user));
     }
 
-    public function canAutofill(User $user): bool
+    public function canAutofill(User $user, int $count = 1): bool
     {
         if ($user->subscriptionStatus() !== SubscriptionStatus::Active) {
             return false;
         }
 
-        return $this->autofillsRemaining($user) > 0;
+        if ($count < 1) {
+            return false;
+        }
+
+        return $this->autofillsRemaining($user) >= $count;
     }
 
-    public function recordAutofill(User $user): void
+    public function recordAutofill(User $user, int $count = 1): void
     {
+        if ($count < 1) {
+            return;
+        }
+
         $this->ensureCurrentPeriod($user);
 
         $user->forceFill([
-            'ai_tokens_used' => $user->ai_tokens_used + 1,
+            'ai_tokens_used' => $user->ai_tokens_used + $count,
         ])->save();
     }
 

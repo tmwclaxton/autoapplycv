@@ -49,9 +49,9 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                     What counts as an autofill?
                 </h2>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    Each time you click AutoFill in the extension on a
-                    supported job site, that uses one autofill from your
-                    monthly allowance.
+                    Each form input the extension successfully fills on a
+                    supported job site uses one autofill from your monthly
+                    allowance.
                 </p>
             </div>
 

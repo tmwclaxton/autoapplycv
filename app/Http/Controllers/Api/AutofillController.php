@@ -15,20 +15,26 @@ class AutofillController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $user = $request->user();
+        $validated = $request->validate([
+            'count' => ['required', 'integer', 'min:1', 'max:100'],
+        ]);
 
-        if (! $this->usage->canAutofill($user)) {
+        $user = $request->user();
+        $count = (int) $validated['count'];
+
+        if (! $this->usage->canAutofill($user, $count)) {
             return response()->json([
                 'success' => false,
-                'error' => 'You have used all of your extension autofills for this month.',
+                'error' => 'You do not have enough autofills remaining for this month.',
                 'subscription' => $this->usage->summary($user),
             ], 402);
         }
 
-        $this->usage->recordAutofill($user);
+        $this->usage->recordAutofill($user, $count);
 
         return response()->json([
             'success' => true,
+            'count' => $count,
             'subscription' => $this->usage->summary($user),
         ]);
     }

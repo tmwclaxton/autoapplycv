@@ -127,7 +127,7 @@ function findElement(selectors) {
     return null;
 }
 
-function fillForm(platformConfig, p) {
+function fillForm(platformConfig, p, maxFields = Infinity) {
     const fields = platformConfig.config.fields;
     const profileData = p.profile;
     let filled = 0;
@@ -145,6 +145,10 @@ function fillForm(platformConfig, p) {
     };
 
     for (const [fieldKey, value] of Object.entries(fieldMappings)) {
+        if (filled >= maxFields) {
+            break;
+        }
+
         if (!value || !fields[fieldKey]) {
  continue; 
 }
@@ -237,9 +241,31 @@ function createFillButton() {
             return;
         }
 
+        const remaining = profile.subscription?.autofills_remaining ?? 0;
+
+        if (remaining <= 0 || profile.subscription?.can_autofill === false) {
+            btn.textContent = '⚠ Monthly limit reached';
+            setTimeout(() => {
+ btn.textContent = 'AutoFill with AutoCVApply'; 
+}, 3000);
+
+            return;
+        }
+
+        const count = fillForm(platform, profile, remaining);
+
+        if (count === 0) {
+            btn.textContent = '✓ Already filled';
+            setTimeout(() => {
+ btn.textContent = 'AutoFill with AutoCVApply'; 
+}, 3000);
+
+            return;
+        }
+
         try {
             await new Promise((resolve, reject) => {
-                chrome.runtime.sendMessage({ type: 'RECORD_AUTOFILL' }, (response) => {
+                chrome.runtime.sendMessage({ type: 'RECORD_AUTOFILL', count }, (response) => {
                     if (chrome.runtime.lastError) {
                         reject(new Error(chrome.runtime.lastError.message));
                     } else if (response?.error) {
@@ -254,18 +280,17 @@ function createFillButton() {
                 });
             });
         } catch (error) {
-            btn.textContent = error.message.includes('limit') ? '⚠ Monthly limit reached' : '⚠ Autofill failed';
+            btn.textContent = error.message.includes('autofill') ? '⚠ Monthly limit reached' : '⚠ Autofill failed';
             setTimeout(() => {
- btn.innerHTML = btn.innerHTML.replace(/⚠.*/, 'AutoFill with AutoCVApply'); 
+ btn.textContent = 'AutoFill with AutoCVApply'; 
 }, 3000);
 
             return;
         }
 
-        const count = fillForm(platform, profile);
-        btn.textContent = count > 0 ? `✓ Filled ${count} fields` : '✓ Already filled';
+        btn.textContent = count === 1 ? '✓ Filled 1 field' : `✓ Filled ${count} fields`;
         setTimeout(() => {
- btn.innerHTML = btn.innerHTML.replace(/✓.*/, 'AutoFill with AutoCVApply'); 
+ btn.textContent = 'AutoFill with AutoCVApply'; 
 }, 3000);
     });
 

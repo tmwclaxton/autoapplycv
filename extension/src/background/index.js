@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'RECORD_AUTOFILL') {
-        recordAutofill().then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        recordAutofill(message.count).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -85,7 +85,7 @@ async function getProfile() {
     return data;
 }
 
-async function recordAutofill() {
+async function recordAutofill(count) {
     const { apiToken } = await chrome.storage.local.get(['apiToken']);
 
     if (!apiToken) {
@@ -97,7 +97,9 @@ async function recordAutofill() {
         headers: {
             'Authorization': `Bearer ${apiToken}`,
             'Accept': 'application/json',
+            'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ count }),
     });
 
     const data = await response.json();

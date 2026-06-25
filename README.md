@@ -73,7 +73,7 @@ Plans are based on **extension autofill** allowance. CV upload and profile editi
 | **Starter** | £7/mo | 2,500 |
 | **Pro** | £17/mo | 15,000 |
 
-> Each click of AutoFill on a supported job site uses one autofill. Allowances reset on the 1st of each month.
+> Each successfully filled form input uses one autofill. Allowances reset on the 1st of each month.
 
 ## Tech stack
 
