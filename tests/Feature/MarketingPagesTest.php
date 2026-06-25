@@ -2,11 +2,14 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class MarketingPagesTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @return array<string, array{0: string, 1: string}>
      */
@@ -20,6 +23,7 @@ class MarketingPagesTest extends TestCase
             'contact' => ['contact', 'Contact'],
             'terms' => ['terms', 'Legal/Terms'],
             'privacy' => ['privacy', 'Legal/Privacy'],
+            'blog' => ['blog.index', 'Blog/Index'],
         ];
     }
 

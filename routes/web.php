@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AutofillController;
 use App\Http\Controllers\Api\ExtensionTokenController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CvUploadController;
 use App\Http\Controllers\GoCardlessWebhookController;
 use App\Http\Controllers\OnboardingController;
@@ -19,6 +20,8 @@ Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
 Route::inertia('/contact', 'Contact')->name('contact');
 Route::inertia('/terms', 'Legal/Terms')->name('terms');
 Route::inertia('/privacy', 'Legal/Privacy')->name('privacy');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{blog:slug}', [BlogController::class, 'show'])->name('blog.show');
 
 Route::post('/webhooks/gocardless', GoCardlessWebhookController::class)->name('webhooks.gocardless');
 

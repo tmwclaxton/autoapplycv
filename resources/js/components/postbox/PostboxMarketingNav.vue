@@ -13,11 +13,13 @@ import {
     login,
     pricing,
 } from '@/routes';
+import { index as blog } from '@/routes/blog';
 
 const page = usePage();
 const { isCurrentUrl } = useCurrentUrl();
 
 const routeMap = {
+    blog,
     'how-to': howTo,
     pricing,
     about,

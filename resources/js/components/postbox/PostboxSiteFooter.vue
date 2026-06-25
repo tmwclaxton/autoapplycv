@@ -2,8 +2,10 @@
 import { Link } from '@inertiajs/vue3';
 import { FOOTER_LINKS, GITHUB_REPOSITORY_URL } from '@/lib/site';
 import { about, contact, home, howTo, pricing, privacy, terms } from '@/routes';
+import { index as blog } from '@/routes/blog';
 
 const routeMap = {
+    blog,
     'how-to': howTo,
     pricing,
     about,
