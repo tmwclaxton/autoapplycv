@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class NanoGptService
 {
@@ -20,19 +22,39 @@ class NanoGptService
     }
 
     /**
-     * @param  array<array{role: string, content: string}>  $messages
+     * @param  array<array{role: string, content: string|array<int, mixed>}>  $messages
      * @param  array<string, mixed>  $options
      * @return array{content: string, tokens: int}|null
      */
     public function chatWithUsage(array $messages, array $options = []): ?array
     {
-        $response = Http::withToken($this->apiKey)
-            ->post("{$this->baseUrl}/chat/completions", [
-                'model' => $options['model'] ?? $this->defaultModel,
-                'messages' => $messages,
-                'temperature' => $options['temperature'] ?? 0.3,
-                'response_format' => $options['response_format'] ?? null,
+        $timeout = (int) ($options['timeout'] ?? config('services.nanogpt.timeout', 120));
+        $connectTimeout = (int) ($options['connect_timeout'] ?? config('services.nanogpt.connect_timeout', 15));
+
+        try {
+            $response = Http::withToken($this->apiKey)
+                ->connectTimeout($connectTimeout)
+                ->timeout($timeout)
+                ->post("{$this->baseUrl}/chat/completions", [
+                    'model' => $options['model'] ?? $this->defaultModel,
+                    'messages' => $messages,
+                    'temperature' => $options['temperature'] ?? 0.3,
+                    'response_format' => $options['response_format'] ?? null,
+                ]);
+        } catch (ConnectionException $exception) {
+            Log::error('NanoGPT connection error', [
+                'message' => $exception->getMessage(),
+                'timeout' => $timeout,
             ]);
+
+            return null;
+        } catch (Throwable $exception) {
+            Log::error('NanoGPT request failed', [
+                'message' => $exception->getMessage(),
+            ]);
+
+            return null;
+        }
 
         if (! $response->successful()) {
             Log::error('NanoGPT API error', [
@@ -90,13 +112,83 @@ class NanoGptService
         return $decoded;
     }
 
+    public function extractTextFromImage(string $absolutePath, string $mimeType): ?string
+    {
+        if (! is_readable($absolutePath)) {
+            return null;
+        }
+
+        $contents = file_get_contents($absolutePath);
+
+        if ($contents === false) {
+            return null;
+        }
+
+        $base64 = base64_encode($contents);
+        $dataUri = "data:{$mimeType};base64,{$base64}";
+
+        $result = $this->chatWithUsage([
+            [
+                'role' => 'system',
+                'content' => 'You extract text from CV/resume images. Return plain text only with line breaks preserving structure. Include every word visible. Do not summarize or add commentary.',
+            ],
+            [
+                'role' => 'user',
+                'content' => [
+                    [
+                        'type' => 'text',
+                        'text' => 'Extract all text from this CV/resume image verbatim.',
+                    ],
+                    [
+                        'type' => 'image_url',
+                        'image_url' => [
+                            'url' => $dataUri,
+                        ],
+                    ],
+                ],
+            ],
+        ], [
+            'model' => config('cv.vision_model'),
+            'temperature' => 0,
+            'timeout' => (int) config('cv.vision_timeout', 120),
+        ]);
+
+        $content = $result['content'] ?? null;
+
+        return is_string($content) ? trim($content) : null;
+    }
+
     /**
-     * @param  array<array{role: string, content: string}>  $messages
+     * @param  array<array{role: string, content: string|array<int, mixed>}>  $messages
      */
     private function estimateTokens(array $messages): int
     {
         $characters = collect($messages)
-            ->pluck('content')
+            ->map(function (array $message): string {
+                $content = $message['content'];
+
+                if (is_string($content)) {
+                    return $content;
+                }
+
+                if (! is_array($content)) {
+                    return '';
+                }
+
+                return collect($content)
+                    ->map(function (mixed $part): string {
+                        if (is_string($part)) {
+                            return $part;
+                        }
+
+                        if (! is_array($part)) {
+                            return '';
+                        }
+
+                        return is_string($part['text'] ?? null) ? $part['text'] : '';
+                    })
+                    ->implode('');
+            })
             ->implode('');
 
         return max(1, (int) ceil(mb_strlen($characters) / 4));

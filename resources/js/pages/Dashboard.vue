@@ -7,49 +7,29 @@ import {
     Key,
     Loader2,
     Puzzle,
+    Upload,
     User,
-    X,
 } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
-import { updateProfile as cvProfileUpdate } from '@/actions/App/Http/Controllers/CvUploadController';
+import {
+    store as cvUpload,
+    updateProfile as cvProfileUpdate,
+} from '@/actions/App/Http/Controllers/CvUploadController';
+import CvProfileForm from '@/components/cv/CvProfileForm.vue';
 import billing from '@/routes/billing';
+import { useToastStore } from '@/stores/toastStore';
+import {
+    normalizeCvProfile,
+    type CvProfile,
+} from '@/types/cvProfile';
+import type {
+    DocumentCategoryOption,
+    ProfileDocument,
+} from '@/types/profileDocument';
 
 setLayoutProps({
     tagline: 'Your profile, ready to post.',
 });
-
-interface Experience {
-    title: string;
-    company: string;
-    location: string;
-    start_date: string;
-    end_date: string;
-    description: string;
-}
-
-interface Education {
-    degree: string;
-    institution: string;
-    location: string;
-    start_date: string;
-    end_date: string;
-}
-
-interface CvProfile {
-    id: number;
-    full_name: string | null;
-    email: string | null;
-    phone: string | null;
-    location: string | null;
-    linkedin_url: string | null;
-    website_url: string | null;
-    summary: string | null;
-    skills: string[];
-    experience: Experience[];
-    education: Education[];
-    extra_context: string | null;
-    parsing_complete: boolean;
-}
 
 interface SubscriptionSummary {
     tier_label: string;
@@ -63,14 +43,22 @@ interface SubscriptionSummary {
 const props = defineProps<{
     cvProfile: CvProfile;
     subscription: SubscriptionSummary;
+    documents: ProfileDocument[];
+    documentCategories: DocumentCategoryOption[];
 }>();
 
-const profile = ref<CvProfile>({ ...props.cvProfile });
+const profile = ref<CvProfile>(normalizeCvProfile(props.cvProfile));
+const documents = ref<ProfileDocument[]>([...props.documents]);
 const activeTab = ref<'profile' | 'experience' | 'extension'>('profile');
 const isSaving = ref(false);
-const newSkill = ref('');
+const isUploading = ref(false);
+const uploadError = ref<string | null>(null);
+const cvFileInput = ref<HTMLInputElement | null>(null);
 const extensionToken = ref<string | null>(null);
 const isGeneratingToken = ref(false);
+const toastStore = useToastStore();
+
+const experienceSections = ['experience', 'education'] as const;
 
 const tabs = [
     { key: 'profile' as const, label: 'CV profile', icon: User },
@@ -97,31 +85,127 @@ function formatAutofills(value: number): string {
     return new Intl.NumberFormat('en-GB').format(value);
 }
 
-function addSkill() {
-    const skill = newSkill.value.trim();
-
-    if (skill && !profile.value.skills.includes(skill)) {
-        profile.value.skills = [...profile.value.skills, skill];
-    }
-
-    newSkill.value = '';
+function openCvUpload(): void {
+    uploadError.value = null;
+    cvFileInput.value?.click();
 }
 
-function removeSkill(index: number) {
-    profile.value.skills = profile.value.skills.filter((_, i) => i !== index);
+function onCvFileSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+
+    if (file) {
+        uploadCv(file);
+    }
+
+    if (event.target instanceof HTMLInputElement) {
+        event.target.value = '';
+    }
+}
+
+function uploadCv(file: File): void {
+    const allowed = [
+        'application/pdf',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/msword',
+        'image/png',
+        'image/jpeg',
+        'image/webp',
+    ];
+
+    if (
+        !allowed.includes(file.type) &&
+        !file.name.match(/\.(pdf|docx|doc|png|jpe?g|webp)$/i)
+    ) {
+        uploadError.value =
+            'Please upload a PDF, Word document, or CV image (.pdf, .doc, .docx, .png, .jpg, .webp)';
+        toastStore.error(uploadError.value);
+
+        return;
+    }
+
+    isUploading.value = true;
+    uploadError.value = null;
+
+    const formData = new FormData();
+    formData.append('cv', file);
+
+    fetch(cvUpload().url, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN':
+                (
+                    document.querySelector(
+                        'meta[name="csrf-token"]',
+                    ) as HTMLMetaElement
+                )?.content ?? '',
+            Accept: 'application/json',
+        },
+        body: formData,
+    })
+        .then(async (response) => {
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message ?? 'Upload failed. Please try again.');
+            }
+
+            if (data.profile) {
+                profile.value = normalizeCvProfile({
+                    ...profile.value,
+                    ...data.profile,
+                });
+            }
+
+            activeTab.value = 'profile';
+
+            if (Array.isArray(data.documents)) {
+                documents.value = data.documents;
+            }
+
+            if (typeof data.warning === 'string') {
+                toastStore.warning(data.warning);
+            } else {
+                toastStore.success('CV uploaded. Review your updated profile below.');
+            }
+        })
+        .catch((error: Error) => {
+            uploadError.value = error.message;
+            toastStore.error(error.message);
+        })
+        .finally(() => {
+            isUploading.value = false;
+        });
+}
+
+function profilePayload(): Record<string, unknown> {
+    return {
+        full_name: profile.value.full_name,
+        headline: profile.value.headline,
+        email: profile.value.email,
+        phone: profile.value.phone,
+        location: profile.value.location,
+        city: profile.value.city,
+        postcode: profile.value.postcode,
+        country: profile.value.country,
+        linkedin_url: profile.value.linkedin_url,
+        website_url: profile.value.website_url,
+        summary: profile.value.summary,
+        skills: profile.value.skills,
+        experience: profile.value.experience,
+        education: profile.value.education,
+        structured_data: profile.value.structured_data,
+        formatted_cv_text: profile.value.formatted_cv_text,
+        extra_context: profile.value.extra_context,
+    };
 }
 
 function saveProfile() {
     isSaving.value = true;
-    router.patch(
-        cvProfileUpdate().url,
-        profile.value as Record<string, unknown>,
-        {
-            onFinish: () => {
-                isSaving.value = false;
-            },
+    router.patch(cvProfileUpdate().url, profilePayload(), {
+        onFinish: () => {
+            isSaving.value = false;
         },
-    );
+    });
 }
 
 async function generateToken() {
@@ -158,7 +242,7 @@ async function copyToken() {
 <template>
     <Head title="Dashboard — AutoCVApply" />
 
-    <div class="mb-8 flex items-center justify-between gap-4">
+    <div class="mb-8 flex flex-wrap items-start justify-between gap-4">
             <div>
                 <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
                     Your profile
@@ -167,12 +251,38 @@ async function copyToken() {
                     Edit details, review experience, connect the extension.
                 </p>
             </div>
-            <div
-                class="postbox-stamp flex size-12 shrink-0 items-center justify-center text-base"
-            >
-                {{ profile.full_name?.charAt(0)?.toUpperCase() ?? '?' }}
+            <div class="flex shrink-0 items-center gap-3">
+                <input
+                    ref="cvFileInput"
+                    type="file"
+                    class="sr-only"
+                    accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
+                    @change="onCvFileSelected"
+                />
+                <button
+                    type="button"
+                    class="postbox-btn-outline inline-flex items-center gap-2 text-sm"
+                    :disabled="isUploading"
+                    @click="openCvUpload"
+                >
+                    <Loader2 v-if="isUploading" class="size-4 animate-spin" />
+                    <Upload v-else class="size-4" />
+                    {{ isUploading ? 'Uploading…' : 'Replace CV' }}
+                </button>
+                <div
+                    class="postbox-stamp flex size-12 items-center justify-center text-base"
+                >
+                    {{ profile.full_name?.charAt(0)?.toUpperCase() ?? '?' }}
+                </div>
             </div>
         </div>
+
+        <p
+            v-if="uploadError"
+            class="postbox-panel mb-6 border-postbox-red/30 bg-postbox-red/5 p-4 text-sm text-postbox-navy"
+        >
+            {{ uploadError }}
+        </p>
 
     <div class="postbox-panel mb-8 p-5">
         <div class="flex flex-wrap items-start justify-between gap-4">
@@ -237,116 +347,11 @@ async function copyToken() {
         </div>
 
         <div v-if="activeTab === 'profile'" class="space-y-6">
-            <div class="postbox-panel p-6">
-                <h2 class="postbox-label">Basic information</h2>
-                <div class="grid gap-4 sm:grid-cols-2">
-                    <div>
-                        <label class="postbox-label">Full name</label>
-                        <input
-                            v-model="profile.full_name"
-                            type="text"
-                            class="postbox-input"
-                        />
-                    </div>
-                    <div>
-                        <label class="postbox-label">Email</label>
-                        <input
-                            v-model="profile.email"
-                            type="email"
-                            class="postbox-input"
-                        />
-                    </div>
-                    <div>
-                        <label class="postbox-label">Phone</label>
-                        <input
-                            v-model="profile.phone"
-                            type="text"
-                            class="postbox-input"
-                        />
-                    </div>
-                    <div>
-                        <label class="postbox-label">Location</label>
-                        <input
-                            v-model="profile.location"
-                            type="text"
-                            class="postbox-input"
-                        />
-                    </div>
-                    <div>
-                        <label class="postbox-label">LinkedIn</label>
-                        <input
-                            v-model="profile.linkedin_url"
-                            type="url"
-                            class="postbox-input"
-                        />
-                    </div>
-                    <div>
-                        <label class="postbox-label">Website</label>
-                        <input
-                            v-model="profile.website_url"
-                            type="url"
-                            class="postbox-input"
-                        />
-                    </div>
-                </div>
-            </div>
-
-            <div class="postbox-panel p-6">
-                <h2 class="postbox-label">Professional summary</h2>
-                <textarea
-                    v-model="profile.summary"
-                    rows="4"
-                    class="postbox-input"
-                />
-            </div>
-
-            <div class="postbox-panel p-6">
-                <h2 class="postbox-label">Skills</h2>
-                <div class="mb-3 flex flex-wrap gap-2">
-                    <span
-                        v-for="(skill, i) in profile.skills"
-                        :key="i"
-                        class="postbox-skill-tag"
-                    >
-                        {{ skill }}
-                        <button
-                            type="button"
-                            class="text-postbox-red"
-                            @click="removeSkill(i)"
-                        >
-                            <X class="size-3.5" />
-                        </button>
-                    </span>
-                </div>
-                <div class="flex gap-2">
-                    <input
-                        v-model="newSkill"
-                        type="text"
-                        class="postbox-input flex-1"
-                        placeholder="Add a skill…"
-                        @keydown.enter.prevent="addSkill"
-                    />
-                    <button
-                        type="button"
-                        class="postbox-btn-outline shrink-0"
-                        @click="addSkill"
-                    >
-                        Add
-                    </button>
-                </div>
-            </div>
-
-            <div class="postbox-panel p-6">
-                <h2 class="postbox-label">Extra context</h2>
-                <p class="mb-4 text-sm text-muted-foreground">
-                    Used when the extension fills longer or free-text fields.
-                </p>
-                <textarea
-                    v-model="profile.extra_context"
-                    rows="4"
-                    class="postbox-input"
-                />
-            </div>
+            <CvProfileForm
+                v-model="profile"
+                v-model:documents="documents"
+                :document-categories="documentCategories"
+            />
 
             <div class="flex justify-end">
                 <button
@@ -361,34 +366,38 @@ async function copyToken() {
             </div>
         </div>
 
-        <div v-else-if="activeTab === 'experience'">
-            <div v-if="profile.experience.length" class="space-y-4">
-                <article
-                    v-for="(exp, i) in profile.experience"
-                    :key="i"
-                    class="postbox-panel p-6"
-                >
-                    <p class="font-bold text-postbox-navy">{{ exp.title }}</p>
-                    <p class="text-sm font-semibold text-postbox-red">
-                        {{ exp.company }}
-                    </p>
-                    <p class="text-sm text-muted-foreground">
-                        {{ exp.location }} · {{ exp.start_date }} –
-                        {{ exp.end_date }}
-                    </p>
-                    <p
-                        v-if="exp.description"
-                        class="mt-3 text-sm leading-relaxed text-muted-foreground"
-                    >
-                        {{ exp.description }}
-                    </p>
-                </article>
-            </div>
+        <div v-else-if="activeTab === 'experience'" class="space-y-6">
+            <CvProfileForm
+                v-model="profile"
+                :sections="[...experienceSections]"
+            />
+
             <div
-                v-else
-                class="postbox-panel-muted border-dashed p-12 text-center text-muted-foreground"
+                v-if="!profile.experience.length && !profile.education.length"
+                class="postbox-panel-muted space-y-4 border-dashed p-12 text-center text-muted-foreground"
             >
-                Nothing extracted yet. Re-upload your CV from onboarding.
+                <p>Nothing extracted yet.</p>
+                <button
+                    type="button"
+                    class="postbox-btn-outline inline-flex items-center gap-2"
+                    :disabled="isUploading"
+                    @click="openCvUpload"
+                >
+                    <Upload class="size-4" />
+                    Replace CV
+                </button>
+            </div>
+
+            <div class="flex justify-end">
+                <button
+                    type="button"
+                    class="postbox-btn"
+                    :disabled="isSaving"
+                    @click="saveProfile"
+                >
+                    <Loader2 v-if="isSaving" class="size-4 animate-spin" />
+                    {{ isSaving ? 'Saving…' : 'Save changes' }}
+                </button>
             </div>
         </div>
 

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ProfileDocumentCategory;
+use App\Models\ProfileDocument;
+use App\Models\User;
 use App\Services\AiTokenService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,6 +29,7 @@ class OnboardingController extends Controller
         return Inertia::render('Onboarding', [
             'cvProfile' => $cvProfile,
             'hasUploadedCv' => $user->cvUploads()->exists(),
+            ...$this->documentPageProps($user),
         ]);
     }
 
@@ -41,6 +45,23 @@ class OnboardingController extends Controller
         return Inertia::render('Dashboard', [
             'cvProfile' => $cvProfile,
             'subscription' => $this->aiTokens->summary($user),
+            ...$this->documentPageProps($user),
         ]);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function documentPageProps(User $user): array
+    {
+        return [
+            'documents' => $user->profileDocuments()
+                ->latest()
+                ->get()
+                ->map(fn (ProfileDocument $document): array => $document->toFrontendArray())
+                ->values()
+                ->all(),
+            'documentCategories' => ProfileDocumentCategory::options(),
+        ];
     }
 }

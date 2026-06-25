@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
+import ThemeToggle from '@/components/ThemeToggle.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import billing from '@/routes/billing';
-import { index as blogIndex } from '@/routes/blog';
 import { dashboard } from '@/routes';
 import { edit as profileEdit } from '@/routes/profile';
 
@@ -18,12 +18,12 @@ const items = [
     { label: 'Dashboard', href: dashboard().url },
     { label: 'Billing', href: billing.index().url },
     { label: 'Settings', href: profileEdit().url },
-    { label: 'Blog', href: blogIndex().url },
 ] as const;
 </script>
 
 <template>
     <div class="flex flex-wrap items-center gap-2">
+        <ThemeToggle />
         <Link
             v-for="item in items"
             :key="item.label"

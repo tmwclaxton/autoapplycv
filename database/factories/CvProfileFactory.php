@@ -30,7 +30,10 @@ class CvProfileFactory extends Factory
                     'location' => fake()->city(),
                     'start_date' => '2021-01',
                     'end_date' => 'Present',
-                    'description' => fake()->sentence(),
+                    'is_current' => true,
+                    'description' => fake()->paragraph(),
+                    'highlights' => [fake()->sentence(), fake()->sentence()],
+                    'technologies' => ['PHP', 'Laravel'],
                 ],
             ],
             'education' => [
@@ -44,6 +47,16 @@ class CvProfileFactory extends Factory
             ],
             'extra_context' => null,
             'raw_cv_text' => null,
+            'formatted_cv_text' => null,
+            'structured_data' => [
+                'languages' => [['language' => 'English', 'proficiency' => 'Native']],
+                'certifications' => [],
+                'projects' => [],
+            ],
+            'headline' => fake()->jobTitle(),
+            'city' => fake()->city(),
+            'postcode' => fake()->postcode(),
+            'country' => 'United Kingdom',
             'parsing_complete' => false,
         ];
     }

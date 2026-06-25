@@ -22,7 +22,10 @@ echo "Running migrations..."
 compose exec -T app php artisan migrate --force
 
 echo "Ensuring public storage link..."
-compose exec -T app php artisan storage:link 2>/dev/null || true
+compose exec -T app php artisan storage:link --force --no-interaction 2>/dev/null || compose exec -T app php artisan storage:link --no-interaction 2>/dev/null || true
+
+echo "Backfilling blog hero images missing from disk..."
+compose exec -T app php artisan blog:backfill-hero-images --missing-files --no-interaction 2>/dev/null || true
 
 docker image prune -af
 docker builder prune -af

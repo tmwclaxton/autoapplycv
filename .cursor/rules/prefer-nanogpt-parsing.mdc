@@ -1,0 +1,26 @@
+---
+description: Prefer NanoGPT over regex for parsing unstructured or variable-format text
+alwaysApply: true
+---
+
+# Prefer NanoGPT for text parsing
+
+When extracting or interpreting text that may arrive in many different formats (CVs, resumes, employer forms, scraped HTML, OCR output, user-pasted content, etc.), **prefer NanoGPT** over regex, brittle string splitting, or hand-written parsers.
+
+## Do
+
+- Use `NanoGptService` (or a dedicated service that wraps it) with a clear JSON schema and system prompt.
+- Keep mechanical steps limited to file I/O: read PDF/Word bytes, **Tesseract OCR** for images and scanned PDFs, store uploads, persist results.
+- Preserve **verbatim source text** (`raw_cv_text`) plus a **NanoGPT-formatted** copy (`formatted_cv_text`) when tidying OCR/PDF noise.
+- Ask the model to capture **all sections**, use bullet arrays (`highlights`) instead of single paragraphs, and return `null`/`[]` rather than guessing.
+- Use **Tesseract + poppler (`pdftoppm`)** locally before NanoGPT; only fall back to NanoGPT vision OCR when Tesseract is unavailable or returns nothing.
+
+## Avoid
+
+- Regex-heavy CV section detection, date parsing chains, or custom NLP heuristics for varied inputs.
+- Collapsing multi-bullet roles into one `description` string.
+- Dropping uncommon sections (certifications, languages, projects, volunteering) because they are not in a fixed template.
+
+## Exception
+
+Simple, fully deterministic transforms are fine (trim, MIME checks, file extension allowlists, max length truncation before LLM calls).

@@ -23,6 +23,7 @@ RUN apt-get update && apt-get upgrade -y \
         libfreetype6-dev libjpeg62-turbo-dev libpng-dev libwebp-dev \
         ffmpeg nano dnsutils fswatch python3 librsvg2-bin \
         default-mysql-client postgresql-client \
+        tesseract-ocr tesseract-ocr-eng poppler-utils \
     && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \

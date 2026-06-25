@@ -79,6 +79,7 @@ RUN apt-get update && apt-get upgrade -y \
         php8.5-curl php8.5-mbstring php8.5-xml php8.5-zip php8.5-bcmath \
         php8.5-tokenizer php8.5-fileinfo php8.5-intl php8.5-redis \
         nginx \
+        tesseract-ocr tesseract-ocr-eng poppler-utils \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN curl -sLS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
@@ -105,4 +106,4 @@ RUN chmod +x /var/www/html/docker/production/start.sh 2>/dev/null || true
 
 EXPOSE 80
 
-ENTRYPOINT ["bash", "-c", "chown -R sail:sail /var/www/html/storage /var/www/html/bootstrap/cache && gosu sail php artisan config:cache && gosu sail php artisan route:cache && gosu sail php artisan view:cache && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf"]
+ENTRYPOINT ["bash", "-c", "chown -R sail:sail /var/www/html/storage /var/www/html/bootstrap/cache && gosu sail php artisan storage:link --force --no-interaction 2>/dev/null || gosu sail php artisan storage:link --no-interaction || true && gosu sail php artisan config:cache && gosu sail php artisan route:cache && gosu sail php artisan view:cache && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf"]

@@ -28,6 +28,8 @@ services:
       timeout: 5s
       start_period: 40s
     restart: unless-stopped
+    volumes:
+      - autocvapply-storage:/var/www/html/storage
 
   postgres:
     image: postgres:17
@@ -66,4 +68,6 @@ volumes:
   autocvapply-postgres:
     driver: local
   autocvapply-redis:
+    driver: local
+  autocvapply-storage:
     driver: local

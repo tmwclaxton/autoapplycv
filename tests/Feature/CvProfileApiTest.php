@@ -45,7 +45,19 @@ class CvProfileApiTest extends TestCase
             ->assertJsonPath('profile.email', 'john@example.com')
             ->assertJsonStructure([
                 'user' => ['name', 'email'],
-                'profile' => ['full_name', 'email', 'phone', 'skills', 'experience', 'education'],
+                'profile' => [
+                    'full_name',
+                    'headline',
+                    'email',
+                    'phone',
+                    'skills',
+                    'experience',
+                    'education',
+                    'structured_data',
+                    'formatted_cv_text',
+                    'extra_context',
+                ],
+                'documents',
                 'subscription' => [
                     'tier',
                     'tier_label',

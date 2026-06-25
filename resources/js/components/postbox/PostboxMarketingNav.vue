@@ -2,6 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { ArrowRight, Github } from 'lucide-vue-next';
 import { computed } from 'vue';
+import ThemeToggle from '@/components/ThemeToggle.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { GITHUB_REPOSITORY_URL, MARKETING_NAV_LINKS } from '@/lib/site';
 import {
@@ -36,6 +37,7 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
 
 <template>
     <div class="flex flex-wrap items-center gap-2">
+        <ThemeToggle />
         <Link
             :href="home()"
             class="postbox-btn-ghost hidden border-2 text-sm sm:inline-flex"

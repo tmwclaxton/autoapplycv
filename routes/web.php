@@ -9,6 +9,7 @@ use App\Http\Controllers\CvUploadController;
 use App\Http\Controllers\GoCardlessWebhookController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\PricingController;
+use App\Http\Controllers\ProfileDocumentController;
 use App\Http\Controllers\Settings\ProfileController as SettingsProfileController;
 use Illuminate\Support\Facades\Route;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
@@ -32,6 +33,10 @@ Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function ()
     Route::post('/cv/upload', [CvUploadController::class, 'store'])->name('cv.upload');
     Route::patch('/cv/profile', [CvUploadController::class, 'updateProfile'])->name('cv.profile.update');
 
+    Route::post('/profile/documents', [ProfileDocumentController::class, 'store'])->name('profile.documents.store');
+    Route::delete('/profile/documents/{profileDocument}', [ProfileDocumentController::class, 'destroy'])->name('profile.documents.destroy');
+    Route::get('/profile/documents/{profileDocument}/download', [ProfileDocumentController::class, 'download'])->name('profile.documents.download');
+
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
     Route::post('/billing/checkout', [BillingController::class, 'checkout'])->name('billing.checkout');
     Route::get('/billing/complete', [BillingController::class, 'complete'])->name('billing.complete');
@@ -45,6 +50,7 @@ Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function ()
 
 Route::middleware(['auth:sanctum'])->prefix('api')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('api.profile');
+    Route::get('/profile/documents/{profileDocument}/download', [ProfileDocumentController::class, 'download'])->name('api.profile.documents.download');
     Route::post('/autofill', [AutofillController::class, 'store'])->name('api.autofill');
     Route::post('/tokens', [ExtensionTokenController::class, 'store'])->name('api.tokens.store');
     Route::delete('/tokens/{token}', [ExtensionTokenController::class, 'destroy'])->name('api.tokens.destroy');

@@ -1,5 +1,5 @@
 import type { Ref } from 'vue';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import type { Appearance } from '@/types';
 
 export type { Appearance };
@@ -47,7 +47,7 @@ const mediaQuery = () => {
     return window.matchMedia('(prefers-color-scheme: dark)');
 };
 
-const getStoredAppearance = () => {
+const getStoredAppearance = (): Appearance | null => {
     if (typeof window === 'undefined') {
         return null;
     }
@@ -74,19 +74,11 @@ export function initializeTheme(): void {
     mediaQuery()?.addEventListener('change', handleSystemThemeChange);
 }
 
-const appearance = ref<Appearance>('system');
+const appearance = ref<Appearance>(
+    getStoredAppearance() ?? 'system',
+);
 
 export function useAppearance(): UseAppearanceReturn {
-    onMounted(() => {
-        const savedAppearance = localStorage.getItem(
-            'appearance',
-        ) as Appearance | null;
-
-        if (savedAppearance) {
-            appearance.value = savedAppearance;
-        }
-    });
-
     function updateAppearance(value: Appearance) {
         appearance.value = value;
 

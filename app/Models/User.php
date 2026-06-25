@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(CvUpload::class);
     }
+
+    public function profileDocuments(): HasMany
+    {
+        return $this->hasMany(ProfileDocument::class);
+    }
 }

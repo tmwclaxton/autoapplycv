@@ -23,7 +23,7 @@ const tabs = [
             :class="[
                 'flex items-center border-2 px-3.5 py-1.5 text-sm transition-colors',
                 appearance === value
-                    ? 'border-postbox-red bg-white text-postbox-navy shadow-sm'
+                    ? 'border-postbox-red bg-postbox-surface text-postbox-navy shadow-sm'
                     : 'border-transparent text-muted-foreground hover:border-postbox-navy/30 hover:text-postbox-navy',
             ]"
         >

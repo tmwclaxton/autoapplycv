@@ -30,17 +30,29 @@ class ProfileController extends Controller
             ],
             'profile' => [
                 'full_name' => $profile->full_name ?? $user->name,
+                'headline' => $profile->headline,
                 'email' => $profile->email ?? $user->email,
                 'phone' => $profile->phone,
                 'location' => $profile->location,
+                'city' => $profile->city,
+                'postcode' => $profile->postcode,
+                'country' => $profile->country,
                 'linkedin_url' => $profile->linkedin_url,
                 'website_url' => $profile->website_url,
                 'summary' => $profile->summary,
                 'skills' => $profile->skills ?? [],
                 'experience' => $profile->experience ?? [],
                 'education' => $profile->education ?? [],
+                'structured_data' => $profile->structured_data ?? [],
+                'formatted_cv_text' => $profile->formatted_cv_text,
                 'extra_context' => $profile->extra_context,
             ],
+            'documents' => $user->profileDocuments()
+                ->latest()
+                ->get()
+                ->map(fn ($document) => $document->toFrontendArray('api.profile.documents.download'))
+                ->values()
+                ->all(),
             'subscription' => $this->aiTokens->summary($user),
         ]);
     }

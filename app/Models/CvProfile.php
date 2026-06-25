@@ -13,17 +13,23 @@ class CvProfile extends Model
     protected $fillable = [
         'user_id',
         'full_name',
+        'headline',
         'email',
         'phone',
         'location',
+        'city',
+        'postcode',
+        'country',
         'linkedin_url',
         'website_url',
         'summary',
         'skills',
         'experience',
         'education',
+        'structured_data',
         'extra_context',
         'raw_cv_text',
+        'formatted_cv_text',
         'parsing_complete',
     ];
 
@@ -33,6 +39,7 @@ class CvProfile extends Model
             'skills' => 'array',
             'experience' => 'array',
             'education' => 'array',
+            'structured_data' => 'array',
             'parsing_complete' => 'boolean',
         ];
     }

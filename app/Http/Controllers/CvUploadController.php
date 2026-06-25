@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ProfileDocumentCategory;
 use App\Models\CvProfile;
 use App\Models\CvUpload;
+use App\Models\ProfileDocument;
 use App\Models\User;
 use App\Services\AiTokenService;
+use App\Services\CvExtractionService;
 use App\Services\CvParserService;
-use App\Services\NanoGptService;
+use App\Support\CvExtractionSchema;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,16 +20,18 @@ class CvUploadController extends Controller
 {
     public function __construct(
         private readonly CvParserService $cvParser,
-        private readonly NanoGptService $nanoGpt,
+        private readonly CvExtractionService $cvExtraction,
         private readonly AiTokenService $aiTokens,
     ) {}
 
     public function store(Request $request): JsonResponse
     {
+        set_time_limit((int) config('cv.upload_time_limit', 300));
+
         $request->validate([
             'cv' => [
                 'required',
-                File::types(['pdf', 'doc', 'docx'])
+                File::types(config('cv.allowed_mimes', ['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg', 'webp']))
                     ->max('10mb'),
             ],
         ]);
@@ -35,6 +40,8 @@ class CvUploadController extends Controller
         $user = $request->user();
 
         $rawText = $this->cvParser->extractText($file);
+        $extractedUrls = $this->cvParser->extractHyperlinks($file);
+        $rawText = CvExtractionSchema::appendHyperlinksToRawText($rawText, $extractedUrls);
 
         $storedPath = $file->store("cv-uploads/{$user->id}", 'local');
 
@@ -46,7 +53,17 @@ class CvUploadController extends Controller
             'file_size' => $file->getSize(),
         ]);
 
-        $parsed = $this->parseWithAi($user, $rawText);
+        ProfileDocument::create([
+            'user_id' => $user->id,
+            'category' => ProfileDocumentCategory::Cv,
+            'title' => pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) ?: 'CV',
+            'original_filename' => $file->getClientOriginalName(),
+            'stored_path' => $storedPath,
+            'mime_type' => $file->getMimeType() ?? 'application/octet-stream',
+            'file_size' => $file->getSize(),
+        ]);
+
+        $parsed = $this->parseWithAi($user, $rawText, $file->getClientOriginalName(), $extractedUrls);
 
         $profile = CvProfile::updateOrCreate(
             ['user_id' => $user->id],
@@ -56,26 +73,44 @@ class CvUploadController extends Controller
             ])
         );
 
-        return response()->json([
+        $response = [
             'success' => true,
             'profile' => $profile,
             'subscription' => $this->aiTokens->summary($user),
-        ]);
+            'documents' => $user->profileDocuments()
+                ->latest()
+                ->get()
+                ->map(fn (ProfileDocument $document): array => $document->toFrontendArray())
+                ->values()
+                ->all(),
+        ];
+
+        if ($parsed === null && $rawText !== '') {
+            $response['warning'] = 'We saved your CV but AI parsing timed out or failed. Your raw text is stored — try uploading again in a moment or edit the profile manually.';
+        }
+
+        return response()->json($response);
     }
 
     public function updateProfile(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'full_name' => 'nullable|string|max:255',
+            'headline' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:50',
             'location' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'postcode' => 'nullable|string|max:32',
+            'country' => 'nullable|string|max:255',
             'linkedin_url' => 'nullable|url|max:500',
             'website_url' => 'nullable|url|max:500',
             'summary' => 'nullable|string',
             'skills' => 'nullable|array',
             'experience' => 'nullable|array',
             'education' => 'nullable|array',
+            'structured_data' => 'nullable|array',
+            'formatted_cv_text' => 'nullable|string',
             'extra_context' => 'nullable|string',
         ]);
 
@@ -90,46 +125,10 @@ class CvUploadController extends Controller
     /**
      * @return array<string, mixed>|null
      */
-    private function parseWithAi(User $user, string $rawText): ?array
+    private function parseWithAi(User $user, string $rawText, string $filename, array $extractedUrls = []): ?array
     {
-        if (empty(trim($rawText))) {
-            return null;
-        }
+        unset($user);
 
-        $truncated = mb_substr($rawText, 0, 8000);
-
-        $result = $this->nanoGpt->chatJson([
-            [
-                'role' => 'system',
-                'content' => 'You are a CV/resume parser. Extract structured data from the provided CV text and return valid JSON only.',
-            ],
-            [
-                'role' => 'user',
-                'content' => <<<PROMPT
-                Parse this CV and return a JSON object with these exact keys:
-                - full_name (string)
-                - email (string)
-                - phone (string)
-                - location (string, city/country)
-                - linkedin_url (string or null)
-                - website_url (string or null)
-                - summary (string, 2-3 sentence professional summary)
-                - skills (array of strings)
-                - experience (array of objects with: title, company, location, start_date, end_date, description)
-                - education (array of objects with: degree, institution, location, start_date, end_date)
-
-                CV text:
-                {$truncated}
-                PROMPT,
-            ],
-        ]);
-
-        if ($result === null) {
-            return null;
-        }
-
-        unset($result['_tokens_used']);
-
-        return $result;
+        return $this->cvExtraction->extract($rawText, $filename, $extractedUrls);
     }
 }

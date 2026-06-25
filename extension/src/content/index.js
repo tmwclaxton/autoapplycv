@@ -137,11 +137,13 @@ function fillForm(platformConfig, p, maxFields = Infinity) {
         lastName: getLastName(profileData.full_name),
         email: profileData.email,
         phone: profileData.phone,
-        address: profileData.location,
-        city: profileData.location?.split(',')[0]?.trim(),
+        address: profileData.location ?? profileData.structured_data?.address_line_1,
+        city: profileData.city ?? profileData.location?.split(',')[0]?.trim(),
+        postcode: profileData.postcode,
+        country: profileData.country,
         linkedin: profileData.linkedin_url,
         website: profileData.website_url,
-        coverLetter: profileData.summary,
+        coverLetter: profileData.summary ?? profileData.formatted_cv_text?.slice(0, 2000),
     };
 
     for (const [fieldKey, value] of Object.entries(fieldMappings)) {

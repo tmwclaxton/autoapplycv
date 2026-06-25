@@ -20,6 +20,7 @@
     --color-postbox-grey: var(--postbox-grey);
     --color-postbox-grey-dark: var(--postbox-grey-dark);
     --color-postbox-ink: var(--postbox-ink);
+    --color-postbox-surface: var(--postbox-surface);
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -104,6 +105,9 @@
     --postbox-grey: #e8e6e1;
     --postbox-grey-dark: #6b6b6b;
     --postbox-ink: #1a1a2e;
+    --postbox-surface: #ffffff;
+    --postbox-panel-shadow: 4px 4px 0 rgb(27 54 93 / 8%);
+    --postbox-stamp-shadow: 2px 2px 0 rgb(200 16 46 / 20%);
 
     --background: var(--postbox-paper);
     --foreground: var(--postbox-ink);
@@ -142,25 +146,34 @@
 }
 
 .dark {
-    --background: hsl(0 0% 3.9%);
-    --foreground: hsl(0 0% 98%);
-    --card: hsl(0 0% 3.9%);
-    --card-foreground: hsl(0 0% 98%);
-    --popover: hsl(0 0% 3.9%);
-    --popover-foreground: hsl(0 0% 98%);
-    --primary: hsl(0 0% 98%);
-    --primary-foreground: hsl(0 0% 9%);
-    --secondary: hsl(0 0% 14.9%);
-    --secondary-foreground: hsl(0 0% 98%);
-    --muted: hsl(0 0% 16.08%);
-    --muted-foreground: hsl(0 0% 63.9%);
-    --accent: hsl(0 0% 14.9%);
-    --accent-foreground: hsl(0 0% 98%);
+    --postbox-paper: #0f1219;
+    --postbox-navy: #8eb4d8;
+    --postbox-grey: #1a2030;
+    --postbox-grey-dark: #94a3b8;
+    --postbox-ink: #e8eaef;
+    --postbox-surface: #161b27;
+    --postbox-panel-shadow: 4px 4px 0 rgb(0 0 0 / 30%);
+    --postbox-stamp-shadow: 2px 2px 0 rgb(200 16 46 / 35%);
+
+    --background: var(--postbox-paper);
+    --foreground: var(--postbox-ink);
+    --card: var(--postbox-surface);
+    --card-foreground: var(--postbox-ink);
+    --popover: var(--postbox-surface);
+    --popover-foreground: var(--postbox-ink);
+    --primary: var(--postbox-red);
+    --primary-foreground: #ffffff;
+    --secondary: var(--postbox-grey);
+    --secondary-foreground: var(--postbox-ink);
+    --muted: var(--postbox-grey);
+    --muted-foreground: var(--postbox-grey-dark);
+    --accent: var(--postbox-grey);
+    --accent-foreground: var(--postbox-ink);
     --destructive: hsl(0 84% 60%);
     --destructive-foreground: hsl(0 0% 98%);
-    --border: hsl(0 0% 14.9%);
-    --input: hsl(0 0% 14.9%);
-    --ring: hsl(0 0% 83.1%);
+    --border: hsl(215 20% 24%);
+    --input: hsl(215 20% 24%);
+    --ring: var(--postbox-navy);
     --chart-1: hsl(220 70% 50%);
     --chart-2: hsl(160 60% 45%);
     --chart-3: hsl(30 80% 55%);
@@ -194,7 +207,7 @@
 
     .postbox-bar-top {
         border-bottom: 2px solid var(--postbox-navy);
-        background: #ffffff;
+        background: var(--postbox-surface);
         box-shadow: inset 0 4px 0 var(--postbox-red);
     }
 
@@ -209,8 +222,8 @@
 
     .postbox-panel {
         border: 2px solid var(--postbox-navy);
-        background: #ffffff;
-        box-shadow: 4px 4px 0 rgb(27 54 93 / 8%);
+        background: var(--postbox-surface);
+        box-shadow: var(--postbox-panel-shadow);
     }
 
     .postbox-panel-muted {
@@ -220,17 +233,17 @@
 
     .postbox-stamp {
         border: 2px solid var(--postbox-red);
-        background: #ffffff;
+        background: var(--postbox-surface);
         color: var(--postbox-red);
         transform: rotate(-4deg);
-        box-shadow: 2px 2px 0 rgb(200 16 46 / 20%);
+        box-shadow: var(--postbox-stamp-shadow);
     }
 
     .postbox-badge {
         display: inline-flex;
         align-items: center;
         border: 2px solid var(--postbox-navy);
-        background: #ffffff;
+        background: var(--postbox-surface);
         padding: 0.25rem 0.625rem;
         font-size: 0.6875rem;
         font-weight: 700;
@@ -290,7 +303,7 @@
         justify-content: center;
         gap: 0.5rem;
         border: 2px solid var(--postbox-navy);
-        background: #ffffff;
+        background: var(--postbox-surface);
         padding: 0.625rem 1.25rem;
         font-size: 0.875rem;
         font-weight: 700;
@@ -329,7 +342,7 @@
     .postbox-input {
         width: 100%;
         border: 2px solid var(--postbox-navy);
-        background: #ffffff;
+        background: var(--postbox-surface);
         padding: 0.625rem 0.875rem;
         font-size: 0.875rem;
         color: var(--postbox-ink);
@@ -342,7 +355,7 @@
 
     .postbox-dropzone {
         border: 2px dashed var(--postbox-navy);
-        background: #ffffff;
+        background: var(--postbox-surface);
         cursor: pointer;
         transition:
             border-color 150ms ease,
@@ -369,7 +382,7 @@
 
     .postbox-step-pending {
         border-color: var(--postbox-navy);
-        background: #ffffff;
+        background: var(--postbox-surface);
         color: var(--postbox-grey-dark);
     }
 

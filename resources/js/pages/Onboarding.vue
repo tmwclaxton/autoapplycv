@@ -1,51 +1,33 @@
 <script setup lang="ts">
 import { Head, Link, router, setLayoutProps } from '@inertiajs/vue3';
-import { Check, Chrome, Download, Loader2, Upload, X } from 'lucide-vue-next';
+import { Check, Chrome, Download, Loader2, Upload } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import {
     store as cvUpload,
     updateProfile as cvProfileUpdate,
 } from '@/actions/App/Http/Controllers/CvUploadController';
+import CvProfileForm from '@/components/cv/CvProfileForm.vue';
 import { dashboard } from '@/routes';
+import {
+    normalizeCvProfile,
+    type CvProfile,
+} from '@/types/cvProfile';
+import type {
+    DocumentCategoryOption,
+    ProfileDocument,
+} from '@/types/profileDocument';
+
+const props = defineProps<{
+    cvProfile: CvProfile | null;
+    hasUploadedCv: boolean;
+    documents: ProfileDocument[];
+    documentCategories: DocumentCategoryOption[];
+}>();
 
 setLayoutProps({
     tagline: 'One CV. Many applications.',
     maxWidth: '4xl',
 });
-
-interface CvProfile {
-    id?: number;
-    full_name: string | null;
-    email: string | null;
-    phone: string | null;
-    location: string | null;
-    linkedin_url: string | null;
-    website_url: string | null;
-    summary: string | null;
-    skills: string[];
-    experience: Array<{
-        title: string;
-        company: string;
-        location: string;
-        start_date: string;
-        end_date: string;
-        description: string;
-    }>;
-    education: Array<{
-        degree: string;
-        institution: string;
-        location: string;
-        start_date: string;
-        end_date: string;
-    }>;
-    extra_context: string | null;
-    parsing_complete: boolean;
-}
-
-const props = defineProps<{
-    cvProfile: CvProfile | null;
-    hasUploadedCv: boolean;
-}>();
 
 const step = ref<'upload' | 'review' | 'download'>(
     props.cvProfile?.parsing_complete
@@ -59,24 +41,9 @@ const isDragging = ref(false);
 const isUploading = ref(false);
 const uploadError = ref<string | null>(null);
 const selectedFile = ref<File | null>(null);
-const profile = ref<CvProfile>(
-    props.cvProfile ?? {
-        full_name: null,
-        email: null,
-        phone: null,
-        location: null,
-        linkedin_url: null,
-        website_url: null,
-        summary: null,
-        skills: [],
-        experience: [],
-        education: [],
-        extra_context: null,
-        parsing_complete: false,
-    },
-);
+const profile = ref<CvProfile>(normalizeCvProfile(props.cvProfile));
+const documents = ref<ProfileDocument[]>([...props.documents]);
 const isSaving = ref(false);
-const newSkill = ref('');
 
 const steps = [
     { key: 'upload', label: 'Upload' },
@@ -122,14 +89,17 @@ function handleFile(file: File) {
         'application/pdf',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'application/msword',
+        'image/png',
+        'image/jpeg',
+        'image/webp',
     ];
 
     if (
         !allowed.includes(file.type) &&
-        !file.name.match(/\.(pdf|docx|doc)$/i)
+        !file.name.match(/\.(pdf|docx|doc|png|jpe?g|webp)$/i)
     ) {
         uploadError.value =
-            'Please upload a PDF or Word document (.pdf, .doc, .docx)';
+            'Please upload a PDF, Word document, or CV image (.pdf, .doc, .docx, .png, .jpg, .webp)';
 
         return;
     }
@@ -175,7 +145,15 @@ async function uploadCv() {
         }
 
         if (data.profile) {
-            profile.value = data.profile;
+            profile.value = normalizeCvProfile(data.profile);
+        }
+
+        if (Array.isArray(data.documents)) {
+            documents.value = data.documents;
+        }
+
+        if (typeof data.warning === 'string') {
+            uploadError.value = data.warning;
         }
 
         step.value = 'review';
@@ -186,25 +164,29 @@ async function uploadCv() {
     }
 }
 
-function addSkill() {
-    const skill = newSkill.value.trim();
-
-    if (skill && !profile.value.skills.includes(skill)) {
-        profile.value.skills = [...profile.value.skills, skill];
-    }
-
-    newSkill.value = '';
-}
-
-function removeSkill(index: number) {
-    profile.value.skills = profile.value.skills.filter((_, i) => i !== index);
-}
-
 async function saveProfile() {
     isSaving.value = true;
     router.patch(
         cvProfileUpdate().url,
-        profile.value as Record<string, unknown>,
+        {
+            full_name: profile.value.full_name,
+            headline: profile.value.headline,
+            email: profile.value.email,
+            phone: profile.value.phone,
+            location: profile.value.location,
+            city: profile.value.city,
+            postcode: profile.value.postcode,
+            country: profile.value.country,
+            linkedin_url: profile.value.linkedin_url,
+            website_url: profile.value.website_url,
+            summary: profile.value.summary,
+            skills: profile.value.skills,
+            experience: profile.value.experience,
+            education: profile.value.education,
+            structured_data: profile.value.structured_data,
+            formatted_cv_text: profile.value.formatted_cv_text,
+            extra_context: profile.value.extra_context,
+        },
         {
             onSuccess: () => {
                 step.value = 'download';
@@ -270,7 +252,7 @@ async function saveProfile() {
                 <input
                     ref="fileInput"
                     type="file"
-                    accept=".pdf,.doc,.docx"
+                    accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
                     class="hidden"
                     @change="onFileInput"
                 />
@@ -282,7 +264,7 @@ async function saveProfile() {
                     <Loader2 class="size-10 animate-spin text-postbox-red" />
                     <p class="font-bold text-postbox-navy">Reading your CV…</p>
                     <p class="text-sm text-muted-foreground">
-                        About ten seconds, give or take.
+                        Usually under a minute — large CVs can take a bit longer.
                     </p>
                 </div>
                 <div v-else class="flex flex-col items-center gap-4">
@@ -296,7 +278,7 @@ async function saveProfile() {
                             Drop your file here or click to browse
                         </p>
                         <p class="mt-1 text-sm text-muted-foreground">
-                            PDF, DOC, or DOCX — up to 10MB
+                            PDF, Word, or image — up to 10MB
                         </p>
                     </div>
                 </div>
@@ -311,145 +293,43 @@ async function saveProfile() {
         </div>
 
         <div v-else-if="step === 'review'">
-            <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
-                Check the details
-            </h1>
-            <p class="mt-2 text-muted-foreground">
-                Fix anything we got wrong before you stamp forms with it.
-            </p>
-
-            <div class="mt-8 space-y-6">
-                <div class="postbox-panel p-6">
-                    <h2 class="postbox-label">Basic information</h2>
-                    <div class="grid gap-4 sm:grid-cols-2">
-                        <div>
-                            <label class="postbox-label">Full name</label>
-                            <input
-                                v-model="profile.full_name"
-                                type="text"
-                                class="postbox-input"
-                                placeholder="Your full name"
-                            />
-                        </div>
-                        <div>
-                            <label class="postbox-label">Email</label>
-                            <input
-                                v-model="profile.email"
-                                type="email"
-                                class="postbox-input"
-                                placeholder="you@example.com"
-                            />
-                        </div>
-                        <div>
-                            <label class="postbox-label">Phone</label>
-                            <input
-                                v-model="profile.phone"
-                                type="text"
-                                class="postbox-input"
-                                placeholder="+44 7700 000000"
-                            />
-                        </div>
-                        <div>
-                            <label class="postbox-label">Location</label>
-                            <input
-                                v-model="profile.location"
-                                type="text"
-                                class="postbox-input"
-                                placeholder="London, UK"
-                            />
-                        </div>
-                        <div>
-                            <label class="postbox-label">LinkedIn</label>
-                            <input
-                                v-model="profile.linkedin_url"
-                                type="url"
-                                class="postbox-input"
-                                placeholder="https://linkedin.com/in/you"
-                            />
-                        </div>
-                        <div>
-                            <label class="postbox-label">Website</label>
-                            <input
-                                v-model="profile.website_url"
-                                type="url"
-                                class="postbox-input"
-                                placeholder="https://yoursite.com"
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="postbox-panel p-6">
-                    <h2 class="postbox-label">Professional summary</h2>
-                    <textarea
-                        v-model="profile.summary"
-                        rows="4"
-                        class="postbox-input"
-                        placeholder="A brief summary about yourself…"
-                    />
-                </div>
-
-                <div class="postbox-panel p-6">
-                    <h2 class="postbox-label">Skills</h2>
-                    <div class="mb-3 flex flex-wrap gap-2">
-                        <span
-                            v-for="(skill, i) in profile.skills"
-                            :key="i"
-                            class="postbox-skill-tag"
-                        >
-                            {{ skill }}
-                            <button
-                                type="button"
-                                class="text-postbox-red hover:text-destructive"
-                                @click="removeSkill(i)"
-                            >
-                                <X class="size-3.5" />
-                            </button>
-                        </span>
-                    </div>
-                    <div class="flex gap-2">
-                        <input
-                            v-model="newSkill"
-                            type="text"
-                            class="postbox-input flex-1"
-                            placeholder="Add a skill…"
-                            @keydown.enter.prevent="addSkill"
-                        />
-                        <button
-                            type="button"
-                            class="postbox-btn-outline shrink-0"
-                            @click="addSkill"
-                        >
-                            Add
-                        </button>
-                    </div>
-                </div>
-
-                <div class="postbox-panel p-6">
-                    <h2 class="postbox-label">Extra context</h2>
-                    <p class="mb-4 text-sm text-muted-foreground">
-                        Visa status, notice period, salary floor, cover letter
-                        tone — anything the extension should know.
+            <div class="flex flex-wrap items-start justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
+                        Check the details
+                    </h1>
+                    <p class="mt-2 text-muted-foreground">
+                        Fix anything we got wrong before you stamp forms with it.
                     </p>
-                    <textarea
-                        v-model="profile.extra_context"
-                        rows="4"
-                        class="postbox-input"
-                        placeholder="E.g. Authorised to work in the UK. Four weeks' notice. Senior roles in fintech preferred."
-                    />
                 </div>
+                <button
+                    type="button"
+                    class="postbox-btn-outline inline-flex items-center gap-2 text-sm"
+                    :disabled="isUploading"
+                    @click="step = 'upload'"
+                >
+                    <Upload class="size-4" />
+                    Upload a different CV
+                </button>
+            </div>
 
-                <div class="flex justify-end">
-                    <button
-                        type="button"
-                        class="postbox-btn"
-                        :disabled="isSaving"
-                        @click="saveProfile"
-                    >
-                        <Loader2 v-if="isSaving" class="size-4 animate-spin" />
-                        {{ isSaving ? 'Saving…' : 'Save & continue' }}
-                    </button>
-                </div>
+            <CvProfileForm
+                v-model="profile"
+                v-model:documents="documents"
+                :document-categories="documentCategories"
+                class="mt-8"
+            />
+
+            <div class="flex justify-end">
+                <button
+                    type="button"
+                    class="postbox-btn"
+                    :disabled="isSaving"
+                    @click="saveProfile"
+                >
+                    <Loader2 v-if="isSaving" class="size-4 animate-spin" />
+                    {{ isSaving ? 'Saving…' : 'Save & continue' }}
+                </button>
             </div>
         </div>
 
@@ -522,10 +402,17 @@ async function saveProfile() {
                     </ol>
                 </div>
 
-                <div class="text-center">
+                <div class="flex flex-col items-center gap-3 text-center">
                     <Link :href="dashboard()" class="postbox-link text-sm">
                         Go to dashboard →
                     </Link>
+                    <button
+                        type="button"
+                        class="postbox-link text-sm"
+                        @click="step = 'upload'"
+                    >
+                        Upload a different CV
+                    </button>
                 </div>
             </div>
         </div>
