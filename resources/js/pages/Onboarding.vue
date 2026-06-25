@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, router, setLayoutProps } from '@inertiajs/vue3';
 import { Check, Chrome, Download, Loader2, Upload } from 'lucide-vue-next';
-import { computed, ref } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 import {
     store as cvUpload,
     updateProfile as cvProfileUpdate,
@@ -157,6 +157,12 @@ async function uploadCv() {
         }
 
         step.value = 'review';
+
+        await nextTick();
+        document.getElementById('profile-documents')?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+        });
     } catch {
         uploadError.value = 'Something went wrong. Please try again.';
     } finally {

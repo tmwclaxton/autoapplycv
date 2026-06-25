@@ -123,7 +123,7 @@ async function removeDocument(documentId: number): Promise<void> {
 </script>
 
 <template>
-    <div class="postbox-panel p-6">
+    <div id="profile-documents" class="postbox-panel p-6">
         <h2 class="postbox-label">Documents</h2>
         <p class="mb-6 text-sm text-muted-foreground">
             Store your CV, degree certificates, reference letters, and anything

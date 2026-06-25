@@ -24,6 +24,9 @@ compose exec -T app php artisan migrate --force
 echo "Ensuring public storage link..."
 compose exec -T app php artisan storage:link --force --no-interaction 2>/dev/null || compose exec -T app php artisan storage:link --no-interaction 2>/dev/null || true
 
+echo "Backfilling profile documents from CV uploads..."
+compose exec -T app php artisan cv:backfill-profile-documents --no-interaction 2>/dev/null || true
+
 echo "Backfilling blog hero images missing from disk..."
 compose exec -T app php artisan blog:backfill-hero-images --missing-files --no-interaction 2>/dev/null || true
 

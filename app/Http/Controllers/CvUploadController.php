@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ProfileDocumentCategory;
 use App\Models\CvProfile;
 use App\Models\CvUpload;
 use App\Models\ProfileDocument;
@@ -10,6 +9,7 @@ use App\Models\User;
 use App\Services\AiTokenService;
 use App\Services\CvExtractionService;
 use App\Services\CvParserService;
+use App\Services\CvProfileDocumentService;
 use App\Support\CvExtractionSchema;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -22,6 +22,7 @@ class CvUploadController extends Controller
         private readonly CvParserService $cvParser,
         private readonly CvExtractionService $cvExtraction,
         private readonly AiTokenService $aiTokens,
+        private readonly CvProfileDocumentService $cvDocuments,
     ) {}
 
     public function store(Request $request): JsonResponse
@@ -53,15 +54,13 @@ class CvUploadController extends Controller
             'file_size' => $file->getSize(),
         ]);
 
-        ProfileDocument::create([
-            'user_id' => $user->id,
-            'category' => ProfileDocumentCategory::Cv,
-            'title' => pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) ?: 'CV',
-            'original_filename' => $file->getClientOriginalName(),
-            'stored_path' => $storedPath,
-            'mime_type' => $file->getMimeType() ?? 'application/octet-stream',
-            'file_size' => $file->getSize(),
-        ]);
+        $this->cvDocuments->recordCvUpload(
+            $user,
+            $storedPath,
+            $file->getClientOriginalName(),
+            $file->getMimeType(),
+            (int) $file->getSize(),
+        );
 
         $parsed = $this->parseWithAi($user, $rawText, $file->getClientOriginalName(), $extractedUrls);
 

@@ -15,7 +15,7 @@ import JobApplicationsPanel, {
     type JobApplicationRecord,
 } from '@/components/cv/JobApplicationsPanel.vue';
 import ApplicationToolsPanel from '@/components/cv/ApplicationToolsPanel.vue';
-import { computed, ref } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 import {
     store as cvUpload,
     updateProfile as cvProfileUpdate,
@@ -170,10 +170,18 @@ function uploadCv(file: File): void {
                 documents.value = data.documents;
             }
 
+            await nextTick();
+            document.getElementById('profile-documents')?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            });
+
             if (typeof data.warning === 'string') {
                 toastStore.warning(data.warning);
             } else {
-                toastStore.success('CV uploaded. Review your updated profile below.');
+                toastStore.success(
+                    'CV uploaded, parsed, and saved to your Documents section.',
+                );
             }
         })
         .catch((error: Error) => {

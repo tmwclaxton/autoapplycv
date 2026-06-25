@@ -101,7 +101,9 @@ class CvUploadTest extends TestCase
             ->assertJsonPath('profile.full_name', 'Alex Developer')
             ->assertJsonPath('profile.raw_cv_text', 'Raw PDF extract for Alex Developer')
             ->assertJsonPath('profile.formatted_cv_text', "Alex Developer\nSenior Developer at Example Ltd")
-            ->assertJsonPath('profile.structured_data.languages.0.language', 'English');
+            ->assertJsonPath('profile.structured_data.languages.0.language', 'English')
+            ->assertJsonCount(1, 'documents')
+            ->assertJsonPath('documents.0.category', 'cv');
 
         $this->assertDatabaseHas('cv_profiles', [
             'user_id' => $user->id,
