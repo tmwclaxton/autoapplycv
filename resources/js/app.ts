@@ -32,6 +32,7 @@ createInertiaApp({
         switch (true) {
             case standalonePages.includes(name):
             case name.startsWith('Legal/'):
+            case name.startsWith('Blog/'):
                 return null;
             case name.startsWith('settings/'):
             case name.startsWith('teams/'):
