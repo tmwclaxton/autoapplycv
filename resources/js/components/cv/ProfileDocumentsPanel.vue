@@ -184,7 +184,7 @@ async function removeDocument(documentId: number): Promise<void> {
                     {{ isUploading ? 'Uploading…' : 'Choose file' }}
                 </button>
                 <span class="text-sm text-muted-foreground">
-                    PDF, Word, or image — up to 10MB
+                    PDF, Word, or image - up to 10MB
                 </span>
             </div>
 

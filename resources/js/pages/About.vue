@@ -9,7 +9,7 @@ import { GITHUB_REPOSITORY_URL } from '@/lib/site';
 </script>
 
 <template>
-    <Head title="About — AutoCVApply" />
+    <Head title="About - AutoCVApply" />
 
     <PostboxMarketingLayout tagline="A small tool for a tedious job.">
         <template #nav>
@@ -25,8 +25,8 @@ import { GITHUB_REPOSITORY_URL } from '@/lib/site';
         <PostboxProse>
             <h2>What it does</h2>
             <p>
-                You upload your CV once. We extract the useful fields — contact
-                details, experience, skills, education — and store them in your
+                You upload your CV once. We extract the useful fields - contact
+                details, experience, skills, education - and store them in your
                 profile. A browser extension then fills job application forms on
                 sites like Workday, Indeed, LinkedIn, Greenhouse, and Lever.
             </p>

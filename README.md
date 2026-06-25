@@ -29,7 +29,7 @@
 
 Job applications are a copy-paste endurance test. Workday wants your address. Indeed wants it again. LinkedIn wants it in a different field order. Greenhouse wants a cover letter you've already written three times this week.
 
-**AutoCVApply** reads your CV once, builds a structured profile, and stamps it onto application forms through a browser extension — so you spend time on roles that matter, not on retyping your phone number for the forty-seventh time.
+**AutoCVApply** reads your CV once, builds a structured profile, and stamps it onto application forms through a browser extension - so you spend time on roles that matter, not on retyping your phone number for the forty-seventh time.
 
 ## How it works
 
@@ -44,7 +44,7 @@ flowchart LR
 | Step | What happens |
 |------|----------------|
 | **1. Post your CV** | Drop a PDF or DOCX. We extract name, contact, skills, experience, and education. |
-| **2. Check the details** | Tweak anything we missed — summary, extra context, visa status, salary expectations. |
+| **2. Check the details** | Tweak anything we missed - summary, extra context, visa status, salary expectations. |
 | **3. Stamp the forms** | Install the Chrome extension, paste your API token, and autofill on supported job sites. |
 
 ## Features
@@ -53,7 +53,7 @@ flowchart LR
 Upload PDF or Word documents. AI pulls structured data into an editable profile you control.
 
 ### ⚡ One-click autofill
-A Manifest V3 Chrome extension detects application forms and fills them from your profile — including longer free-text fields via your saved context.
+A Manifest V3 Chrome extension detects application forms and fills them from your profile - including longer free-text fields via your saved context.
 
 ### 🎯 Supported platforms
 Autofill works on the boards that actually hire:
@@ -61,7 +61,7 @@ Autofill works on the boards that actually hire:
 `Workday` · `Indeed` · `LinkedIn` · `Greenhouse` · `Lever`
 
 ### 📬 Postbox design
-British utilitarian UI — Royal Mail red, navy, warm paper tones. Built to feel like sending a letter, not filling in a spreadsheet.
+British utilitarian UI - Royal Mail red, navy, warm paper tones. Built to feel like sending a letter, not filling in a spreadsheet.
 
 ### 💳 Pricing
 
@@ -84,7 +84,7 @@ Plans are based on **extension autofill** allowance. CV upload and profile editi
 | Auth | WorkOS (web), Laravel Sanctum (extension API) |
 | AI | NanoGPT (`gpt-4.1-mini`) for CV extraction |
 | Payments | GoCardless (UK Direct Debit subscriptions) |
-| Extension | Chrome MV3 — content scripts + service worker |
+| Extension | Chrome MV3 - content scripts + service worker |
 | Routing | Laravel Wayfinder (typed TS route helpers) |
 
 ## Project structure
@@ -141,15 +141,15 @@ Copy `.env.example` to `.env` and configure:
 ```env
 APP_URL=http://localhost
 
-# WorkOS — required for login
+# WorkOS - required for login
 WORKOS_CLIENT_ID=
 WORKOS_API_KEY=
 WORKOS_REDIRECT_URL="${APP_URL}/authenticate"
 
-# NanoGPT — required for CV parsing
+# NanoGPT - required for CV parsing
 NANOGPT_API_KEY=
 
-# GoCardless — optional, for paid subscriptions
+# GoCardless - optional, for paid subscriptions
 GOCARDLESS_ACCESS_TOKEN=
 GOCARDLESS_WEBHOOK_SECRET=
 ```
@@ -226,7 +226,7 @@ Issues and pull requests welcome on [GitHub](https://github.com/tmwclaxton/autoa
 
 ## License
 
-MIT — use it, fork it, ship it.
+MIT - use it, fork it, ship it.
 
 ---
 

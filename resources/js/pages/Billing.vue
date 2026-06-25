@@ -66,7 +66,7 @@ function cancelSubscription() {
 </script>
 
 <template>
-    <Head title="Plans & billing — AutoCVApply" />
+    <Head title="Plans & billing - AutoCVApply" />
 
     <div class="mb-8">
             <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">

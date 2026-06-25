@@ -23,7 +23,7 @@ class CvExtractionService
 
         $maxChars = (int) config('cv.max_raw_text_chars', 32000);
         $truncated = mb_strlen($trimmed) > $maxChars
-            ? mb_substr($trimmed, 0, $maxChars)."\n\n[Text truncated for processing — end of CV may be missing from source extract.]"
+            ? mb_substr($trimmed, 0, $maxChars)."\n\n[Text truncated for processing - end of CV may be missing from source extract.]"
             : $trimmed;
 
         $promptParts = CvExtractionSchema::userPrompt($truncated, $filename);

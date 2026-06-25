@@ -240,7 +240,7 @@ async function copyToken() {
 </script>
 
 <template>
-    <Head title="Dashboard — AutoCVApply" />
+    <Head title="Dashboard - AutoCVApply" />
 
     <div class="mb-8 flex flex-wrap items-start justify-between gap-4">
             <div>

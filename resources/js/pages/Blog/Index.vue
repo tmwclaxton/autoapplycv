@@ -43,7 +43,7 @@ function formatDate(date: string): string {
 </script>
 
 <template>
-    <Head title="Blog — AutoCVApply">
+    <Head title="Blog - AutoCVApply">
         <meta
             name="description"
             content="Practical advice for UK job seekers on autofill, application fatigue, and getting more done with AutoCVApply."

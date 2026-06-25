@@ -200,7 +200,7 @@ async function saveProfile() {
 </script>
 
 <template>
-    <Head title="Set up your profile — AutoCVApply" />
+    <Head title="Set up your profile - AutoCVApply" />
 
     <nav
             class="mb-10 flex items-center justify-center gap-2 sm:gap-3"
@@ -238,7 +238,7 @@ async function saveProfile() {
                 Post your CV
             </h1>
             <p class="mt-2 text-muted-foreground">
-                PDF or Word. We'll extract the details — you keep the edits.
+                PDF or Word. We'll extract the details - you keep the edits.
             </p>
 
             <div
@@ -264,7 +264,7 @@ async function saveProfile() {
                     <Loader2 class="size-10 animate-spin text-postbox-red" />
                     <p class="font-bold text-postbox-navy">Reading your CV…</p>
                     <p class="text-sm text-muted-foreground">
-                        Usually under a minute — large CVs can take a bit longer.
+                        Usually under a minute - large CVs can take a bit longer.
                     </p>
                 </div>
                 <div v-else class="flex flex-col items-center gap-4">
@@ -278,7 +278,7 @@ async function saveProfile() {
                             Drop your file here or click to browse
                         </p>
                         <p class="mt-1 text-sm text-muted-foreground">
-                            PDF, Word, or image — up to 10MB
+                            PDF, Word, or image - up to 10MB
                         </p>
                     </div>
                 </div>
@@ -393,7 +393,7 @@ async function saveProfile() {
                         </li>
                         <li class="flex gap-3">
                             <span class="postbox-badge shrink-0">4</span>
-                            Load unpacked — select the unzipped folder
+                            Load unpacked - select the unzipped folder
                         </li>
                         <li class="flex gap-3">
                             <span class="postbox-badge shrink-0">5</span>

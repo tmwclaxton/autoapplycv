@@ -32,7 +32,7 @@ Once a migration has run in production, treat it as immutable. Create a new migr
 
 Incorrect (editing a deployed migration):
 ```php
-// 2024_01_01_create_posts_table.php — already in production
+// 2024_01_01_create_posts_table.php - already in production
 $table->string('slug')->unique(); // ← added after deployment
 ```
 

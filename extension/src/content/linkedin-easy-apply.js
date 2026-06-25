@@ -1,5 +1,5 @@
 /**
- * LinkedIn Easy Apply automation — adapted from AutoApplyMax (AGPL-3.0).
+ * LinkedIn Easy Apply automation - adapted from AutoApplyMax (AGPL-3.0).
  * Uses AutoCVApply profile from the API plus extension settings from chrome.storage.sync.
  */
 let isRunning = false;
@@ -134,7 +134,7 @@ async function loadResumeForBot() {
   if (resumeFile) {
     log(`📄 Resume loaded from extension storage: ${resumeFileName}`);
   } else {
-    log('ℹ️ No resume available — file upload fields will be skipped');
+    log('ℹ️ No resume available - file upload fields will be skipped');
   }
 }
 
@@ -781,7 +781,7 @@ async function mainLoop() {
           const safetyText = safetyModal.textContent.toLowerCase();
           if (safetyText.includes('safety reminder') || safetyText.includes('rappel de sécurité') ||
               safetyText.includes('continue applying') || safetyText.includes('continuer à postuler')) {
-            log('Safety reminder detected — clicking Continue applying...');
+            log('Safety reminder detected - clicking Continue applying...');
             const continueBtn = Array.from(safetyModal.querySelectorAll('button')).find(btn => {
               const t = btn.textContent.trim().toLowerCase();
               return t.includes('continue applying') || t.includes('continuer à postuler') ||
@@ -2028,7 +2028,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #0a66c2; font-weight: bold;');
-console.log('%c🔒 AutoCVApply LinkedIn Easy Apply — manual start mode', 'color: #0a66c2; font-weight: bold; font-size: 16px;');
+console.log('%c🔒 AutoCVApply LinkedIn Easy Apply - manual start mode', 'color: #0a66c2; font-weight: bold; font-size: 16px;');
 console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #0a66c2; font-weight: bold;');
 console.log('%c✅ Script injected ONLY when you clicked START', 'color: green; font-weight: bold;');
 console.log('%c🔒 NO automatic loading on LinkedIn pages', 'color: green; font-weight: bold;');

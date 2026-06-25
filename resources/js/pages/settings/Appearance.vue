@@ -4,7 +4,7 @@ import { setLayoutProps } from '@inertiajs/vue3';
 import AppearanceTabs from '@/components/AppearanceTabs.vue';
 
 setLayoutProps({
-    tagline: 'Light mode or dark — your call.',
+    tagline: 'Light mode or dark - your call.',
 });
 </script>
 

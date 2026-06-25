@@ -36,14 +36,14 @@ class CvExtractionSchema
 You are an expert CV/resume parser for UK and international job applications.
 
 Your job:
-1. Capture EVERY fact from the source text — do not drop sections because they are unusual.
+1. Capture EVERY fact from the source text - do not drop sections because they are unusual.
 2. Return structured JSON matching the requested schema exactly.
 3. Produce formatted_cv_text: a clean, readable plain-text version of the entire CV with clear section headings and bullet points. Preserve all content; tidy garbled PDF extraction but never invent employers, dates, or qualifications.
 4. Use null for unknown scalar fields and [] for empty lists. Do not guess.
 
 For experience and education entries:
-- Each role MUST have its own highlights — copy bullets ONLY from that role's section. Never reuse the professional summary or another role's bullets.
-- Use highlights (array of bullet strings) for achievements/responsibilities — never collapse a role into one vague paragraph when bullets exist.
+- Each role MUST have its own highlights - copy bullets ONLY from that role's section. Never reuse the professional summary or another role's bullets.
+- Use highlights (array of bullet strings) for achievements/responsibilities - never collapse a role into one vague paragraph when bullets exist.
 - Keep description as a one-sentence role intro ONLY when the CV has one; otherwise use null. Do NOT paste bullet points into description.
 - Preserve technologies, employment_type, grades, honours, and all dates as written.
 
@@ -65,13 +65,13 @@ PROMPT;
   "headline": "string|null",
   "email": "string|null",
   "phone": "string|null",
-  "location": "string|null — city/region/country as written",
+  "location": "string|null - city/region/country as written",
   "city": "string|null",
   "postcode": "string|null",
   "country": "string|null",
   "linkedin_url": "string|null",
   "website_url": "string|null",
-  "summary": "string|null — professional profile/summary",
+  "summary": "string|null - professional profile/summary",
   "skills": ["string"],
   "experience": [{
     "title": "string",
@@ -79,7 +79,7 @@ PROMPT;
     "location": "string|null",
     "employment_type": "string|null",
     "start_date": "string|null",
-    "end_date": "string|null — use Present when current",
+    "end_date": "string|null - use Present when current",
     "is_current": "boolean",
     "description": "string|null",
     "highlights": ["string"],
@@ -116,8 +116,8 @@ PROMPT;
     "soft_skills": ["string"],
     "additional_sections": [{"title": "string", "items": [{"label": "string|null", "value": "string|null", "details": "string|null"}]}]
   },
-  "formatted_cv_text": "string — full CV as tidy plain text",
-  "extra_context": "string|null — dense text block of all remaining facts useful for job application autofill"
+  "formatted_cv_text": "string - full CV as tidy plain text",
+  "extra_context": "string|null - dense text block of all remaining facts useful for job application autofill"
 }
 JSON;
 

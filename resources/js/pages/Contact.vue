@@ -9,7 +9,7 @@ import { howTo } from '@/routes';
 </script>
 
 <template>
-    <Head title="Contact — AutoCVApply" />
+    <Head title="Contact - AutoCVApply" />
 
     <PostboxMarketingLayout tagline="Questions, bugs, or polite rants.">
         <template #nav>
@@ -75,7 +75,7 @@ import { howTo } from '@/routes';
                     <Link :href="howTo()" class="postbox-link"
                         >how-to guide</Link
                     >
-                    first — most questions are answered there.
+                    first - most questions are answered there.
                 </p>
             </div>
         </div>

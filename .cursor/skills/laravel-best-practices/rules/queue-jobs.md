@@ -11,7 +11,7 @@ class ProcessReport implements ShouldQueue
     public $timeout = 120;
 }
 
-// config/queue.php — retry_after: 90 ← job retried while still running!
+// config/queue.php - retry_after: 90 ← job retried while still running!
 ```
 
 Correct (`retry_after` > `timeout`):
@@ -21,7 +21,7 @@ class ProcessReport implements ShouldQueue
     public $timeout = 120;
 }
 
-// config/queue.php — retry_after: 180 ← safely longer than any job timeout
+// config/queue.php - retry_after: 180 ← safely longer than any job timeout
 ```
 
 ## Use Exponential Backoff
@@ -64,7 +64,7 @@ class GenerateInvoice implements ShouldQueue, ShouldBeUnique
 
 ## Always Implement `failed()`
 
-Handle errors explicitly — don't rely on silent failure.
+Handle errors explicitly - don't rely on silent failure.
 
 ```php
 public function failed(?Throwable $exception): void

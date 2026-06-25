@@ -12,9 +12,9 @@ Best practices for Laravel, prioritized by impact. Each rule teaches what to do 
 
 ## Consistency First
 
-Before applying any rule, check what the application already does. Laravel offers multiple valid approaches — the best choice is the one the codebase already uses, even if another pattern would be theoretically better. Inconsistency is worse than a suboptimal pattern.
+Before applying any rule, check what the application already does. Laravel offers multiple valid approaches - the best choice is the one the codebase already uses, even if another pattern would be theoretically better. Inconsistency is worse than a suboptimal pattern.
 
-Check sibling files, related controllers, models, or tests for established patterns. If one exists, follow it — don't introduce a second way. These rules are defaults for when no pattern exists yet, not overrides.
+Check sibling files, related controllers, models, or tests for established patterns. If one exists, follow it - don't introduce a second way. These rules are defaults for when no pattern exists yet, not overrides.
 
 ## Quick Reference
 
@@ -43,7 +43,7 @@ Check sibling files, related controllers, models, or tests for established patte
 ### 3. Security → `rules/security.md`
 
 - Define `$fillable` or `$guarded` on every model, authorize every action via policies or gates
-- No raw SQL with user input — use Eloquent or query builder
+- No raw SQL with user input - use Eloquent or query builder
 - `{{ }}` for output escaping, `@csrf` on all POST/PUT/DELETE forms, `throttle` on auth and API routes
 - Validate MIME type, extension, and size for file uploads
 - Never commit `.env`, use `config()` for secrets, `encrypted` cast for sensitive DB fields
@@ -63,17 +63,17 @@ Check sibling files, related controllers, models, or tests for established patte
 
 - Correct relationship types with return type hints
 - Local scopes for reusable query constraints
-- Global scopes sparingly — document their existence
+- Global scopes sparingly - document their existence
 - Attribute casts in the `casts()` method
 - Cast date columns, use Carbon instances in templates
 - `whereBelongsTo($model)` for cleaner queries
-- Never hardcode table names — use `(new Model)->getTable()` or Eloquent queries
+- Never hardcode table names - use `(new Model)->getTable()` or Eloquent queries
 
 ### 6. Validation & Forms → `rules/validation.md`
 
 - Form Request classes, not inline validation
 - Array notation `['required', 'email']` for new code; follow existing convention
-- `$request->validated()` only — never `$request->all()`
+- `$request->validated()` only - never `$request->all()`
 - `Rule::when()` for conditional validation
 - `after()` instead of `withValidator()`
 
@@ -88,7 +88,7 @@ Check sibling files, related controllers, models, or tests for established patte
 - `LazilyRefreshDatabase` over `RefreshDatabase` for speed
 - `assertModelExists()` over raw `assertDatabaseHas()`
 - Factory states and sequences over manual overrides
-- Use fakes (`Event::fake()`, `Exceptions::fake()`, etc.) — but always after factory setup, not before
+- Use fakes (`Event::fake()`, `Exceptions::fake()`, etc.) - but always after factory setup, not before
 - `recycle()` to share relationship instances across factories
 
 ### 9. Queue & Job Patterns → `rules/queue-jobs.md`
@@ -104,7 +104,7 @@ Check sibling files, related controllers, models, or tests for established patte
 - Implicit route model binding
 - Scoped bindings for nested resources
 - `Route::resource()` or `apiResource()`
-- Methods under 10 lines — extract to actions/services
+- Methods under 10 lines - extract to actions/services
 - Type-hint Form Requests for auto-validation
 
 ### 11. HTTP Client → `rules/http-client.md`
@@ -127,7 +127,7 @@ Check sibling files, related controllers, models, or tests for established patte
 
 ### 13. Error Handling → `rules/error-handling.md`
 
-- `report()`/`render()` on exception classes or in `bootstrap/app.php` — follow existing pattern
+- `report()`/`render()` on exception classes or in `bootstrap/app.php` - follow existing pattern
 - `ShouldntReport` for exceptions that should never log
 - Throttle high-volume exceptions to protect log sinks
 - `dontReportDuplicates()` for multi-catch scenarios
@@ -158,12 +158,12 @@ Check sibling files, related controllers, models, or tests for established patte
 - Add indexes in the migration, not as an afterthought
 - Mirror column defaults in model `$attributes`
 - Reversible `down()` by default; forward-fix migrations for intentionally irreversible changes
-- One concern per migration — never mix DDL and DML
+- One concern per migration - never mix DDL and DML
 
 ### 17. Collections → `rules/collections.md`
 
 - Higher-order messages for simple collection operations
-- `cursor()` vs. `lazy()` — choose based on relationship needs
+- `cursor()` vs. `lazy()` - choose based on relationship needs
 - `lazyById()` when updating records while iterating
 - `toQuery()` for bulk operations on collections
 
@@ -186,5 +186,5 @@ Check sibling files, related controllers, models, or tests for established patte
 Always use a sub-agent to read rule files and explore this skill's content.
 
 1. Identify the file type and select relevant sections (e.g., migration → §16, controller → §1, §3, §5, §6, §10)
-2. Check sibling files for existing patterns — follow those first per Consistency First
+2. Check sibling files for existing patterns - follow those first per Consistency First
 3. Verify API syntax with `search-docs` for the installed Laravel version

@@ -1412,7 +1412,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
         <div v-if="show('extra')" class="postbox-panel p-6">
             <h2 class="postbox-label">Extra context</h2>
             <p class="mb-4 text-sm text-muted-foreground">
-                Visa status, notice period, salary floor, cover letter tone —
+                Visa status, notice period, salary floor, cover letter tone -
                 anything the extension should know.
             </p>
             <textarea

@@ -31,17 +31,17 @@ WORKDIR /app
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-# Install PHP dependencies — cached until composer.lock changes
+# Install PHP dependencies - cached until composer.lock changes
 COPY composer.json composer.lock ./
 RUN --mount=type=cache,target=/root/.composer/cache \
     composer install --no-dev --no-interaction --prefer-dist --no-autoloader --no-scripts
 
-# Install Node deps — cached until package-lock.json changes
+# Install Node deps - cached until package-lock.json changes
 COPY package.json package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm \
     npm ci
 
-# Copy full source code — only invalidates steps below, not the heavy installs above
+# Copy full source code - only invalidates steps below, not the heavy installs above
 COPY . .
 
 RUN cp .env.example .env \

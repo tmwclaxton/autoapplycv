@@ -20,7 +20,7 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
 </script>
 
 <template>
-    <Head title="Pricing — AutoCVApply" />
+    <Head title="Pricing - AutoCVApply" />
 
     <PostboxMarketingLayout tagline="Pay for autofill. Setup is free.">
         <template #nav>
@@ -140,7 +140,7 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
         <PostboxCta
             class="mt-10"
             title="Start on the free plan"
-            description="250 autofills per month to get going — upgrade when you need more."
+            description="250 autofills per month to get going - upgrade when you need more."
             button-label="Get started free"
         />
 

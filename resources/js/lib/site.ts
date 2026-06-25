@@ -22,7 +22,7 @@ export const SETUP_STEPS = [
         number: '02',
         title: 'Check the details',
         description:
-            'Tweak anything we missed — skills, summary, visa status, salary floor, the lot.',
+            'Tweak anything we missed - skills, summary, visa status, salary floor, the lot.',
     },
     {
         number: '03',

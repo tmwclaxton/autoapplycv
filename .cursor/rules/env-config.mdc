@@ -12,10 +12,10 @@ Do not add new `.env` keys unless the value must differ per deployment or contai
 Put stable defaults in `config/*.php`. Use `env()` only for secrets and deployment-specific values (URLs, API keys, credentials).
 
 ```php
-// ❌ BAD — new env key for a fixed product default
+// ❌ BAD - new env key for a fixed product default
 'fair_use_cv_parses_per_month' => (int) env('FAIR_USE_CV_PARSES_PER_MONTH', 20),
 
-// ✅ GOOD — hardcoded default in config
+// ✅ GOOD - hardcoded default in config
 'fair_use_cv_parses_per_month' => 20,
 ```
 
@@ -27,7 +27,7 @@ Do not gate unfinished features with env flags like `FEATURE_X_ENABLED`. Comment
 // ❌ BAD
 'billing_enabled' => env('SUBSCRIPTION_BILLING_ENABLED', false),
 
-// ✅ GOOD — comment out billing routes/methods until Pro launches
+// ✅ GOOD - comment out billing routes/methods until Pro launches
 // Route::post('/billing/checkout', ...);
 ```
 

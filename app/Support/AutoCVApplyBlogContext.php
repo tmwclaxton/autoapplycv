@@ -26,11 +26,11 @@ Do not invent customer counts, success rates, or employer partnerships.
 AutoCVApply helps **workers and job seekers** apply for roles faster by storing a structured CV profile once, then **autofilling job application forms** on major hiring platforms via a Chrome extension.
 Tagline themes include **"Upload once. Apply everywhere."** and **"Stop retyping your life story."**
 
-Primary audience: people actively job hunting — graduates, career changers, contractors between contracts, and anyone filling repetitive application forms on employer sites.
+Primary audience: people actively job hunting - graduates, career changers, contractors between contracts, and anyone filling repetitive application forms on employer sites.
 
 ## What is free vs what plans pay for
 - **Always free on every plan**: uploading a PDF or Word CV, AI-assisted extraction into an editable profile, and editing that profile in the dashboard.
-- **Metered by plan**: **extension autofill** — each **successfully filled form input** on a supported job site uses one autofill from the user's monthly allowance.
+- **Metered by plan**: **extension autofill** - each **successfully filled form input** on a supported job site uses one autofill from the user's monthly allowance.
 
 ## How autofill works
 1. User uploads a CV and reviews the parsed profile (name, contact, experience, skills, summary, etc.).
@@ -64,7 +64,7 @@ Paid plans bill via UK Direct Debit (GoCardless). Users can start on Free withou
 
 ## What AutoCVApply is NOT
 - Not a job board and not an auto-apply bot that submits applications without the user.
-- Not unlimited autofill on Free — plans have monthly input allowances.
+- Not unlimited autofill on Free - plans have monthly input allowances.
 - Not a guarantee of interviews or offers.
 
 ## URLs (use verbatim when linking)
@@ -75,7 +75,7 @@ Paid plans bill via UK Direct Debit (GoCardless). Users can start on Free withou
 
 ## Tone for blog posts
 - Write for UK job seekers by default; plain, practical, respectful tone.
-- Emphasise dignity of work and reducing admin burden — not "hack the system" or misleading shortcuts.
+- Emphasise dignity of work and reducing admin burden - not "hack the system" or misleading shortcuts.
 - Be accurate about metering (per input filled) and supported platforms.
 
 ## Glossary
@@ -92,7 +92,7 @@ CONTEXT;
     public static function summaryForImagePrompt(): string
     {
         return <<<'SUMMARY'
-AutoCVApply helps UK job seekers apply faster: upload a CV once, use a Chrome extension to autofill application forms on Workday, Indeed, LinkedIn, Greenhouse, and Lever. Warm, optimistic, professional — people at laptops completing job applications with less repetitive typing. Postbox-inspired red and navy accents optional; no logos or readable text in the image.
+AutoCVApply helps UK job seekers apply faster: upload a CV once, use a Chrome extension to autofill application forms on Workday, Indeed, LinkedIn, Greenhouse, and Lever. Warm, optimistic, professional - people at laptops completing job applications with less repetitive typing. Postbox-inspired red and navy accents optional; no logos or readable text in the image.
 SUMMARY;
     }
 }

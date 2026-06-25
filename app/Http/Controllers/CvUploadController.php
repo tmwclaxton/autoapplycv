@@ -86,7 +86,7 @@ class CvUploadController extends Controller
         ];
 
         if ($parsed === null && $rawText !== '') {
-            $response['warning'] = 'We saved your CV but AI parsing timed out or failed. Your raw text is stored — try uploading again in a moment or edit the profile manually.';
+            $response['warning'] = 'We saved your CV but AI parsing timed out or failed. Your raw text is stored - try uploading again in a moment or edit the profile manually.';
         }
 
         return response()->json($response);

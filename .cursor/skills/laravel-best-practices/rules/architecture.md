@@ -114,7 +114,7 @@ When no Laravel helper exists, prefer `mb_strlen`, `mb_strtolower`, etc. for UTF
 Incorrect:
 ```php
 strlen('José');          // 5 (bytes, not characters)
-strtolower('MÜNCHEN');  // 'mÜnchen' — fails on multibyte
+strtolower('MÜNCHEN');  // 'mÜnchen' - fails on multibyte
 ```
 
 Correct:
@@ -129,7 +129,7 @@ Str::lower('MÜNCHEN');        // 'münchen'
 
 ## Use `defer()` for Post-Response Work
 
-For lightweight tasks that don't need to survive a crash (logging, analytics, cleanup), use `defer()` instead of dispatching a job. The callback runs after the HTTP response is sent — no queue overhead.
+For lightweight tasks that don't need to survive a crash (logging, analytics, cleanup), use `defer()` instead of dispatching a job. The callback runs after the HTTP response is sent - no queue overhead.
 
 Incorrect (job overhead for trivial work):
 ```php
@@ -145,13 +145,13 @@ Use jobs when the work must survive process crashes or needs retry logic. Use `d
 
 ## Use `Context` for Request-Scoped Data
 
-The `Context` facade passes data through the entire request lifecycle — middleware, controllers, jobs, logs — without passing arguments manually.
+The `Context` facade passes data through the entire request lifecycle - middleware, controllers, jobs, logs - without passing arguments manually.
 
 ```php
 // In middleware
 Context::add('tenant_id', $request->header('X-Tenant-ID'));
 
-// Anywhere later — controllers, jobs, log context
+// Anywhere later - controllers, jobs, log context
 $tenantId = Context::get('tenant_id');
 ```
 
@@ -159,7 +159,7 @@ Context data automatically propagates to queued jobs and is included in log entr
 
 ## Use `Concurrency::run()` for Parallel Execution
 
-Run independent operations in parallel using child processes — no async libraries needed.
+Run independent operations in parallel using child processes - no async libraries needed.
 
 ```php
 use Illuminate\Support\Facades\Concurrency;

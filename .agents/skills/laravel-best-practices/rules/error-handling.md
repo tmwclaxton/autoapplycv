@@ -2,9 +2,9 @@
 
 ## Exception Reporting and Rendering
 
-There are two valid approaches — choose one and apply it consistently across the project.
+There are two valid approaches - choose one and apply it consistently across the project.
 
-**Co-location on the exception class** — keeps behavior alongside the exception definition, easier to find:
+**Co-location on the exception class** - keeps behavior alongside the exception definition, easier to find:
 
 ```php
 class InvalidOrderException extends Exception
@@ -18,7 +18,7 @@ class InvalidOrderException extends Exception
 }
 ```
 
-**Centralized in `bootstrap/app.php`** — all exception handling in one place, easier to see the full picture:
+**Centralized in `bootstrap/app.php`** - all exception handling in one place, easier to see the full picture:
 
 ```php
 ->withExceptions(function (Exceptions $exceptions) {
@@ -59,7 +59,7 @@ $exceptions->shouldRenderJsonWhen(function (Request $request, Throwable $e) {
 
 ## Add Context to Exception Classes
 
-Attach structured data to exceptions at the source via a `context()` method — Laravel includes it automatically in the log entry.
+Attach structured data to exceptions at the source via a `context()` method - Laravel includes it automatically in the log entry.
 
 ```php
 class InvalidOrderException extends Exception

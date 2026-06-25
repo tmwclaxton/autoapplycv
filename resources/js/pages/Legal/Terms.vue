@@ -8,7 +8,7 @@ import { contact } from '@/routes';
 </script>
 
 <template>
-    <Head title="Terms and conditions — AutoCVApply" />
+    <Head title="Terms and conditions - AutoCVApply" />
 
     <PostboxMarketingLayout tagline="The small print, plainly written.">
         <template #nav>

@@ -13,7 +13,7 @@ defineProps<{
 </script>
 
 <template>
-    <Head title="AutoCVApply — Stop retyping your CV" />
+    <Head title="AutoCVApply - Stop retyping your CV" />
 
     <PostboxMarketingLayout tagline="Stop retyping your life story.">
         <template #nav>
@@ -38,7 +38,7 @@ defineProps<{
             >
                 Job forms ask the same questions again and again. AutoCVApply
                 stores your CV profile and stamps answers onto Workday, Indeed,
-                LinkedIn, Greenhouse, and Lever — without the copy-paste
+                LinkedIn, Greenhouse, and Lever - without the copy-paste
                 marathon.
             </p>
 

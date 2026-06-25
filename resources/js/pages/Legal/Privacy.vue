@@ -8,7 +8,7 @@ import { contact } from '@/routes';
 </script>
 
 <template>
-    <Head title="Privacy policy — AutoCVApply" />
+    <Head title="Privacy policy - AutoCVApply" />
 
     <PostboxMarketingLayout tagline="What we collect and why.">
         <template #nav>
@@ -60,13 +60,13 @@ import { contact } from '@/routes';
 
             <h2>Third parties</h2>
             <ul>
-                <li><strong>WorkOS</strong> — authentication and sign-in.</li>
+                <li><strong>WorkOS</strong> - authentication and sign-in.</li>
                 <li>
-                    <strong>AI parsing provider</strong> — CV text processing
+                    <strong>AI parsing provider</strong> - CV text processing
                     for field extraction.
                 </li>
                 <li>
-                    <strong>Hosting infrastructure</strong> — application and
+                    <strong>Hosting infrastructure</strong> - application and
                     database hosting.
                 </li>
             </ul>

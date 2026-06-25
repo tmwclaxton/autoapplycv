@@ -64,7 +64,7 @@ function formatDate(date: string): string {
 </script>
 
 <template>
-    <Head :title="`${post.title} — AutoCVApply`">
+    <Head :title="`${post.title} - AutoCVApply`">
         <meta name="description" :content="post.excerpt" />
         <meta property="og:title" :content="post.title" />
         <meta property="og:description" :content="post.excerpt" />

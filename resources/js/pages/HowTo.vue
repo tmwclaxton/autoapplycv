@@ -11,7 +11,7 @@ import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
 </script>
 
 <template>
-    <Head title="How to — AutoCVApply" />
+    <Head title="How to - AutoCVApply" />
 
     <PostboxMarketingLayout tagline="Set up once. Stamp forms forever.">
         <template #nav>
@@ -62,7 +62,7 @@ import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
             <ul>
                 <li>
                     Fill in extra context for visa status, notice period, and
-                    salary expectations — the extension uses it for free-text
+                    salary expectations - the extension uses it for free-text
                     fields.
                 </li>
                 <li>
