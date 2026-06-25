@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { Link, router, usePage } from '@inertiajs/vue3';
 import { Check } from 'lucide-vue-next';
 import { computed } from 'vue';
 import { dashboard, login } from '@/routes';
+import billing from '@/routes/billing';
 
 export interface PricingPlan {
     key: string;
@@ -10,6 +11,7 @@ export interface PricingPlan {
     description: string;
     price: string;
     price_pence: number;
+    monthly_autofills: number;
     features: string[];
     is_paid: boolean;
     is_available: boolean;
@@ -20,110 +22,128 @@ const props = withDefaults(
     defineProps<{
         plans: PricingPlan[];
         currentTier?: string | null;
+        mode?: 'marketing' | 'billing';
         isAuthenticated?: boolean;
     }>(),
     {
         currentTier: null,
+        mode: 'marketing',
         isAuthenticated: false,
     },
+);
+
+const page = usePage();
+const isBilling = computed(() => props.mode === 'billing');
+const authenticated = computed(
+    () => props.isAuthenticated || Boolean(page.props.auth.user),
 );
 
 const availablePlans = computed(() =>
     props.plans.filter((plan) => plan.is_available),
 );
 
-const upcomingPlans = computed(() =>
-    props.plans.filter((plan) => plan.coming_soon),
-);
+function formatAutofills(value: number): string {
+    return new Intl.NumberFormat('en-GB').format(value);
+}
+
+function selectPlan(plan: PricingPlan) {
+    router.post(billing.checkout.url(), { tier: plan.key });
+}
+
+function planButtonLabel(plan: PricingPlan): string {
+    if (isBilling.value) {
+        if (props.currentTier === plan.key) {
+            return 'Current plan';
+        }
+
+        return plan.is_paid ? 'Upgrade via Direct Debit' : 'Switch to Free';
+    }
+
+    if (plan.is_paid) {
+        return authenticated.value ? 'Choose this plan' : 'Sign in to subscribe';
+    }
+
+    return authenticated.value ? 'Go to dashboard' : 'Get started free';
+}
 </script>
 
 <template>
-    <div class="space-y-8">
-        <div
-            class="grid gap-4"
-            :class="
-                availablePlans.length > 1
-                    ? 'md:grid-cols-2'
-                    : 'max-w-xl mx-auto'
-            "
-        >
-            <article
-                v-for="plan in availablePlans"
-                :key="plan.key"
-                class="postbox-panel flex flex-col p-6"
-                :class="
-                    currentTier === plan.key ? 'ring-2 ring-postbox-red' : ''
-                "
-            >
-                <div class="mb-4 flex items-center justify-between gap-2">
-                    <h2 class="text-lg font-bold text-postbox-navy">
-                        {{ plan.name }}
-                    </h2>
-                    <span
-                        v-if="currentTier === plan.key"
-                        class="postbox-stamp px-2 py-1 text-[10px]"
-                    >
-                        Current
-                    </span>
-                </div>
-
-                <p class="text-2xl font-bold text-postbox-red">
-                    {{ plan.price }}
-                </p>
-
-                <p
-                    class="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground"
-                >
-                    {{ plan.description }}
-                </p>
-
-                <ul class="mt-4 space-y-2 text-sm text-postbox-navy">
-                    <li
-                        v-for="feature in plan.features"
-                        :key="feature"
-                        class="flex items-start gap-2"
-                    >
-                        <Check
-                            class="mt-0.5 size-4 shrink-0 text-postbox-red"
-                        />
-                        {{ feature }}
-                    </li>
-                </ul>
-
-                <Link
-                    :href="isAuthenticated ? dashboard() : login()"
-                    class="postbox-btn mt-6 w-full"
-                >
-                    {{
-                        isAuthenticated
-                            ? 'Go to dashboard'
-                            : 'Get started free'
-                    }}
-                </Link>
-            </article>
-        </div>
-
-        <div
-            v-for="plan in upcomingPlans"
+    <div class="grid gap-4 md:grid-cols-3">
+        <article
+            v-for="plan in availablePlans"
             :key="plan.key"
-            class="postbox-panel-muted p-6 sm:p-8"
+            class="postbox-panel flex flex-col p-6"
+            :class="currentTier === plan.key ? 'ring-2 ring-postbox-red' : ''"
         >
-            <div
-                class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
-            >
-                <div>
-                    <p class="postbox-label">Coming soon</p>
-                    <h2 class="text-xl font-bold text-postbox-navy">
-                        {{ plan.name }} — {{ plan.price }}
-                    </h2>
-                    <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                        {{ plan.description }}
-                    </p>
-                </div>
-                <span class="postbox-stamp self-start px-3 py-1.5 text-xs">
-                    Notify me later
+            <div class="mb-4 flex items-center justify-between gap-2">
+                <h2 class="text-lg font-bold text-postbox-navy">
+                    {{ plan.name }}
+                </h2>
+                <span
+                    v-if="currentTier === plan.key"
+                    class="postbox-stamp px-2 py-1 text-[10px]"
+                >
+                    Current
                 </span>
             </div>
-        </div>
+
+            <p class="text-2xl font-bold text-postbox-red">
+                {{ plan.price }}
+            </p>
+
+            <p class="mt-3 text-sm font-medium text-postbox-navy">
+                {{ formatAutofills(plan.monthly_autofills) }} autofills /
+                month
+            </p>
+
+            <p
+                class="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground"
+            >
+                {{ plan.description }}
+            </p>
+
+            <ul class="mt-4 space-y-2 text-sm text-postbox-navy">
+                <li
+                    v-for="feature in plan.features"
+                    :key="feature"
+                    class="flex items-start gap-2"
+                >
+                    <Check class="mt-0.5 size-4 shrink-0 text-postbox-red" />
+                    {{ feature }}
+                </li>
+            </ul>
+
+            <button
+                v-if="isBilling"
+                type="button"
+                class="mt-6 w-full"
+                :class="
+                    currentTier === plan.key
+                        ? 'postbox-btn-outline'
+                        : 'postbox-btn'
+                "
+                :disabled="currentTier === plan.key"
+                @click="selectPlan(plan)"
+            >
+                {{ planButtonLabel(plan) }}
+            </button>
+
+            <Link
+                v-else-if="authenticated"
+                :href="plan.is_paid ? billing.index() : dashboard()"
+                class="mt-6 w-full"
+                :class="
+                    currentTier === plan.key
+                        ? 'postbox-btn-outline'
+                        : 'postbox-btn'
+                "
+            >
+                {{ planButtonLabel(plan) }}
+            </Link>
+
+            <Link v-else :href="login()" class="postbox-btn mt-6 w-full">
+                {{ planButtonLabel(plan) }}
+            </Link>
+        </article>
     </div>
 </template>

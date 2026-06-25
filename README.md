@@ -65,11 +65,15 @@ British utilitarian UI — Royal Mail red, navy, warm paper tones. Built to feel
 
 ### 💳 Pricing
 
-AutoCVApply is **free during early access**. CV parsing, profile editing, and unlimited extension autofill are all included.
+Plans are based on **extension autofill** allowance. CV upload and profile editing are free on every plan.
 
-A **Pro** plan (£7/mo) is planned for future features like multiple CV profiles — not for basic parsing or autofill.
+| Plan | Price | Autofills / month |
+|------|-------|-------------------|
+| **Free** | £0 | 250 |
+| **Starter** | £7/mo | 2,500 |
+| **Pro** | £17/mo | 15,000 |
 
-> A fair-use upload limit applies behind the scenes to prevent abuse. Normal job seekers will never hit it.
+> Each click of AutoFill on a supported job site uses one autofill. Allowances reset on the 1st of each month.
 
 ## Tech stack
 

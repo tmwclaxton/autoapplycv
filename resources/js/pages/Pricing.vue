@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, Link, usePage } from '@inertiajs/vue3';
-import { Infinity, Sparkles, Stamp } from 'lucide-vue-next';
+import { Puzzle, Stamp, Zap } from 'lucide-vue-next';
 import { computed } from 'vue';
 import PostboxCta from '@/components/postbox/PostboxCta.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
@@ -9,6 +9,7 @@ import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
 import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
 import { dashboard, login } from '@/routes';
+import billing from '@/routes/billing';
 
 defineProps<{
     plans: PricingPlan[];
@@ -21,15 +22,15 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
 <template>
     <Head title="Pricing — AutoCVApply" />
 
-    <PostboxMarketingLayout tagline="Free to use. Autofill forever.">
+    <PostboxMarketingLayout tagline="Pay for autofill. Setup is free.">
         <template #nav>
             <PostboxMarketingNav />
         </template>
 
         <PostboxPageHeader
             badge="Pricing"
-            title="Everything you need is free."
-            description="Upload your CV once, edit your profile any time, and autofill job applications without limits. No credit card required."
+            title="Plans built around extension autofills."
+            description="Upload your CV and build your profile for free. You only need a paid plan when you want more monthly autofills on supported job sites."
         />
 
         <PostboxPricingTiers
@@ -42,14 +43,15 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                 <div
                     class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
                 >
-                    <Sparkles class="size-5 text-postbox-red" />
+                    <Zap class="size-5 text-postbox-red" />
                 </div>
                 <h2 class="text-lg font-bold text-postbox-navy">
-                    CV parsing included
+                    What counts as an autofill?
                 </h2>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    Upload or re-upload your CV whenever you update it. AI
-                    extraction is included — no token counting, no top-ups.
+                    Each time you click AutoFill in the extension on a
+                    supported job site, that uses one autofill from your
+                    monthly allowance.
                 </p>
             </div>
 
@@ -57,15 +59,14 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                 <div
                     class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
                 >
-                    <Infinity class="size-5 text-postbox-red" />
+                    <Puzzle class="size-5 text-postbox-red" />
                 </div>
                 <h2 class="text-lg font-bold text-postbox-navy">
-                    Autofill is unlimited
+                    Supported platforms
                 </h2>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    Editing your profile, generating extension tokens, and
-                    autofilling job forms on Workday, Indeed, LinkedIn,
-                    Greenhouse, and Lever never costs anything.
+                    Autofill works on Workday, Indeed, LinkedIn, Greenhouse,
+                    and Lever.
                 </p>
             </div>
 
@@ -76,11 +77,11 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                     <Stamp class="size-5 text-postbox-red" />
                 </div>
                 <h2 class="text-lg font-bold text-postbox-navy">
-                    Pro is on the way
+                    When do they reset?
                 </h2>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    Paid plans will arrive when there are features worth paying
-                    for — like multiple CV profiles — not for basic parsing.
+                    Autofill allowances reset on the 1st of each month. Paid
+                    plans bill via UK Direct Debit through GoCardless.
                 </p>
             </div>
         </div>
@@ -92,47 +93,45 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
             <dl class="mt-6 grid gap-6 sm:grid-cols-2">
                 <div>
                     <dt class="font-semibold text-postbox-navy">
-                        Is it really free?
+                        Is CV upload free?
                     </dt>
                     <dd
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
-                        Yes. CV parsing, profile editing, and extension
-                        autofill are all included at no cost during early
-                        access.
+                        Yes. Uploading your CV and editing your profile are
+                        included on every plan.
                     </dd>
                 </div>
                 <div>
                     <dt class="font-semibold text-postbox-navy">
-                        Will you add paid plans?
+                        Can I upgrade later?
                     </dt>
                     <dd
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
-                        Eventually — for power features like multiple CV
-                        profiles, not for basic autofill or parsing.
+                        Yes. Sign in, pick Starter or Pro, and complete Direct
+                        Debit setup from billing.
                     </dd>
                 </div>
                 <div>
                     <dt class="font-semibold text-postbox-navy">
-                        Do I need a card to sign up?
+                        What happens when I run out?
                     </dt>
                     <dd
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
-                        No. Create an account, upload your CV, and connect the
-                        extension. That is the whole flow.
+                        The extension will stop autofilling until your allowance
+                        resets next month, or you upgrade your plan.
                     </dd>
                 </div>
                 <div>
                     <dt class="font-semibold text-postbox-navy">
-                        Is autofill really unlimited?
+                        Do unused autofills roll over?
                     </dt>
                     <dd
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
-                        Yes. Once your profile is saved, the extension reads it
-                        locally — no AI call, no usage meter.
+                        No. Your allowance resets on the 1st of each month.
                     </dd>
                 </div>
             </dl>
@@ -140,18 +139,18 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
 
         <PostboxCta
             class="mt-10"
-            title="Start for free"
-            description="Upload your CV, connect the extension, and apply without retyping."
+            title="Start on the free plan"
+            description="250 autofills per month to get going — upgrade when you need more."
             button-label="Get started free"
         />
 
         <p class="mt-6 text-center text-sm text-muted-foreground">
             Already have an account?
             <Link
-                :href="isAuthenticated ? dashboard() : login()"
+                :href="isAuthenticated ? billing.index() : login()"
                 class="postbox-link"
             >
-                {{ isAuthenticated ? 'Go to dashboard' : 'Sign in' }}
+                {{ isAuthenticated ? 'Manage billing' : 'Sign in' }}
             </Link>
         </p>
     </PostboxMarketingLayout>

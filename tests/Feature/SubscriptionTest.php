@@ -4,8 +4,10 @@ namespace Tests\Feature;
 
 use App\Models\CvProfile;
 use App\Models\User;
+use App\Services\GoCardlessService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 class SubscriptionTest extends TestCase
@@ -29,7 +31,39 @@ class SubscriptionTest extends TestCase
             ->assertJson([
                 'component' => 'Billing',
             ])
-            ->assertJsonPath('props.subscription.tier', 'free');
+            ->assertJsonPath('props.subscription.tier', 'free')
+            ->assertJsonPath('props.subscription.monthly_autofills', 250);
+    }
+
+    public function test_paid_checkout_redirects_to_gocardless_for_starter(): void
+    {
+        $user = User::factory()->create();
+
+        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('createCheckoutFlow')
+                ->once()
+                ->andReturn('https://pay.gocardless.com/flow/test');
+        });
+
+        $this->actingAs($user)
+            ->post(route('billing.checkout'), ['tier' => 'starter'])
+            ->assertRedirect('https://pay.gocardless.com/flow/test');
+    }
+
+    public function test_legacy_paid_user_can_move_back_to_free_and_cancel_gocardless(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'starter',
+            'gocardless_subscription_id' => 'SB123',
+        ]);
+
+        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('cancelSubscription')->once();
+        });
+
+        $this->actingAs($user)
+            ->post(route('billing.checkout'), ['tier' => 'free'])
+            ->assertRedirect(route('billing.index'));
     }
 
     public function test_dashboard_includes_subscription_summary(): void
@@ -42,6 +76,6 @@ class SubscriptionTest extends TestCase
             ->get(route('dashboard'))
             ->assertStatus(200)
             ->assertJsonPath('props.subscription.tier', 'free')
-            ->assertJsonPath('props.subscription.can_parse_cv', true);
+            ->assertJsonPath('props.subscription.can_autofill', true);
     }
 }

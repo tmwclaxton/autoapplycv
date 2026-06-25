@@ -15,6 +15,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
 
+    if (message.type === 'RECORD_AUTOFILL') {
+        recordAutofill().then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
     if (message.type === 'SET_TOKEN') {
         chrome.storage.local.set({ apiToken: message.token }, () => {
             cachedProfile = null;
@@ -75,6 +81,42 @@ async function getProfile() {
     const data = await response.json();
     cachedProfile = data;
     cacheTimestamp = now;
+
+    return data;
+}
+
+async function recordAutofill() {
+    const { apiToken } = await chrome.storage.local.get(['apiToken']);
+
+    if (!apiToken) {
+        throw new Error('Not authenticated');
+    }
+
+    const response = await fetch(`${API_BASE}/api/autofill`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${apiToken}`,
+            'Accept': 'application/json',
+        },
+    });
+
+    const data = await response.json();
+
+    if (response.status === 402) {
+        if (cachedProfile) {
+            cachedProfile.subscription = data.subscription;
+        }
+
+        throw new Error(data.error || 'Autofill limit reached');
+    }
+
+    if (!response.ok) {
+        throw new Error(data.error || 'Failed to record autofill');
+    }
+
+    if (cachedProfile) {
+        cachedProfile.subscription = data.subscription;
+    }
 
     return data;
 }

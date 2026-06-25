@@ -98,7 +98,7 @@ class GoCardlessService
         }
 
         $tierValue = $user->pending_subscription_tier ?? $user->subscription_tier;
-        $tier = SubscriptionTier::from($tierValue);
+        $tier = SubscriptionTier::resolve($tierValue);
 
         if (! $tier->isPaid()) {
             return;

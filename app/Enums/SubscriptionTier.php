@@ -5,8 +5,9 @@ namespace App\Enums;
 enum SubscriptionTier: string
 {
     case Free = 'free';
-    case Standard = 'standard';
+    case Starter = 'starter';
     case Pro = 'pro';
+    case Standard = 'standard';
     case Power = 'power';
 
     public function label(): string
@@ -22,6 +23,11 @@ enum SubscriptionTier: string
     public function pricePence(): int
     {
         return (int) config("subscriptions.tiers.{$this->configKey()}.price_pence", 0);
+    }
+
+    public function monthlyAutofills(): int
+    {
+        return (int) config("subscriptions.tiers.{$this->configKey()}.monthly_autofills", 0);
     }
 
     public function isPaid(): bool
@@ -58,6 +64,7 @@ enum SubscriptionTier: string
      *     description: string,
      *     price: string,
      *     price_pence: int,
+     *     monthly_autofills: int,
      *     features: array<int, string>,
      *     is_paid: bool,
      *     is_available: bool,
@@ -72,6 +79,7 @@ enum SubscriptionTier: string
             'description' => $this->description(),
             'price' => $this->formattedPrice(),
             'price_pence' => $this->pricePence(),
+            'monthly_autofills' => $this->monthlyAutofills(),
             'features' => $this->features(),
             'is_paid' => $this->isPaid(),
             'is_available' => $this->isAvailable(),
@@ -108,24 +116,25 @@ enum SubscriptionTier: string
     {
         return [
             self::Free,
+            self::Starter,
             self::Pro,
         ];
     }
 
     public static function resolve(?string $value): self
     {
-        $tier = self::tryFrom($value ?? '');
+        $tier = match ($value) {
+            'standard' => self::Starter,
+            'power' => self::Pro,
+            default => self::tryFrom($value ?? ''),
+        };
 
         if ($tier === null) {
             return self::Free;
         }
 
-        if ($tier === self::Pro && $tier->isAvailable()) {
-            return self::Pro;
-        }
-
-        if ($tier === self::Free) {
-            return self::Free;
+        if ($tier->isAvailable()) {
+            return $tier;
         }
 
         return self::Free;
@@ -134,7 +143,8 @@ enum SubscriptionTier: string
     private function configKey(): string
     {
         return match ($this) {
-            self::Standard, self::Power => 'free',
+            self::Standard => 'starter',
+            self::Power => 'pro',
             default => $this->value,
         };
     }

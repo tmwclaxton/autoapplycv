@@ -37,6 +37,10 @@ async function loadProfile() {
     });
 }
 
+function formatAutofills(value) {
+    return new Intl.NumberFormat('en-GB').format(value);
+}
+
 function renderSubscription(subscription) {
     if (!subscription || !usageCard) {
         return;
@@ -44,11 +48,14 @@ function renderSubscription(subscription) {
 
     usageCard.style.display = 'block';
     planLabel.textContent = `${subscription.tier_label} plan`;
-    usageCount.textContent = 'Included';
-    usageFill.style.width = subscription.can_parse_cv ? '100%' : '0%';
-    usageMeta.textContent = subscription.can_parse_cv
-        ? 'Unlimited autofill · CV parsing included'
-        : `CV upload limit reached · resets ${new Date(subscription.period_resets_at).toLocaleDateString('en-GB')}`;
+    usageCount.textContent = `${formatAutofills(subscription.autofills_used)} / ${formatAutofills(subscription.monthly_autofills)}`;
+    const percent = subscription.monthly_autofills > 0
+        ? Math.min(100, Math.round((subscription.autofills_used / subscription.monthly_autofills) * 100))
+        : 0;
+    usageFill.style.width = `${percent}%`;
+    usageMeta.textContent = subscription.can_autofill
+        ? `${formatAutofills(subscription.autofills_remaining)} autofills left · resets ${new Date(subscription.period_resets_at).toLocaleDateString('en-GB')}`
+        : `Limit reached · resets ${new Date(subscription.period_resets_at).toLocaleDateString('en-GB')}`;
 }
 
 async function init() {

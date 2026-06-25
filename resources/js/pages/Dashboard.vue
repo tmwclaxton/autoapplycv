@@ -49,7 +49,10 @@ interface CvProfile {
 
 interface SubscriptionSummary {
     tier_label: string;
-    can_parse_cv: boolean;
+    can_autofill: boolean;
+    autofills_used: number;
+    autofills_remaining: number;
+    monthly_autofills: number;
     period_resets_at: string;
 }
 

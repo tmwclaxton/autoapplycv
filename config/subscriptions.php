@@ -4,28 +4,38 @@ return [
 
     'default_tier' => 'free',
 
-    'fair_use_cv_parses_per_month' => 20,
-
     'tiers' => [
         'free' => [
             'name' => 'Free',
-            'description' => 'Upload your CV, edit your profile, and autofill applications on supported job sites.',
+            'description' => 'Get started with extension autofill on supported job sites.',
             'price_pence' => 0,
+            'monthly_autofills' => 250,
             'available' => true,
             'features' => [
-                'Unlimited CV parsing',
-                'Profile editing',
-                'Unlimited extension autofill',
+                '250 extension autofills per month',
+                'Workday, Indeed, LinkedIn, Greenhouse & Lever',
+            ],
+        ],
+        'starter' => [
+            'name' => 'Starter',
+            'description' => 'For active job hunters applying regularly.',
+            'price_pence' => 700,
+            'monthly_autofills' => 2500,
+            'available' => true,
+            'features' => [
+                '2,500 extension autofills per month',
+                'Workday, Indeed, LinkedIn, Greenhouse & Lever',
             ],
         ],
         'pro' => [
             'name' => 'Pro',
-            'description' => 'Multiple CV profiles and more — coming soon.',
-            'price_pence' => 700,
-            'available' => false,
+            'description' => 'High-volume autofill for intensive application campaigns.',
+            'price_pence' => 1700,
+            'monthly_autofills' => 15000,
+            'available' => true,
             'features' => [
-                'Multiple CV profiles',
-                'Everything in Free',
+                '15,000 extension autofills per month',
+                'Workday, Indeed, LinkedIn, Greenhouse & Lever',
             ],
         ],
     ],

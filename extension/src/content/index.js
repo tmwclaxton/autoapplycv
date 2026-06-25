@@ -237,6 +237,31 @@ function createFillButton() {
             return;
         }
 
+        try {
+            await new Promise((resolve, reject) => {
+                chrome.runtime.sendMessage({ type: 'RECORD_AUTOFILL' }, (response) => {
+                    if (chrome.runtime.lastError) {
+                        reject(new Error(chrome.runtime.lastError.message));
+                    } else if (response?.error) {
+                        reject(new Error(response.error));
+                    } else {
+                        if (response?.subscription) {
+                            profile.subscription = response.subscription;
+                        }
+
+                        resolve(response);
+                    }
+                });
+            });
+        } catch (error) {
+            btn.textContent = error.message.includes('limit') ? '⚠ Monthly limit reached' : '⚠ Autofill failed';
+            setTimeout(() => {
+ btn.innerHTML = btn.innerHTML.replace(/⚠.*/, 'AutoFill with AutoCVApply'); 
+}, 3000);
+
+            return;
+        }
+
         const count = fillForm(platform, profile);
         btn.textContent = count > 0 ? `✓ Filled ${count} fields` : '✓ Already filled';
         setTimeout(() => {

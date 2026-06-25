@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AutofillController;
 use App\Http\Controllers\Api\ExtensionTokenController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\BillingController;
@@ -29,10 +30,9 @@ Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function ()
     Route::patch('/cv/profile', [CvUploadController::class, 'updateProfile'])->name('cv.profile.update');
 
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
-    // Paid billing — uncomment when Pro launches
-    // Route::post('/billing/checkout', [BillingController::class, 'checkout'])->name('billing.checkout');
-    // Route::get('/billing/complete', [BillingController::class, 'complete'])->name('billing.complete');
-    // Route::post('/billing/cancel', [BillingController::class, 'cancel'])->name('billing.cancel');
+    Route::post('/billing/checkout', [BillingController::class, 'checkout'])->name('billing.checkout');
+    Route::get('/billing/complete', [BillingController::class, 'complete'])->name('billing.complete');
+    Route::post('/billing/cancel', [BillingController::class, 'cancel'])->name('billing.cancel');
 
     Route::get('/settings/profile', [SettingsProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/settings/profile', [SettingsProfileController::class, 'update'])->name('profile.update');
@@ -42,6 +42,7 @@ Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function ()
 
 Route::middleware(['auth:sanctum'])->prefix('api')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('api.profile');
+    Route::post('/autofill', [AutofillController::class, 'store'])->name('api.autofill');
     Route::post('/tokens', [ExtensionTokenController::class, 'store'])->name('api.tokens.store');
     Route::delete('/tokens/{token}', [ExtensionTokenController::class, 'destroy'])->name('api.tokens.destroy');
 });

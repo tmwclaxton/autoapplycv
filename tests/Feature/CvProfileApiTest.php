@@ -51,7 +51,10 @@ class CvProfileApiTest extends TestCase
                     'tier_label',
                     'plan_description',
                     'features',
-                    'can_parse_cv',
+                    'monthly_autofills',
+                    'autofills_used',
+                    'autofills_remaining',
+                    'can_autofill',
                 ],
             ]);
     }

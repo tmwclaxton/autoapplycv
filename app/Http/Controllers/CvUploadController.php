@@ -36,14 +36,6 @@ class CvUploadController extends Controller
 
         $rawText = $this->cvParser->extractText($file);
 
-        if (! $this->aiTokens->canParseCv($user)) {
-            return response()->json([
-                'success' => false,
-                'error' => 'You have reached the monthly CV upload limit. Please try again next month.',
-                'subscription' => $this->aiTokens->summary($user),
-            ], 402);
-        }
-
         $storedPath = $file->store("cv-uploads/{$user->id}", 'local');
 
         CvUpload::create([
@@ -137,8 +129,6 @@ class CvUploadController extends Controller
         }
 
         unset($result['_tokens_used']);
-
-        $this->aiTokens->recordParse($user);
 
         return $result;
     }

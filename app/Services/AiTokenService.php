@@ -22,49 +22,39 @@ class AiTokenService
         return $user->refresh();
     }
 
-    public function monthlyParseLimit(): int
+    public function monthlyAutofillAllowance(User $user): int
     {
-        return max(1, (int) config('subscriptions.fair_use_cv_parses_per_month', 20));
+        return max(0, $user->subscriptionTier()->monthlyAutofills());
     }
 
-    public function parsesUsed(User $user): int
+    public function autofillsUsed(User $user): int
     {
         $this->ensureCurrentPeriod($user);
 
         return $user->ai_tokens_used;
     }
 
-    public function parsesRemaining(User $user): int
+    public function autofillsRemaining(User $user): int
     {
-        return max(0, $this->monthlyParseLimit() - $this->parsesUsed($user));
+        return max(0, $this->monthlyAutofillAllowance($user) - $this->autofillsUsed($user));
     }
 
-    public function canParseCv(User $user): bool
+    public function canAutofill(User $user): bool
     {
         if ($user->subscriptionStatus() !== SubscriptionStatus::Active) {
             return false;
         }
 
-        return $this->parsesRemaining($user) > 0;
+        return $this->autofillsRemaining($user) > 0;
     }
 
-    public function recordParse(User $user): void
+    public function recordAutofill(User $user): void
     {
         $this->ensureCurrentPeriod($user);
 
         $user->forceFill([
             'ai_tokens_used' => $user->ai_tokens_used + 1,
         ])->save();
-    }
-
-    public function estimateTokens(string $text): int
-    {
-        return max(1, (int) ceil(mb_strlen($text) / 4));
-    }
-
-    public function estimateCvParseTokens(string $rawText): int
-    {
-        return $this->estimateTokens($rawText) + 1500;
     }
 
     /**
@@ -75,7 +65,10 @@ class AiTokenService
      *     status_label: string,
      *     plan_description: string,
      *     features: array<int, string>,
-     *     can_parse_cv: bool,
+     *     monthly_autofills: int,
+     *     autofills_used: int,
+     *     autofills_remaining: int,
+     *     can_autofill: bool,
      *     period_resets_at: string,
      * }
      */
@@ -88,6 +81,8 @@ class AiTokenService
         $periodStart = $user->ai_tokens_period_start
             ? Carbon::parse($user->ai_tokens_period_start)
             : now()->startOfMonth();
+        $allowance = $this->monthlyAutofillAllowance($user);
+        $used = $this->autofillsUsed($user);
 
         return [
             'tier' => $tier->value,
@@ -96,7 +91,10 @@ class AiTokenService
             'status_label' => $status->label(),
             'plan_description' => $tier->description(),
             'features' => $tier->features(),
-            'can_parse_cv' => $this->canParseCv($user),
+            'monthly_autofills' => $allowance,
+            'autofills_used' => $used,
+            'autofills_remaining' => max(0, $allowance - $used),
+            'can_autofill' => $this->canAutofill($user),
             'period_resets_at' => $periodStart->copy()->addMonth()->startOfMonth()->toDateString(),
         ];
     }

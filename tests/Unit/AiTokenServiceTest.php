@@ -21,22 +21,22 @@ class AiTokenServiceTest extends TestCase
         $this->service = app(AiTokenService::class);
     }
 
-    public function test_free_tier_user_can_parse_by_default(): void
+    public function test_free_tier_user_gets_default_autofill_allowance(): void
     {
         $user = User::factory()->create();
 
-        $this->assertTrue($this->service->canParseCv($user));
-        $this->assertSame(0, $this->service->parsesUsed($user));
+        $this->assertSame(250, $this->service->monthlyAutofillAllowance($user));
+        $this->assertTrue($this->service->canAutofill($user));
     }
 
-    public function test_recording_a_parse_increments_monthly_usage(): void
+    public function test_recording_an_autofill_increments_monthly_usage(): void
     {
         $user = User::factory()->create();
 
-        $this->service->recordParse($user);
+        $this->service->recordAutofill($user);
 
-        $this->assertSame(1, $this->service->parsesUsed($user->fresh()));
-        $this->assertSame(19, $this->service->parsesRemaining($user->fresh()));
+        $this->assertSame(1, $this->service->autofillsUsed($user->fresh()));
+        $this->assertSame(249, $this->service->autofillsRemaining($user->fresh()));
     }
 
     public function test_usage_resets_when_a_new_month_starts(): void
@@ -44,7 +44,7 @@ class AiTokenServiceTest extends TestCase
         Carbon::setTestNow('2026-05-15 12:00:00');
 
         $user = User::factory()->create([
-            'ai_tokens_used' => 5,
+            'ai_tokens_used' => 100,
             'ai_tokens_period_start' => '2026-05-01 00:00:00',
         ]);
 
@@ -56,27 +56,39 @@ class AiTokenServiceTest extends TestCase
         $this->assertTrue($user->fresh()->ai_tokens_period_start->isSameMonth(Carbon::parse('2026-06-01')));
     }
 
-    public function test_fair_use_limit_blocks_additional_parses(): void
+    public function test_monthly_limit_blocks_additional_autofills(): void
     {
         $user = User::factory()->create([
-            'ai_tokens_used' => 20,
+            'ai_tokens_used' => 250,
             'ai_tokens_period_start' => now()->startOfMonth(),
         ]);
 
-        $this->assertFalse($this->service->canParseCv($user));
+        $this->assertFalse($this->service->canAutofill($user));
     }
 
-    public function test_summary_includes_plan_details(): void
+    public function test_starter_tier_has_higher_allowance(): void
     {
         $user = User::factory()->create([
-            'subscription_tier' => 'standard',
+            'subscription_tier' => 'starter',
+        ]);
+
+        $this->assertSame(2500, $this->service->monthlyAutofillAllowance($user));
+    }
+
+    public function test_summary_includes_autofill_details(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'pro',
+            'ai_tokens_used' => 10,
+            'ai_tokens_period_start' => now()->startOfMonth(),
         ]);
 
         $summary = $this->service->summary($user);
 
-        $this->assertSame('free', $summary['tier']);
-        $this->assertSame('Free', $summary['tier_label']);
-        $this->assertTrue($summary['can_parse_cv']);
-        $this->assertContains('Unlimited CV parsing', $summary['features']);
+        $this->assertSame('pro', $summary['tier']);
+        $this->assertSame('Pro', $summary['tier_label']);
+        $this->assertSame(15000, $summary['monthly_autofills']);
+        $this->assertSame(10, $summary['autofills_used']);
+        $this->assertTrue($summary['can_autofill']);
     }
 }
