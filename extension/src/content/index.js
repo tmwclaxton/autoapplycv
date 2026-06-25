@@ -167,6 +167,47 @@ function fillForm(platformConfig, p, maxFields = Infinity) {
     return filled;
 }
 
+async function fillResumeFileInput(maxFields, filled) {
+    if (filled >= maxFields) {
+        return filled;
+    }
+
+    const fileInput = document.querySelector('input[type="file"]');
+
+    if (!fileInput || fileInput.files?.length > 0 || fileInput.value) {
+        return filled;
+    }
+
+    try {
+        const result = await new Promise((resolve, reject) => {
+            chrome.runtime.sendMessage({ type: 'GET_CV_DOCUMENT' }, (response) => {
+                if (chrome.runtime.lastError) {
+                    reject(new Error(chrome.runtime.lastError.message));
+                } else if (response?.error) {
+                    reject(new Error(response.error));
+                } else {
+                    resolve(response);
+                }
+            });
+        });
+
+        const response = await fetch(result.base64);
+        const blob = await response.blob();
+        const file = new File([blob], result.fileName || 'cv.pdf', {
+            type: result.mimeType || blob.type || 'application/pdf',
+        });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        fileInput.files = dataTransfer.files;
+        fileInput.dispatchEvent(new Event('input', { bubbles: true }));
+        fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+        return filled + 1;
+    } catch {
+        return filled;
+    }
+}
+
 async function loadProfile() {
     try {
         profile = await new Promise((resolve, reject) => {
@@ -254,7 +295,7 @@ function createFillButton() {
             return;
         }
 
-        const count = fillForm(platform, profile, remaining);
+        const count = await fillResumeFileInput(remaining, fillForm(platform, profile, remaining));
 
         if (count === 0) {
             btn.textContent = '✓ Already filled';

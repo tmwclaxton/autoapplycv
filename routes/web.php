@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AutofillController;
 use App\Http\Controllers\Api\ExtensionTokenController;
+use App\Http\Controllers\Api\JobApplicationController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\BlogController;
@@ -52,6 +53,7 @@ Route::middleware(['auth:sanctum'])->prefix('api')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('api.profile');
     Route::get('/profile/documents/{profileDocument}/download', [ProfileDocumentController::class, 'download'])->name('api.profile.documents.download');
     Route::post('/autofill', [AutofillController::class, 'store'])->name('api.autofill');
+    Route::post('/applications', [JobApplicationController::class, 'store'])->name('api.applications.store');
     Route::post('/tokens', [ExtensionTokenController::class, 'store'])->name('api.tokens.store');
     Route::delete('/tokens/{token}', [ExtensionTokenController::class, 'destroy'])->name('api.tokens.destroy');
 });

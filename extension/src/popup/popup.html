@@ -73,6 +73,24 @@
         </div>
 
         <div class="tab-panel" id="settings-tab">
+            <label class="field-label">Phone country code</label>
+            <select class="text-input" id="phoneCountryCode">
+                <option value="+44">United Kingdom (+44)</option>
+                <option value="+1">United States / Canada (+1)</option>
+                <option value="+353">Ireland (+353)</option>
+                <option value="+33">France (+33)</option>
+                <option value="+49">Germany (+49)</option>
+                <option value="+61">Australia (+61)</option>
+            </select>
+
+            <label class="field-label">Fallback resume (if dashboard CV unavailable)</label>
+            <div class="resume-row">
+                <span id="resume-file-name" class="resume-name">No file chosen</span>
+                <button type="button" class="btn secondary compact" id="upload-resume-btn">Upload</button>
+                <button type="button" class="btn secondary compact" id="remove-resume-btn" style="display:none">Remove</button>
+            </div>
+            <input type="file" id="resume-file-input" accept=".pdf,.doc,.docx" hidden />
+
             <label class="field-label">Years of experience</label>
             <input class="text-input" id="yearsOfExperience" type="number" min="0" max="50" value="2" />
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ProfileDocumentCategory;
+use App\Models\JobApplication;
 use App\Models\ProfileDocument;
 use App\Models\User;
 use App\Services\AiTokenService;
@@ -45,6 +46,13 @@ class OnboardingController extends Controller
         return Inertia::render('Dashboard', [
             'cvProfile' => $cvProfile,
             'subscription' => $this->aiTokens->summary($user),
+            'applications' => $user->jobApplications()
+                ->latest('applied_at')
+                ->limit(100)
+                ->get()
+                ->map(fn (JobApplication $application): array => $application->toFrontendArray())
+                ->values()
+                ->all(),
             ...$this->documentPageProps($user),
         ]);
     }

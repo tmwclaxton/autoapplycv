@@ -53,6 +53,32 @@ function defaultYearsOfExperience(experience) {
   return String(Math.min(20, Math.max(1, experience.length * 2)));
 }
 
+function formatPhoneNumber(phone, countryCode = '+44') {
+  if (!phone) {
+    return '';
+  }
+
+  const trimmed = phone.trim();
+
+  if (trimmed.startsWith('+')) {
+    return trimmed;
+  }
+
+  const digits = trimmed.replace(/\D/g, '');
+
+  if (!digits) {
+    return '';
+  }
+
+  const codeDigits = String(countryCode || '+44').replace(/\D/g, '');
+
+  if (!codeDigits) {
+    return digits;
+  }
+
+  return `+${codeDigits}${digits.replace(/^0+/, '')}`;
+}
+
 async function buildBotConfig() {
   const settings = await chrome.storage.sync.get([
     'yearsOfExperience',
@@ -64,6 +90,7 @@ async function buildBotConfig() {
     'willingToRelocate',
     'driversLicense',
     'autoNextPage',
+    'phoneCountryCode',
   ]);
 
   const profileData = await new Promise((resolve, reject) => {
@@ -85,9 +112,10 @@ async function buildBotConfig() {
     firstName,
     lastName,
     email: profile.email || profileData.user?.email || '',
-    phone: profile.phone || '',
+    phone: formatPhoneNumber(profile.phone, settings.phoneCountryCode || '+44'),
     city: profile.city || profile.location?.split(',')[0]?.trim() || '',
     country: profile.country || '',
+    phoneCountryCode: settings.phoneCountryCode || '+44',
     yearsOfExperience: settings.yearsOfExperience || defaultYearsOfExperience(profile.experience),
     maxYearsRequired: settings.maxYearsRequired || '3',
     blacklistKeywords: settings.blacklistKeywords || '',
@@ -1598,6 +1626,21 @@ async function mainLoop() {
             });
             updateAppliedCount();
             saveAppliedJobsToStorage();
+
+            try {
+              chrome.runtime.sendMessage({
+                type: 'RECORD_APPLICATION',
+                application: {
+                  title: jobTitle,
+                  company: jobCompany,
+                  link: jobLink,
+                  source: 'linkedin',
+                  applied_at: new Date().toISOString(),
+                },
+              });
+            } catch (error) {
+              log(`Could not sync application to dashboard: ${error.message}`);
+            }
 
             // OPTIMIZED: Check modal status immediately after Submit
             log('🔍 Checking if modal closed after Submit...');

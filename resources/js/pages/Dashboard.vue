@@ -2,6 +2,7 @@
 import { Head, Link, router, setLayoutProps } from '@inertiajs/vue3';
 import {
     Briefcase,
+    ClipboardList,
     Copy,
     Download,
     Key,
@@ -10,6 +11,9 @@ import {
     Upload,
     User,
 } from 'lucide-vue-next';
+import JobApplicationsPanel, {
+    type JobApplicationRecord,
+} from '@/components/cv/JobApplicationsPanel.vue';
 import { computed, ref } from 'vue';
 import {
     store as cvUpload,
@@ -45,11 +49,12 @@ const props = defineProps<{
     subscription: SubscriptionSummary;
     documents: ProfileDocument[];
     documentCategories: DocumentCategoryOption[];
+    applications: JobApplicationRecord[];
 }>();
 
 const profile = ref<CvProfile>(normalizeCvProfile(props.cvProfile));
 const documents = ref<ProfileDocument[]>([...props.documents]);
-const activeTab = ref<'profile' | 'experience' | 'extension'>('profile');
+const activeTab = ref<'profile' | 'experience' | 'applications' | 'extension'>('profile');
 const isSaving = ref(false);
 const isUploading = ref(false);
 const uploadError = ref<string | null>(null);
@@ -63,6 +68,7 @@ const experienceSections = ['experience', 'education'] as const;
 const tabs = [
     { key: 'profile' as const, label: 'CV profile', icon: User },
     { key: 'experience' as const, label: 'Experience', icon: Briefcase },
+    { key: 'applications' as const, label: 'Applications', icon: ClipboardList },
     { key: 'extension' as const, label: 'Extension', icon: Puzzle },
 ];
 
@@ -399,6 +405,10 @@ async function copyToken() {
                     {{ isSaving ? 'Saving…' : 'Save changes' }}
                 </button>
             </div>
+        </div>
+
+        <div v-else-if="activeTab === 'applications'">
+            <JobApplicationsPanel :applications="applications" />
         </div>
 
         <div v-else-if="activeTab === 'extension'" class="space-y-4">

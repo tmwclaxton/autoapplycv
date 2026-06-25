@@ -80,6 +80,7 @@ const settingsFields = [
     'legallyAuthorized',
     'willingToRelocate',
     'driversLicense',
+    'phoneCountryCode',
 ];
 
 async function loadSettings() {
@@ -97,6 +98,78 @@ async function loadSettings() {
     });
 
     document.getElementById('autoNextPage').checked = config.autoNextPage !== false;
+
+    const local = await chrome.storage.local.get(['resumeFileName']);
+    if (local.resumeFileName) {
+        document.getElementById('resume-file-name').textContent = local.resumeFileName;
+        document.getElementById('remove-resume-btn').style.display = 'inline-flex';
+    }
+}
+
+function setupResumeUpload() {
+    const fileInput = document.getElementById('resume-file-input');
+    const uploadBtn = document.getElementById('upload-resume-btn');
+    const removeBtn = document.getElementById('remove-resume-btn');
+    const fileName = document.getElementById('resume-file-name');
+
+    uploadBtn.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', async () => {
+        const file = fileInput.files?.[0];
+
+        if (!file) {
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            showMessage('Resume must be smaller than 5MB.', 'error');
+
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            await chrome.storage.local.set({
+                resumeFile: event.target.result,
+                resumeFileName: file.name,
+                resumeFileType: file.type,
+            });
+            fileName.textContent = file.name;
+            removeBtn.style.display = 'inline-flex';
+            showMessage('Resume saved locally.');
+        };
+        reader.readAsDataURL(file);
+    });
+
+    removeBtn.addEventListener('click', async () => {
+        await chrome.storage.local.remove(['resumeFile', 'resumeFileName', 'resumeFileType']);
+        fileName.textContent = 'No file chosen';
+        removeBtn.style.display = 'none';
+        fileInput.value = '';
+    });
+}
+
+async function showOnboardingIfNeeded() {
+    const { extensionOnboardingCompleted } = await chrome.storage.local.get(['extensionOnboardingCompleted']);
+
+    if (extensionOnboardingCompleted) {
+        return;
+    }
+
+    const overlay = document.createElement('div');
+    overlay.className = 'onboarding-overlay';
+    overlay.innerHTML = `
+        <div class="onboarding-card">
+            <h2>Welcome to AutoCVApply</h2>
+            <p>Connect with your dashboard token, configure bot settings, then open LinkedIn Jobs and start Easy Apply automation from the LinkedIn tab.</p>
+            <button type="button" class="btn primary" id="finish-onboarding-btn">Got it</button>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+    overlay.querySelector('#finish-onboarding-btn').addEventListener('click', async () => {
+        await chrome.storage.local.set({ extensionOnboardingCompleted: true });
+        overlay.remove();
+    });
 }
 
 async function saveSettings() {
@@ -109,6 +182,7 @@ async function saveSettings() {
         legallyAuthorized: document.getElementById('legallyAuthorized').value,
         willingToRelocate: document.getElementById('willingToRelocate').value,
         driversLicense: document.getElementById('driversLicense').value,
+        phoneCountryCode: document.getElementById('phoneCountryCode').value,
         autoNextPage: document.getElementById('autoNextPage').checked,
     };
 
@@ -311,6 +385,7 @@ document.getElementById('clear-applied-jobs').addEventListener('click', async ()
 async function init() {
     setupTabs();
     setupSettingsAutoSave();
+    setupResumeUpload();
     await loadSettings();
     await updateBotCounters();
 
@@ -332,6 +407,7 @@ async function init() {
         }
 
         renderSubscription(profileData?.subscription);
+        await showOnboardingIfNeeded();
     } else {
         authState.style.display = 'none';
         unauthState.style.display = 'block';

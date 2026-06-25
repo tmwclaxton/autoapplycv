@@ -32,6 +32,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
 
+    if (message.type === 'RECORD_APPLICATION') {
+        recordApplication(message.application).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
     if (message.type === 'SET_TOKEN') {
         chrome.storage.local.set({ apiToken: message.token }, () => {
             cachedProfile = null;
@@ -152,6 +158,28 @@ async function getCvDocument() {
         fileName: cvDocument.original_filename || cvDocument.title || 'cv.pdf',
         mimeType: cvDocument.mime_type || 'application/pdf',
     };
+}
+
+async function recordApplication(application) {
+    const apiToken = await getApiToken();
+
+    const response = await fetch(`${API_BASE}/api/applications`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(application),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.error || data.message || 'Failed to record application');
+    }
+
+    return data;
 }
 
 async function recordAutofill(count) {
