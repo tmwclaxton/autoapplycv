@@ -39,7 +39,6 @@ RUN cp .env.example .env && php artisan key:generate --no-interaction
 RUN php artisan wayfinder:generate --with-form --no-interaction
 RUN npm run build
 RUN node scripts/build-extension.mjs
-RUN cd extension/dist && zip -r /app/public/extension/autoapplycv.zip .
 
 # -----------------------------------------------------------------------------
 # Stage 2: Production PHP image

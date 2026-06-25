@@ -58,17 +58,6 @@ class GoCardlessService
                         'tier' => $tier->value,
                     ],
                 ],
-                'subscription_request' => [
-                    'amount' => $tier->pricePence(),
-                    'currency' => 'GBP',
-                    'name' => 'AutoCVApply '.$tier->label(),
-                    'interval_unit' => 'monthly',
-                    'interval' => 1,
-                    'metadata' => [
-                        'user_id' => (string) $user->id,
-                        'tier' => $tier->value,
-                    ],
-                ],
             ],
         ]);
 
@@ -89,6 +78,25 @@ class GoCardlessService
         ])->save();
 
         return $flow->authorisation_url;
+    }
+
+    public function syncPendingCheckout(User $user): bool
+    {
+        $billingRequestId = $user->gocardless_billing_request_id;
+
+        if ($billingRequestId === null) {
+            return false;
+        }
+
+        $billingRequest = $this->client()->billingRequests()->get($billingRequestId);
+
+        if ($billingRequest->status !== 'fulfilled') {
+            return false;
+        }
+
+        $this->activateSubscriptionFromBillingRequest($user, $billingRequestId);
+
+        return true;
     }
 
     public function activateSubscriptionFromBillingRequest(User $user, string $billingRequestId): void

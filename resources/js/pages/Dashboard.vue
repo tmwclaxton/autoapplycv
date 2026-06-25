@@ -4,7 +4,6 @@ import {
     Briefcase,
     ClipboardList,
     Copy,
-    Download,
     Key,
     Loader2,
     Puzzle,
@@ -15,6 +14,7 @@ import JobApplicationsPanel, {
     type JobApplicationRecord,
 } from '@/components/cv/JobApplicationsPanel.vue';
 import ApplicationToolsPanel from '@/components/cv/ApplicationToolsPanel.vue';
+import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
 import { computed, nextTick, ref } from 'vue';
 import {
     store as cvUpload,
@@ -427,17 +427,12 @@ async function copyToken() {
 
         <div v-else-if="activeTab === 'extension'" class="space-y-4">
             <div class="postbox-panel p-6">
-                <h2 class="postbox-label">Download extension</h2>
-                <p class="mb-5 text-sm text-muted-foreground">
-                    Stamps your profile onto job application forms.
+                <h2 class="postbox-label">Install extension</h2>
+                <p class="mb-6 text-sm text-muted-foreground">
+                    Choose your browser, download the matching zip, and sideload it without the
+                    Chrome Web Store or Firefox Add-ons.
                 </p>
-                <a
-                    href="/extension/autoapplycv.zip"
-                    class="postbox-btn inline-flex"
-                >
-                    <Download class="size-4" />
-                    Download Chrome extension
-                </a>
+                <ExtensionDownloadPanel />
             </div>
 
             <div class="postbox-panel p-6">

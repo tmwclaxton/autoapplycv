@@ -227,12 +227,6 @@ function addAdditionalSectionItem(sectionIndex: number): void {
 
 <template>
     <div class="space-y-6">
-        <ProfileDocumentsPanel
-            v-if="show('documents') && documents && documentCategories.length"
-            v-model:documents="documents"
-            :categories="documentCategories"
-        />
-
         <div v-if="show('basic')" class="postbox-panel p-6">
             <h2 class="postbox-label">Basic information</h2>
             <div class="grid gap-4 sm:grid-cols-2">
@@ -1442,5 +1436,10 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             />
         </div>
 
+        <ProfileDocumentsPanel
+            v-if="show('documents') && documents && documentCategories.length"
+            v-model:documents="documents"
+            :categories="documentCategories"
+        />
     </div>
 </template>

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { Head, Link, router, setLayoutProps } from '@inertiajs/vue3';
-import { Check, Chrome, Download, Loader2, Upload } from 'lucide-vue-next';
+import { Check, Loader2, Upload } from 'lucide-vue-next';
 import { computed, nextTick, ref } from 'vue';
 import {
     store as cvUpload,
     updateProfile as cvProfileUpdate,
 } from '@/actions/App/Http/Controllers/CvUploadController';
 import CvProfileForm from '@/components/cv/CvProfileForm.vue';
+import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
 import { dashboard } from '@/routes';
 import {
     normalizeCvProfile,
@@ -348,67 +349,14 @@ async function saveProfile() {
                     Profile posted.
                 </h1>
                 <p class="mt-2 text-muted-foreground">
-                    Install the extension and start stamping job forms.
+                    Choose your browser and install the extension to start stamping job forms.
                 </p>
             </div>
 
-            <div class="mx-auto mt-8 max-w-2xl space-y-4">
-                <a
-                    href="/extension/autoapplycv.zip"
-                    class="postbox-panel flex items-center justify-between gap-4 p-5 transition-colors hover:bg-postbox-grey/40"
-                >
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="flex size-12 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
-                        >
-                            <Chrome class="size-6 text-postbox-navy" />
-                        </div>
-                        <div class="text-left">
-                            <p class="font-bold text-postbox-navy">
-                                Browser extension
-                            </p>
-                            <p class="text-sm text-muted-foreground">
-                                Chrome, Brave, Edge
-                            </p>
-                        </div>
-                    </div>
-                    <span class="postbox-btn shrink-0">
-                        <Download class="size-4" />
-                        Download
-                    </span>
-                </a>
+            <div class="mx-auto mt-8 max-w-2xl">
+                <ExtensionDownloadPanel />
 
-                <div class="postbox-panel p-6">
-                    <h3 class="postbox-label mb-4">Installation</h3>
-                    <ol class="space-y-3 text-sm text-muted-foreground">
-                        <li class="flex gap-3">
-                            <span class="postbox-badge shrink-0">1</span>
-                            Download and unzip the extension
-                        </li>
-                        <li class="flex gap-3">
-                            <span class="postbox-badge shrink-0">2</span>
-                            Open
-                            <code
-                                class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
-                                >chrome://extensions</code
-                            >
-                        </li>
-                        <li class="flex gap-3">
-                            <span class="postbox-badge shrink-0">3</span>
-                            Enable Developer mode
-                        </li>
-                        <li class="flex gap-3">
-                            <span class="postbox-badge shrink-0">4</span>
-                            Load unpacked - select the unzipped folder
-                        </li>
-                        <li class="flex gap-3">
-                            <span class="postbox-badge shrink-0">5</span>
-                            Sign in with your API token from the dashboard
-                        </li>
-                    </ol>
-                </div>
-
-                <div class="flex flex-col items-center gap-3 text-center">
+                <div class="mt-8 flex flex-col items-center gap-3 text-center">
                     <Link :href="dashboard()" class="postbox-link text-sm">
                         Go to dashboard →
                     </Link>

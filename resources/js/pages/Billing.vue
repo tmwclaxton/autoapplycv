@@ -32,6 +32,9 @@ const page = usePage();
 const flashSuccess = computed(
     () => page.props.flash?.success as string | undefined,
 );
+const flashError = computed(
+    () => page.props.flash?.error as string | undefined,
+);
 
 const usagePercent = computed(() => {
     if (props.subscription.monthly_autofills === 0) {
@@ -83,6 +86,13 @@ function cancelSubscription() {
             class="postbox-panel mb-6 border-postbox-red/30 bg-postbox-red/5 p-4 text-sm text-postbox-navy"
         >
             {{ flashSuccess }}
+        </div>
+
+        <div
+            v-if="flashError"
+            class="postbox-panel mb-6 border-postbox-red/40 bg-postbox-red/10 p-4 text-sm text-postbox-navy"
+        >
+            {{ flashError }}
         </div>
 
         <div class="postbox-panel mb-8 p-6">

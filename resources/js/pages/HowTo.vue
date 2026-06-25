@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import { Chrome, Download } from 'lucide-vue-next';
+import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
 import PostboxCta from '@/components/postbox/PostboxCta.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
@@ -33,13 +33,16 @@ import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
             <ol>
                 <li>Sign in and complete your profile in the web app.</li>
                 <li>
-                    Download the extension from your dashboard or onboarding
-                    flow.
+                    Download the extension for Chrome or Firefox from your dashboard
+                    (no browser store required).
                 </li>
                 <li>
-                    Unzip it, open
-                    <code>chrome://extensions</code>, enable Developer mode, and
-                    choose Load unpacked.
+                    Unzip the download and sideload it:
+                    <strong>Chrome / Edge / Brave</strong> via
+                    <code>chrome://extensions</code> → Developer mode → Load unpacked;
+                    <strong>Firefox</strong> via
+                    <code>about:debugging</code> → Load Temporary Add-on →
+                    <code>manifest.json</code>.
                 </li>
                 <li>
                     Generate an API token in the dashboard and paste it into the
@@ -75,28 +78,7 @@ import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
             </ul>
         </PostboxProse>
 
-        <a
-            href="/extension/autoapplycv.zip"
-            class="postbox-panel mt-8 flex items-center justify-between gap-4 p-5 transition-colors hover:bg-postbox-grey/40"
-        >
-            <div class="flex items-center gap-4">
-                <div
-                    class="flex size-12 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
-                >
-                    <Chrome class="size-6 text-postbox-navy" />
-                </div>
-                <div>
-                    <p class="font-bold text-postbox-navy">Browser extension</p>
-                    <p class="text-sm text-muted-foreground">
-                        Chrome, Brave, Edge
-                    </p>
-                </div>
-            </div>
-            <span class="postbox-btn shrink-0">
-                <Download class="size-4" />
-                Download
-            </span>
-        </a>
+        <ExtensionDownloadPanel class="mt-8" />
 
         <PostboxCta class="mt-10" />
     </PostboxMarketingLayout>

@@ -6,6 +6,7 @@ use App\Models\CvProfile;
 use App\Models\User;
 use App\Services\GoCardlessService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use InvalidArgumentException;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -48,6 +49,43 @@ class SubscriptionTest extends TestCase
         $this->actingAs($user)
             ->post(route('billing.checkout'), ['tier' => 'starter'])
             ->assertRedirect('https://pay.gocardless.com/flow/test');
+    }
+
+    public function test_checkout_shows_error_when_billing_is_not_configured(): void
+    {
+        $user = User::factory()->create();
+
+        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('createCheckoutFlow')
+                ->once()
+                ->andThrow(new InvalidArgumentException('GoCardless access token is not configured.'));
+        });
+
+        $this->actingAs($user)
+            ->from(route('billing.index'))
+            ->post(route('billing.checkout'), ['tier' => 'starter'])
+            ->assertRedirect(route('billing.index'))
+            ->assertSessionHas('error');
+    }
+
+    public function test_billing_complete_syncs_fulfilled_checkout(): void
+    {
+        $user = User::factory()->create([
+            'pending_subscription_tier' => 'starter',
+            'gocardless_billing_request_id' => 'BRQ123',
+            'subscription_status' => 'pending',
+        ]);
+
+        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('syncPendingCheckout')
+                ->once()
+                ->andReturn(true);
+        });
+
+        $this->actingAs($user)
+            ->get(route('billing.complete'))
+            ->assertRedirect(route('billing.index'))
+            ->assertSessionHas('success');
     }
 
     public function test_legacy_paid_user_can_move_back_to_free_and_cancel_gocardless(): void

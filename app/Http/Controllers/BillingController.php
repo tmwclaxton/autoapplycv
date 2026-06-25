@@ -6,10 +6,14 @@ use App\Enums\SubscriptionStatus;
 use App\Enums\SubscriptionTier;
 use App\Services\AiTokenService;
 use App\Services\GoCardlessService;
+use GoCardlessPro\Core\Exception\ApiException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
+use InvalidArgumentException;
+use Throwable;
 
 class BillingController extends Controller
 {
@@ -64,16 +68,63 @@ class BillingController extends Controller
             return redirect()->route('billing.index')->with('success', 'You are already on this plan.');
         }
 
-        $checkoutUrl = $this->goCardless->createCheckoutFlow($user, $tier);
+        try {
+            $checkoutUrl = $this->goCardless->createCheckoutFlow($user, $tier);
+        } catch (InvalidArgumentException $exception) {
+            Log::error('Billing checkout misconfigured', [
+                'user_id' => $user->id,
+                'tier' => $tier->value,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return redirect()
+                ->route('billing.index')
+                ->with('error', 'Billing is not configured yet. Please contact support.');
+        } catch (ApiException $exception) {
+            Log::error('GoCardless checkout failed', [
+                'user_id' => $user->id,
+                'tier' => $tier->value,
+                'message' => $exception->getMessage(),
+                'errors' => $exception->getErrors(),
+            ]);
+
+            return redirect()
+                ->route('billing.index')
+                ->with('error', 'We could not start Direct Debit checkout. Please try again in a moment.');
+        } catch (Throwable $exception) {
+            Log::error('Billing checkout failed', [
+                'user_id' => $user->id,
+                'tier' => $tier->value,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return redirect()
+                ->route('billing.index')
+                ->with('error', 'Something went wrong starting checkout. Please try again.');
+        }
 
         return redirect()->away($checkoutUrl);
     }
 
     public function complete(Request $request): RedirectResponse
     {
+        $user = $request->user();
+
+        if ($this->goCardless->syncPendingCheckout($user)) {
+            return redirect()
+                ->route('billing.index')
+                ->with('success', 'Your plan is active. Direct Debit payments will be collected monthly.');
+        }
+
+        if ($user->gocardless_billing_request_id !== null) {
+            return redirect()
+                ->route('billing.index')
+                ->with('success', 'Direct Debit setup received. Your plan will activate once GoCardless confirms the mandate.');
+        }
+
         return redirect()
             ->route('billing.index')
-            ->with('success', 'Direct Debit setup received. Your plan will activate once GoCardless confirms the mandate.');
+            ->with('success', 'Billing setup finished.');
     }
 
     public function cancel(Request $request): RedirectResponse
