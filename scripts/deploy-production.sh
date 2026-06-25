@@ -21,6 +21,9 @@ compose up -d app
 echo "Running migrations..."
 compose exec -T app php artisan migrate --force
 
+echo "Ensuring public storage link..."
+compose exec -T app php artisan storage:link 2>/dev/null || true
+
 docker image prune -af
 docker builder prune -af
 

@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Enums\BlogStatus;
 use App\Models\Blog;
 use App\Services\BlogArticleGenerationService;
+use App\Services\NanoGptBlogHeroImageService;
 use App\Services\NanoGptService;
 use App\Support\AutoCVApplyBlogContext;
 use App\Support\BlogArticleFormats;
@@ -20,8 +21,11 @@ class GenerateBlogPostCommand extends Command
 
     protected $description = 'Generate a bi-weekly AI blog post about AutoCVApply for job seekers';
 
-    public function handle(NanoGptService $nanoGpt, BlogArticleGenerationService $blogArticles): int
-    {
+    public function handle(
+        NanoGptService $nanoGpt,
+        BlogArticleGenerationService $blogArticles,
+        NanoGptBlogHeroImageService $heroImages,
+    ): int {
         $this->info('Generating AutoCVApply blog post...');
 
         try {
@@ -53,6 +57,15 @@ class GenerateBlogPostCommand extends Command
         }
 
         $research = $this->buildResearchBrief($topic);
+
+        $this->line('  Generating hero image...');
+        $imagePrompt = $heroImages->buildPrompt($nanoGpt, $topic);
+        $imagePath = $heroImages->generateAndStore($imagePrompt);
+        if ($imagePath) {
+            $this->line('  Hero image: '.$imagePath);
+        } else {
+            $this->warn('  No hero image generated');
+        }
 
         $this->line('  Writing article...');
         $post = $blogArticles->generateFullArticle($topic, $research, $lengthKey, $format, function (string $stage, array $context = []): void {
@@ -101,7 +114,7 @@ class GenerateBlogPostCommand extends Command
             'slug' => $slug,
             'excerpt' => $excerpt,
             'body' => $body,
-            'image_url' => null,
+            'image_url' => $imagePath,
             'tags' => $tags,
             'sources' => $sources,
             'status' => BlogStatus::Published,
@@ -112,6 +125,7 @@ class GenerateBlogPostCommand extends Command
         $this->info("Published: {$title}");
         $this->line("  Slug: {$slug}");
         $this->line('  Tags: '.implode(', ', $tags));
+        $this->line('  Image: '.($imagePath ? 'Yes' : 'No'));
         $this->line('  URL: '.route('blog.show', $slug));
 
         return self::SUCCESS;

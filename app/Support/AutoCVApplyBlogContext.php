@@ -88,4 +88,11 @@ Why job applications ask the same questions repeatedly; preparing a profile befo
 
 CONTEXT;
     }
+
+    public static function summaryForImagePrompt(): string
+    {
+        return <<<'SUMMARY'
+AutoCVApply helps UK job seekers apply faster: upload a CV once, use a Chrome extension to autofill application forms on Workday, Indeed, LinkedIn, Greenhouse, and Lever. Warm, optimistic, professional — people at laptops completing job applications with less repetitive typing. Postbox-inspired red and navy accents optional; no logos or readable text in the image.
+SUMMARY;
+    }
 }

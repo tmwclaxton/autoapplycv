@@ -8,6 +8,8 @@ use Database\Factories\BlogFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 /**
  * @property int $id
@@ -60,5 +62,27 @@ class Blog extends Model
         return $query->where('status', BlogStatus::Published)
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now());
+    }
+
+    /**
+     * Resolve stored path or legacy full URL to a public URL.
+     */
+    public function getImageUrlAttribute(?string $value): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        if (str_contains($value, '://')) {
+            return $value;
+        }
+
+        $diskName = (string) config('blog.hero_image_disk', 'public');
+
+        try {
+            return Storage::disk($diskName)->url($value);
+        } catch (Throwable) {
+            return null;
+        }
     }
 }

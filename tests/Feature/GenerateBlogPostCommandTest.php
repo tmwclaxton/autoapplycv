@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Blog;
 use App\Services\BlogArticleGenerationService;
+use App\Services\NanoGptBlogHeroImageService;
 use App\Services\NanoGptService;
 use App\Support\AutoCVApplyBlogContext;
 use App\Support\BlogArticleFormats;
@@ -71,6 +72,11 @@ class GenerateBlogPostCommandTest extends TestCase
             $mock->shouldReceive('chat')->once()->andReturn('Why job seekers should stop retyping CV details on Workday.');
         });
 
+        $this->mock(NanoGptBlogHeroImageService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('buildPrompt')->once()->andReturn('Job seeker at laptop, flat illustration.');
+            $mock->shouldReceive('generateAndStore')->once()->andReturn('blogs/heroes/test.png');
+        });
+
         $this->mock(BlogArticleGenerationService::class, function (MockInterface $mock) use ($article): void {
             $mock->shouldReceive('generateFullArticle')->once()->andReturn($article);
         });
@@ -83,6 +89,7 @@ class GenerateBlogPostCommandTest extends TestCase
         $this->assertNotNull($blog);
         $this->assertSame('Stop retyping your CV on every Workday application', $blog->title);
         $this->assertContains('autocvapply', $blog->tags);
+        $this->assertSame('blogs/heroes/test.png', $blog->getRawOriginal('image_url'));
         $this->assertNotNull($blog->published_at);
     }
 

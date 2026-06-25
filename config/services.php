@@ -44,6 +44,9 @@ return [
     'nanogpt' => [
         'api_key' => env('NANOGPT_API_KEY'),
         'base_url' => env('NANOGPT_BASE_URL', 'https://nano-gpt.com/api/v1'),
+        'image_base_url' => env('NANOGPT_IMAGE_BASE_URL', 'https://nano-gpt.com/v1'),
+        'image_model' => env('NANOGPT_IMAGE_MODEL', 'recraft-ai/recraft-v4.1/text-to-image'),
+        'image_size' => env('NANOGPT_IMAGE_SIZE', '1024x576'),
     ],
 
     'gocardless' => [
