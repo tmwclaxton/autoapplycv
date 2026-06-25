@@ -4,240 +4,117 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AutoCVApply</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            width: 320px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0f172a;
-            color: #f1f5f9;
-        }
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 16px 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-        .logo {
-            width: 28px;
-            height: 28px;
-            background: #3b82f6;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-        }
-        .header-title { font-weight: 700; font-size: 14px; }
-        .header-subtitle { font-size: 11px; color: #64748b; margin-top: 1px; }
-        .body { padding: 14px 16px; }
-        .status-card {
-            border-radius: 10px;
-            padding: 12px 14px;
-            margin-bottom: 12px;
-        }
-        .status-card.auth {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-        .status-card.unauth {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-        .status-row { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; }
-        .dot.green { background: #22c55e; }
-        .dot.red { background: #ef4444; }
-        .profile-name { font-size: 12px; color: #94a3b8; margin-top: 4px; padding-left: 16px; }
-        .usage-card {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 8px;
-            padding: 10px 12px;
-            margin-bottom: 12px;
-        }
-        .usage-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: #94a3b8;
-            margin-bottom: 6px;
-        }
-        .usage-bar {
-            height: 8px;
-            border-radius: 999px;
-            background: rgba(255,255,255,0.08);
-            overflow: hidden;
-        }
-        .usage-fill {
-            height: 100%;
-            background: #c8102e;
-            border-radius: 999px;
-        }
-        .usage-meta {
-            margin-top: 6px;
-            font-size: 11px;
-            color: #64748b;
-        }
-        .btn {
-            width: 100%;
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            transition: opacity 0.15s;
-            margin-bottom: 8px;
-        }
-        .btn:hover { opacity: 0.85; }
-        .btn.primary { background: #3b82f6; color: white; }
-        .btn.secondary { background: rgba(255,255,255,0.06); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1); }
-        .btn.danger { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-        .token-section { margin-top: 4px; }
-        .token-label { font-size: 11px; color: #64748b; margin-bottom: 6px; }
-        .token-input-row { display: flex; gap: 6px; }
-        .token-input {
-            flex: 1;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 6px;
-            padding: 7px 10px;
-            color: #f1f5f9;
-            font-size: 12px;
-            font-family: monospace;
-        }
-        .token-input::placeholder { color: #475569; }
-        .token-save-btn {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 7px 12px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .toggle-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 14px;
-            background: rgba(255,255,255,0.04);
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-        .toggle-label { font-size: 12px; color: #94a3b8; }
-        .toggle {
-            position: relative;
-            width: 36px;
-            height: 20px;
-        }
-        .toggle input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute;
-            inset: 0;
-            background: #334155;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .slider:before {
-            content: '';
-            position: absolute;
-            height: 14px;
-            width: 14px;
-            left: 3px;
-            bottom: 3px;
-            background: white;
-            border-radius: 50%;
-            transition: 0.2s;
-        }
-        .toggle input:checked + .slider { background: #3b82f6; }
-        .toggle input:checked + .slider:before { transform: translateX(16px); }
-        .footer {
-            padding: 10px 16px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            text-align: center;
-        }
-        .footer a { font-size: 11px; color: #475569; text-decoration: none; }
-        .footer a:hover { color: #94a3b8; }
-        #message { font-size: 12px; margin-bottom: 8px; padding: 8px 10px; border-radius: 6px; display: none; }
-        #message.success { background: rgba(34, 197, 94, 0.15); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3); }
-        #message.error { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
-    </style>
+    <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
     <div class="header">
         <div class="logo">⚡</div>
         <div>
             <div class="header-title">AutoCVApply</div>
-            <div class="header-subtitle">Job form autofill</div>
+            <div class="header-subtitle">Autofill & LinkedIn Easy Apply</div>
         </div>
     </div>
 
-    <div class="body">
-        <div id="message"></div>
+    <div id="message" class="message"></div>
 
-        <!-- Authenticated state -->
-        <div id="auth-state" style="display:none">
-            <div class="status-card auth">
-                <div class="status-row">
-                    <div class="dot green"></div>
-                    Connected
-                </div>
-                <div class="profile-name" id="profile-name"></div>
-            </div>
+    <div id="unauth-state" class="panel" style="display:none">
+        <div class="status-card unauth">
+            <div class="status-row"><span class="dot red"></span> Not connected</div>
+        </div>
+        <label class="field-label">Paste your API token from autocvapply.com/dashboard</label>
+        <div class="token-row">
+            <input class="text-input" type="password" id="token-input" placeholder="Paste token..." />
+            <button class="btn primary compact" id="save-token-btn">Connect</button>
+        </div>
+        <button class="btn secondary" id="open-site-btn">Get your token →</button>
+    </div>
 
-            <div class="usage-card" id="usage-card" style="display:none">
-                <div class="usage-label">
-                    <span id="plan-label">Free plan</span>
-                    <span id="usage-count">0 / 0</span>
-                </div>
-                <div class="usage-bar">
-                    <div class="usage-fill" id="usage-fill" style="width: 0%"></div>
-                </div>
+    <div id="auth-state" style="display:none">
+        <div class="status-bar">
+            <div>
+                <div class="status-row"><span class="dot green"></span> <span id="profile-name">Connected</span></div>
                 <div class="usage-meta" id="usage-meta"></div>
             </div>
+            <div class="usage-count" id="usage-count">0 / 0</div>
+        </div>
+        <div class="usage-bar"><div class="usage-fill" id="usage-fill"></div></div>
 
+        <div class="tabs">
+            <button class="tab active" data-tab="autofill">AutoFill</button>
+            <button class="tab" data-tab="linkedin">LinkedIn</button>
+            <button class="tab" data-tab="settings">Settings</button>
+            <button class="tab" data-tab="applied">Applied</button>
+        </div>
+
+        <div class="tab-panel active" id="autofill-tab">
             <div class="toggle-row">
-                <span class="toggle-label">Enable autofill on job sites</span>
-                <label class="toggle">
-                    <input type="checkbox" id="enabled-toggle" checked />
-                    <span class="slider"></span>
-                </label>
+                <span>Show AutoFill button on job sites</span>
+                <label class="toggle"><input type="checkbox" id="enabled-toggle" checked /><span class="slider"></span></label>
             </div>
-
             <button class="btn secondary" id="open-dashboard-btn">Open Dashboard</button>
             <button class="btn danger" id="logout-btn">Sign Out</button>
         </div>
 
-        <!-- Unauthenticated state -->
-        <div id="unauth-state" style="display:none">
-            <div class="status-card unauth">
-                <div class="status-row">
-                    <div class="dot red"></div>
-                    Not connected
+        <div class="tab-panel" id="linkedin-tab">
+            <div class="bot-status">
+                <div><strong>Status:</strong> <span id="bot-status">Stopped</span></div>
+                <div class="bot-counters">
+                    <span>Applied: <strong id="applied-count">0</strong></span>
+                    <span>Skipped: <strong id="skipped-count">0</strong></span>
                 </div>
             </div>
-            <div class="token-section">
-                <div class="token-label">Paste your API token from autocvapply.com/dashboard</div>
-                <div class="token-input-row">
-                    <input class="token-input" type="password" id="token-input" placeholder="Paste token here..." />
-                    <button class="token-save-btn" id="save-token-btn">Connect</button>
-                </div>
+            <p class="hint">Open LinkedIn Jobs (<code>/jobs/search/</code> or <code>/jobs/collections/</code>), then start the bot.</p>
+            <div class="btn-row">
+                <button class="btn primary" id="start-bot-btn">Start</button>
+                <button class="btn secondary" id="stop-bot-btn" disabled>Stop</button>
             </div>
-            <div style="margin-top: 10px;">
-                <button class="btn primary" id="open-site-btn">Get your token →</button>
+            <button class="btn secondary" id="export-csv-btn">Export applied jobs (CSV)</button>
+            <button class="btn secondary" id="reset-counters-btn">Reset counters</button>
+        </div>
+
+        <div class="tab-panel" id="settings-tab">
+            <label class="field-label">Years of experience</label>
+            <input class="text-input" id="yearsOfExperience" type="number" min="0" max="50" value="2" />
+
+            <label class="field-label">Max years required (skip jobs above this)</label>
+            <input class="text-input" id="maxYearsRequired" type="number" min="0" max="50" value="3" />
+
+            <label class="field-label">Expected salary (optional)</label>
+            <input class="text-input" id="expectedSalary" placeholder="e.g. £45,000" />
+
+            <label class="field-label">Blacklist keywords (comma-separated)</label>
+            <textarea class="text-input" id="blacklistKeywords" rows="2" placeholder="intern, unpaid, commission only"></textarea>
+
+            <label class="field-label">Visa sponsorship needed?</label>
+            <select class="text-input" id="visaSponsorship"><option value="no">No</option><option value="yes">Yes</option></select>
+
+            <label class="field-label">Legally authorized to work?</label>
+            <select class="text-input" id="legallyAuthorized"><option value="yes">Yes</option><option value="no">No</option></select>
+
+            <label class="field-label">Willing to relocate?</label>
+            <select class="text-input" id="willingToRelocate"><option value="yes">Yes</option><option value="no">No</option></select>
+
+            <label class="field-label">Valid driver's license?</label>
+            <select class="text-input" id="driversLicense"><option value="yes">Yes</option><option value="no">No</option></select>
+
+            <label class="toggle-row compact">
+                <span>Auto-advance to next results page</span>
+                <label class="toggle"><input type="checkbox" id="autoNextPage" checked /><span class="slider"></span></label>
+            </label>
+
+            <div id="autosave-indicator" class="autosave">Saved</div>
+        </div>
+
+        <div class="tab-panel" id="applied-tab">
+            <div class="applied-header">
+                <strong>Applied jobs (<span id="applied-jobs-count">0</span>)</strong>
+                <button class="link-btn" id="clear-applied-jobs">Clear</button>
             </div>
+            <div id="applied-jobs-list" class="applied-list"></div>
         </div>
     </div>
 
-    <div class="footer">
-        <a href="https://autocvapply.com" target="_blank">autocvapply.com</a>
-    </div>
-
+    <div class="footer"><a href="https://autocvapply.com" target="_blank">autocvapply.com</a></div>
     <script src="popup.js"></script>
 </body>
 </html>

@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 /**
  * Build script for AutoCVApply browser extension.
- * Copies source files into dist/ ready for loading as an unpacked extension.
  */
 import { copyFileSync, mkdirSync, rmSync, cpSync } from 'fs';
 import { join, dirname } from 'path';
@@ -18,10 +17,11 @@ rmSync(DIST, { recursive: true, force: true });
 mkdirSync(DIST, { recursive: true });
 
 copyFileSync(join(ROOT, 'extension/manifest.json'), join(DIST, 'manifest.json'));
-
 copyFileSync(join(SRC, 'background/index.js'), join(DIST, 'background.js'));
 copyFileSync(join(SRC, 'content/index.js'), join(DIST, 'content.js'));
+copyFileSync(join(SRC, 'content/linkedin-easy-apply.js'), join(DIST, 'linkedin-easy-apply.js'));
 copyFileSync(join(SRC, 'popup/popup.html'), join(DIST, 'popup.html'));
+copyFileSync(join(SRC, 'popup/popup.css'), join(DIST, 'popup.css'));
 copyFileSync(join(SRC, 'popup/popup.js'), join(DIST, 'popup.js'));
 
 const iconsDir = join(ROOT, 'extension/icons');
@@ -35,4 +35,3 @@ try {
 }
 
 console.log('Extension built to extension/dist/');
-console.log('Load it in Chrome via chrome://extensions → Developer mode → Load unpacked');

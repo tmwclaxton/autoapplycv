@@ -2,15 +2,26 @@ const API_BASE = 'https://autocvapply.com';
 
 let cachedProfile = null;
 let cacheTimestamp = 0;
-const CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes
+const CACHE_TTL_MS = 15 * 60 * 1000;
 
 chrome.runtime.onInstalled.addListener(() => {
-    console.log('AutoCVApply extension installed.');
+    chrome.storage.local.set({
+        appliedCount: 0,
+        skippedCount: 0,
+        appliedJobs: [],
+        botRunning: false,
+    });
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'GET_PROFILE') {
         getProfile().then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'GET_CV_DOCUMENT') {
+        getCvDocument().then(sendResponse).catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -46,7 +57,31 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         return true;
     }
+
+    if (message.type === 'updateCount' || message.type === 'updateSkippedCount' || message.type === 'botStarted' || message.type === 'botStopped') {
+        if (message.type === 'botStarted') {
+            chrome.storage.local.set({ botRunning: true });
+        }
+
+        if (message.type === 'botStopped') {
+            chrome.storage.local.set({ botRunning: false });
+        }
+
+        chrome.runtime.sendMessage(message).catch(() => {});
+
+        return false;
+    }
 });
+
+async function getApiToken() {
+    const { apiToken } = await chrome.storage.local.get(['apiToken']);
+
+    if (!apiToken) {
+        throw new Error('Not authenticated');
+    }
+
+    return apiToken;
+}
 
 async function getProfile() {
     const now = Date.now();
@@ -55,16 +90,12 @@ async function getProfile() {
         return cachedProfile;
     }
 
-    const { apiToken } = await chrome.storage.local.get(['apiToken']);
-
-    if (!apiToken) {
-        throw new Error('Not authenticated');
-    }
+    const apiToken = await getApiToken();
 
     const response = await fetch(`${API_BASE}/api/profile`, {
         headers: {
-            'Authorization': `Bearer ${apiToken}`,
-            'Accept': 'application/json',
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/json',
         },
     });
 
@@ -85,18 +116,52 @@ async function getProfile() {
     return data;
 }
 
-async function recordAutofill(count) {
-    const { apiToken } = await chrome.storage.local.get(['apiToken']);
+async function getCvDocument() {
+    const profileData = await getProfile();
+    const documents = profileData.documents || [];
+    const cvDocument = documents.find((document) => document.category === 'cv') || documents[0];
 
-    if (!apiToken) {
-        throw new Error('Not authenticated');
+    if (!cvDocument?.download_url) {
+        throw new Error('No CV document found on your profile');
     }
+
+    const apiToken = await getApiToken();
+    const response = await fetch(cvDocument.download_url, {
+        headers: {
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/octet-stream',
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to download CV document');
+    }
+
+    const buffer = await response.arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+    let binary = '';
+
+    for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+
+    const base64 = `data:${cvDocument.mime_type || 'application/pdf'};base64,${btoa(binary)}`;
+
+    return {
+        base64,
+        fileName: cvDocument.original_filename || cvDocument.title || 'cv.pdf',
+        mimeType: cvDocument.mime_type || 'application/pdf',
+    };
+}
+
+async function recordAutofill(count) {
+    const apiToken = await getApiToken();
 
     const response = await fetch(`${API_BASE}/api/autofill`, {
         method: 'POST',
         headers: {
-            'Authorization': `Bearer ${apiToken}`,
-            'Accept': 'application/json',
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/json',
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ count }),
