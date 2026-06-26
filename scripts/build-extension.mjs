@@ -25,6 +25,75 @@ const CHROME_ZIP = join(OUTPUT_DIR, 'autoapplycv-chrome.zip');
 const FIREFOX_ZIP = join(OUTPUT_DIR, 'autoapplycv-firefox.zip');
 const LEGACY_ZIP = join(OUTPUT_DIR, 'autoapplycv.zip');
 
+function loadEnvFile(filePath) {
+    if (!existsSync(filePath)) {
+        return {};
+    }
+
+    const values = {};
+
+    for (const line of readFileSync(filePath, 'utf8').split('\n')) {
+        const trimmed = line.trim();
+
+        if (trimmed === '' || trimmed.startsWith('#')) {
+            continue;
+        }
+
+        const separatorIndex = trimmed.indexOf('=');
+
+        if (separatorIndex === -1) {
+            continue;
+        }
+
+        const key = trimmed.slice(0, separatorIndex).trim();
+        let value = trimmed.slice(separatorIndex + 1).trim();
+
+        if (
+            (value.startsWith('"') && value.endsWith('"'))
+            || (value.startsWith("'") && value.endsWith("'"))
+        ) {
+            value = value.slice(1, -1);
+        }
+
+        values[key] = value;
+    }
+
+    return values;
+}
+
+function resolveExtensionApiBase(env) {
+    const raw = env.EXTENSION_API_BASE || env.APP_URL || 'https://autocvapply.com';
+
+    return raw.replace(/\/+$/, '');
+}
+
+function hostPermissionForApiBase(apiBase) {
+    const url = new URL(`${apiBase}/`);
+
+    return `${url.origin}/*`;
+}
+
+function patchManifest(apiBase) {
+    const manifestPath = join(DIST, 'manifest.json');
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+    const apiOriginPattern = hostPermissionForApiBase(apiBase);
+    const excludeMatches = new Set(manifest.content_scripts?.[0]?.exclude_matches || []);
+
+    excludeMatches.add(apiOriginPattern);
+
+    manifest.host_permissions = ['<all_urls>'];
+
+    for (const script of manifest.content_scripts || []) {
+        script.matches = ['<all_urls>'];
+        script.exclude_matches = [...excludeMatches];
+    }
+
+    writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 4)}\n`);
+}
+
+const env = loadEnvFile(join(ROOT, '.env'));
+const apiBase = resolveExtensionApiBase(env);
+
 console.log('Building AutoCVApply extension...');
 
 rmSync(DIST, { recursive: true, force: true });
@@ -33,6 +102,7 @@ mkdirSync(OUTPUT_DIR, { recursive: true });
 
 copyFileSync(join(ROOT, 'extension/manifest.json'), join(DIST, 'manifest.json'));
 copyFileSync(join(SRC, 'shared/draft-all-stream.js'), join(DIST, 'draft-all-stream.js'));
+copyFileSync(join(SRC, 'shared/connection.js'), join(DIST, 'connection.js'));
 copyFileSync(join(SRC, 'shared/form-frame-messaging.js'), join(DIST, 'form-frame-messaging.js'));
 copyFileSync(join(SRC, 'background/index.js'), join(DIST, 'background.js'));
 copyFileSync(join(SRC, 'content/form-heuristics.js'), join(DIST, 'form-heuristics.js'));
@@ -45,6 +115,8 @@ copyFileSync(join(SRC, 'sidepanel/sidepanel.js'), join(DIST, 'sidepanel.js'));
 copyFileSync(join(SRC, 'popup/popup.html'), join(DIST, 'popup.html'));
 copyFileSync(join(SRC, 'popup/popup.css'), join(DIST, 'popup.css'));
 copyFileSync(join(SRC, 'popup/popup.js'), join(DIST, 'popup.js'));
+
+patchManifest(apiBase);
 
 const iconsDir = join(ROOT, 'extension/icons');
 const distIconsDir = join(DIST, 'icons');

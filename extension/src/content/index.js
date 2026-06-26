@@ -4,19 +4,6 @@
  * Uses platform-specific selectors first, then universal heuristics and AI assist.
  */
 
-const SUPPORTED_HOSTS = [
-    'workday',
-    'myworkdayjobs',
-    'indeed.com',
-    'apply.indeed.com',
-    'linkedin.com',
-    'greenhouse.io',
-    'lever.co',
-    'glassdoor',
-    'monster.com',
-    'welcometothejungle.com',
-];
-
 const PLATFORM_SELECTORS = {
     workday: {
         detect: () => document.querySelector('[data-automation-id]') !== null || location.hostname.includes('workday') || location.hostname.includes('myworkdayjobs'),
@@ -133,8 +120,7 @@ function detectPlatform() {
         }
     }
 
-    if (SUPPORTED_HOSTS.some((host) => location.hostname.includes(host))
-        && typeof AutoCVApplyFormHeuristics !== 'undefined'
+    if (typeof AutoCVApplyFormHeuristics !== 'undefined'
         && AutoCVApplyFormHeuristics.looksLikeApplicationForm()) {
         return { name: 'generic', config: PLATFORM_SELECTORS.generic };
     }

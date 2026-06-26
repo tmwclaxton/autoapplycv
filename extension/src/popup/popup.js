@@ -1,4 +1,4 @@
-const APP_URL = 'https://autocvapply.com';
+import { parseConnectionInput } from './connection.js';
 
 const messageEl = document.getElementById('message');
 const authState = document.getElementById('auth-state');
@@ -44,6 +44,16 @@ async function checkAuth() {
     return new Promise((resolve) => {
         chrome.runtime.sendMessage({ type: 'GET_AUTH_STATUS' }, resolve);
     });
+}
+
+async function resolveAppUrl() {
+    const auth = await checkAuth();
+
+    if (!auth?.apiBase) {
+        throw new Error('Connect the extension with your dashboard connection JSON first.');
+    }
+
+    return auth.apiBase;
 }
 
 async function loadProfile() {
@@ -290,31 +300,55 @@ async function init() {
 }
 
 document.getElementById('save-token-btn').addEventListener('click', () => {
-    const token = tokenInput.value.trim();
+    const raw = tokenInput.value.trim();
 
-    if (!token) {
-        showMessage('Please paste your API token.', 'error');
+    if (!raw) {
+        showMessage('Please paste your connection details.', 'error');
 
         return;
     }
 
-    chrome.runtime.sendMessage({ type: 'SET_TOKEN', token }, async (response) => {
+    let connection;
+
+    try {
+        connection = parseConnectionInput(raw);
+    } catch (error) {
+        showMessage(error.message, 'error');
+
+        return;
+    }
+
+    chrome.runtime.sendMessage({
+        type: 'SET_TOKEN',
+        token: connection.token,
+        apiBase: connection.apiBase,
+    }, async (response) => {
         if (response?.success) {
             tokenInput.value = '';
             showMessage('Connected successfully.');
             await init();
         } else {
-            showMessage('Failed to save token.', 'error');
+            showMessage(response?.error || 'Failed to save token.', 'error');
         }
     });
 });
 
-document.getElementById('open-site-btn').addEventListener('click', () => {
-    chrome.tabs.create({ url: `${APP_URL}/dashboard` });
+document.getElementById('open-site-btn').addEventListener('click', async () => {
+    try {
+        const appUrl = await resolveAppUrl();
+        chrome.tabs.create({ url: `${appUrl}/dashboard` });
+    } catch (error) {
+        showMessage(error.message, 'error');
+    }
 });
 
-document.getElementById('open-dashboard-btn').addEventListener('click', () => {
-    chrome.tabs.create({ url: `${APP_URL}/dashboard` });
+document.getElementById('open-dashboard-btn').addEventListener('click', async () => {
+    try {
+        const appUrl = await resolveAppUrl();
+        chrome.tabs.create({ url: `${appUrl}/dashboard` });
+    } catch (error) {
+        showMessage(error.message, 'error');
+    }
 });
 
 document.getElementById('logout-btn').addEventListener('click', () => {

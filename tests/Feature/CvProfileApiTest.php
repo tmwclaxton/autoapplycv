@@ -79,7 +79,7 @@ class CvProfileApiTest extends TestCase
         $this->withToken($token)
             ->postJson('/api/tokens')
             ->assertStatus(200)
-            ->assertJsonStructure(['token']);
+            ->assertJsonStructure(['token', 'api_base']);
     }
 
     public function test_cannot_access_another_users_profile(): void

@@ -1,4 +1,4 @@
-const API_BASE = 'https://autocvapply.com';
+import { getApiToken, getStoredApiBase } from './connection.js';
 
 export function parseNdjsonChunk(chunk, carry = '') {
     const buffer = carry + chunk;
@@ -24,16 +24,13 @@ export function parseNdjsonChunk(chunk, carry = '') {
 }
 
 export async function requestDraftAllStream(body, onEvent) {
-    const { apiToken } = await chrome.storage.local.get(['apiToken']);
-
-    if (!apiToken) {
-        return { ok: false, message: 'Not authenticated.' };
-    }
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
 
     let response;
 
     try {
-        response = await fetch(`${API_BASE}/api/applications/assist/draft-all`, {
+        response = await fetch(`${apiBase}/api/applications/assist/draft-all`, {
             method: 'POST',
             headers: {
                 Accept: 'application/x-ndjson',
@@ -100,13 +97,10 @@ export async function requestDraftAllStream(body, onEvent) {
 }
 
 export async function requestDraftField(body) {
-    const { apiToken } = await chrome.storage.local.get(['apiToken']);
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
 
-    if (!apiToken) {
-        throw new Error('Not authenticated.');
-    }
-
-    const response = await fetch(`${API_BASE}/api/applications/assist/draft-field`, {
+    const response = await fetch(`${apiBase}/api/applications/assist/draft-field`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -130,13 +124,10 @@ export async function requestDraftField(body) {
 }
 
 export async function patchProfile(body) {
-    const { apiToken } = await chrome.storage.local.get(['apiToken']);
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
 
-    if (!apiToken) {
-        throw new Error('Not authenticated.');
-    }
-
-    const response = await fetch(`${API_BASE}/api/profile`, {
+    const response = await fetch(`${apiBase}/api/profile`, {
         method: 'PATCH',
         headers: {
             Accept: 'application/json',
@@ -156,13 +147,10 @@ export async function patchProfile(body) {
 }
 
 export async function getProfileFromApi() {
-    const { apiToken } = await chrome.storage.local.get(['apiToken']);
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
 
-    if (!apiToken) {
-        throw new Error('Not authenticated.');
-    }
-
-    const response = await fetch(`${API_BASE}/api/profile`, {
+    const response = await fetch(`${apiBase}/api/profile`, {
         headers: {
             Authorization: `Bearer ${apiToken}`,
             Accept: 'application/json',

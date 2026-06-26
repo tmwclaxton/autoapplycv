@@ -45,7 +45,7 @@ flowchart LR
 |------|----------------|
 | **1. Post your CV** | Drop a PDF or DOCX. We extract name, contact, skills, experience, and education. |
 | **2. Check the details** | Tweak anything we missed - summary, extra context, visa status, salary expectations. |
-| **3. Stamp the forms** | Install the Chrome extension, paste your API token, and autofill on supported job sites. |
+| **3. Stamp the forms** | Install the Chrome extension, paste your API token, and autofill on job application forms across the web. |
 
 ## Features
 
@@ -177,6 +177,8 @@ Visit [http://localhost](http://localhost).
 npm run build:extension
 ```
 
+The build uses `APP_URL` from `.env` only to exclude your local dashboard from content-script injection. The extension API endpoint comes from the dashboard connection JSON (`token` + `api_base`).
+
 Then in Chrome:
 
 1. Open `chrome://extensions`
@@ -184,7 +186,7 @@ Then in Chrome:
 3. Click **Load unpacked**
 4. Select the `extension/dist/` folder
 
-Generate an API token from the dashboard and paste it into the extension popup.
+Generate a connection from the dashboard (**Copy** includes `token` + `api_base`) and paste it into the extension popup.
 
 ## API
 

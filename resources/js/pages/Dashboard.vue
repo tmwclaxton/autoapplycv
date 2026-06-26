@@ -67,6 +67,7 @@ const isUploading = ref(false);
 const uploadError = ref<string | null>(null);
 const cvFileInput = ref<HTMLInputElement | null>(null);
 const extensionToken = ref<string | null>(null);
+const extensionApiBase = ref<string | null>(null);
 const isGeneratingToken = ref(false);
 const toastStore = useToastStore();
 
@@ -247,15 +248,25 @@ async function generateToken() {
         });
         const data = await response.json();
         extensionToken.value = data.token;
+        extensionApiBase.value = data.api_base ?? null;
+        toastStore.success('Extension connection generated. Copy it into the extension.');
     } finally {
         isGeneratingToken.value = false;
     }
 }
 
 async function copyToken() {
-    if (extensionToken.value) {
-        await navigator.clipboard.writeText(extensionToken.value);
+    if (!extensionToken.value) {
+        return;
     }
+
+    const payload = JSON.stringify({
+        token: extensionToken.value,
+        api_base: extensionApiBase.value ?? window.location.origin,
+    });
+
+    await navigator.clipboard.writeText(payload);
+    toastStore.success('Extension connection copied.');
 }
 </script>
 
@@ -420,8 +431,9 @@ async function copyToken() {
             <div class="postbox-panel p-6">
                 <h2 class="postbox-label">API token</h2>
                 <p class="mb-5 text-sm text-muted-foreground">
-                    Paste this into the extension on first install. We won't
-                    show it again.
+                    Copy the connection JSON and paste it into the extension on first
+                    install. It includes your token and this site's URL. We won't show
+                    it again.
                 </p>
                 <div v-if="extensionToken" class="mb-4 flex gap-2">
                     <input

@@ -4,8 +4,12 @@ import {
     applyDraftBatchToTab,
     collectFieldsFromTab,
 } from './form-frame-messaging.js';
-
-const API_BASE = 'https://autocvapply.com';
+import {
+    clearConnection,
+    getApiToken,
+    getStoredApiBase,
+    saveConnection,
+} from './connection.js';
 
 let cachedProfile = null;
 let cacheTimestamp = 0;
@@ -77,27 +81,43 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'SET_TOKEN') {
-        chrome.storage.local.set({ apiToken: message.token }, () => {
-            cachedProfile = null;
-            sendResponse({ success: true });
-        });
+        if (!message.token || !message.apiBase) {
+            sendResponse({ error: 'Connection JSON must include token and api_base.' });
+
+            return true;
+        }
+
+        saveConnection({
+            token: message.token,
+            apiBase: message.apiBase,
+        })
+            .then(() => {
+                cachedProfile = null;
+                sendResponse({ success: true });
+            })
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
 
     if (message.type === 'GET_AUTH_STATUS') {
-        chrome.storage.local.get(['apiToken'], (result) => {
-            sendResponse({ isAuthenticated: !!result.apiToken });
+        chrome.storage.local.get(['apiToken', 'apiBase'], (result) => {
+            sendResponse({
+                isAuthenticated: !!result.apiToken,
+                apiBase: result.apiBase ?? null,
+            });
         });
 
         return true;
     }
 
     if (message.type === 'LOGOUT') {
-        chrome.storage.local.remove(['apiToken'], () => {
-            cachedProfile = null;
-            sendResponse({ success: true });
-        });
+        clearConnection()
+            .then(() => {
+                cachedProfile = null;
+                sendResponse({ success: true });
+            })
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -327,16 +347,6 @@ async function quickAnswerFocused(tabId) {
     };
 }
 
-async function getApiToken() {
-    const { apiToken } = await chrome.storage.local.get(['apiToken']);
-
-    if (!apiToken) {
-        throw new Error('Not authenticated');
-    }
-
-    return apiToken;
-}
-
 async function getProfile() {
     const now = Date.now();
 
@@ -345,8 +355,9 @@ async function getProfile() {
     }
 
     const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
 
-    const response = await fetch(`${API_BASE}/api/profile`, {
+    const response = await fetch(`${apiBase}/api/profile`, {
         headers: {
             Authorization: `Bearer ${apiToken}`,
             Accept: 'application/json',
@@ -355,7 +366,7 @@ async function getProfile() {
 
     if (!response.ok) {
         if (response.status === 401) {
-            await chrome.storage.local.remove(['apiToken']);
+            await clearConnection();
 
             throw new Error('Session expired. Please log in again.');
         }
@@ -410,8 +421,9 @@ async function getCvDocument() {
 
 async function assistQuestions(payload) {
     const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
 
-    const response = await fetch(`${API_BASE}/api/applications/assist/questions`, {
+    const response = await fetch(`${apiBase}/api/applications/assist/questions`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${apiToken}`,
@@ -468,8 +480,9 @@ async function assistTailoredResume(message) {
 
 async function postAssist(path, body) {
     const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
 
-    const response = await fetch(`${API_BASE}${path}`, {
+    const response = await fetch(`${apiBase}${path}`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${apiToken}`,
@@ -502,8 +515,9 @@ async function postAssist(path, body) {
 
 async function recordAutofill(count) {
     const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
 
-    const response = await fetch(`${API_BASE}/api/autofill`, {
+    const response = await fetch(`${apiBase}/api/autofill`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${apiToken}`,

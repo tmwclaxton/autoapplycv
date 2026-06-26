@@ -18,6 +18,7 @@ class ExtensionTokenController extends Controller
 
         return response()->json([
             'token' => $token->plainTextToken,
+            'api_base' => rtrim((string) config('app.url'), '/'),
         ]);
     }
 

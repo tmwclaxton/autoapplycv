@@ -1,24 +1,10 @@
 {
     "manifest_version": 3,
     "name": "AutoCVApply",
-    "version": "2.6.0",
-    "description": "Auto-fill job forms, draft answers with AI, and generate cover letters from the side panel.",
+    "version": "2.7.0",
+    "description": "Auto-fill job application forms on any site, draft answers with AI, and generate cover letters from the side panel.",
     "permissions": ["storage", "tabs", "scripting", "sidePanel", "contextMenus", "webNavigation"],
-    "host_permissions": [
-        "https://*.workday.com/*",
-        "https://*.myworkdayjobs.com/*",
-        "https://*.indeed.com/*",
-        "https://apply.indeed.com/*",
-        "https://*.linkedin.com/*",
-        "https://*.greenhouse.io/*",
-        "https://jobs.lever.co/*",
-        "https://*.lever.co/*",
-        "https://*.glassdoor.com/*",
-        "https://*.glassdoor.co.uk/*",
-        "https://*.monster.com/*",
-        "https://*.welcometothejungle.com/*",
-        "https://autocvapply.com/*"
-    ],
+    "host_permissions": ["<all_urls>"],
     "side_panel": {
         "default_path": "sidepanel.html"
     },
@@ -42,19 +28,9 @@
     },
     "content_scripts": [
         {
-            "matches": [
-                "https://*.workday.com/*",
-                "https://*.myworkdayjobs.com/*",
-                "https://*.indeed.com/*",
-                "https://apply.indeed.com/*",
-                "https://*.linkedin.com/*",
-                "https://*.greenhouse.io/*",
-                "https://jobs.lever.co/*",
-                "https://*.lever.co/*",
-                "https://*.glassdoor.com/*",
-                "https://*.glassdoor.co.uk/*",
-                "https://*.monster.com/*",
-                "https://*.welcometothejungle.com/*"
+            "matches": ["<all_urls>"],
+            "exclude_matches": [
+                "https://autocvapply.com/*"
             ],
             "js": [
                 "form-heuristics.js",

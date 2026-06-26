@@ -21,9 +21,9 @@
         <div class="status-card unauth">
             <div class="status-row"><span class="dot red"></span> Not connected</div>
         </div>
-        <label class="field-label">Paste your API token from autocvapply.com/dashboard</label>
+        <label class="field-label">Paste the connection copied from your dashboard</label>
         <div class="token-row">
-            <input class="text-input" type="password" id="token-input" placeholder="Paste token..." />
+            <input class="text-input" type="password" id="token-input" placeholder="Paste connection JSON…" />
             <button class="btn primary compact" id="save-token-btn">Connect</button>
         </div>
         <button class="btn secondary" id="open-site-btn">Get your token →</button>
@@ -109,6 +109,6 @@
     </div>
 
     <div class="footer"><a href="https://autocvapply.com" target="_blank">autocvapply.com</a></div>
-    <script src="popup.js"></script>
+    <script type="module" src="popup.js"></script>
 </body>
 </html>
