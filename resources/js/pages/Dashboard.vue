@@ -10,6 +10,9 @@ import {
     Upload,
     User,
 } from 'lucide-vue-next';
+import ApplicationAnalyticsPanel, {
+    type ApplicationAnalyticsSummary,
+} from '@/components/cv/ApplicationAnalyticsPanel.vue';
 import JobApplicationsPanel, {
     type JobApplicationRecord,
 } from '@/components/cv/JobApplicationsPanel.vue';
@@ -45,17 +48,25 @@ interface SubscriptionSummary {
     period_resets_at: string;
 }
 
+interface StatusOption {
+    value: string;
+    label: string;
+}
+
 const props = defineProps<{
     cvProfile: CvProfile;
     subscription: SubscriptionSummary;
     documents: ProfileDocument[];
     documentCategories: DocumentCategoryOption[];
     applications: JobApplicationRecord[];
+    applicationAnalytics: ApplicationAnalyticsSummary;
+    applicationStatuses: StatusOption[];
 }>();
 
 const profile = ref<CvProfile>(normalizeCvProfile(props.cvProfile));
 const subscription = ref<SubscriptionSummary>({ ...props.subscription });
 const documents = ref<ProfileDocument[]>([...props.documents]);
+const applications = ref<JobApplicationRecord[]>([...props.applications]);
 const activeTab = ref<'profile' | 'experience' | 'applications' | 'extension'>('profile');
 const isSaving = ref(false);
 const isUploading = ref(false);
@@ -417,11 +428,30 @@ async function copyToken() {
             </div>
         </div>
 
-        <div v-else-if="activeTab === 'applications'">
-            <JobApplicationsPanel :applications="applications" />
+        <div v-else-if="activeTab === 'applications'" class="space-y-6">
+            <ApplicationAnalyticsPanel :analytics="applicationAnalytics" />
+            <JobApplicationsPanel
+                :applications="applications"
+                :status-options="applicationStatuses"
+                @application-updated="
+                    (updated) => {
+                        applications = applications.map((item) =>
+                            item.id === updated.id ? updated : item,
+                        );
+                    }
+                "
+            />
             <ApplicationToolsPanel
                 :subscription="subscription"
+                :applications="applications"
                 @subscription-updated="subscription = $event"
+                @application-updated="
+                    (updated) => {
+                        applications = applications.map((item) =>
+                            item.id === updated.id ? updated : item,
+                        );
+                    }
+                "
             />
         </div>
 

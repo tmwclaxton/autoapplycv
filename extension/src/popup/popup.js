@@ -215,66 +215,192 @@ async function updateBotCounters() {
     skippedCountEl.textContent = local.skippedCount || 0;
     botRunning = !!local.botRunning;
     botStatus.textContent = botRunning ? 'Running' : 'Stopped';
-    document.getElementById('start-bot-btn').disabled = botRunning;
+    document.getElementById('start-linkedin-bot-btn').disabled = botRunning;
+    document.getElementById('start-indeed-bot-btn').disabled = botRunning;
+    document.getElementById('start-glassdoor-bot-btn').disabled = botRunning;
     document.getElementById('stop-bot-btn').disabled = !botRunning;
 }
 
-async function injectLinkedInBot(tabId) {
+async function injectBotScript(tabId, file) {
     try {
         await chrome.scripting.executeScript({
             target: { tabId },
-            files: ['linkedin-easy-apply.js'],
+            files: [file],
         });
     } catch {
         // Script may already be injected.
     }
 }
 
-document.getElementById('start-bot-btn').addEventListener('click', async () => {
+function appendBotLog(message) {
+    const logEl = document.getElementById('bot-log');
+
+    if (!logEl) {
+        return;
+    }
+
+    const line = document.createElement('div');
+    line.textContent = message;
+    logEl.prepend(line);
+
+    while (logEl.children.length > 8) {
+        logEl.removeChild(logEl.lastChild);
+    }
+}
+
+async function startLinkedInBot() {
+    const profile = await loadProfile();
+
+    if (profile?.error) {
+        showMessage(profile.error, 'error');
+
+        return;
+    }
+
+    if (!profile?.subscription?.can_autofill) {
+        showMessage('Autofill limit reached. Upgrade your plan or wait for the monthly reset.', 'error');
+
+        return;
+    }
+
+    const cvProfile = profile.profile || {};
+
+    if (!cvProfile.full_name || !cvProfile.email || !cvProfile.phone) {
+        showMessage('Add your name, email, and phone on autocvapply.com before starting the bot.', 'error');
+
+        return;
+    }
+
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    if (!tab?.url?.includes('linkedin.com/jobs')) {
+        showMessage('Open a LinkedIn Jobs page first (/jobs/search/ or /jobs/collections/).', 'error');
+
+        return;
+    }
+
+    await injectBotScript(tab.id, 'linkedin-easy-apply.js');
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const response = await chrome.tabs.sendMessage(tab.id, { action: 'start' });
+
+    if (response?.success) {
+        showMessage('LinkedIn bot started.');
+        await updateBotCounters();
+    } else if (response?.error) {
+        showMessage(response.error, 'error');
+    }
+}
+
+async function startIndeedBot() {
+    const profile = await loadProfile();
+
+    if (profile?.error) {
+        showMessage(profile.error, 'error');
+
+        return;
+    }
+
+    if (!profile?.subscription?.can_autofill) {
+        showMessage('Autofill limit reached. Upgrade your plan or wait for the monthly reset.', 'error');
+
+        return;
+    }
+
+    const cvProfile = profile.profile || {};
+
+    if (!cvProfile.full_name || !cvProfile.email || !cvProfile.phone) {
+        showMessage('Add your name, email, and phone on autocvapply.com before starting the bot.', 'error');
+
+        return;
+    }
+
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    if (!tab?.url?.includes('indeed.com')) {
+        showMessage('Open an Indeed job page first.', 'error');
+
+        return;
+    }
+
+    await injectBotScript(tab.id, 'indeed-smart-apply.js');
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const response = await chrome.tabs.sendMessage(tab.id, { action: 'start' });
+
+    if (response?.success) {
+        showMessage('Indeed bot started.');
+        await updateBotCounters();
+    } else if (response?.error) {
+        showMessage(response.error, 'error');
+    }
+}
+
+document.getElementById('start-linkedin-bot-btn').addEventListener('click', async () => {
     try {
-        const profile = await loadProfile();
+        await startLinkedInBot();
+    } catch {
+        showMessage('Could not start LinkedIn bot. Reload the page and try again.', 'error');
+    }
+});
 
-        if (profile?.error) {
-            showMessage(profile.error, 'error');
+document.getElementById('start-indeed-bot-btn').addEventListener('click', async () => {
+    try {
+        await startIndeedBot();
+    } catch {
+        showMessage('Could not start Indeed bot. Reload the page and try again.', 'error');
+    }
+});
 
-            return;
-        }
+async function startGlassdoorBot() {
+    const profile = await loadProfile();
 
-        if (!profile?.subscription?.can_autofill) {
-            showMessage('Autofill limit reached. Upgrade your plan or wait for the monthly reset.', 'error');
+    if (profile?.error) {
+        showMessage(profile.error, 'error');
 
-            return;
-        }
+        return;
+    }
 
-        const cvProfile = profile.profile || {};
+    if (!profile?.subscription?.can_autofill) {
+        showMessage('Autofill limit reached. Upgrade your plan or wait for the monthly reset.', 'error');
 
-        if (!cvProfile.full_name || !cvProfile.email || !cvProfile.phone) {
-            showMessage('Add your name, email, and phone on autocvapply.com before starting the bot.', 'error');
+        return;
+    }
 
-            return;
-        }
+    const cvProfile = profile.profile || {};
 
-        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!cvProfile.full_name || !cvProfile.email || !cvProfile.phone) {
+        showMessage('Add your name, email, and phone on autocvapply.com before starting the bot.', 'error');
 
-        if (!tab?.url?.includes('linkedin.com/jobs')) {
-            showMessage('Open a LinkedIn Jobs page first (/jobs/search/ or /jobs/collections/).', 'error');
+        return;
+    }
 
-            return;
-        }
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-        await injectLinkedInBot(tab.id);
-        await new Promise((resolve) => setTimeout(resolve, 500));
+    if (!tab?.url?.includes('glassdoor')) {
+        showMessage('Open a Glassdoor job page first.', 'error');
 
-        const response = await chrome.tabs.sendMessage(tab.id, { action: 'start' });
+        return;
+    }
 
-        if (response?.success) {
-            showMessage('LinkedIn bot started.');
-            await updateBotCounters();
-        } else if (response?.error) {
-            showMessage(response.error, 'error');
-        }
-    } catch (error) {
-        showMessage('Could not start bot. Reload the LinkedIn page and try again.', 'error');
+    await injectBotScript(tab.id, 'glassdoor-smart-apply.js');
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const response = await chrome.tabs.sendMessage(tab.id, { action: 'start' });
+
+    if (response?.success) {
+        showMessage('Glassdoor bot started.');
+        await updateBotCounters();
+    } else if (response?.error) {
+        showMessage(response.error, 'error');
+    }
+}
+
+document.getElementById('start-glassdoor-bot-btn').addEventListener('click', async () => {
+    try {
+        await startGlassdoorBot();
+    } catch {
+        showMessage('Could not start Glassdoor bot. Reload the page and try again.', 'error');
     }
 });
 
@@ -282,16 +408,161 @@ document.getElementById('stop-bot-btn').addEventListener('click', async () => {
     try {
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-        if (tab?.url?.includes('linkedin.com')) {
+        if (tab?.url?.includes('linkedin.com') || tab?.url?.includes('indeed.com') || tab?.url?.includes('glassdoor')) {
             await chrome.tabs.sendMessage(tab.id, { action: 'stop' });
         }
 
         await chrome.storage.local.set({ botRunning: false, isRunning: false });
         await updateBotCounters();
-        showMessage('LinkedIn bot stopped.');
+        showMessage('Bot stopped.');
     } catch {
         await chrome.storage.local.set({ botRunning: false, isRunning: false });
         await updateBotCounters();
+    }
+});
+
+document.getElementById('sync-applications-btn').addEventListener('click', async () => {
+    try {
+        const response = await new Promise((resolve, reject) => {
+            chrome.runtime.sendMessage({ type: 'LIST_APPLICATIONS' }, (data) => {
+                if (chrome.runtime.lastError) {
+                    reject(new Error(chrome.runtime.lastError.message));
+                } else if (data?.error) {
+                    reject(new Error(data.error));
+                } else {
+                    resolve(data);
+                }
+            });
+        });
+
+        const applications = response.applications || [];
+        const appliedJobs = applications.map((application) => ({
+            title: application.title,
+            company: application.company,
+            link: application.link,
+            date: application.applied_at,
+        }));
+
+        await chrome.storage.local.set({
+            appliedJobs,
+            appliedCount: appliedJobs.length,
+        });
+
+        await updateBotCounters();
+        loadAppliedJobs();
+        showMessage(`Synced ${appliedJobs.length} applications from dashboard.`);
+    } catch (error) {
+        showMessage(error.message || 'Could not sync applications.', 'error');
+    }
+});
+
+function buildAiJobPayload() {
+    return {
+        title: document.getElementById('ai-job-title').value.trim(),
+        company: document.getElementById('ai-job-company').value.trim(),
+        description: document.getElementById('ai-job-description').value.trim() || null,
+    };
+}
+
+document.getElementById('ai-ats-btn').addEventListener('click', async () => {
+    const job = buildAiJobPayload();
+    const output = document.getElementById('ai-output');
+
+    if (job.description.length < 40) {
+        showMessage('Paste a job description (40+ characters).', 'error');
+
+        return;
+    }
+
+    try {
+        const response = await new Promise((resolve, reject) => {
+            chrome.runtime.sendMessage({
+                type: 'ASSIST_ATS',
+                job_description: job.description,
+            }, (data) => {
+                if (chrome.runtime.lastError) {
+                    reject(new Error(chrome.runtime.lastError.message));
+                } else if (data?.error) {
+                    reject(new Error(data.error));
+                } else {
+                    resolve(data);
+                }
+            });
+        });
+
+        output.value = `ATS score: ${response.result.score}%\n\nMatched: ${response.result.matched_keywords.join(', ')}\n\nMissing: ${response.result.missing_keywords.join(', ')}\n\nSuggestions:\n- ${response.result.suggestions.join('\n- ')}`;
+        showMessage('ATS score ready.');
+    } catch (error) {
+        showMessage(error.message, 'error');
+    }
+});
+
+document.getElementById('ai-cover-letter-btn').addEventListener('click', async () => {
+    const job = buildAiJobPayload();
+    const output = document.getElementById('ai-output');
+
+    if (!job.title || !job.company) {
+        showMessage('Enter a job title and company.', 'error');
+
+        return;
+    }
+
+    try {
+        const response = await new Promise((resolve, reject) => {
+            chrome.runtime.sendMessage({
+                type: 'ASSIST_COVER_LETTER',
+                job,
+                tone: 'professional',
+            }, (data) => {
+                if (chrome.runtime.lastError) {
+                    reject(new Error(chrome.runtime.lastError.message));
+                } else if (data?.error) {
+                    reject(new Error(data.error));
+                } else {
+                    resolve(data);
+                }
+            });
+        });
+
+        output.value = response.cover_letter;
+        showMessage('Cover letter generated.');
+    } catch (error) {
+        showMessage(error.message, 'error');
+    }
+});
+
+document.getElementById('ai-resume-btn').addEventListener('click', async () => {
+    const job = buildAiJobPayload();
+    const output = document.getElementById('ai-output');
+    const template = document.getElementById('ai-resume-template').value;
+
+    if (!job.title || !job.company) {
+        showMessage('Enter a job title and company.', 'error');
+
+        return;
+    }
+
+    try {
+        const response = await new Promise((resolve, reject) => {
+            chrome.runtime.sendMessage({
+                type: 'ASSIST_TAILORED_RESUME',
+                job,
+                template,
+            }, (data) => {
+                if (chrome.runtime.lastError) {
+                    reject(new Error(chrome.runtime.lastError.message));
+                } else if (data?.error) {
+                    reject(new Error(data.error));
+                } else {
+                    resolve(data);
+                }
+            });
+        });
+
+        output.value = response.resume;
+        showMessage('Tailored resume generated.');
+    } catch (error) {
+        showMessage(error.message, 'error');
     }
 });
 
@@ -316,7 +587,7 @@ document.getElementById('export-csv-btn').addEventListener('click', async () => 
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `autocvapply_linkedin_jobs_${new Date().toISOString().split('T')[0]}.csv`;
+    link.download = `autocvapply_applications_${new Date().toISOString().split('T')[0]}.csv`;
     link.click();
     URL.revokeObjectURL(url);
     showMessage(`Exported ${appliedJobs.length} jobs.`);
@@ -375,7 +646,7 @@ async function loadAppliedJobs() {
     document.getElementById('applied-jobs-count').textContent = appliedJobs.length;
 
     if (appliedJobs.length === 0) {
-        list.innerHTML = '<div class="empty-state">No applications yet. Start the LinkedIn bot on a jobs page.</div>';
+        list.innerHTML = '<div class="empty-state">No applications yet. Start a bot or sync from the dashboard.</div>';
 
         return;
     }
@@ -391,7 +662,7 @@ async function loadAppliedJobs() {
                     </div>
                     <div class="job-time">${formatTimeAgo(job.date)}</div>
                 </div>
-                <a class="job-link" href="${job.link}" target="_blank" rel="noopener">View on LinkedIn</a>
+                <a class="job-link" href="${job.link}" target="_blank" rel="noopener">View job</a>
             </div>
         `)
         .join('');
@@ -494,6 +765,10 @@ chrome.runtime.onMessage.addListener((message) => {
     if (message.type === 'botStopped') {
         botRunning = false;
         updateBotCounters();
+    }
+
+    if (message.type === 'log') {
+        appendBotLog(message.message);
     }
 });
 

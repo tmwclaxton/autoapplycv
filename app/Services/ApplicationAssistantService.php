@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Enums\ApplicationArtifactType;
+use App\Models\ApplicationArtifact;
 use App\Models\CvProfile;
+use App\Models\JobApplication;
 
 class ApplicationAssistantService
 {
@@ -86,6 +89,38 @@ class ApplicationAssistantService
     }
 
     /**
+     * @param  array<string, mixed>  $job
+     */
+    public function generateTailoredResume(CvProfile $profile, array $job, string $template = 'modern'): ?string
+    {
+        $templateGuide = match ($template) {
+            'consulting' => 'Use a concise consulting-style layout: strong action bullets, quantified impact, leadership verbs, one-line role summaries.',
+            'harvard' => 'Use a classic Harvard-style CV: reverse chronological roles, education block, skills line, restrained tone, no graphics.',
+            default => 'Use a modern professional layout: headline, summary, skills, experience bullets tailored to the job.',
+        };
+
+        $result = $this->nanoGpt->chat([
+            [
+                'role' => 'system',
+                'content' => $this->systemPrompt($profile)."\n\nTailor the CV truthfully to the job. Do not invent employers, dates, or qualifications. {$templateGuide} Output plain text only.",
+            ],
+            [
+                'role' => 'user',
+                'content' => json_encode([
+                    'job' => $job,
+                    'template' => $template,
+                    'instructions' => 'Return a complete tailored CV in plain text, 500-900 words, with sections: Name, Headline, Summary, Skills, Experience, Education. Emphasise keywords from the job description using only real profile facts.',
+                ], JSON_THROW_ON_ERROR),
+            ],
+        ], [
+            'model' => config('cv.extraction_model'),
+            'temperature' => 0.45,
+        ]);
+
+        return $result !== null && trim($result) !== '' ? trim($result) : null;
+    }
+
+    /**
      * @return array{
      *     score: int,
      *     matched_keywords: array<int, string>,
@@ -134,6 +169,21 @@ class ApplicationAssistantService
             'missing_keywords' => array_values(array_filter($payload['missing_keywords'] ?? [], 'is_string')),
             'suggestions' => array_values(array_filter($payload['suggestions'] ?? [], 'is_string')),
         ];
+    }
+
+    public function storeArtifact(
+        JobApplication $application,
+        ApplicationArtifactType $type,
+        string $title,
+        string $content,
+        ?array $metadata = null,
+    ): ApplicationArtifact {
+        return $application->artifacts()->create([
+            'type' => $type,
+            'title' => $title,
+            'content' => $content,
+            'metadata' => $metadata,
+        ]);
     }
 
     /**

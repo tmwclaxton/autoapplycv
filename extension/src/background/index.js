@@ -26,6 +26,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
 
+    if (message.type === 'LIST_APPLICATIONS') {
+        listApplications().then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
     if (message.type === 'RECORD_AUTOFILL') {
         recordAutofill(message.count).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
 
@@ -40,6 +46,24 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'ASSIST_QUESTIONS') {
         assistQuestions(message).then(sendResponse).catch((err) => sendResponse({ error: err.message, success: false }));
+
+        return true;
+    }
+
+    if (message.type === 'ASSIST_COVER_LETTER') {
+        assistCoverLetter(message).then(sendResponse).catch((err) => sendResponse({ error: err.message, success: false }));
+
+        return true;
+    }
+
+    if (message.type === 'ASSIST_ATS') {
+        assistAts(message).then(sendResponse).catch((err) => sendResponse({ error: err.message, success: false }));
+
+        return true;
+    }
+
+    if (message.type === 'ASSIST_TAILORED_RESUME') {
+        assistTailoredResume(message).then(sendResponse).catch((err) => sendResponse({ error: err.message, success: false }));
 
         return true;
     }
@@ -70,7 +94,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
 
-    if (message.type === 'updateCount' || message.type === 'updateSkippedCount' || message.type === 'botStarted' || message.type === 'botStopped') {
+    if (message.type === 'updateCount' || message.type === 'updateSkippedCount' || message.type === 'botStarted' || message.type === 'botStopped' || message.type === 'log') {
         if (message.type === 'botStarted') {
             chrome.storage.local.set({ botRunning: true });
         }
@@ -124,6 +148,25 @@ async function getProfile() {
     const data = await response.json();
     cachedProfile = data;
     cacheTimestamp = now;
+
+    return data;
+}
+
+async function listApplications() {
+    const apiToken = await getApiToken();
+
+    const response = await fetch(`${API_BASE}/api/applications`, {
+        headers: {
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/json',
+        },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.error || data.message || 'Failed to fetch applications');
+    }
 
     return data;
 }
@@ -217,6 +260,52 @@ async function assistQuestions(payload) {
 
     if (!response.ok) {
         throw new Error(data.error || data.message || 'Failed to get AI answers');
+    }
+
+    if (cachedProfile && data.subscription) {
+        cachedProfile.subscription = data.subscription;
+    }
+
+    return data;
+}
+
+async function assistCoverLetter(payload) {
+    return postAssist('/api/applications/assist/cover-letter', payload);
+}
+
+async function assistAts(payload) {
+    return postAssist('/api/applications/assist/ats-score', payload);
+}
+
+async function assistTailoredResume(payload) {
+    return postAssist('/api/applications/assist/tailored-resume', payload);
+}
+
+async function postAssist(path, body) {
+    const apiToken = await getApiToken();
+
+    const response = await fetch(`${API_BASE}${path}`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+
+    if (response.status === 402) {
+        if (cachedProfile) {
+            cachedProfile.subscription = data.subscription;
+        }
+
+        throw new Error(data.error || 'Autofill limit reached');
+    }
+
+    if (!response.ok) {
+        throw new Error(data.error || data.message || 'AI assist failed');
     }
 
     if (cachedProfile && data.subscription) {

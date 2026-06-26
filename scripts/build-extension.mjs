@@ -5,6 +5,7 @@
 import {
     copyFileSync,
     cpSync,
+    existsSync,
     mkdirSync,
     readFileSync,
     rmSync,
@@ -32,21 +33,60 @@ mkdirSync(OUTPUT_DIR, { recursive: true });
 
 copyFileSync(join(ROOT, 'extension/manifest.json'), join(DIST, 'manifest.json'));
 copyFileSync(join(SRC, 'background/index.js'), join(DIST, 'background.js'));
+copyFileSync(join(SRC, 'content/form-heuristics.js'), join(DIST, 'form-heuristics.js'));
 copyFileSync(join(SRC, 'content/index.js'), join(DIST, 'content.js'));
 copyFileSync(join(SRC, 'content/linkedin-easy-apply.js'), join(DIST, 'linkedin-easy-apply.js'));
+copyFileSync(join(SRC, 'content/indeed-smart-apply.js'), join(DIST, 'indeed-smart-apply.js'));
+copyFileSync(join(SRC, 'content/glassdoor-smart-apply.js'), join(DIST, 'glassdoor-smart-apply.js'));
 copyFileSync(join(SRC, 'popup/popup.html'), join(DIST, 'popup.html'));
 copyFileSync(join(SRC, 'popup/popup.css'), join(DIST, 'popup.css'));
 copyFileSync(join(SRC, 'popup/popup.js'), join(DIST, 'popup.js'));
 
 const iconsDir = join(ROOT, 'extension/icons');
 const distIconsDir = join(DIST, 'icons');
+const faviconSvg = join(ROOT, 'public/favicon.svg');
+const requiredIcons = ['icon16.png', 'icon48.png', 'icon128.png'];
+
+mkdirSync(iconsDir, { recursive: true });
 mkdirSync(distIconsDir, { recursive: true });
 
-try {
-    cpSync(iconsDir, distIconsDir, { recursive: true });
-} catch {
-    console.log('  Note: No icons found. Add icon16.png, icon48.png, icon128.png to extension/icons/');
+function ensureExtensionIcons() {
+    const missingIcons = requiredIcons.filter((icon) => !existsSync(join(iconsDir, icon)));
+
+    if (missingIcons.length === 0) {
+        return;
+    }
+
+    if (!existsSync(faviconSvg)) {
+        throw new Error(
+            `Missing extension icons (${missingIcons.join(', ')}). Add PNG files to extension/icons/ or provide public/favicon.svg to generate them.`,
+        );
+    }
+
+    console.log(`  Generating missing extension icons from ${faviconSvg}...`);
+
+    for (const icon of missingIcons) {
+        const size = icon.match(/\d+/)?.[0];
+
+        if (!size) {
+            continue;
+        }
+
+        execSync(
+            `npx --yes @resvg/resvg-js-cli --fit-width ${size} "${faviconSvg}" "${join(iconsDir, icon)}"`,
+            { stdio: 'inherit' },
+        );
+    }
+
+    const stillMissing = requiredIcons.filter((icon) => !existsSync(join(iconsDir, icon)));
+
+    if (stillMissing.length > 0) {
+        throw new Error(`Failed to generate extension icons: ${stillMissing.join(', ')}`);
+    }
 }
+
+ensureExtensionIcons();
+cpSync(iconsDir, distIconsDir, { recursive: true });
 
 function zipDirectory(sourceDir, outputPath) {
     rmSync(outputPath, { force: true });

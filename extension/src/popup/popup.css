@@ -87,7 +87,9 @@ body {
 .job-link { display: inline-block; margin-top: 8px; font-size: 11px; color: #93c5fd; text-decoration: none; }
 .empty-state { text-align: center; color: #64748b; font-size: 12px; padding: 24px 8px; }
 .resume-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 4px; }
+.resume-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 4px; }
 .resume-name { flex: 1; font-size: 12px; color: #94a3b8; min-width: 140px; }
+.bot-log { margin-top: 10px; max-height: 90px; overflow-y: auto; font-size: 11px; color: #94a3b8; background: rgba(15,23,42,.35); border-radius: 8px; padding: 8px; }
 .onboarding-overlay {
     position: fixed; inset: 0; background: rgba(15, 23, 42, 0.92); z-index: 9999;
     display: flex; align-items: center; justify-content: center; padding: 16px;

@@ -18,6 +18,7 @@ class ScoreAtsRequest extends FormRequest
     {
         return [
             'job_description' => ['required', 'string', 'max:20000'],
+            'application_id' => ['nullable', 'integer', 'exists:job_applications,id'],
         ];
     }
 }

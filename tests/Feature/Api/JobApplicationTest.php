@@ -58,4 +58,30 @@ class JobApplicationTest extends TestCase
 
         $this->assertSame(1, JobApplication::query()->where('user_id', $user->id)->count());
     }
+
+    public function test_extension_can_list_job_applications(): void
+    {
+        $user = User::factory()->create();
+        $token = $user->createToken('extension')->plainTextToken;
+        JobApplication::factory()->for($user)->count(2)->create();
+
+        $this->withToken($token)
+            ->getJson('/api/applications')
+            ->assertOk()
+            ->assertJsonCount(2, 'applications');
+    }
+
+    public function test_extension_can_update_application_status(): void
+    {
+        $user = User::factory()->create();
+        $token = $user->createToken('extension')->plainTextToken;
+        $application = JobApplication::factory()->for($user)->create();
+
+        $this->withToken($token)
+            ->patchJson("/api/applications/{$application->id}", [
+                'status' => 'interview',
+            ])
+            ->assertOk()
+            ->assertJsonPath('application.status', 'interview');
+    }
 }

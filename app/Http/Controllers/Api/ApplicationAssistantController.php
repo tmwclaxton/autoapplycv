@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\ApplicationArtifactType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AssistApplicationQuestionsRequest;
 use App\Http\Requests\GenerateCoverLetterRequest;
+use App\Http\Requests\GenerateTailoredResumeRequest;
 use App\Http\Requests\ScoreAtsRequest;
+use App\Models\JobApplication;
 use App\Services\AiTokenService;
 use App\Services\ApplicationAssistantService;
 use Illuminate\Http\JsonResponse;
@@ -97,9 +100,78 @@ class ApplicationAssistantController extends Controller
 
         $this->usage->recordAutofill($user, $cost);
 
+        $application = $this->resolveApplication($user->id, $validated['application_id'] ?? null);
+
+        if ($application !== null) {
+            $this->assistant->storeArtifact(
+                $application,
+                ApplicationArtifactType::CoverLetter,
+                'Cover letter — '.$application->title,
+                $coverLetter,
+                ['tone' => $validated['tone'] ?? 'professional'],
+            );
+        }
+
         return response()->json([
             'success' => true,
             'cover_letter' => $coverLetter,
+            'autofill_cost' => $cost,
+            'subscription' => $this->usage->summary($user),
+        ]);
+    }
+
+    public function tailoredResume(GenerateTailoredResumeRequest $request): JsonResponse
+    {
+        $user = $request->user();
+        $profile = $user->cvProfile;
+
+        if (! $profile) {
+            return response()->json(['error' => 'No profile found'], 404);
+        }
+
+        $cost = (int) config('cv.ai_assist.tailored_resume_cost', 10);
+
+        if (! $this->usage->canAutofill($user, $cost)) {
+            return response()->json([
+                'success' => false,
+                'error' => 'You do not have enough autofills remaining for a tailored resume.',
+                'subscription' => $this->usage->summary($user),
+            ], 402);
+        }
+
+        $validated = $request->validated();
+        $template = $validated['template'] ?? 'modern';
+        $resume = $this->assistant->generateTailoredResume(
+            $profile,
+            $validated['job'],
+            $template,
+        );
+
+        if ($resume === null) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Could not generate a tailored resume right now. Try again shortly.',
+            ], 502);
+        }
+
+        $this->usage->recordAutofill($user, $cost);
+
+        $application = $this->resolveApplication($user->id, $validated['application_id'] ?? null);
+
+        if ($application !== null) {
+            $this->assistant->storeArtifact(
+                $application,
+                ApplicationArtifactType::TailoredResume,
+                ucfirst($template).' resume — '.$application->title,
+                $resume,
+                ['template' => $template],
+            );
+        }
+
+        return response()->json([
+            'success' => true,
+            'resume' => $resume,
+            'template' => $template,
             'autofill_cost' => $cost,
             'subscription' => $this->usage->summary($user),
         ]);
@@ -136,11 +208,40 @@ class ApplicationAssistantController extends Controller
 
         $this->usage->recordAutofill($user, $cost);
 
+        $application = $this->resolveApplication($user->id, $validated['application_id'] ?? null);
+
+        if ($application !== null) {
+            $application->forceFill([
+                'ats_score' => $result['score'],
+                'ats_result' => $result,
+            ])->save();
+
+            $this->assistant->storeArtifact(
+                $application,
+                ApplicationArtifactType::AtsReport,
+                'ATS report — '.$application->title,
+                json_encode($result, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR),
+                $result,
+            );
+        }
+
         return response()->json([
             'success' => true,
             'result' => $result,
             'autofill_cost' => $cost,
             'subscription' => $this->usage->summary($user),
         ]);
+    }
+
+    private function resolveApplication(int $userId, ?int $applicationId): ?JobApplication
+    {
+        if ($applicationId === null) {
+            return null;
+        }
+
+        return JobApplication::query()
+            ->where('user_id', $userId)
+            ->whereKey($applicationId)
+            ->first();
     }
 }

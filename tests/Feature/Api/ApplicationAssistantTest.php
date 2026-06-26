@@ -137,4 +137,31 @@ class ApplicationAssistantTest extends TestCase
             ->assertJsonPath('cover_letter', 'Dear hiring manager, I am excited to apply.')
             ->assertJsonPath('autofill_cost', 8);
     }
+
+    public function test_api_can_generate_tailored_resume(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'full_name' => 'Alex Developer',
+            'summary' => 'Experienced Laravel engineer.',
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chat')->once()->andReturn("Alex Developer\nSenior Laravel Engineer\n\nSummary\nExperienced engineer.");
+        });
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/tailored-resume', [
+                'job' => [
+                    'title' => 'Laravel Developer',
+                    'company' => 'Example Ltd',
+                    'description' => 'Build APIs with Laravel.',
+                ],
+                'template' => 'modern',
+            ])
+            ->assertOk()
+            ->assertJsonPath('template', 'modern')
+            ->assertJsonPath('autofill_cost', 10);
+    }
 }
