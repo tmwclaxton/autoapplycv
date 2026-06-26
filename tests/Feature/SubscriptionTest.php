@@ -6,6 +6,7 @@ use App\Models\CvProfile;
 use App\Models\User;
 use App\Services\GoCardlessService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Support\Header;
 use InvalidArgumentException;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Mockery\MockInterface;
@@ -49,6 +50,23 @@ class SubscriptionTest extends TestCase
         $this->actingAs($user)
             ->post(route('billing.checkout'), ['tier' => 'starter'])
             ->assertRedirect('https://pay.gocardless.com/flow/test');
+    }
+
+    public function test_paid_checkout_returns_inertia_location_for_gocardless(): void
+    {
+        $user = User::factory()->create();
+
+        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('createCheckoutFlow')
+                ->once()
+                ->andReturn('https://pay.gocardless.com/flow/test');
+        });
+
+        $this->actingAs($user)
+            ->withHeaders(['X-Inertia' => 'true'])
+            ->post(route('billing.checkout'), ['tier' => 'starter'])
+            ->assertStatus(409)
+            ->assertHeader(Header::LOCATION, 'https://pay.gocardless.com/flow/test');
     }
 
     public function test_checkout_shows_error_when_billing_is_not_configured(): void

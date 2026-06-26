@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 use InvalidArgumentException;
+use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 use Throwable;
 
 class BillingController extends Controller
@@ -30,7 +31,7 @@ class BillingController extends Controller
         ]);
     }
 
-    public function checkout(Request $request): RedirectResponse
+    public function checkout(Request $request): HttpFoundationResponse
     {
         $validated = $request->validate([
             'tier' => ['required', 'in:free,starter,pro'],
@@ -103,7 +104,7 @@ class BillingController extends Controller
                 ->with('error', 'Something went wrong starting checkout. Please try again.');
         }
 
-        return redirect()->away($checkoutUrl);
+        return Inertia::location($checkoutUrl);
     }
 
     public function complete(Request $request): RedirectResponse
