@@ -3,7 +3,7 @@
  * Generate favicon.ico and apple-touch-icon.png from public/favicon.svg
  */
 import { execSync } from 'node:child_process';
-import { cpSync, mkdirSync, rmSync } from 'node:fs';
+import { mkdirSync, rmSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 

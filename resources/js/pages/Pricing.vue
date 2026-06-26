@@ -8,7 +8,7 @@ import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
 import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
-import { dashboard, login } from '@/routes';
+import { login } from '@/routes';
 import billing from '@/routes/billing';
 
 defineProps<{

@@ -376,7 +376,7 @@ const AutoCVApplyFormHeuristics = (() => {
         }
     }
 
-    function looksLikeApplicationForm(root = document) {
+    function looksLikeApplicationForm() {
         let score = 0;
 
         forEachIframeDocument((doc) => {

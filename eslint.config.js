@@ -83,11 +83,25 @@ export default defineConfigWithVueTs(
             'bootstrap/ssr',
             'tailwind.config.js',
             'vite.config.ts',
+            'extension/dist/**',
+            'package/**',
             'resources/js/actions/**',
             'resources/js/components/ui/*',
             'resources/js/routes/**',
             'resources/js/wayfinder/**',
         ],
+    },
+    {
+        files: ['extension/**/*.js'],
+        rules: {
+            '@typescript-eslint/no-unused-vars': [
+                'error',
+                {
+                    varsIgnorePattern: '^AutoCVApply',
+                    argsIgnorePattern: '^_',
+                },
+            ],
+        },
     },
     prettier, // Turn off all rules that might conflict with Prettier
     {

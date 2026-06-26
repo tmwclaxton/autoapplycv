@@ -36,7 +36,7 @@ interface BlogPostCard {
     view_count?: number;
 }
 
-const props = withDefaults(
+withDefaults(
     defineProps<{
         post: BlogPost;
         share_links: Record<string, string>;
