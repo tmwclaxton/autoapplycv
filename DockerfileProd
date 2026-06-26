@@ -105,4 +105,4 @@ RUN chmod +x /var/www/html/docker/production/start.sh 2>/dev/null || true
 
 EXPOSE 80
 
-ENTRYPOINT ["bash", "-c", "chown -R sail:sail /var/www/html/storage /var/www/html/bootstrap/cache && gosu sail php artisan storage:link --force --no-interaction 2>/dev/null || gosu sail php artisan storage:link --no-interaction || true && gosu sail php artisan config:cache && gosu sail php artisan route:cache && gosu sail php artisan view:cache && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf"]
+ENTRYPOINT ["bash", "-c", "chown -R sail:sail /var/www/html/storage /var/www/html/bootstrap/cache && ln -sfn /var/www/html/storage/app/public /var/www/html/public/storage && gosu sail php artisan config:cache && gosu sail php artisan route:cache && gosu sail php artisan view:cache && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf"]
