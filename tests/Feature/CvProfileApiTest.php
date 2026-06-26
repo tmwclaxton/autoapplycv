@@ -58,6 +58,7 @@ class CvProfileApiTest extends TestCase
                     'extra_context',
                 ],
                 'documents',
+                'document_categories',
                 'subscription' => [
                     'tier',
                     'tier_label',

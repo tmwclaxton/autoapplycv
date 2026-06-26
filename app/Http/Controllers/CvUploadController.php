@@ -82,7 +82,7 @@ class CvUploadController extends Controller
             'documents' => $user->profileDocuments()
                 ->latest()
                 ->get()
-                ->map(fn (ProfileDocument $document): array => $document->toFrontendArray())
+                ->map(fn (ProfileDocument $document): array => $document->toFrontendArray($this->documentDownloadRoute($request)))
                 ->values()
                 ->all(),
         ];
@@ -127,6 +127,13 @@ class CvUploadController extends Controller
         );
 
         return redirect()->route('dashboard')->with('success', 'Profile saved.');
+    }
+
+    private function documentDownloadRoute(Request $request): string
+    {
+        return $request->is('api/*')
+            ? 'api.profile.documents.download'
+            : 'profile.documents.download';
     }
 
     /**

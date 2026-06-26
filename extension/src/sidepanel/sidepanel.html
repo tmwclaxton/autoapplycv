@@ -56,7 +56,7 @@
                     <button class="tab postbox-tab-active" data-tab="assist">Assist</button>
                     <button class="tab" data-tab="ats">ATS</button>
                     <button class="tab" data-tab="cover">Cover</button>
-                    <button class="tab" data-tab="resume">Resume</button>
+                    <button class="tab" data-tab="documents">Docs</button>
                 </nav>
 
                 <div id="job-context" class="job-context" hidden>
@@ -88,7 +88,7 @@
                             </section>
 
                             <p class="postbox-hint">
-                                Edit your CV and application preferences on the dashboard — not in the extension.
+                                Upload CVs and supporting files on the Docs tab. Edit your full profile and application preferences on the dashboard.
                             </p>
 
                             <div class="stack shell-actions">
@@ -116,18 +116,38 @@
                         </div>
                     </div>
 
-                    <div class="tab-panel" id="resume-tab">
-                        <div class="shell-scroll shell-ai-panel">
-                            <label class="postbox-label">Resume template</label>
-                            <select id="ai-resume-template" class="postbox-input">
-                                <option value="modern">Modern</option>
-                                <option value="consulting">Consulting</option>
-                                <option value="harvard">Harvard</option>
-                            </select>
-                            <button class="postbox-btn" id="ai-resume-btn">Generate tailored resume</button>
-                            <textarea id="resume-output" class="postbox-input output shell-grow-input" rows="10" readonly placeholder="Tailored resume appears here…"></textarea>
-                            <button class="postbox-btn-outline" id="resume-copy-btn" type="button">Copy output</button>
-                            <div id="resume-status" class="status-line"></div>
+                    <div class="tab-panel" id="documents-tab">
+                        <div class="shell-scroll shell-documents-panel">
+                            <p class="postbox-hint">
+                                Upload your CV to refresh your parsed profile, or store certificates and supporting files here.
+                            </p>
+
+                            <section class="card postbox-panel">
+                                <label class="postbox-label" for="documents-category">Category</label>
+                                <select id="documents-category" class="postbox-input"></select>
+
+                                <label class="postbox-label" for="documents-title">Title (optional)</label>
+                                <input id="documents-title" class="postbox-input" placeholder="e.g. BSc graduation certificate" />
+
+                                <label class="postbox-label" for="documents-notes">Notes (optional)</label>
+                                <input id="documents-notes" class="postbox-input" placeholder="e.g. Includes official transcript stamp" />
+
+                                <input id="documents-file-input" type="file" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp" hidden />
+
+                                <div class="document-upload-row">
+                                    <button type="button" class="postbox-btn" id="documents-upload-btn">Choose file</button>
+                                    <span class="postbox-hint">PDF, Word, or image · up to 10MB</span>
+                                </div>
+
+                                <p id="documents-cv-hint" class="postbox-hint" hidden>
+                                    CV uploads replace your previous CV and re-parse your profile, just like on the dashboard.
+                                </p>
+
+                                <div id="documents-upload-status" class="status-line"></div>
+                            </section>
+
+                            <div id="documents-list" class="document-list"></div>
+                            <p id="documents-empty" class="postbox-hint" hidden>No documents saved yet.</p>
                         </div>
                     </div>
                 </div>

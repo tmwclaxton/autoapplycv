@@ -6,6 +6,7 @@ import {
     saveConnection,
 } from './connection.js';
 import { requestDraftAllStream, requestDraftField } from './draft-all-stream.js';
+import { arrayBufferToBase64, base64ToBlob } from './file-transfer.js';
 import {
     applyDraftAnswerToTab,
     applyDraftBatchToTab,
@@ -15,6 +16,159 @@ import {
 let cachedProfile = null;
 let cacheTimestamp = 0;
 const CACHE_TTL_MS = 15 * 60 * 1000;
+
+function invalidateProfileCache() {
+    cachedProfile = null;
+    cacheTimestamp = 0;
+}
+
+function apiErrorMessage(data, fallbackMessage) {
+    return data.message || data.error || fallbackMessage;
+}
+
+async function uploadCv(filePayload) {
+    if (!filePayload?.base64 || !filePayload?.fileName) {
+        throw new Error('Choose a CV file to upload.');
+    }
+
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
+    const formData = new FormData();
+    formData.append('cv', base64ToBlob(filePayload.base64, filePayload.mimeType), filePayload.fileName);
+
+    const response = await fetch(`${apiBase}/api/cv/upload`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/json',
+        },
+        body: formData,
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        if (response.status === 401) {
+            await clearConnection();
+            throw new Error('Session expired. Please log in again.');
+        }
+
+        throw new Error(apiErrorMessage(data, 'CV upload failed.'));
+    }
+
+    invalidateProfileCache();
+
+    return data;
+}
+
+async function uploadProfileDocument(message) {
+    if (!message.file?.base64 || !message.file?.fileName) {
+        throw new Error('Choose a file to upload.');
+    }
+
+    if (!message.category) {
+        throw new Error('Choose a document category.');
+    }
+
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
+    const formData = new FormData();
+    formData.append('file', base64ToBlob(message.file.base64, message.file.mimeType), message.file.fileName);
+    formData.append('category', message.category);
+
+    if (message.title?.trim()) {
+        formData.append('title', message.title.trim());
+    }
+
+    if (message.notes?.trim()) {
+        formData.append('notes', message.notes.trim());
+    }
+
+    const response = await fetch(`${apiBase}/api/profile/documents`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/json',
+        },
+        body: formData,
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        if (response.status === 401) {
+            await clearConnection();
+            throw new Error('Session expired. Please log in again.');
+        }
+
+        throw new Error(apiErrorMessage(data, 'Document upload failed.'));
+    }
+
+    invalidateProfileCache();
+
+    return data;
+}
+
+async function deleteProfileDocument(documentId) {
+    if (!documentId) {
+        throw new Error('Document not found.');
+    }
+
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
+
+    const response = await fetch(`${apiBase}/api/profile/documents/${documentId}`, {
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/json',
+        },
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        if (response.status === 401) {
+            await clearConnection();
+            throw new Error('Session expired. Please log in again.');
+        }
+
+        throw new Error(apiErrorMessage(data, 'Could not delete that file.'));
+    }
+
+    invalidateProfileCache();
+
+    return data;
+}
+
+async function downloadProfileDocument(documentId) {
+    const profileData = await getProfile();
+    const document = (profileData.documents || []).find((item) => item.id === documentId);
+
+    if (!document?.download_url) {
+        throw new Error('Document not found.');
+    }
+
+    const apiToken = await getApiToken();
+    const response = await fetch(document.download_url, {
+        headers: {
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/octet-stream',
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to download file.');
+    }
+
+    const buffer = await response.arrayBuffer();
+
+    return {
+        base64: arrayBufferToBase64(buffer),
+        fileName: document.original_filename || document.title || 'document',
+        mimeType: document.mime_type || 'application/octet-stream',
+    };
+}
 
 function configureSidePanel() {
     if (!chrome.sidePanel?.setPanelBehavior) {
@@ -89,8 +243,26 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
 
-    if (message.type === 'ASSIST_TAILORED_RESUME') {
-        assistTailoredResume(message).then(sendResponse).catch((err) => sendResponse({ error: err.message, success: false }));
+    if (message.type === 'UPLOAD_CV') {
+        uploadCv(message.file).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'UPLOAD_PROFILE_DOCUMENT') {
+        uploadProfileDocument(message).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'DELETE_PROFILE_DOCUMENT') {
+        deleteProfileDocument(message.documentId).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'DOWNLOAD_PROFILE_DOCUMENT') {
+        downloadProfileDocument(message.documentId).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -107,7 +279,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             apiBase: message.apiBase,
         })
             .then(() => {
-                cachedProfile = null;
+                invalidateProfileCache();
                 sendResponse({ success: true });
             })
             .catch((err) => sendResponse({ error: err.message }));
@@ -129,7 +301,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'LOGOUT') {
         clearConnection()
             .then(() => {
-                cachedProfile = null;
+                invalidateProfileCache();
                 sendResponse({ success: true });
             })
             .catch((err) => sendResponse({ error: err.message }));
@@ -138,7 +310,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'PROFILE_UPDATED') {
-        cachedProfile = null;
+        invalidateProfileCache();
         sendResponse({ success: true });
 
         return false;
@@ -395,36 +567,16 @@ async function getCvDocument() {
     const documents = profileData.documents || [];
     const cvDocument = documents.find((document) => document.category === 'cv') || documents[0];
 
-    if (!cvDocument?.download_url) {
+    if (!cvDocument?.id) {
         throw new Error('No CV document found on your profile');
     }
 
-    const apiToken = await getApiToken();
-    const response = await fetch(cvDocument.download_url, {
-        headers: {
-            Authorization: `Bearer ${apiToken}`,
-            Accept: 'application/octet-stream',
-        },
-    });
-
-    if (!response.ok) {
-        throw new Error('Failed to download CV document');
-    }
-
-    const buffer = await response.arrayBuffer();
-    const bytes = new Uint8Array(buffer);
-    let binary = '';
-
-    for (let i = 0; i < bytes.length; i++) {
-        binary += String.fromCharCode(bytes[i]);
-    }
-
-    const base64 = `data:${cvDocument.mime_type || 'application/pdf'};base64,${btoa(binary)}`;
+    const payload = await downloadProfileDocument(cvDocument.id);
 
     return {
-        base64,
-        fileName: cvDocument.original_filename || cvDocument.title || 'cv.pdf',
-        mimeType: cvDocument.mime_type || 'application/pdf',
+        base64: `data:${payload.mimeType};base64,${payload.base64}`,
+        fileName: payload.fileName,
+        mimeType: payload.mimeType,
     };
 }
 
@@ -477,13 +629,6 @@ async function assistCoverLetter(message) {
 async function assistAts(message) {
     return postAssist('/api/applications/assist/ats-score', {
         job_description: message.job_description,
-    });
-}
-
-async function assistTailoredResume(message) {
-    return postAssist('/api/applications/assist/tailored-resume', {
-        job: message.job,
-        template: message.template ?? 'modern',
     });
 }
 

@@ -342,6 +342,58 @@ body {
     color: var(--postbox-grey-dark);
 }
 
+.shell-documents-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.document-upload-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.document-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.document-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+}
+
+.document-item-body {
+    min-width: 0;
+}
+
+.document-item-title {
+    display: block;
+    font-size: 14px;
+    color: var(--postbox-navy);
+}
+
+.document-item-meta {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--postbox-grey-dark);
+}
+
+.document-item-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.document-item-actions .postbox-btn-outline {
+    flex: 1;
+}
+
 .resume-row {
     display: flex;
     flex-wrap: wrap;

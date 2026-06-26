@@ -53,7 +53,7 @@ class ProfileDocumentController extends Controller
 
         return response()->json([
             'success' => true,
-            'document' => $document->toFrontendArray(),
+            'document' => $document->toFrontendArray($this->documentDownloadRoute($request)),
         ], 201);
     }
 
@@ -94,6 +94,13 @@ class ProfileDocumentController extends Controller
             $profileDocument->stored_path,
             $profileDocument->original_filename,
         );
+    }
+
+    private function documentDownloadRoute(Request $request): string
+    {
+        return $request->is('api/*')
+            ? 'api.profile.documents.download'
+            : 'profile.documents.download';
     }
 
     private function storedPathIsReferenced(string $storedPath): bool

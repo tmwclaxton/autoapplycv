@@ -1,4 +1,5 @@
 import { parseConnectionInput } from './connection.js';
+import { initDocumentsPanel } from './documents.js';
 
 const messageEl = document.getElementById('message');
 const authState = document.getElementById('auth-state');
@@ -14,7 +15,9 @@ const focusedFieldEl = document.getElementById('focused-field');
 const draftStatusEl = document.getElementById('draft-status');
 const jobContextEl = document.getElementById('job-context');
 
-const aiTabs = new Set(['ats', 'cover', 'resume']);
+const aiTabs = new Set(['ats', 'cover']);
+
+let documentsPanel = null;
 
 function configureExtensionIcons() {
     const iconUrl = (name) => chrome.runtime.getURL(`icons/${name}`);
@@ -185,7 +188,7 @@ async function showOnboardingIfNeeded() {
     overlay.innerHTML = `
         <div class="onboarding-card postbox-panel">
             <h2>Welcome to AutoCVApply</h2>
-            <p>Use Assist while you fill forms. Switch to ATS, Cover, or Resume for AI tools. Set your job preferences on the dashboard.</p>
+            <p>Use Assist while you fill forms. Switch to ATS or Cover for AI tools. Upload CVs and documents on the Docs tab.</p>
             <button type="button" class="postbox-btn" id="finish-onboarding-btn">Got it</button>
         </div>
     `;
@@ -272,32 +275,8 @@ document.getElementById('ai-cover-letter-btn').addEventListener('click', async (
     }
 });
 
-document.getElementById('ai-resume-btn').addEventListener('click', async () => {
-    const statusEl = document.getElementById('resume-status');
-    const outputEl = document.getElementById('resume-output');
-
-    try {
-        const job = buildJobPayload();
-        validateJobDescription(job.description);
-        const template = document.getElementById('ai-resume-template').value;
-
-        const response = await runAssist('ASSIST_TAILORED_RESUME', {
-            job,
-            template,
-        }, statusEl);
-
-        outputEl.value = response.resume;
-        statusEl.textContent = 'Tailored resume generated.';
-        showMessage('Tailored resume generated.', 'success');
-    } catch (error) {
-        statusEl.textContent = error.message;
-        showMessage(error.message, 'error');
-    }
-});
-
 document.getElementById('ats-copy-btn').addEventListener('click', () => copyOutput('ats-output'));
 document.getElementById('cover-copy-btn').addEventListener('click', () => copyOutput('cover-output'));
-document.getElementById('resume-copy-btn').addEventListener('click', () => copyOutput('resume-output'));
 
 document.getElementById('save-token-btn').addEventListener('click', () => {
     const raw = tokenInput.value.trim();
@@ -400,6 +379,20 @@ async function init() {
     setupTabs();
     setJobContextVisible('assist');
 
+    if (!documentsPanel) {
+        documentsPanel = initDocumentsPanel({
+            showMessage,
+            loadProfile,
+            onProfileUpdated(profileData) {
+                if (profileData?.profile?.full_name) {
+                    profileName.textContent = profileData.profile.full_name;
+                }
+
+                renderSubscription(profileData?.subscription);
+            },
+        });
+    }
+
     const { isEnabled } = await chrome.storage.local.get(['isEnabled']);
 
     if (isEnabled !== undefined) {
@@ -419,6 +412,7 @@ async function init() {
         }
 
         renderSubscription(profileData?.subscription);
+        await documentsPanel.refreshDocuments();
         await refreshFocusedField();
         await showOnboardingIfNeeded();
     } else {

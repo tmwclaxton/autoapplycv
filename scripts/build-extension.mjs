@@ -106,6 +106,7 @@ copyFileSync(join(SRC, 'shared/connection.js'), join(DIST, 'connection.js'));
 copyFileSync(join(SRC, 'shared/application-settings.js'), join(DIST, 'application-settings.js'));
 copyFileSync(join(SRC, 'shared/postbox-theme.css'), join(DIST, 'postbox-theme.css'));
 copyFileSync(join(SRC, 'shared/form-frame-messaging.js'), join(DIST, 'form-frame-messaging.js'));
+copyFileSync(join(SRC, 'shared/file-transfer.js'), join(DIST, 'file-transfer.js'));
 copyFileSync(join(SRC, 'background/index.js'), join(DIST, 'background.js'));
 copyFileSync(join(SRC, 'content/form-heuristics.js'), join(DIST, 'form-heuristics.js'));
 copyFileSync(join(SRC, 'content/focus-tracker.js'), join(DIST, 'focus-tracker.js'));
@@ -114,6 +115,7 @@ copyFileSync(join(SRC, 'content/index.js'), join(DIST, 'content.js'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.html'), join(DIST, 'sidepanel.html'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.css'), join(DIST, 'sidepanel.css'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.js'), join(DIST, 'sidepanel.js'));
+copyFileSync(join(SRC, 'sidepanel/documents.js'), join(DIST, 'documents.js'));
 
 patchManifest(apiBase);
 

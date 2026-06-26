@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\ProfileDocumentCategory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateExtensionProfileRequest;
 use App\Models\CvProfile;
@@ -93,6 +94,7 @@ class ProfileController extends Controller
                 ->map(fn ($document) => $document->toFrontendArray('api.profile.documents.download'))
                 ->values()
                 ->all(),
+            'document_categories' => ProfileDocumentCategory::options(),
             'application_settings' => ApplicationSettings::merge($profile->application_settings),
             'subscription' => $this->aiTokens->summary($user),
         ];
