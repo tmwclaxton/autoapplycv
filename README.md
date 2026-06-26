@@ -186,7 +186,7 @@ Then in Chrome:
 3. Click **Load unpacked**
 4. Select the `extension/dist/` folder
 
-Generate a connection from the dashboard (**Copy** includes `token` + `api_base`) and paste it into the extension popup.
+Generate a connection from the dashboard (**Copy** includes `token` + `api_base`) and paste it into the extension sidebar.
 
 ## API
 
@@ -195,7 +195,7 @@ The extension authenticates with Laravel Sanctum bearer tokens.
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `GET` | `/api/profile` | Fetch user profile + subscription usage |
-| `POST` | `/api/tokens` | Generate a new extension token |
+| `POST` | `/extension/connection` | Generate extension connection JSON (dashboard session) |
 | `DELETE` | `/api/tokens/{token}` | Revoke a token |
 
 ## Testing

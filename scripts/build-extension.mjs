@@ -103,6 +103,8 @@ mkdirSync(OUTPUT_DIR, { recursive: true });
 copyFileSync(join(ROOT, 'extension/manifest.json'), join(DIST, 'manifest.json'));
 copyFileSync(join(SRC, 'shared/draft-all-stream.js'), join(DIST, 'draft-all-stream.js'));
 copyFileSync(join(SRC, 'shared/connection.js'), join(DIST, 'connection.js'));
+copyFileSync(join(SRC, 'shared/application-settings.js'), join(DIST, 'application-settings.js'));
+copyFileSync(join(SRC, 'shared/postbox-theme.css'), join(DIST, 'postbox-theme.css'));
 copyFileSync(join(SRC, 'shared/form-frame-messaging.js'), join(DIST, 'form-frame-messaging.js'));
 copyFileSync(join(SRC, 'background/index.js'), join(DIST, 'background.js'));
 copyFileSync(join(SRC, 'content/form-heuristics.js'), join(DIST, 'form-heuristics.js'));
@@ -112,36 +114,33 @@ copyFileSync(join(SRC, 'content/index.js'), join(DIST, 'content.js'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.html'), join(DIST, 'sidepanel.html'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.css'), join(DIST, 'sidepanel.css'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.js'), join(DIST, 'sidepanel.js'));
-copyFileSync(join(SRC, 'popup/popup.html'), join(DIST, 'popup.html'));
-copyFileSync(join(SRC, 'popup/popup.css'), join(DIST, 'popup.css'));
-copyFileSync(join(SRC, 'popup/popup.js'), join(DIST, 'popup.js'));
 
 patchManifest(apiBase);
 
 const iconsDir = join(ROOT, 'extension/icons');
 const distIconsDir = join(DIST, 'icons');
 const faviconSvg = join(ROOT, 'public/favicon.svg');
-const requiredIcons = ['icon16.png', 'icon48.png', 'icon128.png'];
+const requiredIcons = ['icon16.png', 'icon32.png', 'icon48.png', 'icon128.png'];
 
 mkdirSync(iconsDir, { recursive: true });
 mkdirSync(distIconsDir, { recursive: true });
 
 function ensureExtensionIcons() {
-    const missingIcons = requiredIcons.filter((icon) => !existsSync(join(iconsDir, icon)));
+    if (!existsSync(faviconSvg)) {
+        const missingIcons = requiredIcons.filter((icon) => !existsSync(join(iconsDir, icon)));
 
-    if (missingIcons.length === 0) {
+        if (missingIcons.length > 0) {
+            throw new Error(
+                `Missing extension icons (${missingIcons.join(', ')}). Add PNG files to extension/icons/ or provide public/favicon.svg to generate them.`,
+            );
+        }
+
         return;
     }
 
-    if (!existsSync(faviconSvg)) {
-        throw new Error(
-            `Missing extension icons (${missingIcons.join(', ')}). Add PNG files to extension/icons/ or provide public/favicon.svg to generate them.`,
-        );
-    }
+    console.log(`  Generating extension icons from ${faviconSvg}...`);
 
-    console.log(`  Generating missing extension icons from ${faviconSvg}...`);
-
-    for (const icon of missingIcons) {
+    for (const icon of requiredIcons) {
         const size = icon.match(/\d+/)?.[0];
 
         if (!size) {
@@ -182,6 +181,11 @@ function buildFirefoxDist() {
             strict_min_version: '109.0',
         },
     };
+    manifest.sidebar_action = {
+        default_panel: 'sidepanel.html',
+        default_title: 'AutoCVApply',
+    };
+    delete manifest.action?.default_popup;
     writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 4)}\n`);
 
     return firefoxDist;

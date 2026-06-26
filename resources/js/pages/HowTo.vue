@@ -45,8 +45,8 @@ import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
                     <code>manifest.json</code>.
                 </li>
                 <li>
-                    Generate an API token in the dashboard and paste it into the
-                    extension popup.
+                    Generate a connection in the dashboard and paste it into the
+                    extension sidebar.
                 </li>
                 <li>
                     Visit a supported job site, open an application form, and

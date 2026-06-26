@@ -265,28 +265,39 @@ function findElement(selectors) {
     return found;
 }
 
+function mapApplicationSettingsForAssist(settings) {
+    const merged = {
+        phone_country_code: '+44',
+        years_of_experience: '2',
+        expected_salary: '',
+        visa_sponsorship: 'no',
+        legally_authorized: 'yes',
+        willing_to_relocate: 'yes',
+        drivers_license: 'yes',
+        ...(settings && typeof settings === 'object' ? settings : {}),
+    };
+
+    return {
+        phoneCountryCode: merged.phone_country_code,
+        yearsOfExperience: String(merged.years_of_experience ?? '2'),
+        expectedSalary: merged.expected_salary ?? '',
+        visaSponsorship: merged.visa_sponsorship ?? 'no',
+        legallyAuthorized: merged.legally_authorized ?? 'yes',
+        willingToRelocate: merged.willing_to_relocate ?? 'yes',
+        driversLicense: merged.drivers_license ?? 'yes',
+    };
+}
+
 async function loadAutofillContext() {
-    const [syncSettings, localSettings] = await Promise.all([
-        chrome.storage.sync.get([
-            'yearsOfExperience',
-            'expectedSalary',
-            'visaSponsorship',
-            'legallyAuthorized',
-            'willingToRelocate',
-            'driversLicense',
-        ]),
+    const [profileResponse, localSettings] = await Promise.all([
+        new Promise((resolve) => {
+            chrome.runtime.sendMessage({ type: 'GET_PROFILE' }, resolve);
+        }),
         chrome.storage.local.get(['questionMemo']),
     ]);
 
     return {
-        settings: {
-            yearsOfExperience: syncSettings.yearsOfExperience || '2',
-            expectedSalary: syncSettings.expectedSalary || '',
-            visaSponsorship: syncSettings.visaSponsorship || 'no',
-            legallyAuthorized: syncSettings.legallyAuthorized || 'yes',
-            willingToRelocate: syncSettings.willingToRelocate || 'yes',
-            driversLicense: syncSettings.driversLicense || 'yes',
-        },
+        settings: mapApplicationSettingsForAssist(profileResponse?.application_settings),
         memo: localSettings.questionMemo || {},
     };
 }
@@ -572,24 +583,35 @@ function createFillButton() {
             z-index: 999999;
             display: flex;
             align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            gap: 10px;
+            background: #c8102e;
             color: white;
-            padding: 12px 20px;
-            border-radius: 50px;
+            padding: 12px 18px;
+            border: 2px solid #1b365d;
+            box-shadow: 4px 4px 0 rgb(27 54 93 / 18%);
             cursor: pointer;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
             font-size: 14px;
-            font-weight: 600;
-            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+            font-weight: 700;
             user-select: none;
-            transition: transform 0.15s, box-shadow 0.15s;
-        " onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 6px 25px rgba(37,99,235,0.5)'"
-           onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 20px rgba(37,99,235,0.4)'"
+            transition: background-color 0.15s ease, transform 0.15s ease;
+        " onmouseover="this.style.background='#a50d25'"
+           onmouseout="this.style.background='#c8102e'"
         >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-            </svg>
+            <span style="
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 24px;
+                height: 24px;
+                border: 2px solid #ffffff;
+                background: #c8102e;
+                color: #ffffff;
+                font-size: 9px;
+                font-weight: 700;
+                letter-spacing: -0.04em;
+                transform: rotate(-4deg);
+            ">CV</span>
             AutoFill with AutoCVApply
         </div>
     `;

@@ -38,6 +38,8 @@ Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function ()
     Route::delete('/profile/documents/{profileDocument}', [ProfileDocumentController::class, 'destroy'])->name('profile.documents.destroy');
     Route::get('/profile/documents/{profileDocument}/download', [ProfileDocumentController::class, 'download'])->name('profile.documents.download');
 
+    Route::post('/extension/connection', [ExtensionTokenController::class, 'store'])->name('extension.connection.store');
+
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
     Route::post('/billing/checkout', [BillingController::class, 'checkout'])->name('billing.checkout');
     Route::get('/billing/complete', [BillingController::class, 'complete'])->name('billing.complete');
@@ -60,7 +62,6 @@ Route::middleware(['auth:sanctum'])->prefix('api')->group(function () {
     Route::post('/applications/assist/cover-letter', [ApplicationAssistantController::class, 'coverLetter'])->name('api.applications.assist.cover-letter');
     Route::post('/applications/assist/tailored-resume', [ApplicationAssistantController::class, 'tailoredResume'])->name('api.applications.assist.tailored-resume');
     Route::post('/applications/assist/ats-score', [ApplicationAssistantController::class, 'atsScore'])->name('api.applications.assist.ats-score');
-    Route::post('/tokens', [ExtensionTokenController::class, 'store'])->name('api.tokens.store');
     Route::delete('/tokens/{token}', [ExtensionTokenController::class, 'destroy'])->name('api.tokens.destroy');
 });
 

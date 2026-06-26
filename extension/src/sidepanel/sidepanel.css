@@ -1,101 +1,409 @@
+html,
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #0b1220;
-    color: #e2e8f0;
-    font-size: 13px;
+    height: 100%;
 }
 
-.panel-header {
+.shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    height: 100%;
+}
+
+.shell-header {
+    flex-shrink: 0;
+}
+
+.shell-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+}
+
+.shell-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.shell-mark {
+    flex-shrink: 0;
+    transform: rotate(-4deg);
+    box-shadow: var(--postbox-stamp-shadow);
+}
+
+.shell-mark-fallback {
+    width: 36px;
+    height: 36px;
+    font-size: 11px;
+}
+
+.shell-brand strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--postbox-navy);
+}
+
+.shell-main {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.shell-panel {
+    flex: 1;
+    min-height: 0;
+    display: none;
+    flex-direction: column;
+}
+
+.shell-panel.is-visible {
+    display: flex;
+}
+
+.shell-auth-meta {
+    flex-shrink: 0;
+}
+
+.shell-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 14px 16px 16px;
+}
+
+.tab-viewport {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.tab-panel {
+    display: none;
+    flex: 1;
+    min-height: 0;
+    flex-direction: column;
+}
+
+.tab-panel.active {
+    display: flex;
+}
+
+.shell-fill-panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.shell-grow-input {
+    flex: 1;
+    min-height: 120px;
+}
+
+.job-context {
+    flex-shrink: 0;
+    padding: 12px 16px 0;
+    border-bottom: 2px solid var(--postbox-grey);
+}
+
+.shell-actions {
+    margin-top: auto;
+    padding-top: 8px;
+}
+
+.shell-footer {
+    flex-shrink: 0;
+}
+
+.panel-section {
+    padding: 14px 16px;
+}
+
+.status-card {
+    margin-bottom: 12px;
+    padding: 12px 14px;
+}
+
+.status-card.unauth {
+    border: 2px solid var(--postbox-red);
+    background: var(--postbox-error-bg);
+}
+
+.status-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--postbox-navy);
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.dot.green { background: #22c55e; }
+.dot.red { background: var(--postbox-red); }
+
+.message {
+    display: none;
+    flex-shrink: 0;
+    margin: 10px 16px 0;
+    padding: 8px 10px;
+    border: 2px solid transparent;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.message.success {
+    display: block;
+    background: var(--postbox-success-bg);
+    border-color: var(--postbox-success-border);
+    color: var(--postbox-success-text);
+}
+
+.message.error {
+    display: block;
+    background: var(--postbox-error-bg);
+    border-color: var(--postbox-error-border);
+    color: var(--postbox-error-text);
+}
+
+.status-bar {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 14px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    align-items: start;
+    gap: 12px;
+    padding: 12px 16px 8px;
 }
 
-#usage-pill {
+.usage-count {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--postbox-navy);
+    white-space: nowrap;
+}
+
+.usage-meta {
     font-size: 11px;
-    color: #94a3b8;
-    background: rgba(255,255,255,0.06);
-    padding: 4px 8px;
-    border-radius: 999px;
-}
-
-.card {
-    padding: 14px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-
-.card h2 {
-    margin: 0 0 6px;
-    font-size: 14px;
-}
-
-.hint {
-    margin: 0 0 10px;
-    color: #94a3b8;
-    line-height: 1.4;
-}
-
-.btn {
-    width: 100%;
-    border: 0;
-    border-radius: 10px;
-    padding: 10px 12px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 8px;
-}
-
-.btn.primary { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; }
-.btn.secondary { background: rgba(255,255,255,0.08); color: #e2e8f0; }
-
-.text-input {
-    width: 100%;
-    box-sizing: border-box;
-    margin: 6px 0 10px;
-    border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(15,23,42,0.8);
-    color: #f8fafc;
-    padding: 8px 10px;
-}
-
-label {
-    display: block;
-    font-size: 11px;
-    color: #94a3b8;
+    color: var(--postbox-grey-dark);
     margin-top: 4px;
 }
 
-.focused-field, .status-line, .message {
-    font-size: 12px;
-    color: #94a3b8;
-    line-height: 1.4;
+.usage-bar {
+    height: 8px;
+    margin: 0 16px 12px;
+    border: 2px solid var(--postbox-navy);
+    background: var(--postbox-grey);
+    overflow: hidden;
 }
 
-.message.error { color: #fca5a5; }
-.message.success { color: #86efac; }
+.usage-fill {
+    height: 100%;
+    background: var(--postbox-red);
+    width: 0;
+    transition: width 200ms ease;
+}
 
-.status-line { min-height: 18px; margin-top: 6px; }
+.tabs {
+    display: flex;
+    gap: 0;
+    flex-shrink: 0;
+    padding: 0 12px;
+    border-bottom: 2px solid var(--postbox-navy);
+}
+
+.tab {
+    flex: 1;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    background: transparent;
+    color: var(--postbox-grey-dark);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 10px 4px;
+    cursor: pointer;
+}
+
+.tab:hover {
+    color: var(--postbox-navy);
+}
+
+.card {
+    padding: 14px;
+    margin-bottom: 12px;
+}
 
 .btn-row {
     display: flex;
     gap: 8px;
 }
 
-.btn-row .btn {
+.btn-row .postbox-btn,
+.btn-row .postbox-btn-outline {
     flex: 1;
 }
 
-.optional {
-    font-weight: normal;
-    color: #64748b;
+.stack > * + * {
+    margin-top: 8px;
 }
 
-.text-input.output {
-    margin-top: 8px;
+.toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    border: 2px solid var(--postbox-navy);
+    background: var(--postbox-grey);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--postbox-navy);
+}
+
+.toggle {
+    position: relative;
+    width: 40px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+.toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--postbox-navy);
+    background: var(--postbox-surface);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.slider:before {
+    content: '';
+    position: absolute;
+    height: 12px;
+    width: 12px;
+    left: 3px;
+    bottom: 3px;
+    background: var(--postbox-navy);
+    transition: 0.2s;
+}
+
+.toggle input:checked + .slider {
+    background: var(--postbox-red);
+    border-color: var(--postbox-navy);
+}
+
+.toggle input:checked + .slider:before {
+    transform: translateX(16px);
+    background: #ffffff;
+}
+
+.focused-field,
+.status-line {
     font-size: 12px;
-    line-height: 1.45;
+    color: var(--postbox-grey-dark);
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.status-line {
+    min-height: 18px;
+}
+
+.optional {
+    font-weight: 500;
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--postbox-grey-dark);
+}
+
+.resume-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.resume-name {
+    flex: 1;
+    min-width: 140px;
+    font-size: 13px;
+    color: var(--postbox-grey-dark);
+}
+
+.autosave {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--postbox-navy);
+    opacity: 0;
+    transition: opacity 0.2s;
+    margin-top: 8px;
+}
+
+.autosave.show {
+    opacity: 1;
+}
+
+.onboarding-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgb(250 250 248 / 92%);
+}
+
+@media (prefers-color-scheme: dark) {
+    .onboarding-overlay {
+        background: rgb(15 18 25 / 92%);
+    }
+}
+
+.onboarding-card {
+    width: 100%;
+    max-width: 340px;
+    padding: 20px;
+}
+
+.onboarding-card h2 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    color: var(--postbox-navy);
+}
+
+.onboarding-card p {
+    margin: 0 0 16px;
+    font-size: 13px;
+    color: var(--postbox-grey-dark);
+    line-height: 1.5;
+}
+
+.footer {
+    padding: 10px 16px 14px;
+    text-align: center;
 }

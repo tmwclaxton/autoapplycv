@@ -3,70 +3,141 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AutoCVApply Panel</title>
+    <title>AutoCVApply</title>
+    <link rel="icon" type="image/png" href="icons/icon32.png" />
+    <link rel="stylesheet" href="postbox-theme.css" />
     <link rel="stylesheet" href="sidepanel.css" />
 </head>
-<body>
-    <div class="panel-header">
-        <strong>AutoCVApply</strong>
-        <span id="usage-pill">—</span>
+<body class="postbox-page">
+    <div class="shell">
+        <header class="postbox-bar-top shell-header">
+            <div class="shell-header-inner">
+                <div class="shell-brand">
+                    <img src="icons/icon48.png" class="shell-mark" width="36" height="36" alt="" />
+                    <div>
+                        <strong>AutoCVApply</strong>
+                        <div class="postbox-tagline">Stop retyping your life story.</div>
+                    </div>
+                </div>
+                <span id="usage-pill" class="postbox-badge">—</span>
+            </div>
+        </header>
+
+        <div id="message" class="message"></div>
+
+        <main class="shell-main">
+            <div id="unauth-state" class="shell-panel">
+                <div class="shell-scroll">
+                    <div class="status-card unauth postbox-panel">
+                        <div class="status-row"><span class="dot red"></span> Not connected</div>
+                    </div>
+                    <label class="postbox-label">Paste the connection copied from your dashboard</label>
+                    <textarea id="token-input" class="postbox-input" rows="4" placeholder='{"token":"…","api_base":"…"}'></textarea>
+                    <div class="stack">
+                        <button class="postbox-btn" id="save-token-btn">Connect</button>
+                        <button class="postbox-btn-outline" id="open-site-btn">Get connection from dashboard →</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="auth-state" class="shell-panel">
+                <div class="shell-auth-meta">
+                    <div class="status-bar">
+                        <div>
+                            <div class="status-row"><span class="dot green"></span> <span id="profile-name">Connected</span></div>
+                            <div class="usage-meta" id="usage-meta"></div>
+                        </div>
+                        <div class="usage-count" id="usage-count">0 / 0</div>
+                    </div>
+                    <div class="usage-bar"><div class="usage-fill" id="usage-fill"></div></div>
+                </div>
+
+                <nav class="tabs">
+                    <button class="tab postbox-tab-active" data-tab="assist">Assist</button>
+                    <button class="tab" data-tab="ats">ATS</button>
+                    <button class="tab" data-tab="cover">Cover</button>
+                    <button class="tab" data-tab="resume">Resume</button>
+                </nav>
+
+                <div id="job-context" class="job-context" hidden>
+                    <label class="postbox-label">Job title <span class="optional">(optional)</span></label>
+                    <input id="ai-job-title" class="postbox-input" placeholder="Software Engineer" />
+                    <label class="postbox-label">Company <span class="optional">(optional)</span></label>
+                    <input id="ai-job-company" class="postbox-input" placeholder="Acme Ltd" />
+                    <label class="postbox-label">Job description</label>
+                    <textarea id="ai-job-description" class="postbox-input" rows="4" placeholder="Paste job description…"></textarea>
+                </div>
+
+                <div class="tab-viewport">
+                    <div class="tab-panel active" id="assist-tab">
+                        <div class="shell-scroll">
+                            <div class="toggle-row">
+                                <span>Show AutoFill button on job sites</span>
+                                <label class="toggle"><input type="checkbox" id="enabled-toggle" checked /><span class="slider"></span></label>
+                            </div>
+
+                            <section class="card postbox-panel">
+                                <h2 class="postbox-section-title">Draft on this page</h2>
+                                <p class="postbox-hint">Click a form field on the page, then use Quick Answer or draft every empty field.</p>
+                                <div id="focused-field" class="focused-field">Click a form field to enable Quick Answer.</div>
+                                <div class="stack">
+                                    <button class="postbox-btn" id="quick-answer-btn">Quick Answer selected field</button>
+                                    <button class="postbox-btn-outline" id="draft-all-btn">Draft all empty fields</button>
+                                </div>
+                                <div id="draft-status" class="status-line"></div>
+                            </section>
+
+                            <p class="postbox-hint">
+                                Edit your CV and application preferences on the dashboard — not in the extension.
+                            </p>
+
+                            <div class="stack shell-actions">
+                                <button class="postbox-btn-outline" id="open-dashboard-btn">Open dashboard</button>
+                                <button class="postbox-btn-danger" id="logout-btn">Sign out</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-panel" id="ats-tab">
+                        <div class="shell-scroll shell-ai-panel">
+                            <button class="postbox-btn" id="ai-ats-btn">Run ATS score</button>
+                            <textarea id="ats-output" class="postbox-input output shell-grow-input" rows="10" readonly placeholder="ATS results appear here…"></textarea>
+                            <button class="postbox-btn-outline" id="ats-copy-btn" type="button">Copy output</button>
+                            <div id="ats-status" class="status-line"></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-panel" id="cover-tab">
+                        <div class="shell-scroll shell-ai-panel">
+                            <button class="postbox-btn" id="ai-cover-letter-btn">Generate cover letter</button>
+                            <textarea id="cover-output" class="postbox-input output shell-grow-input" rows="10" readonly placeholder="Cover letter appears here…"></textarea>
+                            <button class="postbox-btn-outline" id="cover-copy-btn" type="button">Copy output</button>
+                            <div id="cover-status" class="status-line"></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-panel" id="resume-tab">
+                        <div class="shell-scroll shell-ai-panel">
+                            <label class="postbox-label">Resume template</label>
+                            <select id="ai-resume-template" class="postbox-input">
+                                <option value="modern">Modern</option>
+                                <option value="consulting">Consulting</option>
+                                <option value="harvard">Harvard</option>
+                            </select>
+                            <button class="postbox-btn" id="ai-resume-btn">Generate tailored resume</button>
+                            <textarea id="resume-output" class="postbox-input output shell-grow-input" rows="10" readonly placeholder="Tailored resume appears here…"></textarea>
+                            <button class="postbox-btn-outline" id="resume-copy-btn" type="button">Copy output</button>
+                            <div id="resume-status" class="status-line"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer postbox-bar-bottom shell-footer">
+            <a class="postbox-link" href="https://autocvapply.com" target="_blank">autocvapply.com</a>
+        </footer>
     </div>
-
-    <div id="message" class="message"></div>
-
-    <section class="card">
-        <h2>Draft on this page</h2>
-        <p class="hint">Use when the on-page Draft all button misses fields, or you want finer control.</p>
-        <button class="btn primary" id="draft-all-btn">Draft all empty fields</button>
-        <button class="btn secondary" id="quick-answer-btn">Quick Answer selected field</button>
-        <div id="focused-field" class="focused-field">Click a form field to enable Quick Answer.</div>
-        <div id="draft-status" class="status-line"></div>
-    </section>
-
-    <section class="card">
-        <h2>AI tools</h2>
-        <p class="hint">Paste the job description from the page. Requires a CV uploaded on your dashboard.</p>
-
-        <label>Job title <span class="optional">(optional)</span></label>
-        <input id="ai-job-title" class="text-input" placeholder="Software Engineer" />
-
-        <label>Company <span class="optional">(optional)</span></label>
-        <input id="ai-job-company" class="text-input" placeholder="Acme Ltd" />
-
-        <label>Job description</label>
-        <textarea id="ai-job-description" class="text-input" rows="5" placeholder="Paste job description…"></textarea>
-
-        <div class="btn-row">
-            <button class="btn secondary" id="ai-ats-btn">ATS score</button>
-            <button class="btn secondary" id="ai-cover-letter-btn">Cover letter</button>
-        </div>
-
-        <label>Resume template</label>
-        <select id="ai-resume-template" class="text-input">
-            <option value="modern">Modern</option>
-            <option value="consulting">Consulting</option>
-            <option value="harvard">Harvard</option>
-        </select>
-        <button class="btn secondary" id="ai-resume-btn">Tailored resume</button>
-
-        <textarea id="ai-output" class="text-input output" rows="8" readonly placeholder="AI output appears here…"></textarea>
-        <button class="btn secondary" id="ai-copy-btn" type="button">Copy output</button>
-        <div id="ai-status" class="status-line"></div>
-    </section>
-
-    <section class="card">
-        <h2>Quick profile update</h2>
-        <p class="hint">Saved to your dashboard profile — no need to leave this tab.</p>
-        <label>Headline</label>
-        <input id="profile-headline" class="text-input" placeholder="Senior Laravel Developer" />
-        <label>Summary</label>
-        <textarea id="profile-summary" class="text-input" rows="3" placeholder="Short professional summary"></textarea>
-        <label>Extra context (visa, notice, salary…)</label>
-        <textarea id="profile-extra" class="text-input" rows="3" placeholder="Used for open-ended application questions"></textarea>
-        <label>Phone</label>
-        <input id="profile-phone" class="text-input" placeholder="+44..." />
-        <button class="btn secondary" id="save-profile-btn">Save profile</button>
-    </section>
 
     <script type="module" src="sidepanel.js"></script>
 </body>

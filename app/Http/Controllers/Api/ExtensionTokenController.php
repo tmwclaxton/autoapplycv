@@ -16,9 +16,13 @@ class ExtensionTokenController extends Controller
 
         $token = $user->createToken('extension', ['profile:read']);
 
-        return response()->json([
+        $connection = [
             'token' => $token->plainTextToken,
             'api_base' => rtrim((string) config('app.url'), '/'),
+        ];
+
+        return response()->json([
+            'connection_json' => json_encode($connection, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES),
         ]);
     }
 

@@ -28,6 +28,7 @@ class CvProfile extends Model
         'education',
         'structured_data',
         'extra_context',
+        'application_settings',
         'raw_cv_text',
         'formatted_cv_text',
         'parsing_complete',
@@ -40,6 +41,7 @@ class CvProfile extends Model
             'experience' => 'array',
             'education' => 'array',
             'structured_data' => 'array',
+            'application_settings' => 'array',
             'parsing_complete' => 'boolean',
         ];
     }

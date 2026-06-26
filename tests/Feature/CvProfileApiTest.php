@@ -71,17 +71,6 @@ class CvProfileApiTest extends TestCase
             ]);
     }
 
-    public function test_extension_token_can_be_created(): void
-    {
-        $user = User::factory()->create();
-        $token = $user->createToken('test')->plainTextToken;
-
-        $this->withToken($token)
-            ->postJson('/api/tokens')
-            ->assertStatus(200)
-            ->assertJsonStructure(['token', 'api_base']);
-    }
-
     public function test_cannot_access_another_users_profile(): void
     {
         $user = User::factory()->create();

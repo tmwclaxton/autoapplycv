@@ -7,10 +7,12 @@ import {
     Key,
     Loader2,
     Puzzle,
+    Search,
     Upload,
     User,
     Zap,
 } from 'lucide-vue-next';
+import ApplicationPreferencesPanel from '@/components/cv/ApplicationPreferencesPanel.vue';
 import ExtensionUsagePanel, {
     type ExtensionUsageSummary,
 } from '@/components/cv/ExtensionUsagePanel.vue';
@@ -60,14 +62,13 @@ const profile = ref<CvProfile>(normalizeCvProfile(props.cvProfile));
 const subscription = ref<SubscriptionSummary>({ ...props.subscription });
 const documents = ref<ProfileDocument[]>([...props.documents]);
 const activeTab = ref<
-    'profile' | 'experience' | 'documents' | 'usage' | 'extension'
+    'profile' | 'experience' | 'documents' | 'preferences' | 'usage' | 'extension'
 >('profile');
 const isSaving = ref(false);
 const isUploading = ref(false);
 const uploadError = ref<string | null>(null);
 const cvFileInput = ref<HTMLInputElement | null>(null);
-const extensionToken = ref<string | null>(null);
-const extensionApiBase = ref<string | null>(null);
+const extensionConnectionJson = ref<string | null>(null);
 const isGeneratingToken = ref(false);
 const toastStore = useToastStore();
 
@@ -99,6 +100,7 @@ const tabs = [
     { key: 'profile' as const, label: 'CV profile', icon: User },
     { key: 'experience' as const, label: 'Experience', icon: Briefcase },
     { key: 'documents' as const, label: 'Documents', icon: FileText },
+    { key: 'preferences' as const, label: 'Preferences', icon: Search },
     { key: 'usage' as const, label: 'Usage', icon: Zap },
     { key: 'extension' as const, label: 'Extension', icon: Puzzle },
 ];
@@ -217,6 +219,7 @@ function profilePayload(): Record<string, unknown> {
         structured_data: profile.value.structured_data,
         formatted_cv_text: profile.value.formatted_cv_text,
         extra_context: profile.value.extra_context,
+        application_settings: profile.value.application_settings,
     };
 }
 
@@ -233,7 +236,7 @@ async function generateToken() {
     isGeneratingToken.value = true;
 
     try {
-        const response = await fetch('/api/tokens', {
+        const response = await fetch('/extension/connection', {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN':
@@ -246,26 +249,35 @@ async function generateToken() {
                 'Content-Type': 'application/json',
             },
         });
+
+        if (!response.ok) {
+            toastStore.error('Could not generate an extension connection.');
+
+            return;
+        }
+
         const data = await response.json();
-        extensionToken.value = data.token;
-        extensionApiBase.value = data.api_base ?? null;
-        toastStore.success('Extension connection generated. Copy it into the extension.');
+
+        if (typeof data.connection_json !== 'string' || data.connection_json.trim() === '') {
+            toastStore.error('Could not generate an extension connection.');
+
+            return;
+        }
+
+        extensionConnectionJson.value = data.connection_json;
+        await navigator.clipboard.writeText(data.connection_json);
+        toastStore.success('Extension connection copied. Paste it into the extension.');
     } finally {
         isGeneratingToken.value = false;
     }
 }
 
 async function copyToken() {
-    if (!extensionToken.value) {
+    if (!extensionConnectionJson.value) {
         return;
     }
 
-    const payload = JSON.stringify({
-        token: extensionToken.value,
-        api_base: extensionApiBase.value ?? window.location.origin,
-    });
-
-    await navigator.clipboard.writeText(payload);
+    await navigator.clipboard.writeText(extensionConnectionJson.value);
     toastStore.success('Extension connection copied.');
 }
 </script>
@@ -411,6 +423,26 @@ async function copyToken() {
             </div>
         </div>
 
+        <div v-else-if="activeTab === 'preferences'" class="relative space-y-6">
+            <CvParsingOverlay :show="isUploading" />
+
+            <div :class="{ 'pointer-events-none select-none': isUploading }">
+                <ApplicationPreferencesPanel v-model="profile.application_settings" />
+            </div>
+
+            <div class="flex justify-end">
+                <button
+                    type="button"
+                    class="postbox-btn"
+                    :disabled="isSaving || isUploading"
+                    @click="saveProfile"
+                >
+                    <Loader2 v-if="isSaving" class="size-4 animate-spin" />
+                    {{ isSaving ? 'Saving…' : 'Save preferences' }}
+                </button>
+            </div>
+        </div>
+
         <div v-else-if="activeTab === 'usage'" class="space-y-6">
             <ExtensionUsagePanel
                 :extension-usage="extensionUsage"
@@ -429,21 +461,22 @@ async function copyToken() {
             </div>
 
             <div class="postbox-panel p-6">
-                <h2 class="postbox-label">API token</h2>
+                <h2 class="postbox-label">Extension connection</h2>
                 <p class="mb-5 text-sm text-muted-foreground">
-                    Copy the connection JSON and paste it into the extension on first
-                    install. It includes your token and this site's URL. We won't show
-                    it again.
+                    Generate a connection for the extension. We copy the JSON to your
+                    clipboard automatically — paste it into the extension sidebar. We won't
+                    show it again.
                 </p>
-                <div v-if="extensionToken" class="mb-4 flex gap-2">
-                    <input
-                        :value="extensionToken"
+                <div v-if="extensionConnectionJson" class="mb-4 flex gap-2">
+                    <textarea
+                        :value="extensionConnectionJson"
                         readonly
+                        rows="4"
                         class="postbox-input flex-1 font-mono text-xs"
                     />
                     <button
                         type="button"
-                        class="postbox-btn-outline shrink-0 px-3"
+                        class="postbox-btn-outline shrink-0 self-start px-3"
                         @click="copyToken"
                     >
                         <Copy class="size-4" />
@@ -463,9 +496,9 @@ async function copyToken() {
                     {{
                         isGeneratingToken
                             ? 'Generating…'
-                            : extensionToken
-                              ? 'Regenerate token'
-                              : 'Generate token'
+                            : extensionConnectionJson
+                              ? 'Regenerate connection'
+                              : 'Generate & copy connection'
                     }}
                 </button>
             </div>

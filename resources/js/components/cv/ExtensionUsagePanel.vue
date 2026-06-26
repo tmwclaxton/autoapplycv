@@ -106,9 +106,8 @@ function formatDate(value: string): string {
         <div class="postbox-panel p-6">
             <h2 class="postbox-label mb-2">AI tools in the extension</h2>
             <p class="text-sm text-muted-foreground">
-                Open the side panel on any job page, paste the job description, and run ATS
-                scoring, cover letter, or tailored resume generation. You only need a CV uploaded
-                here on the dashboard — no application tracking required.
+                Open the sidebar on any job page. Use Assist for form drafting, or the ATS, Cover,
+                and Resume tabs for AI tools. Set your preferences on the dashboard Preferences tab.
             </p>
         </div>
     </div>

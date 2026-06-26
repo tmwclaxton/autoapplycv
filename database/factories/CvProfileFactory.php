@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\CvProfile;
 use App\Models\User;
+use App\Support\ApplicationSettings;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -46,6 +47,7 @@ class CvProfileFactory extends Factory
                 ],
             ],
             'extra_context' => null,
+            'application_settings' => ApplicationSettings::defaults(),
             'raw_cv_text' => null,
             'formatted_cv_text' => null,
             'structured_data' => [

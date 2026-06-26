@@ -1,15 +1,88 @@
-import { getProfileFromApi, patchProfile } from './draft-all-stream.js';
+import { parseConnectionInput } from './connection.js';
 
 const messageEl = document.getElementById('message');
+const authState = document.getElementById('auth-state');
+const unauthState = document.getElementById('unauth-state');
+const profileName = document.getElementById('profile-name');
+const usageCount = document.getElementById('usage-count');
+const usageFill = document.getElementById('usage-fill');
+const usageMeta = document.getElementById('usage-meta');
 const usagePill = document.getElementById('usage-pill');
+const tokenInput = document.getElementById('token-input');
+const enabledToggle = document.getElementById('enabled-toggle');
 const focusedFieldEl = document.getElementById('focused-field');
 const draftStatusEl = document.getElementById('draft-status');
-const aiStatusEl = document.getElementById('ai-status');
-const aiOutputEl = document.getElementById('ai-output');
+const jobContextEl = document.getElementById('job-context');
 
-function showMessage(text, tone = '') {
+const aiTabs = new Set(['ats', 'cover', 'resume']);
+
+function showMessage(text, tone = 'success') {
     messageEl.textContent = text;
     messageEl.className = `message ${tone}`.trim();
+    setTimeout(() => {
+        messageEl.className = 'message';
+        messageEl.textContent = '';
+    }, 3000);
+}
+
+function formatAutofills(value) {
+    return new Intl.NumberFormat('en-GB').format(value);
+}
+
+function renderSubscription(subscription) {
+    if (!subscription) {
+        usagePill.textContent = 'Connected';
+
+        return;
+    }
+
+    usageCount.textContent = `${formatAutofills(subscription.autofills_used)} / ${formatAutofills(subscription.monthly_autofills)}`;
+    const percent = subscription.monthly_autofills > 0
+        ? Math.min(100, Math.round((subscription.autofills_used / subscription.monthly_autofills) * 100))
+        : 0;
+    usageFill.style.width = `${percent}%`;
+    usageMeta.textContent = subscription.can_autofill
+        ? `${formatAutofills(subscription.autofills_remaining)} autofills left · resets ${new Date(subscription.period_resets_at).toLocaleDateString('en-GB')}`
+        : `Limit reached · resets ${new Date(subscription.period_resets_at).toLocaleDateString('en-GB')}`;
+    usagePill.textContent = `${formatAutofills(subscription.autofills_remaining)} left`;
+}
+
+async function checkAuth() {
+    return new Promise((resolve) => {
+        chrome.runtime.sendMessage({ type: 'GET_AUTH_STATUS' }, resolve);
+    });
+}
+
+async function resolveAppUrl() {
+    const auth = await checkAuth();
+
+    if (!auth?.apiBase) {
+        throw new Error('Connect the extension with your dashboard connection JSON first.');
+    }
+
+    return auth.apiBase;
+}
+
+async function loadProfile() {
+    return new Promise((resolve) => {
+        chrome.runtime.sendMessage({ type: 'GET_PROFILE' }, resolve);
+    });
+}
+
+function setJobContextVisible(tabKey) {
+    jobContextEl.hidden = !aiTabs.has(tabKey);
+}
+
+function setupTabs() {
+    document.querySelectorAll('.tab').forEach((tab) => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach((item) => item.classList.remove('postbox-tab-active'));
+            document.querySelectorAll('.tab-panel').forEach((panel) => panel.classList.remove('active'));
+            tab.classList.add('postbox-tab-active');
+            document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+            setJobContextVisible(tab.dataset.tab);
+        });
+    });
 }
 
 function buildJobPayload() {
@@ -26,18 +99,10 @@ function validateJobDescription(description) {
     }
 }
 
-async function refreshProfileFields() {
+async function refreshUsage() {
     try {
-        const data = await getProfileFromApi();
-        const profile = data.profile || {};
-
-        document.getElementById('profile-headline').value = profile.headline || '';
-        document.getElementById('profile-summary').value = profile.summary || '';
-        document.getElementById('profile-extra').value = profile.extra_context || '';
-        document.getElementById('profile-phone').value = profile.phone || '';
-
-        const sub = data.subscription;
-        usagePill.textContent = sub ? `${sub.autofills_remaining} left` : 'Connected';
+        const data = await loadProfile();
+        renderSubscription(data?.subscription);
     } catch (error) {
         showMessage(error.message, 'error');
     }
@@ -55,8 +120,8 @@ async function refreshFocusedField() {
     focusedFieldEl.textContent = `Selected: ${focusedField.label}`;
 }
 
-async function runAssist(type, payload) {
-    aiStatusEl.textContent = 'Working…';
+async function runAssist(type, payload, statusEl) {
+    statusEl.textContent = 'Working…';
 
     const response = await chrome.runtime.sendMessage({ type, ...payload });
 
@@ -64,9 +129,45 @@ async function runAssist(type, payload) {
         throw new Error(response.error);
     }
 
-    await refreshProfileFields();
+    await refreshUsage();
 
     return response;
+}
+
+async function copyOutput(textareaId) {
+    const output = document.getElementById(textareaId);
+
+    if (!output?.value.trim()) {
+        showMessage('Nothing to copy yet.', 'error');
+
+        return;
+    }
+
+    await navigator.clipboard.writeText(output.value);
+    showMessage('Copied to clipboard.', 'success');
+}
+
+async function showOnboardingIfNeeded() {
+    const { extensionOnboardingCompleted } = await chrome.storage.local.get(['extensionOnboardingCompleted']);
+
+    if (extensionOnboardingCompleted) {
+        return;
+    }
+
+    const overlay = document.createElement('div');
+    overlay.className = 'onboarding-overlay';
+    overlay.innerHTML = `
+        <div class="onboarding-card postbox-panel">
+            <h2>Welcome to AutoCVApply</h2>
+            <p>Use Assist while you fill forms. Switch to ATS, Cover, or Resume for AI tools. Set your job preferences on the dashboard.</p>
+            <button type="button" class="postbox-btn" id="finish-onboarding-btn">Got it</button>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+    overlay.querySelector('#finish-onboarding-btn').addEventListener('click', async () => {
+        await chrome.storage.local.set({ extensionOnboardingCompleted: true });
+        overlay.remove();
+    });
 }
 
 document.getElementById('draft-all-btn').addEventListener('click', async () => {
@@ -79,7 +180,7 @@ document.getElementById('draft-all-btn').addEventListener('click', async () => {
         showMessage(response.error, 'error');
     } else {
         draftStatusEl.textContent = response?.message || 'Draft-all started.';
-        await refreshProfileFields();
+        await refreshUsage();
     }
 });
 
@@ -95,7 +196,7 @@ document.getElementById('quick-answer-btn').addEventListener('click', async () =
 
         draftStatusEl.textContent = response?.message || 'Answer applied.';
         showMessage('Quick Answer applied.', 'success');
-        await refreshProfileFields();
+        await refreshUsage();
     } catch (error) {
         draftStatusEl.textContent = error.message;
         showMessage(error.message, 'error');
@@ -103,24 +204,30 @@ document.getElementById('quick-answer-btn').addEventListener('click', async () =
 });
 
 document.getElementById('ai-ats-btn').addEventListener('click', async () => {
+    const statusEl = document.getElementById('ats-status');
+    const outputEl = document.getElementById('ats-output');
+
     try {
         const job = buildJobPayload();
         validateJobDescription(job.description);
 
         const response = await runAssist('ASSIST_ATS', {
             job_description: job.description,
-        });
+        }, statusEl);
 
-        aiOutputEl.value = `ATS score: ${response.result.score}%\n\nMatched: ${response.result.matched_keywords.join(', ')}\n\nMissing: ${response.result.missing_keywords.join(', ')}\n\nSuggestions:\n- ${response.result.suggestions.join('\n- ')}`;
-        aiStatusEl.textContent = 'ATS score ready.';
+        outputEl.value = `ATS score: ${response.result.score}%\n\nMatched: ${response.result.matched_keywords.join(', ')}\n\nMissing: ${response.result.missing_keywords.join(', ')}\n\nSuggestions:\n- ${response.result.suggestions.join('\n- ')}`;
+        statusEl.textContent = 'ATS score ready.';
         showMessage('ATS score ready.', 'success');
     } catch (error) {
-        aiStatusEl.textContent = error.message;
+        statusEl.textContent = error.message;
         showMessage(error.message, 'error');
     }
 });
 
 document.getElementById('ai-cover-letter-btn').addEventListener('click', async () => {
+    const statusEl = document.getElementById('cover-status');
+    const outputEl = document.getElementById('cover-output');
+
     try {
         const job = buildJobPayload();
         validateJobDescription(job.description);
@@ -128,18 +235,21 @@ document.getElementById('ai-cover-letter-btn').addEventListener('click', async (
         const response = await runAssist('ASSIST_COVER_LETTER', {
             job,
             tone: 'professional',
-        });
+        }, statusEl);
 
-        aiOutputEl.value = response.cover_letter;
-        aiStatusEl.textContent = 'Cover letter generated.';
+        outputEl.value = response.cover_letter;
+        statusEl.textContent = 'Cover letter generated.';
         showMessage('Cover letter generated.', 'success');
     } catch (error) {
-        aiStatusEl.textContent = error.message;
+        statusEl.textContent = error.message;
         showMessage(error.message, 'error');
     }
 });
 
 document.getElementById('ai-resume-btn').addEventListener('click', async () => {
+    const statusEl = document.getElementById('resume-status');
+    const outputEl = document.getElementById('resume-output');
+
     try {
         const job = buildJobPayload();
         validateJobDescription(job.description);
@@ -148,42 +258,82 @@ document.getElementById('ai-resume-btn').addEventListener('click', async () => {
         const response = await runAssist('ASSIST_TAILORED_RESUME', {
             job,
             template,
-        });
+        }, statusEl);
 
-        aiOutputEl.value = response.resume;
-        aiStatusEl.textContent = 'Tailored resume generated.';
+        outputEl.value = response.resume;
+        statusEl.textContent = 'Tailored resume generated.';
         showMessage('Tailored resume generated.', 'success');
     } catch (error) {
-        aiStatusEl.textContent = error.message;
+        statusEl.textContent = error.message;
         showMessage(error.message, 'error');
     }
 });
 
-document.getElementById('ai-copy-btn').addEventListener('click', async () => {
-    if (!aiOutputEl.value.trim()) {
-        showMessage('Nothing to copy yet.', 'error');
+document.getElementById('ats-copy-btn').addEventListener('click', () => copyOutput('ats-output'));
+document.getElementById('cover-copy-btn').addEventListener('click', () => copyOutput('cover-output'));
+document.getElementById('resume-copy-btn').addEventListener('click', () => copyOutput('resume-output'));
+
+document.getElementById('save-token-btn').addEventListener('click', () => {
+    const raw = tokenInput.value.trim();
+
+    if (!raw) {
+        showMessage('Please paste your connection details.', 'error');
 
         return;
     }
 
-    await navigator.clipboard.writeText(aiOutputEl.value);
-    showMessage('Copied to clipboard.', 'success');
+    let connection;
+
+    try {
+        connection = parseConnectionInput(raw);
+    } catch (error) {
+        showMessage(error.message, 'error');
+
+        return;
+    }
+
+    chrome.runtime.sendMessage({
+        type: 'SET_TOKEN',
+        token: connection.token,
+        apiBase: connection.apiBase,
+    }, async (response) => {
+        if (response?.success) {
+            tokenInput.value = '';
+            showMessage('Connected successfully.');
+            await init();
+        } else {
+            showMessage(response?.error || 'Failed to save connection.', 'error');
+        }
+    });
 });
 
-document.getElementById('save-profile-btn').addEventListener('click', async () => {
+document.getElementById('open-site-btn').addEventListener('click', async () => {
     try {
-        await patchProfile({
-            headline: document.getElementById('profile-headline').value.trim() || null,
-            summary: document.getElementById('profile-summary').value.trim() || null,
-            extra_context: document.getElementById('profile-extra').value.trim() || null,
-            phone: document.getElementById('profile-phone').value.trim() || null,
-        });
+        const appUrl = await resolveAppUrl();
+        chrome.tabs.create({ url: `${appUrl}/dashboard` });
+    } catch {
+        chrome.tabs.create({ url: 'https://autocvapply.com/dashboard' });
+    }
+});
 
-        showMessage('Profile saved.', 'success');
-        await chrome.runtime.sendMessage({ type: 'PROFILE_UPDATED' });
+document.getElementById('open-dashboard-btn').addEventListener('click', async () => {
+    try {
+        const appUrl = await resolveAppUrl();
+        chrome.tabs.create({ url: `${appUrl}/dashboard` });
     } catch (error) {
         showMessage(error.message, 'error');
     }
+});
+
+document.getElementById('logout-btn').addEventListener('click', () => {
+    chrome.runtime.sendMessage({ type: 'LOGOUT' }, async () => {
+        showMessage('Signed out.');
+        await init();
+    });
+});
+
+enabledToggle.addEventListener('change', () => {
+    chrome.storage.local.set({ isEnabled: enabledToggle.checked });
 });
 
 chrome.storage.onChanged.addListener((changes, area) => {
@@ -199,9 +349,57 @@ chrome.runtime.onMessage.addListener((message) => {
 
     if (message.type === 'DRAFT_ALL_DONE') {
         draftStatusEl.textContent = message.message || 'Done';
-        refreshProfileFields();
+        refreshUsage();
     }
 });
 
-refreshProfileFields();
-refreshFocusedField();
+function setupShellMarkFallback() {
+    const shellMark = document.querySelector('.shell-mark');
+
+    if (!shellMark) {
+        return;
+    }
+
+    shellMark.addEventListener('error', () => {
+        const fallback = document.createElement('div');
+        fallback.className = 'postbox-stamp shell-mark-fallback';
+        fallback.setAttribute('aria-hidden', 'true');
+        fallback.textContent = 'CV';
+        shellMark.replaceWith(fallback);
+    });
+}
+
+async function init() {
+    setupShellMarkFallback();
+    setupTabs();
+    setJobContextVisible('assist');
+
+    const { isEnabled } = await chrome.storage.local.get(['isEnabled']);
+
+    if (isEnabled !== undefined) {
+        enabledToggle.checked = isEnabled;
+    }
+
+    const { isAuthenticated } = await checkAuth();
+
+    if (isAuthenticated) {
+        authState.classList.add('is-visible');
+        unauthState.classList.remove('is-visible');
+
+        const profileData = await loadProfile();
+
+        if (profileData?.profile?.full_name) {
+            profileName.textContent = profileData.profile.full_name;
+        }
+
+        renderSubscription(profileData?.subscription);
+        await refreshFocusedField();
+        await showOnboardingIfNeeded();
+    } else {
+        authState.classList.remove('is-visible');
+        unauthState.classList.add('is-visible');
+        usagePill.textContent = 'Not connected';
+    }
+}
+
+init();

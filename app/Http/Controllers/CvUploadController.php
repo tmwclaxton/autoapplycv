@@ -10,6 +10,7 @@ use App\Services\AiTokenService;
 use App\Services\CvExtractionService;
 use App\Services\CvParserService;
 use App\Services\CvProfileDocumentService;
+use App\Support\ApplicationSettings;
 use App\Support\CvExtractionSchema;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -113,7 +114,12 @@ class CvUploadController extends Controller
             'structured_data' => 'nullable|array',
             'formatted_cv_text' => 'nullable|string',
             'extra_context' => 'nullable|string',
+            ...ApplicationSettings::validationRules(),
         ]);
+
+        if (array_key_exists('application_settings', $validated)) {
+            $validated['application_settings'] = ApplicationSettings::merge($validated['application_settings']);
+        }
 
         $profile = CvProfile::updateOrCreate(
             ['user_id' => $request->user()->id],

@@ -179,8 +179,8 @@ function selectBrowser(browser: BrowserChoice): void {
                     <li>Turn on Developer mode.</li>
                     <li>Click Load unpacked and choose the extracted folder.</li>
                     <li>
-                        Generate an API token in the dashboard and paste it into the extension
-                        popup.
+                        Generate a connection in the dashboard and paste it into the extension
+                        sidebar.
                     </li>
                 </ol>
 
@@ -207,8 +207,8 @@ function selectBrowser(browser: BrowserChoice): void {
                         after each browser restart.
                     </li>
                     <li>
-                        Generate an API token in the dashboard and paste it into the extension
-                        popup.
+                        Generate a connection in the dashboard and paste it into the extension
+                        sidebar.
                     </li>
                 </ol>
             </div>

@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateExtensionProfileRequest;
 use App\Models\CvProfile;
 use App\Models\User;
 use App\Services\AiTokenService;
+use App\Support\ApplicationSettings;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -92,6 +93,7 @@ class ProfileController extends Controller
                 ->map(fn ($document) => $document->toFrontendArray('api.profile.documents.download'))
                 ->values()
                 ->all(),
+            'application_settings' => ApplicationSettings::merge($profile->application_settings),
             'subscription' => $this->aiTokens->summary($user),
         ];
     }

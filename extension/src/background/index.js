@@ -10,17 +10,32 @@ import {
     getStoredApiBase,
     saveConnection,
 } from './connection.js';
+import { mapApplicationSettingsForAssist } from './application-settings.js';
 
 let cachedProfile = null;
 let cacheTimestamp = 0;
 const CACHE_TTL_MS = 15 * 60 * 1000;
 
+function configureSidePanel() {
+    if (!chrome.sidePanel?.setPanelBehavior) {
+        return;
+    }
+
+    chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch(() => {});
+}
+
 chrome.runtime.onInstalled.addListener(() => {
+    configureSidePanel();
+
     chrome.contextMenus.create({
         id: 'autocvapply-quick-answer',
         title: 'Quick Answer with AutoCVApply',
         contexts: ['editable'],
     });
+});
+
+chrome.runtime.onStartup.addListener(() => {
+    configureSidePanel();
 });
 
 let draftAllRunning = false;
@@ -187,23 +202,17 @@ async function openSidePanelForTab(tabId) {
 }
 
 async function buildAutofillSettings() {
-    const settings = await chrome.storage.sync.get([
-        'yearsOfExperience',
-        'expectedSalary',
-        'visaSponsorship',
-        'legallyAuthorized',
-        'willingToRelocate',
-        'driversLicense',
-    ]);
+    try {
+        const profileData = await getProfile();
 
-    return {
-        yearsOfExperience: settings.yearsOfExperience || '2',
-        expectedSalary: settings.expectedSalary || '',
-        visaSponsorship: settings.visaSponsorship || 'no',
-        legallyAuthorized: settings.legallyAuthorized || 'yes',
-        willingToRelocate: settings.willingToRelocate || 'yes',
-        driversLicense: settings.driversLicense || 'yes',
-    };
+        if (profileData?.application_settings) {
+            return mapApplicationSettingsForAssist(profileData.application_settings);
+        }
+    } catch {
+        // Fall through to defaults.
+    }
+
+    return mapApplicationSettingsForAssist(null);
 }
 
 async function saveLocalMemo(answers) {

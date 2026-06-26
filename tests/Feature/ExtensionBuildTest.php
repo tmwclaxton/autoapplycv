@@ -32,6 +32,9 @@ class ExtensionBuildTest extends TestCase
 
         $chromeManifest = $this->readManifestFromZip($chromeZip);
         $this->assertArrayNotHasKey('browser_specific_settings', $chromeManifest);
+        $this->assertArrayNotHasKey('default_popup', $chromeManifest['action'] ?? []);
+        $this->assertSame('sidepanel.html', $chromeManifest['side_panel']['default_path'] ?? null);
+        $this->assertSame('icons/icon32.png', $chromeManifest['icons']['32'] ?? null);
     }
 
     /**

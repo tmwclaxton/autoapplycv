@@ -13,59 +13,96 @@ const AutoCVApplyPortalBar = (() => {
         barElement = document.createElement('div');
         barElement.id = 'autocvapply-portal-bar';
         barElement.innerHTML = `
-            <div class="autocvapply-portal-inner">
+            <div class="autocvapply-portal-inner postbox-panel">
+                <div class="autocvapply-portal-stamp postbox-stamp" aria-hidden="true">CV</div>
                 <span class="autocvapply-portal-brand">AutoCVApply</span>
-                <button type="button" id="autocvapply-draft-all-btn">Draft all empty fields</button>
-                <button type="button" id="autocvapply-open-panel-btn">Side panel</button>
+                <button type="button" class="postbox-btn compact" id="autocvapply-draft-all-btn">Draft all</button>
+                <button type="button" class="postbox-btn-outline compact" id="autocvapply-open-panel-btn">Sidebar</button>
                 <span id="autocvapply-portal-status"></span>
             </div>
         `;
 
         const style = document.createElement('style');
         style.textContent = `
+            @import url('https://fonts.bunny.net/css?family=dm-sans:400,600,700');
             #autocvapply-portal-bar {
+                --postbox-red: #c8102e;
+                --postbox-navy: #1b365d;
+                --postbox-paper: #fafaf8;
+                --postbox-grey: #e8e6e1;
+                --postbox-surface: #ffffff;
+                --postbox-panel-shadow: 4px 4px 0 rgb(27 54 93 / 8%);
+                --postbox-stamp-shadow: 2px 2px 0 rgb(200 16 46 / 20%);
                 position: fixed;
                 bottom: 80px;
                 right: 24px;
                 z-index: 999998;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
             }
             #autocvapply-portal-bar .autocvapply-portal-inner {
                 display: flex;
                 align-items: center;
                 gap: 8px;
-                background: #0f172a;
-                color: #f8fafc;
-                padding: 10px 14px;
-                border-radius: 14px;
-                box-shadow: 0 8px 30px rgba(15, 23, 42, 0.35);
-                max-width: min(92vw, 520px);
+                padding: 10px 12px;
+                max-width: min(92vw, 560px);
+                border: 2px solid var(--postbox-navy);
+                background: var(--postbox-surface);
+                box-shadow: var(--postbox-panel-shadow);
             }
-            #autocvapply-portal-bar button {
-                border: 0;
-                border-radius: 999px;
-                padding: 8px 14px;
-                font-size: 13px;
-                font-weight: 600;
+            #autocvapply-portal-bar .autocvapply-portal-stamp {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 28px;
+                height: 28px;
+                border: 2px solid var(--postbox-red);
+                background: var(--postbox-surface);
+                color: var(--postbox-red);
+                transform: rotate(-4deg);
+                box-shadow: var(--postbox-stamp-shadow);
+                font-size: 9px;
+                font-weight: 700;
+                letter-spacing: -0.04em;
+                text-transform: uppercase;
+            }
+            #autocvapply-portal-bar .postbox-btn,
+            #autocvapply-portal-bar .postbox-btn-outline {
+                width: auto;
+                padding: 0.45rem 0.75rem;
+                font-size: 12px;
+                font-weight: 700;
+                white-space: nowrap;
                 cursor: pointer;
+                border: 2px solid var(--postbox-navy);
             }
-            #autocvapply-draft-all-btn {
-                background: linear-gradient(135deg, #2563eb, #1d4ed8);
-                color: white;
+            #autocvapply-portal-bar .postbox-btn {
+                background: var(--postbox-red);
+                color: #fff;
             }
-            #autocvapply-open-panel-btn {
-                background: rgba(255,255,255,0.12);
-                color: #f8fafc;
+            #autocvapply-portal-bar .postbox-btn-outline {
+                background: var(--postbox-surface);
+                color: var(--postbox-navy);
             }
             #autocvapply-portal-status {
-                font-size: 12px;
-                color: #94a3b8;
-                margin-left: 4px;
+                font-size: 11px;
+                color: #6b6b6b;
+                margin-left: 2px;
+                max-width: 140px;
             }
             .autocvapply-portal-brand {
                 font-size: 12px;
                 font-weight: 700;
-                color: #93c5fd;
+                color: var(--postbox-navy);
+                letter-spacing: -0.02em;
+            }
+            @media (prefers-color-scheme: dark) {
+                #autocvapply-portal-bar {
+                    --postbox-navy: #8eb4d8;
+                    --postbox-grey: #1a2030;
+                    --postbox-surface: #161b27;
+                    --postbox-panel-shadow: 4px 4px 0 rgb(0 0 0 / 30%);
+                }
+                #autocvapply-portal-status { color: #94a3b8; }
             }
         `;
         document.head.appendChild(style);

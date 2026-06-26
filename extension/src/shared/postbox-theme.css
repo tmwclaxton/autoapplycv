@@ -1,0 +1,244 @@
+@import url('https://fonts.bunny.net/css?family=dm-sans:400,500,600,700');
+
+:root {
+    --postbox-red: #c8102e;
+    --postbox-navy: #1b365d;
+    --postbox-paper: #fafaf8;
+    --postbox-grey: #e8e6e1;
+    --postbox-grey-dark: #6b6b6b;
+    --postbox-ink: #1a1a2e;
+    --postbox-surface: #ffffff;
+    --postbox-panel-shadow: 4px 4px 0 rgb(27 54 93 / 8%);
+    --postbox-stamp-shadow: 2px 2px 0 rgb(200 16 46 / 20%);
+    --postbox-border: #d4d0c8;
+    --postbox-success-bg: rgb(34 197 94 / 10%);
+    --postbox-success-border: rgb(34 197 94 / 35%);
+    --postbox-success-text: #166534;
+    --postbox-error-bg: rgb(200 16 46 / 8%);
+    --postbox-error-border: rgb(200 16 46 / 35%);
+    --postbox-error-text: #991b1b;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --postbox-paper: #0f1219;
+        --postbox-navy: #8eb4d8;
+        --postbox-grey: #1a2030;
+        --postbox-grey-dark: #94a3b8;
+        --postbox-ink: #e8eaef;
+        --postbox-surface: #161b27;
+        --postbox-panel-shadow: 4px 4px 0 rgb(0 0 0 / 30%);
+        --postbox-stamp-shadow: 2px 2px 0 rgb(200 16 46 / 35%);
+        --postbox-border: rgb(215 220 230 / 18%);
+        --postbox-success-bg: rgb(34 197 94 / 12%);
+        --postbox-success-border: rgb(34 197 94 / 35%);
+        --postbox-success-text: #86efac;
+        --postbox-error-bg: rgb(200 16 46 / 12%);
+        --postbox-error-border: rgb(200 16 46 / 40%);
+        --postbox-error-text: #fca5a5;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.postbox-page {
+    margin: 0;
+    min-height: 100%;
+    height: 100%;
+    font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    background: var(--postbox-paper);
+    color: var(--postbox-ink);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+.postbox-bar-top {
+    border-bottom: 2px solid var(--postbox-navy);
+    background: var(--postbox-surface);
+    box-shadow: inset 0 4px 0 var(--postbox-red);
+}
+
+.postbox-bar-bottom {
+    border-top: 2px solid var(--postbox-navy);
+    background: var(--postbox-grey);
+}
+
+.postbox-tagline {
+    color: var(--postbox-grey-dark);
+    font-size: 12px;
+}
+
+.postbox-panel {
+    border: 2px solid var(--postbox-navy);
+    background: var(--postbox-surface);
+    box-shadow: var(--postbox-panel-shadow);
+}
+
+.postbox-panel-muted {
+    border: 2px solid var(--postbox-navy);
+    background: var(--postbox-grey);
+}
+
+.postbox-stamp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 2px solid var(--postbox-red);
+    background: var(--postbox-surface);
+    color: var(--postbox-red);
+    transform: rotate(-4deg);
+    box-shadow: var(--postbox-stamp-shadow);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+}
+
+.postbox-badge {
+    display: inline-flex;
+    align-items: center;
+    border: 2px solid var(--postbox-navy);
+    background: var(--postbox-surface);
+    padding: 0.2rem 0.55rem;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--postbox-navy);
+    white-space: nowrap;
+}
+
+.postbox-label {
+    display: block;
+    margin-bottom: 0.375rem;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--postbox-navy);
+}
+
+.postbox-link {
+    color: var(--postbox-navy);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-size: 12px;
+}
+
+.postbox-link:hover {
+    color: var(--postbox-red);
+}
+
+.postbox-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    border: 2px solid var(--postbox-navy);
+    background: var(--postbox-red);
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 150ms ease;
+}
+
+.postbox-btn:hover {
+    background: #a50d25;
+}
+
+.postbox-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.postbox-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    border: 2px solid var(--postbox-navy);
+    background: var(--postbox-surface);
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--postbox-navy);
+    cursor: pointer;
+    transition: background-color 150ms ease;
+}
+
+.postbox-btn-outline:hover {
+    background: var(--postbox-grey);
+}
+
+.postbox-btn-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border: 2px solid var(--postbox-red);
+    background: var(--postbox-error-bg);
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--postbox-error-text);
+    cursor: pointer;
+}
+
+.postbox-btn-danger:hover {
+    background: rgb(200 16 46 / 16%);
+}
+
+.postbox-btn.compact,
+.postbox-btn-outline.compact {
+    width: auto;
+}
+
+.postbox-input {
+    width: 100%;
+    border: 2px solid var(--postbox-navy);
+    background: var(--postbox-surface);
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    color: var(--postbox-ink);
+    font-family: inherit;
+}
+
+.postbox-input:focus {
+    outline: 2px solid var(--postbox-red);
+    outline-offset: 1px;
+}
+
+.postbox-input.output {
+    font-size: 12px;
+    line-height: 1.45;
+    resize: vertical;
+}
+
+.postbox-hint {
+    margin: 0 0 10px;
+    color: var(--postbox-grey-dark);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.postbox-section-title {
+    margin: 0 0 6px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--postbox-navy);
+}
+
+.postbox-tab-active {
+    border-bottom-color: var(--postbox-red) !important;
+    color: var(--postbox-navy) !important;
+    font-weight: 700;
+}

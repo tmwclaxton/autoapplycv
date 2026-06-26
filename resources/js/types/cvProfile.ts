@@ -123,6 +123,17 @@ export interface CvStructuredData {
     additional_sections: CvAdditionalSection[];
 }
 
+export interface ApplicationSettings {
+    phone_country_code: string;
+    years_of_experience: string;
+    expected_salary: string;
+    visa_sponsorship: 'yes' | 'no';
+    legally_authorized: 'yes' | 'no';
+    willing_to_relocate: 'yes' | 'no';
+    drivers_license: 'yes' | 'no';
+    job_preferences: string;
+}
+
 export interface CvProfile {
     id?: number;
     full_name: string | null;
@@ -143,6 +154,7 @@ export interface CvProfile {
     formatted_cv_text: string | null;
     raw_cv_text: string | null;
     extra_context: string | null;
+    application_settings: ApplicationSettings;
     parsing_complete: boolean;
 }
 
@@ -220,6 +232,28 @@ export function emptyEducation(): CvEducation {
     };
 }
 
+export function defaultApplicationSettings(): ApplicationSettings {
+    return {
+        phone_country_code: '+44',
+        years_of_experience: '2',
+        expected_salary: '',
+        visa_sponsorship: 'no',
+        legally_authorized: 'yes',
+        willing_to_relocate: 'yes',
+        drivers_license: 'yes',
+        job_preferences: '',
+    };
+}
+
+export function normalizeApplicationSettings(
+    input: Partial<ApplicationSettings> | null | undefined,
+): ApplicationSettings {
+    return {
+        ...defaultApplicationSettings(),
+        ...(input ?? {}),
+    };
+}
+
 export function createEmptyProfile(): CvProfile {
     return {
         full_name: null,
@@ -240,6 +274,7 @@ export function createEmptyProfile(): CvProfile {
         formatted_cv_text: null,
         raw_cv_text: null,
         extra_context: null,
+        application_settings: defaultApplicationSettings(),
         parsing_complete: false,
     };
 }
@@ -328,6 +363,7 @@ export function normalizeCvProfile(
             soft_skills: normalizeStringList(input.structured_data?.soft_skills),
             additional_sections: input.structured_data?.additional_sections ?? [],
         },
+        application_settings: normalizeApplicationSettings(input.application_settings),
     };
 }
 
