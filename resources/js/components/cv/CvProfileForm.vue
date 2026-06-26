@@ -16,6 +16,10 @@ import {
 const profile = defineModel<CvProfile>({ required: true });
 const documents = defineModel<ProfileDocument[]>('documents');
 
+const emit = defineEmits<{
+    uploadCv: [file: File];
+}>();
+
 const props = withDefaults(
     defineProps<{
         sections?: CvProfileSection[] | 'all';
@@ -1440,6 +1444,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             v-if="show('documents') && documents && documentCategories.length"
             v-model:documents="documents"
             :categories="documentCategories"
+            @upload-cv="emit('uploadCv', $event)"
         />
     </div>
 </template>

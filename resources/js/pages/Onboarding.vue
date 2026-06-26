@@ -107,19 +107,15 @@ function handleFile(file: File) {
 
     selectedFile.value = file;
     uploadError.value = null;
-    uploadCv();
+    uploadCv(file);
 }
 
-async function uploadCv() {
-    if (!selectedFile.value) {
-        return;
-    }
-
+async function uploadCv(file: File) {
     isUploading.value = true;
     uploadError.value = null;
 
     const formData = new FormData();
-    formData.append('cv', selectedFile.value);
+    formData.append('cv', file);
 
     try {
         const response = await fetch(cvUpload().url, {
@@ -160,10 +156,7 @@ async function uploadCv() {
         step.value = 'review';
 
         await nextTick();
-        document.getElementById('profile-documents')?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch {
         uploadError.value = 'Something went wrong. Please try again.';
     } finally {
@@ -325,6 +318,7 @@ async function saveProfile() {
                 v-model:documents="documents"
                 :document-categories="documentCategories"
                 class="mt-8"
+                @upload-cv="uploadCv"
             />
 
             <div class="flex justify-end">

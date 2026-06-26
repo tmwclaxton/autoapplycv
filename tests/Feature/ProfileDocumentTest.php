@@ -136,7 +136,7 @@ class ProfileDocumentTest extends TestCase
     }
 
     #[Test]
-    public function test_user_cannot_upload_cv_via_documents_panel(): void
+    public function test_cv_category_upload_via_documents_panel_is_rejected(): void
     {
         $user = User::factory()->create();
         $file = UploadedFile::fake()->create('cv.pdf', 120, 'application/pdf');
@@ -149,10 +149,20 @@ class ProfileDocumentTest extends TestCase
             ->assertStatus(422)
             ->assertJsonPath(
                 'message',
-                'Upload your CV with Replace CV on the dashboard. That keeps a single up-to-date copy.',
+                'Upload CV files through the CV upload flow so your profile is parsed and updated.',
             );
 
         $this->assertDatabaseCount('profile_documents', 0);
+    }
+
+    #[Test]
+    public function test_document_categories_include_cv_option(): void
+    {
+        $values = collect(ProfileDocumentCategory::options())
+            ->pluck('value')
+            ->all();
+
+        $this->assertContains(ProfileDocumentCategory::Cv->value, $values);
     }
 
     #[Test]

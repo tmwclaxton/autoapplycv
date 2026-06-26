@@ -18,11 +18,15 @@ defineProps<{
     categories: DocumentCategoryOption[];
 }>();
 
+const emit = defineEmits<{
+    uploadCv: [file: File];
+}>();
+
 const toastStore = useToastStore();
 const { confirmDelete } = useConfirm();
 
 const fileInput = ref<HTMLInputElement | null>(null);
-const selectedCategory = ref('certificate');
+const selectedCategory = ref('cv');
 const title = ref('');
 const notes = ref('');
 const isUploading = ref(false);
@@ -42,6 +46,12 @@ async function onFileSelected(event: Event): Promise<void> {
     }
 
     if (!file) {
+        return;
+    }
+
+    if (selectedCategory.value === 'cv') {
+        emit('uploadCv', file);
+
         return;
     }
 
@@ -90,6 +100,7 @@ async function onFileSelected(event: Event): Promise<void> {
 
         title.value = '';
         notes.value = '';
+        toastStore.success('Document uploaded.');
     } catch {
         uploadError.value = 'Something went wrong. Please try again.';
     } finally {
@@ -158,8 +169,9 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
     <div id="profile-documents" class="postbox-panel p-6">
         <h2 class="postbox-label">Documents</h2>
         <p class="mb-6 text-sm text-muted-foreground">
-            Your CV is managed with Replace CV in the dashboard header. Upload
-            certificates, reference letters, and other supporting files below.
+            Upload your CV or résumé here, or add certificates, reference
+            letters, and other supporting files. Only one CV is kept — a new
+            upload replaces the previous one and refreshes your profile.
         </p>
 
         <div class="rounded-md border border-postbox-navy/10 p-4">
@@ -213,12 +225,26 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
                 >
                     <Loader2 v-if="isUploading" class="size-4 animate-spin" />
                     <Upload v-else class="size-4" />
-                    {{ isUploading ? 'Uploading…' : 'Choose file' }}
+                    {{
+                        isUploading
+                            ? 'Uploading…'
+                            : selectedCategory === 'cv'
+                              ? 'Choose CV file'
+                              : 'Choose file'
+                    }}
                 </button>
                 <span class="text-sm text-muted-foreground">
                     PDF, Word, or image - up to 10MB
                 </span>
             </div>
+
+            <p
+                v-if="selectedCategory === 'cv'"
+                class="mt-3 text-sm text-muted-foreground"
+            >
+                CV uploads are parsed and you'll be taken to the CV profile tab
+                to review the results.
+            </p>
 
             <p
                 v-if="uploadError"
@@ -250,13 +276,6 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
                         <p class="mt-1 text-xs text-muted-foreground">
                             {{ document.category_label }} ·
                             {{ document.file_size_label }}
-                        </p>
-                        <p
-                            v-if="document.category === 'cv'"
-                            class="mt-1 text-xs text-muted-foreground"
-                        >
-                            Replace from the dashboard header, or delete to
-                            remove the stored file.
                         </p>
                         <p
                             v-if="document.notes"
@@ -293,8 +312,7 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
         </div>
 
         <p v-else class="mt-6 text-sm text-muted-foreground">
-            No supporting documents yet. Upload certificates, references, or
-            other files above.
+            No documents saved yet. Upload your CV or supporting files above.
         </p>
     </div>
 </template>

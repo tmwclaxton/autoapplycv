@@ -154,6 +154,7 @@ function uploadCv(file: File): void {
 
     isUploading.value = true;
     uploadError.value = null;
+    activeTab.value = 'profile';
 
     const formData = new FormData();
     formData.append('cv', file);
@@ -195,7 +196,7 @@ function uploadCv(file: File): void {
                 toastStore.warning(data.warning);
             } else {
                 toastStore.success(
-                    'CV uploaded, parsed, and saved to your Documents tab.',
+                    'CV uploaded and parsed. Review your CV profile.',
                 );
             }
         })
@@ -406,6 +407,7 @@ async function copyToken() {
                 <ProfileDocumentsPanel
                     v-model:documents="documents"
                     :categories="documentCategories"
+                    @upload-cv="uploadCv"
                 />
             </div>
         </div>

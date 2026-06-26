@@ -29,7 +29,7 @@ class ProfileDocumentController extends Controller
 
         if ($category === ProfileDocumentCategory::Cv) {
             return response()->json([
-                'message' => 'Upload your CV with Replace CV on the dashboard. That keeps a single up-to-date copy.',
+                'message' => 'Upload CV files through the CV upload flow so your profile is parsed and updated.',
             ], 422);
         }
 

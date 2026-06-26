@@ -61,6 +61,6 @@ defineProps<{
 
         <PostboxPlatformBadges class="mt-12" />
 
-        <PostboxCta class="mt-12" />
+        <PostboxCta class="mt-12" title="Ready for your dream job" />
     </PostboxMarketingLayout>
 </template>
