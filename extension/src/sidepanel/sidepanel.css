@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0b1220;
+    color: #e2e8f0;
+    font-size: 13px;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+#usage-pill {
+    font-size: 11px;
+    color: #94a3b8;
+    background: rgba(255,255,255,0.06);
+    padding: 4px 8px;
+    border-radius: 999px;
+}
+
+.card {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.card h2 {
+    margin: 0 0 6px;
+    font-size: 14px;
+}
+
+.hint {
+    margin: 0 0 10px;
+    color: #94a3b8;
+    line-height: 1.4;
+}
+
+.btn {
+    width: 100%;
+    border: 0;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.btn.primary { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; }
+.btn.secondary { background: rgba(255,255,255,0.08); color: #e2e8f0; }
+
+.text-input {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 6px 0 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(15,23,42,0.8);
+    color: #f8fafc;
+    padding: 8px 10px;
+}
+
+label {
+    display: block;
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+.focused-field, .status-line, .message {
+    font-size: 12px;
+    color: #94a3b8;
+    line-height: 1.4;
+}
+
+.message.error { color: #fca5a5; }
+.message.success { color: #86efac; }
+
+.status-line { min-height: 18px; margin-top: 6px; }

@@ -673,6 +673,10 @@ async function init() {
         if (inTopFrame || inApplyFrame) {
             createFillButton();
         }
+
+        if (inTopFrame && typeof AutoCVApplyPortalBar !== 'undefined') {
+            AutoCVApplyPortalBar.show(true);
+        }
     };
 
     showButtonIfNeeded();
@@ -682,7 +686,103 @@ async function init() {
     });
 
     observer.observe(document.documentElement, { childList: true, subtree: true });
+
+    if (typeof AutoCVApplyFocusTracker !== 'undefined') {
+        AutoCVApplyFocusTracker.bindFocusTracking(document);
+    }
 }
+
+async function collectDraftContext() {
+    if (!profile) {
+        await loadProfile();
+    }
+
+    if (!profile?.profile) {
+        return { success: false, error: 'Connect AutoCVApply first.' };
+    }
+
+    const { settings, memo } = await loadAutofillContext();
+    const platform = detectPlatform();
+    const fields = AutoCVApplyFormHeuristics.collectDraftableFields(
+        document,
+        profile.profile,
+        settings,
+        memo,
+    );
+
+    return {
+        success: true,
+        fields,
+        count: fields.length,
+        isFormHost: AutoCVApplyFormHeuristics.frameHasApplicationForm(document),
+        job: platform
+            ? extractJobMeta(platform.name)
+            : {
+                title: document.title || 'Job application',
+                company: 'Unknown company',
+                link: window.location.href.split('?')[0],
+            },
+    };
+}
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    (async () => {
+        if (message.type === 'COUNT_DRAFTABLE_FIELDS') {
+            const context = await collectDraftContext();
+            sendResponse({
+                success: context.success !== false,
+                count: context.count || 0,
+                isFormHost: context.isFormHost === true,
+            });
+
+            return;
+        }
+
+        if (message.type === 'COLLECT_DRAFTABLE_FIELDS') {
+            sendResponse(await collectDraftContext());
+
+            return;
+        }
+
+        if (message.type === 'APPLY_DRAFT_BATCH') {
+            let applied = 0;
+
+            for (const answer of message.answers || []) {
+                if (AutoCVApplyFormHeuristics.applyAnswerByLabel(document, answer.label, answer.answer)) {
+                    applied += 1;
+                }
+            }
+
+            sendResponse({ success: true, applied });
+
+            return;
+        }
+
+        if (message.type === 'APPLY_DRAFT_ANSWER') {
+            sendResponse({
+                success: AutoCVApplyFormHeuristics.applyAnswerByLabel(document, message.label, message.answer),
+            });
+
+            return;
+        }
+
+        if (message.type === 'GET_JOB_META') {
+            const platform = detectPlatform();
+
+            sendResponse({
+                job: platform
+                    ? extractJobMeta(platform.name)
+                    : {
+                        title: document.title || 'Job application',
+                        company: 'Unknown company',
+                        link: window.location.href.split('?')[0],
+                    },
+            });
+        }
+    })();
+
+    return true;
+});
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

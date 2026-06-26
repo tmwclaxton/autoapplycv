@@ -380,14 +380,144 @@ const AutoCVApplyFormHeuristics = (() => {
         return /email/.test(labels) && (/phone|tel|name/.test(labels));
     }
 
+    function getFieldType(element) {
+        const tag = element.tagName.toLowerCase();
+
+        if (tag === 'textarea') {
+            return 'textarea';
+        }
+
+        if (tag === 'select') {
+            return 'select';
+        }
+
+        if (element.type === 'checkbox') {
+            return 'checkbox';
+        }
+
+        if (element.type === 'radio') {
+            return 'radio';
+        }
+
+        return element.type || 'text';
+    }
+
+    function getSelectOptions(element) {
+        if (element.tagName.toLowerCase() !== 'select') {
+            return undefined;
+        }
+
+        return Array.from(element.options)
+            .map((option) => option.textContent.trim())
+            .filter((text) => text.length > 0)
+            .slice(0, 30);
+    }
+
+    function elementNeedsDraft(element, profile, settings, memo) {
+        if (!isVisible(element) || element.type === 'file') {
+            return false;
+        }
+
+        if (element.type === 'checkbox' || element.type === 'radio') {
+            return !element.checked;
+        }
+
+        if (element.value?.trim()) {
+            return false;
+        }
+
+        const label = getFieldLabel(element);
+
+        if (label.length < 3) {
+            return false;
+        }
+
+        if (memo[label]) {
+            setFieldValue(element, memo[label]);
+
+            return false;
+        }
+
+        const fieldType = detectFieldType(label);
+
+        if (fieldType) {
+            const values = buildProfileValues(profile);
+            const answer = resolveAnswer(fieldType, values, settings);
+
+            if (answer && setFieldValue(element, answer)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function collectDraftableFields(root, profile, settings, memo = {}) {
+        const items = [];
+        const seen = new Set();
+        let id = 0;
+
+        for (const element of collectFillableElements(root)) {
+            if (!elementNeedsDraft(element, profile, settings, memo)) {
+                continue;
+            }
+
+            const label = getFieldLabel(element);
+
+            if (seen.has(label)) {
+                continue;
+            }
+
+            seen.add(label);
+
+            items.push({
+                id,
+                label,
+                field_type: getFieldType(element),
+                max_chars: element.maxLength > 0 ? element.maxLength : undefined,
+                options: getSelectOptions(element),
+            });
+
+            id += 1;
+        }
+
+        return items;
+    }
+
+    function applyAnswerByLabel(root, label, answer) {
+        if (!answer) {
+            return false;
+        }
+
+        for (const element of collectFillableElements(root)) {
+            if (getFieldLabel(element) !== label) {
+                continue;
+            }
+
+            if (setFieldValue(element, answer)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function countDraftableFields(root, profile, settings, memo = {}) {
+        return collectDraftableFields(root, profile, settings, memo).length;
+    }
+
     return {
+        applyAnswerByLabel,
         buildProfileValues,
+        collectDraftableFields,
         collectOpenQuestions,
+        countDraftableFields,
         detectFieldType,
         fillContainer,
         forEachIframeDocument,
         frameHasApplicationForm,
         getFieldLabel,
+        getFieldType,
         looksLikeApplicationForm,
         setFieldValue,
     };

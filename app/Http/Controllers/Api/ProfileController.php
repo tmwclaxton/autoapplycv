@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateExtensionProfileRequest;
+use App\Models\CvProfile;
+use App\Models\User;
 use App\Services\AiTokenService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,7 +25,43 @@ class ProfileController extends Controller
             return response()->json(['error' => 'No profile found'], 404);
         }
 
+        return response()->json($this->profilePayload($user, $profile));
+    }
+
+    public function update(UpdateExtensionProfileRequest $request): JsonResponse
+    {
+        $user = $request->user();
+        $validated = $request->validated();
+
+        $profile = CvProfile::updateOrCreate(
+            ['user_id' => $user->id],
+            array_merge($validated, ['parsing_complete' => true]),
+        );
+
         return response()->json([
+            'success' => true,
+            'profile' => [
+                'headline' => $profile->headline,
+                'phone' => $profile->phone,
+                'location' => $profile->location,
+                'city' => $profile->city,
+                'postcode' => $profile->postcode,
+                'country' => $profile->country,
+                'linkedin_url' => $profile->linkedin_url,
+                'website_url' => $profile->website_url,
+                'summary' => $profile->summary,
+                'extra_context' => $profile->extra_context,
+            ],
+            'subscription' => $this->aiTokens->summary($user),
+        ]);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function profilePayload(User $user, CvProfile $profile): array
+    {
+        return [
             'user' => [
                 'name' => $user->name,
                 'email' => $user->email,
@@ -54,6 +93,6 @@ class ProfileController extends Controller
                 ->values()
                 ->all(),
             'subscription' => $this->aiTokens->summary($user),
-        ]);
+        ];
     }
 }

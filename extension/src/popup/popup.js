@@ -668,6 +668,74 @@ async function loadAppliedJobs() {
         .join('');
 }
 
+async function refreshFocusedFieldLabel() {
+    const labelEl = document.getElementById('focused-field-label');
+    const { focusedField } = await chrome.storage.session.get(['focusedField']);
+
+    if (!focusedField?.label) {
+        labelEl.textContent = 'Click a form field on the page, then draft an answer here.';
+
+        return;
+    }
+
+    labelEl.textContent = `Selected: ${focusedField.label}`;
+}
+
+document.getElementById('quick-answer-btn').addEventListener('click', async () => {
+    const statusEl = document.getElementById('quick-answer-status');
+    statusEl.textContent = 'Generating answer…';
+
+    try {
+        const response = await chrome.runtime.sendMessage({ type: 'QUICK_ANSWER_FOCUSED' });
+
+        if (response?.error) {
+            throw new Error(response.error);
+        }
+
+        statusEl.textContent = response?.message || 'Answer applied.';
+        showMessage('Quick Answer applied.');
+        const profileData = await loadProfile();
+        renderSubscription(profileData?.subscription);
+    } catch (error) {
+        statusEl.textContent = error.message;
+        showMessage(error.message, 'error');
+    }
+});
+
+document.getElementById('draft-all-btn').addEventListener('click', async () => {
+    const statusEl = document.getElementById('quick-answer-status');
+    statusEl.textContent = 'Starting draft-all…';
+
+    try {
+        const response = await chrome.runtime.sendMessage({ type: 'START_DRAFT_ALL' });
+
+        if (response?.error) {
+            throw new Error(response.error);
+        }
+
+        statusEl.textContent = response?.message || 'Draft-all complete.';
+        const profileData = await loadProfile();
+        renderSubscription(profileData?.subscription);
+    } catch (error) {
+        statusEl.textContent = error.message;
+        showMessage(error.message, 'error');
+    }
+});
+
+document.getElementById('open-side-panel-btn').addEventListener('click', async () => {
+    try {
+        await chrome.runtime.sendMessage({ type: 'OPEN_SIDE_PANEL' });
+    } catch {
+        showMessage('Could not open side panel on this tab.', 'error');
+    }
+});
+
+chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'session' && changes.focusedField) {
+        refreshFocusedFieldLabel();
+    }
+});
+
 document.getElementById('clear-applied-jobs').addEventListener('click', async () => {
     if (!confirm('Clear all applied jobs from the list?')) {
         return;
@@ -703,6 +771,7 @@ async function init() {
 
         renderSubscription(profileData?.subscription);
         await showOnboardingIfNeeded();
+        await refreshFocusedFieldLabel();
     } else {
         authState.style.display = 'none';
         unauthState.style.display = 'block';
@@ -769,6 +838,14 @@ chrome.runtime.onMessage.addListener((message) => {
 
     if (message.type === 'log') {
         appendBotLog(message.message);
+    }
+
+    if (message.type === 'DRAFT_ALL_PROGRESS' || message.type === 'DRAFT_ALL_DONE') {
+        const statusEl = document.getElementById('quick-answer-status');
+
+        if (statusEl) {
+            statusEl.textContent = message.message || '';
+        }
     }
 });
 

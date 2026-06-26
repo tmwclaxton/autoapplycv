@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AutoCVApply Panel</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+    <div class="panel-header">
+        <strong>AutoCVApply</strong>
+        <span id="usage-pill">—</span>
+    </div>
+
+    <div id="message" class="message"></div>
+
+    <section class="card">
+        <h2>Draft on this page</h2>
+        <p class="hint">Use when the on-page Draft all button misses fields, or you want finer control.</p>
+        <button class="btn primary" id="draft-all-btn">Draft all empty fields</button>
+        <button class="btn secondary" id="quick-answer-btn">Quick Answer selected field</button>
+        <div id="focused-field" class="focused-field">Click a form field to enable Quick Answer.</div>
+        <div id="draft-status" class="status-line"></div>
+    </section>
+
+    <section class="card">
+        <h2>Quick profile update</h2>
+        <p class="hint">Saved to your dashboard profile — no need to leave this tab.</p>
+        <label>Headline</label>
+        <input id="profile-headline" class="text-input" placeholder="Senior Laravel Developer" />
+        <label>Summary</label>
+        <textarea id="profile-summary" class="text-input" rows="3" placeholder="Short professional summary"></textarea>
+        <label>Extra context (visa, notice, salary…)</label>
+        <textarea id="profile-extra" class="text-input" rows="3" placeholder="Used for open-ended application questions"></textarea>
+        <label>Phone</label>
+        <input id="profile-phone" class="text-input" placeholder="+44..." />
+        <button class="btn secondary" id="save-profile-btn">Save profile</button>
+    </section>
+
+    <script type="module" src="sidepanel.js"></script>
+</body>
+</html>

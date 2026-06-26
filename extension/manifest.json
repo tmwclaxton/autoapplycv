@@ -1,9 +1,9 @@
 {
     "manifest_version": 3,
     "name": "AutoCVApply",
-    "version": "2.4.0",
-    "description": "Auto-fill job forms on LinkedIn, Indeed, Glassdoor, Monster, WTTJ and more. Run apply bots and AI application tools with your AutoCVApply profile.",
-    "permissions": ["storage", "tabs", "scripting"],
+    "version": "2.5.0",
+    "description": "Auto-fill job forms, draft answers with AI, run apply bots, and update your profile without leaving the page.",
+    "permissions": ["storage", "tabs", "scripting", "sidePanel", "contextMenus", "webNavigation"],
     "host_permissions": [
         "https://*.workday.com/*",
         "https://*.myworkdayjobs.com/*",
@@ -19,6 +19,9 @@
         "https://*.welcometothejungle.com/*",
         "https://autocvapply.com/*"
     ],
+    "side_panel": {
+        "default_path": "sidepanel.html"
+    },
     "action": {
         "default_popup": "popup.html",
         "default_title": "AutoCVApply",
@@ -53,7 +56,12 @@
                 "https://*.monster.com/*",
                 "https://*.welcometothejungle.com/*"
             ],
-            "js": ["form-heuristics.js", "content.js"],
+            "js": [
+                "form-heuristics.js",
+                "focus-tracker.js",
+                "portal-bar.js",
+                "content.js"
+            ],
             "all_frames": true,
             "run_at": "document_idle"
         }

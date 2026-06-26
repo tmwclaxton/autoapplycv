@@ -52,6 +52,18 @@
                 <span>Show AutoFill button on job sites</span>
                 <label class="toggle"><input type="checkbox" id="enabled-toggle" checked /><span class="slider"></span></label>
             </div>
+
+            <section class="quick-answer-card">
+                <div class="field-label">Quick Answer</div>
+                <div id="focused-field-label" class="hint">Click a form field on the page, then draft an answer here.</div>
+                <div class="btn-row">
+                    <button class="btn primary compact" id="quick-answer-btn">Quick Answer</button>
+                    <button class="btn secondary compact" id="open-side-panel-btn">Side panel</button>
+                </div>
+                <button class="btn secondary" id="draft-all-btn">Draft all empty fields</button>
+                <div id="quick-answer-status" class="hint"></div>
+            </section>
+
             <button class="btn secondary" id="open-dashboard-btn">Open Dashboard</button>
             <button class="btn danger" id="logout-btn">Sign Out</button>
         </div>

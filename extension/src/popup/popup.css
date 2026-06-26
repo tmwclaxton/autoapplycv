@@ -71,7 +71,12 @@ body {
 }
 .toggle input:checked + .slider { background: #3b82f6; }
 .toggle input:checked + .slider:before { transform: translateX(16px); }
-.bot-status { background: rgba(255,255,255,0.04); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; font-size: 12px; }
+.quick-answer-card {
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+}
 .bot-counters { display: flex; gap: 16px; margin-top: 8px; color: #94a3b8; }
 .hint { font-size: 11px; color: #64748b; margin-bottom: 10px; line-height: 1.4; }
 .hint code { color: #cbd5e1; }

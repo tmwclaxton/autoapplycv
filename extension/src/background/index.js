@@ -1,3 +1,10 @@
+import { requestDraftAllStream, requestDraftField } from './draft-all-stream.js';
+import {
+    applyDraftAnswerToTab,
+    applyDraftBatchToTab,
+    collectFieldsFromTab,
+} from './form-frame-messaging.js';
+
 const API_BASE = 'https://autocvapply.com';
 
 let cachedProfile = null;
@@ -11,7 +18,27 @@ chrome.runtime.onInstalled.addListener(() => {
         appliedJobs: [],
         botRunning: false,
     });
+
+    chrome.contextMenus.create({
+        id: 'autocvapply-quick-answer',
+        title: 'Quick Answer with AutoCVApply',
+        contexts: ['editable'],
+    });
 });
+
+let draftAllRunning = false;
+
+function broadcastDraftEvent(type, payload = {}) {
+    chrome.runtime.sendMessage({ type, ...payload }).catch(() => {});
+
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const tabId = tabs[0]?.id;
+
+        if (tabId) {
+            chrome.tabs.sendMessage(tabId, { type, ...payload }).catch(() => {});
+        }
+    });
+}
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'GET_PROFILE') {
@@ -94,6 +121,37 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
 
+    if (message.type === 'PROFILE_UPDATED') {
+        cachedProfile = null;
+        sendResponse({ success: true });
+
+        return false;
+    }
+
+    if (message.type === 'OPEN_SIDE_PANEL') {
+        openSidePanelForTab(sender.tab?.id).then(() => sendResponse({ success: true })).catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'START_DRAFT_ALL') {
+        resolveActiveTabId(sender.tab?.id)
+            .then((tabId) => runDraftAll(tabId))
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'QUICK_ANSWER_FOCUSED') {
+        resolveActiveTabId(sender.tab?.id)
+            .then((tabId) => quickAnswerFocused(tabId))
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
     if (message.type === 'updateCount' || message.type === 'updateSkippedCount' || message.type === 'botStarted' || message.type === 'botStopped' || message.type === 'log') {
         if (message.type === 'botStarted') {
             chrome.storage.local.set({ botRunning: true });
@@ -108,6 +166,199 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return false;
     }
 });
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+    if (info.menuItemId !== 'autocvapply-quick-answer' || !tab?.id) {
+        return;
+    }
+
+    quickAnswerFocused(tab.id).catch(() => {});
+});
+
+async function resolveActiveTabId(preferredTabId) {
+    if (preferredTabId) {
+        return preferredTabId;
+    }
+
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    if (!tab?.id) {
+        throw new Error('No active tab found.');
+    }
+
+    return tab.id;
+}
+
+async function openSidePanelForTab(tabId) {
+    if (!tabId) {
+        throw new Error('Open a job application tab first.');
+    }
+
+    if (chrome.sidePanel?.open) {
+        await chrome.sidePanel.open({ tabId });
+    }
+}
+
+async function buildAutofillSettings() {
+    const settings = await chrome.storage.sync.get([
+        'yearsOfExperience',
+        'expectedSalary',
+        'visaSponsorship',
+        'legallyAuthorized',
+        'willingToRelocate',
+        'driversLicense',
+    ]);
+
+    return {
+        yearsOfExperience: settings.yearsOfExperience || '2',
+        expectedSalary: settings.expectedSalary || '',
+        visaSponsorship: settings.visaSponsorship || 'no',
+        legallyAuthorized: settings.legallyAuthorized || 'yes',
+        willingToRelocate: settings.willingToRelocate || 'yes',
+        driversLicense: settings.driversLicense || 'yes',
+    };
+}
+
+async function saveLocalMemo(answers) {
+    const memoUpdates = {};
+
+    for (const answer of answers) {
+        if (answer?.label && answer?.answer) {
+            memoUpdates[answer.label] = answer.answer;
+        }
+    }
+
+    if (Object.keys(memoUpdates).length === 0) {
+        return;
+    }
+
+    const { questionMemo = {} } = await chrome.storage.local.get(['questionMemo']);
+
+    await chrome.storage.local.set({
+        questionMemo: {
+            ...questionMemo,
+            ...memoUpdates,
+        },
+    });
+}
+
+async function runDraftAll(tabId) {
+    if (draftAllRunning) {
+        return { error: 'Draft-all is already running on this tab.' };
+    }
+
+    draftAllRunning = true;
+
+    try {
+        const tab = await chrome.tabs.get(tabId);
+        const collectResponse = await collectFieldsFromTab(tabId);
+
+        if (!collectResponse?.success) {
+            return { error: collectResponse?.error || 'Could not scan this page for fields.' };
+        }
+
+        if (!collectResponse.fields?.length) {
+            return { error: 'No empty fields found to draft.' };
+        }
+
+        const settings = await buildAutofillSettings();
+        const job = collectResponse.job || {
+            title: tab.title || 'Job application',
+            company: 'Unknown company',
+            link: tab.url?.split('?')[0] || tab.url,
+        };
+
+        broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+            message: `Drafting ${collectResponse.fields.length} field(s)…`,
+        });
+
+        const result = await requestDraftAllStream({
+            job,
+            fields: collectResponse.fields,
+            settings,
+            page_title: tab.title,
+        }, async (event) => {
+            if (event.type === 'batch' && Array.isArray(event.answers)) {
+                await applyDraftBatchToTab(tabId, event.answers);
+                await saveLocalMemo(event.answers);
+
+                broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+                    message: `Applied batch ${event.batch_index + 1}…`,
+                });
+            }
+
+            if (event.type === 'batch_error') {
+                broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+                    message: event.message || 'A batch failed.',
+                });
+            }
+
+            if (event.type === 'complete' && event.subscription && cachedProfile) {
+                cachedProfile.subscription = event.subscription;
+            }
+        });
+
+        if (!result.ok) {
+            if (result.subscription && cachedProfile) {
+                cachedProfile.subscription = result.subscription;
+            }
+
+            return { error: result.message || 'Draft-all failed.' };
+        }
+
+        const message = `Draft complete (${collectResponse.fields.length} field(s) requested).`;
+        broadcastDraftEvent('DRAFT_ALL_DONE', { message });
+
+        return { success: true, message };
+    } finally {
+        draftAllRunning = false;
+    }
+}
+
+async function quickAnswerFocused(tabId) {
+    const { focusedField } = await chrome.storage.session.get(['focusedField']);
+
+    if (!focusedField?.label) {
+        throw new Error('Click a form field on the page first.');
+    }
+
+    const tab = await chrome.tabs.get(tabId);
+    let job = {
+        title: tab.title || 'Job application',
+        company: 'Unknown company',
+        link: tab.url?.split('?')[0] || tab.url,
+    };
+
+    try {
+        const meta = await chrome.tabs.sendMessage(tabId, { type: 'GET_JOB_META' });
+
+        if (meta?.job) {
+            job = meta.job;
+        }
+    } catch {
+        // Use tab fallback metadata.
+    }
+
+    const settings = await buildAutofillSettings();
+    const data = await requestDraftField({
+        job,
+        field: focusedField,
+        settings,
+    });
+
+    await applyDraftAnswerToTab(tabId, data.label, data.answer);
+    await saveLocalMemo([{ label: data.label, answer: data.answer }]);
+
+    if (cachedProfile && data.subscription) {
+        cachedProfile.subscription = data.subscription;
+    }
+
+    return {
+        success: true,
+        message: data.answer ? 'Quick Answer applied.' : 'No answer generated for this field.',
+        answer: data.answer,
+    };
+}
 
 async function getApiToken() {
     const { apiToken } = await chrome.storage.local.get(['apiToken']);
