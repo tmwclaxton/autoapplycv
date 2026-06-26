@@ -102,6 +102,10 @@ const AutoCVApplyFormHeuristics = (() => {
         };
     }
 
+    function elementDefaultView(element) {
+        return element?.ownerDocument?.defaultView || window;
+    }
+
     function isVisible(element) {
         if (!element || element.disabled || element.readOnly) {
             return false;
@@ -111,9 +115,44 @@ const AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
-        const style = window.getComputedStyle(element);
+        const view = elementDefaultView(element);
 
-        return style.display !== 'none' && style.visibility !== 'hidden' && element.offsetParent !== null;
+        if (!view?.getComputedStyle) {
+            return false;
+        }
+
+        try {
+            const style = view.getComputedStyle(element);
+
+            return style.display !== 'none' && style.visibility !== 'hidden' && element.offsetParent !== null;
+        } catch {
+            return false;
+        }
+    }
+
+    function setNativeValue(element, value) {
+        const stringValue = String(value);
+        const view = elementDefaultView(element);
+        const tag = element.tagName?.toLowerCase();
+        let prototype = null;
+
+        if (tag === 'textarea') {
+            prototype = view.HTMLTextAreaElement?.prototype;
+        } else if (tag === 'input') {
+            prototype = view.HTMLInputElement?.prototype;
+        }
+
+        if (prototype) {
+            const descriptor = Object.getOwnPropertyDescriptor(prototype, 'value');
+
+            if (descriptor?.set) {
+                descriptor.set.call(element, stringValue);
+
+                return;
+            }
+        }
+
+        element.value = stringValue;
     }
 
     function setFieldValue(element, value) {
@@ -166,14 +205,7 @@ const AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
-        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set
-            || Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value')?.set;
-
-        if (setter) {
-            setter.call(element, String(value));
-        } else {
-            element.value = String(value);
-        }
+        setNativeValue(element, value);
 
         element.dispatchEvent(new Event('input', { bubbles: true }));
         element.dispatchEvent(new Event('change', { bubbles: true }));

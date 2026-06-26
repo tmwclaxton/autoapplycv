@@ -223,13 +223,10 @@ function setFieldValue(element, value) {
         return AutoCVApplyFormHeuristics.setFieldValue(element, value);
     }
 
-    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set
-        || Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, 'value')?.set;
-
-    if (nativeInputValueSetter) {
-        nativeInputValueSetter.call(element, value);
-    } else {
+    try {
         element.value = value;
+    } catch {
+        return false;
     }
 
     element.dispatchEvent(new Event('input', { bubbles: true }));
