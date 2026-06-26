@@ -42,13 +42,6 @@ class BillingController extends Controller
         $user = $request->user();
         $reconciled = $this->goCardless->reconcilePendingCheckout($user);
 
-        if ($reconciled === 'cleared') {
-            session()->flash(
-                'success',
-                'Checkout cancelled. You remain on the Free plan.',
-            );
-        }
-
         if ($reconciled === 'activated') {
             session()->flash(
                 'success',
@@ -56,8 +49,11 @@ class BillingController extends Controller
             );
         }
 
+        $user = $user->fresh();
+
         return Inertia::render('Billing', [
-            'subscription' => $this->usage->summary($user->fresh()),
+            'subscription' => $this->usage->summary($user),
+            'billing' => $this->goCardless->billingHistory($user),
             'plans' => SubscriptionTier::marketingPlans(),
         ]);
     }

@@ -4,7 +4,7 @@ import { computed } from 'vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
 import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
 import { useConfirm } from '@/composables/useConfirm';
-import { autofillNotice, subscriptionStatusHint } from '@/lib/autofillNotice';
+import { autofillNotice } from '@/lib/autofillNotice';
 import { dashboard } from '@/routes';
 
 setLayoutProps({
@@ -23,12 +23,27 @@ interface SubscriptionSummary {
     autofills_remaining: number;
     can_autofill: boolean;
     autofill_block_reason?: string | null;
-    checkout_in_progress?: boolean;
     period_resets_at: string;
+}
+
+interface BillingPayment {
+    id: string;
+    charge_date: string;
+    amount: string;
+    status: string;
+    status_label: string;
+    description: string | null;
+}
+
+interface BillingHistory {
+    next_payment_date: string | null;
+    next_payment_amount: string | null;
+    payments: BillingPayment[];
 }
 
 const props = defineProps<{
     subscription: SubscriptionSummary;
+    billing: BillingHistory;
     plans: PricingPlan[];
 }>();
 
@@ -55,17 +70,46 @@ const usagePercent = computed(() => {
     );
 });
 
-function formatAutofills(value: number): string {
-    return new Intl.NumberFormat('en-GB').format(value);
-}
+const showBillingHistory = computed(
+    () =>
+        props.subscription.tier !== 'free' ||
+        props.billing.next_payment_date !== null ||
+        props.billing.payments.length > 0,
+);
 
 const autofillNoticeMessage = computed(() =>
     autofillNotice(props.subscription),
 );
 
-const statusHint = computed(() => subscriptionStatusHint(props.subscription));
-
 const { confirm } = useConfirm();
+
+function formatDate(value: string | null): string {
+    if (!value) {
+        return '—';
+    }
+
+    return new Date(value).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+    });
+}
+
+function formatAutofills(value: number): string {
+    return new Intl.NumberFormat('en-GB').format(value);
+}
+
+function paymentStatusClass(status: string): string {
+    if (status === 'paid_out' || status === 'confirmed') {
+        return 'bg-emerald-100 text-emerald-800';
+    }
+
+    if (status === 'failed' || status === 'charged_back' || status === 'cancelled') {
+        return 'bg-red-100 text-red-800';
+    }
+
+    return 'bg-postbox-navy/10 text-postbox-navy';
+}
 
 async function cancelSubscription(): Promise<void> {
     const confirmed = await confirm({
@@ -122,16 +166,12 @@ async function cancelSubscription(): Promise<void> {
                     {{ subscription.plan_description }}
                 </p>
                 <p class="mt-1 text-sm text-muted-foreground">
-                    Status: {{ statusHint }}
+                    Status: {{ subscription.status_label }}
                 </p>
             </div>
             <div class="text-right text-sm text-muted-foreground">
-                Resets
-                {{
-                    new Date(subscription.period_resets_at).toLocaleDateString(
-                        'en-GB',
-                    )
-                }}
+                Autofills reset
+                {{ formatDate(subscription.period_resets_at) }}
             </div>
         </div>
 
@@ -165,14 +205,6 @@ async function cancelSubscription(): Promise<void> {
             {{ autofillNoticeMessage }}
         </p>
 
-        <p
-            v-else-if="subscription.checkout_in_progress"
-            class="mt-4 rounded-md border border-postbox-navy/15 bg-postbox-navy/5 p-3 text-sm text-postbox-navy"
-        >
-            Direct Debit setup is in progress. Your Free plan autofills remain
-            available until the upgrade completes.
-        </p>
-
         <Link :href="dashboard()" class="postbox-btn-outline mt-6">
             Back to dashboard
         </Link>
@@ -185,6 +217,79 @@ async function cancelSubscription(): Promise<void> {
         >
             Cancel paid plan
         </button>
+    </div>
+
+    <div v-if="showBillingHistory" class="postbox-panel mb-8 p-6">
+        <h2 class="text-lg font-bold text-postbox-navy">Direct Debit billing</h2>
+        <p class="mt-1 text-sm text-muted-foreground">
+            Payments are collected monthly by Direct Debit through GoCardless.
+        </p>
+
+        <div
+            v-if="billing.next_payment_date"
+            class="mt-6 rounded-md border border-postbox-navy/10 bg-postbox-navy/5 p-4"
+        >
+            <p class="postbox-label">Next payment</p>
+            <p class="mt-1 text-sm text-postbox-navy">
+                <span class="font-semibold">{{ billing.next_payment_amount }}</span>
+                on {{ formatDate(billing.next_payment_date) }}
+            </p>
+        </div>
+
+        <div class="mt-6">
+            <h3 class="text-sm font-semibold text-postbox-navy">
+                Payment history
+            </h3>
+
+            <div
+                v-if="billing.payments.length === 0"
+                class="mt-3 text-sm text-muted-foreground"
+            >
+                No payments recorded yet. Your first Direct Debit will appear
+                here after it is collected.
+            </div>
+
+            <div v-else class="mt-3 overflow-x-auto">
+                <table class="min-w-full text-left text-sm">
+                    <thead>
+                        <tr class="border-b border-postbox-navy/10 text-muted-foreground">
+                            <th class="py-2 pr-4 font-medium">Date</th>
+                            <th class="py-2 pr-4 font-medium">Description</th>
+                            <th class="py-2 pr-4 font-medium">Amount</th>
+                            <th class="py-2 font-medium">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            v-for="payment in billing.payments"
+                            :key="payment.id"
+                            class="border-b border-postbox-navy/5 last:border-0"
+                        >
+                            <td class="py-3 pr-4 text-postbox-navy">
+                                {{ formatDate(payment.charge_date) }}
+                            </td>
+                            <td class="py-3 pr-4 text-muted-foreground">
+                                {{
+                                    payment.description ||
+                                    'AutoCVApply subscription'
+                                }}
+                            </td>
+                            <td class="py-3 pr-4 font-medium text-postbox-navy">
+                                {{ payment.amount }}
+                            </td>
+                            <td class="py-3">
+                                <span
+                                    class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium"
+                                    :class="paymentStatusClass(payment.status)"
+                                >
+                                    {{ payment.status_label }}
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <PostboxPricingTiers

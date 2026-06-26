@@ -164,6 +164,8 @@ class AiTokenService
 
         $tier = $user->subscriptionTier();
         $status = $user->subscriptionStatus();
+        $checkoutInProgress = $user->gocardless_billing_request_id !== null
+            && $tier === SubscriptionTier::Free;
         $periodStart = $user->ai_tokens_period_start
             ? Carbon::parse($user->ai_tokens_period_start)
             : now()->startOfMonth();
@@ -174,7 +176,9 @@ class AiTokenService
             'tier' => $tier->value,
             'tier_label' => $tier->label(),
             'status' => $status->value,
-            'status_label' => $status->label(),
+            'status_label' => $checkoutInProgress
+                ? SubscriptionStatus::Active->label()
+                : $status->label(),
             'plan_description' => $tier->description(),
             'features' => $tier->features(),
             'monthly_autofills' => $allowance,
@@ -182,8 +186,7 @@ class AiTokenService
             'autofills_remaining' => max(0, $allowance - $used),
             'can_autofill' => $this->canAutofill($user),
             'autofill_block_reason' => $this->autofillBlockReason($user),
-            'checkout_in_progress' => $user->gocardless_billing_request_id !== null
-                && $user->subscriptionTier() === SubscriptionTier::Free,
+            'checkout_in_progress' => $checkoutInProgress,
             'period_resets_at' => $periodStart->copy()->addMonth()->startOfMonth()->toDateString(),
         ];
     }

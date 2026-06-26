@@ -34,7 +34,8 @@ class SubscriptionTest extends TestCase
                 'component' => 'Billing',
             ])
             ->assertJsonPath('props.subscription.tier', 'free')
-            ->assertJsonPath('props.subscription.monthly_autofills', 250);
+            ->assertJsonPath('props.subscription.monthly_autofills', 250)
+            ->assertJsonPath('props.billing.payments', []);
     }
 
     public function test_paid_checkout_redirects_to_gocardless_for_starter(): void
@@ -151,6 +152,7 @@ class SubscriptionTest extends TestCase
             ->assertJsonPath('props.subscription.can_autofill', true)
             ->assertJsonPath('props.subscription.autofill_block_reason', null)
             ->assertJsonPath('props.subscription.checkout_in_progress', true)
+            ->assertJsonPath('props.subscription.status_label', 'Active')
             ->assertJsonPath('props.subscription.autofills_remaining', 250);
     }
 
@@ -211,16 +213,20 @@ class SubscriptionTest extends TestCase
             $mock->shouldReceive('reconcilePendingCheckout')
                 ->once()
                 ->andReturn('cleared');
+            $mock->shouldReceive('billingHistory')
+                ->once()
+                ->andReturn([
+                    'next_payment_date' => null,
+                    'next_payment_amount' => null,
+                    'payments' => [],
+                ]);
         });
 
         $this->actingAs($user)
             ->withHeaders(['X-Inertia' => 'true'])
             ->get(route('billing.index'))
             ->assertStatus(200)
-            ->assertSessionHas(
-                'success',
-                'Checkout cancelled. You remain on the Free plan.',
-            );
+            ->assertSessionMissing('success');
     }
 
     public function test_billing_page_reconciles_fulfilled_checkout(): void
@@ -236,6 +242,13 @@ class SubscriptionTest extends TestCase
             $mock->shouldReceive('reconcilePendingCheckout')
                 ->once()
                 ->andReturn('activated');
+            $mock->shouldReceive('billingHistory')
+                ->once()
+                ->andReturn([
+                    'next_payment_date' => null,
+                    'next_payment_amount' => null,
+                    'payments' => [],
+                ]);
         });
 
         $this->actingAs($user)
@@ -272,5 +285,44 @@ class SubscriptionTest extends TestCase
                 'component' => 'Billing',
             ])
             ->assertJsonPath('props.subscription.checkout_in_progress', true);
+    }
+
+    public function test_billing_page_includes_payment_history_for_paid_users(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'starter',
+            'subscription_status' => 'active',
+            'gocardless_subscription_id' => 'SB123',
+        ]);
+
+        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('reconcilePendingCheckout')
+                ->once()
+                ->andReturn(null);
+            $mock->shouldReceive('billingHistory')
+                ->once()
+                ->andReturn([
+                    'next_payment_date' => '2026-07-01',
+                    'next_payment_amount' => '£7.00',
+                    'payments' => [
+                        [
+                            'id' => 'PM123',
+                            'charge_date' => '2026-06-01',
+                            'amount' => '£7.00',
+                            'status' => 'paid_out',
+                            'status_label' => 'Paid',
+                            'description' => 'AutoCVApply Starter',
+                        ],
+                    ],
+                ]);
+        });
+
+        $this->actingAs($user)
+            ->withHeaders(['X-Inertia' => 'true'])
+            ->get(route('billing.index'))
+            ->assertStatus(200)
+            ->assertJsonPath('props.billing.next_payment_date', '2026-07-01')
+            ->assertJsonPath('props.billing.next_payment_amount', '£7.00')
+            ->assertJsonPath('props.billing.payments.0.status_label', 'Paid');
     }
 }

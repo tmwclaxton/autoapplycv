@@ -401,4 +401,151 @@ class GoCardlessService
             return false;
         }
     }
+
+    /**
+     * @return array{
+     *     next_payment_date: string|null,
+     *     next_payment_amount: string|null,
+     *     payments: array<int, array{
+     *         id: string,
+     *         charge_date: string,
+     *         amount: string,
+     *         status: string,
+     *         status_label: string,
+     *         description: string|null,
+     *     }>,
+     * }
+     */
+    public function billingHistory(User $user): array
+    {
+        $empty = [
+            'next_payment_date' => null,
+            'next_payment_amount' => null,
+            'payments' => [],
+        ];
+
+        $subscriptionId = $user->gocardless_subscription_id;
+
+        if ($subscriptionId === null || ! $user->subscriptionTier()->isPaid()) {
+            return $empty;
+        }
+
+        try {
+            $subscription = $this->client()->subscriptions()->get($subscriptionId);
+        } catch (InvalidArgumentException) {
+            return $empty;
+        } catch (ApiException $exception) {
+            Log::warning('Failed to fetch GoCardless subscription for billing history', [
+                'user_id' => $user->id,
+                'subscription_id' => $subscriptionId,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return $empty;
+        } catch (\Throwable $exception) {
+            Log::warning('Failed to fetch GoCardless subscription for billing history', [
+                'user_id' => $user->id,
+                'subscription_id' => $subscriptionId,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return $empty;
+        }
+
+        $nextPaymentDate = null;
+        $nextPaymentAmount = null;
+        $upcomingPayments = $subscription->upcoming_payments ?? [];
+
+        if (count($upcomingPayments) > 0) {
+            $nextPayment = $upcomingPayments[0];
+            $nextPaymentDate = $nextPayment->charge_date ?? null;
+            $nextPaymentAmount = isset($nextPayment->amount)
+                ? $this->formatPaymentAmount((int) $nextPayment->amount, $subscription->currency ?? 'GBP')
+                : null;
+        }
+
+        try {
+            $payments = $this->client()->payments()->list([
+                'params' => [
+                    'subscription' => $subscriptionId,
+                    'limit' => 24,
+                ],
+            ]);
+        } catch (InvalidArgumentException) {
+            return [
+                'next_payment_date' => $nextPaymentDate,
+                'next_payment_amount' => $nextPaymentAmount,
+                'payments' => [],
+            ];
+        } catch (ApiException $exception) {
+            Log::warning('Failed to fetch GoCardless payment history', [
+                'user_id' => $user->id,
+                'subscription_id' => $subscriptionId,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return [
+                'next_payment_date' => $nextPaymentDate,
+                'next_payment_amount' => $nextPaymentAmount,
+                'payments' => [],
+            ];
+        } catch (\Throwable $exception) {
+            Log::warning('Failed to fetch GoCardless payment history', [
+                'user_id' => $user->id,
+                'subscription_id' => $subscriptionId,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return [
+                'next_payment_date' => $nextPaymentDate,
+                'next_payment_amount' => $nextPaymentAmount,
+                'payments' => [],
+            ];
+        }
+
+        $records = collect($payments->records ?? [])
+            ->sortByDesc(fn ($payment) => $payment->charge_date ?? '')
+            ->values();
+
+        return [
+            'next_payment_date' => $nextPaymentDate,
+            'next_payment_amount' => $nextPaymentAmount,
+            'payments' => $records
+                ->map(fn ($payment): array => [
+                    'id' => (string) $payment->id,
+                    'charge_date' => (string) ($payment->charge_date ?? ''),
+                    'amount' => $this->formatPaymentAmount(
+                        (int) ($payment->amount ?? 0),
+                        (string) ($payment->currency ?? 'GBP'),
+                    ),
+                    'status' => (string) ($payment->status ?? 'unknown'),
+                    'status_label' => $this->paymentStatusLabel((string) ($payment->status ?? 'unknown')),
+                    'description' => $payment->description ?? null,
+                ])
+                ->all(),
+        ];
+    }
+
+    private function formatPaymentAmount(int $amountInMinorUnits, string $currency): string
+    {
+        if (strtoupper($currency) !== 'GBP') {
+            return number_format($amountInMinorUnits / 100, 2).' '.strtoupper($currency);
+        }
+
+        return '£'.number_format($amountInMinorUnits / 100, 2);
+    }
+
+    private function paymentStatusLabel(string $status): string
+    {
+        return match ($status) {
+            'pending_submission' => 'Pending',
+            'submitted' => 'Submitted',
+            'confirmed' => 'Confirmed',
+            'paid_out' => 'Paid',
+            'cancelled' => 'Cancelled',
+            'failed' => 'Failed',
+            'charged_back' => 'Charged back',
+            default => ucfirst(str_replace('_', ' ', $status)),
+        };
+    }
 }
