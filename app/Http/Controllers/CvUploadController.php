@@ -40,6 +40,8 @@ class CvUploadController extends Controller
         $file = $request->file('cv');
         $user = $request->user();
 
+        $this->cvDocuments->clearExistingCvArtifacts($user);
+
         $rawText = $this->cvParser->extractText($file);
         $extractedUrls = $this->cvParser->extractHyperlinks($file);
         $rawText = CvExtractionSchema::appendHyperlinksToRawText($rawText, $extractedUrls);

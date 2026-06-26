@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppConfirmDialog from '@/components/AppConfirmDialog.vue';
 import AppToast from '@/components/AppToast.vue';
 import PostboxAppNav from '@/components/postbox/PostboxAppNav.vue';
 import PostboxShell from '@/components/postbox/PostboxShell.vue';
@@ -29,4 +30,5 @@ withDefaults(
     </PostboxShell>
 
     <AppToast />
+    <AppConfirmDialog />
 </template>

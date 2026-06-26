@@ -4,6 +4,7 @@ import {
     Briefcase,
     ClipboardList,
     Copy,
+    FileText,
     Key,
     Loader2,
     Puzzle,
@@ -18,17 +19,20 @@ import JobApplicationsPanel, {
 } from '@/components/cv/JobApplicationsPanel.vue';
 import ApplicationToolsPanel from '@/components/cv/ApplicationToolsPanel.vue';
 import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
-import { nextTick, ref } from 'vue';
+import { ref } from 'vue';
 import {
     store as cvUpload,
     updateProfile as cvProfileUpdate,
 } from '@/actions/App/Http/Controllers/CvUploadController';
 import CvProfileForm from '@/components/cv/CvProfileForm.vue';
+import CvParsingOverlay from '@/components/cv/CvParsingOverlay.vue';
+import ProfileDocumentsPanel from '@/components/cv/ProfileDocumentsPanel.vue';
 import billing from '@/routes/billing';
 import { useToastStore } from '@/stores/toastStore';
 import {
     normalizeCvProfile,
     type CvProfile,
+    type CvProfileSection,
 } from '@/types/cvProfile';
 import type {
     DocumentCategoryOption,
@@ -67,7 +71,9 @@ const profile = ref<CvProfile>(normalizeCvProfile(props.cvProfile));
 const subscription = ref<SubscriptionSummary>({ ...props.subscription });
 const documents = ref<ProfileDocument[]>([...props.documents]);
 const applications = ref<JobApplicationRecord[]>([...props.applications]);
-const activeTab = ref<'profile' | 'experience' | 'applications' | 'extension'>('profile');
+const activeTab = ref<
+    'profile' | 'experience' | 'documents' | 'applications' | 'extension'
+>('profile');
 const isSaving = ref(false);
 const isUploading = ref(false);
 const uploadError = ref<string | null>(null);
@@ -78,9 +84,32 @@ const toastStore = useToastStore();
 
 const experienceSections = ['experience', 'education'] as const;
 
+const profileSections: CvProfileSection[] = [
+    'basic',
+    'address',
+    'summary',
+    'skills',
+    'experience',
+    'education',
+    'languages',
+    'certifications',
+    'projects',
+    'publications',
+    'awards',
+    'volunteering',
+    'memberships',
+    'references',
+    'interests',
+    'additional',
+    'formatted',
+    'extra',
+    'raw',
+];
+
 const tabs = [
     { key: 'profile' as const, label: 'CV profile', icon: User },
     { key: 'experience' as const, label: 'Experience', icon: Briefcase },
+    { key: 'documents' as const, label: 'Documents', icon: FileText },
     { key: 'applications' as const, label: 'Applications', icon: ClipboardList },
     { key: 'extension' as const, label: 'Extension', icon: Puzzle },
 ];
@@ -162,17 +191,11 @@ function uploadCv(file: File): void {
                 documents.value = data.documents;
             }
 
-            await nextTick();
-            document.getElementById('profile-documents')?.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-            });
-
             if (typeof data.warning === 'string') {
                 toastStore.warning(data.warning);
             } else {
                 toastStore.success(
-                    'CV uploaded, parsed, and saved to your Documents section.',
+                    'CV uploaded, parsed, and saved to your Documents tab.',
                 );
             }
         })
@@ -316,18 +339,20 @@ async function copyToken() {
             </button>
         </div>
 
-        <div v-if="activeTab === 'profile'" class="space-y-6">
+        <div v-if="activeTab === 'profile'" class="relative space-y-6">
+            <CvParsingOverlay :show="isUploading" />
+
             <CvProfileForm
                 v-model="profile"
-                v-model:documents="documents"
-                :document-categories="documentCategories"
+                :sections="profileSections"
+                :class="{ 'pointer-events-none select-none': isUploading }"
             />
 
             <div class="flex justify-end">
                 <button
                     type="button"
                     class="postbox-btn"
-                    :disabled="isSaving"
+                    :disabled="isSaving || isUploading"
                     @click="saveProfile"
                 >
                     <Loader2 v-if="isSaving" class="size-4 animate-spin" />
@@ -336,10 +361,13 @@ async function copyToken() {
             </div>
         </div>
 
-        <div v-else-if="activeTab === 'experience'" class="space-y-6">
+        <div v-else-if="activeTab === 'experience'" class="relative space-y-6">
+            <CvParsingOverlay :show="isUploading" />
+
             <CvProfileForm
                 v-model="profile"
                 :sections="[...experienceSections]"
+                :class="{ 'pointer-events-none select-none': isUploading }"
             />
 
             <div
@@ -362,12 +390,23 @@ async function copyToken() {
                 <button
                     type="button"
                     class="postbox-btn"
-                    :disabled="isSaving"
+                    :disabled="isSaving || isUploading"
                     @click="saveProfile"
                 >
                     <Loader2 v-if="isSaving" class="size-4 animate-spin" />
                     {{ isSaving ? 'Saving…' : 'Save changes' }}
                 </button>
+            </div>
+        </div>
+
+        <div v-else-if="activeTab === 'documents'" class="relative space-y-6">
+            <CvParsingOverlay :show="isUploading" />
+
+            <div :class="{ 'pointer-events-none select-none': isUploading }">
+                <ProfileDocumentsPanel
+                    v-model:documents="documents"
+                    :categories="documentCategories"
+                />
             </div>
         </div>
 

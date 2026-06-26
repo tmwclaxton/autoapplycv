@@ -7,12 +7,19 @@ use App\Services\CvExtractionService;
 use App\Services\CvParserService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CvUploadTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Storage::fake('local');
+    }
 
     #[Test]
     public function test_cv_upload_stores_verbatim_and_structured_profile_fields(): void
@@ -133,5 +140,43 @@ class CvUploadTest extends TestCase
             ->assertOk()
             ->assertJsonPath('profile.parsing_complete', false)
             ->assertJsonPath('profile.raw_cv_text', 'Text from scanned CV image');
+    }
+
+    #[Test]
+    public function test_replacement_cv_upload_overwrites_existing_cv_document(): void
+    {
+        $this->mock(CvParserService::class, function ($mock): void {
+            $mock->shouldReceive('extractText')->twice()->andReturn('CV text');
+            $mock->shouldReceive('extractHyperlinks')->twice()->andReturn([]);
+        });
+
+        $this->mock(CvExtractionService::class, function ($mock): void {
+            $mock->shouldReceive('extract')->twice()->andReturn(null);
+        });
+
+        $user = User::factory()->create();
+
+        $first = UploadedFile::fake()->createWithContent('first-cv.pdf', '%PDF first');
+        $second = UploadedFile::fake()->createWithContent('second-cv.pdf', '%PDF second');
+
+        $this->actingAs($user)
+            ->postJson(route('cv.upload'), ['cv' => $first])
+            ->assertOk()
+            ->assertJsonCount(1, 'documents');
+
+        $firstPath = $user->fresh()->profileDocuments()->first()->stored_path;
+
+        $this->actingAs($user)
+            ->postJson(route('cv.upload'), ['cv' => $second])
+            ->assertOk()
+            ->assertJsonCount(1, 'documents')
+            ->assertJsonPath('documents.0.original_filename', 'second-cv.pdf');
+
+        $this->assertSame(1, $user->fresh()->profileDocuments()->where('category', 'cv')->count());
+        $this->assertSame(1, $user->fresh()->cvUploads()->count());
+        $this->assertDatabaseMissing('profile_documents', [
+            'stored_path' => $firstPath,
+        ]);
+        Storage::disk('local')->assertMissing($firstPath);
     }
 }

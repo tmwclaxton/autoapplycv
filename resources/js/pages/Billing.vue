@@ -4,6 +4,7 @@ import { computed } from 'vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
 import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
 import { autofillNotice, subscriptionStatusHint } from '@/lib/autofillNotice';
+import { useConfirm } from '@/composables/useConfirm';
 import { dashboard } from '@/routes';
 
 setLayoutProps({
@@ -64,12 +65,18 @@ const autofillNoticeMessage = computed(() =>
 
 const statusHint = computed(() => subscriptionStatusHint(props.subscription));
 
-function cancelSubscription() {
-    if (
-        !confirm(
-            'Cancel your paid plan and move back to Free? Your Direct Debit will be cancelled.',
-        )
-    ) {
+const { confirm } = useConfirm();
+
+async function cancelSubscription(): Promise<void> {
+    const confirmed = await confirm({
+        title: 'Cancel your paid plan?',
+        description:
+            'You will move back to Free and your Direct Debit will be cancelled.',
+        confirmLabel: 'Cancel plan',
+        variant: 'destructive',
+    });
+
+    if (!confirmed) {
         return;
     }
 

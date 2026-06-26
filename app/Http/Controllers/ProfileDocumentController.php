@@ -26,6 +26,13 @@ class ProfileDocumentController extends Controller
 
         $file = $request->file('file');
         $category = ProfileDocumentCategory::from($request->string('category')->toString());
+
+        if ($category === ProfileDocumentCategory::Cv) {
+            return response()->json([
+                'message' => 'Upload your CV with Replace CV on the dashboard. That keeps a single up-to-date copy.',
+            ], 422);
+        }
+
         $originalFilename = $file->getClientOriginalName();
         $title = $request->filled('title')
             ? $request->string('title')->toString()
@@ -54,10 +61,20 @@ class ProfileDocumentController extends Controller
     {
         $this->ensureOwner($request, $profileDocument);
 
+        $storedPath = $profileDocument->stored_path;
+        $isCv = $profileDocument->category === ProfileDocumentCategory::Cv;
+
         $profileDocument->delete();
 
-        if (! $this->storedPathIsReferenced($profileDocument->stored_path)) {
-            Storage::disk('local')->delete($profileDocument->stored_path);
+        if ($isCv) {
+            CvUpload::query()
+                ->where('user_id', $request->user()->id)
+                ->where('stored_path', $storedPath)
+                ->delete();
+        }
+
+        if (! $this->storedPathIsReferenced($storedPath)) {
+            Storage::disk('local')->delete($storedPath);
         }
 
         return response()->json([

@@ -107,7 +107,7 @@ class ProfileDocumentTest extends TestCase
     }
 
     #[Test]
-    public function test_deleting_cv_document_does_not_remove_file_still_used_by_cv_upload(): void
+    public function test_deleting_cv_document_removes_stored_file(): void
     {
         $user = User::factory()->create();
         $path = 'cv-uploads/'.$user->id.'/cv.pdf';
@@ -130,8 +130,29 @@ class ProfileDocumentTest extends TestCase
             ->deleteJson(route('profile.documents.destroy', $document))
             ->assertOk();
 
-        Storage::disk('local')->assertExists($path);
-        $this->assertDatabaseHas('cv_uploads', ['stored_path' => $path]);
+        $this->assertDatabaseMissing('profile_documents', ['id' => $document->id]);
+        $this->assertDatabaseMissing('cv_uploads', ['stored_path' => $path]);
+        Storage::disk('local')->assertMissing($path);
+    }
+
+    #[Test]
+    public function test_user_cannot_upload_cv_via_documents_panel(): void
+    {
+        $user = User::factory()->create();
+        $file = UploadedFile::fake()->create('cv.pdf', 120, 'application/pdf');
+
+        $this->actingAs($user)
+            ->postJson(route('profile.documents.store'), [
+                'file' => $file,
+                'category' => ProfileDocumentCategory::Cv->value,
+            ])
+            ->assertStatus(422)
+            ->assertJsonPath(
+                'message',
+                'Upload your CV with Replace CV on the dashboard. That keeps a single up-to-date copy.',
+            );
+
+        $this->assertDatabaseCount('profile_documents', 0);
     }
 
     #[Test]

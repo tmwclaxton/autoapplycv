@@ -5,6 +5,8 @@ import {
     destroy as deleteDocument,
     store as storeDocument,
 } from '@/actions/App/Http/Controllers/ProfileDocumentController';
+import { useConfirm } from '@/composables/useConfirm';
+import { useToastStore } from '@/stores/toastStore';
 import type {
     DocumentCategoryOption,
     ProfileDocument,
@@ -15,6 +17,9 @@ const documents = defineModel<ProfileDocument[]>('documents', { required: true }
 defineProps<{
     categories: DocumentCategoryOption[];
 }>();
+
+const toastStore = useToastStore();
+const { confirmDelete } = useConfirm();
 
 const fileInput = ref<HTMLInputElement | null>(null);
 const selectedCategory = ref('certificate');
@@ -92,11 +97,28 @@ async function onFileSelected(event: Event): Promise<void> {
     }
 }
 
-async function removeDocument(documentId: number): Promise<void> {
-    deletingId.value = documentId;
+async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
+    const confirmed = await confirmDelete(
+        profileDocument.category === 'cv'
+            ? {
+                  title: 'Remove this CV file?',
+                  description:
+                      'Your parsed profile stays on the CV profile tab until you replace it.',
+              }
+            : {
+                  title: `Delete "${profileDocument.title}"?`,
+                  description: 'This cannot be undone.',
+              },
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    deletingId.value = profileDocument.id;
 
     try {
-        const response = await fetch(deleteDocument(documentId).url, {
+        const response = await fetch(deleteDocument(profileDocument.id).url, {
             method: 'DELETE',
             headers: {
                 'X-CSRF-TOKEN':
@@ -109,13 +131,23 @@ async function removeDocument(documentId: number): Promise<void> {
             },
         });
 
+        const data = await response.json().catch(() => ({}));
+
         if (!response.ok) {
+            toastStore.error(
+                (data as { message?: string }).message ??
+                    'Could not delete that file. Please try again.',
+            );
+
             return;
         }
 
         documents.value = documents.value.filter(
-            (document) => document.id !== documentId,
+            (item) => item.id !== profileDocument.id,
         );
+        toastStore.success('File deleted.');
+    } catch {
+        toastStore.error('Could not delete that file. Please try again.');
     } finally {
         deletingId.value = null;
     }
@@ -126,8 +158,8 @@ async function removeDocument(documentId: number): Promise<void> {
     <div id="profile-documents" class="postbox-panel p-6">
         <h2 class="postbox-label">Documents</h2>
         <p class="mb-6 text-sm text-muted-foreground">
-            Store your CV, degree certificates, reference letters, and anything
-            else you might need when applying.
+            Your CV is managed with Replace CV in the dashboard header. Upload
+            certificates, reference letters, and other supporting files below.
         </p>
 
         <div class="rounded-md border border-postbox-navy/10 p-4">
@@ -220,6 +252,13 @@ async function removeDocument(documentId: number): Promise<void> {
                             {{ document.file_size_label }}
                         </p>
                         <p
+                            v-if="document.category === 'cv'"
+                            class="mt-1 text-xs text-muted-foreground"
+                        >
+                            Replace from the dashboard header, or delete to
+                            remove the stored file.
+                        </p>
+                        <p
                             v-if="document.notes"
                             class="mt-1 text-sm text-muted-foreground"
                         >
@@ -238,22 +277,24 @@ async function removeDocument(documentId: number): Promise<void> {
                     </a>
                     <button
                         type="button"
-                        class="postbox-btn-outline px-3"
+                        class="postbox-btn-outline inline-flex items-center gap-2 text-sm text-destructive"
                         :disabled="deletingId === document.id"
-                        @click="removeDocument(document.id)"
+                        @click="removeDocument(document)"
                     >
                         <Loader2
                             v-if="deletingId === document.id"
                             class="size-4 animate-spin"
                         />
                         <Trash2 v-else class="size-4" />
+                        Delete
                     </button>
                 </div>
             </article>
         </div>
 
         <p v-else class="mt-6 text-sm text-muted-foreground">
-            No documents saved yet. Upload your CV or supporting files above.
+            No supporting documents yet. Upload certificates, references, or
+            other files above.
         </p>
     </div>
 </template>

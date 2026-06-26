@@ -26,6 +26,21 @@ enum ProfileDocumentCategory: string
     /**
      * @return array<int, array{value: string, label: string}>
      */
+    public static function manualUploadOptions(): array
+    {
+        return collect(self::cases())
+            ->reject(fn (self $category): bool => $category === self::Cv)
+            ->map(fn (self $category): array => [
+                'value' => $category->value,
+                'label' => $category->label(),
+            ])
+            ->values()
+            ->all();
+    }
+
+    /**
+     * @return array<int, array{value: string, label: string}>
+     */
     public static function options(): array
     {
         return collect(self::cases())

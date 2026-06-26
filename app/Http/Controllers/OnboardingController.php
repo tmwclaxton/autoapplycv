@@ -75,7 +75,7 @@ class OnboardingController extends Controller
                 ->map(fn (ProfileDocument $document): array => $document->toFrontendArray())
                 ->values()
                 ->all(),
-            'documentCategories' => ProfileDocumentCategory::options(),
+            'documentCategories' => ProfileDocumentCategory::manualUploadOptions(),
         ];
     }
 }
