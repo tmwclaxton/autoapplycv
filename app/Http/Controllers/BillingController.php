@@ -23,10 +23,41 @@ class BillingController extends Controller
         private readonly GoCardlessService $goCardless,
     ) {}
 
-    public function index(Request $request): Response
+    public function index(Request $request): Response|RedirectResponse
     {
+        if ($request->query('checkout') === 'abandoned') {
+            $cleared = $this->goCardless->clearAbandonedCheckout($request->user());
+            $redirect = redirect()->route('billing.index');
+
+            if ($cleared) {
+                $redirect->with(
+                    'success',
+                    'Checkout cancelled. You remain on the Free plan.',
+                );
+            }
+
+            return $redirect;
+        }
+
+        $user = $request->user();
+        $reconciled = $this->goCardless->reconcilePendingCheckout($user);
+
+        if ($reconciled === 'cleared') {
+            session()->flash(
+                'success',
+                'Checkout cancelled. You remain on the Free plan.',
+            );
+        }
+
+        if ($reconciled === 'activated') {
+            session()->flash(
+                'success',
+                'Your plan is active. Direct Debit payments will be collected monthly.',
+            );
+        }
+
         return Inertia::render('Billing', [
-            'subscription' => $this->usage->summary($request->user()),
+            'subscription' => $this->usage->summary($user->fresh()),
             'plans' => SubscriptionTier::marketingPlans(),
         ]);
     }

@@ -6,8 +6,10 @@ use App\Enums\SubscriptionStatus;
 use App\Enums\SubscriptionTier;
 use App\Models\User;
 use GoCardlessPro\Client;
+use GoCardlessPro\Core\Exception\ApiException;
 use GoCardlessPro\Environment;
 use GoCardlessPro\Resources\Event;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 
@@ -64,7 +66,7 @@ class GoCardlessService
         $flow = $this->client()->billingRequestFlows()->create([
             'params' => [
                 'redirect_uri' => route('billing.complete'),
-                'exit_uri' => route('billing.index'),
+                'exit_uri' => route('billing.index', ['checkout' => 'abandoned']),
                 'links' => [
                     'billing_request' => $billingRequest->id,
                 ],
@@ -162,6 +164,49 @@ class GoCardlessService
         ])->save();
     }
 
+    public function clearAbandonedCheckout(User $user): bool
+    {
+        if ($user->gocardless_billing_request_id === null) {
+            return false;
+        }
+
+        if ($user->subscriptionTier() !== SubscriptionTier::Free) {
+            return false;
+        }
+
+        $user->forceFill([
+            'subscription_status' => SubscriptionStatus::Active->value,
+            'pending_subscription_tier' => null,
+            'gocardless_billing_request_id' => null,
+        ])->save();
+
+        return true;
+    }
+
+    /**
+     * @return 'activated'|'cleared'|null
+     */
+    public function reconcilePendingCheckout(User $user): ?string
+    {
+        if ($user->gocardless_billing_request_id === null) {
+            return null;
+        }
+
+        try {
+            return $this->performCheckoutReconciliation($user);
+        } catch (InvalidArgumentException) {
+            return null;
+        } catch (ApiException $exception) {
+            Log::warning('GoCardless checkout reconciliation failed', [
+                'user_id' => $user->id,
+                'billing_request_id' => $user->gocardless_billing_request_id,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return null;
+        }
+    }
+
     public function cancelSubscription(User $user): void
     {
         if ($user->gocardless_subscription_id !== null) {
@@ -243,5 +288,105 @@ class GoCardlessService
                 'message' => $exception->getMessage(),
             ]);
         }
+    }
+
+    /**
+     * @return 'activated'|'cleared'|null
+     */
+    private function performCheckoutReconciliation(User $user): ?string
+    {
+        if ($this->syncPendingCheckout($user)) {
+            return 'activated';
+        }
+
+        $billingRequestId = $user->gocardless_billing_request_id;
+
+        try {
+            $billingRequest = $this->client()->billingRequests()->get($billingRequestId);
+        } catch (ApiException $exception) {
+            if ($exception->getHttpStatusCode() === 404 && $this->clearAbandonedCheckout($user)) {
+                return 'cleared';
+            }
+
+            throw $exception;
+        }
+
+        if ($billingRequest->status === 'fulfilled') {
+            $this->activateSubscriptionFromBillingRequest($user, $billingRequestId);
+
+            return 'activated';
+        }
+
+        if ($user->subscriptionTier() !== SubscriptionTier::Free) {
+            return null;
+        }
+
+        if ($this->shouldClearAbandonedCheckout($billingRequest)) {
+            $this->clearAbandonedCheckout($user);
+
+            return 'cleared';
+        }
+
+        return null;
+    }
+
+    private function shouldClearAbandonedCheckout(object $billingRequest): bool
+    {
+        if ($billingRequest->status === 'cancelled') {
+            return true;
+        }
+
+        if (! in_array($billingRequest->status, ['pending', 'ready_to_fulfil'], true)) {
+            return false;
+        }
+
+        foreach ($billingRequest->actions ?? [] as $action) {
+            if (in_array($action->status ?? null, ['failed', 'cancelled'], true)) {
+                return true;
+            }
+        }
+
+        if ($this->billingRequestFlowSessionEnded($billingRequest->id)) {
+            return true;
+        }
+
+        return $this->billingRequestIsStale($billingRequest);
+    }
+
+    private function billingRequestFlowSessionEnded(string $billingRequestId): bool
+    {
+        try {
+            $flows = $this->client()->billingRequestFlows()->list([
+                'params' => [
+                    'billing_request' => $billingRequestId,
+                ],
+            ]);
+        } catch (ApiException $exception) {
+            Log::warning('Failed to list GoCardless billing request flows', [
+                'billing_request_id' => $billingRequestId,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return false;
+        }
+
+        if (count($flows->records) === 0) {
+            return true;
+        }
+
+        $latestFlow = collect($flows->records)
+            ->sortByDesc(fn ($flow) => $flow->created_at ?? '')
+            ->first();
+
+        return ($latestFlow->lock_status ?? null) === 'unlocked';
+    }
+
+    private function billingRequestIsStale(object $billingRequest): bool
+    {
+        if (! isset($billingRequest->created_at)) {
+            return false;
+        }
+
+        return Carbon::parse($billingRequest->created_at)->lt(now()->subDay());
     }
 }
