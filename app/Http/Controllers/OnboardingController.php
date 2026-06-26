@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ApplicationStatus;
 use App\Enums\ProfileDocumentCategory;
-use App\Models\JobApplication;
 use App\Models\ProfileDocument;
 use App\Models\User;
 use App\Services\AiTokenService;
-use App\Services\ApplicationAnalyticsService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,7 +15,6 @@ class OnboardingController extends Controller
 {
     public function __construct(
         private readonly AiTokenService $aiTokens,
-        private readonly ApplicationAnalyticsService $applicationAnalytics,
     ) {}
 
     public function index(Request $request): Response|RedirectResponse
@@ -49,16 +45,7 @@ class OnboardingController extends Controller
         return Inertia::render('Dashboard', [
             'cvProfile' => $cvProfile,
             'subscription' => $this->aiTokens->summary($user),
-            'applications' => $user->jobApplications()
-                ->with('artifacts')
-                ->latest('applied_at')
-                ->limit(100)
-                ->get()
-                ->map(fn (JobApplication $application): array => $application->toFrontendArray(includeArtifacts: true))
-                ->values()
-                ->all(),
-            'applicationAnalytics' => $this->applicationAnalytics->summary($user),
-            'applicationStatuses' => ApplicationStatus::options(),
+            'extensionUsage' => $this->aiTokens->extensionUsageSummary($user),
             ...$this->documentPageProps($user),
         ]);
     }

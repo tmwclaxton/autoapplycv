@@ -228,30 +228,6 @@ function extractJobMeta(platformName) {
     };
 }
 
-async function recordAutofillApplication(platformName) {
-    try {
-        await new Promise((resolve, reject) => {
-            chrome.runtime.sendMessage({
-                type: 'RECORD_APPLICATION',
-                application: {
-                    ...extractJobMeta(platformName),
-                    applied_at: new Date().toISOString(),
-                },
-            }, (response) => {
-                if (chrome.runtime.lastError) {
-                    reject(new Error(chrome.runtime.lastError.message));
-                } else if (response?.error) {
-                    reject(new Error(response.error));
-                } else {
-                    resolve(response);
-                }
-            });
-        });
-    } catch {
-        // Non-blocking if tracking fails.
-    }
-}
-
 function setFieldValue(element, value) {
     if (!element || !value) {
         return false;
@@ -569,8 +545,6 @@ async function performAutofill(platform) {
             message: error.message.includes('autofill') ? '⚠ Monthly limit reached' : '⚠ Autofill failed',
         };
     }
-
-    await recordAutofillApplication(platform.name);
 
     return {
         ok: true,

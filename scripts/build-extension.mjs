@@ -39,9 +39,6 @@ copyFileSync(join(SRC, 'content/form-heuristics.js'), join(DIST, 'form-heuristic
 copyFileSync(join(SRC, 'content/focus-tracker.js'), join(DIST, 'focus-tracker.js'));
 copyFileSync(join(SRC, 'content/portal-bar.js'), join(DIST, 'portal-bar.js'));
 copyFileSync(join(SRC, 'content/index.js'), join(DIST, 'content.js'));
-copyFileSync(join(SRC, 'content/linkedin-easy-apply.js'), join(DIST, 'linkedin-easy-apply.js'));
-copyFileSync(join(SRC, 'content/indeed-smart-apply.js'), join(DIST, 'indeed-smart-apply.js'));
-copyFileSync(join(SRC, 'content/glassdoor-smart-apply.js'), join(DIST, 'glassdoor-smart-apply.js'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.html'), join(DIST, 'sidepanel.html'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.css'), join(DIST, 'sidepanel.css'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.js'), join(DIST, 'sidepanel.js'));

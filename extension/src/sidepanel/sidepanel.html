@@ -24,6 +24,37 @@
     </section>
 
     <section class="card">
+        <h2>AI tools</h2>
+        <p class="hint">Paste the job description from the page. Requires a CV uploaded on your dashboard.</p>
+
+        <label>Job title <span class="optional">(optional)</span></label>
+        <input id="ai-job-title" class="text-input" placeholder="Software Engineer" />
+
+        <label>Company <span class="optional">(optional)</span></label>
+        <input id="ai-job-company" class="text-input" placeholder="Acme Ltd" />
+
+        <label>Job description</label>
+        <textarea id="ai-job-description" class="text-input" rows="5" placeholder="Paste job description…"></textarea>
+
+        <div class="btn-row">
+            <button class="btn secondary" id="ai-ats-btn">ATS score</button>
+            <button class="btn secondary" id="ai-cover-letter-btn">Cover letter</button>
+        </div>
+
+        <label>Resume template</label>
+        <select id="ai-resume-template" class="text-input">
+            <option value="modern">Modern</option>
+            <option value="consulting">Consulting</option>
+            <option value="harvard">Harvard</option>
+        </select>
+        <button class="btn secondary" id="ai-resume-btn">Tailored resume</button>
+
+        <textarea id="ai-output" class="text-input output" rows="8" readonly placeholder="AI output appears here…"></textarea>
+        <button class="btn secondary" id="ai-copy-btn" type="button">Copy output</button>
+        <div id="ai-status" class="status-line"></div>
+    </section>
+
+    <section class="card">
         <h2>Quick profile update</h2>
         <p class="hint">Saved to your dashboard profile — no need to leave this tab.</p>
         <label>Headline</label>

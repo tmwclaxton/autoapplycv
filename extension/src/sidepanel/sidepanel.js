@@ -4,10 +4,26 @@ const messageEl = document.getElementById('message');
 const usagePill = document.getElementById('usage-pill');
 const focusedFieldEl = document.getElementById('focused-field');
 const draftStatusEl = document.getElementById('draft-status');
+const aiStatusEl = document.getElementById('ai-status');
+const aiOutputEl = document.getElementById('ai-output');
 
 function showMessage(text, tone = '') {
     messageEl.textContent = text;
     messageEl.className = `message ${tone}`.trim();
+}
+
+function buildJobPayload() {
+    return {
+        title: document.getElementById('ai-job-title').value.trim() || null,
+        company: document.getElementById('ai-job-company').value.trim() || null,
+        description: document.getElementById('ai-job-description').value.trim(),
+    };
+}
+
+function validateJobDescription(description) {
+    if (description.length < 40) {
+        throw new Error('Paste a job description (40+ characters).');
+    }
 }
 
 async function refreshProfileFields() {
@@ -37,6 +53,20 @@ async function refreshFocusedField() {
     }
 
     focusedFieldEl.textContent = `Selected: ${focusedField.label}`;
+}
+
+async function runAssist(type, payload) {
+    aiStatusEl.textContent = 'Working…';
+
+    const response = await chrome.runtime.sendMessage({ type, ...payload });
+
+    if (response?.error) {
+        throw new Error(response.error);
+    }
+
+    await refreshProfileFields();
+
+    return response;
 }
 
 document.getElementById('draft-all-btn').addEventListener('click', async () => {
@@ -70,6 +100,74 @@ document.getElementById('quick-answer-btn').addEventListener('click', async () =
         draftStatusEl.textContent = error.message;
         showMessage(error.message, 'error');
     }
+});
+
+document.getElementById('ai-ats-btn').addEventListener('click', async () => {
+    try {
+        const job = buildJobPayload();
+        validateJobDescription(job.description);
+
+        const response = await runAssist('ASSIST_ATS', {
+            job_description: job.description,
+        });
+
+        aiOutputEl.value = `ATS score: ${response.result.score}%\n\nMatched: ${response.result.matched_keywords.join(', ')}\n\nMissing: ${response.result.missing_keywords.join(', ')}\n\nSuggestions:\n- ${response.result.suggestions.join('\n- ')}`;
+        aiStatusEl.textContent = 'ATS score ready.';
+        showMessage('ATS score ready.', 'success');
+    } catch (error) {
+        aiStatusEl.textContent = error.message;
+        showMessage(error.message, 'error');
+    }
+});
+
+document.getElementById('ai-cover-letter-btn').addEventListener('click', async () => {
+    try {
+        const job = buildJobPayload();
+        validateJobDescription(job.description);
+
+        const response = await runAssist('ASSIST_COVER_LETTER', {
+            job,
+            tone: 'professional',
+        });
+
+        aiOutputEl.value = response.cover_letter;
+        aiStatusEl.textContent = 'Cover letter generated.';
+        showMessage('Cover letter generated.', 'success');
+    } catch (error) {
+        aiStatusEl.textContent = error.message;
+        showMessage(error.message, 'error');
+    }
+});
+
+document.getElementById('ai-resume-btn').addEventListener('click', async () => {
+    try {
+        const job = buildJobPayload();
+        validateJobDescription(job.description);
+        const template = document.getElementById('ai-resume-template').value;
+
+        const response = await runAssist('ASSIST_TAILORED_RESUME', {
+            job,
+            template,
+        });
+
+        aiOutputEl.value = response.resume;
+        aiStatusEl.textContent = 'Tailored resume generated.';
+        showMessage('Tailored resume generated.', 'success');
+    } catch (error) {
+        aiStatusEl.textContent = error.message;
+        showMessage(error.message, 'error');
+    }
+});
+
+document.getElementById('ai-copy-btn').addEventListener('click', async () => {
+    if (!aiOutputEl.value.trim()) {
+        showMessage('Nothing to copy yet.', 'error');
+
+        return;
+    }
+
+    await navigator.clipboard.writeText(aiOutputEl.value);
+    showMessage('Copied to clipboard.', 'success');
 });
 
 document.getElementById('save-profile-btn').addEventListener('click', async () => {

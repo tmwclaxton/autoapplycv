@@ -3,9 +3,7 @@
 use App\Http\Controllers\Api\ApplicationAssistantController;
 use App\Http\Controllers\Api\AutofillController;
 use App\Http\Controllers\Api\ExtensionTokenController;
-use App\Http\Controllers\Api\JobApplicationController;
 use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\ApplicationToolsController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CvUploadController;
@@ -35,10 +33,6 @@ Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function ()
 
     Route::post('/cv/upload', [CvUploadController::class, 'store'])->name('cv.upload');
     Route::patch('/cv/profile', [CvUploadController::class, 'updateProfile'])->name('cv.profile.update');
-    Route::post('/cv/tools/ats-score', [ApplicationToolsController::class, 'atsScore'])->name('cv.tools.ats-score');
-    Route::post('/cv/tools/cover-letter', [ApplicationToolsController::class, 'coverLetter'])->name('cv.tools.cover-letter');
-    Route::post('/cv/tools/tailored-resume', [ApplicationToolsController::class, 'tailoredResume'])->name('cv.tools.tailored-resume');
-    Route::patch('/applications/{jobApplication}', [JobApplicationController::class, 'update'])->name('applications.update');
 
     Route::post('/profile/documents', [ProfileDocumentController::class, 'store'])->name('profile.documents.store');
     Route::delete('/profile/documents/{profileDocument}', [ProfileDocumentController::class, 'destroy'])->name('profile.documents.destroy');
@@ -60,9 +54,6 @@ Route::middleware(['auth:sanctum'])->prefix('api')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('api.profile.update');
     Route::get('/profile/documents/{profileDocument}/download', [ProfileDocumentController::class, 'download'])->name('api.profile.documents.download');
     Route::post('/autofill', [AutofillController::class, 'store'])->name('api.autofill');
-    Route::get('/applications', [JobApplicationController::class, 'index'])->name('api.applications.index');
-    Route::post('/applications', [JobApplicationController::class, 'store'])->name('api.applications.store');
-    Route::patch('/applications/{jobApplication}', [JobApplicationController::class, 'update'])->name('api.applications.update');
     Route::post('/applications/assist/questions', [ApplicationAssistantController::class, 'answerQuestions'])->name('api.applications.assist.questions');
     Route::post('/applications/assist/draft-field', [ApplicationAssistantController::class, 'draftField'])->name('api.applications.assist.draft-field');
     Route::post('/applications/assist/draft-all', [ApplicationAssistantController::class, 'draftAll'])->name('api.applications.assist.draft-all');

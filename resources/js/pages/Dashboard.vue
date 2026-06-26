@@ -2,7 +2,6 @@
 import { Head, Link, router, setLayoutProps } from '@inertiajs/vue3';
 import {
     Briefcase,
-    ClipboardList,
     Copy,
     FileText,
     Key,
@@ -10,14 +9,11 @@ import {
     Puzzle,
     Upload,
     User,
+    Zap,
 } from 'lucide-vue-next';
-import ApplicationAnalyticsPanel, {
-    type ApplicationAnalyticsSummary,
-} from '@/components/cv/ApplicationAnalyticsPanel.vue';
-import JobApplicationsPanel, {
-    type JobApplicationRecord,
-} from '@/components/cv/JobApplicationsPanel.vue';
-import ApplicationToolsPanel from '@/components/cv/ApplicationToolsPanel.vue';
+import ExtensionUsagePanel, {
+    type ExtensionUsageSummary,
+} from '@/components/cv/ExtensionUsagePanel.vue';
 import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
 import { ref } from 'vue';
 import {
@@ -52,27 +48,19 @@ interface SubscriptionSummary {
     period_resets_at: string;
 }
 
-interface StatusOption {
-    value: string;
-    label: string;
-}
-
 const props = defineProps<{
     cvProfile: CvProfile;
     subscription: SubscriptionSummary;
     documents: ProfileDocument[];
     documentCategories: DocumentCategoryOption[];
-    applications: JobApplicationRecord[];
-    applicationAnalytics: ApplicationAnalyticsSummary;
-    applicationStatuses: StatusOption[];
+    extensionUsage: ExtensionUsageSummary;
 }>();
 
 const profile = ref<CvProfile>(normalizeCvProfile(props.cvProfile));
 const subscription = ref<SubscriptionSummary>({ ...props.subscription });
 const documents = ref<ProfileDocument[]>([...props.documents]);
-const applications = ref<JobApplicationRecord[]>([...props.applications]);
 const activeTab = ref<
-    'profile' | 'experience' | 'documents' | 'applications' | 'extension'
+    'profile' | 'experience' | 'documents' | 'usage' | 'extension'
 >('profile');
 const isSaving = ref(false);
 const isUploading = ref(false);
@@ -110,7 +98,7 @@ const tabs = [
     { key: 'profile' as const, label: 'CV profile', icon: User },
     { key: 'experience' as const, label: 'Experience', icon: Briefcase },
     { key: 'documents' as const, label: 'Documents', icon: FileText },
-    { key: 'applications' as const, label: 'Applications', icon: ClipboardList },
+    { key: 'usage' as const, label: 'Usage', icon: Zap },
     { key: 'extension' as const, label: 'Extension', icon: Puzzle },
 ];
 
@@ -412,30 +400,10 @@ async function copyToken() {
             </div>
         </div>
 
-        <div v-else-if="activeTab === 'applications'" class="space-y-6">
-            <ApplicationAnalyticsPanel :analytics="applicationAnalytics" />
-            <JobApplicationsPanel
-                :applications="applications"
-                :status-options="applicationStatuses"
-                @application-updated="
-                    (updated) => {
-                        applications = applications.map((item) =>
-                            item.id === updated.id ? updated : item,
-                        );
-                    }
-                "
-            />
-            <ApplicationToolsPanel
+        <div v-else-if="activeTab === 'usage'" class="space-y-6">
+            <ExtensionUsagePanel
+                :extension-usage="extensionUsage"
                 :subscription="subscription"
-                :applications="applications"
-                @subscription-updated="subscription = $event"
-                @application-updated="
-                    (updated) => {
-                        applications = applications.map((item) =>
-                            item.id === updated.id ? updated : item,
-                        );
-                    }
-                "
             />
         </div>
 

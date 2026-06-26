@@ -11,7 +11,7 @@
         <div class="logo">⚡</div>
         <div>
             <div class="header-title">AutoCVApply</div>
-            <div class="header-subtitle">Autofill, bots & AI application tools</div>
+            <div class="header-subtitle">Autofill & AI assist for job forms</div>
         </div>
     </div>
 
@@ -41,10 +41,7 @@
 
         <div class="tabs">
             <button class="tab active" data-tab="autofill">AutoFill</button>
-            <button class="tab" data-tab="bots">Bots</button>
-            <button class="tab" data-tab="ai">AI Tools</button>
             <button class="tab" data-tab="settings">Settings</button>
-            <button class="tab" data-tab="applied">Applied</button>
         </div>
 
         <div class="tab-panel active" id="autofill-tab">
@@ -64,62 +61,10 @@
                 <div id="quick-answer-status" class="hint"></div>
             </section>
 
+            <p class="hint">Use the side panel for ATS scoring, cover letters, and tailored resumes.</p>
+
             <button class="btn secondary" id="open-dashboard-btn">Open Dashboard</button>
             <button class="btn danger" id="logout-btn">Sign Out</button>
-        </div>
-
-        <div class="tab-panel" id="bots-tab">
-            <div class="bot-status">
-                <div><strong>Status:</strong> <span id="bot-status">Stopped</span></div>
-                <div class="bot-counters">
-                    <span>Applied: <strong id="applied-count">0</strong></span>
-                    <span>Skipped: <strong id="skipped-count">0</strong></span>
-                </div>
-            </div>
-
-            <p class="hint"><strong>LinkedIn:</strong> open <code>/jobs/search/</code> or <code>/jobs/collections/</code>, then start.</p>
-            <div class="btn-row">
-                <button class="btn primary" id="start-linkedin-bot-btn">Start LinkedIn</button>
-                <button class="btn secondary" id="stop-bot-btn" disabled>Stop</button>
-            </div>
-
-            <p class="hint"><strong>Indeed:</strong> open a job page with an Apply button, then start.</p>
-            <button class="btn primary" id="start-indeed-bot-btn">Start Indeed</button>
-
-            <p class="hint"><strong>Glassdoor:</strong> open a job with Easy Apply (Indeed iframe), then start.</p>
-            <button class="btn primary" id="start-glassdoor-bot-btn">Start Glassdoor</button>
-
-            <div id="bot-log" class="bot-log"></div>
-
-            <button class="btn secondary" id="export-csv-btn">Export applied jobs (CSV)</button>
-            <button class="btn secondary" id="sync-applications-btn">Sync from dashboard</button>
-            <button class="btn secondary" id="reset-counters-btn">Reset counters</button>
-        </div>
-
-        <div class="tab-panel" id="ai-tab">
-            <label class="field-label">Job title</label>
-            <input class="text-input" id="ai-job-title" placeholder="Software Engineer" />
-
-            <label class="field-label">Company</label>
-            <input class="text-input" id="ai-job-company" placeholder="Acme Ltd" />
-
-            <label class="field-label">Job description</label>
-            <textarea class="text-input" id="ai-job-description" rows="4" placeholder="Paste job description..."></textarea>
-
-            <div class="btn-row">
-                <button class="btn secondary" id="ai-ats-btn">ATS score</button>
-                <button class="btn secondary" id="ai-cover-letter-btn">Cover letter</button>
-            </div>
-
-            <label class="field-label">Resume template</label>
-            <select class="text-input" id="ai-resume-template">
-                <option value="modern">Modern</option>
-                <option value="consulting">Consulting</option>
-                <option value="harvard">Harvard</option>
-            </select>
-            <button class="btn secondary" id="ai-resume-btn">Tailored resume</button>
-
-            <textarea class="text-input" id="ai-output" rows="8" readonly placeholder="AI output appears here..."></textarea>
         </div>
 
         <div class="tab-panel" id="settings-tab">
@@ -144,14 +89,8 @@
             <label class="field-label">Years of experience</label>
             <input class="text-input" id="yearsOfExperience" type="number" min="0" max="50" value="2" />
 
-            <label class="field-label">Max years required (skip jobs above this)</label>
-            <input class="text-input" id="maxYearsRequired" type="number" min="0" max="50" value="3" />
-
             <label class="field-label">Expected salary (optional)</label>
             <input class="text-input" id="expectedSalary" placeholder="e.g. £45,000" />
-
-            <label class="field-label">Blacklist keywords (comma-separated)</label>
-            <textarea class="text-input" id="blacklistKeywords" rows="2" placeholder="intern, unpaid, commission only"></textarea>
 
             <label class="field-label">Visa sponsorship needed?</label>
             <select class="text-input" id="visaSponsorship"><option value="no">No</option><option value="yes">Yes</option></select>
@@ -165,20 +104,7 @@
             <label class="field-label">Valid driver's license?</label>
             <select class="text-input" id="driversLicense"><option value="yes">Yes</option><option value="no">No</option></select>
 
-            <label class="toggle-row compact">
-                <span>Auto-advance to next results page</span>
-                <label class="toggle"><input type="checkbox" id="autoNextPage" checked /><span class="slider"></span></label>
-            </label>
-
             <div id="autosave-indicator" class="autosave">Saved</div>
-        </div>
-
-        <div class="tab-panel" id="applied-tab">
-            <div class="applied-header">
-                <strong>Applied jobs (<span id="applied-jobs-count">0</span>)</strong>
-                <button class="link-btn" id="clear-applied-jobs">Clear</button>
-            </div>
-            <div id="applied-jobs-list" class="applied-list"></div>
         </div>
     </div>
 

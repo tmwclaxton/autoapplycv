@@ -9,11 +9,7 @@ const usageFill = document.getElementById('usage-fill');
 const usageMeta = document.getElementById('usage-meta');
 const tokenInput = document.getElementById('token-input');
 const enabledToggle = document.getElementById('enabled-toggle');
-const botStatus = document.getElementById('bot-status');
-const appliedCountEl = document.getElementById('applied-count');
-const skippedCountEl = document.getElementById('skipped-count');
 
-let botRunning = false;
 let saveTimeout;
 
 function showMessage(text, type = 'success') {
@@ -63,19 +59,13 @@ function setupTabs() {
             document.querySelectorAll('.tab-panel').forEach((panel) => panel.classList.remove('active'));
             tab.classList.add('active');
             document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
-
-            if (tab.dataset.tab === 'applied') {
-                loadAppliedJobs();
-            }
         });
     });
 }
 
 const settingsFields = [
     'yearsOfExperience',
-    'maxYearsRequired',
     'expectedSalary',
-    'blacklistKeywords',
     'visaSponsorship',
     'legallyAuthorized',
     'willingToRelocate',
@@ -84,10 +74,7 @@ const settingsFields = [
 ];
 
 async function loadSettings() {
-    const config = await chrome.storage.sync.get([
-        ...settingsFields,
-        'autoNextPage',
-    ]);
+    const config = await chrome.storage.sync.get(settingsFields);
 
     settingsFields.forEach((fieldId) => {
         const field = document.getElementById(fieldId);
@@ -96,8 +83,6 @@ async function loadSettings() {
             field.value = config[fieldId];
         }
     });
-
-    document.getElementById('autoNextPage').checked = config.autoNextPage !== false;
 
     const local = await chrome.storage.local.get(['resumeFileName']);
     if (local.resumeFileName) {
@@ -161,7 +146,7 @@ async function showOnboardingIfNeeded() {
     overlay.innerHTML = `
         <div class="onboarding-card">
             <h2>Welcome to AutoCVApply</h2>
-            <p>Connect with your dashboard token, configure bot settings, then open LinkedIn Jobs and start Easy Apply automation from the LinkedIn tab.</p>
+            <p>Connect with your dashboard token, then use AutoFill on job application forms. Open the side panel for ATS scoring, cover letters, and tailored resumes.</p>
             <button type="button" class="btn primary" id="finish-onboarding-btn">Got it</button>
         </div>
     `;
@@ -175,15 +160,12 @@ async function showOnboardingIfNeeded() {
 async function saveSettings() {
     const config = {
         yearsOfExperience: document.getElementById('yearsOfExperience').value,
-        maxYearsRequired: document.getElementById('maxYearsRequired').value,
         expectedSalary: document.getElementById('expectedSalary').value,
-        blacklistKeywords: document.getElementById('blacklistKeywords').value,
         visaSponsorship: document.getElementById('visaSponsorship').value,
         legallyAuthorized: document.getElementById('legallyAuthorized').value,
         willingToRelocate: document.getElementById('willingToRelocate').value,
         driversLicense: document.getElementById('driversLicense').value,
         phoneCountryCode: document.getElementById('phoneCountryCode').value,
-        autoNextPage: document.getElementById('autoNextPage').checked,
     };
 
     const indicator = document.getElementById('autosave-indicator');
@@ -205,467 +187,6 @@ function setupSettingsAutoSave() {
             saveTimeout = setTimeout(saveSettings, 500);
         });
     });
-
-    document.getElementById('autoNextPage').addEventListener('change', saveSettings);
-}
-
-async function updateBotCounters() {
-    const local = await chrome.storage.local.get(['appliedCount', 'skippedCount', 'botRunning']);
-    appliedCountEl.textContent = local.appliedCount || 0;
-    skippedCountEl.textContent = local.skippedCount || 0;
-    botRunning = !!local.botRunning;
-    botStatus.textContent = botRunning ? 'Running' : 'Stopped';
-    document.getElementById('start-linkedin-bot-btn').disabled = botRunning;
-    document.getElementById('start-indeed-bot-btn').disabled = botRunning;
-    document.getElementById('start-glassdoor-bot-btn').disabled = botRunning;
-    document.getElementById('stop-bot-btn').disabled = !botRunning;
-}
-
-async function injectBotScript(tabId, file) {
-    try {
-        await chrome.scripting.executeScript({
-            target: { tabId },
-            files: [file],
-        });
-    } catch {
-        // Script may already be injected.
-    }
-}
-
-function appendBotLog(message) {
-    const logEl = document.getElementById('bot-log');
-
-    if (!logEl) {
-        return;
-    }
-
-    const line = document.createElement('div');
-    line.textContent = message;
-    logEl.prepend(line);
-
-    while (logEl.children.length > 8) {
-        logEl.removeChild(logEl.lastChild);
-    }
-}
-
-async function startLinkedInBot() {
-    const profile = await loadProfile();
-
-    if (profile?.error) {
-        showMessage(profile.error, 'error');
-
-        return;
-    }
-
-    if (!profile?.subscription?.can_autofill) {
-        showMessage('Autofill limit reached. Upgrade your plan or wait for the monthly reset.', 'error');
-
-        return;
-    }
-
-    const cvProfile = profile.profile || {};
-
-    if (!cvProfile.full_name || !cvProfile.email || !cvProfile.phone) {
-        showMessage('Add your name, email, and phone on autocvapply.com before starting the bot.', 'error');
-
-        return;
-    }
-
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-    if (!tab?.url?.includes('linkedin.com/jobs')) {
-        showMessage('Open a LinkedIn Jobs page first (/jobs/search/ or /jobs/collections/).', 'error');
-
-        return;
-    }
-
-    await injectBotScript(tab.id, 'linkedin-easy-apply.js');
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    const response = await chrome.tabs.sendMessage(tab.id, { action: 'start' });
-
-    if (response?.success) {
-        showMessage('LinkedIn bot started.');
-        await updateBotCounters();
-    } else if (response?.error) {
-        showMessage(response.error, 'error');
-    }
-}
-
-async function startIndeedBot() {
-    const profile = await loadProfile();
-
-    if (profile?.error) {
-        showMessage(profile.error, 'error');
-
-        return;
-    }
-
-    if (!profile?.subscription?.can_autofill) {
-        showMessage('Autofill limit reached. Upgrade your plan or wait for the monthly reset.', 'error');
-
-        return;
-    }
-
-    const cvProfile = profile.profile || {};
-
-    if (!cvProfile.full_name || !cvProfile.email || !cvProfile.phone) {
-        showMessage('Add your name, email, and phone on autocvapply.com before starting the bot.', 'error');
-
-        return;
-    }
-
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-    if (!tab?.url?.includes('indeed.com')) {
-        showMessage('Open an Indeed job page first.', 'error');
-
-        return;
-    }
-
-    await injectBotScript(tab.id, 'indeed-smart-apply.js');
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    const response = await chrome.tabs.sendMessage(tab.id, { action: 'start' });
-
-    if (response?.success) {
-        showMessage('Indeed bot started.');
-        await updateBotCounters();
-    } else if (response?.error) {
-        showMessage(response.error, 'error');
-    }
-}
-
-document.getElementById('start-linkedin-bot-btn').addEventListener('click', async () => {
-    try {
-        await startLinkedInBot();
-    } catch {
-        showMessage('Could not start LinkedIn bot. Reload the page and try again.', 'error');
-    }
-});
-
-document.getElementById('start-indeed-bot-btn').addEventListener('click', async () => {
-    try {
-        await startIndeedBot();
-    } catch {
-        showMessage('Could not start Indeed bot. Reload the page and try again.', 'error');
-    }
-});
-
-async function startGlassdoorBot() {
-    const profile = await loadProfile();
-
-    if (profile?.error) {
-        showMessage(profile.error, 'error');
-
-        return;
-    }
-
-    if (!profile?.subscription?.can_autofill) {
-        showMessage('Autofill limit reached. Upgrade your plan or wait for the monthly reset.', 'error');
-
-        return;
-    }
-
-    const cvProfile = profile.profile || {};
-
-    if (!cvProfile.full_name || !cvProfile.email || !cvProfile.phone) {
-        showMessage('Add your name, email, and phone on autocvapply.com before starting the bot.', 'error');
-
-        return;
-    }
-
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-    if (!tab?.url?.includes('glassdoor')) {
-        showMessage('Open a Glassdoor job page first.', 'error');
-
-        return;
-    }
-
-    await injectBotScript(tab.id, 'glassdoor-smart-apply.js');
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    const response = await chrome.tabs.sendMessage(tab.id, { action: 'start' });
-
-    if (response?.success) {
-        showMessage('Glassdoor bot started.');
-        await updateBotCounters();
-    } else if (response?.error) {
-        showMessage(response.error, 'error');
-    }
-}
-
-document.getElementById('start-glassdoor-bot-btn').addEventListener('click', async () => {
-    try {
-        await startGlassdoorBot();
-    } catch {
-        showMessage('Could not start Glassdoor bot. Reload the page and try again.', 'error');
-    }
-});
-
-document.getElementById('stop-bot-btn').addEventListener('click', async () => {
-    try {
-        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-        if (tab?.url?.includes('linkedin.com') || tab?.url?.includes('indeed.com') || tab?.url?.includes('glassdoor')) {
-            await chrome.tabs.sendMessage(tab.id, { action: 'stop' });
-        }
-
-        await chrome.storage.local.set({ botRunning: false, isRunning: false });
-        await updateBotCounters();
-        showMessage('Bot stopped.');
-    } catch {
-        await chrome.storage.local.set({ botRunning: false, isRunning: false });
-        await updateBotCounters();
-    }
-});
-
-document.getElementById('sync-applications-btn').addEventListener('click', async () => {
-    try {
-        const response = await new Promise((resolve, reject) => {
-            chrome.runtime.sendMessage({ type: 'LIST_APPLICATIONS' }, (data) => {
-                if (chrome.runtime.lastError) {
-                    reject(new Error(chrome.runtime.lastError.message));
-                } else if (data?.error) {
-                    reject(new Error(data.error));
-                } else {
-                    resolve(data);
-                }
-            });
-        });
-
-        const applications = response.applications || [];
-        const appliedJobs = applications.map((application) => ({
-            title: application.title,
-            company: application.company,
-            link: application.link,
-            date: application.applied_at,
-        }));
-
-        await chrome.storage.local.set({
-            appliedJobs,
-            appliedCount: appliedJobs.length,
-        });
-
-        await updateBotCounters();
-        loadAppliedJobs();
-        showMessage(`Synced ${appliedJobs.length} applications from dashboard.`);
-    } catch (error) {
-        showMessage(error.message || 'Could not sync applications.', 'error');
-    }
-});
-
-function buildAiJobPayload() {
-    return {
-        title: document.getElementById('ai-job-title').value.trim(),
-        company: document.getElementById('ai-job-company').value.trim(),
-        description: document.getElementById('ai-job-description').value.trim() || null,
-    };
-}
-
-document.getElementById('ai-ats-btn').addEventListener('click', async () => {
-    const job = buildAiJobPayload();
-    const output = document.getElementById('ai-output');
-
-    if (job.description.length < 40) {
-        showMessage('Paste a job description (40+ characters).', 'error');
-
-        return;
-    }
-
-    try {
-        const response = await new Promise((resolve, reject) => {
-            chrome.runtime.sendMessage({
-                type: 'ASSIST_ATS',
-                job_description: job.description,
-            }, (data) => {
-                if (chrome.runtime.lastError) {
-                    reject(new Error(chrome.runtime.lastError.message));
-                } else if (data?.error) {
-                    reject(new Error(data.error));
-                } else {
-                    resolve(data);
-                }
-            });
-        });
-
-        output.value = `ATS score: ${response.result.score}%\n\nMatched: ${response.result.matched_keywords.join(', ')}\n\nMissing: ${response.result.missing_keywords.join(', ')}\n\nSuggestions:\n- ${response.result.suggestions.join('\n- ')}`;
-        showMessage('ATS score ready.');
-    } catch (error) {
-        showMessage(error.message, 'error');
-    }
-});
-
-document.getElementById('ai-cover-letter-btn').addEventListener('click', async () => {
-    const job = buildAiJobPayload();
-    const output = document.getElementById('ai-output');
-
-    if (!job.title || !job.company) {
-        showMessage('Enter a job title and company.', 'error');
-
-        return;
-    }
-
-    try {
-        const response = await new Promise((resolve, reject) => {
-            chrome.runtime.sendMessage({
-                type: 'ASSIST_COVER_LETTER',
-                job,
-                tone: 'professional',
-            }, (data) => {
-                if (chrome.runtime.lastError) {
-                    reject(new Error(chrome.runtime.lastError.message));
-                } else if (data?.error) {
-                    reject(new Error(data.error));
-                } else {
-                    resolve(data);
-                }
-            });
-        });
-
-        output.value = response.cover_letter;
-        showMessage('Cover letter generated.');
-    } catch (error) {
-        showMessage(error.message, 'error');
-    }
-});
-
-document.getElementById('ai-resume-btn').addEventListener('click', async () => {
-    const job = buildAiJobPayload();
-    const output = document.getElementById('ai-output');
-    const template = document.getElementById('ai-resume-template').value;
-
-    if (!job.title || !job.company) {
-        showMessage('Enter a job title and company.', 'error');
-
-        return;
-    }
-
-    try {
-        const response = await new Promise((resolve, reject) => {
-            chrome.runtime.sendMessage({
-                type: 'ASSIST_TAILORED_RESUME',
-                job,
-                template,
-            }, (data) => {
-                if (chrome.runtime.lastError) {
-                    reject(new Error(chrome.runtime.lastError.message));
-                } else if (data?.error) {
-                    reject(new Error(data.error));
-                } else {
-                    resolve(data);
-                }
-            });
-        });
-
-        output.value = response.resume;
-        showMessage('Tailored resume generated.');
-    } catch (error) {
-        showMessage(error.message, 'error');
-    }
-});
-
-document.getElementById('export-csv-btn').addEventListener('click', async () => {
-    const { appliedJobs = [] } = await chrome.storage.local.get(['appliedJobs']);
-
-    if (appliedJobs.length === 0) {
-        showMessage('No applied jobs to export yet.', 'error');
-
-        return;
-    }
-
-    const headers = ['Date', 'Job Title', 'Company', 'Link'];
-    const rows = appliedJobs.map((job) => [
-        new Date(job.date).toLocaleString(),
-        `"${job.title.replace(/"/g, '""')}"`,
-        `"${job.company.replace(/"/g, '""')}"`,
-        job.link,
-    ]);
-    const csv = [headers.join(','), ...rows.map((row) => row.join(','))].join('\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `autocvapply_applications_${new Date().toISOString().split('T')[0]}.csv`;
-    link.click();
-    URL.revokeObjectURL(url);
-    showMessage(`Exported ${appliedJobs.length} jobs.`);
-});
-
-document.getElementById('reset-counters-btn').addEventListener('click', async () => {
-    if (!confirm('Reset applied/skipped counters and clear the applied jobs list?')) {
-        return;
-    }
-
-    await chrome.storage.local.set({ appliedCount: 0, skippedCount: 0, appliedJobs: [] });
-
-    try {
-        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-        if (tab?.url?.includes('linkedin.com')) {
-            await chrome.tabs.sendMessage(tab.id, { action: 'resetCounters' });
-        }
-    } catch {
-        // Content script may not be loaded.
-    }
-
-    await updateBotCounters();
-    loadAppliedJobs();
-    showMessage('Counters reset.');
-});
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-
-    return div.innerHTML;
-}
-
-function formatTimeAgo(dateString) {
-    const seconds = Math.floor((Date.now() - new Date(dateString).getTime()) / 1000);
-
-    if (seconds < 60) {
-        return 'Just now';
-    }
-
-    if (seconds < 3600) {
-        return `${Math.floor(seconds / 60)}m ago`;
-    }
-
-    if (seconds < 86400) {
-        return `${Math.floor(seconds / 3600)}h ago`;
-    }
-
-    return new Date(dateString).toLocaleDateString('en-GB');
-}
-
-async function loadAppliedJobs() {
-    const { appliedJobs = [] } = await chrome.storage.local.get(['appliedJobs']);
-    const list = document.getElementById('applied-jobs-list');
-    document.getElementById('applied-jobs-count').textContent = appliedJobs.length;
-
-    if (appliedJobs.length === 0) {
-        list.innerHTML = '<div class="empty-state">No applications yet. Start a bot or sync from the dashboard.</div>';
-
-        return;
-    }
-
-    list.innerHTML = [...appliedJobs]
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .map((job) => `
-            <div class="job-card">
-                <div style="display:flex;justify-content:space-between;gap:8px;">
-                    <div>
-                        <div class="job-title">${escapeHtml(job.title)}</div>
-                        <div class="job-company">${escapeHtml(job.company)}</div>
-                    </div>
-                    <div class="job-time">${formatTimeAgo(job.date)}</div>
-                </div>
-                <a class="job-link" href="${job.link}" target="_blank" rel="noopener">View job</a>
-            </div>
-        `)
-        .join('');
 }
 
 async function refreshFocusedFieldLabel() {
@@ -736,21 +257,11 @@ chrome.storage.onChanged.addListener((changes, area) => {
     }
 });
 
-document.getElementById('clear-applied-jobs').addEventListener('click', async () => {
-    if (!confirm('Clear all applied jobs from the list?')) {
-        return;
-    }
-
-    await chrome.storage.local.set({ appliedJobs: [] });
-    loadAppliedJobs();
-});
-
 async function init() {
     setupTabs();
     setupSettingsAutoSave();
     setupResumeUpload();
     await loadSettings();
-    await updateBotCounters();
 
     const { isEnabled } = await chrome.storage.local.get(['isEnabled']);
 
@@ -818,28 +329,6 @@ enabledToggle.addEventListener('change', () => {
 });
 
 chrome.runtime.onMessage.addListener((message) => {
-    if (message.type === 'updateCount') {
-        appliedCountEl.textContent = message.count;
-    }
-
-    if (message.type === 'updateSkippedCount') {
-        skippedCountEl.textContent = message.count;
-    }
-
-    if (message.type === 'botStarted') {
-        botRunning = true;
-        updateBotCounters();
-    }
-
-    if (message.type === 'botStopped') {
-        botRunning = false;
-        updateBotCounters();
-    }
-
-    if (message.type === 'log') {
-        appendBotLog(message.message);
-    }
-
     if (message.type === 'DRAFT_ALL_PROGRESS' || message.type === 'DRAFT_ALL_DONE') {
         const statusEl = document.getElementById('quick-answer-status');
 
@@ -849,5 +338,4 @@ chrome.runtime.onMessage.addListener((message) => {
     }
 });
 
-setInterval(updateBotCounters, 2000);
 init();

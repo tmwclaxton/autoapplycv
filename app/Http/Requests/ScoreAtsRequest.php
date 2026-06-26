@@ -17,8 +17,7 @@ class ScoreAtsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'job_description' => ['required', 'string', 'max:20000'],
-            'application_id' => ['nullable', 'integer', 'exists:job_applications,id'],
+            'job_description' => ['required', 'string', 'min:40', 'max:20000'],
         ];
     }
 }

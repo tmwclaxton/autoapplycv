@@ -23,7 +23,10 @@ class AutofillTest extends TestCase
             ->assertJsonPath('success', true)
             ->assertJsonPath('count', 3)
             ->assertJsonPath('subscription.autofills_used', 3)
-            ->assertJsonPath('subscription.autofills_remaining', 247);
+            ->assertJsonPath('subscription.autofills_remaining', 247)
+            ->assertJsonPath('extension_usage.fields_autofilled', 3);
+
+        $this->assertSame(3, $user->fresh()->fields_autofilled);
     }
 
     public function test_autofill_requires_a_count(): void

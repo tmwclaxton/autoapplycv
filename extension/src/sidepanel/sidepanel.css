@@ -79,3 +79,23 @@ label {
 .message.success { color: #86efac; }
 
 .status-line { min-height: 18px; margin-top: 6px; }
+
+.btn-row {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-row .btn {
+    flex: 1;
+}
+
+.optional {
+    font-weight: normal;
+    color: #64748b;
+}
+
+.text-input.output {
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.45;
+}

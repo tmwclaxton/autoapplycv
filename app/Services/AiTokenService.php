@@ -16,6 +16,7 @@ class AiTokenService
         if ($periodStart === null || ! Carbon::parse($periodStart)->isCurrentMonth()) {
             $user->forceFill([
                 'ai_tokens_used' => 0,
+                'fields_autofilled' => 0,
                 'ai_tokens_period_start' => now()->startOfMonth(),
             ])->save();
         }
@@ -96,6 +97,48 @@ class AiTokenService
         $user->forceFill([
             'ai_tokens_used' => $user->ai_tokens_used + $count,
         ])->save();
+    }
+
+    public function recordFieldsAutofilled(User $user, int $fields): void
+    {
+        if ($fields < 1) {
+            return;
+        }
+
+        $this->ensureCurrentPeriod($user);
+
+        $user->forceFill([
+            'fields_autofilled' => $user->fields_autofilled + $fields,
+        ])->save();
+    }
+
+    /**
+     * @return array{
+     *     fields_autofilled: int,
+     *     estimated_minutes_saved: int,
+     *     seconds_saved_per_field: int,
+     *     period_resets_at: string,
+     * }
+     */
+    public function extensionUsageSummary(User $user): array
+    {
+        $this->ensureCurrentPeriod($user);
+
+        $periodStart = $user->ai_tokens_period_start
+            ? Carbon::parse($user->ai_tokens_period_start)
+            : now()->startOfMonth();
+        $secondsPerField = max(1, (int) config('cv.seconds_saved_per_field', 30));
+        $fieldsAutofilled = (int) $user->fields_autofilled;
+        $secondsSaved = $fieldsAutofilled * $secondsPerField;
+
+        return [
+            'fields_autofilled' => $fieldsAutofilled,
+            'estimated_minutes_saved' => $fieldsAutofilled > 0
+                ? (int) max(1, ceil($secondsSaved / 60))
+                : 0,
+            'seconds_saved_per_field' => $secondsPerField,
+            'period_resets_at' => $periodStart->copy()->addMonth()->startOfMonth()->toDateString(),
+        ];
     }
 
     /**

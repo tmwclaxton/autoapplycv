@@ -12,13 +12,6 @@ let cacheTimestamp = 0;
 const CACHE_TTL_MS = 15 * 60 * 1000;
 
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.local.set({
-        appliedCount: 0,
-        skippedCount: 0,
-        appliedJobs: [],
-        botRunning: false,
-    });
-
     chrome.contextMenus.create({
         id: 'autocvapply-quick-answer',
         title: 'Quick Answer with AutoCVApply',
@@ -53,20 +46,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
 
-    if (message.type === 'LIST_APPLICATIONS') {
-        listApplications().then(sendResponse).catch((err) => sendResponse({ error: err.message }));
-
-        return true;
-    }
-
     if (message.type === 'RECORD_AUTOFILL') {
         recordAutofill(message.count).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
-
-        return true;
-    }
-
-    if (message.type === 'RECORD_APPLICATION') {
-        recordApplication(message.application).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -150,20 +131,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             .catch((err) => sendResponse({ error: err.message }));
 
         return true;
-    }
-
-    if (message.type === 'updateCount' || message.type === 'updateSkippedCount' || message.type === 'botStarted' || message.type === 'botStopped' || message.type === 'log') {
-        if (message.type === 'botStarted') {
-            chrome.storage.local.set({ botRunning: true });
-        }
-
-        if (message.type === 'botStopped') {
-            chrome.storage.local.set({ botRunning: false });
-        }
-
-        chrome.runtime.sendMessage(message).catch(() => {});
-
-        return false;
     }
 });
 
@@ -403,25 +370,6 @@ async function getProfile() {
     return data;
 }
 
-async function listApplications() {
-    const apiToken = await getApiToken();
-
-    const response = await fetch(`${API_BASE}/api/applications`, {
-        headers: {
-            Authorization: `Bearer ${apiToken}`,
-            Accept: 'application/json',
-        },
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(data.error || data.message || 'Failed to fetch applications');
-    }
-
-    return data;
-}
-
 async function getCvDocument() {
     const profileData = await getProfile();
     const documents = profileData.documents || [];
@@ -458,28 +406,6 @@ async function getCvDocument() {
         fileName: cvDocument.original_filename || cvDocument.title || 'cv.pdf',
         mimeType: cvDocument.mime_type || 'application/pdf',
     };
-}
-
-async function recordApplication(application) {
-    const apiToken = await getApiToken();
-
-    const response = await fetch(`${API_BASE}/api/applications`, {
-        method: 'POST',
-        headers: {
-            Authorization: `Bearer ${apiToken}`,
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(application),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(data.error || data.message || 'Failed to record application');
-    }
-
-    return data;
 }
 
 async function assistQuestions(payload) {
@@ -520,16 +446,24 @@ async function assistQuestions(payload) {
     return data;
 }
 
-async function assistCoverLetter(payload) {
-    return postAssist('/api/applications/assist/cover-letter', payload);
+async function assistCoverLetter(message) {
+    return postAssist('/api/applications/assist/cover-letter', {
+        job: message.job,
+        tone: message.tone ?? 'professional',
+    });
 }
 
-async function assistAts(payload) {
-    return postAssist('/api/applications/assist/ats-score', payload);
+async function assistAts(message) {
+    return postAssist('/api/applications/assist/ats-score', {
+        job_description: message.job_description,
+    });
 }
 
-async function assistTailoredResume(payload) {
-    return postAssist('/api/applications/assist/tailored-resume', payload);
+async function assistTailoredResume(message) {
+    return postAssist('/api/applications/assist/tailored-resume', {
+        job: message.job,
+        template: message.template ?? 'modern',
+    });
 }
 
 async function postAssist(path, body) {

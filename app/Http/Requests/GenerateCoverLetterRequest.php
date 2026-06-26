@@ -17,12 +17,12 @@ class GenerateCoverLetterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'job.title' => ['required', 'string', 'max:255'],
-            'job.company' => ['required', 'string', 'max:255'],
-            'job.description' => ['nullable', 'string', 'max:20000'],
+            'job' => ['required', 'array'],
+            'job.title' => ['nullable', 'string', 'max:255'],
+            'job.company' => ['nullable', 'string', 'max:255'],
+            'job.description' => ['required', 'string', 'min:40', 'max:20000'],
             'job.link' => ['nullable', 'url', 'max:2048'],
             'tone' => ['nullable', 'string', 'max:32'],
-            'application_id' => ['nullable', 'integer', 'exists:job_applications,id'],
         ];
     }
 }

@@ -88,12 +88,13 @@ class ApplicationAssistantTest extends TestCase
             ->assertJsonPath('success', false);
     }
 
-    public function test_dashboard_can_score_ats_fit(): void
+    public function test_extension_can_score_ats_fit(): void
     {
         $user = User::factory()->create();
         CvProfile::factory()->for($user)->create([
             'formatted_cv_text' => 'Laravel, PHP, PostgreSQL, Redis',
         ]);
+        $token = $user->createToken('extension')->plainTextToken;
 
         $this->mock(NanoGptService::class, function (MockInterface $mock): void {
             $mock->shouldReceive('chatJson')->once()->andReturn([
@@ -104,33 +105,32 @@ class ApplicationAssistantTest extends TestCase
             ]);
         });
 
-        $this->actingAs($user)
-            ->postJson(route('cv.tools.ats-score'), [
-                'job_description' => 'Looking for a Laravel developer with PHP and PostgreSQL experience.',
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/ats-score', [
+                'job_description' => 'Looking for a Laravel developer with PHP and PostgreSQL experience for this role.',
             ])
             ->assertOk()
             ->assertJsonPath('result.score', 72)
             ->assertJsonPath('autofill_cost', 5);
     }
 
-    public function test_dashboard_can_generate_cover_letter(): void
+    public function test_extension_can_generate_cover_letter_with_job_description_only(): void
     {
         $user = User::factory()->create();
         CvProfile::factory()->for($user)->create([
             'full_name' => 'Alex Developer',
             'summary' => 'Experienced Laravel engineer.',
         ]);
+        $token = $user->createToken('extension')->plainTextToken;
 
         $this->mock(NanoGptService::class, function (MockInterface $mock): void {
             $mock->shouldReceive('chat')->once()->andReturn('Dear hiring manager, I am excited to apply.');
         });
 
-        $this->actingAs($user)
-            ->postJson(route('cv.tools.cover-letter'), [
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/cover-letter', [
                 'job' => [
-                    'title' => 'Laravel Developer',
-                    'company' => 'Example Ltd',
-                    'description' => 'Build APIs with Laravel.',
+                    'description' => 'Build APIs with Laravel and PostgreSQL for a growing product team.',
                 ],
             ])
             ->assertOk()
@@ -154,14 +154,25 @@ class ApplicationAssistantTest extends TestCase
         $this->withToken($token)
             ->postJson('/api/applications/assist/tailored-resume', [
                 'job' => [
-                    'title' => 'Laravel Developer',
-                    'company' => 'Example Ltd',
-                    'description' => 'Build APIs with Laravel.',
+                    'description' => 'Build APIs with Laravel and PostgreSQL for a growing product team.',
                 ],
                 'template' => 'modern',
             ])
             ->assertOk()
             ->assertJsonPath('template', 'modern')
             ->assertJsonPath('autofill_cost', 10);
+    }
+
+    public function test_ai_tools_require_uploaded_cv_profile(): void
+    {
+        $user = User::factory()->create();
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/ats-score', [
+                'job_description' => 'Looking for a Laravel developer with PHP and PostgreSQL experience for this role.',
+            ])
+            ->assertNotFound()
+            ->assertJsonPath('error', 'Upload your CV on autocvapply.com first.');
     }
 }

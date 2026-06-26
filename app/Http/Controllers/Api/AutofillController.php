@@ -27,15 +27,18 @@ class AutofillController extends Controller
                 'success' => false,
                 'error' => 'You do not have enough autofills remaining for this month.',
                 'subscription' => $this->usage->summary($user),
+                'extension_usage' => $this->usage->extensionUsageSummary($user),
             ], 402);
         }
 
         $this->usage->recordAutofill($user, $count);
+        $this->usage->recordFieldsAutofilled($user, $count);
 
         return response()->json([
             'success' => true,
             'count' => $count,
             'subscription' => $this->usage->summary($user),
+            'extension_usage' => $this->usage->extensionUsageSummary($user),
         ]);
     }
 }
