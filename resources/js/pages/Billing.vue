@@ -3,8 +3,8 @@ import { Head, Link, router, setLayoutProps, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
 import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
-import { autofillNotice, subscriptionStatusHint } from '@/lib/autofillNotice';
 import { useConfirm } from '@/composables/useConfirm';
+import { autofillNotice, subscriptionStatusHint } from '@/lib/autofillNotice';
 import { dashboard } from '@/routes';
 
 setLayoutProps({
@@ -88,113 +88,109 @@ async function cancelSubscription(): Promise<void> {
     <Head title="Plans & billing - AutoCVApply" />
 
     <div class="mb-8">
-            <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
-                Plans & billing
-            </h1>
-            <p class="mt-1 text-sm text-muted-foreground">
-                CV upload and profile editing are free. Plans differ by monthly
-                extension autofill allowance.
-            </p>
-        </div>
+        <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
+            Plans & billing
+        </h1>
+        <p class="mt-1 text-sm text-muted-foreground">
+            CV upload and profile editing are free. Plans differ by monthly
+            extension autofill allowance.
+        </p>
+    </div>
 
-        <div
-            v-if="flashSuccess"
-            class="postbox-panel mb-6 border-postbox-red/30 bg-postbox-red/5 p-4 text-sm text-postbox-navy"
-        >
-            {{ flashSuccess }}
-        </div>
+    <div
+        v-if="flashSuccess"
+        class="postbox-panel mb-6 border-postbox-red/30 bg-postbox-red/5 p-4 text-sm text-postbox-navy"
+    >
+        {{ flashSuccess }}
+    </div>
 
-        <div
-            v-if="flashError"
-            class="postbox-panel mb-6 border-postbox-red/40 bg-postbox-red/10 p-4 text-sm text-postbox-navy"
-        >
-            {{ flashError }}
-        </div>
+    <div
+        v-if="flashError"
+        class="postbox-panel mb-6 border-postbox-red/40 bg-postbox-red/10 p-4 text-sm text-postbox-navy"
+    >
+        {{ flashError }}
+    </div>
 
-        <div class="postbox-panel mb-8 p-6">
-            <div class="flex flex-wrap items-start justify-between gap-4">
-                <div>
-                    <p class="postbox-label">Current plan</p>
-                    <p class="text-xl font-bold text-postbox-navy">
-                        {{ subscription.tier_label }}
-                    </p>
-                    <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                        {{ subscription.plan_description }}
-                    </p>
-                    <p class="mt-1 text-sm text-muted-foreground">
-                        Status: {{ statusHint }}
-                    </p>
-                </div>
-                <div class="text-right text-sm text-muted-foreground">
-                    Resets
-                    {{
-                        new Date(
-                            subscription.period_resets_at,
-                        ).toLocaleDateString('en-GB')
-                    }}
-                </div>
-            </div>
-
-            <div class="mt-6">
-                <div class="mb-2 flex justify-between text-sm">
-                    <span class="font-medium text-postbox-navy">
-                        {{ formatAutofills(subscription.autofills_used) }}
-                        used
-                    </span>
-                    <span class="text-muted-foreground">
-                        {{
-                            formatAutofills(subscription.monthly_autofills)
-                        }}
-                        / month
-                    </span>
-                </div>
-                <div
-                    class="h-3 overflow-hidden rounded-full bg-postbox-navy/10"
-                >
-                    <div
-                        class="h-full rounded-full bg-postbox-red transition-all"
-                        :style="{ width: `${usagePercent}%` }"
-                    />
-                </div>
-                <p class="mt-2 text-sm text-muted-foreground">
-                    {{ formatAutofills(subscription.autofills_remaining) }}
-                    autofills remaining this month.
+    <div class="postbox-panel mb-8 p-6">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+            <div>
+                <p class="postbox-label">Current plan</p>
+                <p class="text-xl font-bold text-postbox-navy">
+                    {{ subscription.tier_label }}
+                </p>
+                <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {{ subscription.plan_description }}
+                </p>
+                <p class="mt-1 text-sm text-muted-foreground">
+                    Status: {{ statusHint }}
                 </p>
             </div>
-
-            <p
-                v-if="autofillNoticeMessage"
-                class="mt-4 rounded-md border border-postbox-red/30 bg-postbox-red/5 p-3 text-sm text-postbox-navy"
-            >
-                {{ autofillNoticeMessage }}
-            </p>
-
-            <p
-                v-else-if="subscription.checkout_in_progress"
-                class="mt-4 rounded-md border border-postbox-navy/15 bg-postbox-navy/5 p-3 text-sm text-postbox-navy"
-            >
-                Direct Debit setup is in progress. Your Free plan autofills
-                remain available until the upgrade completes.
-            </p>
-
-            <Link :href="dashboard()" class="postbox-btn-outline mt-6">
-                Back to dashboard
-            </Link>
-
-            <button
-                v-if="subscription.tier !== 'free'"
-                type="button"
-                class="postbox-btn-outline ml-3 mt-6"
-                @click="cancelSubscription"
-            >
-                Cancel paid plan
-            </button>
+            <div class="text-right text-sm text-muted-foreground">
+                Resets
+                {{
+                    new Date(subscription.period_resets_at).toLocaleDateString(
+                        'en-GB',
+                    )
+                }}
+            </div>
         </div>
 
-        <PostboxPricingTiers
-            :plans="plans"
-            :current-tier="subscription.tier"
-            mode="billing"
-            :is-authenticated="true"
-        />
+        <div class="mt-6">
+            <div class="mb-2 flex justify-between text-sm">
+                <span class="font-medium text-postbox-navy">
+                    {{ formatAutofills(subscription.autofills_used) }}
+                    used
+                </span>
+                <span class="text-muted-foreground">
+                    {{ formatAutofills(subscription.monthly_autofills) }}
+                    / month
+                </span>
+            </div>
+            <div class="h-3 overflow-hidden rounded-full bg-postbox-navy/10">
+                <div
+                    class="h-full rounded-full bg-postbox-red transition-all"
+                    :style="{ width: `${usagePercent}%` }"
+                />
+            </div>
+            <p class="mt-2 text-sm text-muted-foreground">
+                {{ formatAutofills(subscription.autofills_remaining) }}
+                autofills remaining this month.
+            </p>
+        </div>
+
+        <p
+            v-if="autofillNoticeMessage"
+            class="mt-4 rounded-md border border-postbox-red/30 bg-postbox-red/5 p-3 text-sm text-postbox-navy"
+        >
+            {{ autofillNoticeMessage }}
+        </p>
+
+        <p
+            v-else-if="subscription.checkout_in_progress"
+            class="mt-4 rounded-md border border-postbox-navy/15 bg-postbox-navy/5 p-3 text-sm text-postbox-navy"
+        >
+            Direct Debit setup is in progress. Your Free plan autofills remain
+            available until the upgrade completes.
+        </p>
+
+        <Link :href="dashboard()" class="postbox-btn-outline mt-6">
+            Back to dashboard
+        </Link>
+
+        <button
+            v-if="subscription.tier !== 'free'"
+            type="button"
+            class="postbox-btn-outline mt-6 ml-3"
+            @click="cancelSubscription"
+        >
+            Cancel paid plan
+        </button>
+    </div>
+
+    <PostboxPricingTiers
+        :plans="plans"
+        :current-tier="subscription.tier"
+        mode="billing"
+        :is-authenticated="true"
+    />
 </template>

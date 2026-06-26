@@ -65,8 +65,8 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                     Supported platforms
                 </h2>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    Autofill works on Workday, Indeed, LinkedIn, Greenhouse,
-                    and Lever.
+                    Autofill works on Workday, Indeed, LinkedIn, Greenhouse, and
+                    Lever.
                 </p>
             </div>
 

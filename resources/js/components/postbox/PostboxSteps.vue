@@ -25,7 +25,10 @@ withDefaults(
             {{ description }}
         </p>
 
-        <ol class="grid gap-4 md:grid-cols-3" :class="title || description ? 'mt-8' : ''">
+        <ol
+            class="grid gap-4 md:grid-cols-3"
+            :class="title || description ? 'mt-8' : ''"
+        >
             <li
                 v-for="step in SETUP_STEPS"
                 :key="step.number"

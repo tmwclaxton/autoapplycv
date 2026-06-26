@@ -60,7 +60,9 @@ function planButtonLabel(plan: PricingPlan): string {
     }
 
     if (plan.is_paid) {
-        return authenticated.value ? 'Choose this plan' : 'Sign in to subscribe';
+        return authenticated.value
+            ? 'Choose this plan'
+            : 'Sign in to subscribe';
     }
 
     return authenticated.value ? 'Go to dashboard' : 'Get started free';
@@ -92,8 +94,7 @@ function planButtonLabel(plan: PricingPlan): string {
             </p>
 
             <p class="mt-3 text-sm font-medium text-postbox-navy">
-                {{ formatAutofills(plan.monthly_autofills) }} autofills /
-                month
+                {{ formatAutofills(plan.monthly_autofills) }} autofills / month
             </p>
 
             <p

@@ -2,6 +2,7 @@
 /**
  * Build script for AutoCVApply browser extension.
  */
+import { execSync } from 'child_process';
 import {
     copyFileSync,
     cpSync,
@@ -13,7 +14,6 @@ import {
 } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { execSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -162,6 +162,29 @@ function ensureExtensionIcons() {
 
 ensureExtensionIcons();
 cpSync(iconsDir, distIconsDir, { recursive: true });
+
+const missingDistIcons = requiredIcons.filter((icon) => !existsSync(join(distIconsDir, icon)));
+
+if (missingDistIcons.length > 0) {
+    throw new Error(`Extension build is missing icons in dist: ${missingDistIcons.join(', ')}`);
+}
+
+function embedSidepanelIcon() {
+    const sidepanelHtmlPath = join(DIST, 'sidepanel.html');
+    const icon48Path = join(distIconsDir, 'icon48.png');
+    const iconBuffer = readFileSync(icon48Path);
+    const iconDataUri = `data:image/png;base64,${iconBuffer.toString('base64')}`;
+    let html = readFileSync(sidepanelHtmlPath, 'utf8');
+
+    html = html.replace(
+        '<img class="shell-mark"',
+        `<img src="${iconDataUri}" class="shell-mark"`,
+    );
+
+    writeFileSync(sidepanelHtmlPath, html);
+}
+
+embedSidepanelIcon();
 
 function zipDirectory(sourceDir, outputPath) {
     rmSync(outputPath, { force: true });

@@ -68,8 +68,8 @@ function selectBrowser(browser: BrowserChoice): void {
         <div>
             <p class="postbox-label">Step 1 · Choose your browser</p>
             <p class="mt-1 text-sm text-muted-foreground">
-                Pick the browser you apply with. We will show the correct download and install
-                steps.
+                Pick the browser you apply with. We will show the correct
+                download and install steps.
             </p>
 
             <div
@@ -112,13 +112,15 @@ function selectBrowser(browser: BrowserChoice): void {
                             />
                         </div>
                         <div class="min-w-0">
-                            <p class="font-bold text-postbox-navy">{{ option.title }}</p>
+                            <p class="font-bold text-postbox-navy">
+                                {{ option.title }}
+                            </p>
                             <p class="mt-1 text-sm text-muted-foreground">
                                 {{ option.subtitle }}
                             </p>
                             <p
                                 v-if="selectedBrowser === option.id"
-                                class="mt-2 text-xs font-semibold uppercase tracking-wide text-postbox-red"
+                                class="mt-2 text-xs font-semibold tracking-wide text-postbox-red uppercase"
                             >
                                 Selected
                             </p>
@@ -165,22 +167,56 @@ function selectBrowser(browser: BrowserChoice): void {
                     v-if="selectedBrowser === 'chrome'"
                     class="mt-4 list-decimal space-y-2 pl-5 text-sm text-muted-foreground"
                 >
-                    <li>Extract the downloaded zip to a folder on your computer.</li>
+                    <li>
+                        Extract the downloaded zip to a folder on your computer.
+                    </li>
                     <li>
                         Open
-                        <code class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
+                        <code
+                            class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
                             >chrome://extensions</code
                         >
                         or
-                        <code class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
+                        <code
+                            class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
                             >edge://extensions</code
                         >.
                     </li>
                     <li>Turn on Developer mode.</li>
-                    <li>Click Load unpacked and choose the extracted folder.</li>
                     <li>
-                        Generate a connection in the dashboard and paste it into the extension
-                        sidebar.
+                        Click Load unpacked and choose the extracted folder (it
+                        must contain
+                        <code
+                            class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
+                            >manifest.json</code
+                        >
+                        and an
+                        <code
+                            class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
+                            >icons/</code
+                        >
+                        folder at the top level).
+                    </li>
+                    <li>
+                        Developing from source? Run
+                        <code
+                            class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
+                            >npm run build:extension</code
+                        >
+                        and load the
+                        <code
+                            class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
+                            >extension/dist</code
+                        >
+                        folder — not
+                        <code
+                            class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
+                            >extension/</code
+                        >.
+                    </li>
+                    <li>
+                        Generate a connection in the dashboard and paste it into
+                        the extension sidebar.
                     </li>
                 </ol>
 
@@ -188,27 +224,31 @@ function selectBrowser(browser: BrowserChoice): void {
                     v-else
                     class="mt-4 list-decimal space-y-2 pl-5 text-sm text-muted-foreground"
                 >
-                    <li>Extract the downloaded zip to a folder on your computer.</li>
+                    <li>
+                        Extract the downloaded zip to a folder on your computer.
+                    </li>
                     <li>
                         Open
-                        <code class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
+                        <code
+                            class="bg-postbox-grey px-1.5 py-0.5 font-mono text-xs"
                             >about:debugging</code
                         >
                         → This Firefox.
                     </li>
                     <li>
                         Click Load Temporary Add-on and select the extracted
-                        <code class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
+                        <code
+                            class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
                             >manifest.json</code
                         >.
                     </li>
                     <li>
-                        Firefox removes temporary add-ons when you quit. Reload the extension
-                        after each browser restart.
+                        Firefox removes temporary add-ons when you quit. Reload
+                        the extension after each browser restart.
                     </li>
                     <li>
-                        Generate a connection in the dashboard and paste it into the extension
-                        sidebar.
+                        Generate a connection in the dashboard and paste it into
+                        the extension sidebar.
                     </li>
                 </ol>
             </div>

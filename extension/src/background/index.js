@@ -1,16 +1,16 @@
-import { requestDraftAllStream, requestDraftField } from './draft-all-stream.js';
-import {
-    applyDraftAnswerToTab,
-    applyDraftBatchToTab,
-    collectFieldsFromTab,
-} from './form-frame-messaging.js';
+import { mapApplicationSettingsForAssist } from './application-settings.js';
 import {
     clearConnection,
     getApiToken,
     getStoredApiBase,
     saveConnection,
 } from './connection.js';
-import { mapApplicationSettingsForAssist } from './application-settings.js';
+import { requestDraftAllStream, requestDraftField } from './draft-all-stream.js';
+import {
+    applyDraftAnswerToTab,
+    applyDraftBatchToTab,
+    collectFieldsFromTab,
+} from './form-frame-messaging.js';
 
 let cachedProfile = null;
 let cacheTimestamp = 0;

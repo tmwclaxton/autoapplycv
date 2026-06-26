@@ -33,14 +33,14 @@ import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
             <ol>
                 <li>Sign in and complete your profile in the web app.</li>
                 <li>
-                    Download the extension for Chrome or Firefox from your dashboard
-                    (no browser store required).
+                    Download the extension for Chrome or Firefox from your
+                    dashboard (no browser store required).
                 </li>
                 <li>
                     Unzip the download and sideload it:
                     <strong>Chrome / Edge / Brave</strong> via
-                    <code>chrome://extensions</code> → Developer mode → Load unpacked;
-                    <strong>Firefox</strong> via
+                    <code>chrome://extensions</code> → Developer mode → Load
+                    unpacked; <strong>Firefox</strong> via
                     <code>about:debugging</code> → Load Temporary Add-on →
                     <code>manifest.json</code>.
                 </li>

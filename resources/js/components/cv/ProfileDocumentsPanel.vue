@@ -12,7 +12,9 @@ import type {
     ProfileDocument,
 } from '@/types/profileDocument';
 
-const documents = defineModel<ProfileDocument[]>('documents', { required: true });
+const documents = defineModel<ProfileDocument[]>('documents', {
+    required: true,
+});
 
 defineProps<{
     categories: DocumentCategoryOption[];
@@ -175,7 +177,9 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
         </p>
 
         <div class="rounded-md border border-postbox-navy/10 p-4">
-            <h3 class="text-sm font-bold text-postbox-navy">Upload a document</h3>
+            <h3 class="text-sm font-bold text-postbox-navy">
+                Upload a document
+            </h3>
             <div class="mt-4 grid gap-4 sm:grid-cols-2">
                 <div>
                     <label class="postbox-label">Category</label>

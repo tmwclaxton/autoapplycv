@@ -1,14 +1,10 @@
-import {
-    useConfirmStore,
-    type ConfirmOptions,
-} from '@/stores/confirmStore';
+import { useConfirmStore } from '@/stores/confirmStore';
+import type { ConfirmOptions } from '@/stores/confirmStore';
 
 export function useConfirm() {
     const store = useConfirmStore();
 
-    function confirmDelete(
-        input: ConfirmOptions | string,
-    ): Promise<boolean> {
+    function confirmDelete(input: ConfirmOptions | string): Promise<boolean> {
         if (typeof input === 'string') {
             return store.confirm({
                 title: 'Delete this file?',

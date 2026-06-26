@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { ApplicationSettings } from '@/types/cvProfile';
 
-const applicationSettings = defineModel<ApplicationSettings>({ required: true });
+const applicationSettings = defineModel<ApplicationSettings>({
+    required: true,
+});
 </script>
 
 <template>
@@ -9,8 +11,9 @@ const applicationSettings = defineModel<ApplicationSettings>({ required: true })
         <div>
             <h2 class="postbox-label">What you're looking for</h2>
             <p class="mt-1 text-sm text-muted-foreground">
-                These answers feed the extension when it drafts application forms and open-ended
-                questions. Edit your CV profile on the other tabs.
+                These answers feed the extension when it drafts application
+                forms and open-ended questions. Edit your CV profile on the
+                other tabs.
             </p>
         </div>
 
@@ -26,7 +29,10 @@ const applicationSettings = defineModel<ApplicationSettings>({ required: true })
         <div class="grid gap-4 sm:grid-cols-2">
             <div>
                 <label class="postbox-label">Phone country code</label>
-                <select v-model="applicationSettings.phone_country_code" class="postbox-input mt-2">
+                <select
+                    v-model="applicationSettings.phone_country_code"
+                    class="postbox-input mt-2"
+                >
                     <option value="+44">United Kingdom (+44)</option>
                     <option value="+1">United States / Canada (+1)</option>
                     <option value="+353">Ireland (+353)</option>
@@ -60,7 +66,10 @@ const applicationSettings = defineModel<ApplicationSettings>({ required: true })
         <div class="grid gap-4 sm:grid-cols-2">
             <div>
                 <label class="postbox-label">Visa sponsorship needed?</label>
-                <select v-model="applicationSettings.visa_sponsorship" class="postbox-input mt-2">
+                <select
+                    v-model="applicationSettings.visa_sponsorship"
+                    class="postbox-input mt-2"
+                >
                     <option value="no">No</option>
                     <option value="yes">Yes</option>
                 </select>
@@ -68,7 +77,10 @@ const applicationSettings = defineModel<ApplicationSettings>({ required: true })
 
             <div>
                 <label class="postbox-label">Legally authorized to work?</label>
-                <select v-model="applicationSettings.legally_authorized" class="postbox-input mt-2">
+                <select
+                    v-model="applicationSettings.legally_authorized"
+                    class="postbox-input mt-2"
+                >
                     <option value="yes">Yes</option>
                     <option value="no">No</option>
                 </select>
@@ -76,7 +88,10 @@ const applicationSettings = defineModel<ApplicationSettings>({ required: true })
 
             <div>
                 <label class="postbox-label">Willing to relocate?</label>
-                <select v-model="applicationSettings.willing_to_relocate" class="postbox-input mt-2">
+                <select
+                    v-model="applicationSettings.willing_to_relocate"
+                    class="postbox-input mt-2"
+                >
                     <option value="yes">Yes</option>
                     <option value="no">No</option>
                 </select>
@@ -84,7 +99,10 @@ const applicationSettings = defineModel<ApplicationSettings>({ required: true })
 
             <div>
                 <label class="postbox-label">Valid driver's license?</label>
-                <select v-model="applicationSettings.drivers_license" class="postbox-input mt-2">
+                <select
+                    v-model="applicationSettings.drivers_license"
+                    class="postbox-input mt-2"
+                >
                     <option value="yes">Yes</option>
                     <option value="no">No</option>
                 </select>

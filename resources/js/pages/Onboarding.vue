@@ -9,10 +9,8 @@ import {
 import CvProfileForm from '@/components/cv/CvProfileForm.vue';
 import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
 import { dashboard } from '@/routes';
-import {
-    normalizeCvProfile,
-    type CvProfile,
-} from '@/types/cvProfile';
+import { normalizeCvProfile } from '@/types/cvProfile';
+import type { CvProfile } from '@/types/cvProfile';
 import type {
     DocumentCategoryOption,
     ProfileDocument,
@@ -203,165 +201,163 @@ async function saveProfile() {
     <Head title="Set up your profile - AutoCVApply" />
 
     <nav
-            class="mb-10 flex items-center justify-center gap-2 sm:gap-3"
-            aria-label="Setup progress"
-        >
-            <template v-for="(s, i) in steps" :key="s.key">
-                <div class="flex items-center gap-2">
-                    <div
-                        class="flex size-8 items-center justify-center border-2 text-xs font-bold transition-colors"
-                        :class="stepClass(i)"
-                    >
-                        <Check v-if="i < currentStepIndex" class="size-4" />
-                        <span v-else>{{ i + 1 }}</span>
-                    </div>
-                    <span
-                        class="hidden text-xs font-bold tracking-wide uppercase sm:block"
-                        :class="
-                            i === currentStepIndex
-                                ? 'text-postbox-navy'
-                                : 'text-muted-foreground'
-                        "
-                    >
-                        {{ s.label }}
-                    </span>
-                </div>
+        class="mb-10 flex items-center justify-center gap-2 sm:gap-3"
+        aria-label="Setup progress"
+    >
+        <template v-for="(s, i) in steps" :key="s.key">
+            <div class="flex items-center gap-2">
                 <div
-                    v-if="i < steps.length - 1"
-                    class="h-0.5 w-6 bg-postbox-navy/20 sm:w-12"
-                />
-            </template>
-        </nav>
-
-        <div v-if="step === 'upload'">
-            <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
-                Post your CV
-            </h1>
-            <p class="mt-2 text-muted-foreground">
-                PDF or Word. We'll extract the details - you keep the edits.
-            </p>
-
-            <div
-                class="postbox-dropzone relative mx-auto mt-8 max-w-xl p-12 text-center"
-                :class="{ 'postbox-dropzone-active': isDragging }"
-                @dragover.prevent="isDragging = true"
-                @dragleave="isDragging = false"
-                @drop.prevent="onDrop"
-                @click="($refs.fileInput as HTMLInputElement).click()"
-            >
-                <input
-                    ref="fileInput"
-                    type="file"
-                    accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
-                    class="hidden"
-                    @change="onFileInput"
-                />
-
-                <div
-                    v-if="isUploading"
-                    class="flex flex-col items-center gap-4"
+                    class="flex size-8 items-center justify-center border-2 text-xs font-bold transition-colors"
+                    :class="stepClass(i)"
                 >
-                    <Loader2 class="size-10 animate-spin text-postbox-red" />
-                    <p class="font-bold text-postbox-navy">Reading your CV…</p>
-                    <p class="text-sm text-muted-foreground">
-                        Usually under a minute - large CVs can take a bit longer.
+                    <Check v-if="i < currentStepIndex" class="size-4" />
+                    <span v-else>{{ i + 1 }}</span>
+                </div>
+                <span
+                    class="hidden text-xs font-bold tracking-wide uppercase sm:block"
+                    :class="
+                        i === currentStepIndex
+                            ? 'text-postbox-navy'
+                            : 'text-muted-foreground'
+                    "
+                >
+                    {{ s.label }}
+                </span>
+            </div>
+            <div
+                v-if="i < steps.length - 1"
+                class="h-0.5 w-6 bg-postbox-navy/20 sm:w-12"
+            />
+        </template>
+    </nav>
+
+    <div v-if="step === 'upload'">
+        <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
+            Post your CV
+        </h1>
+        <p class="mt-2 text-muted-foreground">
+            PDF or Word. We'll extract the details - you keep the edits.
+        </p>
+
+        <div
+            class="postbox-dropzone relative mx-auto mt-8 max-w-xl p-12 text-center"
+            :class="{ 'postbox-dropzone-active': isDragging }"
+            @dragover.prevent="isDragging = true"
+            @dragleave="isDragging = false"
+            @drop.prevent="onDrop"
+            @click="($refs.fileInput as HTMLInputElement).click()"
+        >
+            <input
+                ref="fileInput"
+                type="file"
+                accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
+                class="hidden"
+                @change="onFileInput"
+            />
+
+            <div v-if="isUploading" class="flex flex-col items-center gap-4">
+                <Loader2 class="size-10 animate-spin text-postbox-red" />
+                <p class="font-bold text-postbox-navy">Reading your CV…</p>
+                <p class="text-sm text-muted-foreground">
+                    Usually under a minute - large CVs can take a bit longer.
+                </p>
+            </div>
+            <div v-else class="flex flex-col items-center gap-4">
+                <div
+                    class="flex size-16 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                >
+                    <Upload class="size-8 text-postbox-navy" />
+                </div>
+                <div>
+                    <p class="font-bold text-postbox-navy">
+                        Drop your file here or click to browse
+                    </p>
+                    <p class="mt-1 text-sm text-muted-foreground">
+                        PDF, Word, or image - up to 10MB
                     </p>
                 </div>
-                <div v-else class="flex flex-col items-center gap-4">
-                    <div
-                        class="flex size-16 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
-                    >
-                        <Upload class="size-8 text-postbox-navy" />
-                    </div>
-                    <div>
-                        <p class="font-bold text-postbox-navy">
-                            Drop your file here or click to browse
-                        </p>
-                        <p class="mt-1 text-sm text-muted-foreground">
-                            PDF, Word, or image - up to 10MB
-                        </p>
-                    </div>
-                </div>
             </div>
+        </div>
 
-            <p
-                v-if="uploadError"
-                class="mt-4 text-center text-sm font-medium text-destructive"
+        <p
+            v-if="uploadError"
+            class="mt-4 text-center text-sm font-medium text-destructive"
+        >
+            {{ uploadError }}
+        </p>
+    </div>
+
+    <div v-else-if="step === 'review'">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
+                    Check the details
+                </h1>
+                <p class="mt-2 text-muted-foreground">
+                    Fix anything we got wrong before you stamp forms with it.
+                </p>
+            </div>
+            <button
+                type="button"
+                class="postbox-btn-outline inline-flex items-center gap-2 text-sm"
+                :disabled="isUploading"
+                @click="step = 'upload'"
             >
-                {{ uploadError }}
+                <Upload class="size-4" />
+                Upload a different CV
+            </button>
+        </div>
+
+        <CvProfileForm
+            v-model="profile"
+            v-model:documents="documents"
+            :document-categories="documentCategories"
+            class="mt-8"
+            @upload-cv="uploadCv"
+        />
+
+        <div class="flex justify-end">
+            <button
+                type="button"
+                class="postbox-btn"
+                :disabled="isSaving"
+                @click="saveProfile"
+            >
+                <Loader2 v-if="isSaving" class="size-4 animate-spin" />
+                {{ isSaving ? 'Saving…' : 'Save & continue' }}
+            </button>
+        </div>
+    </div>
+
+    <div v-else-if="step === 'download'">
+        <div class="postbox-panel mx-auto max-w-2xl p-8 text-center">
+            <span class="postbox-stamp mx-auto mb-6 flex size-16 text-sm">
+                OK
+            </span>
+            <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
+                Profile posted.
+            </h1>
+            <p class="mt-2 text-muted-foreground">
+                Choose your browser and install the extension to start stamping
+                job forms.
             </p>
         </div>
 
-        <div v-else-if="step === 'review'">
-            <div class="flex flex-wrap items-start justify-between gap-4">
-                <div>
-                    <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
-                        Check the details
-                    </h1>
-                    <p class="mt-2 text-muted-foreground">
-                        Fix anything we got wrong before you stamp forms with it.
-                    </p>
-                </div>
+        <div class="mx-auto mt-8 max-w-2xl">
+            <ExtensionDownloadPanel />
+
+            <div class="mt-8 flex flex-col items-center gap-3 text-center">
+                <Link :href="dashboard()" class="postbox-link text-sm">
+                    Go to dashboard →
+                </Link>
                 <button
                     type="button"
-                    class="postbox-btn-outline inline-flex items-center gap-2 text-sm"
-                    :disabled="isUploading"
+                    class="postbox-link text-sm"
                     @click="step = 'upload'"
                 >
-                    <Upload class="size-4" />
                     Upload a different CV
                 </button>
             </div>
-
-            <CvProfileForm
-                v-model="profile"
-                v-model:documents="documents"
-                :document-categories="documentCategories"
-                class="mt-8"
-                @upload-cv="uploadCv"
-            />
-
-            <div class="flex justify-end">
-                <button
-                    type="button"
-                    class="postbox-btn"
-                    :disabled="isSaving"
-                    @click="saveProfile"
-                >
-                    <Loader2 v-if="isSaving" class="size-4 animate-spin" />
-                    {{ isSaving ? 'Saving…' : 'Save & continue' }}
-                </button>
-            </div>
         </div>
-
-        <div v-else-if="step === 'download'">
-            <div class="postbox-panel mx-auto max-w-2xl p-8 text-center">
-                <span class="postbox-stamp mx-auto mb-6 flex size-16 text-sm">
-                    OK
-                </span>
-                <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
-                    Profile posted.
-                </h1>
-                <p class="mt-2 text-muted-foreground">
-                    Choose your browser and install the extension to start stamping job forms.
-                </p>
-            </div>
-
-            <div class="mx-auto mt-8 max-w-2xl">
-                <ExtensionDownloadPanel />
-
-                <div class="mt-8 flex flex-col items-center gap-3 text-center">
-                    <Link :href="dashboard()" class="postbox-link text-sm">
-                        Go to dashboard →
-                    </Link>
-                    <button
-                        type="button"
-                        class="postbox-link text-sm"
-                        @click="step = 'upload'"
-                    >
-                        Upload a different CV
-                    </button>
-                </div>
-            </div>
-        </div>
+    </div>
 </template>

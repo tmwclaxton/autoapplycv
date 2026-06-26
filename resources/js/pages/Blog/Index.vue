@@ -61,7 +61,10 @@ function formatDate(date: string): string {
             description="Bi-weekly posts on autofill, application fatigue, and making repetitive forms less painful."
         />
 
-        <div v-if="posts.data.length > 0" class="mt-8 grid gap-6 sm:grid-cols-2">
+        <div
+            v-if="posts.data.length > 0"
+            class="mt-8 grid gap-6 sm:grid-cols-2"
+        >
             <Link
                 v-for="post in posts.data"
                 :key="post.id"
@@ -90,7 +93,7 @@ function formatDate(date: string): string {
                         </span>
                     </div>
                     <h2
-                        class="line-clamp-3 flex-1 text-lg font-semibold leading-snug text-postbox-navy group-hover:text-postbox-red"
+                        class="line-clamp-3 flex-1 text-lg leading-snug font-semibold text-postbox-navy group-hover:text-postbox-red"
                     >
                         {{ post.title }}
                     </h2>
@@ -116,9 +119,7 @@ function formatDate(date: string): string {
         </div>
 
         <div v-else class="postbox-panel mt-8 p-10 text-center">
-            <p class="text-lg font-medium text-postbox-navy">
-                No posts yet.
-            </p>
+            <p class="text-lg font-medium text-postbox-navy">No posts yet.</p>
             <p class="mt-2 text-sm text-muted-foreground">
                 New articles publish on the 1st and 15th of each month.
             </p>
@@ -133,7 +134,9 @@ function formatDate(date: string): string {
                     v-if="link.url"
                     :href="link.url"
                     class="postbox-btn-ghost text-sm"
-                    :class="{ 'border-postbox-red bg-postbox-grey': link.active }"
+                    :class="{
+                        'border-postbox-red bg-postbox-grey': link.active,
+                    }"
                     preserve-scroll
                 >
                     <span v-html="link.label" />

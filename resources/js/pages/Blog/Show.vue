@@ -71,7 +71,10 @@ function formatDate(date: string): string {
         <meta property="og:type" content="article" />
     </Head>
 
-    <PostboxMarketingLayout tagline="Less typing. More applying." max-width="5xl">
+    <PostboxMarketingLayout
+        tagline="Less typing. More applying."
+        max-width="5xl"
+    >
         <template #nav>
             <PostboxMarketingNav />
         </template>
@@ -95,7 +98,9 @@ function formatDate(date: string): string {
                 </span>
             </div>
 
-            <h1 class="mt-4 text-3xl font-bold tracking-tight text-postbox-navy sm:text-4xl">
+            <h1
+                class="mt-4 text-3xl font-bold tracking-tight text-postbox-navy sm:text-4xl"
+            >
                 {{ post.title }}
             </h1>
 
@@ -103,7 +108,9 @@ function formatDate(date: string): string {
                 {{ post.excerpt }}
             </p>
 
-            <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+            <div
+                class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground"
+            >
                 <span class="inline-flex items-center gap-1.5">
                     <CalendarDays class="size-4" aria-hidden="true" />
                     <time :datetime="post.published_at">{{
@@ -132,7 +139,9 @@ function formatDate(date: string): string {
                 v-if="post.sources.length > 0"
                 class="postbox-panel mt-8 w-full p-6 sm:p-8"
             >
-                <h2 class="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                <h2
+                    class="text-sm font-semibold tracking-wider text-muted-foreground uppercase"
+                >
                     Sources &amp; references
                 </h2>
                 <ul class="mt-4 space-y-3">
@@ -153,7 +162,9 @@ function formatDate(date: string): string {
             </div>
 
             <div class="postbox-panel mt-8 w-full p-6 sm:p-8">
-                <h2 class="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                <h2
+                    class="text-sm font-semibold tracking-wider text-muted-foreground uppercase"
+                >
                     Share
                 </h2>
                 <div class="mt-3 flex flex-wrap gap-2">
@@ -172,10 +183,18 @@ function formatDate(date: string): string {
             </div>
         </article>
 
-        <section v-if="more_posts.length > 0" class="mt-12 border-t border-border pt-10">
+        <section
+            v-if="more_posts.length > 0"
+            class="mt-12 border-t border-border pt-10"
+        >
             <div class="flex items-end justify-between gap-4">
-                <h2 class="text-2xl font-bold text-postbox-navy">More from the blog</h2>
-                <Link :href="blogIndex().url" class="postbox-link text-sm font-semibold">
+                <h2 class="text-2xl font-bold text-postbox-navy">
+                    More from the blog
+                </h2>
+                <Link
+                    :href="blogIndex().url"
+                    class="postbox-link text-sm font-semibold"
+                >
                     View all
                 </Link>
             </div>

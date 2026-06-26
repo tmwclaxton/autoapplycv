@@ -360,10 +360,15 @@ export function normalizeCvProfile(
             references: input.structured_data?.references ?? [],
             interests: normalizeStringList(input.structured_data?.interests),
             technical_skills: input.structured_data?.technical_skills ?? [],
-            soft_skills: normalizeStringList(input.structured_data?.soft_skills),
-            additional_sections: input.structured_data?.additional_sections ?? [],
+            soft_skills: normalizeStringList(
+                input.structured_data?.soft_skills,
+            ),
+            additional_sections:
+                input.structured_data?.additional_sections ?? [],
         },
-        application_settings: normalizeApplicationSettings(input.application_settings),
+        application_settings: normalizeApplicationSettings(
+            input.application_settings,
+        ),
     };
 }
 

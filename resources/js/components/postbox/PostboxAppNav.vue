@@ -2,8 +2,8 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import ThemeToggle from '@/components/ThemeToggle.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
-import billing from '@/routes/billing';
 import { dashboard } from '@/routes';
+import billing from '@/routes/billing';
 import { edit as profileEdit } from '@/routes/profile';
 
 const page = usePage();

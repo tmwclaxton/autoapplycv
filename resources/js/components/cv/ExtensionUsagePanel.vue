@@ -45,7 +45,8 @@ function formatDate(value: string): string {
                 <div>
                     <h2 class="postbox-label">Extension usage</h2>
                     <p class="text-sm text-muted-foreground">
-                        Tracked when you auto-fill form fields from the extension. Resets
+                        Tracked when you auto-fill form fields from the
+                        extension. Resets
                         {{ formatDate(extensionUsage.period_resets_at) }}.
                     </p>
                 </div>
@@ -53,7 +54,9 @@ function formatDate(value: string): string {
 
             <div class="grid gap-4 sm:grid-cols-2">
                 <div class="rounded-xl border border-border/60 bg-muted/20 p-5">
-                    <div class="mb-2 flex items-center gap-2 text-sm text-muted-foreground">
+                    <div
+                        class="mb-2 flex items-center gap-2 text-sm text-muted-foreground"
+                    >
                         <Sparkles class="size-4" />
                         Fields autofilled this month
                     </div>
@@ -63,7 +66,9 @@ function formatDate(value: string): string {
                 </div>
 
                 <div class="rounded-xl border border-border/60 bg-muted/20 p-5">
-                    <div class="mb-2 flex items-center gap-2 text-sm text-muted-foreground">
+                    <div
+                        class="mb-2 flex items-center gap-2 text-sm text-muted-foreground"
+                    >
                         <Clock class="size-4" />
                         Estimated time saved
                     </div>
@@ -75,7 +80,8 @@ function formatDate(value: string): string {
                         }}
                     </p>
                     <p class="mt-1 text-xs text-muted-foreground">
-                        Based on ~{{ extensionUsage.seconds_saved_per_field }}s per field
+                        Based on ~{{ extensionUsage.seconds_saved_per_field }}s
+                        per field
                     </p>
                 </div>
             </div>
@@ -84,8 +90,8 @@ function formatDate(value: string): string {
         <div class="postbox-panel p-6">
             <h2 class="postbox-label mb-2">AI autofill quota</h2>
             <p class="mb-4 text-sm text-muted-foreground">
-                Used for Quick Answer, draft-all, ATS scoring, cover letters, and tailored
-                resumes in the extension side panel.
+                Used for Quick Answer, draft-all, ATS scoring, cover letters,
+                and tailored resumes in the extension side panel.
             </p>
             <div class="flex items-end justify-between gap-4">
                 <div>
@@ -96,7 +102,10 @@ function formatDate(value: string): string {
                         </span>
                     </p>
                     <p class="mt-1 text-sm text-muted-foreground">
-                        {{ formatNumber(subscription.autofills_remaining) }} remaining · resets
+                        {{
+                            formatNumber(subscription.autofills_remaining)
+                        }}
+                        remaining · resets
                         {{ formatDate(subscription.period_resets_at) }}
                     </p>
                 </div>
@@ -106,8 +115,9 @@ function formatDate(value: string): string {
         <div class="postbox-panel p-6">
             <h2 class="postbox-label mb-2">AI tools in the extension</h2>
             <p class="text-sm text-muted-foreground">
-                Open the sidebar on any job page. Use Assist for form drafting, or the ATS, Cover,
-                and Resume tabs for AI tools. Set your preferences on the dashboard Preferences tab.
+                Open the sidebar on any job page. Use Assist for form drafting,
+                or the ATS, Cover, and Resume tabs for AI tools. Set your
+                preferences on the dashboard Preferences tab.
             </p>
         </div>
     </div>

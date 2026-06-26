@@ -16,6 +16,32 @@ const jobContextEl = document.getElementById('job-context');
 
 const aiTabs = new Set(['ats', 'cover', 'resume']);
 
+function configureExtensionIcons() {
+    const iconUrl = (name) => chrome.runtime.getURL(`icons/${name}`);
+
+    document.querySelectorAll('link[rel="icon"]').forEach((link) => {
+        link.href = iconUrl('icon32.png');
+    });
+
+    const mark = document.querySelector('.shell-mark');
+
+    if (!(mark instanceof HTMLImageElement) || mark.src.startsWith('data:image/')) {
+        return;
+    }
+
+    mark.src = iconUrl('icon48.png');
+    mark.addEventListener('error', () => {
+        const fallback = document.createElement('div');
+        fallback.className = 'shell-mark shell-mark-fallback postbox-panel';
+        fallback.setAttribute('role', 'img');
+        fallback.setAttribute('aria-label', 'AutoCVApply');
+        fallback.textContent = 'CV';
+        mark.replaceWith(fallback);
+    }, { once: true });
+}
+
+configureExtensionIcons();
+
 function showMessage(text, tone = 'success') {
     messageEl.textContent = text;
     messageEl.className = `message ${tone}`.trim();

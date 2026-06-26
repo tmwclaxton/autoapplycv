@@ -2,16 +2,18 @@
 import { Plus, Trash2, X } from 'lucide-vue-next';
 import { ref } from 'vue';
 import ProfileDocumentsPanel from '@/components/cv/ProfileDocumentsPanel.vue';
-import type { DocumentCategoryOption, ProfileDocument } from '@/types/profileDocument';
 import {
     createEmptyProfile,
     emptyEducation,
     emptyExperience,
     linesToList,
     listToLines,
-    type CvProfile,
-    type CvProfileSection,
 } from '@/types/cvProfile';
+import type { CvProfile, CvProfileSection } from '@/types/cvProfile';
+import type {
+    DocumentCategoryOption,
+    ProfileDocument,
+} from '@/types/profileDocument';
 
 const profile = defineModel<CvProfile>({ required: true });
 const documents = defineModel<ProfileDocument[]>('documents');
@@ -82,7 +84,10 @@ function addInterest(): void {
     ensureStructuredData();
     const interest = newInterest.value.trim();
 
-    if (interest && !profile.value.structured_data.interests.includes(interest)) {
+    if (
+        interest &&
+        !profile.value.structured_data.interests.includes(interest)
+    ) {
         profile.value.structured_data.interests = [
             ...profile.value.structured_data.interests,
             interest,
@@ -548,7 +553,10 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                     Add role
                 </button>
             </div>
-            <div v-if="!profile.experience.length" class="text-sm text-muted-foreground">
+            <div
+                v-if="!profile.experience.length"
+                class="text-sm text-muted-foreground"
+            >
                 No roles extracted yet.
             </div>
             <div v-else class="space-y-4">
@@ -631,27 +639,33 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                         />
                     </div>
                     <div class="mt-4">
-                        <label class="postbox-label">Highlights (one per line)</label>
+                        <label class="postbox-label"
+                            >Highlights (one per line)</label
+                        >
                         <textarea
                             :value="listToLines(exp.highlights)"
                             rows="4"
                             class="postbox-input"
                             @input="
                                 exp.highlights = linesToList(
-                                    ($event.target as HTMLTextAreaElement).value,
+                                    ($event.target as HTMLTextAreaElement)
+                                        .value,
                                 )
                             "
                         />
                     </div>
                     <div class="mt-4">
-                        <label class="postbox-label">Technologies (one per line)</label>
+                        <label class="postbox-label"
+                            >Technologies (one per line)</label
+                        >
                         <textarea
                             :value="listToLines(exp.technologies)"
                             rows="3"
                             class="postbox-input"
                             @input="
                                 exp.technologies = linesToList(
-                                    ($event.target as HTMLTextAreaElement).value,
+                                    ($event.target as HTMLTextAreaElement)
+                                        .value,
                                 )
                             "
                         />
@@ -672,7 +686,10 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                     Add entry
                 </button>
             </div>
-            <div v-if="!profile.education.length" class="text-sm text-muted-foreground">
+            <div
+                v-if="!profile.education.length"
+                class="text-sm text-muted-foreground"
+            >
                 No education entries extracted yet.
             </div>
             <div v-else class="space-y-4">
@@ -765,14 +782,17 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                         />
                     </div>
                     <div class="mt-4">
-                        <label class="postbox-label">Highlights (one per line)</label>
+                        <label class="postbox-label"
+                            >Highlights (one per line)</label
+                        >
                         <textarea
                             :value="listToLines(edu.highlights)"
                             rows="4"
                             class="postbox-input"
                             @input="
                                 edu.highlights = linesToList(
-                                    ($event.target as HTMLTextAreaElement).value,
+                                    ($event.target as HTMLTextAreaElement)
+                                        .value,
                                 )
                             "
                         />
@@ -851,7 +871,10 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                             type="button"
                             class="postbox-btn-outline px-3"
                             @click="
-                                profile.structured_data.certifications.splice(i, 1)
+                                profile.structured_data.certifications.splice(
+                                    i,
+                                    1,
+                                )
                             "
                         >
                             <Trash2 class="size-4" />
@@ -918,7 +941,9 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                         <button
                             type="button"
                             class="postbox-btn-outline px-3"
-                            @click="profile.structured_data.projects.splice(i, 1)"
+                            @click="
+                                profile.structured_data.projects.splice(i, 1)
+                            "
                         >
                             <Trash2 class="size-4" />
                         </button>
@@ -1039,10 +1064,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                     Add
                 </button>
             </div>
-            <div
-                v-if="profile.structured_data.awards.length"
-                class="space-y-4"
-            >
+            <div v-if="profile.structured_data.awards.length" class="space-y-4">
                 <div
                     v-for="(award, i) in profile.structured_data.awards"
                     :key="i"
@@ -1141,7 +1163,10 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                             type="button"
                             class="postbox-btn-outline px-3"
                             @click="
-                                profile.structured_data.volunteering.splice(i, 1)
+                                profile.structured_data.volunteering.splice(
+                                    i,
+                                    1,
+                                )
                             "
                         >
                             <Trash2 class="size-4" />
@@ -1403,8 +1428,8 @@ function addAdditionalSectionItem(sectionIndex: number): void {
         <div v-if="show('formatted')" class="postbox-panel p-6">
             <h2 class="postbox-label">Formatted CV text</h2>
             <p class="mb-4 text-sm text-muted-foreground">
-                A tidy plain-text version of your full CV, used when applications
-                ask for pasted résumé text.
+                A tidy plain-text version of your full CV, used when
+                applications ask for pasted résumé text.
             </p>
             <textarea
                 v-model="profile.formatted_cv_text"
@@ -1427,10 +1452,14 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             />
         </div>
 
-        <div v-if="show('raw') && profile.raw_cv_text" class="postbox-panel p-6">
+        <div
+            v-if="show('raw') && profile.raw_cv_text"
+            class="postbox-panel p-6"
+        >
             <h2 class="postbox-label">Raw extracted text</h2>
             <p class="mb-4 text-sm text-muted-foreground">
-                Verbatim text pulled from your uploaded file. Read-only reference.
+                Verbatim text pulled from your uploaded file. Read-only
+                reference.
             </p>
             <textarea
                 :value="profile.raw_cv_text"
