@@ -18,14 +18,13 @@ import JobApplicationsPanel, {
 } from '@/components/cv/JobApplicationsPanel.vue';
 import ApplicationToolsPanel from '@/components/cv/ApplicationToolsPanel.vue';
 import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
-import { computed, nextTick, ref } from 'vue';
+import { nextTick, ref } from 'vue';
 import {
     store as cvUpload,
     updateProfile as cvProfileUpdate,
 } from '@/actions/App/Http/Controllers/CvUploadController';
 import CvProfileForm from '@/components/cv/CvProfileForm.vue';
 import billing from '@/routes/billing';
-import { autofillNotice } from '@/lib/autofillNotice';
 import { useToastStore } from '@/stores/toastStore';
 import {
     normalizeCvProfile,
@@ -43,8 +42,6 @@ setLayoutProps({
 interface SubscriptionSummary {
     tier_label: string;
     can_autofill: boolean;
-    autofill_block_reason?: string | null;
-    checkout_in_progress?: boolean;
     autofills_used: number;
     autofills_remaining: number;
     monthly_autofills: number;
@@ -87,25 +84,6 @@ const tabs = [
     { key: 'applications' as const, label: 'Applications', icon: ClipboardList },
     { key: 'extension' as const, label: 'Extension', icon: Puzzle },
 ];
-
-const usagePercent = computed(() => {
-    if (subscription.value.monthly_autofills === 0) {
-        return 0;
-    }
-
-    return Math.min(
-        100,
-        Math.round(
-            (subscription.value.autofills_used /
-                subscription.value.monthly_autofills) *
-                100,
-        ),
-    );
-});
-
-function formatAutofills(value: number): string {
-    return new Intl.NumberFormat('en-GB').format(value);
-}
 
 function openCvUpload(): void {
     uploadError.value = null;
@@ -289,6 +267,12 @@ async function copyToken() {
                     accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
                     @change="onCvFileSelected"
                 />
+                <Link
+                    :href="billing.index()"
+                    class="postbox-btn-outline text-sm"
+                >
+                    Manage plan
+                </Link>
                 <button
                     type="button"
                     class="postbox-btn-outline inline-flex items-center gap-2 text-sm"
@@ -313,61 +297,6 @@ async function copyToken() {
         >
             {{ uploadError }}
         </p>
-
-    <div class="postbox-panel mb-8 p-5">
-        <div class="flex flex-wrap items-start justify-between gap-4">
-            <div>
-                <p class="postbox-label">Extension autofills</p>
-                <p class="text-lg font-bold text-postbox-navy">
-                    {{ subscription.tier_label }}
-                </p>
-                <p class="mt-1 text-sm text-muted-foreground">
-                    {{ formatAutofills(subscription.autofills_remaining) }}
-                    remaining this month
-                </p>
-            </div>
-            <Link :href="billing.index()" class="postbox-btn-outline text-sm">
-                Manage plan
-            </Link>
-        </div>
-        <div class="mt-4">
-            <div class="mb-2 flex justify-between text-sm">
-                <span class="font-medium text-postbox-navy">
-                    {{ formatAutofills(subscription.autofills_used) }} used
-                </span>
-                <span class="text-muted-foreground">
-                    {{ formatAutofills(subscription.monthly_autofills) }} /
-                    month
-                </span>
-            </div>
-            <div class="h-2 overflow-hidden rounded-full bg-postbox-navy/10">
-                <div
-                    class="h-full rounded-full bg-postbox-red transition-all"
-                    :style="{ width: `${usagePercent}%` }"
-                />
-            </div>
-        </div>
-        <p
-            v-if="autofillNotice(subscription)"
-            class="mt-4 rounded-md border border-postbox-red/30 bg-postbox-red/5 p-3 text-sm text-postbox-navy"
-        >
-            {{ autofillNotice(subscription) }}
-            <Link
-                v-if="subscription.autofill_block_reason === 'quota_exhausted'"
-                :href="billing.index()"
-                class="font-semibold text-postbox-red"
-            >
-                Upgrade your plan
-            </Link>
-        </p>
-        <p
-            v-else-if="subscription.checkout_in_progress"
-            class="mt-4 rounded-md border border-postbox-navy/15 bg-postbox-navy/5 p-3 text-sm text-postbox-navy"
-        >
-            Direct Debit setup is in progress. Your Free plan autofills remain
-            available until the upgrade completes.
-        </p>
-    </div>
 
         <div class="mb-6 flex border-b-2 border-postbox-navy/20">
             <button
