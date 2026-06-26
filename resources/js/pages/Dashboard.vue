@@ -310,7 +310,7 @@ async function copyToken() {
                 accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
                 @change="onCvFileSelected"
             />
-            <Link :href="billing.index()" class="postbox-btn-outline text-sm">
+            <Link :href="billing.index().url" class="postbox-btn-outline text-sm">
                 Manage plan
             </Link>
             <button

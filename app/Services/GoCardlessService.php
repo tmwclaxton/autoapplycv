@@ -29,7 +29,7 @@ class GoCardlessService
             throw new InvalidArgumentException('GoCardless access token is not configured.');
         }
 
-        $environment = config('services.gocardless.environment');
+        $environment = config('services.gocardless.environment') ?: null;
 
         if ($environment === null) {
             $environment = str_starts_with($accessToken, 'live_')
@@ -198,6 +198,14 @@ class GoCardlessService
             return null;
         } catch (ApiException $exception) {
             Log::warning('GoCardless checkout reconciliation failed', [
+                'user_id' => $user->id,
+                'billing_request_id' => $user->gocardless_billing_request_id,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return null;
+        } catch (\Throwable $exception) {
+            Log::warning('GoCardless checkout reconciliation failed unexpectedly', [
                 'user_id' => $user->id,
                 'billing_request_id' => $user->gocardless_billing_request_id,
                 'message' => $exception->getMessage(),
@@ -387,6 +395,10 @@ class GoCardlessService
             return false;
         }
 
-        return Carbon::parse($billingRequest->created_at)->lt(now()->subDay());
+        try {
+            return Carbon::parse($billingRequest->created_at)->lt(now()->subDay());
+        } catch (\Throwable) {
+            return false;
+        }
     }
 }

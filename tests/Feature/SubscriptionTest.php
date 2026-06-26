@@ -247,4 +247,30 @@ class SubscriptionTest extends TestCase
                 'Your plan is active. Direct Debit payments will be collected monthly.',
             );
     }
+
+    public function test_billing_page_loads_when_reconciliation_fails_unexpectedly(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'free',
+            'subscription_status' => 'pending',
+            'gocardless_billing_request_id' => 'BRQ123',
+            'pending_subscription_tier' => 'starter',
+        ]);
+
+        $service = \Mockery::mock(GoCardlessService::class)->makePartial();
+        $service->shouldReceive('syncPendingCheckout')
+            ->once()
+            ->andThrow(new \RuntimeException('GoCardless unavailable'));
+
+        $this->instance(GoCardlessService::class, $service);
+
+        $this->actingAs($user)
+            ->withHeaders(['X-Inertia' => 'true'])
+            ->get(route('billing.index'))
+            ->assertStatus(200)
+            ->assertJson([
+                'component' => 'Billing',
+            ])
+            ->assertJsonPath('props.subscription.checkout_in_progress', true);
+    }
 }
