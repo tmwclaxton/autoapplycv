@@ -25,6 +25,7 @@ import {
 } from '@/actions/App/Http/Controllers/CvUploadController';
 import CvProfileForm from '@/components/cv/CvProfileForm.vue';
 import billing from '@/routes/billing';
+import { autofillNotice } from '@/lib/autofillNotice';
 import { useToastStore } from '@/stores/toastStore';
 import {
     normalizeCvProfile,
@@ -42,6 +43,8 @@ setLayoutProps({
 interface SubscriptionSummary {
     tier_label: string;
     can_autofill: boolean;
+    autofill_block_reason?: string | null;
+    checkout_in_progress?: boolean;
     autofills_used: number;
     autofills_remaining: number;
     monthly_autofills: number;
@@ -345,13 +348,24 @@ async function copyToken() {
             </div>
         </div>
         <p
-            v-if="!subscription.can_autofill"
+            v-if="autofillNotice(subscription)"
             class="mt-4 rounded-md border border-postbox-red/30 bg-postbox-red/5 p-3 text-sm text-postbox-navy"
         >
-            You have used all autofills this month.
-            <Link :href="billing.index()" class="font-semibold text-postbox-red">
+            {{ autofillNotice(subscription) }}
+            <Link
+                v-if="subscription.autofill_block_reason === 'quota_exhausted'"
+                :href="billing.index()"
+                class="font-semibold text-postbox-red"
+            >
                 Upgrade your plan
             </Link>
+        </p>
+        <p
+            v-else-if="subscription.checkout_in_progress"
+            class="mt-4 rounded-md border border-postbox-navy/15 bg-postbox-navy/5 p-3 text-sm text-postbox-navy"
+        >
+            Direct Debit setup is in progress. Your Free plan autofills remain
+            available until the upgrade completes.
         </p>
     </div>
 

@@ -102,4 +102,33 @@ class AiTokenServiceTest extends TestCase
         $this->assertSame(10, $summary['autofills_used']);
         $this->assertTrue($summary['can_autofill']);
     }
+
+    public function test_free_user_with_pending_checkout_can_still_autofill(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'free',
+            'subscription_status' => 'pending',
+            'gocardless_billing_request_id' => 'BRQ123',
+            'pending_subscription_tier' => 'starter',
+        ]);
+
+        $summary = $this->service->summary($user);
+
+        $this->assertTrue($this->service->canAutofill($user));
+        $this->assertNull($this->service->autofillBlockReason($user));
+        $this->assertTrue($summary['can_autofill']);
+        $this->assertNull($summary['autofill_block_reason']);
+        $this->assertTrue($summary['checkout_in_progress']);
+    }
+
+    public function test_quota_exhausted_returns_block_reason(): void
+    {
+        $user = User::factory()->create([
+            'ai_tokens_used' => 250,
+            'ai_tokens_period_start' => now()->startOfMonth(),
+        ]);
+
+        $this->assertSame('quota_exhausted', $this->service->autofillBlockReason($user));
+        $this->assertFalse($this->service->canAutofill($user));
+    }
 }

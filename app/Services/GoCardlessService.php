@@ -228,7 +228,7 @@ class GoCardlessService
 
         $user->forceFill([
             'subscription_tier' => SubscriptionTier::Free->value,
-            'subscription_status' => SubscriptionStatus::Cancelled->value,
+            'subscription_status' => SubscriptionStatus::Active->value,
             'gocardless_subscription_id' => null,
         ])->save();
     }

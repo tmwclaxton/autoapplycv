@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\SubscriptionStatus;
+use App\Enums\SubscriptionTier;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 
@@ -41,15 +42,47 @@ class AiTokenService
 
     public function canAutofill(User $user, int $count = 1): bool
     {
-        if ($user->subscriptionStatus() !== SubscriptionStatus::Active) {
-            return false;
-        }
-
         if ($count < 1) {
             return false;
         }
 
+        if ($this->autofillBlockReason($user) !== null) {
+            return false;
+        }
+
         return $this->autofillsRemaining($user) >= $count;
+    }
+
+    public function autofillBlockReason(User $user): ?string
+    {
+        $status = $user->subscriptionStatus();
+        $remaining = $this->autofillsRemaining($user);
+
+        if ($remaining < 1) {
+            return 'quota_exhausted';
+        }
+
+        if ($status === SubscriptionStatus::PastDue) {
+            return 'past_due';
+        }
+
+        if ($status === SubscriptionStatus::Active) {
+            return null;
+        }
+
+        if ($status === SubscriptionStatus::Pending && $user->subscriptionTier() === SubscriptionTier::Free) {
+            return null;
+        }
+
+        if ($status === SubscriptionStatus::Cancelled && $user->subscriptionTier() === SubscriptionTier::Free) {
+            return null;
+        }
+
+        if ($status === SubscriptionStatus::Pending) {
+            return 'pending_setup';
+        }
+
+        return 'subscription_inactive';
     }
 
     public function recordAutofill(User $user, int $count = 1): void
@@ -77,6 +110,8 @@ class AiTokenService
      *     autofills_used: int,
      *     autofills_remaining: int,
      *     can_autofill: bool,
+     *     autofill_block_reason: string|null,
+     *     checkout_in_progress: bool,
      *     period_resets_at: string,
      * }
      */
@@ -103,6 +138,9 @@ class AiTokenService
             'autofills_used' => $used,
             'autofills_remaining' => max(0, $allowance - $used),
             'can_autofill' => $this->canAutofill($user),
+            'autofill_block_reason' => $this->autofillBlockReason($user),
+            'checkout_in_progress' => $user->gocardless_billing_request_id !== null
+                && $user->subscriptionTier() === SubscriptionTier::Free,
             'period_resets_at' => $periodStart->copy()->addMonth()->startOfMonth()->toDateString(),
         ];
     }

@@ -3,6 +3,7 @@ import { Head, Link, router, setLayoutProps, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
 import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
+import { autofillNotice, subscriptionStatusHint } from '@/lib/autofillNotice';
 import { dashboard } from '@/routes';
 
 setLayoutProps({
@@ -20,6 +21,8 @@ interface SubscriptionSummary {
     autofills_used: number;
     autofills_remaining: number;
     can_autofill: boolean;
+    autofill_block_reason?: string | null;
+    checkout_in_progress?: boolean;
     period_resets_at: string;
 }
 
@@ -54,6 +57,12 @@ const usagePercent = computed(() => {
 function formatAutofills(value: number): string {
     return new Intl.NumberFormat('en-GB').format(value);
 }
+
+const autofillNoticeMessage = computed(() =>
+    autofillNotice(props.subscription),
+);
+
+const statusHint = computed(() => subscriptionStatusHint(props.subscription));
 
 function cancelSubscription() {
     if (
@@ -106,7 +115,7 @@ function cancelSubscription() {
                         {{ subscription.plan_description }}
                     </p>
                     <p class="mt-1 text-sm text-muted-foreground">
-                        Status: {{ subscription.status_label }}
+                        Status: {{ statusHint }}
                     </p>
                 </div>
                 <div class="text-right text-sm text-muted-foreground">
@@ -147,16 +156,18 @@ function cancelSubscription() {
             </div>
 
             <p
-                v-if="!subscription.can_autofill"
+                v-if="autofillNoticeMessage"
                 class="mt-4 rounded-md border border-postbox-red/30 bg-postbox-red/5 p-3 text-sm text-postbox-navy"
             >
-                You have used all of your autofills this month. Upgrade your
-                plan or wait until
-                {{
-                    new Date(subscription.period_resets_at).toLocaleDateString(
-                        'en-GB',
-                    )
-                }}.
+                {{ autofillNoticeMessage }}
+            </p>
+
+            <p
+                v-else-if="subscription.checkout_in_progress"
+                class="mt-4 rounded-md border border-postbox-navy/15 bg-postbox-navy/5 p-3 text-sm text-postbox-navy"
+            >
+                Direct Debit setup is in progress. Your Free plan autofills
+                remain available until the upgrade completes.
             </p>
 
             <Link :href="dashboard()" class="postbox-btn-outline mt-6">

@@ -134,4 +134,23 @@ class SubscriptionTest extends TestCase
             ->assertJsonPath('props.subscription.tier', 'free')
             ->assertJsonPath('props.subscription.can_autofill', true);
     }
+
+    public function test_billing_shows_free_autofill_for_pending_checkout(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'free',
+            'subscription_status' => 'pending',
+            'gocardless_billing_request_id' => 'BRQ123',
+            'pending_subscription_tier' => 'starter',
+        ]);
+
+        $this->actingAs($user)
+            ->withHeaders(['X-Inertia' => 'true'])
+            ->get(route('billing.index'))
+            ->assertStatus(200)
+            ->assertJsonPath('props.subscription.can_autofill', true)
+            ->assertJsonPath('props.subscription.autofill_block_reason', null)
+            ->assertJsonPath('props.subscription.checkout_in_progress', true)
+            ->assertJsonPath('props.subscription.autofills_remaining', 250);
+    }
 }
