@@ -686,6 +686,30 @@ async function isSidePanelOpen() {
     }
 }
 
+async function isAuthenticated() {
+    try {
+        const response = await chrome.runtime.sendMessage({ type: 'GET_AUTH_STATUS' });
+
+        return response?.isAuthenticated === true;
+    } catch {
+        return false;
+    }
+}
+
+async function refreshDraftBarVisibility(sidePanelOpen) {
+    if (window !== window.top || typeof AutoCVApplyPortalBar === 'undefined') {
+        return;
+    }
+
+    const authenticated = await isAuthenticated();
+
+    if (sidePanelOpen && authenticated) {
+        AutoCVApplyPortalBar.show();
+    } else {
+        AutoCVApplyPortalBar.hide();
+    }
+}
+
 async function refreshFillButtonVisibility() {
     try {
         const sidePanelOpen = await isSidePanelOpen();
@@ -695,10 +719,7 @@ async function refreshFillButtonVisibility() {
         if (!shouldShow) {
             fillButton?.remove();
             fillButton = null;
-
-            if (window === window.top && typeof AutoCVApplyPortalBar !== 'undefined') {
-                AutoCVApplyPortalBar.hide();
-            }
+            await refreshDraftBarVisibility(false);
 
             return;
         }
@@ -711,9 +732,7 @@ async function refreshFillButtonVisibility() {
             createFillButton();
         }
 
-        if (inTopFrame && typeof AutoCVApplyPortalBar !== 'undefined' && onJobSite) {
-            AutoCVApplyPortalBar.show(true);
-        }
+        await refreshDraftBarVisibility(sidePanelOpen);
     } catch {
         // Ignore visibility updates on restricted or disconnected pages.
     }
@@ -809,7 +828,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             return;
         }
 
-        if (message.type === 'AUTOFILL_VISIBILITY_CHANGED') {
+        if (message.type === 'AUTOFILL_VISIBILITY_CHANGED' || message.type === 'AUTH_STATE_CHANGED') {
             void refreshFillButtonVisibility();
             sendResponse({ success: true });
 

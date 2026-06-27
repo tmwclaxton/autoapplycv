@@ -17,7 +17,6 @@ const usagePill = document.getElementById('usage-pill');
 const logoutBtn = document.getElementById('logout-btn');
 const tokenInput = document.getElementById('token-input');
 const loginEndpointInput = document.getElementById('login-endpoint');
-const draftStatusEl = document.getElementById('draft-status');
 const jobContextEl = document.getElementById('job-context');
 
 const aiTabs = new Set(['ats', 'cover']);
@@ -245,23 +244,12 @@ function startSidePanelHeartbeat() {
     });
 }
 
-document.getElementById('draft-all-btn').addEventListener('click', async () => {
-    draftStatusEl.textContent = 'Starting draft-all…';
-
-    const response = await chrome.runtime.sendMessage({ type: 'START_DRAFT_ALL' });
-
-    if (response?.error) {
-        draftStatusEl.textContent = response.error;
-        showMessage(response.error, 'error');
-    } else {
-        draftStatusEl.textContent = response?.message || 'Draft-all started.';
-        await refreshUsage();
-    }
-});
-
 document.getElementById('ai-ats-btn').addEventListener('click', async () => {
     const statusEl = document.getElementById('ats-status');
     const outputEl = document.getElementById('ats-output');
+
+    setAiOutputVisible('ats-output', 'ats-copy-btn', false);
+    statusEl.textContent = 'Working…';
 
     try {
         const job = buildJobPayload();
@@ -284,6 +272,9 @@ document.getElementById('ai-ats-btn').addEventListener('click', async () => {
 document.getElementById('ai-cover-letter-btn').addEventListener('click', async () => {
     const statusEl = document.getElementById('cover-status');
     const outputEl = document.getElementById('cover-output');
+
+    setAiOutputVisible('cover-output', 'cover-copy-btn', false);
+    statusEl.textContent = 'Working…';
 
     try {
         const job = buildJobPayload();
@@ -359,16 +350,6 @@ document.getElementById('save-token-btn').addEventListener('click', () => {
     });
 });
 
-document.getElementById('open-site-btn').addEventListener('click', async () => {
-    try {
-        await persistLoginEndpoint();
-        const endpoint = normalizeLoginEndpoint(loginEndpointInput.value);
-        chrome.tabs.create({ url: `${endpoint}/dashboard` });
-    } catch {
-        chrome.tabs.create({ url: `${DEFAULT_LOGIN_ENDPOINT}/dashboard` });
-    }
-});
-
 document.getElementById('open-dashboard-btn').addEventListener('click', async () => {
     try {
         const appUrl = await resolveAppUrl();
@@ -388,15 +369,6 @@ document.getElementById('logout-btn').addEventListener('click', () => {
 chrome.runtime.onMessage.addListener((message) => {
     if (message.type === 'AUTH_STATE_CHANGED') {
         void init();
-    }
-
-    if (message.type === 'DRAFT_ALL_PROGRESS') {
-        draftStatusEl.textContent = message.message || '';
-    }
-
-    if (message.type === 'DRAFT_ALL_DONE') {
-        draftStatusEl.textContent = message.message || 'Done';
-        refreshUsage();
     }
 });
 

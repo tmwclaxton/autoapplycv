@@ -544,16 +544,11 @@ body {
 }
 
 .assist-composer-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
     margin-top: 10px;
 }
 
-.assist-composer-actions .postbox-btn,
-.assist-composer-actions .postbox-btn-outline {
-    width: auto;
-    flex: 1 1 140px;
+.assist-composer-actions .postbox-btn {
+    width: 100%;
 }
 
 .assist-inline-btn {

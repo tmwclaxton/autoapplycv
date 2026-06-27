@@ -17,7 +17,6 @@ const AutoCVApplyPortalBar = (() => {
                 <div class="autocvapply-portal-stamp postbox-stamp" aria-hidden="true">CV</div>
                 <span class="autocvapply-portal-brand">AutoCVApply</span>
                 <button type="button" class="postbox-btn compact" id="autocvapply-draft-all-btn">Draft all</button>
-                <button type="button" class="postbox-btn-outline compact" id="autocvapply-open-panel-btn">Sidebar</button>
                 <span id="autocvapply-portal-status"></span>
             </div>
         `;
@@ -114,18 +113,10 @@ const AutoCVApplyPortalBar = (() => {
             chrome.runtime.sendMessage({ type: 'START_DRAFT_ALL' }).catch(() => {});
         });
 
-        barElement.querySelector('#autocvapply-open-panel-btn').addEventListener('click', () => {
-            chrome.runtime.sendMessage({ type: 'OPEN_SIDE_PANEL' }).catch(() => {});
-        });
-
         return barElement;
     }
 
-    function show(onJobSite = true) {
-        if (!onJobSite) {
-            return;
-        }
-
+    function show() {
         ensureBar();
     }
 

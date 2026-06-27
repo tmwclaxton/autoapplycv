@@ -283,8 +283,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             token: message.token,
             apiBase: message.apiBase,
         })
-            .then(() => {
+            .then(async () => {
                 invalidateProfileCache();
+                chrome.runtime.sendMessage({ type: 'AUTH_STATE_CHANGED' }).catch(() => {});
+                await broadcastAutofillVisibility();
                 sendResponse({ success: true });
             })
             .catch((err) => sendResponse({ error: err.message }));
@@ -314,8 +316,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'LOGOUT') {
         clearConnection()
-            .then(() => {
+            .then(async () => {
                 invalidateProfileCache();
+                chrome.runtime.sendMessage({ type: 'AUTH_STATE_CHANGED' }).catch(() => {});
+                await broadcastAutofillVisibility();
                 sendResponse({ success: true });
             })
             .catch((err) => sendResponse({ error: err.message }));
@@ -424,9 +428,10 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
         token: message.token,
         apiBase: message.apiBase,
     })
-        .then(() => {
+        .then(async () => {
             invalidateProfileCache();
             chrome.runtime.sendMessage({ type: 'AUTH_STATE_CHANGED' }).catch(() => {});
+            await broadcastAutofillVisibility();
             sendResponse({ success: true });
         })
         .catch((err) => sendResponse({ error: err.message }));
