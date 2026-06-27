@@ -36,7 +36,7 @@ class ApplicationAssistantService
                 'content' => json_encode([
                     'job' => $job,
                     'questions' => $questions,
-                    'instructions' => 'Return JSON: {"answers":[{"label":"exact label from input","answer":"string or null"}]}. Use null when unsure. Never invent employers, degrees, or dates. For yes/no radio questions return exactly "yes" or "no". Keep within max_chars when provided.',
+                    'instructions' => 'Return JSON: {"answers":[{"label":"exact label from input","answer":"string or null"}]}. Use null when unsure. Never invent employers, degrees, or dates. For radio or checkbox questions with options, return the exact option text from the provided options list. For simple yes/no questions return "yes" or "no". For checkbox groups that allow multiple selections, return comma-separated option texts. Keep within max_chars when provided. For open-text answers (textarea, text, motivation, cover-note style questions), write in first person as the candidate. Sound like a real person: vary sentence length, use plain words, cite specific profile details (companies, tools, outcomes), and avoid AI clichés like "proven track record", "passionate", "leverage", "Furthermore", or "I am excited to apply". Plain text only - no markdown.',
                 ], JSON_THROW_ON_ERROR),
             ],
         ], [
@@ -55,11 +55,16 @@ class ApplicationAssistantService
                 continue;
             }
 
+            $rawAnswer = isset($row['answer']) && is_string($row['answer']) ? trim($row['answer']) : '';
+            $answer = $rawAnswer !== '' ? $this->sanitizeAssistantText($rawAnswer) : null;
+
+            if ($answer !== null && in_array(strtolower($answer), ['yes', 'no'], true)) {
+                $answer = strtolower($answer);
+            }
+
             $answers[] = [
                 'label' => (string) $row['label'],
-                'answer' => isset($row['answer']) && is_string($row['answer']) && trim($row['answer']) !== ''
-                    ? trim($row['answer'])
-                    : null,
+                'answer' => $answer !== '' ? $answer : null,
             ];
         }
 
@@ -83,16 +88,7 @@ class ApplicationAssistantService
             return null;
         }
 
-        $systemPrompt = $this->chatSystemPrompt($profile)
-            ."\n\n"
-            .$this->chatResponseInstructions();
-
-        if ($context !== []) {
-            $systemPrompt .= "\n\nUse this request context when relevant:\n".json_encode(
-                $context,
-                JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE,
-            );
-        }
+        $systemPrompt = $this->buildChatSystemPrompt($profile, $context, stream: false);
 
         $payload = $this->nanoGpt->chatJson([
             [
@@ -114,6 +110,8 @@ class ApplicationAssistantService
 
             return null;
         }
+
+        $messageText = $this->sanitizeAssistantText($messageText);
 
         $profileUpdates = [];
 
@@ -154,7 +152,7 @@ class ApplicationAssistantService
         }
 
         $draftAnswer = isset($payload['draft_answer']) && is_string($payload['draft_answer'])
-            ? trim($payload['draft_answer'])
+            ? $this->sanitizeAssistantText(trim($payload['draft_answer']))
             : null;
 
         return [
@@ -162,6 +160,68 @@ class ApplicationAssistantService
             'profile_updates' => $profileUpdates,
             'draft_answer' => $draftAnswer !== '' ? $draftAnswer : null,
         ];
+    }
+
+    /**
+     * @param  array<int, array{role: string, content: string}>  $messages
+     * @param  array<string, mixed>  $context
+     * @param  callable(array<string, mixed>): void  $emit
+     */
+    public function streamChat(CvProfile $profile, array $messages, array $context, callable $emit): bool
+    {
+        $conversation = $this->normalizeConversationMessages($messages);
+
+        if ($conversation === []) {
+            return false;
+        }
+
+        $payloadMessages = $this->buildChatPayloadMessages($profile, $conversation, $context, stream: true);
+
+        $content = $this->nanoGpt->chatStream(
+            $payloadMessages,
+            static function (string $delta) use ($emit): void {
+                $emit([
+                    'type' => 'token',
+                    'delta' => $delta,
+                ]);
+            },
+            [
+                'model' => config('cv.extraction_model'),
+                'temperature' => 0.5,
+            ],
+        );
+
+        if ($content === null) {
+            return false;
+        }
+
+        $messageText = $this->sanitizeAssistantText($content);
+        $focusedField = is_array($context['focused_field'] ?? null) ? $context['focused_field'] : null;
+        $draftAnswer = $focusedField !== null ? $messageText : null;
+
+        $emit([
+            'type' => 'complete',
+            'message' => $messageText,
+            'profile_updates' => [],
+            'draft_answer' => $draftAnswer,
+        ]);
+
+        return true;
+    }
+
+    private function sanitizeAssistantText(string $text): string
+    {
+        $text = (string) preg_replace('/^Based on your profile,?\s*/iu', '', $text);
+        $text = str_replace(["\u{2014}", "\u{2013}", '—', '–'], '-', $text);
+        $text = (string) preg_replace('/\*\*(.+?)\*\*/s', '$1', $text);
+        $text = (string) preg_replace('/\*(.+?)\*/s', '$1', $text);
+        $text = (string) preg_replace('/__(.+?)__/s', '$1', $text);
+        $text = (string) preg_replace('/_([^_\n]+)_/', '$1', $text);
+        $text = (string) preg_replace('/`([^`]+)`/', '$1', $text);
+        $text = (string) preg_replace('/^#+\s+/m', '', $text);
+        $text = (string) preg_replace('/\[([^\]]+)\]\([^)]+\)/', '$1', $text);
+
+        return trim($text);
     }
 
     /**
@@ -176,7 +236,7 @@ class ApplicationAssistantService
             ],
             [
                 'role' => 'user',
-                'content' => "Write a {$tone} cover letter for this job. 180-280 words. Plain text only.\n\n"
+                'content' => "Write a {$tone} cover letter for this job. 180-280 words. Plain text only. Write in first person. Sound human and specific - mention real details from the profile and tie them to this employer. Avoid generic AI phrases like 'I am excited to apply', 'proven track record', 'passionate', or 'leverage'.\n\n"
                     .json_encode($job, JSON_THROW_ON_ERROR),
             ],
         ], [
@@ -184,7 +244,7 @@ class ApplicationAssistantService
             'temperature' => 0.5,
         ]);
 
-        return $result !== null && trim($result) !== '' ? trim($result) : null;
+        return $result !== null && trim($result) !== '' ? $this->sanitizeAssistantText(trim($result)) : null;
     }
 
     /**
@@ -216,7 +276,7 @@ class ApplicationAssistantService
             'temperature' => 0.45,
         ]);
 
-        return $result !== null && trim($result) !== '' ? trim($result) : null;
+        return $result !== null && trim($result) !== '' ? $this->sanitizeAssistantText(trim($result)) : null;
     }
 
     /**
@@ -302,17 +362,96 @@ class ApplicationAssistantService
             'application_settings' => $settings,
         ], JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE);
 
-        return "You help a job seeker answer employer application questions using ONLY this profile:\n{$structured}";
+        return "You help a job seeker answer employer application questions using ONLY this profile:\n{$structured}\n\n"
+            .$this->humanWritingGuidelines();
+    }
+
+    private function humanWritingGuidelines(): string
+    {
+        return <<<'GUIDE'
+Write like a real person applying for a job, not like a generic AI template.
+
+Voice and tone:
+- Use a warm, conversational professional tone. Sound like the candidate speaking naturally.
+- Write application answers in first person.
+- Mix short, direct sentences with longer ones. Avoid every sentence having the same length or structure.
+- Prefer active voice and plain words (use "use" not "utilize", "help" not "facilitate").
+
+Avoid AI-sounding language. Do not use phrases like:
+- Based on your profile / As an AI / I am excited to apply
+- proven track record, results-driven, dynamic, passionate, leverage, synergy, cutting-edge
+- Furthermore, Moreover, Consequently, It is worth noting, In terms of, Thus, Hence
+
+Be specific, not generic:
+- Ground answers in real details from the profile: company names, projects, tools, and numbers when available.
+- When job context is available, tie the answer to this employer or role instead of writing something that could fit any company.
+- Do not pad with filler or corporate buzzwords. Say what actually happened and why it matters.
+
+Formatting:
+- Plain text only. No markdown, bullet lists, headings, or em dashes. Use normal hyphens (-).
+GUIDE;
+    }
+
+    /**
+     * @param  array<int, array{role: string, content: string}>  $conversation
+     * @param  array<string, mixed>  $context
+     * @return array<int, array{role: string, content: string}>
+     */
+    private function buildChatPayloadMessages(CvProfile $profile, array $conversation, array $context, bool $stream): array
+    {
+        return [
+            [
+                'role' => 'system',
+                'content' => $this->buildChatSystemPrompt($profile, $context, $stream),
+            ],
+            ...$conversation,
+        ];
+    }
+
+    /**
+     * @param  array<string, mixed>  $context
+     */
+    private function buildChatSystemPrompt(CvProfile $profile, array $context, bool $stream): string
+    {
+        $systemPrompt = $this->chatSystemPrompt($profile)
+            ."\n\n"
+            .($stream ? $this->chatStreamInstructions() : $this->chatResponseInstructions());
+
+        if ($context !== []) {
+            $systemPrompt .= "\n\nUse this request context when relevant:\n".json_encode(
+                $context,
+                JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE,
+            );
+        }
+
+        return $systemPrompt;
+    }
+
+    private function chatStreamInstructions(): string
+    {
+        return 'Reply in plain text only. No markdown, no bullet syntax, no bold, no headings, and use normal hyphens (-) instead of em dashes. '
+            .'For employer-style or application-form questions, write in first person as the candidate and make the answer paste-ready. '
+            .'Do not describe the user in third person and do not preface with phrases like "Based on your profile". '
+            .'Sound human: vary sentence length, use plain words, cite specific profile details, and skip AI clichés (proven track record, passionate, leverage, Furthermore). '
+            .'For profile or tooling questions, you may address the user directly, still in plain text.';
     }
 
     private function chatSystemPrompt(CvProfile $profile): string
     {
-        return $this->systemPrompt($profile)."\n\nYou are AutoCVApply's sidebar assistant. Help the user draft application answers, explain their profile, and suggest profile improvements they can approve. Be concise, practical, and truthful. When suggesting profile changes, only propose fields you can support with existing profile facts or explicit user input in the chat.";
+        return $this->systemPrompt($profile)."\n\n"
+            ."You are AutoCVApply's sidebar assistant. Help the user draft application answers, explain their profile, and suggest profile improvements they can approve. "
+            .'Be concise, practical, and truthful. When suggesting profile changes, only propose fields you can support with existing profile facts or explicit user input in the chat. '
+            .'When the user asks an employer-style or application-form question - including practice questions about skills, experience, motivation, salary, availability, or fit - write the answer in first person as the candidate. '
+            .'Do not describe the user in third person and do not preface with phrases like "Based on your profile". Give paste-ready application copy.';
     }
 
     private function chatResponseInstructions(): string
     {
-        return 'Respond with JSON only: {"message":"your reply to the user","profile_updates":[{"field":"summary|headline|phone|location|city|postcode|country|linkedin_url|website_url|extra_context","label":"human label","value":"proposed value","reason":"why you suggest this"}],"draft_answer":"optional text to paste into a form field or null"}. Only include profile_updates when you have a concrete, truthful suggestion drawn from the conversation. Never invent employers, dates, or qualifications.';
+        return 'Respond with JSON only: {"message":"your reply to the user","profile_updates":[{"field":"summary|headline|phone|location|city|postcode|country|linkedin_url|website_url|extra_context","label":"human label","value":"proposed value","reason":"why you suggest this"}],"draft_answer":"optional text to paste into a form field or null"}. '
+            .'Use plain text only in message and draft_answer: no markdown, no bullet syntax, no bold, no headings, and use normal hyphens (-) instead of em dashes. '
+            .'For application-form questions, message must be written in first person as the candidate and ready to paste into the employer form. '
+            .'Put the same paste-ready first-person answer in draft_answer when focused_field is present or when the user is clearly drafting a form response. '
+            .'Only include profile_updates when you have a concrete, truthful suggestion drawn from the conversation. Never invent employers, dates, or qualifications.';
     }
 
     /**

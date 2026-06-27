@@ -237,11 +237,14 @@ function startSidePanelHeartbeat() {
         chrome.runtime.sendMessage({ type: 'SIDE_PANEL_HEARTBEAT' }).catch(() => {});
     };
 
+    try {
+        chrome.runtime.connect({ name: 'sidepanel-presence' });
+    } catch {
+        // Extension context may be invalid during reload.
+    }
+
     ping();
-    window.setInterval(ping, 3000);
-    window.addEventListener('pagehide', () => {
-        chrome.runtime.sendMessage({ type: 'SIDE_PANEL_CLOSED' }).catch(() => {});
-    });
+    window.setInterval(ping, 2000);
 }
 
 document.getElementById('ai-ats-btn').addEventListener('click', async () => {

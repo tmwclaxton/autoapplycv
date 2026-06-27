@@ -4,6 +4,7 @@ namespace Tests\Feature\Api;
 
 use App\Models\CvProfile;
 use App\Models\User;
+use App\Services\ApplicationAssistantService;
 use App\Services\NanoGptService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
@@ -235,6 +236,103 @@ class ApplicationAssistantTest extends TestCase
             ])
             ->assertOk()
             ->assertJsonPath('message', 'Your summary already highlights Laravel experience well.');
+    }
+
+    public function test_extension_chat_strips_markdown_and_em_dashes_from_responses(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'summary' => 'Backend engineer with Laravel experience.',
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')->once()->andReturn([
+                'message' => 'Based on your profile, my **secret skill** is building tools — fast.',
+                'profile_updates' => [],
+                'draft_answer' => 'I build **automation tools** — especially with Laravel.',
+            ]);
+        });
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/chat', [
+                'messages' => [
+                    ['role' => 'user', 'content' => 'What is my secret skill?'],
+                ],
+            ])
+            ->assertOk()
+            ->assertJsonPath('message', 'Based on your profile, my secret skill is building tools - fast.')
+            ->assertJsonPath('draft_answer', 'I build automation tools - especially with Laravel.');
+    }
+
+    public function test_extension_can_stream_assist_chat(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'summary' => 'Backend engineer with Laravel experience.',
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(ApplicationAssistantService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('streamChat')->once()->andReturnUsing(function ($profile, $messages, $context, callable $emit): bool {
+                $emit(['type' => 'token', 'delta' => 'My secret skill is ']);
+                $emit(['type' => 'token', 'delta' => 'building tools.']);
+                $emit([
+                    'type' => 'complete',
+                    'message' => 'My secret skill is building tools.',
+                    'profile_updates' => [],
+                    'draft_answer' => null,
+                ]);
+
+                return true;
+            });
+        });
+
+        $response = $this->withToken($token)
+            ->postJson('/api/applications/assist/chat/stream', [
+                'messages' => [
+                    ['role' => 'user', 'content' => 'What is my secret skill?'],
+                ],
+            ]);
+
+        $response->assertOk();
+
+        $lines = array_values(array_filter(array_map('trim', explode("\n", $response->streamedContent()))));
+
+        $this->assertSame('token', json_decode($lines[0], true)['type'] ?? null);
+        $this->assertSame('complete', json_decode($lines[2], true)['type'] ?? null);
+        $this->assertSame('usage', json_decode($lines[3], true)['type'] ?? null);
+        $this->assertSame(2, $user->fresh()->ai_tokens_used);
+    }
+
+    public function test_extension_question_answers_strip_markdown_and_profile_preface(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'summary' => 'Backend engineer with Laravel experience.',
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')->once()->andReturn([
+                'answers' => [
+                    ['label' => 'Why do you want this role?', 'answer' => 'Based on your profile, I build **Laravel APIs** — reliably.'],
+                ],
+            ]);
+        });
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/questions', [
+                'job' => [
+                    'title' => 'Laravel Developer',
+                    'company' => 'Example Ltd',
+                ],
+                'questions' => [
+                    ['label' => 'Why do you want this role?', 'field_type' => 'textarea'],
+                ],
+            ])
+            ->assertOk()
+            ->assertJsonPath('answers.0.answer', 'I build Laravel APIs - reliably.');
     }
 
     public function test_ai_tools_require_uploaded_cv_profile(): void

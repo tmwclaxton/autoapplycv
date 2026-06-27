@@ -496,16 +496,35 @@ body {
 .shell-assist-panel {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    min-height: 100%;
+    flex: 1;
+    min-height: 0;
+}
+
+.assist-messages-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 10px 16px 12px;
+}
+
+.assist-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--postbox-grey);
+}
+
+.assist-toolbar-btn {
+    width: auto;
+    padding: 0.4rem 0.75rem;
+    font-size: 12px;
 }
 
 .assist-messages {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    flex: 1;
-    min-height: 180px;
 }
 
 .assist-message {
@@ -528,14 +547,60 @@ body {
     color: var(--postbox-navy);
 }
 
+.assist-message-user-inner {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.assist-message-user-inner .assist-message-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.assist-user-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.assist-user-action-btn {
+    width: auto;
+    padding: 0.35rem 0.55rem;
+    font-size: 11px;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.assist-user-action-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
 .assist-message-assistant .assist-message-text {
     background: var(--postbox-surface);
     color: var(--postbox-navy);
 }
 
+.assist-message-assistant.is-streaming .assist-message-text::after {
+    content: '▋';
+    display: inline-block;
+    margin-left: 2px;
+    animation: assist-stream-cursor 1s step-end infinite;
+}
+
+@keyframes assist-stream-cursor {
+    50% {
+        opacity: 0;
+    }
+}
+
 .assist-composer {
-    margin-top: auto;
+    flex-shrink: 0;
+    margin: 0 16px 14px;
     padding: 12px;
+    background: var(--postbox-surface);
 }
 
 .assist-input {

@@ -117,6 +117,80 @@ class ApplicationAssistantController extends Controller
         ]);
     }
 
+    public function chatStream(AssistChatRequest $request): StreamedResponse|JsonResponse
+    {
+        $user = $request->user();
+        $profile = $user->cvProfile;
+
+        if (! $profile) {
+            return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
+        }
+
+        $cost = (int) config('cv.ai_assist.chat_cost', 2);
+
+        if (! $this->usage->canAutofill($user, $cost)) {
+            return response()->json([
+                'success' => false,
+                'error' => 'You do not have enough autofills remaining for AI chat.',
+                'subscription' => $this->usage->summary($user),
+            ], 402);
+        }
+
+        $validated = $request->validated();
+
+        return response()->stream(function () use ($user, $profile, $validated, $cost): void {
+            $emit = static function (array $payload): void {
+                echo json_encode($payload, JSON_THROW_ON_ERROR)."\n";
+
+                if (ob_get_level() > 0) {
+                    ob_flush();
+                }
+
+                flush();
+            };
+
+            try {
+                $ok = $this->assistant->streamChat(
+                    $profile,
+                    $validated['messages'],
+                    [
+                        'job' => $this->normalizeJob($validated['job'] ?? []),
+                        'focused_field' => $validated['focused_field'] ?? null,
+                    ],
+                    $emit,
+                );
+
+                if (! $ok) {
+                    $emit([
+                        'type' => 'error',
+                        'message' => 'Could not respond right now. Try again shortly.',
+                    ]);
+
+                    return;
+                }
+
+                $this->usage->recordAutofill($user, $cost);
+
+                $emit([
+                    'type' => 'usage',
+                    'autofill_cost' => $cost,
+                    'subscription' => $this->usage->summary($user->fresh()),
+                ]);
+            } catch (\Throwable $exception) {
+                report($exception);
+
+                $emit([
+                    'type' => 'error',
+                    'message' => 'Could not respond right now. Try again shortly.',
+                ]);
+            }
+        }, 200, [
+            'Content-Type' => 'application/x-ndjson',
+            'Cache-Control' => 'no-cache',
+            'X-Accel-Buffering' => 'no',
+        ]);
+    }
+
     public function draftField(DraftFieldRequest $request): JsonResponse
     {
         $user = $request->user();

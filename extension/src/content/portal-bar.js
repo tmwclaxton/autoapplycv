@@ -1,123 +1,170 @@
 /**
- * On-page draft bar (GrantGunner-style portal footer, simplified).
+ * On-page Draft All control — isolated from host page CSS via shadow DOM.
  */
 const AutoCVApplyPortalBar = (() => {
-    let barElement = null;
+    let hostElement = null;
+    let shadowRoot = null;
+    let fillButton = null;
     let statusElement = null;
+    let fillHandler = null;
+    let fillRunning = false;
+
+    function configure({ onFill }) {
+        fillHandler = onFill;
+    }
 
     function ensureBar() {
-        if (barElement) {
-            return barElement;
+        if (hostElement?.isConnected && fillButton?.isConnected) {
+            return hostElement;
         }
 
-        barElement = document.createElement('div');
-        barElement.id = 'autocvapply-portal-bar';
-        barElement.innerHTML = `
-            <div class="autocvapply-portal-inner postbox-panel">
-                <div class="autocvapply-portal-stamp postbox-stamp" aria-hidden="true">CV</div>
-                <span class="autocvapply-portal-brand">AutoCVApply</span>
-                <button type="button" class="postbox-btn compact" id="autocvapply-draft-all-btn">Draft all</button>
-                <span id="autocvapply-portal-status"></span>
+        if (!document.body) {
+            return null;
+        }
+
+        hostElement?.remove();
+
+        hostElement = document.createElement('div');
+        hostElement.id = 'autocvapply-portal-bar';
+        hostElement.setAttribute('data-autocvapply-ui', 'portal');
+
+        shadowRoot = hostElement.attachShadow({ mode: 'closed' });
+        shadowRoot.innerHTML = `
+            <style>
+                :host {
+                    all: initial;
+                }
+                .bar {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+                }
+                #draft-btn {
+                    all: unset;
+                    box-sizing: border-box;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 10px 16px;
+                    border: 2px solid #1b365d;
+                    background: #c8102e;
+                    color: #ffffff;
+                    font-family: inherit;
+                    font-size: 13px;
+                    font-weight: 700;
+                    line-height: 1.2;
+                    white-space: nowrap;
+                    cursor: pointer;
+                    box-shadow: 4px 4px 0 rgb(27 54 93 / 8%);
+                    user-select: none;
+                    -webkit-user-select: none;
+                }
+                #draft-btn:hover:not(:disabled) {
+                    filter: brightness(1.06);
+                }
+                #draft-btn:disabled {
+                    opacity: 0.72;
+                    cursor: wait;
+                }
+                #status {
+                    font-size: 11px;
+                    line-height: 1.3;
+                    color: #6b6b6b;
+                    max-width: 200px;
+                }
+                #status:empty {
+                    display: none;
+                }
+                @media (prefers-color-scheme: dark) {
+                    #draft-btn {
+                        border-color: #8eb4d8;
+                        box-shadow: 4px 4px 0 rgb(0 0 0 / 30%);
+                    }
+                    #status {
+                        color: #94a3b8;
+                    }
+                }
+            </style>
+            <div class="bar">
+                <button type="button" id="draft-btn">Draft All</button>
+                <span id="status"></span>
             </div>
         `;
 
-        const style = document.createElement('style');
-        style.textContent = `
-            @import url('https://fonts.bunny.net/css?family=dm-sans:400,600,700');
-            #autocvapply-portal-bar {
-                --postbox-red: #c8102e;
-                --postbox-navy: #1b365d;
-                --postbox-paper: #fafaf8;
-                --postbox-grey: #e8e6e1;
-                --postbox-surface: #ffffff;
-                --postbox-panel-shadow: 4px 4px 0 rgb(27 54 93 / 8%);
-                --postbox-stamp-shadow: 2px 2px 0 rgb(200 16 46 / 20%);
-                position: fixed;
-                bottom: 80px;
-                right: 24px;
-                z-index: 999998;
-                font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-            }
-            #autocvapply-portal-bar .autocvapply-portal-inner {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                padding: 10px 12px;
-                max-width: min(92vw, 560px);
-                border: 2px solid var(--postbox-navy);
-                background: var(--postbox-surface);
-                box-shadow: var(--postbox-panel-shadow);
-            }
-            #autocvapply-portal-bar .autocvapply-portal-stamp {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 28px;
-                height: 28px;
-                border: 2px solid var(--postbox-red);
-                background: var(--postbox-surface);
-                color: var(--postbox-red);
-                transform: rotate(-4deg);
-                box-shadow: var(--postbox-stamp-shadow);
-                font-size: 9px;
-                font-weight: 700;
-                letter-spacing: -0.04em;
-                text-transform: uppercase;
-            }
-            #autocvapply-portal-bar .postbox-btn,
-            #autocvapply-portal-bar .postbox-btn-outline {
-                width: auto;
-                padding: 0.45rem 0.75rem;
-                font-size: 12px;
-                font-weight: 700;
-                white-space: nowrap;
-                cursor: pointer;
-                border: 2px solid var(--postbox-navy);
-            }
-            #autocvapply-portal-bar .postbox-btn {
-                background: var(--postbox-red);
-                color: #fff;
-            }
-            #autocvapply-portal-bar .postbox-btn-outline {
-                background: var(--postbox-surface);
-                color: var(--postbox-navy);
-            }
-            #autocvapply-portal-status {
-                font-size: 11px;
-                color: #6b6b6b;
-                margin-left: 2px;
-                max-width: 140px;
-            }
-            .autocvapply-portal-brand {
-                font-size: 12px;
-                font-weight: 700;
-                color: var(--postbox-navy);
-                letter-spacing: -0.02em;
-            }
-            @media (prefers-color-scheme: dark) {
-                #autocvapply-portal-bar {
-                    --postbox-navy: #8eb4d8;
-                    --postbox-grey: #1a2030;
-                    --postbox-surface: #161b27;
-                    --postbox-panel-shadow: 4px 4px 0 rgb(0 0 0 / 30%);
-                }
-                #autocvapply-portal-status { color: #94a3b8; }
-            }
-        `;
-        document.head.appendChild(style);
-        document.body.appendChild(barElement);
-
-        statusElement = barElement.querySelector('#autocvapply-portal-status');
-
-        barElement.querySelector('#autocvapply-draft-all-btn').addEventListener('click', () => {
-            chrome.runtime.sendMessage({ type: 'START_DRAFT_ALL' }).catch(() => {});
+        Object.assign(hostElement.style, {
+            position: 'fixed',
+            bottom: '24px',
+            right: '24px',
+            left: 'auto',
+            zIndex: '2147483647',
+            pointerEvents: 'auto',
+            display: 'none',
         });
 
-        return barElement;
+        document.body.appendChild(hostElement);
+
+        fillButton = shadowRoot.getElementById('draft-btn');
+        statusElement = shadowRoot.getElementById('status');
+
+        if (!fillButton) {
+            hostElement.remove();
+            hostElement = null;
+            shadowRoot = null;
+            fillButton = null;
+            statusElement = null;
+
+            return null;
+        }
+
+        fillButton.addEventListener('click', async (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (!fillHandler || fillRunning) {
+                return;
+            }
+
+            fillRunning = true;
+            fillButton.disabled = true;
+            setStatus('Filling from profile…');
+
+            try {
+                const result = await fillHandler();
+
+                if (result?.ok === false) {
+                    finishFill(result.message || 'Fill failed.');
+                } else {
+                    finishFill(result?.message || 'Fill complete.');
+                }
+            } catch (error) {
+                finishFill(error?.message || 'Fill failed.');
+            }
+        });
+
+        return hostElement;
     }
 
-    function show() {
-        ensureBar();
+    function update({ visible = false, sidebarOpen = false }) {
+        if (!visible || !fillHandler) {
+            hide();
+
+            return;
+        }
+
+        if (!ensureBar()) {
+            hide();
+
+            return;
+        }
+
+        hostElement.style.display = 'block';
+        hostElement.style.left = sidebarOpen ? '24px' : 'auto';
+        hostElement.style.right = sidebarOpen ? 'auto' : '24px';
+
+        if (!fillRunning && fillButton?.disabled) {
+            fillButton.disabled = false;
+        }
     }
 
     function setStatus(text) {
@@ -125,25 +172,48 @@ const AutoCVApplyPortalBar = (() => {
             ensureBar();
         }
 
-        statusElement.textContent = text || '';
+        if (statusElement) {
+            statusElement.textContent = text || '';
+        }
+    }
+
+    function finishFill(message) {
+        fillRunning = false;
+
+        if (fillButton) {
+            fillButton.disabled = false;
+        }
+
+        setStatus(message || 'Fill complete.');
+        setTimeout(() => setStatus(''), 5000);
     }
 
     function hide() {
-        barElement?.remove();
-        barElement = null;
+        if (hostElement) {
+            hostElement.style.display = 'none';
+        }
+
+        fillRunning = false;
+
+        if (fillButton && !fillRunning) {
+            fillButton.disabled = false;
+        }
+    }
+
+    function destroy() {
+        hostElement?.remove();
+        hostElement = null;
+        shadowRoot = null;
+        fillButton = null;
         statusElement = null;
+        fillRunning = false;
     }
 
     chrome.runtime.onMessage.addListener((message) => {
-        if (message.type === 'DRAFT_ALL_PROGRESS') {
+        if (message.type === 'DRAFT_ALL_PROGRESS' && fillRunning) {
             setStatus(message.message || '');
-        }
-
-        if (message.type === 'DRAFT_ALL_DONE') {
-            setStatus(message.message || 'Draft complete');
-            setTimeout(() => setStatus(''), 5000);
         }
     });
 
-    return { hide, setStatus, show };
+    return { configure, destroy, hide, setStatus, update };
 })();

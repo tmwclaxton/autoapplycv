@@ -96,6 +96,88 @@ export async function requestDraftAllStream(body, onEvent) {
     return { ok: true, complete };
 }
 
+export async function requestAssistChatStream(body, onEvent) {
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
+
+    let response;
+
+    try {
+        response = await fetch(`${apiBase}/api/applications/assist/chat/stream`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/x-ndjson',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${apiToken}`,
+            },
+            body: JSON.stringify(body),
+        });
+    } catch {
+        return { ok: false, message: 'Cannot reach AutoCVApply.' };
+    }
+
+    if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+
+        return {
+            ok: false,
+            message: data.error || data.message || 'Chat request failed.',
+            subscription: data.subscription,
+        };
+    }
+
+    if (!response.body) {
+        return { ok: false, message: 'Chat stream unavailable.' };
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let carry = '';
+    let complete = null;
+    let usage = null;
+
+    while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) {
+            break;
+        }
+
+        const parsed = parseNdjsonChunk(decoder.decode(value, { stream: true }), carry);
+        carry = parsed.carry;
+
+        for (const event of parsed.events) {
+            await onEvent(event);
+
+            if (event.type === 'complete') {
+                complete = event;
+            }
+
+            if (event.type === 'usage') {
+                usage = event;
+            }
+        }
+    }
+
+    if (carry.trim() !== '') {
+        const parsed = parseNdjsonChunk(`${carry}\n`, '');
+
+        for (const event of parsed.events) {
+            await onEvent(event);
+
+            if (event.type === 'complete') {
+                complete = event;
+            }
+
+            if (event.type === 'usage') {
+                usage = event;
+            }
+        }
+    }
+
+    return { ok: true, complete, usage };
+}
+
 export async function requestDraftField(body) {
     const apiToken = await getApiToken();
     const apiBase = await getStoredApiBase();

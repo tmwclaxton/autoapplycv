@@ -23,6 +23,117 @@ class NanoGptService
 
     /**
      * @param  array<array{role: string, content: string|array<int, mixed>}>  $messages
+     * @param  callable(string): void  $onDelta
+     * @param  array<string, mixed>  $options
+     */
+    public function chatStream(array $messages, callable $onDelta, array $options = []): ?string
+    {
+        $timeout = (int) ($options['timeout'] ?? config('services.nanogpt.timeout', 120));
+        $connectTimeout = (int) ($options['connect_timeout'] ?? config('services.nanogpt.connect_timeout', 15));
+
+        try {
+            $response = Http::withToken($this->apiKey)
+                ->connectTimeout($connectTimeout)
+                ->timeout($timeout)
+                ->withOptions(['stream' => true])
+                ->post("{$this->baseUrl}/chat/completions", [
+                    'model' => $options['model'] ?? $this->defaultModel,
+                    'messages' => $messages,
+                    'temperature' => $options['temperature'] ?? 0.3,
+                    'stream' => true,
+                ]);
+        } catch (ConnectionException $exception) {
+            Log::error('NanoGPT stream connection error', [
+                'message' => $exception->getMessage(),
+            ]);
+
+            return null;
+        } catch (Throwable $exception) {
+            Log::error('NanoGPT stream request failed', [
+                'message' => $exception->getMessage(),
+            ]);
+
+            return null;
+        }
+
+        if (! $response->successful()) {
+            Log::error('NanoGPT stream API error', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+
+            return null;
+        }
+
+        $body = $response->toPsrResponse()->getBody();
+        $content = '';
+
+        while (! $body->eof()) {
+            $line = $this->readStreamLine($body);
+
+            if ($line === null || $line === '') {
+                continue;
+            }
+
+            if (! str_starts_with($line, 'data: ')) {
+                continue;
+            }
+
+            $payload = trim(substr($line, 6));
+
+            if ($payload === '' || $payload === '[DONE]') {
+                continue;
+            }
+
+            $decoded = json_decode($payload, true);
+
+            if (! is_array($decoded)) {
+                continue;
+            }
+
+            $delta = $decoded['choices'][0]['delta']['content'] ?? null;
+
+            if (! is_string($delta) || $delta === '') {
+                continue;
+            }
+
+            $content .= $delta;
+            $onDelta($delta);
+        }
+
+        return trim($content) !== '' ? $content : null;
+    }
+
+    /**
+     * @param  resource  $body
+     */
+    private function readStreamLine($body): ?string
+    {
+        $line = '';
+
+        while (! $body->eof()) {
+            $chunk = $body->read(1);
+
+            if ($chunk === '') {
+                break;
+            }
+
+            if ($chunk === "\n") {
+                break;
+            }
+
+            $line .= $chunk;
+        }
+
+        if ($line === '') {
+            return null;
+        }
+
+        return rtrim($line, "\r");
+    }
+
+    /**
+     * @param  array<array{role: string, content: string}>  $messages
      * @param  array<string, mixed>  $options
      * @return array{content: string, tokens: int}|null
      */

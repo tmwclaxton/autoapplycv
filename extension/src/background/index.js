@@ -6,7 +6,7 @@ import {
     saveConnection,
     saveLoginEndpoint,
 } from './connection.js';
-import { requestDraftAllStream, requestDraftField } from './draft-all-stream.js';
+import { requestDraftAllStream, requestDraftField, requestAssistChatStream } from './draft-all-stream.js';
 import { arrayBufferToBase64, base64ToBlob } from './file-transfer.js';
 import {
     applyDraftAnswerToTab,
@@ -193,7 +193,95 @@ chrome.runtime.onStartup.addListener(() => {
     configureSidePanel();
 });
 
+chrome.runtime.onConnect.addListener((port) => {
+    if (port.name === 'sidepanel-presence') {
+        recordSidePanelHeartbeat().catch(() => {});
+
+        port.onDisconnect.addListener(() => {
+            markSidePanelClosed().catch(() => {});
+        });
+
+        return;
+    }
+
+    if (port.name !== 'assist-chat-stream') {
+        return;
+    }
+
+    port.onMessage.addListener((message) => {
+        if (message.type !== 'START') {
+            return;
+        }
+
+        streamAssistChat(message, (event) => {
+            try {
+                port.postMessage(event);
+            } catch {
+                // Port may have disconnected.
+            }
+        }).catch((error) => {
+            try {
+                port.postMessage({
+                    type: 'error',
+                    message: error?.message || 'Could not respond right now. Try again shortly.',
+                });
+            } catch {
+                // Port may have disconnected.
+            }
+        });
+    });
+});
+
 let draftAllRunning = false;
+const SIDE_PANEL_HEARTBEAT_TTL_MS = 8000;
+
+function isSidePanelOpenFromStorage(lastHeartbeatAt) {
+    return typeof lastHeartbeatAt === 'number'
+        && lastHeartbeatAt > 0
+        && Date.now() - lastHeartbeatAt < SIDE_PANEL_HEARTBEAT_TTL_MS;
+}
+
+function isInjectableTabUrl(url) {
+    if (!url) {
+        return false;
+    }
+
+    try {
+        const { protocol } = new URL(url);
+
+        return protocol === 'http:' || protocol === 'https:';
+    } catch {
+        return false;
+    }
+}
+
+function notifyTabOverlayVisibility(tabId) {
+    if (!tabId) {
+        return;
+    }
+
+    chrome.tabs.sendMessage(tabId, { type: 'AUTOFILL_VISIBILITY_CHANGED' }).catch(() => {});
+}
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+    if (changeInfo.status !== 'complete') {
+        return;
+    }
+
+    chrome.tabs.get(tabId)
+        .then((tab) => {
+            if (!isInjectableTabUrl(tab.url)) {
+                return;
+            }
+
+            notifyTabOverlayVisibility(tabId);
+        })
+        .catch(() => {});
+});
+
+chrome.tabs.onActivated.addListener(({ tabId }) => {
+    notifyTabOverlayVisibility(tabId);
+});
 
 function broadcastDraftEvent(type, payload = {}) {
     chrome.runtime.sendMessage({ type, ...payload }).catch(() => {});
@@ -350,8 +438,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'GET_SIDE_PANEL_STATE') {
-        chrome.storage.session.get(['sidePanelOpen'], (result) => {
-            sendResponse({ sidePanelOpen: result.sidePanelOpen === true });
+        chrome.storage.session.get(['sidePanelLastHeartbeatAt'], (result) => {
+            sendResponse({
+                sidePanelOpen: isSidePanelOpenFromStorage(result.sidePanelLastHeartbeatAt),
+            });
         });
 
         return true;
@@ -367,7 +457,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'SIDE_PANEL_HEARTBEAT') {
-        setSidePanelOpen(true)
+        recordSidePanelHeartbeat()
             .then(() => sendResponse({ success: true }))
             .catch((err) => sendResponse({ error: err.message }));
 
@@ -375,7 +465,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'SIDE_PANEL_CLOSED') {
-        setSidePanelOpen(false)
+        markSidePanelClosed()
             .then(() => sendResponse({ success: true }))
             .catch((err) => sendResponse({ error: err.message }));
 
@@ -572,7 +662,7 @@ async function runDraftAll(tabId) {
             return { error: result.message || 'Draft-all failed.' };
         }
 
-        const message = `Draft complete (${collectResponse.fields.length} field(s) requested).`;
+        const message = `Fill complete (${collectResponse.fields.length} field(s) drafted).`;
         broadcastDraftEvent('DRAFT_ALL_DONE', { message });
 
         return { success: true, message };
@@ -765,9 +855,30 @@ async function postAssist(path, body) {
     return data;
 }
 
-async function setSidePanelOpen(isOpen) {
-    await chrome.storage.session.set({ sidePanelOpen: isOpen });
-    await broadcastAutofillVisibility();
+async function recordSidePanelHeartbeat() {
+    const { sidePanelOpen: wasOpen } = await chrome.storage.session.get(['sidePanelOpen']);
+
+    await chrome.storage.session.set({
+        sidePanelOpen: true,
+        sidePanelLastHeartbeatAt: Date.now(),
+    });
+
+    if (wasOpen !== true) {
+        await broadcastAutofillVisibility();
+    }
+}
+
+async function markSidePanelClosed() {
+    const { sidePanelOpen: wasOpen } = await chrome.storage.session.get(['sidePanelOpen']);
+
+    await chrome.storage.session.set({
+        sidePanelOpen: false,
+        sidePanelLastHeartbeatAt: 0,
+    });
+
+    if (wasOpen !== false) {
+        await broadcastAutofillVisibility();
+    }
 }
 
 async function broadcastAutofillVisibility() {
@@ -791,6 +902,31 @@ async function assistChat(message) {
         focused_field: message.focused_field || null,
         settings,
     });
+}
+
+async function streamAssistChat(message, onEvent) {
+    const settings = await buildAutofillSettings();
+
+    const result = await requestAssistChatStream({
+        messages: message.messages,
+        job: message.job || {},
+        focused_field: message.focused_field || null,
+        settings,
+    }, onEvent);
+
+    if (!result.ok) {
+        if (result.subscription && cachedProfile) {
+            cachedProfile.subscription = result.subscription;
+        }
+
+        throw new Error(result.message || 'Could not respond right now. Try again shortly.');
+    }
+
+    if (result.usage?.subscription && cachedProfile) {
+        cachedProfile.subscription = result.usage.subscription;
+    }
+
+    return result;
 }
 
 async function applyProfileUpdate(update) {

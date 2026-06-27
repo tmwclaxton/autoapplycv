@@ -1,24 +1,35 @@
+const WELCOME_MESSAGE =
+    'Ask me to draft an application answer, improve your profile, or explain what to put in a field. I can suggest profile changes for you to approve.';
+
 export function initAssistChat({ showMessage, refreshUsage, buildJobPayload }) {
     const messagesEl = document.getElementById('assist-messages');
+    const messagesScrollEl = document.getElementById('assist-messages-scroll');
     const inputEl = document.getElementById('assist-input');
     const sendBtn = document.getElementById('assist-send-btn');
+    const clearBtn = document.getElementById('assist-clear-btn');
     const chatHistory = [];
+    let activeStreamPort = null;
+    let requestInProgress = false;
 
-    function appendMessage(role, content, extras = {}, options = {}) {
-        const recordHistory = options.recordHistory !== false;
-
-        if (recordHistory) {
-            chatHistory.push({ role, content });
+    function scrollMessagesToBottom() {
+        if (!messagesScrollEl) {
+            return;
         }
 
-        const bubble = document.createElement('div');
-        bubble.className = `assist-message assist-message-${role}`;
+        messagesScrollEl.scrollTop = messagesScrollEl.scrollHeight;
+    }
 
-        const text = document.createElement('div');
-        text.className = 'assist-message-text';
-        text.textContent = content;
-        bubble.appendChild(text);
+    function setRequestInProgress(inProgress) {
+        requestInProgress = inProgress;
+        sendBtn.disabled = inProgress;
+        sendBtn.textContent = inProgress ? 'Thinking…' : 'Send';
 
+        messagesEl.querySelectorAll('.assist-user-action-btn').forEach((button) => {
+            button.disabled = inProgress;
+        });
+    }
+
+    function appendExtras(bubble, extras = {}) {
         if (extras.draftAnswer) {
             const copyBtn = document.createElement('button');
             copyBtn.type = 'button';
@@ -97,22 +108,240 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload }) {
                 bubble.appendChild(card);
             });
         }
-
-        messagesEl.appendChild(bubble);
-        messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-    async function sendMessage() {
-        const content = inputEl.value.trim();
+    function createAssistantBubble(content = '') {
+        const bubble = document.createElement('div');
+        bubble.className = 'assist-message assist-message-assistant';
 
-        if (!content) {
+        const text = document.createElement('div');
+        text.className = 'assist-message-text';
+        text.textContent = content;
+        bubble.appendChild(text);
+
+        return { bubble, text };
+    }
+
+    function createUserActionButtons(userBubble, historyIndex) {
+        const actions = document.createElement('div');
+        actions.className = 'assist-user-actions';
+
+        const editBtn = document.createElement('button');
+        editBtn.type = 'button';
+        editBtn.className = 'postbox-btn-outline assist-user-action-btn assist-user-edit-btn';
+        editBtn.textContent = 'Edit';
+        editBtn.addEventListener('click', () => {
+            if (requestInProgress) {
+                return;
+            }
+
+            editUserMessage(userBubble, historyIndex);
+        });
+
+        const redoBtn = document.createElement('button');
+        redoBtn.type = 'button';
+        redoBtn.className = 'postbox-btn-outline assist-user-action-btn assist-user-redo-btn';
+        redoBtn.textContent = 'Redo';
+        redoBtn.addEventListener('click', () => {
+            if (requestInProgress) {
+                return;
+            }
+
+            void redoUserMessage(userBubble, historyIndex);
+        });
+
+        actions.appendChild(editBtn);
+        actions.appendChild(redoBtn);
+
+        return actions;
+    }
+
+    function appendUserMessage(content) {
+        const historyIndex = chatHistory.length;
+        chatHistory.push({ role: 'user', content });
+
+        const bubble = document.createElement('div');
+        bubble.className = 'assist-message assist-message-user';
+        bubble.dataset.historyIndex = String(historyIndex);
+
+        const inner = document.createElement('div');
+        inner.className = 'assist-message-user-inner';
+
+        const text = document.createElement('div');
+        text.className = 'assist-message-text';
+        text.textContent = content;
+
+        inner.appendChild(text);
+        inner.appendChild(createUserActionButtons(bubble, historyIndex));
+        bubble.appendChild(inner);
+
+        messagesEl.appendChild(bubble);
+        scrollMessagesToBottom();
+
+        return { bubble, text, historyIndex };
+    }
+
+    function appendMessage(role, content, extras = {}, options = {}) {
+        const recordHistory = options.recordHistory !== false;
+
+        if (role === 'user') {
+            if (recordHistory) {
+                return appendUserMessage(content);
+            }
+
+            const bubble = document.createElement('div');
+            bubble.className = 'assist-message assist-message-user';
+
+            const text = document.createElement('div');
+            text.className = 'assist-message-text';
+            text.textContent = content;
+            bubble.appendChild(text);
+
+            messagesEl.appendChild(bubble);
+            scrollMessagesToBottom();
+
+            return { bubble, text };
+        }
+
+        if (recordHistory) {
+            chatHistory.push({ role: 'assistant', content });
+        }
+
+        const { bubble, text } = createAssistantBubble(content);
+        appendExtras(bubble, extras);
+
+        messagesEl.appendChild(bubble);
+        scrollMessagesToBottom();
+
+        return { bubble, text };
+    }
+
+    function appendWelcomeMessage() {
+        const bubble = document.createElement('div');
+        bubble.className = 'assist-message assist-message-assistant assist-message-welcome';
+
+        const text = document.createElement('div');
+        text.className = 'assist-message-text';
+        text.textContent = WELCOME_MESSAGE;
+        bubble.appendChild(text);
+
+        messagesEl.appendChild(bubble);
+    }
+
+    function removeDomAfter(bubble, inclusive = false) {
+        if (inclusive) {
+            let node = bubble;
+
+            while (node) {
+                const next = node.nextElementSibling;
+                node.remove();
+                node = next;
+            }
+
             return;
         }
 
-        appendMessage('user', content);
+        let node = bubble.nextElementSibling;
+
+        while (node) {
+            const next = node.nextElementSibling;
+            node.remove();
+            node = next;
+        }
+    }
+
+    function editUserMessage(userBubble, historyIndex) {
+        const entry = chatHistory[historyIndex];
+
+        if (!entry || entry.role !== 'user') {
+            return;
+        }
+
+        closeActiveStreamPort();
+        chatHistory.splice(historyIndex);
+        removeDomAfter(userBubble, true);
+        inputEl.value = entry.content;
+        inputEl.focus();
+    }
+
+    async function redoUserMessage(userBubble, historyIndex) {
+        const entry = chatHistory[historyIndex];
+
+        if (!entry || entry.role !== 'user') {
+            return;
+        }
+
+        closeActiveStreamPort();
+        chatHistory.splice(historyIndex + 1);
+        removeDomAfter(userBubble, false);
+
+        await requestAssistantReply();
+    }
+
+    function clearChat() {
+        closeActiveStreamPort();
+        chatHistory.length = 0;
+        messagesEl.innerHTML = '';
+        appendWelcomeMessage();
         inputEl.value = '';
-        sendBtn.disabled = true;
-        sendBtn.textContent = 'Thinking…';
+        setRequestInProgress(false);
+        inputEl.focus();
+    }
+
+    function beginAssistantStream() {
+        const bubble = document.createElement('div');
+        bubble.className = 'assist-message assist-message-assistant is-streaming';
+
+        const text = document.createElement('div');
+        text.className = 'assist-message-text';
+        text.textContent = '';
+        bubble.appendChild(text);
+
+        messagesEl.appendChild(bubble);
+        scrollMessagesToBottom();
+
+        return { bubble, text };
+    }
+
+    function appendStreamToken(streamMessage, delta) {
+        streamMessage.text.textContent += delta;
+        scrollMessagesToBottom();
+    }
+
+    function finalizeAssistantStream(streamMessage, extras = {}) {
+        streamMessage.bubble.classList.remove('is-streaming');
+
+        if (typeof extras.finalMessage === 'string' && extras.finalMessage.trim() !== '') {
+            streamMessage.text.textContent = extras.finalMessage;
+        }
+
+        const content = streamMessage.text.textContent.trim();
+
+        if (content !== '') {
+            chatHistory.push({ role: 'assistant', content });
+        }
+
+        appendExtras(streamMessage.bubble, extras);
+        scrollMessagesToBottom();
+    }
+
+    function closeActiveStreamPort() {
+        if (activeStreamPort) {
+            activeStreamPort.disconnect();
+            activeStreamPort = null;
+        }
+    }
+
+    async function requestAssistantReply() {
+        if (chatHistory.length === 0 || requestInProgress) {
+            return;
+        }
+
+        setRequestInProgress(true);
+        closeActiveStreamPort();
+
+        let streamMessage = beginAssistantStream();
+        let completed = false;
 
         try {
             let focusedField = null;
@@ -123,41 +352,87 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload }) {
                 focusedField = null;
             }
 
-            const response = await chrome.runtime.sendMessage({
-                type: 'ASSIST_CHAT',
-                messages: chatHistory,
-                job: buildJobPayload(),
-                focused_field: focusedField || null,
+            const port = chrome.runtime.connect({ name: 'assist-chat-stream' });
+            activeStreamPort = port;
+
+            const result = await new Promise((resolve, reject) => {
+                port.onMessage.addListener((event) => {
+                    if (event.type === 'token' && typeof event.delta === 'string') {
+                        appendStreamToken(streamMessage, event.delta);
+
+                        return;
+                    }
+
+                    if (event.type === 'complete') {
+                        completed = true;
+                        resolve(event);
+
+                        return;
+                    }
+
+                    if (event.type === 'usage') {
+                        void refreshUsage();
+
+                        return;
+                    }
+
+                    if (event.type === 'error') {
+                        reject(new Error(event.message || 'Could not respond right now. Try again shortly.'));
+                    }
+                });
+
+                port.onDisconnect.addListener(() => {
+                    if (!completed) {
+                        reject(new Error('Connection lost before the response finished.'));
+                    }
+                });
+
+                port.postMessage({
+                    type: 'START',
+                    messages: chatHistory,
+                    job: buildJobPayload(),
+                    focused_field: focusedField || null,
+                });
             });
 
-            if (response?.error) {
-                throw new Error(response.error);
-            }
-
-            if (response?.success === false) {
-                throw new Error(response.error || 'Could not respond right now. Try again shortly.');
-            }
-
-            if (!response?.message) {
-                throw new Error('Could not respond right now. Try again shortly.');
-            }
-
-            appendMessage('assistant', response.message, {
-                draftAnswer: response.draft_answer,
-                profileUpdates: response.profile_updates,
+            finalizeAssistantStream(streamMessage, {
+                draftAnswer: result.draft_answer,
+                profileUpdates: result.profile_updates,
+                finalMessage: result.message,
             });
+            streamMessage = null;
             await refreshUsage();
         } catch (error) {
+            if (streamMessage) {
+                streamMessage.bubble.remove();
+            }
+
             showMessage(error.message, 'error');
         } finally {
-            sendBtn.disabled = false;
-            sendBtn.textContent = 'Send';
+            closeActiveStreamPort();
+            setRequestInProgress(false);
             inputEl.focus();
         }
     }
 
+    async function sendMessage() {
+        const content = inputEl.value.trim();
+
+        if (!content || requestInProgress) {
+            return;
+        }
+
+        appendUserMessage(content);
+        inputEl.value = '';
+        await requestAssistantReply();
+    }
+
     sendBtn.addEventListener('click', () => {
         void sendMessage();
+    });
+
+    clearBtn?.addEventListener('click', () => {
+        clearChat();
     });
 
     inputEl.addEventListener('keydown', (event) => {
@@ -167,12 +442,7 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload }) {
         }
     });
 
-    appendMessage(
-        'assistant',
-        'Ask me to draft an application answer, improve your profile, or explain what to put in a field. I can suggest profile changes for you to approve.',
-        {},
-        { recordHistory: false },
-    );
+    appendWelcomeMessage();
 
-    return { appendMessage };
+    return { appendMessage, clearChat };
 }

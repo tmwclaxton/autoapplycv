@@ -19,7 +19,8 @@ const PLATFORM_SELECTORS = {
         },
     },
     indeed: {
-        detect: () => location.hostname.includes('indeed.com') && !location.hostname.includes('apply.indeed.com'),
+        detect: () => (location.hostname.includes('indeed.com') || location.hostname.includes('indeed.co.uk'))
+            && !location.hostname.includes('apply.indeed.com'),
         fields: {
             firstName: ['input[name="applicant.name.first"]', '#input-firstName', 'input[id="input-applicant.name"]'],
             lastName: ['input[name="applicant.name.last"]', '#input-lastName'],
@@ -107,7 +108,10 @@ const PLATFORM_SELECTORS = {
 };
 
 let profile = null;
-let fillButton = null;
+let overlayRefreshTimer = null;
+let overlayRefreshInFlight = false;
+let cachedAuthenticated = false;
+let lastMutationRefreshAt = 0;
 
 function detectPlatform() {
     for (const [name, config] of Object.entries(PLATFORM_SELECTORS)) {
@@ -161,6 +165,22 @@ function extractJobMeta(platformName) {
     }
 
     if (platformName === 'indeed' || platformName === 'indeed_apply') {
+        const smartApplyHeader = document.querySelector('#ia-JobHeader-title, .ia-JobHeader-title');
+
+        if (smartApplyHeader) {
+            const locationText = document.querySelector('.ia-JobHeader-information span, .ia-JobHeader-subtitle')?.textContent?.trim() || null;
+            const [companyPart, locationPart] = locationText?.split(' - ') || [];
+
+            return {
+                title: smartApplyHeader.textContent?.trim() || 'Indeed job',
+                company: companyPart?.trim() || 'Unknown company',
+                link: window.location.href.split('?')[0],
+                location: locationPart?.trim() || locationText,
+                job_description: document.querySelector('#job-description-container, .jobsearch-JobComponent-description')?.textContent?.trim()?.slice(0, 20000) || null,
+                source: 'indeed',
+            };
+        }
+
         return {
             title: document.querySelector('[data-testid="jobsearch-JobInfoHeader-title"], h1')?.textContent?.trim() || 'Indeed job',
             company: document.querySelector('[data-testid="inlineHeader-companyName"], [data-company-name="true"]')?.textContent?.trim() || 'Unknown company',
@@ -590,70 +610,50 @@ async function loadProfile() {
     }
 }
 
-function createFillButton() {
-    if (fillButton) {
-        fillButton.remove();
+function removeLegacyFillOverlay() {
+    document.querySelectorAll('#autocvapply-fill-btn').forEach((element) => {
+        if (!element.closest('#autocvapply-portal-bar')) {
+            element.remove();
+        }
+    });
+}
+
+async function runAutofill() {
+    let platform = detectPlatform();
+
+    if (!platform) {
+        platform = { name: 'generic', config: PLATFORM_SELECTORS.generic };
     }
 
-    fillButton = document.createElement('div');
-    fillButton.id = 'autocvapply-fill-btn';
-    fillButton.innerHTML = `
-        <div style="
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 999999;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #c8102e;
-            color: white;
-            padding: 12px 18px;
-            border: 2px solid #1b365d;
-            box-shadow: 4px 4px 0 rgb(27 54 93 / 18%);
-            cursor: pointer;
-            font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            user-select: none;
-            transition: background-color 0.15s ease, transform 0.15s ease;
-        " onmouseover="this.style.background='#a50d25'"
-           onmouseout="this.style.background='#c8102e'"
-        >
-            <span style="
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                width: 24px;
-                height: 24px;
-                border: 2px solid #ffffff;
-                background: #c8102e;
-                color: #ffffff;
-                font-size: 9px;
-                font-weight: 700;
-                letter-spacing: -0.04em;
-                transform: rotate(-4deg);
-            ">CV</span>
-            AutoFill with AutoCVApply
-        </div>
-    `;
+    return performAutofill(platform);
+}
 
-    const btn = fillButton.querySelector('div');
-    btn.addEventListener('click', async () => {
-        let platform = detectPlatform();
+async function runFullFill() {
+    const autofillResult = await runAutofill();
 
-        if (!platform) {
-            platform = { name: 'generic', config: PLATFORM_SELECTORS.generic };
-        }
+    if (!autofillResult.ok) {
+        return autofillResult;
+    }
 
-        const result = await performAutofill(platform);
-        btn.textContent = result.message;
-        setTimeout(() => {
-            btn.textContent = 'AutoFill with AutoCVApply';
-        }, 3000);
+    const draftResult = await new Promise((resolve) => {
+        chrome.runtime.sendMessage({ type: 'START_DRAFT_ALL' }, resolve);
     });
 
-    document.body.appendChild(fillButton);
+    if (draftResult?.error) {
+        if (draftResult.error === 'No empty fields found to draft.') {
+            return {
+                ok: true,
+                message: autofillResult.message || '✓ Application filled',
+            };
+        }
+
+        return { ok: false, message: draftResult.error };
+    }
+
+    return {
+        ok: true,
+        message: draftResult?.message || autofillResult.message || '✓ Fill complete',
+    };
 }
 
 async function init() {
@@ -661,12 +661,41 @@ async function init() {
         return;
     }
 
+    if (typeof AutoCVApplyPortalBar !== 'undefined') {
+        AutoCVApplyPortalBar.configure({ onFill: runFullFill });
+    }
+
+    removeLegacyFillOverlay();
+
     await loadProfile();
 
-    await refreshFillButtonVisibility();
+    scheduleOverlayRefresh();
+
+    window.addEventListener('focus', () => {
+        scheduleOverlayRefresh();
+    });
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            scheduleOverlayRefresh();
+        }
+    });
+
+    window.setInterval(() => {
+        if (document.visibilityState === 'visible') {
+            scheduleOverlayRefresh();
+        }
+    }, 4000);
 
     const observer = new MutationObserver(() => {
-        void refreshFillButtonVisibility();
+        const now = Date.now();
+
+        if (now - lastMutationRefreshAt < 800) {
+            return;
+        }
+
+        lastMutationRefreshAt = now;
+        scheduleOverlayRefresh();
     });
 
     observer.observe(document.documentElement, { childList: true, subtree: true });
@@ -690,49 +719,74 @@ async function isAuthenticated() {
     try {
         const response = await chrome.runtime.sendMessage({ type: 'GET_AUTH_STATUS' });
 
-        return response?.isAuthenticated === true;
-    } catch {
+        if (response?.isAuthenticated === true) {
+            cachedAuthenticated = true;
+
+            return true;
+        }
+
+        cachedAuthenticated = false;
+
         return false;
+    } catch {
+        return cachedAuthenticated;
     }
 }
 
-async function refreshDraftBarVisibility(sidePanelOpen) {
-    if (window !== window.top || typeof AutoCVApplyPortalBar === 'undefined') {
-        return;
+function scheduleOverlayRefresh() {
+    if (overlayRefreshTimer) {
+        clearTimeout(overlayRefreshTimer);
     }
 
-    const authenticated = await isAuthenticated();
-
-    if (sidePanelOpen && authenticated) {
-        AutoCVApplyPortalBar.show();
-    } else {
-        AutoCVApplyPortalBar.hide();
-    }
+    overlayRefreshTimer = setTimeout(() => {
+        overlayRefreshTimer = null;
+        void refreshFillButtonVisibility();
+    }, 350);
 }
 
 async function refreshFillButtonVisibility() {
-    try {
-        const sidePanelOpen = await isSidePanelOpen();
-        const onJobSite = detectPlatform() !== null;
-        const shouldShow = sidePanelOpen || onJobSite;
+    if (overlayRefreshInFlight) {
+        scheduleOverlayRefresh();
 
-        if (!shouldShow) {
-            fillButton?.remove();
-            fillButton = null;
-            await refreshDraftBarVisibility(false);
+        return;
+    }
+
+    overlayRefreshInFlight = true;
+
+    try {
+        await runOverlayRefresh();
+    } finally {
+        overlayRefreshInFlight = false;
+    }
+}
+
+async function runOverlayRefresh() {
+    try {
+        if (window !== window.top) {
+            return;
+        }
+
+        const [sidePanelOpen, authenticated] = await Promise.all([
+            isSidePanelOpen(),
+            isAuthenticated(),
+        ]);
+
+        if (!authenticated) {
+            if (typeof AutoCVApplyPortalBar !== 'undefined') {
+                AutoCVApplyPortalBar.destroy();
+            }
 
             return;
         }
 
-        const inTopFrame = window === window.top;
-        const inApplyFrame = typeof AutoCVApplyFormHeuristics !== 'undefined'
-            && AutoCVApplyFormHeuristics.frameHasApplicationForm(document);
-
-        if ((inTopFrame || inApplyFrame || sidePanelOpen) && !fillButton) {
-            createFillButton();
+        if (typeof AutoCVApplyPortalBar === 'undefined') {
+            return;
         }
 
-        await refreshDraftBarVisibility(sidePanelOpen);
+        AutoCVApplyPortalBar.update({
+            visible: true,
+            sidebarOpen: sidePanelOpen,
+        });
     } catch {
         // Ignore visibility updates on restricted or disconnected pages.
     }
@@ -829,7 +883,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
 
         if (message.type === 'AUTOFILL_VISIBILITY_CHANGED' || message.type === 'AUTH_STATE_CHANGED') {
-            void refreshFillButtonVisibility();
+            scheduleOverlayRefresh();
             sendResponse({ success: true });
 
             return;
