@@ -285,12 +285,37 @@ function mapApplicationSettingsForAssist(settings) {
     };
 }
 
+function isRestrictedPage() {
+    const protocol = location.protocol;
+
+    return protocol === 'chrome:'
+        || protocol === 'chrome-extension:'
+        || protocol === 'about:'
+        || protocol === 'moz-extension:';
+}
+
+async function readLocalStorage(keys) {
+    try {
+        return await chrome.storage.local.get(keys);
+    } catch {
+        return {};
+    }
+}
+
+async function writeLocalStorage(values) {
+    try {
+        await chrome.storage.local.set(values);
+    } catch {
+        // Storage unavailable in this context.
+    }
+}
+
 async function loadAutofillContext() {
     const [profileResponse, localSettings] = await Promise.all([
         new Promise((resolve) => {
             chrome.runtime.sendMessage({ type: 'GET_PROFILE' }, resolve);
         }),
-        chrome.storage.local.get(['questionMemo']),
+        readLocalStorage(['questionMemo']),
     ]);
 
     return {
@@ -300,9 +325,9 @@ async function loadAutofillContext() {
 }
 
 async function saveQuestionMemo(updates) {
-    const { questionMemo = {} } = await chrome.storage.local.get(['questionMemo']);
+    const { questionMemo = {} } = await readLocalStorage(['questionMemo']);
 
-    await chrome.storage.local.set({
+    await writeLocalStorage({
         questionMemo: {
             ...questionMemo,
             ...updates,
@@ -615,10 +640,10 @@ function createFillButton() {
 
     const btn = fillButton.querySelector('div');
     btn.addEventListener('click', async () => {
-        const platform = detectPlatform();
+        let platform = detectPlatform();
 
         if (!platform) {
-            return;
+            platform = { name: 'generic', config: PLATFORM_SELECTORS.generic };
         }
 
         const result = await performAutofill(platform);
@@ -632,16 +657,49 @@ function createFillButton() {
 }
 
 async function init() {
-    const { isEnabled: enabled } = await chrome.storage.local.get(['isEnabled']);
-
-    if (enabled === false) {
+    if (isRestrictedPage()) {
         return;
     }
 
     await loadProfile();
 
-    const showButtonIfNeeded = () => {
-        if (fillButton || !detectPlatform()) {
+    await refreshFillButtonVisibility();
+
+    const observer = new MutationObserver(() => {
+        void refreshFillButtonVisibility();
+    });
+
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+
+    if (typeof AutoCVApplyFocusTracker !== 'undefined') {
+        AutoCVApplyFocusTracker.bindFocusTracking(document);
+    }
+}
+
+async function isSidePanelOpen() {
+    try {
+        const response = await chrome.runtime.sendMessage({ type: 'GET_SIDE_PANEL_STATE' });
+
+        return response?.sidePanelOpen === true;
+    } catch {
+        return false;
+    }
+}
+
+async function refreshFillButtonVisibility() {
+    try {
+        const sidePanelOpen = await isSidePanelOpen();
+        const onJobSite = detectPlatform() !== null;
+        const shouldShow = sidePanelOpen || onJobSite;
+
+        if (!shouldShow) {
+            fillButton?.remove();
+            fillButton = null;
+
+            if (window === window.top && typeof AutoCVApplyPortalBar !== 'undefined') {
+                AutoCVApplyPortalBar.hide();
+            }
+
             return;
         }
 
@@ -649,25 +707,15 @@ async function init() {
         const inApplyFrame = typeof AutoCVApplyFormHeuristics !== 'undefined'
             && AutoCVApplyFormHeuristics.frameHasApplicationForm(document);
 
-        if (inTopFrame || inApplyFrame) {
+        if ((inTopFrame || inApplyFrame || sidePanelOpen) && !fillButton) {
             createFillButton();
         }
 
-        if (inTopFrame && typeof AutoCVApplyPortalBar !== 'undefined') {
+        if (inTopFrame && typeof AutoCVApplyPortalBar !== 'undefined' && onJobSite) {
             AutoCVApplyPortalBar.show(true);
         }
-    };
-
-    showButtonIfNeeded();
-
-    const observer = new MutationObserver(() => {
-        showButtonIfNeeded();
-    });
-
-    observer.observe(document.documentElement, { childList: true, subtree: true });
-
-    if (typeof AutoCVApplyFocusTracker !== 'undefined') {
-        AutoCVApplyFocusTracker.bindFocusTracking(document);
+    } catch {
+        // Ignore visibility updates on restricted or disconnected pages.
     }
 }
 
@@ -757,6 +805,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                         link: window.location.href.split('?')[0],
                     },
             });
+
+            return;
+        }
+
+        if (message.type === 'AUTOFILL_VISIBILITY_CHANGED') {
+            void refreshFillButtonVisibility();
+            sendResponse({ success: true });
+
+            return;
         }
     })();
 

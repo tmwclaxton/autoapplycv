@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateExtensionProfileRequest;
 use App\Models\CvProfile;
 use App\Models\User;
 use App\Services\AiTokenService;
+use App\Services\CvProfileDocumentService;
 use App\Support\ApplicationSettings;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class ProfileController extends Controller
 {
     public function __construct(
         private readonly AiTokenService $aiTokens,
+        private readonly CvProfileDocumentService $cvDocuments,
     ) {}
 
     public function show(Request $request): JsonResponse
@@ -26,6 +28,8 @@ class ProfileController extends Controller
         if (! $profile) {
             return response()->json(['error' => 'No profile found'], 404);
         }
+
+        $this->cvDocuments->backfillFromCvUploads($user->id);
 
         return response()->json($this->profilePayload($user, $profile));
     }

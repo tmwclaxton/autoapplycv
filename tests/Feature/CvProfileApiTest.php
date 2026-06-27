@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\CvProfile;
+use App\Models\CvUpload;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -70,6 +71,28 @@ class CvProfileApiTest extends TestCase
                     'can_autofill',
                 ],
             ]);
+    }
+
+    public function test_profile_api_backfills_cv_document_from_legacy_upload(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create(['full_name' => 'Legacy User']);
+
+        CvUpload::create([
+            'user_id' => $user->id,
+            'original_filename' => 'legacy-cv.pdf',
+            'stored_path' => 'cv-uploads/'.$user->id.'/legacy-cv.pdf',
+            'mime_type' => 'application/pdf',
+            'file_size' => 120,
+        ]);
+
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->withToken($token)
+            ->getJson('/api/profile')
+            ->assertOk()
+            ->assertJsonPath('documents.0.category', 'cv')
+            ->assertJsonPath('documents.0.original_filename', 'legacy-cv.pdf');
     }
 
     public function test_cannot_access_another_users_profile(): void

@@ -15,8 +15,17 @@ export function initDocumentsPanel({
     const emptyEl = document.getElementById('documents-empty');
     const cvHint = document.getElementById('documents-cv-hint');
 
+    const defaultCategories = [
+        { value: 'cv', label: 'CV / Résumé' },
+        { value: 'certificate', label: 'Certificate / Qualification' },
+        { value: 'transcript', label: 'Transcript' },
+        { value: 'reference', label: 'Reference letter' },
+        { value: 'portfolio', label: 'Portfolio / Work sample' },
+        { value: 'other', label: 'Other' },
+    ];
+
     let documents = [];
-    let categories = [];
+    let categories = [...defaultCategories];
     let deletingId = null;
     let uploading = false;
 
@@ -65,7 +74,7 @@ export function initDocumentsPanel({
 
         emptyEl.hidden = true;
 
-        for (const document of documents) {
+        for (const doc of documents) {
             const item = document.createElement('article');
             item.className = 'document-item postbox-panel';
             item.innerHTML = `
@@ -79,18 +88,18 @@ export function initDocumentsPanel({
                 </div>
             `;
 
-            item.querySelector('.document-item-title').textContent = document.title;
-            item.querySelector('.document-item-meta').textContent = `${document.category_label} · ${document.file_size_label}`;
+            item.querySelector('.document-item-title').textContent = doc.title;
+            item.querySelector('.document-item-meta').textContent = `${doc.category_label} · ${doc.file_size_label}`;
 
             item.querySelector('.document-download-btn').addEventListener('click', () => {
-                downloadDocument(document.id);
+                downloadDocument(doc.id);
             });
 
             item.querySelector('.document-delete-btn').addEventListener('click', () => {
-                deleteDocument(document);
+                deleteDocument(doc);
             });
 
-            if (deletingId === document.id) {
+            if (deletingId === doc.id) {
                 item.querySelector('.document-delete-btn').disabled = true;
                 item.querySelector('.document-delete-btn').textContent = 'Deleting…';
             }
@@ -99,10 +108,17 @@ export function initDocumentsPanel({
         }
     }
 
-    async function refreshDocuments() {
-        const profileData = await loadProfile();
-        documents = profileData?.documents || [];
-        categories = profileData?.document_categories || categories;
+    async function refreshDocuments({ force = false } = {}) {
+        const profileData = await loadProfile({ force });
+
+        if (profileData?.error) {
+            throw new Error(profileData.error);
+        }
+
+        documents = Array.isArray(profileData?.documents) ? profileData.documents : [];
+        categories = Array.isArray(profileData?.document_categories) && profileData.document_categories.length > 0
+            ? profileData.document_categories
+            : defaultCategories;
         renderCategories();
         renderDocuments();
 
@@ -131,21 +147,21 @@ export function initDocumentsPanel({
         }
     }
 
-    async function deleteDocument(document) {
-        const label = document.category === 'cv' ? 'this CV file' : `"${document.title}"`;
+    async function deleteDocument(doc) {
+        const label = doc.category === 'cv' ? 'this CV file' : `"${doc.title}"`;
 
         if (!window.confirm(`Delete ${label}? This cannot be undone.`)) {
             return;
         }
 
-        deletingId = document.id;
+        deletingId = doc.id;
         renderDocuments();
         uploadStatus.textContent = 'Deleting file…';
 
         try {
             const response = await chrome.runtime.sendMessage({
                 type: 'DELETE_PROFILE_DOCUMENT',
-                documentId: document.id,
+                documentId: doc.id,
             });
 
             if (response?.error) {
@@ -232,6 +248,8 @@ export function initDocumentsPanel({
     categorySelect?.addEventListener('change', updateCvHint);
     uploadBtn?.addEventListener('click', () => fileInput?.click());
     fileInput?.addEventListener('change', handleFileSelected);
+
+    renderCategories();
 
     return {
         refreshDocuments,

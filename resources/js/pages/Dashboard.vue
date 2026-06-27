@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Head, Link, router, setLayoutProps } from '@inertiajs/vue3';
+import { Head, Link, setLayoutProps } from '@inertiajs/vue3';
+import { watchDebounced } from '@vueuse/core';
 import {
     Briefcase,
     Copy,
@@ -12,7 +13,7 @@ import {
     User,
     Zap,
 } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import {
     store as cvUpload,
     updateProfile as cvProfileUpdate,
@@ -66,6 +67,7 @@ const activeTab = ref<
     | 'extension'
 >('profile');
 const isSaving = ref(false);
+const saveStatus = ref<'idle' | 'saving' | 'saved' | 'error'>('idle');
 const isUploading = ref(false);
 const uploadError = ref<string | null>(null);
 const cvFileInput = ref<HTMLInputElement | null>(null);
@@ -105,6 +107,29 @@ const tabs = [
     { key: 'usage' as const, label: 'Usage', icon: Zap },
     { key: 'extension' as const, label: 'Extension', icon: Puzzle },
 ];
+
+const saveStatusLabel = computed(() => {
+    switch (saveStatus.value) {
+        case 'saving':
+            return 'Saving…';
+        case 'saved':
+            return 'Saved';
+        case 'error':
+            return 'Save failed';
+        default:
+            return '';
+    }
+});
+
+function csrfToken(): string {
+    return (
+        (
+            document.querySelector(
+                'meta[name="csrf-token"]',
+            ) as HTMLMetaElement
+        )?.content ?? ''
+    );
+}
 
 function openCvUpload(): void {
     uploadError.value = null;
@@ -154,12 +179,7 @@ function uploadCv(file: File): void {
     fetch(cvUpload().url, {
         method: 'POST',
         headers: {
-            'X-CSRF-TOKEN':
-                (
-                    document.querySelector(
-                        'meta[name="csrf-token"]',
-                    ) as HTMLMetaElement
-                )?.content ?? '',
+            'X-CSRF-TOKEN': csrfToken(),
             Accept: 'application/json',
         },
         body: formData,
@@ -226,14 +246,67 @@ function profilePayload(): Record<string, unknown> {
     };
 }
 
-function saveProfile() {
+let savedStatusTimeout: ReturnType<typeof setTimeout> | undefined;
+
+async function saveProfile(): Promise<void> {
+    if (isUploading.value || isSaving.value) {
+        return;
+    }
+
     isSaving.value = true;
-    router.patch(cvProfileUpdate().url, profilePayload(), {
-        onFinish: () => {
-            isSaving.value = false;
-        },
-    });
+    saveStatus.value = 'saving';
+
+    try {
+        const response = await fetch(cvProfileUpdate().url, {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken(),
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(profilePayload()),
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            throw new Error(
+                typeof data.message === 'string'
+                    ? data.message
+                    : 'Could not save profile.',
+            );
+        }
+
+        saveStatus.value = 'saved';
+
+        if (savedStatusTimeout) {
+            clearTimeout(savedStatusTimeout);
+        }
+
+        savedStatusTimeout = setTimeout(() => {
+            if (saveStatus.value === 'saved') {
+                saveStatus.value = 'idle';
+            }
+        }, 2000);
+    } catch (error) {
+        saveStatus.value = 'error';
+        toastStore.error(
+            error instanceof Error
+                ? error.message
+                : 'Could not save profile.',
+        );
+    } finally {
+        isSaving.value = false;
+    }
 }
+
+watchDebounced(
+    profile,
+    () => {
+        void saveProfile();
+    },
+    { debounce: 800, deep: true },
+);
 
 async function generateToken() {
     isGeneratingToken.value = true;
@@ -242,12 +315,7 @@ async function generateToken() {
         const response = await fetch('/extension/connection', {
             method: 'POST',
             headers: {
-                'X-CSRF-TOKEN':
-                    (
-                        document.querySelector(
-                            'meta[name="csrf-token"]',
-                        ) as HTMLMetaElement
-                    )?.content ?? '',
+                'X-CSRF-TOKEN': csrfToken(),
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
@@ -300,6 +368,21 @@ async function copyToken() {
             </h1>
             <p class="mt-1 text-sm text-muted-foreground">
                 Edit details, review experience, connect the extension.
+            </p>
+            <p
+                v-if="saveStatusLabel"
+                class="mt-2 text-xs"
+                :class="
+                    saveStatus === 'error'
+                        ? 'text-postbox-red'
+                        : 'text-muted-foreground'
+                "
+            >
+                <Loader2
+                    v-if="saveStatus === 'saving'"
+                    class="mr-1 inline size-3 animate-spin"
+                />
+                {{ saveStatusLabel }}
             </p>
         </div>
         <div class="flex shrink-0 items-center gap-3">
@@ -364,18 +447,6 @@ async function copyToken() {
             :sections="profileSections"
             :class="{ 'pointer-events-none select-none': isUploading }"
         />
-
-        <div class="flex justify-end">
-            <button
-                type="button"
-                class="postbox-btn"
-                :disabled="isSaving || isUploading"
-                @click="saveProfile"
-            >
-                <Loader2 v-if="isSaving" class="size-4 animate-spin" />
-                {{ isSaving ? 'Saving…' : 'Save changes' }}
-            </button>
-        </div>
     </div>
 
     <div v-else-if="activeTab === 'experience'" class="relative space-y-6">
@@ -402,18 +473,6 @@ async function copyToken() {
                 Replace CV
             </button>
         </div>
-
-        <div class="flex justify-end">
-            <button
-                type="button"
-                class="postbox-btn"
-                :disabled="isSaving || isUploading"
-                @click="saveProfile"
-            >
-                <Loader2 v-if="isSaving" class="size-4 animate-spin" />
-                {{ isSaving ? 'Saving…' : 'Save changes' }}
-            </button>
-        </div>
     </div>
 
     <div v-else-if="activeTab === 'documents'" class="relative space-y-6">
@@ -435,18 +494,6 @@ async function copyToken() {
             <ApplicationPreferencesPanel
                 v-model="profile.application_settings"
             />
-        </div>
-
-        <div class="flex justify-end">
-            <button
-                type="button"
-                class="postbox-btn"
-                :disabled="isSaving || isUploading"
-                @click="saveProfile"
-            >
-                <Loader2 v-if="isSaving" class="size-4 animate-spin" />
-                {{ isSaving ? 'Saving…' : 'Save preferences' }}
-            </button>
         </div>
     </div>
 

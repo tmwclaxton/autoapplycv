@@ -19,7 +19,11 @@
                         <div class="postbox-tagline">Stop retyping your life story.</div>
                     </div>
                 </div>
-                <span id="usage-pill" class="postbox-badge">—</span>
+                <div class="shell-header-actions">
+                    <button type="button" id="open-dashboard-btn" class="postbox-badge header-action">Dashboard</button>
+                    <button type="button" id="logout-btn" class="postbox-badge header-action header-action-danger" hidden>Sign out</button>
+                    <span id="usage-pill" class="postbox-badge">—</span>
+                </div>
             </div>
         </header>
 
@@ -31,11 +35,28 @@
                     <div class="status-card unauth postbox-panel">
                         <div class="status-row"><span class="dot red"></span> Not connected</div>
                     </div>
-                    <label class="postbox-label">Paste the connection copied from your dashboard</label>
+
+                    <label class="postbox-label" for="login-endpoint">Login endpoint</label>
+                    <input
+                        id="login-endpoint"
+                        class="postbox-input"
+                        type="url"
+                        spellcheck="false"
+                        placeholder="https://autocvapply.com"
+                    />
+                    <p class="postbox-hint">Defaults to production. Change this only for local development.</p>
+
+                    <div class="stack">
+                        <button type="button" class="postbox-btn" id="workos-login-btn">Sign in with AutoCVApply</button>
+                    </div>
+
+                    <p class="postbox-hint login-divider">or paste connection JSON</p>
+
+                    <label class="postbox-label" for="token-input">Connection JSON</label>
                     <textarea id="token-input" class="postbox-input" rows="4" placeholder='{"token":"…","api_base":"…"}'></textarea>
                     <div class="stack">
-                        <button class="postbox-btn" id="save-token-btn">Connect</button>
-                        <button class="postbox-btn-outline" id="open-site-btn">Get connection from dashboard →</button>
+                        <button class="postbox-btn-outline" id="save-token-btn">Connect with JSON</button>
+                        <button class="postbox-btn-outline" id="open-site-btn">Open dashboard →</button>
                     </div>
                 </div>
             </div>
@@ -70,30 +91,22 @@
 
                 <div class="tab-viewport">
                     <div class="tab-panel active" id="assist-tab">
-                        <div class="shell-scroll">
-                            <div class="toggle-row">
-                                <span>Show AutoFill button on job sites</span>
-                                <label class="toggle"><input type="checkbox" id="enabled-toggle" checked /><span class="slider"></span></label>
-                            </div>
+                        <div class="shell-scroll shell-assist-panel">
+                            <div id="assist-messages" class="assist-messages"></div>
 
-                            <section class="card postbox-panel">
-                                <h2 class="postbox-section-title">Draft on this page</h2>
-                                <p class="postbox-hint">Click a form field on the page, then use Quick Answer or draft every empty field.</p>
-                                <div id="focused-field" class="focused-field">Click a form field to enable Quick Answer.</div>
-                                <div class="stack">
-                                    <button class="postbox-btn" id="quick-answer-btn">Quick Answer selected field</button>
-                                    <button class="postbox-btn-outline" id="draft-all-btn">Draft all empty fields</button>
+                            <div class="assist-composer postbox-panel">
+                                <label class="postbox-label" for="assist-input">Ask AutoCVApply</label>
+                                <textarea
+                                    id="assist-input"
+                                    class="postbox-input assist-input"
+                                    rows="3"
+                                    placeholder="Draft an answer for the selected field, improve my summary, or suggest profile changes…"
+                                ></textarea>
+                                <div class="assist-composer-actions">
+                                    <button type="button" class="postbox-btn" id="assist-send-btn">Send</button>
+                                    <button type="button" class="postbox-btn-outline" id="draft-all-btn">Draft all empty fields</button>
                                 </div>
                                 <div id="draft-status" class="status-line"></div>
-                            </section>
-
-                            <p class="postbox-hint">
-                                Upload CVs and supporting files on the Docs tab. Edit your full profile and application preferences on the dashboard.
-                            </p>
-
-                            <div class="stack shell-actions">
-                                <button class="postbox-btn-outline" id="open-dashboard-btn">Open dashboard</button>
-                                <button class="postbox-btn-danger" id="logout-btn">Sign out</button>
                             </div>
                         </div>
                     </div>
@@ -101,8 +114,8 @@
                     <div class="tab-panel" id="ats-tab">
                         <div class="shell-scroll shell-ai-panel">
                             <button class="postbox-btn" id="ai-ats-btn">Run ATS score</button>
-                            <textarea id="ats-output" class="postbox-input output shell-grow-input" rows="10" readonly placeholder="ATS results appear here…"></textarea>
-                            <button class="postbox-btn-outline" id="ats-copy-btn" type="button">Copy output</button>
+                            <textarea id="ats-output" class="postbox-input output shell-grow-input" rows="10" readonly placeholder="ATS results appear here…" hidden></textarea>
+                            <button class="postbox-btn-outline" id="ats-copy-btn" type="button" hidden>Copy output</button>
                             <div id="ats-status" class="status-line"></div>
                         </div>
                     </div>
@@ -110,8 +123,8 @@
                     <div class="tab-panel" id="cover-tab">
                         <div class="shell-scroll shell-ai-panel">
                             <button class="postbox-btn" id="ai-cover-letter-btn">Generate cover letter</button>
-                            <textarea id="cover-output" class="postbox-input output shell-grow-input" rows="10" readonly placeholder="Cover letter appears here…"></textarea>
-                            <button class="postbox-btn-outline" id="cover-copy-btn" type="button">Copy output</button>
+                            <textarea id="cover-output" class="postbox-input output shell-grow-input" rows="10" readonly placeholder="Cover letter appears here…" hidden></textarea>
+                            <button class="postbox-btn-outline" id="cover-copy-btn" type="button" hidden>Copy output</button>
                             <div id="cover-status" class="status-line"></div>
                         </div>
                     </div>

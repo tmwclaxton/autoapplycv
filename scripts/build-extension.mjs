@@ -83,6 +83,18 @@ function patchManifest(apiBase) {
 
     manifest.host_permissions = ['<all_urls>'];
 
+    const connectableMatches = new Set(manifest.externally_connectable?.matches || [
+        'https://autocvapply.com/*',
+        'http://localhost/*',
+        'http://127.0.0.1/*',
+    ]);
+
+    connectableMatches.add(apiOriginPattern);
+
+    manifest.externally_connectable = {
+        matches: [...connectableMatches],
+    };
+
     for (const script of manifest.content_scripts || []) {
         script.matches = ['<all_urls>'];
         script.exclude_matches = [...excludeMatches];
@@ -115,6 +127,7 @@ copyFileSync(join(SRC, 'content/index.js'), join(DIST, 'content.js'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.html'), join(DIST, 'sidepanel.html'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.css'), join(DIST, 'sidepanel.css'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.js'), join(DIST, 'sidepanel.js'));
+copyFileSync(join(SRC, 'sidepanel/assist.js'), join(DIST, 'assist.js'));
 copyFileSync(join(SRC, 'sidepanel/documents.js'), join(DIST, 'documents.js'));
 
 patchManifest(apiBase);

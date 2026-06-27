@@ -62,11 +62,14 @@ return [
 
     'max_profile_documents' => (int) env('CV_MAX_PROFILE_DOCUMENTS', 25),
 
+    'extension_login_url' => env('EXTENSION_LOGIN_URL', 'https://autocvapply.com'),
+
     'ai_assist' => [
         'cover_letter_cost' => (int) env('CV_AI_COVER_LETTER_COST', 8),
         'ats_score_cost' => (int) env('CV_AI_ATS_SCORE_COST', 5),
         'tailored_resume_cost' => (int) env('CV_AI_TAILORED_RESUME_COST', 10),
         'draft_field_cost' => (int) env('CV_AI_DRAFT_FIELD_COST', 1),
+        'chat_cost' => (int) env('CV_AI_CHAT_COST', 2),
         'draft_all_batch_size' => (int) env('CV_AI_DRAFT_ALL_BATCH_SIZE', 10),
         'draft_all_batch_cost' => (int) env('CV_AI_DRAFT_ALL_BATCH_COST', 3),
     ],

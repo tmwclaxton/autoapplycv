@@ -89,4 +89,19 @@ class OnboardingTest extends TestCase
             'parsing_complete' => true,
         ]);
     }
+
+    public function test_profile_can_be_updated_via_json(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create();
+
+        $this->actingAs($user)
+            ->patchJson(route('cv.profile.update'), [
+                'full_name' => 'Jane Smith',
+                'email' => 'jane@example.com',
+            ])
+            ->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('profile.full_name', 'Jane Smith');
+    }
 }

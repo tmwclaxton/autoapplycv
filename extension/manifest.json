@@ -1,10 +1,17 @@
 {
     "manifest_version": 3,
     "name": "AutoCVApply",
-    "version": "2.10.0",
+    "version": "2.12.0",
     "description": "Auto-fill job application forms on any site and draft answers, cover letters, and tailored resumes from the sidebar.",
     "permissions": ["storage", "tabs", "scripting", "sidePanel", "contextMenus", "webNavigation"],
     "host_permissions": ["<all_urls>"],
+    "externally_connectable": {
+        "matches": [
+            "https://autocvapply.com/*",
+            "http://localhost/*",
+            "http://127.0.0.1/*"
+        ]
+    },
     "side_panel": {
         "default_path": "sidepanel.html"
     },

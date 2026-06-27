@@ -94,7 +94,7 @@ class CvUploadController extends Controller
         return response()->json($response);
     }
 
-    public function updateProfile(Request $request): RedirectResponse
+    public function updateProfile(Request $request): JsonResponse|RedirectResponse
     {
         $validated = $request->validate([
             'full_name' => 'nullable|string|max:255',
@@ -125,6 +125,13 @@ class CvUploadController extends Controller
             ['user_id' => $request->user()->id],
             array_merge($validated, ['parsing_complete' => true])
         );
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'profile' => $profile,
+            ]);
+        }
 
         return redirect()->route('dashboard')->with('success', 'Profile saved.');
     }

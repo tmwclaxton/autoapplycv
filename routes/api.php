@@ -17,6 +17,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/profile/documents/{profileDocument}/download', [ExtensionProfileDocumentController::class, 'download'])->name('api.profile.documents.download');
     Route::post('/autofill', [AutofillController::class, 'store'])->name('api.autofill');
     Route::post('/applications/assist/questions', [ApplicationAssistantController::class, 'answerQuestions'])->name('api.applications.assist.questions');
+    Route::post('/applications/assist/chat', [ApplicationAssistantController::class, 'chat'])->name('api.applications.assist.chat');
     Route::post('/applications/assist/draft-field', [ApplicationAssistantController::class, 'draftField'])->name('api.applications.assist.draft-field');
     Route::post('/applications/assist/draft-all', [ApplicationAssistantController::class, 'draftAll'])->name('api.applications.assist.draft-all');
     Route::post('/applications/assist/cover-letter', [ApplicationAssistantController::class, 'coverLetter'])->name('api.applications.assist.cover-letter');

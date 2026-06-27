@@ -14,12 +14,40 @@ body {
     flex-shrink: 0;
 }
 
+.login-divider {
+    margin: 14px 0 10px;
+    text-align: center;
+}
+
 .shell-header-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
     padding: 12px 14px;
+}
+
+.shell-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.header-action {
+    cursor: pointer;
+    border: 2px solid var(--postbox-navy);
+    background: var(--postbox-surface);
+    color: var(--postbox-navy);
+    text-transform: uppercase;
+}
+
+.header-action:hover {
+    background: var(--postbox-grey);
+}
+
+.header-action-danger {
+    color: var(--postbox-red);
 }
 
 .shell-brand {
@@ -463,4 +491,99 @@ body {
 .footer {
     padding: 10px 16px 14px;
     text-align: center;
+}
+
+.shell-assist-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 100%;
+}
+
+.assist-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    min-height: 180px;
+}
+
+.assist-message {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 100%;
+}
+
+.assist-message-text {
+    padding: 10px 12px;
+    border: 2px solid var(--postbox-navy);
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.assist-message-user .assist-message-text {
+    background: var(--postbox-grey);
+    color: var(--postbox-navy);
+}
+
+.assist-message-assistant .assist-message-text {
+    background: var(--postbox-surface);
+    color: var(--postbox-navy);
+}
+
+.assist-composer {
+    margin-top: auto;
+    padding: 12px;
+}
+
+.assist-input {
+    min-height: 72px;
+    resize: vertical;
+}
+
+.assist-composer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.assist-composer-actions .postbox-btn,
+.assist-composer-actions .postbox-btn-outline {
+    width: auto;
+    flex: 1 1 140px;
+}
+
+.assist-inline-btn {
+    width: auto;
+    align-self: flex-start;
+    padding: 0.45rem 0.75rem;
+    font-size: 12px;
+}
+
+.assist-update-card {
+    padding: 10px 12px;
+}
+
+.assist-update-value {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--postbox-navy);
+    white-space: pre-wrap;
+}
+
+.assist-update-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.assist-update-actions .postbox-btn,
+.assist-update-actions .postbox-btn-outline {
+    width: auto;
+    flex: 1;
+    padding: 0.45rem 0.75rem;
+    font-size: 12px;
 }

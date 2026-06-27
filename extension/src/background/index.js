@@ -4,6 +4,7 @@ import {
     getApiToken,
     getStoredApiBase,
     saveConnection,
+    saveLoginEndpoint,
 } from './connection.js';
 import { requestDraftAllStream, requestDraftField } from './draft-all-stream.js';
 import { arrayBufferToBase64, base64ToBlob } from './file-transfer.js';
@@ -208,6 +209,10 @@ function broadcastDraftEvent(type, payload = {}) {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'GET_PROFILE') {
+        if (message.force) {
+            invalidateProfileCache();
+        }
+
         getProfile().then(sendResponse).catch((err) => sendResponse({ error: err.message }));
 
         return true;
@@ -288,12 +293,21 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'GET_AUTH_STATUS') {
-        chrome.storage.local.get(['apiToken', 'apiBase'], (result) => {
+        chrome.storage.local.get(['apiToken', 'apiBase', 'loginEndpoint'], (result) => {
             sendResponse({
                 isAuthenticated: !!result.apiToken,
                 apiBase: result.apiBase ?? null,
+                loginEndpoint: result.loginEndpoint ?? 'https://autocvapply.com',
             });
         });
+
+        return true;
+    }
+
+    if (message.type === 'SET_LOGIN_ENDPOINT') {
+        saveLoginEndpoint(message.loginEndpoint)
+            .then(() => sendResponse({ success: true }))
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -331,6 +345,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
 
+    if (message.type === 'GET_SIDE_PANEL_STATE') {
+        chrome.storage.session.get(['sidePanelOpen'], (result) => {
+            sendResponse({ sidePanelOpen: result.sidePanelOpen === true });
+        });
+
+        return true;
+    }
+
     if (message.type === 'QUICK_ANSWER_FOCUSED') {
         resolveActiveTabId(sender.tab?.id)
             .then((tabId) => quickAnswerFocused(tabId))
@@ -339,6 +361,77 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         return true;
     }
+
+    if (message.type === 'SIDE_PANEL_HEARTBEAT') {
+        setSidePanelOpen(true)
+            .then(() => sendResponse({ success: true }))
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'SIDE_PANEL_CLOSED') {
+        setSidePanelOpen(false)
+            .then(() => sendResponse({ success: true }))
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'ASSIST_CHAT') {
+        assistChat(message).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'APPLY_PROFILE_UPDATE') {
+        applyProfileUpdate(message.update).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+});
+
+chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
+    if (message.type !== 'EXTENSION_AUTH_COMPLETE') {
+        return;
+    }
+
+    if (!message.token || !message.apiBase) {
+        sendResponse({ error: 'Invalid auth payload.' });
+
+        return;
+    }
+
+    let apiOrigin;
+
+    try {
+        apiOrigin = new URL(message.apiBase).origin;
+    } catch {
+        sendResponse({ error: 'Invalid API base.' });
+
+        return;
+    }
+
+    const senderOrigin = sender.url ? new URL(sender.url).origin : null;
+
+    if (senderOrigin !== apiOrigin) {
+        sendResponse({ error: 'Origin mismatch.' });
+
+        return;
+    }
+
+    saveConnection({
+        token: message.token,
+        apiBase: message.apiBase,
+    })
+        .then(() => {
+            invalidateProfileCache();
+            chrome.runtime.sendMessage({ type: 'AUTH_STATE_CHANGED' }).catch(() => {});
+            sendResponse({ success: true });
+        })
+        .catch((err) => sendResponse({ error: err.message }));
+
+    return true;
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
@@ -646,7 +739,7 @@ async function postAssist(path, body) {
         body: JSON.stringify(body),
     });
 
-    const data = await response.json();
+    const data = await response.json().catch(() => ({}));
 
     if (response.status === 402) {
         if (cachedProfile) {
@@ -663,6 +756,87 @@ async function postAssist(path, body) {
     if (cachedProfile && data.subscription) {
         cachedProfile.subscription = data.subscription;
     }
+
+    return data;
+}
+
+async function setSidePanelOpen(isOpen) {
+    await chrome.storage.session.set({ sidePanelOpen: isOpen });
+    await broadcastAutofillVisibility();
+}
+
+async function broadcastAutofillVisibility() {
+    const tabs = await chrome.tabs.query({});
+
+    await Promise.all(tabs.map((tab) => {
+        if (!tab.id) {
+            return Promise.resolve();
+        }
+
+        return chrome.tabs.sendMessage(tab.id, { type: 'AUTOFILL_VISIBILITY_CHANGED' }).catch(() => {});
+    }));
+}
+
+async function assistChat(message) {
+    const settings = await buildAutofillSettings();
+
+    return postAssist('/api/applications/assist/chat', {
+        messages: message.messages,
+        job: message.job || {},
+        focused_field: message.focused_field || null,
+        settings,
+    });
+}
+
+async function applyProfileUpdate(update) {
+    if (!update?.field || !Object.prototype.hasOwnProperty.call(update, 'value')) {
+        throw new Error('Invalid profile update.');
+    }
+
+    const allowedFields = [
+        'headline',
+        'phone',
+        'location',
+        'city',
+        'postcode',
+        'country',
+        'linkedin_url',
+        'website_url',
+        'summary',
+        'extra_context',
+    ];
+
+    if (!allowedFields.includes(update.field)) {
+        throw new Error('That profile field cannot be updated from the extension.');
+    }
+
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
+
+    const response = await fetch(`${apiBase}/api/profile`, {
+        method: 'PATCH',
+        headers: {
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            [update.field]: update.value,
+        }),
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        if (response.status === 401) {
+            await clearConnection();
+            throw new Error('Session expired. Please log in again.');
+        }
+
+        throw new Error(apiErrorMessage(data, 'Could not update profile.'));
+    }
+
+    invalidateProfileCache();
 
     return data;
 }

@@ -93,23 +93,77 @@ class NanoGptService
      */
     public function chatJson(array $messages, array $options = []): ?array
     {
-        $result = $this->chatWithUsage($messages, array_merge($options, [
-            'response_format' => ['type' => 'json_object'],
-        ]));
+        $withJsonFormat = $this->decodeChatJsonResponse(
+            $this->chatWithUsage($messages, array_merge($options, [
+                'response_format' => ['type' => 'json_object'],
+            ]))
+        );
 
+        if ($withJsonFormat !== null) {
+            return $withJsonFormat;
+        }
+
+        return $this->decodeChatJsonResponse(
+            $this->chatWithUsage($messages, $options)
+        );
+    }
+
+    /**
+     * @param  array{content: string, tokens: int}|null  $result
+     * @return array<string, mixed>|null
+     */
+    private function decodeChatJsonResponse(?array $result): ?array
+    {
         if ($result === null) {
             return null;
         }
 
-        $decoded = json_decode($result['content'], true);
+        $decoded = $this->decodeJsonContent($result['content']);
 
         if (! is_array($decoded)) {
+            Log::warning('NanoGPT returned non-JSON content', [
+                'preview' => mb_substr($result['content'], 0, 500),
+            ]);
+
             return null;
         }
 
         $decoded['_tokens_used'] = $result['tokens'];
 
         return $decoded;
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    private function decodeJsonContent(string $content): ?array
+    {
+        $content = trim($content);
+
+        if ($content === '') {
+            return null;
+        }
+
+        if (preg_match('/```(?:json)?\s*([\s\S]*?)```/i', $content, $matches)) {
+            $content = trim($matches[1]);
+        }
+
+        $decoded = json_decode($content, true);
+
+        if (is_array($decoded)) {
+            return $decoded;
+        }
+
+        $start = strpos($content, '{');
+        $end = strrpos($content, '}');
+
+        if ($start === false || $end === false || $end <= $start) {
+            return null;
+        }
+
+        $decoded = json_decode(substr($content, $start, $end - $start + 1), true);
+
+        return is_array($decoded) ? $decoded : null;
     }
 
     public function extractTextFromImage(string $absolutePath, string $mimeType): ?string

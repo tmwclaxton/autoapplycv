@@ -1,4 +1,9 @@
-import { parseConnectionInput } from './connection.js';
+import {
+    DEFAULT_LOGIN_ENDPOINT,
+    normalizeLoginEndpoint,
+    parseConnectionInput,
+} from './connection.js';
+import { initAssistChat } from './assist.js';
 import { initDocumentsPanel } from './documents.js';
 
 const messageEl = document.getElementById('message');
@@ -9,15 +14,16 @@ const usageCount = document.getElementById('usage-count');
 const usageFill = document.getElementById('usage-fill');
 const usageMeta = document.getElementById('usage-meta');
 const usagePill = document.getElementById('usage-pill');
+const logoutBtn = document.getElementById('logout-btn');
 const tokenInput = document.getElementById('token-input');
-const enabledToggle = document.getElementById('enabled-toggle');
-const focusedFieldEl = document.getElementById('focused-field');
+const loginEndpointInput = document.getElementById('login-endpoint');
 const draftStatusEl = document.getElementById('draft-status');
 const jobContextEl = document.getElementById('job-context');
 
 const aiTabs = new Set(['ats', 'cover']);
 
 let documentsPanel = null;
+let assistChat = null;
 
 function configureExtensionIcons() {
     const iconUrl = (name) => chrome.runtime.getURL(`icons/${name}`);
@@ -58,6 +64,10 @@ function formatAutofills(value) {
     return new Intl.NumberFormat('en-GB').format(value);
 }
 
+function setHeaderAuthVisibility(isAuthenticated) {
+    logoutBtn.hidden = !isAuthenticated;
+}
+
 function renderSubscription(subscription) {
     if (!subscription) {
         usagePill.textContent = 'Connected';
@@ -86,15 +96,32 @@ async function resolveAppUrl() {
     const auth = await checkAuth();
 
     if (!auth?.apiBase) {
-        throw new Error('Connect the extension with your dashboard connection JSON first.');
+        throw new Error('Sign in to AutoCVApply or paste your dashboard connection JSON first.');
     }
 
     return auth.apiBase;
 }
 
-async function loadProfile() {
+async function loadLoginEndpoint() {
+    const auth = await checkAuth();
+
+    loginEndpointInput.value = auth?.loginEndpoint || DEFAULT_LOGIN_ENDPOINT;
+}
+
+async function persistLoginEndpoint() {
+    const endpoint = normalizeLoginEndpoint(loginEndpointInput.value);
+
+    loginEndpointInput.value = endpoint;
+
+    await chrome.runtime.sendMessage({
+        type: 'SET_LOGIN_ENDPOINT',
+        loginEndpoint: endpoint,
+    });
+}
+
+async function loadProfile({ force = false } = {}) {
     return new Promise((resolve) => {
-        chrome.runtime.sendMessage({ type: 'GET_PROFILE' }, resolve);
+        chrome.runtime.sendMessage({ type: 'GET_PROFILE', force }, resolve);
     });
 }
 
@@ -110,6 +137,12 @@ function setupTabs() {
             tab.classList.add('postbox-tab-active');
             document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
             setJobContextVisible(tab.dataset.tab);
+
+            if (tab.dataset.tab === 'documents' && documentsPanel) {
+                documentsPanel.refreshDocuments({ force: true }).catch((error) => {
+                    showMessage(error.message, 'error');
+                });
+            }
         });
     });
 }
@@ -135,18 +168,6 @@ async function refreshUsage() {
     } catch (error) {
         showMessage(error.message, 'error');
     }
-}
-
-async function refreshFocusedField() {
-    const { focusedField } = await chrome.storage.session.get(['focusedField']);
-
-    if (!focusedField?.label) {
-        focusedFieldEl.textContent = 'Click a form field to enable Quick Answer.';
-
-        return;
-    }
-
-    focusedFieldEl.textContent = `Selected: ${focusedField.label}`;
 }
 
 async function runAssist(type, payload, statusEl) {
@@ -176,6 +197,19 @@ async function copyOutput(textareaId) {
     showMessage('Copied to clipboard.', 'success');
 }
 
+function setAiOutputVisible(outputId, copyButtonId, visible) {
+    const output = document.getElementById(outputId);
+    const copyButton = document.getElementById(copyButtonId);
+
+    if (output) {
+        output.hidden = !visible;
+    }
+
+    if (copyButton) {
+        copyButton.hidden = !visible;
+    }
+}
+
 async function showOnboardingIfNeeded() {
     const { extensionOnboardingCompleted } = await chrome.storage.local.get(['extensionOnboardingCompleted']);
 
@@ -188,7 +222,7 @@ async function showOnboardingIfNeeded() {
     overlay.innerHTML = `
         <div class="onboarding-card postbox-panel">
             <h2>Welcome to AutoCVApply</h2>
-            <p>Use Assist while you fill forms. Switch to ATS or Cover for AI tools. Upload CVs and documents on the Docs tab.</p>
+            <p>Use Assist to chat with AI, draft answers, and update your profile. ATS and Cover tabs handle scoring and cover letters. Upload files on Docs.</p>
             <button type="button" class="postbox-btn" id="finish-onboarding-btn">Got it</button>
         </div>
     `;
@@ -196,6 +230,18 @@ async function showOnboardingIfNeeded() {
     overlay.querySelector('#finish-onboarding-btn').addEventListener('click', async () => {
         await chrome.storage.local.set({ extensionOnboardingCompleted: true });
         overlay.remove();
+    });
+}
+
+function startSidePanelHeartbeat() {
+    const ping = () => {
+        chrome.runtime.sendMessage({ type: 'SIDE_PANEL_HEARTBEAT' }).catch(() => {});
+    };
+
+    ping();
+    window.setInterval(ping, 3000);
+    window.addEventListener('pagehide', () => {
+        chrome.runtime.sendMessage({ type: 'SIDE_PANEL_CLOSED' }).catch(() => {});
     });
 }
 
@@ -213,25 +259,6 @@ document.getElementById('draft-all-btn').addEventListener('click', async () => {
     }
 });
 
-document.getElementById('quick-answer-btn').addEventListener('click', async () => {
-    draftStatusEl.textContent = 'Generating Quick Answer…';
-
-    try {
-        const response = await chrome.runtime.sendMessage({ type: 'QUICK_ANSWER_FOCUSED' });
-
-        if (response?.error) {
-            throw new Error(response.error);
-        }
-
-        draftStatusEl.textContent = response?.message || 'Answer applied.';
-        showMessage('Quick Answer applied.', 'success');
-        await refreshUsage();
-    } catch (error) {
-        draftStatusEl.textContent = error.message;
-        showMessage(error.message, 'error');
-    }
-});
-
 document.getElementById('ai-ats-btn').addEventListener('click', async () => {
     const statusEl = document.getElementById('ats-status');
     const outputEl = document.getElementById('ats-output');
@@ -245,6 +272,7 @@ document.getElementById('ai-ats-btn').addEventListener('click', async () => {
         }, statusEl);
 
         outputEl.value = `ATS score: ${response.result.score}%\n\nMatched: ${response.result.matched_keywords.join(', ')}\n\nMissing: ${response.result.missing_keywords.join(', ')}\n\nSuggestions:\n- ${response.result.suggestions.join('\n- ')}`;
+        setAiOutputVisible('ats-output', 'ats-copy-btn', true);
         statusEl.textContent = 'ATS score ready.';
         showMessage('ATS score ready.', 'success');
     } catch (error) {
@@ -267,6 +295,7 @@ document.getElementById('ai-cover-letter-btn').addEventListener('click', async (
         }, statusEl);
 
         outputEl.value = response.cover_letter;
+        setAiOutputVisible('cover-output', 'cover-copy-btn', true);
         statusEl.textContent = 'Cover letter generated.';
         showMessage('Cover letter generated.', 'success');
     } catch (error) {
@@ -277,6 +306,24 @@ document.getElementById('ai-cover-letter-btn').addEventListener('click', async (
 
 document.getElementById('ats-copy-btn').addEventListener('click', () => copyOutput('ats-output'));
 document.getElementById('cover-copy-btn').addEventListener('click', () => copyOutput('cover-output'));
+
+document.getElementById('workos-login-btn').addEventListener('click', async () => {
+    try {
+        await persistLoginEndpoint();
+
+        const endpoint = normalizeLoginEndpoint(loginEndpointInput.value);
+        const url = `${endpoint}/extension/login?extension_id=${encodeURIComponent(chrome.runtime.id)}`;
+
+        chrome.tabs.create({ url });
+        showMessage('Complete sign-in in the browser tab.');
+    } catch (error) {
+        showMessage(error.message, 'error');
+    }
+});
+
+loginEndpointInput.addEventListener('change', () => {
+    void persistLoginEndpoint();
+});
 
 document.getElementById('save-token-btn').addEventListener('click', () => {
     const raw = tokenInput.value.trim();
@@ -314,10 +361,11 @@ document.getElementById('save-token-btn').addEventListener('click', () => {
 
 document.getElementById('open-site-btn').addEventListener('click', async () => {
     try {
-        const appUrl = await resolveAppUrl();
-        chrome.tabs.create({ url: `${appUrl}/dashboard` });
+        await persistLoginEndpoint();
+        const endpoint = normalizeLoginEndpoint(loginEndpointInput.value);
+        chrome.tabs.create({ url: `${endpoint}/dashboard` });
     } catch {
-        chrome.tabs.create({ url: 'https://autocvapply.com/dashboard' });
+        chrome.tabs.create({ url: `${DEFAULT_LOGIN_ENDPOINT}/dashboard` });
     }
 });
 
@@ -337,17 +385,11 @@ document.getElementById('logout-btn').addEventListener('click', () => {
     });
 });
 
-enabledToggle.addEventListener('change', () => {
-    chrome.storage.local.set({ isEnabled: enabledToggle.checked });
-});
-
-chrome.storage.onChanged.addListener((changes, area) => {
-    if (area === 'session' && changes.focusedField) {
-        refreshFocusedField();
-    }
-});
-
 chrome.runtime.onMessage.addListener((message) => {
+    if (message.type === 'AUTH_STATE_CHANGED') {
+        void init();
+    }
+
     if (message.type === 'DRAFT_ALL_PROGRESS') {
         draftStatusEl.textContent = message.message || '';
     }
@@ -378,6 +420,7 @@ async function init() {
     setupShellMarkFallback();
     setupTabs();
     setJobContextVisible('assist');
+    startSidePanelHeartbeat();
 
     if (!documentsPanel) {
         documentsPanel = initDocumentsPanel({
@@ -393,10 +436,12 @@ async function init() {
         });
     }
 
-    const { isEnabled } = await chrome.storage.local.get(['isEnabled']);
-
-    if (isEnabled !== undefined) {
-        enabledToggle.checked = isEnabled;
+    if (!assistChat) {
+        assistChat = initAssistChat({
+            showMessage,
+            refreshUsage,
+            buildJobPayload,
+        });
     }
 
     const { isAuthenticated } = await checkAuth();
@@ -404,6 +449,7 @@ async function init() {
     if (isAuthenticated) {
         authState.classList.add('is-visible');
         unauthState.classList.remove('is-visible');
+        setHeaderAuthVisibility(true);
 
         const profileData = await loadProfile();
 
@@ -412,13 +458,18 @@ async function init() {
         }
 
         renderSubscription(profileData?.subscription);
-        await documentsPanel.refreshDocuments();
-        await refreshFocusedField();
+        try {
+            await documentsPanel.refreshDocuments({ force: true });
+        } catch (error) {
+            showMessage(error.message, 'error');
+        }
         await showOnboardingIfNeeded();
     } else {
         authState.classList.remove('is-visible');
         unauthState.classList.add('is-visible');
+        setHeaderAuthVisibility(false);
         usagePill.textContent = 'Not connected';
+        await loadLoginEndpoint();
     }
 }
 

@@ -163,6 +163,80 @@ class ApplicationAssistantTest extends TestCase
             ->assertJsonPath('autofill_cost', 10);
     }
 
+    public function test_extension_can_chat_with_assist_sidebar(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'full_name' => 'Alex Developer',
+            'summary' => 'Backend engineer with Laravel experience.',
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')->once()->andReturn([
+                'message' => 'Try emphasising your Laravel API work in your summary.',
+                'profile_updates' => [
+                    [
+                        'field' => 'summary',
+                        'label' => 'Professional summary',
+                        'value' => 'Backend engineer specialising in Laravel APIs.',
+                        'reason' => 'More specific and aligned with backend roles.',
+                    ],
+                ],
+                'draft_answer' => 'I enjoy building reliable Laravel systems.',
+            ]);
+        });
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/chat', [
+                'messages' => [
+                    ['role' => 'user', 'content' => 'Help me improve my summary for backend roles.'],
+                ],
+                'job' => [
+                    'title' => 'Laravel Developer',
+                    'company' => 'Example Ltd',
+                ],
+                'focused_field' => [
+                    'label' => 'Why do you want this role?',
+                    'field_type' => 'textarea',
+                ],
+            ])
+            ->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('message', 'Try emphasising your Laravel API work in your summary.')
+            ->assertJsonPath('profile_updates.0.field', 'summary')
+            ->assertJsonPath('draft_answer', 'I enjoy building reliable Laravel systems.')
+            ->assertJsonPath('autofill_cost', 2);
+
+        $this->assertSame(2, $user->fresh()->ai_tokens_used);
+    }
+
+    public function test_extension_can_chat_when_ai_returns_reply_key(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'summary' => 'Backend engineer with Laravel experience.',
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')->once()->andReturn([
+                'reply' => 'Your summary already highlights Laravel experience well.',
+                'profile_updates' => [],
+                'draft_answer' => null,
+            ]);
+        });
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/chat', [
+                'messages' => [
+                    ['role' => 'user', 'content' => 'How does my summary look?'],
+                ],
+            ])
+            ->assertOk()
+            ->assertJsonPath('message', 'Your summary already highlights Laravel experience well.');
+    }
+
     public function test_ai_tools_require_uploaded_cv_profile(): void
     {
         $user = User::factory()->create();

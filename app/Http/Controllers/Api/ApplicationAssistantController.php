@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AssistApplicationQuestionsRequest;
+use App\Http\Requests\AssistChatRequest;
 use App\Http\Requests\DraftAllApplicationRequest;
 use App\Http\Requests\DraftFieldRequest;
 use App\Http\Requests\GenerateCoverLetterRequest;
@@ -63,6 +64,54 @@ class ApplicationAssistantController extends Controller
         return response()->json([
             'success' => true,
             'answers' => $answers,
+            'autofill_cost' => $cost,
+            'subscription' => $this->usage->summary($user),
+        ]);
+    }
+
+    public function chat(AssistChatRequest $request): JsonResponse
+    {
+        $user = $request->user();
+        $profile = $user->cvProfile;
+
+        if (! $profile) {
+            return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
+        }
+
+        $cost = (int) config('cv.ai_assist.chat_cost', 2);
+
+        if (! $this->usage->canAutofill($user, $cost)) {
+            return response()->json([
+                'success' => false,
+                'error' => 'You do not have enough autofills remaining for AI chat.',
+                'subscription' => $this->usage->summary($user),
+            ], 402);
+        }
+
+        $validated = $request->validated();
+        $result = $this->assistant->chat(
+            $profile,
+            $validated['messages'],
+            [
+                'job' => $this->normalizeJob($validated['job'] ?? []),
+                'focused_field' => $validated['focused_field'] ?? null,
+            ],
+        );
+
+        if ($result === null) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Could not respond right now. Try again shortly.',
+            ], 502);
+        }
+
+        $this->usage->recordAutofill($user, $cost);
+
+        return response()->json([
+            'success' => true,
+            'message' => $result['message'],
+            'profile_updates' => $result['profile_updates'],
+            'draft_answer' => $result['draft_answer'],
             'autofill_cost' => $cost,
             'subscription' => $this->usage->summary($user),
         ]);

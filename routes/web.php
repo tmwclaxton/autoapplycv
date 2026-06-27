@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\ExtensionTokenController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CvUploadController;
+use App\Http\Controllers\ExtensionAuthController;
 use App\Http\Controllers\GoCardlessWebhookController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\PricingController;
@@ -24,7 +25,11 @@ Route::get('/blog/{blog:slug}', [BlogController::class, 'show'])->name('blog.sho
 
 Route::post('/webhooks/gocardless', GoCardlessWebhookController::class)->name('webhooks.gocardless');
 
+Route::get('/extension/login', [ExtensionAuthController::class, 'login'])->name('extension.login');
+
 Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function () {
+    Route::get('/extension/login/complete', [ExtensionAuthController::class, 'complete'])->name('extension.login.complete');
+
     Route::get('/onboarding', [OnboardingController::class, 'index'])->name('onboarding');
     Route::get('/dashboard', [OnboardingController::class, 'dashboard'])->name('dashboard');
 

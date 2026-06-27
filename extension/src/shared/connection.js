@@ -6,6 +6,16 @@ function normalizeApiBase(value) {
     return value.trim().replace(/\/+$/, '');
 }
 
+export const DEFAULT_LOGIN_ENDPOINT = 'https://autocvapply.com';
+
+export function normalizeLoginEndpoint(value) {
+    if (typeof value !== 'string' || value.trim() === '') {
+        return DEFAULT_LOGIN_ENDPOINT;
+    }
+
+    return normalizeApiBase(value);
+}
+
 export function parseConnectionInput(raw) {
     const trimmed = raw.trim();
 
@@ -41,7 +51,7 @@ export async function getStoredApiBase() {
     const { apiBase } = await chrome.storage.local.get(['apiBase']);
 
     if (!apiBase) {
-        throw new Error('Extension is not connected. Paste your dashboard connection JSON.');
+        throw new Error('Extension is not connected. Sign in or paste your dashboard connection JSON.');
     }
 
     return normalizeApiBase(apiBase);
@@ -51,10 +61,22 @@ export async function getApiToken() {
     const { apiToken } = await chrome.storage.local.get(['apiToken']);
 
     if (!apiToken) {
-        throw new Error('Extension is not connected. Paste your dashboard connection JSON.');
+        throw new Error('Extension is not connected. Sign in or paste your dashboard connection JSON.');
     }
 
     return apiToken;
+}
+
+export async function getLoginEndpoint() {
+    const { loginEndpoint } = await chrome.storage.local.get(['loginEndpoint']);
+
+    return normalizeLoginEndpoint(loginEndpoint || DEFAULT_LOGIN_ENDPOINT);
+}
+
+export async function saveLoginEndpoint(endpoint) {
+    await chrome.storage.local.set({
+        loginEndpoint: normalizeLoginEndpoint(endpoint),
+    });
 }
 
 export async function saveConnection({ token, apiBase }) {

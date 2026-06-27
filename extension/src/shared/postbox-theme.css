@@ -212,6 +212,12 @@ body.postbox-page {
     font-family: inherit;
 }
 
+select.postbox-input {
+    appearance: auto;
+    cursor: pointer;
+    min-height: 42px;
+}
+
 .postbox-input:focus {
     outline: 2px solid var(--postbox-red);
     outline-offset: 1px;
