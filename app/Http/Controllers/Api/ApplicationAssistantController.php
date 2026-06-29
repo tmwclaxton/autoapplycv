@@ -13,6 +13,7 @@ use App\Http\Requests\ScoreAtsRequest;
 use App\Services\AiTokenService;
 use App\Services\ApplicationAssistantService;
 use App\Services\ApplicationDraftOrchestratorService;
+use App\Services\AutofillAnalyticsService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -22,6 +23,7 @@ class ApplicationAssistantController extends Controller
         private readonly ApplicationAssistantService $assistant,
         private readonly ApplicationDraftOrchestratorService $draftOrchestrator,
         private readonly AiTokenService $usage,
+        private readonly AutofillAnalyticsService $analytics,
     ) {}
 
     public function answerQuestions(AssistApplicationQuestionsRequest $request): JsonResponse
@@ -60,6 +62,7 @@ class ApplicationAssistantController extends Controller
         }
 
         $this->usage->recordAutofill($user, $cost);
+        $this->analytics->recordExtensionQuestions($cost);
 
         return response()->json([
             'success' => true,
@@ -106,6 +109,7 @@ class ApplicationAssistantController extends Controller
         }
 
         $this->usage->recordAutofill($user, $cost);
+        $this->analytics->recordExtensionQuestions();
 
         return response()->json([
             'success' => true,
@@ -170,6 +174,7 @@ class ApplicationAssistantController extends Controller
                 }
 
                 $this->usage->recordAutofill($user, $cost);
+                $this->analytics->recordExtensionQuestions();
 
                 $emit([
                     'type' => 'usage',
@@ -233,6 +238,7 @@ class ApplicationAssistantController extends Controller
         }
 
         $this->usage->recordAutofill($user, $cost);
+        $this->analytics->recordExtensionQuestions();
 
         return response()->json([
             'success' => true,

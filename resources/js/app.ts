@@ -21,6 +21,7 @@ createInertiaApp({
         const standalonePages = [
             'Welcome',
             'About',
+            'Analytics',
             'Contact',
             'HowTo',
             'Pricing',

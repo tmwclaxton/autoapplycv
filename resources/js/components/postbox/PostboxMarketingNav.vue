@@ -7,6 +7,7 @@ import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { GITHUB_REPOSITORY_URL, MARKETING_NAV_LINKS } from '@/lib/site';
 import {
     about,
+    analytics,
     contact,
     dashboard,
     home,
@@ -23,6 +24,7 @@ const routeMap = {
     blog,
     'how-to': howTo,
     pricing,
+    analytics,
     about,
     contact,
 } as const;

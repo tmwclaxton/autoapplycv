@@ -10,6 +10,7 @@ class ApplicationDraftOrchestratorService
     public function __construct(
         private readonly ApplicationAssistantService $assistant,
         private readonly AiTokenService $usage,
+        private readonly AutofillAnalyticsService $analytics,
     ) {}
 
     public function batchSize(): int
@@ -83,6 +84,7 @@ class ApplicationDraftOrchestratorService
             }
 
             $this->usage->recordAutofill($user, $this->batchCost());
+            $this->analytics->recordExtensionQuestions(count($batch));
             $user->refresh();
 
             $answersByLabel = [];

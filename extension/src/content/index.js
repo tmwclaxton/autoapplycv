@@ -229,9 +229,38 @@ function extractJobMeta(platformName) {
         company: 'Unknown company',
         link: window.location.href.split('?')[0],
         location: null,
-        job_description: null,
+        job_description: extractJobDescriptionFromPage(),
         source: platformName,
     };
+}
+
+function extractJobDescriptionFromPage() {
+    const selectors = [
+        '#job-details',
+        '[data-testid="job-description"]',
+        '[data-testid="jobDescriptionText"]',
+        '.jobs-description',
+        '[class*="job-description"]',
+        '[class*="JobDescription"]',
+        '[id*="job-description"]',
+        'article',
+    ];
+
+    for (const selector of selectors) {
+        const element = document.querySelector(selector);
+
+        if (element?.textContent?.trim().length > 200) {
+            return element.textContent.trim().slice(0, 20000);
+        }
+    }
+
+    const main = document.querySelector('main');
+
+    if (main?.textContent?.trim().length > 400) {
+        return main.textContent.trim().slice(0, 20000);
+    }
+
+    return null;
 }
 
 function setFieldValue(element, value) {
@@ -803,26 +832,21 @@ async function collectDraftContext() {
 
     const { settings, memo } = await loadAutofillContext();
     const platform = detectPlatform();
-    const fields = AutoCVApplyFormHeuristics.collectDraftableFields(
+    const fields = AutoCVApplyFormHeuristics.collectAllDraftableFields(
         document,
         profile.profile,
         settings,
         memo,
     );
 
-    return {
-        success: true,
-        fields,
-        count: fields.length,
-        isFormHost: AutoCVApplyFormHeuristics.frameHasApplicationForm(document),
-        job: platform
-            ? extractJobMeta(platform.name)
-            : {
-                title: document.title || 'Job application',
-                company: 'Unknown company',
-                link: window.location.href.split('?')[0],
-            },
-    };
+    const job = platform
+        ? extractJobMeta(platform.name)
+        : {
+            title: document.title || 'Job application',
+            company: 'Unknown company',
+            link: window.location.href.split('?')[0],
+            job_description: extractJobDescriptionFromPage(),
+        };
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -848,7 +872,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             let applied = 0;
 
             for (const answer of message.answers || []) {
-                if (AutoCVApplyFormHeuristics.applyAnswerByLabel(document, answer.label, answer.answer)) {
+                if (AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(document, answer.label, answer.answer)) {
                     applied += 1;
                 }
             }
@@ -860,7 +884,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         if (message.type === 'APPLY_DRAFT_ANSWER') {
             sendResponse({
-                success: AutoCVApplyFormHeuristics.applyAnswerByLabel(document, message.label, message.answer),
+                success: AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(document, message.label, message.answer),
             });
 
             return;

@@ -36,7 +36,14 @@ class ApplicationAssistantService
                 'content' => json_encode([
                     'job' => $job,
                     'questions' => $questions,
-                    'instructions' => 'Return JSON: {"answers":[{"label":"exact label from input","answer":"string or null"}]}. Use null when unsure. Never invent employers, degrees, or dates. For radio or checkbox questions with options, return the exact option text from the provided options list. For simple yes/no questions return "yes" or "no". For checkbox groups that allow multiple selections, return comma-separated option texts. Keep within max_chars when provided. For open-text answers (textarea, text, motivation, cover-note style questions), write in first person as the candidate. Sound like a real person: vary sentence length, use plain words, cite specific profile details (companies, tools, outcomes), and avoid AI clichés like "proven track record", "passionate", "leverage", "Furthermore", or "I am excited to apply". Plain text only - no markdown.',
+                    'instructions' => 'Return JSON: {"answers":[{"label":"exact label from input","answer":"string or null"}]}. '
+                        .'Read each question label carefully, including any helper text embedded in it, and answer that specific question - do not paste a generic CV summary unless the question explicitly asks for a full background overview. '
+                        .'Use job.title, job.company, and job.job_description to tailor answers to this employer and role. '
+                        .'For field_type radio, select, or checkbox with an options array, you MUST return one exact option string copied verbatim from options. Pick the best fit using application_settings when relevant (visa, relocation, salary, start date, office preference, employment type). '
+                        .'For open text questions about motivation, interest, or fit, write 2-4 sentences in first person explaining why this role/company specifically appeals to you. '
+                        .'Use null only when the profile truly lacks enough facts. Never invent employers, degrees, or dates. '
+                        .'For simple yes/no questions return "yes" or "no". For checkbox groups that allow multiple selections, return comma-separated option texts. '
+                        .'Keep within max_chars when provided. Plain text only - no markdown.',
                 ], JSON_THROW_ON_ERROR),
             ],
         ], [
@@ -55,20 +62,121 @@ class ApplicationAssistantService
                 continue;
             }
 
+            $question = $this->matchQuestionByLabel((string) $row['label'], $questions);
+
+            if ($question === null) {
+                continue;
+            }
+
             $rawAnswer = isset($row['answer']) && is_string($row['answer']) ? trim($row['answer']) : '';
-            $answer = $rawAnswer !== '' ? $this->sanitizeAssistantText($rawAnswer) : null;
+            $answer = $rawAnswer !== '' ? $this->normalizeAnswerForQuestion($question, $this->sanitizeAssistantText($rawAnswer)) : null;
 
             if ($answer !== null && in_array(strtolower($answer), ['yes', 'no'], true)) {
                 $answer = strtolower($answer);
             }
 
             $answers[] = [
-                'label' => (string) $row['label'],
+                'label' => $question['label'],
                 'answer' => $answer !== '' ? $answer : null,
             ];
         }
 
         return $answers;
+    }
+
+    /**
+     * @param  array<int, array{label: string, field_type?: string, max_chars?: int, options?: array<int, string>|null}>  $questions
+     * @return array{label: string, field_type?: string, max_chars?: int, options?: array<int, string>|null}|null
+     */
+    private function matchQuestionByLabel(string $candidateLabel, array $questions): ?array
+    {
+        $normalizedCandidate = $this->normalizeQuestionLabel($candidateLabel);
+
+        foreach ($questions as $question) {
+            if ($this->questionLabelsMatch($question['label'], $candidateLabel)) {
+                return $question;
+            }
+        }
+
+        foreach ($questions as $question) {
+            $normalizedQuestion = $this->normalizeQuestionLabel($question['label']);
+
+            if (str_starts_with($normalizedQuestion, $normalizedCandidate)
+                || str_starts_with($normalizedCandidate, $normalizedQuestion)) {
+                return $question;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param  array{label: string, field_type?: string, max_chars?: int, options?: array<int, string>|null}  $question
+     */
+    private function normalizeAnswerForQuestion(array $question, string $answer): ?string
+    {
+        $options = $question['options'] ?? null;
+
+        if (! is_array($options) || $options === []) {
+            return $answer;
+        }
+
+        $matchedOption = $this->matchAnswerToOption($answer, $options);
+
+        return $matchedOption ?? $answer;
+    }
+
+    /**
+     * @param  array<int, string>  $options
+     */
+    private function matchAnswerToOption(string $answer, array $options): ?string
+    {
+        $normalizedAnswer = $this->normalizeQuestionLabel($answer);
+
+        foreach ($options as $option) {
+            if ($this->normalizeQuestionLabel($option) === $normalizedAnswer) {
+                return $option;
+            }
+        }
+
+        foreach ($options as $option) {
+            $normalizedOption = $this->normalizeQuestionLabel($option);
+
+            if (str_contains($normalizedOption, $normalizedAnswer)
+                || str_contains($normalizedAnswer, $normalizedOption)) {
+                return $option;
+            }
+        }
+
+        return null;
+    }
+
+    private function questionLabelsMatch(string $left, string $right): bool
+    {
+        $a = $this->normalizeQuestionLabel($left);
+        $b = $this->normalizeQuestionLabel($right);
+
+        if ($a === $b) {
+            return true;
+        }
+
+        if (strlen($a) >= 12 && strlen($b) >= 12 && (str_contains($a, $b) || str_contains($b, $a))) {
+            return true;
+        }
+
+        $prefixLength = min(48, strlen($a), strlen($b));
+
+        return $prefixLength >= 12 && substr($a, 0, $prefixLength) === substr($b, 0, $prefixLength);
+    }
+
+    private function normalizeQuestionLabel(string $label): string
+    {
+        $label = mb_strtolower(trim($label));
+        $label = (string) preg_replace('/\*/', '', $label);
+        $label = (string) preg_replace('/[^\p{L}\p{N}\s>\/-]/u', '', $label);
+        $label = (string) preg_replace('/\s+/u', ' ', $label);
+
+        return trim($label);
     }
 
     /**

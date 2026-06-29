@@ -15,7 +15,7 @@ const AutoCVApplyFormHeuristics = (() => {
         country: [/\bcountry\b/i, /nation/i],
         linkedin: [/linkedin/i],
         website: [/website/i, /portfolio/i, /github/i, /personal[\s_-]?site/i],
-        coverLetter: [/cover[\s_-]?letter/i, /motivation/i, /message to/i, /why (do )?you/i, /tell us about/i, /what interests you most about working at/i],
+        coverLetter: [/cover[\s_-]?letter/i, /motivation letter/i],
         headline: [/headline/i, /job title/i, /current title/i],
         salary: [/salary/i, /compensation/i, /expected pay/i, /pay rate/i, /minimum compensation/i],
         yearsExperience: [/years? (of )?experience/i, /experience \(years/i],
@@ -30,6 +30,27 @@ const AutoCVApplyFormHeuristics = (() => {
 
     function normalize(text) {
         return (text || '').replace(/\s+/g, ' ').replace(/\*/g, '').trim().toLowerCase();
+    }
+
+    function labelsMatch(left, right) {
+        const a = normalize(left);
+        const b = normalize(right);
+
+        if (a === b) {
+            return true;
+        }
+
+        if (a.length >= 12 && b.length >= 12 && (a.includes(b) || b.includes(a))) {
+            return true;
+        }
+
+        const prefixLength = Math.min(48, a.length, b.length);
+
+        return prefixLength >= 12 && a.slice(0, prefixLength) === b.slice(0, prefixLength);
+    }
+
+    function normalizeOption(text) {
+        return normalize(text).replace(/[^\w\s>\/-]/g, '').replace(/\s+/g, ' ').trim();
     }
 
     function escapeSelectorValue(value) {
@@ -125,8 +146,8 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function optionMatchesAnswer(optionText, answer) {
-        const option = normalize(optionText);
-        const normalizedAnswer = normalize(answer);
+        const option = normalizeOption(optionText);
+        const normalizedAnswer = normalizeOption(answer);
 
         if (!option || !normalizedAnswer) {
             return false;
@@ -213,6 +234,107 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         return setFieldValue(element, answer);
+    }
+
+    function getRadiogroupLabel(group) {
+        const doc = group.ownerDocument || document;
+        const labelledBy = group.getAttribute('aria-labelledby');
+
+        if (labelledBy) {
+            for (const id of labelledBy.split(/\s+/)) {
+                const labelEl = doc.getElementById(id);
+
+                if (labelEl?.textContent?.trim()) {
+                    return normalize(labelEl.textContent);
+                }
+            }
+        }
+
+        const legend = group.querySelector('legend');
+
+        if (legend?.textContent?.trim()) {
+            return normalize(legend.textContent);
+        }
+
+        const heading = group.closest('fieldset, section, div')?.querySelector(
+            'legend, label[aria-required], [class*="question"], h1, h2, h3, h4, p',
+        );
+
+        if (heading?.textContent?.trim() && !heading.querySelector('input, textarea, select, [role="radio"]')) {
+            return normalize(heading.textContent);
+        }
+
+        return normalize(group.getAttribute('aria-label') || '');
+    }
+
+    function collectRoleRadioGroups(root) {
+        const groups = [];
+        const seen = new Set();
+
+        for (const group of root.querySelectorAll('[role="radiogroup"]')) {
+            if (!isVisible(group)) {
+                continue;
+            }
+
+            const radios = Array.from(group.querySelectorAll('[role="radio"]')).filter(isVisible);
+
+            if (radios.length < 2) {
+                continue;
+            }
+
+            const key = group.id
+                || group.getAttribute('data-testid')
+                || group.getAttribute('name')
+                || `${getRadiogroupLabel(group)}:${radios.length}`;
+
+            if (seen.has(key)) {
+                continue;
+            }
+
+            seen.add(key);
+            groups.push({ group, radios, label: getRadiogroupLabel(group) });
+        }
+
+        return groups;
+    }
+
+    function isRoleGroupAnswered(radios) {
+        return radios.some((radio) => radio.getAttribute('aria-checked') === 'true');
+    }
+
+    function getRoleRadioOptions(radios) {
+        return radios
+            .map((radio) => (radio.textContent || radio.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim())
+            .filter((label) => label.length > 0);
+    }
+
+    function setRoleRadioGroupValue(radios, answer) {
+        for (const radio of radios) {
+            const optionText = (radio.textContent || radio.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
+            const optionValue = String(radio.getAttribute('data-value') || radio.getAttribute('value') || '');
+
+            if (optionMatchesAnswer(optionText, answer) || optionMatchesAnswer(optionValue, answer)) {
+                radio.click();
+                radio.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+                radio.dispatchEvent(new KeyboardEvent('keyup', { key: ' ', bubbles: true }));
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function tryResolveStructuredAnswer(label, profile, settings) {
+        const fieldType = detectFieldType(label);
+
+        if (!fieldType) {
+            return null;
+        }
+
+        const values = buildProfileValues(profile);
+
+        return resolveAnswer(fieldType, values, settings) || null;
     }
 
     function getFieldLabel(element) {
@@ -566,6 +688,30 @@ const AutoCVApplyFormHeuristics = (() => {
             }
         }
 
+        for (const { group, radios, label } of collectRoleRadioGroups(root)) {
+            if (filled >= maxFields) {
+                break;
+            }
+
+            if (isRoleGroupAnswered(radios) || label.length < 3) {
+                continue;
+            }
+
+            if (memo[label]) {
+                if (setRoleRadioGroupValue(radios, memo[label])) {
+                    filled += 1;
+                }
+
+                continue;
+            }
+
+            const answer = tryResolveStructuredAnswer(label, profile, settings);
+
+            if (answer && setRoleRadioGroupValue(radios, answer)) {
+                filled += 1;
+            }
+        }
+
         return filled;
     }
 
@@ -800,6 +946,40 @@ const AutoCVApplyFormHeuristics = (() => {
             id += 1;
         }
 
+        for (const { radios, label } of collectRoleRadioGroups(root)) {
+            if (label.length < 3 || seen.has(label)) {
+                continue;
+            }
+
+            if (isRoleGroupAnswered(radios)) {
+                continue;
+            }
+
+            if (memo[label]) {
+                setRoleRadioGroupValue(radios, memo[label]);
+
+                continue;
+            }
+
+            const answer = tryResolveStructuredAnswer(label, profile, settings);
+
+            if (answer && setRoleRadioGroupValue(radios, answer)) {
+                continue;
+            }
+
+            seen.add(label);
+
+            items.push({
+                id,
+                label,
+                field_type: 'radio',
+                max_chars: undefined,
+                options: getRoleRadioOptions(radios),
+            });
+
+            id += 1;
+        }
+
         return items;
     }
 
@@ -811,6 +991,16 @@ const AutoCVApplyFormHeuristics = (() => {
         const normalizedTarget = normalize(label);
         const processedGroups = new Set();
 
+        for (const { radios, label: groupLabel } of collectRoleRadioGroups(root)) {
+            if (!labelsMatch(groupLabel, normalizedTarget)) {
+                continue;
+            }
+
+            if (setRoleRadioGroupValue(radios, answer)) {
+                return true;
+            }
+        }
+
         for (const element of collectFillableElements(root)) {
             if (element.type === 'radio' || element.type === 'checkbox') {
                 const groupName = getGroupName(element);
@@ -821,7 +1011,7 @@ const AutoCVApplyFormHeuristics = (() => {
 
                 processedGroups.add(groupName);
 
-                if (getQuestionLabel(element) !== normalizedTarget) {
+                if (!labelsMatch(getQuestionLabel(element), normalizedTarget)) {
                     continue;
                 }
 
@@ -832,7 +1022,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
-            if (getQuestionLabel(element) !== normalizedTarget) {
+            if (!labelsMatch(getQuestionLabel(element), normalizedTarget)) {
                 continue;
             }
 
@@ -844,13 +1034,48 @@ const AutoCVApplyFormHeuristics = (() => {
         return false;
     }
 
+    function collectAllDraftableFields(root, profile, settings, memo = {}) {
+        const items = [];
+        const seen = new Set();
+
+        forEachIframeDocument((doc) => {
+            for (const field of collectDraftableFields(doc, profile, settings, memo)) {
+                if (seen.has(field.label)) {
+                    continue;
+                }
+
+                seen.add(field.label);
+                items.push({
+                    ...field,
+                    id: items.length,
+                });
+            }
+        });
+
+        return items;
+    }
+
+    function applyAnswerByLabelAllFrames(root, label, answer) {
+        let applied = false;
+
+        forEachIframeDocument((doc) => {
+            if (applyAnswerByLabel(doc, label, answer)) {
+                applied = true;
+            }
+        });
+
+        return applied;
+    }
+
     function countDraftableFields(root, profile, settings, memo = {}) {
         return collectDraftableFields(root, profile, settings, memo).length;
     }
 
     return {
         applyAnswerByLabel,
+        applyAnswerByLabelAllFrames,
         buildProfileValues,
+        collectAllDraftableFields,
         collectDraftableFields,
         collectOpenQuestions,
         countDraftableFields,

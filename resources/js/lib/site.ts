@@ -36,6 +36,7 @@ export const MARKETING_NAV_LINKS = [
     { label: 'Blog', route: 'blog' },
     { label: 'How to', route: 'how-to' },
     { label: 'Pricing', route: 'pricing' },
+    { label: 'Analytics', route: 'analytics' },
     { label: 'About', route: 'about' },
     { label: 'Contact', route: 'contact' },
 ] as const;
@@ -44,6 +45,7 @@ export const FOOTER_LINKS = [
     { label: 'Blog', route: 'blog' },
     { label: 'How to', route: 'how-to' },
     { label: 'Pricing', route: 'pricing' },
+    { label: 'Analytics', route: 'analytics' },
     { label: 'About', route: 'about' },
     { label: 'Contact', route: 'contact' },
     { label: 'Terms', route: 'terms' },

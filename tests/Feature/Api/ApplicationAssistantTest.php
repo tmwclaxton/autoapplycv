@@ -261,7 +261,7 @@ class ApplicationAssistantTest extends TestCase
                 ],
             ])
             ->assertOk()
-            ->assertJsonPath('message', 'Based on your profile, my secret skill is building tools - fast.')
+            ->assertJsonPath('message', 'my secret skill is building tools - fast.')
             ->assertJsonPath('draft_answer', 'I build automation tools - especially with Laravel.');
     }
 
@@ -303,6 +303,47 @@ class ApplicationAssistantTest extends TestCase
         $this->assertSame('complete', json_decode($lines[2], true)['type'] ?? null);
         $this->assertSame('usage', json_decode($lines[3], true)['type'] ?? null);
         $this->assertSame(2, $user->fresh()->ai_tokens_used);
+    }
+
+    public function test_extension_question_answers_map_radio_option_text(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'summary' => 'Backend engineer with Laravel experience.',
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')->once()->andReturn([
+                'answers' => [
+                    [
+                        'label' => 'When will you be able to join us?',
+                        'answer' => 'I can start immediately',
+                    ],
+                ],
+            ]);
+        });
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/questions', [
+                'job' => [
+                    'title' => 'Senior Systems Engineer',
+                    'company' => 'Archangel Lightworks',
+                    'description' => 'Cloud software for optical ground stations.',
+                ],
+                'questions' => [
+                    [
+                        'label' => 'When will you be able to join us?',
+                        'field_type' => 'radio',
+                        'options' => [
+                            'I can start immediately',
+                            'I can start in less than 1 month',
+                        ],
+                    ],
+                ],
+            ])
+            ->assertOk()
+            ->assertJsonPath('answers.0.answer', 'I can start immediately');
     }
 
     public function test_extension_question_answers_strip_markdown_and_profile_preface(): void

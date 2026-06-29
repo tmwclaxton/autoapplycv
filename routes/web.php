@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\Api\ExtensionTokenController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\BlogController;
@@ -18,6 +19,7 @@ Route::inertia('/about', 'About')->name('about');
 Route::inertia('/how-to', 'HowTo')->name('how-to');
 Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
 Route::inertia('/contact', 'Contact')->name('contact');
+Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
 Route::inertia('/terms', 'Legal/Terms')->name('terms');
 Route::inertia('/privacy', 'Legal/Privacy')->name('privacy');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');

@@ -9,6 +9,10 @@ use Illuminate\Support\Carbon;
 
 class AiTokenService
 {
+    public function __construct(
+        private readonly AutofillAnalyticsService $analytics,
+    ) {}
+
     public function ensureCurrentPeriod(User $user): User
     {
         $periodStart = $user->ai_tokens_period_start;
@@ -97,6 +101,8 @@ class AiTokenService
         $user->forceFill([
             'ai_tokens_used' => $user->ai_tokens_used + $count,
         ])->save();
+
+        $this->analytics->recordAnswers($count);
     }
 
     public function recordFieldsAutofilled(User $user, int $fields): void

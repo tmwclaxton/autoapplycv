@@ -76,4 +76,6 @@ return [
 
     'seconds_saved_per_field' => (int) env('CV_SECONDS_SAVED_PER_FIELD', 30),
 
+    'analytics_chart_days' => 30,
+
 ];

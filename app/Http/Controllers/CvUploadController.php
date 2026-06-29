@@ -7,6 +7,7 @@ use App\Models\CvUpload;
 use App\Models\ProfileDocument;
 use App\Models\User;
 use App\Services\AiTokenService;
+use App\Services\AutofillAnalyticsService;
 use App\Services\CvExtractionService;
 use App\Services\CvParserService;
 use App\Services\CvProfileDocumentService;
@@ -24,6 +25,7 @@ class CvUploadController extends Controller
         private readonly CvExtractionService $cvExtraction,
         private readonly AiTokenService $aiTokens,
         private readonly CvProfileDocumentService $cvDocuments,
+        private readonly AutofillAnalyticsService $analytics,
     ) {}
 
     public function store(Request $request): JsonResponse
@@ -74,6 +76,10 @@ class CvUploadController extends Controller
                 'parsing_complete' => $parsed !== null,
             ])
         );
+
+        if ($parsed !== null) {
+            $this->analytics->recordCvParsed();
+        }
 
         $response = [
             'success' => true,
