@@ -121,6 +121,7 @@ copyFileSync(join(SRC, 'shared/form-frame-messaging.js'), join(DIST, 'form-frame
 copyFileSync(join(SRC, 'shared/file-transfer.js'), join(DIST, 'file-transfer.js'));
 copyFileSync(join(SRC, 'background/index.js'), join(DIST, 'background.js'));
 copyFileSync(join(SRC, 'content/form-heuristics.js'), join(DIST, 'form-heuristics.js'));
+copyFileSync(join(SRC, 'content/field-inventory.js'), join(DIST, 'field-inventory.js'));
 copyFileSync(join(SRC, 'content/focus-tracker.js'), join(DIST, 'focus-tracker.js'));
 copyFileSync(join(SRC, 'content/portal-bar.js'), join(DIST, 'portal-bar.js'));
 copyFileSync(join(SRC, 'content/index.js'), join(DIST, 'content.js'));

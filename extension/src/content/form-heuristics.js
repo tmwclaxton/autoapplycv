@@ -882,8 +882,7 @@ const AutoCVApplyFormHeuristics = (() => {
         return true;
     }
 
-    function collectDraftableFields(root, profile, settings, memo = {}) {
-        const items = [];
+    function eachDraftableField(root, profile, settings, memo, callback) {
         const seen = new Set();
         const processedGroups = new Set();
         let id = 0;
@@ -910,13 +909,13 @@ const AutoCVApplyFormHeuristics = (() => {
 
                 seen.add(label);
 
-                items.push({
+                callback({
                     id,
                     label,
                     field_type: element.type === 'radio' ? 'radio' : 'checkbox',
                     max_chars: undefined,
                     options: getGroupOptions(element),
-                });
+                }, element);
 
                 id += 1;
 
@@ -935,13 +934,13 @@ const AutoCVApplyFormHeuristics = (() => {
 
             seen.add(label);
 
-            items.push({
+            callback({
                 id,
                 label,
                 field_type: getFieldType(element),
                 max_chars: element.maxLength > 0 ? element.maxLength : undefined,
                 options: getGroupOptions(element),
-            });
+            }, element);
 
             id += 1;
         }
@@ -969,16 +968,24 @@ const AutoCVApplyFormHeuristics = (() => {
 
             seen.add(label);
 
-            items.push({
+            callback({
                 id,
                 label,
                 field_type: 'radio',
                 max_chars: undefined,
                 options: getRoleRadioOptions(radios),
-            });
+            }, radios[0], radios);
 
             id += 1;
         }
+    }
+
+    function collectDraftableFields(root, profile, settings, memo = {}) {
+        const items = [];
+
+        eachDraftableField(root, profile, settings, memo, (field) => {
+            items.push(field);
+        });
 
         return items;
     }
@@ -1071,21 +1078,42 @@ const AutoCVApplyFormHeuristics = (() => {
         return collectDraftableFields(root, profile, settings, memo).length;
     }
 
+    function applyAnswerForTarget(root, target, fieldType, answer) {
+        if (!answer) {
+            return false;
+        }
+
+        if (Array.isArray(target)) {
+            return setRoleRadioGroupValue(target, answer);
+        }
+
+        if (target.type === 'radio' || target.type === 'checkbox') {
+            return setGroupValue(target, answer);
+        }
+
+        return setFieldValue(target, answer);
+    }
+
     return {
         applyAnswerByLabel,
         applyAnswerByLabelAllFrames,
+        applyAnswerForTarget,
         buildProfileValues,
         collectAllDraftableFields,
         collectDraftableFields,
         collectOpenQuestions,
         countDraftableFields,
         detectFieldType,
+        eachDraftableField,
         fillContainer,
         forEachIframeDocument,
         frameHasApplicationForm,
         getFieldLabel,
         getFieldType,
+        getQuestionLabel,
         looksLikeApplicationForm,
         setFieldValue,
+        setGroupValue,
+        setRoleRadioGroupValue,
     };
 })();

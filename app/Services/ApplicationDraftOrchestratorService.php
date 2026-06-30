@@ -38,10 +38,10 @@ class ApplicationDraftOrchestratorService
     }
 
     /**
-     * @param  array<int, array{id: int, label: string, field_type?: string, max_chars?: int|null, options?: array<int, string>|null}>  $fields
+     * @param  array<int, array{id: int, ref?: string|null, label: string, field_type?: string, max_chars?: int|null, options?: array<int, string>|null}>  $fields
      * @param  array<string, mixed>  $job
      * @param  array<string, mixed>  $settings
-     * @param  callable(int, array<int, array{id: int, label: string, answer: string|null}>): void  $onBatch
+     * @param  callable(int, array<int, array{id: int, ref?: string|null, label: string, answer: string|null}>): void  $onBatch
      * @param  callable(int, string): void  $onBatchError
      * @return array{batches_ok: int, batches_failed: int}
      */
@@ -66,13 +66,21 @@ class ApplicationDraftOrchestratorService
                 continue;
             }
 
-            /** @var array<int, array{label: string, field_type?: string, max_chars?: int|null, options?: array<int, string>|null}> $questions */
-            $questions = array_map(static fn (array $field): array => [
-                'label' => $field['label'],
-                'field_type' => $field['field_type'] ?? 'text',
-                'max_chars' => $field['max_chars'] ?? null,
-                'options' => $field['options'] ?? null,
-            ], $batch);
+            /** @var array<int, array{label: string, ref?: string|null, field_type?: string, max_chars?: int|null, options?: array<int, string>|null}> $questions */
+            $questions = array_map(static function (array $field): array {
+                $question = [
+                    'label' => $field['label'],
+                    'field_type' => $field['field_type'] ?? 'text',
+                    'max_chars' => $field['max_chars'] ?? null,
+                    'options' => $field['options'] ?? null,
+                ];
+
+                if (isset($field['ref']) && is_string($field['ref']) && $field['ref'] !== '') {
+                    $question['ref'] = $field['ref'];
+                }
+
+                return $question;
+            }, $batch);
 
             $answers = $this->assistant->answerQuestions($profile, $job, $questions, $settings);
 
@@ -88,19 +96,38 @@ class ApplicationDraftOrchestratorService
             $user->refresh();
 
             $answersByLabel = [];
+            $answersByRef = [];
 
             foreach ($answers as $answer) {
                 $answersByLabel[$answer['label']] = $answer['answer'];
+
+                if (isset($answer['ref']) && is_string($answer['ref']) && $answer['ref'] !== '') {
+                    $answersByRef[$answer['ref']] = $answer['answer'];
+                }
             }
 
             $mapped = [];
 
             foreach ($batch as $field) {
-                $mapped[] = [
+                $resolvedAnswer = null;
+
+                if (isset($field['ref'], $answersByRef[$field['ref']])) {
+                    $resolvedAnswer = $answersByRef[$field['ref']];
+                } else {
+                    $resolvedAnswer = $answersByLabel[$field['label']] ?? null;
+                }
+
+                $row = [
                     'id' => $field['id'],
                     'label' => $field['label'],
-                    'answer' => $answersByLabel[$field['label']] ?? null,
+                    'answer' => $resolvedAnswer,
                 ];
+
+                if (isset($field['ref']) && is_string($field['ref']) && $field['ref'] !== '') {
+                    $row['ref'] = $field['ref'];
+                }
+
+                $mapped[] = $row;
             }
 
             $onBatch($batchIndex, $mapped);

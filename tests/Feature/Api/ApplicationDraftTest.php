@@ -71,8 +71,8 @@ class ApplicationDraftTest extends TestCase
 
         $this->mock(NanoGptService::class, function (MockInterface $mock): void {
             $mock->shouldReceive('chatJson')->twice()->andReturn(
-                ['answers' => [['label' => 'Question one', 'answer' => 'Answer one']]],
-                ['answers' => [['label' => 'Question two', 'answer' => 'Answer two']]],
+                ['answers' => [['ref' => 'f0', 'label' => 'Question one', 'answer' => 'Answer one']]],
+                ['answers' => [['ref' => 'f1', 'label' => 'Question two', 'answer' => 'Answer two']]],
             );
         });
 
@@ -84,8 +84,8 @@ class ApplicationDraftTest extends TestCase
                     'company' => 'Example Ltd',
                 ],
                 'fields' => [
-                    ['id' => 0, 'label' => 'Question one', 'field_type' => 'textarea'],
-                    ['id' => 1, 'label' => 'Question two', 'field_type' => 'textarea'],
+                    ['id' => 0, 'ref' => 'f0', 'label' => 'Question one', 'field_type' => 'textarea'],
+                    ['id' => 1, 'ref' => 'f1', 'label' => 'Question two', 'field_type' => 'textarea'],
                 ],
             ]);
 
@@ -96,6 +96,8 @@ class ApplicationDraftTest extends TestCase
         $this->assertStringContainsString('"type":"complete"', $body);
         $this->assertStringContainsString('Answer one', $body);
         $this->assertStringContainsString('Answer two', $body);
+        $this->assertStringContainsString('"ref":"f0"', $body);
+        $this->assertStringContainsString('"ref":"f1"', $body);
         $this->assertSame(4, $user->fresh()->ai_tokens_used);
     }
 

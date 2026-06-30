@@ -9,10 +9,12 @@ use App\Http\Requests\DraftAllApplicationRequest;
 use App\Http\Requests\DraftFieldRequest;
 use App\Http\Requests\GenerateCoverLetterRequest;
 use App\Http\Requests\GenerateTailoredResumeRequest;
+use App\Http\Requests\InventoryApplicationRequest;
 use App\Http\Requests\ScoreAtsRequest;
 use App\Services\AiTokenService;
 use App\Services\ApplicationAssistantService;
 use App\Services\ApplicationDraftOrchestratorService;
+use App\Services\ApplicationFieldInventoryService;
 use App\Services\AutofillAnalyticsService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -22,6 +24,7 @@ class ApplicationAssistantController extends Controller
     public function __construct(
         private readonly ApplicationAssistantService $assistant,
         private readonly ApplicationDraftOrchestratorService $draftOrchestrator,
+        private readonly ApplicationFieldInventoryService $inventory,
         private readonly AiTokenService $usage,
         private readonly AutofillAnalyticsService $analytics,
     ) {}
@@ -67,6 +70,53 @@ class ApplicationAssistantController extends Controller
         return response()->json([
             'success' => true,
             'answers' => $answers,
+            'autofill_cost' => $cost,
+            'subscription' => $this->usage->summary($user),
+        ]);
+    }
+
+    public function inventory(InventoryApplicationRequest $request): JsonResponse
+    {
+        $user = $request->user();
+        $profile = $user->cvProfile;
+
+        if (! $profile) {
+            return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
+        }
+
+        $cost = (int) config('cv.ai_assist.inventory_cost', 1);
+
+        if (! $this->usage->canAutofill($user, $cost)) {
+            return response()->json([
+                'success' => false,
+                'error' => 'You do not have enough autofills remaining for field inventory.',
+                'subscription' => $this->usage->summary($user),
+            ], 402);
+        }
+
+        $validated = $request->validated();
+        $result = $this->inventory->resolveFields(
+            $profile,
+            $validated['job'],
+            $validated['snapshot'],
+            $validated['settings'] ?? [],
+        );
+
+        if ($result === null) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Could not inventory form fields right now. Try again shortly.',
+            ], 502);
+        }
+
+        $this->usage->recordAutofill($user, $cost);
+        $this->analytics->recordExtensionQuestions();
+
+        return response()->json([
+            'success' => true,
+            'fields' => $result['fields'],
+            'complete' => $result['complete'],
+            'next_actions' => $result['next_actions'],
             'autofill_cost' => $cost,
             'subscription' => $this->usage->summary($user),
         ]);

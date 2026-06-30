@@ -15,10 +15,10 @@ class ApplicationAssistantService
     ) {}
 
     /**
-     * @param  array<int, array{label: string, field_type?: string, max_chars?: int, options?: array<int, string>}>  $questions
+     * @param  array<int, array{label: string, ref?: string, field_type?: string, max_chars?: int, options?: array<int, string>}>  $questions
      * @param  array<string, mixed>  $job
      * @param  array<string, mixed>  $settings
-     * @return array<int, array{label: string, answer: string|null}>|null
+     * @return array<int, array{label: string, ref?: string, answer: string|null}>|null
      */
     public function answerQuestions(CvProfile $profile, array $job, array $questions, array $settings = []): ?array
     {
@@ -36,7 +36,8 @@ class ApplicationAssistantService
                 'content' => json_encode([
                     'job' => $job,
                     'questions' => $questions,
-                    'instructions' => 'Return JSON: {"answers":[{"label":"exact label from input","answer":"string or null"}]}. '
+                    'instructions' => 'Return JSON: {"answers":[{"label":"exact label from input","ref":"exact ref when provided in input","answer":"string or null"}]}. '
+                        .'When a question includes ref, you MUST echo that exact ref on the matching answer row. '
                         .'Read each question label carefully, including any helper text embedded in it, and answer that specific question - do not paste a generic CV summary unless the question explicitly asks for a full background overview. '
                         .'Use job.title, job.company, and job.job_description to tailor answers to this employer and role. '
                         .'For field_type radio, select, or checkbox with an options array, you MUST return one exact option string copied verbatim from options. Pick the best fit using application_settings when relevant (visa, relocation, salary, start date, office preference, employment type). '
@@ -62,7 +63,7 @@ class ApplicationAssistantService
                 continue;
             }
 
-            $question = $this->matchQuestionByLabel((string) $row['label'], $questions);
+            $question = $this->matchQuestion($row, $questions);
 
             if ($question === null) {
                 continue;
@@ -75,13 +76,43 @@ class ApplicationAssistantService
                 $answer = strtolower($answer);
             }
 
-            $answers[] = [
+            $entry = [
                 'label' => $question['label'],
                 'answer' => $answer !== '' ? $answer : null,
             ];
+
+            if (isset($question['ref']) && is_string($question['ref']) && $question['ref'] !== '') {
+                $entry['ref'] = $question['ref'];
+            }
+
+            $answers[] = $entry;
         }
 
         return $answers;
+    }
+
+    /**
+     * @param  array<string, mixed>  $row
+     * @param  array<int, array{label: string, ref?: string, field_type?: string, max_chars?: int, options?: array<int, string>|null}>  $questions
+     * @return array{label: string, ref?: string, field_type?: string, max_chars?: int, options?: array<int, string>|null}|null
+     */
+    private function matchQuestion(array $row, array $questions): ?array
+    {
+        if (isset($row['ref']) && is_string($row['ref']) && trim($row['ref']) !== '') {
+            $candidateRef = trim($row['ref']);
+
+            foreach ($questions as $question) {
+                if (isset($question['ref']) && $question['ref'] === $candidateRef) {
+                    return $question;
+                }
+            }
+        }
+
+        if (! isset($row['label'])) {
+            return null;
+        }
+
+        return $this->matchQuestionByLabel((string) $row['label'], $questions);
     }
 
     /**

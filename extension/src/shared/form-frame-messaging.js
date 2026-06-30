@@ -43,6 +43,18 @@ export async function collectFieldsFromTab(tabId) {
     return sendTabMessage(tabId, { type: 'COLLECT_DRAFTABLE_FIELDS' }, frameId);
 }
 
+export async function collectSnapshotFromTab(tabId) {
+    const frameId = await findBestFormFrameId(tabId);
+
+    return sendTabMessage(tabId, { type: 'BUILD_FIELD_SNAPSHOT' }, frameId);
+}
+
+export async function clickInventoryRefOnTab(tabId, ref) {
+    const frameId = await findBestFormFrameId(tabId);
+
+    return sendTabMessage(tabId, { type: 'INVENTORY_CLICK_REF', ref }, frameId);
+}
+
 export async function applyDraftBatchToTab(tabId, answers) {
     const frameId = await findBestFormFrameId(tabId);
 

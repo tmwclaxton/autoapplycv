@@ -6,17 +6,21 @@ import {
     saveConnection,
     saveLoginEndpoint,
 } from './connection.js';
-import { requestDraftAllStream, requestDraftField, requestAssistChatStream } from './draft-all-stream.js';
+import { requestDraftAllStream, requestDraftField, requestAssistChatStream, requestFieldInventory } from './draft-all-stream.js';
 import { arrayBufferToBase64, base64ToBlob } from './file-transfer.js';
 import {
     applyDraftAnswerToTab,
     applyDraftBatchToTab,
+    clickInventoryRefOnTab,
     collectFieldsFromTab,
+    collectSnapshotFromTab,
 } from './form-frame-messaging.js';
 
 let cachedProfile = null;
 let cacheTimestamp = 0;
 const CACHE_TTL_MS = 15 * 60 * 1000;
+const INVENTORY_MAX_ROUNDS = 3;
+const INVENTORY_STEP_DELAY_MS = 900;
 
 function invalidateProfileCache() {
     cachedProfile = null;
@@ -598,6 +602,117 @@ async function saveLocalMemo(answers) {
     });
 }
 
+function inventoryFieldsToDraftShape(inventoryFields) {
+    return (inventoryFields || []).map((field, index) => ({
+        id: index,
+        ref: field.ref,
+        label: field.question || field.label,
+        field_type: field.field_type || 'text',
+        max_chars: field.max_chars,
+        options: field.options,
+    }));
+}
+
+function sleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
+
+async function resolveDraftFieldsViaInventory(tabId, tab, settings) {
+    let job = {
+        title: tab.title || 'Job application',
+        company: 'Unknown company',
+        link: tab.url?.split('?')[0] || tab.url,
+    };
+    let lastFields = [];
+
+    for (let round = 0; round < INVENTORY_MAX_ROUNDS; round += 1) {
+        const collectResponse = await collectSnapshotFromTab(tabId);
+
+        if (!collectResponse?.success) {
+            return { error: collectResponse?.error || 'Could not scan this page for fields.' };
+        }
+
+        if (collectResponse.job) {
+            job = collectResponse.job;
+        }
+
+        if (!collectResponse.snapshot?.elements?.length) {
+            if (collectResponse.fields?.length) {
+                return { fields: collectResponse.fields, job };
+            }
+
+            return { error: 'No empty fields found to draft.' };
+        }
+
+        broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+            message: round === 0
+                ? 'Scanning form fields…'
+                : `Rescanning form fields (step ${round + 1})…`,
+        });
+
+        const inventory = await requestFieldInventory({
+            job,
+            snapshot: collectResponse.snapshot,
+            settings,
+            page_title: tab.title,
+        });
+
+        if (!inventory.ok) {
+            if (inventory.subscription && cachedProfile) {
+                cachedProfile.subscription = inventory.subscription;
+            }
+
+            return { error: inventory.message || 'Field inventory failed.' };
+        }
+
+        if (inventory.subscription && cachedProfile) {
+            cachedProfile.subscription = inventory.subscription;
+        }
+
+        lastFields = inventoryFieldsToDraftShape(inventory.fields);
+
+        if (inventory.complete || !inventory.next_actions?.length) {
+            if (lastFields.length === 0 && collectResponse.fields?.length) {
+                return { fields: collectResponse.fields, job };
+            }
+
+            if (lastFields.length === 0) {
+                return { error: 'No empty fields found to draft.' };
+            }
+
+            return { fields: lastFields, job };
+        }
+
+        broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+            message: 'Opening the next section of the form…',
+        });
+
+        for (const action of inventory.next_actions) {
+            if (!action?.ref) {
+                continue;
+            }
+
+            await clickInventoryRefOnTab(tabId, action.ref);
+        }
+
+        await sleep(INVENTORY_STEP_DELAY_MS);
+    }
+
+    if (lastFields.length > 0) {
+        return { fields: lastFields, job };
+    }
+
+    const fallback = await collectFieldsFromTab(tabId);
+
+    if (fallback?.fields?.length) {
+        return { fields: fallback.fields, job: fallback.job || job };
+    }
+
+    return { error: 'No empty fields found to draft.' };
+}
+
 async function runDraftAll(tabId) {
     if (draftAllRunning) {
         return { error: 'Draft-all is already running on this tab.' };
@@ -607,30 +722,22 @@ async function runDraftAll(tabId) {
 
     try {
         const tab = await chrome.tabs.get(tabId);
-        const collectResponse = await collectFieldsFromTab(tabId);
-
-        if (!collectResponse?.success) {
-            return { error: collectResponse?.error || 'Could not scan this page for fields.' };
-        }
-
-        if (!collectResponse.fields?.length) {
-            return { error: 'No empty fields found to draft.' };
-        }
-
         const settings = await buildAutofillSettings();
-        const job = collectResponse.job || {
-            title: tab.title || 'Job application',
-            company: 'Unknown company',
-            link: tab.url?.split('?')[0] || tab.url,
-        };
+        const resolved = await resolveDraftFieldsViaInventory(tabId, tab, settings);
+
+        if (resolved.error) {
+            return { error: resolved.error };
+        }
+
+        const { fields, job } = resolved;
 
         broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
-            message: `Drafting ${collectResponse.fields.length} field(s)…`,
+            message: `Drafting ${fields.length} field(s)…`,
         });
 
         const result = await requestDraftAllStream({
             job,
-            fields: collectResponse.fields,
+            fields,
             settings,
             page_title: tab.title,
         }, async (event) => {
@@ -662,7 +769,7 @@ async function runDraftAll(tabId) {
             return { error: result.message || 'Draft-all failed.' };
         }
 
-        const message = `Fill complete (${collectResponse.fields.length} field(s) drafted).`;
+        const message = `Fill complete (${fields.length} field(s) drafted).`;
         broadcastDraftEvent('DRAFT_ALL_DONE', { message });
 
         return { success: true, message };

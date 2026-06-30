@@ -832,12 +832,17 @@ async function collectDraftContext() {
 
     const { settings, memo } = await loadAutofillContext();
     const platform = detectPlatform();
-    const fields = AutoCVApplyFormHeuristics.collectAllDraftableFields(
-        document,
-        profile.profile,
-        settings,
-        memo,
-    );
+    const snapshot = typeof AutoCVApplyFieldInventory !== 'undefined'
+        ? AutoCVApplyFieldInventory.buildSnapshot(document, profile.profile, settings, memo)
+        : null;
+    const fields = typeof AutoCVApplyFieldInventory !== 'undefined'
+        ? AutoCVApplyFieldInventory.fieldsFromInventory(snapshot.elements)
+        : AutoCVApplyFormHeuristics.collectAllDraftableFields(
+            document,
+            profile.profile,
+            settings,
+            memo,
+        );
 
     const job = platform
         ? extractJobMeta(platform.name)
@@ -847,6 +852,15 @@ async function collectDraftContext() {
             link: window.location.href.split('?')[0],
             job_description: extractJobDescriptionFromPage(),
         };
+
+    return {
+        success: true,
+        fields,
+        snapshot,
+        job,
+        count: fields.length,
+        isFormHost: AutoCVApplyFormHeuristics.frameHasApplicationForm(document) || fields.length > 0,
+    };
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -868,11 +882,21 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'BUILD_FIELD_SNAPSHOT') {
+            sendResponse(await collectDraftContext());
+
+            return;
+        }
+
         if (message.type === 'APPLY_DRAFT_BATCH') {
             let applied = 0;
 
             for (const answer of message.answers || []) {
-                if (AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(document, answer.label, answer.answer)) {
+                const filled = answer.ref && typeof AutoCVApplyFieldInventory !== 'undefined'
+                    ? AutoCVApplyFieldInventory.applyAnswerByRefAllFrames(document, answer.ref, answer.answer)
+                    : AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(document, answer.label, answer.answer);
+
+                if (filled) {
                     applied += 1;
                 }
             }
@@ -882,10 +906,22 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'INVENTORY_CLICK_REF') {
+            const clicked = typeof AutoCVApplyFieldInventory !== 'undefined'
+                ? AutoCVApplyFieldInventory.clickRefAllFrames(document, message.ref)
+                : false;
+
+            sendResponse({ success: clicked });
+
+            return;
+        }
+
         if (message.type === 'APPLY_DRAFT_ANSWER') {
-            sendResponse({
-                success: AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(document, message.label, message.answer),
-            });
+            const filled = message.ref && typeof AutoCVApplyFieldInventory !== 'undefined'
+                ? AutoCVApplyFieldInventory.applyAnswerByRefAllFrames(document, message.ref, message.answer)
+                : AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(document, message.label, message.answer);
+
+            sendResponse({ success: filled });
 
             return;
         }

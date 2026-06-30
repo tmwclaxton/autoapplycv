@@ -96,6 +96,53 @@ export async function requestDraftAllStream(body, onEvent) {
     return { ok: true, complete };
 }
 
+export async function requestFieldInventory(body) {
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
+
+    let response;
+
+    try {
+        response = await fetch(`${apiBase}/api/applications/assist/inventory`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${apiToken}`,
+            },
+            body: JSON.stringify(body),
+        });
+    } catch {
+        return { ok: false, message: 'Cannot reach AutoCVApply.' };
+    }
+
+    const data = await response.json().catch(() => ({}));
+
+    if (response.status === 402) {
+        return {
+            ok: false,
+            message: data.error || 'Autofill limit reached.',
+            subscription: data.subscription,
+        };
+    }
+
+    if (!response.ok || !data.success) {
+        return {
+            ok: false,
+            message: data.error || data.message || 'Field inventory failed.',
+            subscription: data.subscription,
+        };
+    }
+
+    return {
+        ok: true,
+        fields: data.fields || [],
+        complete: data.complete === true,
+        next_actions: data.next_actions || [],
+        subscription: data.subscription,
+    };
+}
+
 export async function requestAssistChatStream(body, onEvent) {
     const apiToken = await getApiToken();
     const apiBase = await getStoredApiBase();

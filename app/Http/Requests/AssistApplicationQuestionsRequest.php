@@ -24,6 +24,7 @@ class AssistApplicationQuestionsRequest extends FormRequest
             'job.description' => ['nullable', 'string', 'max:20000'],
             'questions' => ['required', 'array', 'min:1', 'max:10'],
             'questions.*.label' => ['required', 'string', 'max:500'],
+            'questions.*.ref' => ['nullable', 'string', 'max:32'],
             'questions.*.field_type' => ['nullable', 'string', 'max:32'],
             'questions.*.max_chars' => ['nullable', 'integer', 'min:20', 'max:5000'],
             'questions.*.options' => ['nullable', 'array', 'max:20'],

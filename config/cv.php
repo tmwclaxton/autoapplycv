@@ -72,6 +72,7 @@ return [
         'chat_cost' => (int) env('CV_AI_CHAT_COST', 2),
         'draft_all_batch_size' => (int) env('CV_AI_DRAFT_ALL_BATCH_SIZE', 10),
         'draft_all_batch_cost' => (int) env('CV_AI_DRAFT_ALL_BATCH_COST', 3),
+        'inventory_cost' => 1,
     ],
 
     'seconds_saved_per_field' => (int) env('CV_SECONDS_SAVED_PER_FIELD', 30),

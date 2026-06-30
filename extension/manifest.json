@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "AutoCVApply",
-    "version": "2.17.4",
+    "version": "2.18.0",
     "description": "Auto-fill job application forms on any site and draft answers, cover letters, and tailored resumes from the sidebar.",
     "permissions": ["storage", "tabs", "scripting", "sidePanel", "contextMenus", "webNavigation"],
     "host_permissions": ["<all_urls>"],
@@ -42,6 +42,7 @@
             ],
             "js": [
                 "form-heuristics.js",
+                "field-inventory.js",
                 "focus-tracker.js",
                 "portal-bar.js",
                 "content.js"
