@@ -146,7 +146,7 @@ const AutoCVApplyPortalBar = (() => {
     }
 
     function update({ visible = false, sidebarOpen = false }) {
-        if (!visible || !fillHandler) {
+        if (!visible || !sidebarOpen || !fillHandler) {
             hide();
 
             return;
@@ -159,8 +159,8 @@ const AutoCVApplyPortalBar = (() => {
         }
 
         hostElement.style.display = 'block';
-        hostElement.style.left = sidebarOpen ? '24px' : 'auto';
-        hostElement.style.right = sidebarOpen ? 'auto' : '24px';
+        hostElement.style.left = '24px';
+        hostElement.style.right = 'auto';
 
         if (!fillRunning && fillButton?.disabled) {
             fillButton.disabled = false;

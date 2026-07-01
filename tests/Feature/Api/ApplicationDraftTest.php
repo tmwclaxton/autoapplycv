@@ -123,4 +123,30 @@ class ApplicationDraftTest extends TestCase
             $user->fresh()->cvProfile?->summary,
         );
     }
+
+    public function test_extension_can_patch_structured_address_fields(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'structured_data' => [
+                'address_line_1' => '343 West Wycombe Road',
+                'state_region' => 'Buckinghamshire',
+            ],
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->withToken($token)
+            ->patchJson('/api/profile', [
+                'structured_data' => [
+                    'address_line_1' => '',
+                    'state_region' => 'Gloucestershire',
+                ],
+            ])
+            ->assertOk()
+            ->assertJsonPath('profile.structured_data.state_region', 'Gloucestershire');
+
+        $profile = $user->fresh()->cvProfile;
+        $this->assertTrue(in_array($profile->structured_data['address_line_1'], [null, ''], true));
+        $this->assertSame('Gloucestershire', $profile->structured_data['state_region']);
+    }
 }

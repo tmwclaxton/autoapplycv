@@ -165,6 +165,7 @@ class ApplicationAssistantController extends Controller
             'success' => true,
             'message' => $result['message'],
             'profile_updates' => $result['profile_updates'],
+            'actions' => $result['actions'],
             'draft_answer' => $result['draft_answer'],
             'autofill_cost' => $cost,
             'subscription' => $this->usage->summary($user),

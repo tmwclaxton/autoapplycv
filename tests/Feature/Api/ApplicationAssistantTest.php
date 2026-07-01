@@ -206,6 +206,10 @@ class ApplicationAssistantTest extends TestCase
             ->assertJsonPath('success', true)
             ->assertJsonPath('message', 'Try emphasising your Laravel API work in your summary.')
             ->assertJsonPath('profile_updates.0.field', 'summary')
+            ->assertJsonPath('profile_updates.0.dashboard_tab', 'profile')
+            ->assertJsonPath('profile_updates.0.dashboard_anchor', 'field-summary')
+            ->assertJsonPath('actions.0.type', 'profile_update')
+            ->assertJsonPath('actions.1.type', 'copy_draft')
             ->assertJsonPath('draft_answer', 'I enjoy building reliable Laravel systems.')
             ->assertJsonPath('autofill_cost', 2);
 
@@ -278,10 +282,44 @@ class ApplicationAssistantTest extends TestCase
                 $emit(['type' => 'token', 'delta' => 'My secret skill is ']);
                 $emit(['type' => 'token', 'delta' => 'building tools.']);
                 $emit([
+                    'type' => 'tools',
+                    'actions' => [
+                        [
+                            'type' => 'profile_update',
+                            'field' => 'summary',
+                            'label' => 'Professional summary',
+                            'value' => 'Backend engineer specialising in Laravel APIs.',
+                            'reason' => 'More specific for backend roles.',
+                            'dashboard_tab' => 'profile',
+                            'dashboard_anchor' => 'field-summary',
+                        ],
+                    ],
+                ]);
+                $emit([
                     'type' => 'complete',
                     'message' => 'My secret skill is building tools.',
-                    'profile_updates' => [],
+                    'profile_updates' => [
+                        [
+                            'field' => 'summary',
+                            'label' => 'Professional summary',
+                            'value' => 'Backend engineer specialising in Laravel APIs.',
+                            'reason' => 'More specific for backend roles.',
+                            'dashboard_tab' => 'profile',
+                            'dashboard_anchor' => 'field-summary',
+                        ],
+                    ],
                     'draft_answer' => null,
+                    'actions' => [
+                        [
+                            'type' => 'profile_update',
+                            'field' => 'summary',
+                            'label' => 'Professional summary',
+                            'value' => 'Backend engineer specialising in Laravel APIs.',
+                            'reason' => 'More specific for backend roles.',
+                            'dashboard_tab' => 'profile',
+                            'dashboard_anchor' => 'field-summary',
+                        ],
+                    ],
                 ]);
 
                 return true;
@@ -300,8 +338,10 @@ class ApplicationAssistantTest extends TestCase
         $lines = array_values(array_filter(array_map('trim', explode("\n", $response->streamedContent()))));
 
         $this->assertSame('token', json_decode($lines[0], true)['type'] ?? null);
-        $this->assertSame('complete', json_decode($lines[2], true)['type'] ?? null);
-        $this->assertSame('usage', json_decode($lines[3], true)['type'] ?? null);
+        $this->assertSame('tools', json_decode($lines[2], true)['type'] ?? null);
+        $this->assertSame('profile_update', json_decode($lines[2], true)['actions'][0]['type'] ?? null);
+        $this->assertSame('complete', json_decode($lines[3], true)['type'] ?? null);
+        $this->assertSame('usage', json_decode($lines[4], true)['type'] ?? null);
         $this->assertSame(2, $user->fresh()->ai_tokens_used);
     }
 

@@ -251,6 +251,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 <div>
                     <label class="postbox-label">Headline</label>
                     <input
+                        id="field-headline"
                         v-model="profile.headline"
                         type="text"
                         class="postbox-input"
@@ -269,6 +270,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 <div>
                     <label class="postbox-label">Phone</label>
                     <input
+                        id="field-phone"
                         v-model="profile.phone"
                         type="text"
                         class="postbox-input"
@@ -278,6 +280,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 <div>
                     <label class="postbox-label">Location</label>
                     <input
+                        id="field-location"
                         v-model="profile.location"
                         type="text"
                         class="postbox-input"
@@ -287,6 +290,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 <div>
                     <label class="postbox-label">City</label>
                     <input
+                        id="field-city"
                         v-model="profile.city"
                         type="text"
                         class="postbox-input"
@@ -296,6 +300,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 <div>
                     <label class="postbox-label">Postcode</label>
                     <input
+                        id="field-postcode"
                         v-model="profile.postcode"
                         type="text"
                         class="postbox-input"
@@ -305,6 +310,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 <div>
                     <label class="postbox-label">Country</label>
                     <input
+                        id="field-country"
                         v-model="profile.country"
                         type="text"
                         class="postbox-input"
@@ -314,6 +320,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 <div>
                     <label class="postbox-label">LinkedIn</label>
                     <input
+                        id="field-linkedin-url"
                         v-model="profile.linkedin_url"
                         type="url"
                         class="postbox-input"
@@ -323,6 +330,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 <div>
                     <label class="postbox-label">Website</label>
                     <input
+                        id="field-website-url"
                         v-model="profile.website_url"
                         type="url"
                         class="postbox-input"
@@ -348,6 +356,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 <div>
                     <label class="postbox-label">Address line 1</label>
                     <input
+                        id="field-address-line-1"
                         v-model="profile.structured_data.address_line_1"
                         type="text"
                         class="postbox-input"
@@ -356,6 +365,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 <div>
                     <label class="postbox-label">Address line 2</label>
                     <input
+                        id="field-address-line-2"
                         v-model="profile.structured_data.address_line_2"
                         type="text"
                         class="postbox-input"
@@ -364,6 +374,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 <div>
                     <label class="postbox-label">State / region</label>
                     <input
+                        id="field-state-region"
                         v-model="profile.structured_data.state_region"
                         type="text"
                         class="postbox-input"
@@ -404,7 +415,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('summary')" class="postbox-panel p-6">
+        <div v-if="show('summary')" id="field-summary" class="postbox-panel scroll-mt-24 p-6">
             <h2 class="postbox-label">Professional summary</h2>
             <textarea
                 v-model="profile.summary"
@@ -1438,7 +1449,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             />
         </div>
 
-        <div v-if="show('extra')" class="postbox-panel p-6">
+        <div v-if="show('extra')" id="field-extra-context" class="postbox-panel scroll-mt-24 p-6">
             <h2 class="postbox-label">Extra context</h2>
             <p class="mb-4 text-sm text-muted-foreground">
                 Visa status, notice period, salary floor, cover letter tone -

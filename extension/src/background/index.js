@@ -1041,20 +1041,13 @@ async function applyProfileUpdate(update) {
         throw new Error('Invalid profile update.');
     }
 
-    const allowedFields = [
-        'headline',
-        'phone',
-        'location',
-        'city',
-        'postcode',
-        'country',
-        'linkedin_url',
-        'website_url',
-        'summary',
-        'extra_context',
-    ];
+    const path = typeof update.path === 'string' && update.path !== ''
+        ? update.path
+        : update.field;
 
-    if (!allowedFields.includes(update.field)) {
+    const body = buildPatchBody(path, update.value);
+
+    if (Object.keys(body).length === 0) {
         throw new Error('That profile field cannot be updated from the extension.');
     }
 
@@ -1068,9 +1061,7 @@ async function applyProfileUpdate(update) {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-            [update.field]: update.value,
-        }),
+        body: JSON.stringify(body),
     });
 
     const data = await response.json().catch(() => ({}));
@@ -1087,6 +1078,26 @@ async function applyProfileUpdate(update) {
     invalidateProfileCache();
 
     return data;
+}
+
+function buildPatchBody(path, value) {
+    const parts = String(path || '').split('.').filter(Boolean);
+
+    if (parts.length === 0) {
+        return {};
+    }
+
+    const body = {};
+    let cursor = body;
+
+    for (let index = 0; index < parts.length - 1; index += 1) {
+        cursor[parts[index]] = {};
+        cursor = cursor[parts[index]];
+    }
+
+    cursor[parts[parts.length - 1]] = value;
+
+    return body;
 }
 
 async function recordAutofill(count) {

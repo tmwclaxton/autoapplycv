@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\AutofillDailyStat;
+use App\Models\CvProfile;
+use App\Models\User;
 use Carbon\CarbonInterface;
 
 class AutofillAnalyticsService
@@ -49,6 +51,8 @@ class AutofillAnalyticsService
      */
     public function publicSummary(?int $days = null): array
     {
+        $this->syncLegacyCountersFromUsers();
+
         $days = max(7, min(90, $days ?? (int) config('cv.analytics_chart_days', 30)));
         $start = now()->subDays($days - 1)->startOfDay();
 
@@ -94,6 +98,29 @@ class AutofillAnalyticsService
                 ),
             ],
         ];
+    }
+
+    /**
+     * Backfill global daily stats from per-user counters recorded before
+     * autofill_daily_stats existed, or when stats fell behind usage.
+     */
+    public function syncLegacyCountersFromUsers(): void
+    {
+        $answersInStats = (int) AutofillDailyStat::query()->sum('answers_count');
+        $answersFromUsers = (int) User::query()->sum('ai_tokens_used');
+        $answersGap = max(0, $answersFromUsers - $answersInStats);
+
+        if ($answersGap > 0) {
+            $this->recordAnswers($answersGap);
+        }
+
+        $cvsInStats = (int) AutofillDailyStat::query()->sum('cvs_parsed_count');
+        $cvsFromProfiles = (int) CvProfile::query()->where('parsing_complete', true)->count();
+        $cvsGap = max(0, $cvsFromProfiles - $cvsInStats);
+
+        if ($cvsGap > 0) {
+            $this->recordCvParsed($cvsGap);
+        }
     }
 
     private function incrementDailyStat(string $column, int $count): void

@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Services\AiTokenService;
 use App\Services\CvProfileDocumentService;
 use App\Support\ApplicationSettings;
+use App\Support\CvExtractionSchema;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -38,16 +39,41 @@ class ProfileController extends Controller
     {
         $user = $request->user();
         $validated = $request->validated();
+        $structuredPatch = $validated['structured_data'] ?? [];
+        $applicationSettingsPatch = $validated['application_settings'] ?? [];
+        unset($validated['structured_data'], $validated['application_settings']);
 
         $profile = CvProfile::updateOrCreate(
             ['user_id' => $user->id],
             array_merge($validated, ['parsing_complete' => true]),
         );
 
+        if ($structuredPatch !== []) {
+            $profile->structured_data = array_merge(
+                CvExtractionSchema::emptyStructuredData(),
+                is_array($profile->structured_data) ? $profile->structured_data : [],
+                $structuredPatch,
+            );
+        }
+
+        if ($applicationSettingsPatch !== []) {
+            $profile->application_settings = ApplicationSettings::merge(
+                array_merge(is_array($profile->application_settings) ? $profile->application_settings : [], $applicationSettingsPatch),
+            );
+        }
+
+        if ($structuredPatch !== [] || $applicationSettingsPatch !== []) {
+            $profile->save();
+        }
+
+        $profile->refresh();
+
         return response()->json([
             'success' => true,
             'profile' => [
+                'full_name' => $profile->full_name,
                 'headline' => $profile->headline,
+                'email' => $profile->email,
                 'phone' => $profile->phone,
                 'location' => $profile->location,
                 'city' => $profile->city,
@@ -56,7 +82,13 @@ class ProfileController extends Controller
                 'linkedin_url' => $profile->linkedin_url,
                 'website_url' => $profile->website_url,
                 'summary' => $profile->summary,
+                'skills' => $profile->skills ?? [],
+                'experience' => $profile->experience ?? [],
+                'education' => $profile->education ?? [],
                 'extra_context' => $profile->extra_context,
+                'formatted_cv_text' => $profile->formatted_cv_text,
+                'structured_data' => $profile->structured_data ?? [],
+                'application_settings' => ApplicationSettings::merge($profile->application_settings),
             ],
             'subscription' => $this->aiTokens->summary($user),
         ]);

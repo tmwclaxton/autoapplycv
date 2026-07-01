@@ -813,7 +813,7 @@ async function runOverlayRefresh() {
         }
 
         AutoCVApplyPortalBar.update({
-            visible: true,
+            visible: sidePanelOpen,
             sidebarOpen: sidePanelOpen,
         });
     } catch {

@@ -113,6 +113,7 @@ mkdirSync(DIST, { recursive: true });
 mkdirSync(OUTPUT_DIR, { recursive: true });
 
 copyFileSync(join(ROOT, 'extension/manifest.json'), join(DIST, 'manifest.json'));
+copyFileSync(join(SRC, 'shared/direct-profile-update.js'), join(DIST, 'direct-profile-update.js'));
 copyFileSync(join(SRC, 'shared/draft-all-stream.js'), join(DIST, 'draft-all-stream.js'));
 copyFileSync(join(SRC, 'shared/connection.js'), join(DIST, 'connection.js'));
 copyFileSync(join(SRC, 'shared/application-settings.js'), join(DIST, 'application-settings.js'));

@@ -23,6 +23,7 @@ const aiTabs = new Set(['ats', 'cover']);
 
 let documentsPanel = null;
 let assistChat = null;
+let connectedApiBase = null;
 
 function configureExtensionIcons() {
     const iconUrl = (name) => chrome.runtime.getURL(`icons/${name}`);
@@ -416,15 +417,17 @@ async function init() {
             showMessage,
             refreshUsage,
             buildJobPayload,
+            getApiBase: () => connectedApiBase,
         });
     }
 
-    const { isAuthenticated } = await checkAuth();
+    const auth = await checkAuth();
 
-    if (isAuthenticated) {
+    if (auth?.isAuthenticated) {
         authState.classList.add('is-visible');
         unauthState.classList.remove('is-visible');
         setHeaderAuthVisibility(true);
+        connectedApiBase = auth.apiBase || null;
 
         const profileData = await loadProfile();
 
@@ -443,6 +446,7 @@ async function init() {
         authState.classList.remove('is-visible');
         unauthState.classList.add('is-visible');
         setHeaderAuthVisibility(false);
+        connectedApiBase = null;
         usagePill.textContent = 'Not connected';
         await loadLoginEndpoint();
     }

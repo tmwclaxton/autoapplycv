@@ -6,12 +6,14 @@ use App\Enums\ApplicationArtifactType;
 use App\Models\ApplicationArtifact;
 use App\Models\CvProfile;
 use App\Models\JobApplication;
+use App\Support\ProfileFieldRegistry;
 use Illuminate\Support\Facades\Log;
 
 class ApplicationAssistantService
 {
     public function __construct(
         private readonly NanoGptService $nanoGpt,
+        private readonly DirectProfileUpdateParser $directProfileUpdates,
     ) {}
 
     /**
@@ -215,8 +217,9 @@ class ApplicationAssistantService
      * @param  array<string, mixed>  $context
      * @return array{
      *     message: string,
-     *     profile_updates: array<int, array{field: string, label: string, value: string, reason: string}>,
+     *     profile_updates: array<int, array{field: string, label: string, value: string, reason: string, dashboard_tab: string, dashboard_anchor: string}>,
      *     draft_answer: string|null,
+     *     actions: array<int, array<string, mixed>>,
      * }|null
      */
     public function chat(CvProfile $profile, array $messages, array $context = []): ?array
@@ -251,45 +254,10 @@ class ApplicationAssistantService
         }
 
         $messageText = $this->sanitizeAssistantText($messageText);
-
-        $profileUpdates = [];
-
-        foreach ($payload['profile_updates'] ?? [] as $update) {
-            if (! is_array($update) || ! isset($update['field'], $update['value'])) {
-                continue;
-            }
-
-            $field = (string) $update['field'];
-
-            if (! in_array($field, [
-                'headline',
-                'phone',
-                'location',
-                'city',
-                'postcode',
-                'country',
-                'linkedin_url',
-                'website_url',
-                'summary',
-                'extra_context',
-            ], true)) {
-                continue;
-            }
-
-            $value = trim((string) $update['value']);
-
-            if ($value === '') {
-                continue;
-            }
-
-            $profileUpdates[] = [
-                'field' => $field,
-                'label' => (string) ($update['label'] ?? ucfirst(str_replace('_', ' ', $field))),
-                'value' => $value,
-                'reason' => (string) ($update['reason'] ?? ''),
-            ];
-        }
-
+        $directUpdates = $this->resolveDirectProfileUpdates($conversation);
+        $profileUpdates = $directUpdates !== []
+            ? $directUpdates
+            : $this->normalizeProfileUpdates($payload['profile_updates'] ?? []);
         $draftAnswer = isset($payload['draft_answer']) && is_string($payload['draft_answer'])
             ? $this->sanitizeAssistantText(trim($payload['draft_answer']))
             : null;
@@ -298,6 +266,7 @@ class ApplicationAssistantService
             'message' => $messageText,
             'profile_updates' => $profileUpdates,
             'draft_answer' => $draftAnswer !== '' ? $draftAnswer : null,
+            'actions' => $this->buildChatActions($profileUpdates, $draftAnswer !== '' ? $draftAnswer : null),
         ];
     }
 
@@ -312,6 +281,15 @@ class ApplicationAssistantService
 
         if ($conversation === []) {
             return false;
+        }
+
+        $directUpdates = $this->resolveDirectProfileUpdates($conversation);
+
+        if ($directUpdates !== []) {
+            $emit([
+                'type' => 'tools',
+                'actions' => $this->buildChatActions($directUpdates, null),
+            ]);
         }
 
         $payloadMessages = $this->buildChatPayloadMessages($profile, $conversation, $context, stream: true);
@@ -336,16 +314,294 @@ class ApplicationAssistantService
 
         $messageText = $this->sanitizeAssistantText($content);
         $focusedField = is_array($context['focused_field'] ?? null) ? $context['focused_field'] : null;
-        $draftAnswer = $focusedField !== null ? $messageText : null;
+
+        if ($directUpdates !== []) {
+            $profileUpdates = $directUpdates;
+            $draftAnswer = null;
+        } else {
+            $extracted = $this->extractChatActions($profile, $conversation, $messageText, $context);
+            $profileUpdates = $extracted['profile_updates'];
+            $draftAnswer = $focusedField !== null
+                ? $messageText
+                : $extracted['draft_answer'];
+        }
+
+        $actions = $this->buildChatActions($profileUpdates, $draftAnswer);
+
+        if ($actions !== [] && $directUpdates === []) {
+            $emit([
+                'type' => 'tools',
+                'actions' => $actions,
+            ]);
+        }
 
         $emit([
             'type' => 'complete',
             'message' => $messageText,
-            'profile_updates' => [],
+            'profile_updates' => $profileUpdates,
             'draft_answer' => $draftAnswer,
+            'actions' => $actions,
         ]);
 
         return true;
+    }
+
+    /**
+     * @param  array<int, array{role: string, content: string}>  $conversation
+     * @param  array<string, mixed>  $context
+     * @return array{
+     *     profile_updates: array<int, array{field: string, label: string, value: string, reason: string, dashboard_tab: string, dashboard_anchor: string}>,
+     *     draft_answer: string|null,
+     * }
+     */
+    private function extractChatActions(CvProfile $profile, array $conversation, string $assistantMessage, array $context): array
+    {
+        unset($profile);
+
+        $lastUserMessage = $this->lastUserMessage($conversation);
+        $isConfirmation = $lastUserMessage !== null && $this->isProfileUpdateConfirmation($lastUserMessage);
+
+        $payload = $this->nanoGpt->chatJson([
+            [
+                'role' => 'system',
+                'content' => 'Extract structured sidebar actions from an AutoCVApply assist conversation. '
+                    .'Return JSON only: {"profile_updates":[{"field":"'.ProfileFieldRegistry::promptFieldIds().'","label":"human label","value":"proposed value, JSON array/object for list fields, or empty string to clear","reason":"why"}],"draft_answer":"optional paste-ready form answer or null"}. '
+                    .'Return every profile field the user asked to change. Multiple profile_updates are allowed. '
+                    .'Include profile_updates when the assistant proposed a change, or when the user asked to update/set/change/clear a profile field and the assistant agreed or confirmed (even briefly, past tense, or future tense). '
+                    .($isConfirmation
+                        ? 'The latest user message confirms pending changes — return ALL agreed profile updates from the conversation using the final values stated by the user or assistant. '
+                        : '')
+                    .'Use empty string value when the user asked to clear or blank a field. '
+                    .'Only set draft_answer when the user is drafting a form response and the assistant reply is paste-ready.',
+            ],
+            [
+                'role' => 'user',
+                'content' => json_encode([
+                    'conversation' => $conversation,
+                    'last_user_message' => $lastUserMessage,
+                    'assistant_reply' => $assistantMessage,
+                    'context' => $context,
+                ], JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE),
+            ],
+        ], [
+            'model' => config('cv.extraction_model'),
+            'temperature' => 0.2,
+        ]);
+
+        $profileUpdates = $payload !== null
+            ? $this->normalizeProfileUpdates($payload['profile_updates'] ?? [])
+            : [];
+
+        if ($profileUpdates === []) {
+            $profileUpdates = $this->inferProfileUpdatesFromDirectUserRequest($conversation, $assistantMessage);
+        }
+
+        $draftAnswer = $payload !== null && isset($payload['draft_answer']) && is_string($payload['draft_answer'])
+            ? $this->sanitizeAssistantText(trim($payload['draft_answer']))
+            : null;
+
+        return [
+            'profile_updates' => $profileUpdates,
+            'draft_answer' => $draftAnswer !== '' ? $draftAnswer : null,
+        ];
+    }
+
+    /**
+     * @param  array<int, array{role: string, content: string}>  $conversation
+     * @return array<int, array{field: string, label: string, value: string, reason: string, dashboard_tab: string, dashboard_anchor: string}>
+     */
+    private function inferProfileUpdatesFromDirectUserRequest(array $conversation, string $assistantMessage): array
+    {
+        $lastUserMessage = $this->lastUserMessage($conversation);
+
+        if ($lastUserMessage === null) {
+            return [];
+        }
+
+        $payload = $this->nanoGpt->chatJson([
+            [
+                'role' => 'system',
+                'content' => 'Parse explicit profile update commands from a user message. '
+                    .'Return JSON only: {"profile_updates":[{"field":"'.ProfileFieldRegistry::promptFieldIds().'","label":"human label","value":"proposed value","reason":""}]}. '
+                    .'If the user asked to update/set/change a profile field to a specific value, return that update. '
+                    .'Use the assistant reply to confirm the value when it names one (including future tense). '
+                    .'Return {"profile_updates":[]} when there is no explicit profile field update request.',
+            ],
+            [
+                'role' => 'user',
+                'content' => json_encode([
+                    'user_message' => $lastUserMessage,
+                    'assistant_reply' => $assistantMessage,
+                ], JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE),
+            ],
+        ], [
+            'model' => config('cv.extraction_model'),
+            'temperature' => 0.1,
+        ]);
+
+        if ($payload === null) {
+            return [];
+        }
+
+        return $this->normalizeProfileUpdates($payload['profile_updates'] ?? []);
+    }
+
+    /**
+     * @param  array<int, array{role: string, content: string}>  $conversation
+     * @return array<int, array{field: string, label: string, value: string, reason: string, dashboard_tab: string, dashboard_anchor: string}>
+     */
+    private function resolveDirectProfileUpdates(array $conversation): array
+    {
+        $lastUserMessage = $this->lastUserMessage($conversation);
+
+        if ($lastUserMessage === null) {
+            return [];
+        }
+
+        return $this->directProfileUpdates->parse($lastUserMessage);
+    }
+
+    private function isProfileUpdateConfirmation(string $message): bool
+    {
+        return (bool) preg_match(
+            '/^\s*(?:do it|apply(?: it)?|yes(?: please)?|go ahead|make the changes?|use your tools)\s*[.!?]*\s*$/iu',
+            trim($message),
+        );
+    }
+
+    /**
+     * @param  array<int, array{role: string, content: string}>  $conversation
+     */
+    private function lastUserMessage(array $conversation): ?string
+    {
+        for ($index = count($conversation) - 1; $index >= 0; $index--) {
+            if (($conversation[$index]['role'] ?? '') !== 'user') {
+                continue;
+            }
+
+            $content = trim((string) ($conversation[$index]['content'] ?? ''));
+
+            if ($content !== '') {
+                return $content;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param  array<int, mixed>  $rawUpdates
+     * @return array<int, array{field: string, label: string, value: mixed, reason: string, dashboard_tab: string, dashboard_anchor: string, path: string}>
+     */
+    private function normalizeProfileUpdates(array $rawUpdates): array
+    {
+        $profileUpdates = [];
+
+        foreach ($rawUpdates as $update) {
+            if (! is_array($update) || ! array_key_exists('field', $update) || ! array_key_exists('value', $update)) {
+                continue;
+            }
+
+            $field = ProfileFieldRegistry::resolveField((string) $update['field']);
+            $metadata = $field !== null ? ProfileFieldRegistry::metadata($field) : null;
+
+            if ($metadata === null) {
+                continue;
+            }
+
+            $value = $this->normalizeProfileUpdateValue($field, $update['value']);
+
+            if ($value === null && ! in_array($metadata['kind'], ['string', 'settings'], true)) {
+                continue;
+            }
+
+            $profileUpdates[] = [
+                'field' => $field,
+                'label' => (string) ($update['label'] ?? $metadata['label']),
+                'value' => $value ?? '',
+                'reason' => (string) ($update['reason'] ?? ''),
+                'dashboard_tab' => $metadata['tab'],
+                'dashboard_anchor' => $metadata['anchor'],
+                'path' => $metadata['path'],
+            ];
+        }
+
+        return $profileUpdates;
+    }
+
+    private function normalizeProfileUpdateValue(string $field, mixed $rawValue): mixed
+    {
+        $metadata = ProfileFieldRegistry::metadata($field);
+
+        if ($metadata === null) {
+            return null;
+        }
+
+        if ($metadata['kind'] === 'array') {
+            if (is_array($rawValue)) {
+                return $rawValue;
+            }
+
+            if (! is_string($rawValue)) {
+                return null;
+            }
+
+            $trimmed = trim($rawValue);
+
+            if ($trimmed === '') {
+                return [];
+            }
+
+            $decoded = json_decode($trimmed, true);
+
+            if (is_array($decoded)) {
+                return $decoded;
+            }
+
+            if (in_array($field, ['skills', 'structured_data.interests', 'structured_data.soft_skills'], true)) {
+                return array_values(array_filter(array_map(trim(...), explode(',', $trimmed)), fn (string $item) => $item !== ''));
+            }
+
+            return null;
+        }
+
+        if (is_array($rawValue)) {
+            return json_encode($rawValue, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+        }
+
+        return is_string($rawValue) ? trim($rawValue) : (string) $rawValue;
+    }
+
+    /**
+     * @param  array<int, array{field: string, label: string, value: string, reason: string, dashboard_tab: string, dashboard_anchor: string}>  $profileUpdates
+     * @return array<int, array<string, mixed>>
+     */
+    private function buildChatActions(array $profileUpdates, ?string $draftAnswer): array
+    {
+        $actions = [];
+
+        foreach ($profileUpdates as $update) {
+            $actions[] = [
+                'type' => 'profile_update',
+                'field' => $update['field'],
+                'path' => $update['path'],
+                'label' => $update['label'],
+                'value' => $update['value'],
+                'reason' => $update['reason'],
+                'dashboard_tab' => $update['dashboard_tab'],
+                'dashboard_anchor' => $update['dashboard_anchor'],
+            ];
+        }
+
+        if ($draftAnswer !== null && $draftAnswer !== '') {
+            $actions[] = [
+                'type' => 'copy_draft',
+                'label' => 'Draft answer',
+                'value' => $draftAnswer,
+            ];
+        }
+
+        return $actions;
     }
 
     private function sanitizeAssistantText(string $text): string
@@ -572,7 +828,10 @@ GUIDE;
             .'For employer-style or application-form questions, write in first person as the candidate and make the answer paste-ready. '
             .'Do not describe the user in third person and do not preface with phrases like "Based on your profile". '
             .'Sound human: vary sentence length, use plain words, cite specific profile details, and skip AI clichés (proven track record, passionate, leverage, Furthermore). '
-            .'For profile or tooling questions, you may address the user directly, still in plain text.';
+            .'For profile or tooling questions, you may address the user directly, still in plain text. '
+            .'When the user asks to update a profile field, confirm what will change in one short sentence only. '
+            .'Never tell them to open the dashboard or profile settings — the extension shows Apply buttons inside your reply. '
+            .'Do not claim the profile is already saved until they tap Apply.';
     }
 
     private function chatSystemPrompt(CvProfile $profile): string
@@ -586,7 +845,7 @@ GUIDE;
 
     private function chatResponseInstructions(): string
     {
-        return 'Respond with JSON only: {"message":"your reply to the user","profile_updates":[{"field":"summary|headline|phone|location|city|postcode|country|linkedin_url|website_url|extra_context","label":"human label","value":"proposed value","reason":"why you suggest this"}],"draft_answer":"optional text to paste into a form field or null"}. '
+        return 'Respond with JSON only: {"message":"your reply to the user","profile_updates":[{"field":"'.ProfileFieldRegistry::promptFieldIds().'","label":"human label","value":"proposed value, JSON array/object for list fields, or empty string to clear","reason":"why you suggest this"}],"draft_answer":"optional text to paste into a form field or null"}. '
             .'Use plain text only in message and draft_answer: no markdown, no bullet syntax, no bold, no headings, and use normal hyphens (-) instead of em dashes. '
             .'For application-form questions, message must be written in first person as the candidate and ready to paste into the employer form. '
             .'Put the same paste-ready first-person answer in draft_answer when focused_field is present or when the user is clearly drafting a form response. '

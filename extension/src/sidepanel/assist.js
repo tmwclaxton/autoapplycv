@@ -1,7 +1,9 @@
-const WELCOME_MESSAGE =
-    'Ask me to draft an application answer, improve your profile, or explain what to put in a field. I can suggest profile changes for you to approve.';
+import { parseDirectProfileUpdateActions } from './direct-profile-update.js';
 
-export function initAssistChat({ showMessage, refreshUsage, buildJobPayload }) {
+const WELCOME_MESSAGE =
+    'Ask me to draft an application answer, improve your profile, or explain what to put in a field. To update profile fields directly, say something like "update my location to Bristol" — an Apply button will appear on the reply.';
+
+export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, getApiBase }) {
     const messagesEl = document.getElementById('assist-messages');
     const messagesScrollEl = document.getElementById('assist-messages-scroll');
     const inputEl = document.getElementById('assist-input');
@@ -29,97 +31,173 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload }) {
         });
     }
 
-    function appendExtras(bubble, extras = {}) {
-        if (extras.draftAnswer) {
-            const copyBtn = document.createElement('button');
-            copyBtn.type = 'button';
-            copyBtn.className = 'postbox-btn-outline assist-inline-btn';
-            copyBtn.textContent = 'Copy draft answer';
-            copyBtn.addEventListener('click', async () => {
-                await navigator.clipboard.writeText(extras.draftAnswer);
-                showMessage('Draft answer copied.', 'success');
-            });
-            bubble.appendChild(copyBtn);
+    function buildDashboardUrl(tab, anchor) {
+        const apiBase = typeof getApiBase === 'function' ? getApiBase() : null;
+
+        if (!apiBase) {
+            return null;
         }
 
-        if (Array.isArray(extras.profileUpdates) && extras.profileUpdates.length > 0) {
-            extras.profileUpdates.forEach((update) => {
-                const card = document.createElement('div');
-                card.className = 'assist-update-card postbox-panel';
+        const url = new URL('/dashboard', apiBase);
 
-                const label = document.createElement('p');
-                label.className = 'postbox-label';
-                label.textContent = update.label;
-                card.appendChild(label);
+        if (tab) {
+            url.searchParams.set('tab', tab);
+        }
 
-                const value = document.createElement('p');
-                value.className = 'assist-update-value';
-                value.textContent = update.value;
-                card.appendChild(value);
+        if (anchor) {
+            url.hash = anchor.startsWith('#') ? anchor : `#${anchor}`;
+        }
 
-                if (update.reason) {
-                    const reason = document.createElement('p');
-                    reason.className = 'postbox-hint';
-                    reason.textContent = update.reason;
-                    card.appendChild(reason);
-                }
+        return url.toString();
+    }
 
-                const actions = document.createElement('div');
-                actions.className = 'assist-update-actions';
+    function truncateTagValue(value, maxLength = 36) {
+        const text = String(value || '').trim();
 
-                const approveBtn = document.createElement('button');
-                approveBtn.type = 'button';
-                approveBtn.className = 'postbox-btn assist-approve-btn';
-                approveBtn.textContent = 'Apply change';
+        if (text.length <= maxLength) {
+            return text;
+        }
 
-                const dismissBtn = document.createElement('button');
-                dismissBtn.type = 'button';
-                dismissBtn.className = 'postbox-btn-outline assist-dismiss-btn';
-                dismissBtn.textContent = 'Dismiss';
+        return `${text.slice(0, maxLength - 1)}…`;
+    }
 
-                actions.appendChild(approveBtn);
-                actions.appendChild(dismissBtn);
-                card.appendChild(actions);
+    function formatActionValue(value) {
+        if (Array.isArray(value)) {
+            return `(${value.length} items)`;
+        }
 
-                approveBtn.addEventListener('click', async () => {
-                    approveBtn.disabled = true;
+        const text = String(value ?? '').trim();
 
-                    const response = await chrome.runtime.sendMessage({
-                        type: 'APPLY_PROFILE_UPDATE',
-                        update,
-                    });
+        return text === '' ? '(clear)' : truncateTagValue(text);
+    }
 
-                    if (response?.error) {
-                        showMessage(response.error, 'error');
-                        approveBtn.disabled = false;
+    function renderActionTags(bubble, actions = []) {
+        if (!bubble || !Array.isArray(actions) || actions.length === 0) {
+            return;
+        }
 
-                        return;
-                    }
+        const contentBox = bubble.querySelector('.assist-message-content');
 
-                    card.remove();
-                    showMessage('Profile updated.', 'success');
-                    await refreshUsage();
-                });
+        if (!contentBox) {
+            return;
+        }
 
-                dismissBtn.addEventListener('click', () => {
-                    card.remove();
-                });
+        contentBox.querySelector('.assist-action-tags')?.remove();
 
-                bubble.appendChild(card);
+        const container = document.createElement('div');
+        container.className = 'assist-action-tags';
+
+        actions.forEach((action) => {
+            if (action?.type === 'profile_update') {
+                container.appendChild(createProfileUpdateTag(action));
+            } else if (action?.type === 'copy_draft') {
+                container.appendChild(createCopyDraftTag(action));
+            }
+        });
+
+        if (container.childElementCount === 0) {
+            return;
+        }
+
+        contentBox.appendChild(container);
+        scrollMessagesToBottom();
+    }
+
+    function createCopyDraftTag(action) {
+        const tag = document.createElement('button');
+        tag.type = 'button';
+        tag.className = 'assist-action-tag assist-action-tag-draft';
+        tag.textContent = 'Copy draft answer';
+
+        tag.addEventListener('click', async () => {
+            await navigator.clipboard.writeText(action.value);
+            tag.classList.add('is-applied');
+            tag.textContent = 'Draft copied';
+            showMessage('Draft answer copied.', 'success');
+        });
+
+        return tag;
+    }
+
+    function createProfileUpdateTag(action) {
+        const tag = document.createElement('span');
+        tag.className = 'assist-action-tag assist-action-tag-profile';
+
+        const label = document.createElement('span');
+        label.className = 'assist-action-tag-label';
+        label.textContent = `${action.label} → ${formatActionValue(action.value)}`;
+
+        const applyBtn = document.createElement('button');
+        applyBtn.type = 'button';
+        applyBtn.className = 'assist-action-tag-btn';
+        applyBtn.textContent = 'Apply';
+        applyBtn.title = 'Apply this profile change';
+
+        const viewLink = document.createElement('a');
+        viewLink.className = 'assist-action-tag-btn assist-action-tag-link';
+        viewLink.textContent = 'View';
+        viewLink.target = '_blank';
+        viewLink.rel = 'noopener noreferrer';
+
+        const dashboardUrl = buildDashboardUrl(
+            action.dashboard_tab || 'profile',
+            action.dashboard_anchor || '',
+        );
+
+        if (dashboardUrl) {
+            viewLink.href = dashboardUrl;
+        } else {
+            viewLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                showMessage('Connect AutoCVApply to open your dashboard.', 'error');
             });
         }
+
+        tag.appendChild(label);
+        tag.appendChild(applyBtn);
+        tag.appendChild(viewLink);
+
+        applyBtn.addEventListener('click', async (event) => {
+            event.stopPropagation();
+            applyBtn.disabled = true;
+
+            const response = await chrome.runtime.sendMessage({
+                type: 'APPLY_PROFILE_UPDATE',
+                update: action,
+            });
+
+            if (response?.error) {
+                showMessage(response.error, 'error');
+                applyBtn.disabled = false;
+
+                return;
+            }
+
+            tag.classList.add('is-applied');
+            label.textContent = `Updated ${action.label.toLowerCase()}`;
+            applyBtn.remove();
+            showMessage('Profile updated.', 'success');
+            await refreshUsage();
+        });
+
+        return tag;
     }
 
     function createAssistantBubble(content = '') {
         const bubble = document.createElement('div');
         bubble.className = 'assist-message assist-message-assistant';
 
+        const contentBox = document.createElement('div');
+        contentBox.className = 'assist-message-content';
+
         const text = document.createElement('div');
         text.className = 'assist-message-text';
         text.textContent = content;
-        bubble.appendChild(text);
 
-        return { bubble, text };
+        contentBox.appendChild(text);
+        bubble.appendChild(contentBox);
+
+        return { bubble, text, contentBox };
     }
 
     function createUserActionButtons(userBubble, historyIndex) {
@@ -208,12 +286,35 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload }) {
         }
 
         const { bubble, text } = createAssistantBubble(content);
-        appendExtras(bubble, extras);
+        renderActionTags(bubble, extras.actions || buildActionsFromExtras(extras));
 
         messagesEl.appendChild(bubble);
         scrollMessagesToBottom();
 
         return { bubble, text };
+    }
+
+    function buildActionsFromExtras(extras = {}) {
+        const actions = Array.isArray(extras.actions) ? [...extras.actions] : [];
+
+        if (Array.isArray(extras.profileUpdates)) {
+            extras.profileUpdates.forEach((update) => {
+                actions.push({
+                    type: 'profile_update',
+                    ...update,
+                });
+            });
+        }
+
+        if (extras.draftAnswer) {
+            actions.push({
+                type: 'copy_draft',
+                label: 'Draft answer',
+                value: extras.draftAnswer,
+            });
+        }
+
+        return actions;
     }
 
     function appendWelcomeMessage() {
@@ -292,15 +393,19 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload }) {
         const bubble = document.createElement('div');
         bubble.className = 'assist-message assist-message-assistant is-streaming';
 
+        const contentBox = document.createElement('div');
+        contentBox.className = 'assist-message-content';
+
         const text = document.createElement('div');
         text.className = 'assist-message-text';
         text.textContent = '';
-        bubble.appendChild(text);
+        contentBox.appendChild(text);
+        bubble.appendChild(contentBox);
 
         messagesEl.appendChild(bubble);
         scrollMessagesToBottom();
 
-        return { bubble, text };
+        return { bubble, text, contentBox };
     }
 
     function appendStreamToken(streamMessage, delta) {
@@ -321,7 +426,10 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload }) {
             chatHistory.push({ role: 'assistant', content });
         }
 
-        appendExtras(streamMessage.bubble, extras);
+        renderActionTags(
+            streamMessage.bubble,
+            extras.actions || buildActionsFromExtras(extras),
+        );
         scrollMessagesToBottom();
     }
 
@@ -340,8 +448,19 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload }) {
         setRequestInProgress(true);
         closeActiveStreamPort();
 
+        const lastUserEntry = [...chatHistory].reverse().find((entry) => entry.role === 'user');
+        const directActions = lastUserEntry
+            ? parseDirectProfileUpdateActions(lastUserEntry.content)
+            : [];
+
         let streamMessage = beginAssistantStream();
+
+        if (directActions.length > 0) {
+            renderActionTags(streamMessage.bubble, directActions);
+        }
+
         let completed = false;
+        let streamedActions = directActions.length > 0 ? directActions : null;
 
         try {
             let focusedField = null;
@@ -359,6 +478,13 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload }) {
                 port.onMessage.addListener((event) => {
                     if (event.type === 'token' && typeof event.delta === 'string') {
                         appendStreamToken(streamMessage, event.delta);
+
+                        return;
+                    }
+
+                    if (event.type === 'tools' && Array.isArray(event.actions)) {
+                        streamedActions = event.actions;
+                        renderActionTags(streamMessage.bubble, event.actions);
 
                         return;
                     }
@@ -396,15 +522,22 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload }) {
             });
 
             finalizeAssistantStream(streamMessage, {
-                draftAnswer: result.draft_answer,
-                profileUpdates: result.profile_updates,
+                actions:
+                    streamedActions
+                    ?? result.actions
+                    ?? (directActions.length > 0
+                        ? directActions
+                        : buildActionsFromExtras({
+                            profileUpdates: result.profile_updates,
+                            draftAnswer: result.draft_answer,
+                        })),
                 finalMessage: result.message,
             });
             streamMessage = null;
             await refreshUsage();
         } catch (error) {
             if (streamMessage) {
-                streamMessage.bubble.remove();
+                removeDomAfter(streamMessage.bubble, true);
             }
 
             showMessage(error.message, 'error');

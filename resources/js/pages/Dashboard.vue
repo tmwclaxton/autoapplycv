@@ -13,7 +13,7 @@ import {
     User,
     Zap,
 } from 'lucide-vue-next';
-import { computed, ref } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import {
     store as cvUpload,
     updateProfile as cvProfileUpdate,
@@ -107,6 +107,50 @@ const tabs = [
     { key: 'usage' as const, label: 'Usage', icon: Zap },
     { key: 'extension' as const, label: 'Extension', icon: Puzzle },
 ];
+
+const dashboardTabKeys = tabs.map((tab) => tab.key);
+
+function applyDashboardNavigationFromUrl(): void {
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get('tab');
+
+    if (tab && dashboardTabKeys.includes(tab as (typeof dashboardTabKeys)[number])) {
+        activeTab.value = tab as typeof activeTab.value;
+    }
+}
+
+function syncDashboardTabToUrl(tab: typeof activeTab.value): void {
+    const url = new URL(window.location.href);
+
+    if (tab === 'profile') {
+        url.searchParams.delete('tab');
+    } else {
+        url.searchParams.set('tab', tab);
+    }
+
+    window.history.replaceState(window.history.state, '', url);
+}
+
+function scrollToDashboardAnchor(): void {
+    if (!window.location.hash) {
+        return;
+    }
+
+    void nextTick(() => {
+        document
+            .querySelector(window.location.hash)
+            ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+}
+
+onMounted(() => {
+    applyDashboardNavigationFromUrl();
+    scrollToDashboardAnchor();
+});
+
+watch(activeTab, (tab) => {
+    syncDashboardTabToUrl(tab);
+});
 
 const saveStatusLabel = computed(() => {
     switch (saveStatus.value) {

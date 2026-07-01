@@ -26,6 +26,61 @@ class AutofillAnalyticsTest extends TestCase
         Storage::fake('local');
     }
 
+    public function test_public_summary_syncs_legacy_user_usage_into_daily_stats(): void
+    {
+        User::factory()->create([
+            'ai_tokens_used' => 12,
+            'ai_tokens_period_start' => now()->startOfMonth(),
+        ]);
+        User::factory()->create([
+            'ai_tokens_used' => 8,
+            'ai_tokens_period_start' => now()->startOfMonth(),
+        ]);
+
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'parsing_complete' => true,
+        ]);
+
+        $summary = app(AutofillAnalyticsService::class)->publicSummary(30);
+
+        $this->assertSame(20, $summary['metrics']['answers_autofilled']['total']);
+        $this->assertSame(1, $summary['metrics']['cvs_parsed']['total']);
+    }
+
+    public function test_public_summary_does_not_double_count_already_synced_usage(): void
+    {
+        User::factory()->create([
+            'ai_tokens_used' => 10,
+            'ai_tokens_period_start' => now()->startOfMonth(),
+        ]);
+
+        AutofillDailyStat::factory()->create([
+            'date' => now()->toDateString(),
+            'answers_count' => 10,
+        ]);
+
+        $summary = app(AutofillAnalyticsService::class)->publicSummary(30);
+
+        $this->assertSame(10, $summary['metrics']['answers_autofilled']['total']);
+    }
+
+    public function test_analytics_page_reflects_legacy_user_usage(): void
+    {
+        User::factory()->create([
+            'ai_tokens_used' => 55,
+            'fields_autofilled' => 4,
+            'ai_tokens_period_start' => now()->startOfMonth(),
+        ]);
+
+        $this->get(route('analytics'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('Analytics')
+                ->where('analytics.metrics.answers_autofilled.total', 55)
+                ->where('analytics.metrics.answers_autofilled.period_total', 55));
+    }
+
     public function test_analytics_page_is_publicly_accessible(): void
     {
         AutofillDailyStat::factory()->create([
