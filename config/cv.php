@@ -14,7 +14,7 @@ return [
 
     'vision_model' => env('NANOGPT_VISION_MODEL', 'openai/gpt-4.1-mini:speed'),
 
-    'extraction_model' => env('NANOGPT_CV_MODEL', 'deepseek/deepseek-v4-flash:speed'),
+    'extraction_model' => env('NANOGPT_CV_MODEL', 'deepseek/deepseek-v4-flash:throughput'),
 
     'extraction_timeout' => (int) env('CV_EXTRACTION_TIMEOUT_SECONDS', 180),
 

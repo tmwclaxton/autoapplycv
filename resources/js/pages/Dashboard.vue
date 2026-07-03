@@ -433,6 +433,8 @@ async function copyToken() {
             <input
                 ref="cvFileInput"
                 type="file"
+                name="cv"
+                autocomplete="off"
                 class="sr-only"
                 accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
                 @change="onCvFileSelected"
@@ -570,6 +572,7 @@ async function copyToken() {
                     :value="extensionConnectionJson"
                     readonly
                     rows="4"
+                    autocomplete="off"
                     class="postbox-input flex-1 font-mono text-xs"
                 />
                 <button

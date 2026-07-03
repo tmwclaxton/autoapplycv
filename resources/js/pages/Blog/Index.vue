@@ -58,7 +58,7 @@ function formatDate(date: string): string {
         <PostboxPageHeader
             badge="Blog"
             title="Job search tips without the fluff."
-            description="Bi-weekly posts on autofill, application fatigue, and making repetitive forms less painful."
+            description="Weekly posts on autofill, application fatigue, and making repetitive forms less painful."
         />
 
         <div

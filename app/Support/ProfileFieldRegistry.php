@@ -206,6 +206,35 @@ class ProfileFieldRegistry
         return $payload;
     }
 
+    public static function shouldPolishWrittenValue(string $field): bool
+    {
+        return in_array(self::resolveField($field) ?? $field, [
+            'full_name',
+            'headline',
+            'city',
+            'location',
+            'country',
+            'postcode',
+            'structured_data.address_line_1',
+            'structured_data.address_line_2',
+            'structured_data.state_region',
+        ], true);
+    }
+
+    public static function shouldReviewSpelling(string $field): bool
+    {
+        return in_array(self::resolveField($field) ?? $field, [
+            'full_name',
+            'headline',
+            'city',
+            'location',
+            'country',
+            'structured_data.address_line_1',
+            'structured_data.address_line_2',
+            'structured_data.state_region',
+        ], true);
+    }
+
     /**
      * @return array<int, array{field: string, label: string, tab: string, anchor: string, path: string, keywords: array<int, string>}>
      */

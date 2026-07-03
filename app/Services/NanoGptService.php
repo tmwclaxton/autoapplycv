@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -32,16 +33,13 @@ class NanoGptService
         $connectTimeout = (int) ($options['connect_timeout'] ?? config('services.nanogpt.connect_timeout', 15));
 
         try {
-            $response = Http::withToken($this->apiKey)
-                ->connectTimeout($connectTimeout)
-                ->timeout($timeout)
-                ->withOptions(['stream' => true])
-                ->post("{$this->baseUrl}/chat/completions", [
-                    'model' => $options['model'] ?? $this->defaultModel,
-                    'messages' => $messages,
-                    'temperature' => $options['temperature'] ?? 0.3,
-                    'stream' => true,
-                ]);
+            $response = $this->postChatCompletions(
+                messages: $messages,
+                options: $options,
+                timeout: $timeout,
+                connectTimeout: $connectTimeout,
+                stream: true,
+            );
         } catch (ConnectionException $exception) {
             Log::error('NanoGPT stream connection error', [
                 'message' => $exception->getMessage(),
@@ -60,6 +58,7 @@ class NanoGptService
             Log::error('NanoGPT stream API error', [
                 'status' => $response->status(),
                 'body' => $response->body(),
+                'model' => (string) ($options['model'] ?? $this->defaultModel),
             ]);
 
             return null;
@@ -143,15 +142,13 @@ class NanoGptService
         $connectTimeout = (int) ($options['connect_timeout'] ?? config('services.nanogpt.connect_timeout', 15));
 
         try {
-            $response = Http::withToken($this->apiKey)
-                ->connectTimeout($connectTimeout)
-                ->timeout($timeout)
-                ->post("{$this->baseUrl}/chat/completions", [
-                    'model' => $options['model'] ?? $this->defaultModel,
-                    'messages' => $messages,
-                    'temperature' => $options['temperature'] ?? 0.3,
-                    'response_format' => $options['response_format'] ?? null,
-                ]);
+            $response = $this->postChatCompletions(
+                messages: $messages,
+                options: $options,
+                timeout: $timeout,
+                connectTimeout: $connectTimeout,
+                stream: false,
+            );
         } catch (ConnectionException $exception) {
             Log::error('NanoGPT connection error', [
                 'message' => $exception->getMessage(),
@@ -171,6 +168,7 @@ class NanoGptService
             Log::error('NanoGPT API error', [
                 'status' => $response->status(),
                 'body' => $response->body(),
+                'model' => (string) ($options['model'] ?? $this->defaultModel),
             ]);
 
             return null;
@@ -321,6 +319,107 @@ class NanoGptService
         $content = $result['content'] ?? null;
 
         return is_string($content) ? trim($content) : null;
+    }
+
+    /**
+     * @param  array<array{role: string, content: string|array<int, mixed>}>  $messages
+     * @param  array<string, mixed>  $options
+     */
+    private function postChatCompletions(
+        array $messages,
+        array $options,
+        int $timeout,
+        int $connectTimeout,
+        bool $stream,
+    ): Response {
+        $model = (string) ($options['model'] ?? $this->defaultModel);
+        $payload = [
+            'messages' => $messages,
+            'temperature' => $options['temperature'] ?? 0.3,
+        ];
+
+        if ($stream) {
+            $payload['stream'] = true;
+        }
+
+        if (array_key_exists('response_format', $options) && $options['response_format'] !== null) {
+            $payload['response_format'] = $options['response_format'];
+        }
+
+        $request = Http::withToken($this->apiKey)
+            ->connectTimeout($connectTimeout)
+            ->timeout($timeout);
+
+        if ($stream) {
+            $request = $request->withOptions(['stream' => true]);
+        }
+
+        $response = null;
+
+        foreach ($this->modelCandidates($model) as $candidate) {
+            $payload['model'] = $candidate;
+            $response = $request->post("{$this->baseUrl}/chat/completions", $payload);
+
+            if ($response->successful() || $response->status() !== 400) {
+                if ($candidate !== $model && ! $response->successful()) {
+                    Log::warning('NanoGPT chat completion fell back to alternate model tier.', [
+                        'requested_model' => $model,
+                        'attempted_model' => $candidate,
+                        'stream' => $stream,
+                        'status' => $response->status(),
+                    ]);
+                }
+
+                return $response;
+            }
+
+            Log::warning('NanoGPT chat completion rejected model tier, trying fallback.', [
+                'requested_model' => $model,
+                'attempted_model' => $candidate,
+                'stream' => $stream,
+            ]);
+        }
+
+        return $response ?? $request->post("{$this->baseUrl}/chat/completions", array_merge($payload, [
+            'model' => $model,
+        ]));
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function modelCandidates(string $model): array
+    {
+        $suffixes = [':throughput', ':speed'];
+        $base = $model;
+        $activeSuffix = null;
+
+        foreach ($suffixes as $suffix) {
+            if (! str_ends_with($model, $suffix)) {
+                continue;
+            }
+
+            $base = substr($model, 0, -strlen($suffix));
+            $activeSuffix = $suffix;
+
+            break;
+        }
+
+        if ($activeSuffix === null) {
+            return [$model];
+        }
+
+        $candidates = [$model, $base];
+
+        foreach ($suffixes as $suffix) {
+            if ($suffix === $activeSuffix) {
+                continue;
+            }
+
+            $candidates[] = $base.$suffix;
+        }
+
+        return array_values(array_unique($candidates));
     }
 
     /**

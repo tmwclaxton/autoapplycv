@@ -7,13 +7,16 @@ use App\Models\ApplicationArtifact;
 use App\Models\CvProfile;
 use App\Models\JobApplication;
 use App\Support\ProfileFieldRegistry;
+use App\Support\ProfileUpdateValueSanitizer;
 use Illuminate\Support\Facades\Log;
 
 class ApplicationAssistantService
 {
     public function __construct(
         private readonly NanoGptService $nanoGpt,
-        private readonly DirectProfileUpdateParser $directProfileUpdates,
+        private readonly ProfileLocationUpdateResolver $locationUpdates,
+        private readonly ProfileWrittenValuePolisher $writtenValuePolisher,
+        private readonly ProfileDirectUpdateParser $directUpdateParser,
     ) {}
 
     /**
@@ -254,10 +257,11 @@ class ApplicationAssistantService
         }
 
         $messageText = $this->sanitizeAssistantText($messageText);
-        $directUpdates = $this->resolveDirectProfileUpdates($conversation);
-        $profileUpdates = $directUpdates !== []
-            ? $directUpdates
-            : $this->normalizeProfileUpdates($payload['profile_updates'] ?? []);
+        $normalized = $this->normalizeProfileUpdates($payload['profile_updates'] ?? []);
+        $profileUpdates = $this->writtenValuePolisher->polishUpdates($this->mergeProfileUpdates(
+            $normalized,
+            $this->resolveSupplementalLocationUpdates($profile, $conversation, $messageText, $normalized),
+        ));
         $draftAnswer = isset($payload['draft_answer']) && is_string($payload['draft_answer'])
             ? $this->sanitizeAssistantText(trim($payload['draft_answer']))
             : null;
@@ -283,15 +287,6 @@ class ApplicationAssistantService
             return false;
         }
 
-        $directUpdates = $this->resolveDirectProfileUpdates($conversation);
-
-        if ($directUpdates !== []) {
-            $emit([
-                'type' => 'tools',
-                'actions' => $this->buildChatActions($directUpdates, null),
-            ]);
-        }
-
         $payloadMessages = $this->buildChatPayloadMessages($profile, $conversation, $context, stream: true);
 
         $content = $this->nanoGpt->chatStream(
@@ -312,23 +307,24 @@ class ApplicationAssistantService
             return false;
         }
 
+        $emit([
+            'type' => 'processing',
+            'phase' => 'actions',
+        ]);
+
         $messageText = $this->sanitizeAssistantText($content);
         $focusedField = is_array($context['focused_field'] ?? null) ? $context['focused_field'] : null;
-
-        if ($directUpdates !== []) {
-            $profileUpdates = $directUpdates;
-            $draftAnswer = null;
-        } else {
-            $extracted = $this->extractChatActions($profile, $conversation, $messageText, $context);
-            $profileUpdates = $extracted['profile_updates'];
-            $draftAnswer = $focusedField !== null
-                ? $messageText
-                : $extracted['draft_answer'];
-        }
-
+        $extracted = $this->extractChatActions($profile, $conversation, $messageText, $context);
+        $profileUpdates = $this->writtenValuePolisher->formatOnly($this->mergeProfileUpdates(
+            $extracted['profile_updates'],
+            $this->resolveSupplementalLocationUpdates($profile, $conversation, $messageText, $extracted['profile_updates']),
+        ));
+        $draftAnswer = $focusedField !== null
+            ? $messageText
+            : $extracted['draft_answer'];
         $actions = $this->buildChatActions($profileUpdates, $draftAnswer);
 
-        if ($actions !== [] && $directUpdates === []) {
+        if ($actions !== []) {
             $emit([
                 'type' => 'tools',
                 'actions' => $actions,
@@ -366,8 +362,13 @@ class ApplicationAssistantService
                 'role' => 'system',
                 'content' => 'Extract structured sidebar actions from an AutoCVApply assist conversation. '
                     .'Return JSON only: {"profile_updates":[{"field":"'.ProfileFieldRegistry::promptFieldIds().'","label":"human label","value":"proposed value, JSON array/object for list fields, or empty string to clear","reason":"why"}],"draft_answer":"optional paste-ready form answer or null"}. '
-                    .'Return every profile field the user asked to change. Multiple profile_updates are allowed. '
-                    .'Include profile_updates when the assistant proposed a change, or when the user asked to update/set/change/clear a profile field and the assistant agreed or confirmed (even briefly, past tense, or future tense). '
+                    .'You are the only source of Apply actions — infer every profile field the user asked to change from the conversation and assistant reply. '
+                    .'Return profile_updates when the user asked to update, set, change, clear, move, or correct a profile field and the assistant agreed, confirmed, or proposed a value — including future tense, brief confirmations, bare-name follow-ups, and "no I meant X not Y" corrections. '
+                    .'When the user lists comma-separated field commands such as "email alex@example.com, phone +44..., headline Senior Developer" (with or without "to" after each field name), return one profile_updates entry per field using the values from the user message. '
+                    .'When the assistant reply lists concrete changes (bullets or dashes such as "Address line 1 cleared", "Town/city set to X", "location will show as Y"), return one profile_updates entry per field with the final proposed value. '
+                    .'When the user asks to move or relocate, include location, city, and state/region when the assistant names them. '
+                    .'When the user asks to update all location fields or says "location field too/though", return every related location field (location, city, state/region, postcode, address lines) using values from the conversation. '
+                    .'Never treat UI questions ("where is the apply button"), greetings, or meta phrases ("field though") as field values. '
                     .($isConfirmation
                         ? 'The latest user message confirms pending changes — return ALL agreed profile updates from the conversation using the final values stated by the user or assistant. '
                         : '')
@@ -393,7 +394,25 @@ class ApplicationAssistantService
             : [];
 
         if ($profileUpdates === []) {
-            $profileUpdates = $this->inferProfileUpdatesFromDirectUserRequest($conversation, $assistantMessage);
+            $preferAssistantProposal = $this->assistantReplyProposesProfileUpdates($assistantMessage);
+
+            if ($preferAssistantProposal) {
+                $profileUpdates = $this->inferProfileUpdatesFromAssistantProposal($conversation, $assistantMessage);
+            }
+
+            if ($profileUpdates === []) {
+                $profileUpdates = $this->inferProfileUpdatesFromDirectUserRequest($conversation, $assistantMessage);
+            }
+
+            if ($profileUpdates === [] && ! $preferAssistantProposal) {
+                $profileUpdates = $this->inferProfileUpdatesFromAssistantProposal($conversation, $assistantMessage);
+            }
+
+            if ($profileUpdates === [] && $lastUserMessage !== null && str_contains($lastUserMessage, ',')) {
+                $profileUpdates = $this->normalizeProfileUpdates(
+                    $this->directUpdateParser->parse($lastUserMessage),
+                );
+            }
         }
 
         $draftAnswer = $payload !== null && isset($payload['draft_answer']) && is_string($payload['draft_answer'])
@@ -424,6 +443,8 @@ class ApplicationAssistantService
                 'content' => 'Parse explicit profile update commands from a user message. '
                     .'Return JSON only: {"profile_updates":[{"field":"'.ProfileFieldRegistry::promptFieldIds().'","label":"human label","value":"proposed value","reason":""}]}. '
                     .'If the user asked to update/set/change a profile field to a specific value, return that update. '
+                    .'Parse comma-separated lists with or without "to" (for example "email alex@example.com, phone +44..., headline Senior Developer"). '
+                    .'When the user says "location field though" or "too", they mean update location as well using values already discussed — not the words "field though". '
                     .'Use the assistant reply to confirm the value when it names one (including future tense). '
                     .'Return {"profile_updates":[]} when there is no explicit profile field update request.',
             ],
@@ -448,17 +469,67 @@ class ApplicationAssistantService
 
     /**
      * @param  array<int, array{role: string, content: string}>  $conversation
-     * @return array<int, array{field: string, label: string, value: string, reason: string, dashboard_tab: string, dashboard_anchor: string}>
+     * @return array<int, array{field: string, label: string, value: string, reason: string, dashboard_tab: string, dashboard_anchor: string, path: string}>
      */
-    private function resolveDirectProfileUpdates(array $conversation): array
+    private function inferProfileUpdatesFromAssistantProposal(array $conversation, string $assistantMessage): array
     {
-        $lastUserMessage = $this->lastUserMessage($conversation);
-
-        if ($lastUserMessage === null) {
+        if (trim($assistantMessage) === '') {
             return [];
         }
 
-        return $this->directProfileUpdates->parse($lastUserMessage);
+        $payload = $this->nanoGpt->chatJson([
+            [
+                'role' => 'system',
+                'content' => 'Extract profile field updates the assistant proposed in its reply. '
+                    .'Return JSON only: {"profile_updates":[{"field":"'.ProfileFieldRegistry::promptFieldIds().'","label":"human label","value":"proposed value or empty string to clear","reason":""}]}. '
+                    .'When the assistant lists changes with bullets or dashes (cleared, set to, updated to, will update, will show as), return one entry per field. '
+                    .'Map town/city to city, state/region or county to structured_data.state_region, address line 1 to structured_data.address_line_1. '
+                    .'When the assistant gives a combined location such as "Harborford, Buckinghamshire", set location, city, and structured_data.state_region. '
+                    .'Use empty string when the assistant said cleared, blank, or removed. '
+                    .'Return {"profile_updates":[]} when the assistant did not propose concrete profile field values.',
+            ],
+            [
+                'role' => 'user',
+                'content' => json_encode([
+                    'conversation' => array_slice($conversation, -6),
+                    'assistant_reply' => $assistantMessage,
+                ], JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE),
+            ],
+        ], [
+            'model' => config('cv.extraction_model'),
+            'temperature' => 0.1,
+        ]);
+
+        if ($payload === null) {
+            return [];
+        }
+
+        return $this->normalizeProfileUpdates($payload['profile_updates'] ?? []);
+    }
+
+    private function assistantReplyProposesProfileUpdates(string $assistantMessage): bool
+    {
+        return (bool) preg_match(
+            '/(?:\n-\s|^\s*-\s|\*\s+|cleared|left blank|set to|updated to|will update|will show as|will be set|will align)/iu',
+            trim($assistantMessage),
+        );
+    }
+
+    /**
+     * @param  array<int, array{field: string, label: string, value: mixed, reason: string, dashboard_tab: string, dashboard_anchor: string, path: string}>  $extractedUpdates
+     * @return array<int, array{field: string, label: string, value: mixed, reason: string, dashboard_tab: string, dashboard_anchor: string, path: string}>
+     */
+    private function resolveSupplementalLocationUpdates(
+        CvProfile $profile,
+        array $conversation,
+        string $assistantMessage,
+        array $extractedUpdates,
+    ): array {
+        if ($extractedUpdates !== []) {
+            return [];
+        }
+
+        return $this->locationUpdates->resolve($profile, $conversation, $assistantMessage);
     }
 
     private function isProfileUpdateConfirmation(string $message): bool
@@ -467,6 +538,23 @@ class ApplicationAssistantService
             '/^\s*(?:do it|apply(?: it)?|yes(?: please)?|go ahead|make the changes?|use your tools)\s*[.!?]*\s*$/iu',
             trim($message),
         );
+    }
+
+    /**
+     * @param  array<int, array{field: string, label: string, value: mixed, reason: string, dashboard_tab: string, dashboard_anchor: string, path: string}>  ...$lists
+     * @return array<int, array{field: string, label: string, value: mixed, reason: string, dashboard_tab: string, dashboard_anchor: string, path: string}>
+     */
+    private function mergeProfileUpdates(array ...$lists): array
+    {
+        $merged = [];
+
+        foreach ($lists as $updates) {
+            foreach ($updates as $update) {
+                $merged[$update['field']] = $update;
+            }
+        }
+
+        return array_values($merged);
     }
 
     /**
@@ -512,6 +600,10 @@ class ApplicationAssistantService
             $value = $this->normalizeProfileUpdateValue($field, $update['value']);
 
             if ($value === null && ! in_array($metadata['kind'], ['string', 'settings'], true)) {
+                continue;
+            }
+
+            if (is_string($value) && ProfileUpdateValueSanitizer::shouldRejectDirectValue($field, $value)) {
                 continue;
             }
 
@@ -830,7 +922,8 @@ GUIDE;
             .'Sound human: vary sentence length, use plain words, cite specific profile details, and skip AI clichés (proven track record, passionate, leverage, Furthermore). '
             .'For profile or tooling questions, you may address the user directly, still in plain text. '
             .'When the user asks to update a profile field, confirm what will change in one short sentence only. '
-            .'Never tell them to open the dashboard or profile settings — the extension shows Apply buttons inside your reply. '
+            .'When they move location or ask to update all location fields, briefly confirm the full move (town, region, clearing old street address). '
+            .'Apply buttons are generated after your reply from structured profile_updates — wait for that step; never tell them to open the dashboard. '
             .'Do not claim the profile is already saved until they tap Apply.';
     }
 
@@ -846,6 +939,7 @@ GUIDE;
     private function chatResponseInstructions(): string
     {
         return 'Respond with JSON only: {"message":"your reply to the user","profile_updates":[{"field":"'.ProfileFieldRegistry::promptFieldIds().'","label":"human label","value":"proposed value, JSON array/object for list fields, or empty string to clear","reason":"why you suggest this"}],"draft_answer":"optional text to paste into a form field or null"}. '
+            .'profile_updates is required whenever the user asked to change profile fields — you are the only source of Apply actions. '
             .'Use plain text only in message and draft_answer: no markdown, no bullet syntax, no bold, no headings, and use normal hyphens (-) instead of em dashes. '
             .'For application-form questions, message must be written in first person as the candidate and ready to paste into the employer form. '
             .'Put the same paste-ready first-person answer in draft_answer when focused_field is present or when the user is clearly drafting a form response. '

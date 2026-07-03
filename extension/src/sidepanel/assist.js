@@ -1,7 +1,7 @@
-import { parseDirectProfileUpdateActions } from './direct-profile-update.js';
+import { polishProfileUpdateActions } from './profile-value-polish.js';
 
 const WELCOME_MESSAGE =
-    'Ask me to draft an application answer, improve your profile, or explain what to put in a field. To update profile fields directly, say something like "update my location to Bristol" — an Apply button will appear on the reply.';
+    'Ask me to draft an application answer, improve your profile, or explain what to put in a field. When I suggest profile changes, Apply buttons will appear after my reply.';
 
 export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, getApiBase }) {
     const messagesEl = document.getElementById('assist-messages');
@@ -21,10 +21,12 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         messagesScrollEl.scrollTop = messagesScrollEl.scrollHeight;
     }
 
-    function setRequestInProgress(inProgress) {
+    function setRequestInProgress(inProgress, phase = 'thinking') {
         requestInProgress = inProgress;
         sendBtn.disabled = inProgress;
-        sendBtn.textContent = inProgress ? 'Thinking…' : 'Send';
+        sendBtn.textContent = inProgress
+            ? (phase === 'preparing' ? 'Preparing…' : 'Thinking…')
+            : 'Send';
 
         messagesEl.querySelectorAll('.assist-user-action-btn').forEach((button) => {
             button.disabled = inProgress;
@@ -71,6 +73,191 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         return text === '' ? '(clear)' : truncateTagValue(text);
     }
 
+    function readValueAtPath(profileData, path) {
+        const parts = String(path || '').split('.').filter(Boolean);
+
+        if (parts.length === 0) {
+            return '';
+        }
+
+        if (parts[0] === 'application_settings') {
+            let node = profileData.application_settings ?? {};
+            for (let index = 1; index < parts.length; index += 1) {
+                node = node?.[parts[index]];
+            }
+
+            return node ?? '';
+        }
+
+        let node = profileData.profile ?? profileData;
+        for (const part of parts) {
+            node = node?.[part];
+        }
+
+        if (node === null || node === undefined) {
+            return '';
+        }
+
+        return node;
+    }
+
+    async function fetchProfileFieldValue(path) {
+        const response = await chrome.runtime.sendMessage({ type: 'GET_PROFILE' });
+
+        if (response?.error) {
+            throw new Error(response.error);
+        }
+
+        return readValueAtPath(response, path);
+    }
+
+    function createProfileApplyButton(tag, action, label, viewLink) {
+        const applyBtn = document.createElement('button');
+        applyBtn.type = 'button';
+        applyBtn.className = 'assist-action-tag-btn';
+        applyBtn.textContent = 'Apply';
+        applyBtn.title = 'Apply this profile change';
+
+        applyBtn.addEventListener('click', async (event) => {
+            event.stopPropagation();
+            applyBtn.disabled = true;
+
+            try {
+                const previousValue = await fetchProfileFieldValue(action.path || action.field);
+                await applyProfileUpdateAction(action);
+                markProfileTagApplied(tag, action, previousValue, label, viewLink);
+                showMessage('Profile updated.', 'success');
+                await refreshUsage();
+            } catch (error) {
+                showMessage(error.message, 'error');
+                applyBtn.disabled = false;
+            }
+        });
+
+        return applyBtn;
+    }
+
+    function createProfileUndoButton(tag, action, label, viewLink, previousValue) {
+        const undoBtn = document.createElement('button');
+        undoBtn.type = 'button';
+        undoBtn.className = 'assist-action-tag-btn assist-action-tag-undo';
+        undoBtn.textContent = 'Undo';
+        undoBtn.title = 'Restore your previous profile value';
+
+        undoBtn.addEventListener('click', async (event) => {
+            event.stopPropagation();
+            undoBtn.disabled = true;
+
+            try {
+                await applyProfileUpdateAction({
+                    ...action,
+                    value: previousValue ?? '',
+                });
+                restoreProfileTagPending(tag, action, label, viewLink);
+                showMessage('Change undone.', 'success');
+                await refreshUsage();
+            } catch (error) {
+                showMessage(error.message, 'error');
+                undoBtn.disabled = false;
+            }
+        });
+
+        return undoBtn;
+    }
+
+    function markProfileTagApplied(tag, action, previousValue, label, viewLink) {
+        tag.classList.add('is-applied');
+        tag.dataset.previousValue = JSON.stringify(previousValue ?? '');
+
+        if (label) {
+            label.textContent = `Updated ${action.label.toLowerCase()}`;
+        }
+
+        tag.querySelector('.assist-action-tag-btn:not(.assist-action-tag-link):not(.assist-action-tag-undo)')?.remove();
+
+        if (!tag.querySelector('.assist-action-tag-undo')) {
+            tag.insertBefore(createProfileUndoButton(tag, action, label, viewLink, previousValue), viewLink);
+        }
+    }
+
+    function restoreProfileTagPending(tag, action, label, viewLink) {
+        tag.classList.remove('is-applied');
+        delete tag.dataset.previousValue;
+
+        if (label) {
+            label.textContent = `${action.label} → ${formatActionValue(action.value)}`;
+        }
+
+        tag.querySelector('.assist-action-tag-undo')?.remove();
+
+        if (!tag.querySelector('.assist-action-tag-btn:not(.assist-action-tag-link)')) {
+            tag.insertBefore(createProfileApplyButton(tag, action, label, viewLink), viewLink);
+        }
+    }
+
+    async function applyProfileUpdateAction(action) {
+        const response = await chrome.runtime.sendMessage({
+            type: 'APPLY_PROFILE_UPDATE',
+            update: action,
+        });
+
+        if (response?.error) {
+            throw new Error(response.error);
+        }
+
+        return response;
+    }
+
+    function createApplyAllButton(profileTagRefs) {
+        const pendingRefs = () => profileTagRefs.filter(({ tag }) => !tag.classList.contains('is-applied'));
+
+        const applyAllBtn = document.createElement('button');
+        applyAllBtn.type = 'button';
+        applyAllBtn.className = 'assist-action-apply-all';
+        applyAllBtn.textContent = 'Apply all';
+        applyAllBtn.title = 'Apply every profile change below';
+
+        applyAllBtn.addEventListener('click', async (event) => {
+            event.stopPropagation();
+
+            const refs = pendingRefs();
+
+            if (refs.length === 0) {
+                return;
+            }
+
+            applyAllBtn.disabled = true;
+
+            try {
+                const previousValues = await Promise.all(
+                    refs.map(({ action }) => fetchProfileFieldValue(action.path || action.field)),
+                );
+
+                for (let index = 0; index < refs.length; index += 1) {
+                    const { action, tag } = refs[index];
+                    await applyProfileUpdateAction(action);
+                    markProfileTagApplied(
+                        tag,
+                        action,
+                        previousValues[index],
+                        tag.querySelector('.assist-action-tag-label'),
+                        tag.querySelector('.assist-action-tag-link'),
+                    );
+                }
+
+                applyAllBtn.classList.add('is-applied');
+                applyAllBtn.textContent = 'All applied';
+                showMessage('Profile updated.', 'success');
+                await refreshUsage();
+            } catch (error) {
+                showMessage(error.message, 'error');
+                applyAllBtn.disabled = pendingRefs().length === 0;
+            }
+        });
+
+        return applyAllBtn;
+    }
+
     function renderActionTags(bubble, actions = []) {
         if (!bubble || !Array.isArray(actions) || actions.length === 0) {
             return;
@@ -84,19 +271,62 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
 
         contentBox.querySelector('.assist-action-tags')?.remove();
 
+        const profileActions = actions.filter((action) => action?.type === 'profile_update');
+        const otherActions = actions.filter((action) => action?.type !== 'profile_update');
+
+        if (profileActions.length === 0 && otherActions.length === 0) {
+            return;
+        }
+
+        const polishedActions = polishProfileUpdateActions([
+            ...profileActions,
+            ...otherActions,
+        ]);
+        const polishedProfileActions = polishedActions.filter((action) => action?.type === 'profile_update');
+        const polishedOtherActions = polishedActions.filter((action) => action?.type !== 'profile_update');
+
         const container = document.createElement('div');
         container.className = 'assist-action-tags';
 
-        actions.forEach((action) => {
-            if (action?.type === 'profile_update') {
-                container.appendChild(createProfileUpdateTag(action));
-            } else if (action?.type === 'copy_draft') {
-                container.appendChild(createCopyDraftTag(action));
-            }
-        });
+        const divider = document.createElement('hr');
+        divider.className = 'assist-action-divider';
+        container.appendChild(divider);
 
-        if (container.childElementCount === 0) {
-            return;
+        if (polishedProfileActions.length >= 2) {
+            const profileTagRefs = polishedProfileActions.map((action) => ({
+                action,
+                tag: createProfileUpdateTag(action),
+            }));
+
+            container.appendChild(createApplyAllButton(profileTagRefs));
+
+            const tagsList = document.createElement('div');
+            tagsList.className = 'assist-action-tags-list';
+
+            profileTagRefs.forEach(({ tag }) => {
+                tagsList.appendChild(tag);
+            });
+
+            polishedOtherActions.forEach((action) => {
+                if (action?.type === 'copy_draft') {
+                    tagsList.appendChild(createCopyDraftTag(action));
+                }
+            });
+
+            container.appendChild(tagsList);
+        } else {
+            const tagsList = document.createElement('div');
+            tagsList.className = 'assist-action-tags-list';
+
+            polishedActions.forEach((action) => {
+                if (action?.type === 'profile_update') {
+                    tagsList.appendChild(createProfileUpdateTag(action));
+                } else if (action?.type === 'copy_draft') {
+                    tagsList.appendChild(createCopyDraftTag(action));
+                }
+            });
+
+            container.appendChild(tagsList);
         }
 
         contentBox.appendChild(container);
@@ -127,12 +357,6 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         label.className = 'assist-action-tag-label';
         label.textContent = `${action.label} → ${formatActionValue(action.value)}`;
 
-        const applyBtn = document.createElement('button');
-        applyBtn.type = 'button';
-        applyBtn.className = 'assist-action-tag-btn';
-        applyBtn.textContent = 'Apply';
-        applyBtn.title = 'Apply this profile change';
-
         const viewLink = document.createElement('a');
         viewLink.className = 'assist-action-tag-btn assist-action-tag-link';
         viewLink.textContent = 'View';
@@ -154,31 +378,8 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         }
 
         tag.appendChild(label);
-        tag.appendChild(applyBtn);
+        tag.appendChild(createProfileApplyButton(tag, action, label, viewLink));
         tag.appendChild(viewLink);
-
-        applyBtn.addEventListener('click', async (event) => {
-            event.stopPropagation();
-            applyBtn.disabled = true;
-
-            const response = await chrome.runtime.sendMessage({
-                type: 'APPLY_PROFILE_UPDATE',
-                update: action,
-            });
-
-            if (response?.error) {
-                showMessage(response.error, 'error');
-                applyBtn.disabled = false;
-
-                return;
-            }
-
-            tag.classList.add('is-applied');
-            label.textContent = `Updated ${action.label.toLowerCase()}`;
-            applyBtn.remove();
-            showMessage('Profile updated.', 'success');
-            await refreshUsage();
-        });
 
         return tag;
     }
@@ -301,6 +502,7 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
             extras.profileUpdates.forEach((update) => {
                 actions.push({
                     type: 'profile_update',
+                    path: update.path,
                     ...update,
                 });
             });
@@ -315,6 +517,17 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         }
 
         return actions;
+    }
+
+    function resolveStreamActions(result) {
+        if (Array.isArray(result.actions) && result.actions.length > 0) {
+            return result.actions;
+        }
+
+        return buildActionsFromExtras({
+            profileUpdates: result.profile_updates,
+            draftAnswer: result.draft_answer,
+        });
     }
 
     function appendWelcomeMessage() {
@@ -415,6 +628,7 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
 
     function finalizeAssistantStream(streamMessage, extras = {}) {
         streamMessage.bubble.classList.remove('is-streaming');
+        streamMessage.bubble.classList.remove('is-preparing');
 
         if (typeof extras.finalMessage === 'string' && extras.finalMessage.trim() !== '') {
             streamMessage.text.textContent = extras.finalMessage;
@@ -448,19 +662,10 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         setRequestInProgress(true);
         closeActiveStreamPort();
 
-        const lastUserEntry = [...chatHistory].reverse().find((entry) => entry.role === 'user');
-        const directActions = lastUserEntry
-            ? parseDirectProfileUpdateActions(lastUserEntry.content)
-            : [];
-
         let streamMessage = beginAssistantStream();
 
-        if (directActions.length > 0) {
-            renderActionTags(streamMessage.bubble, directActions);
-        }
-
         let completed = false;
-        let streamedActions = directActions.length > 0 ? directActions : null;
+        let streamedActions = null;
 
         try {
             let focusedField = null;
@@ -482,7 +687,15 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
                         return;
                     }
 
-                    if (event.type === 'tools' && Array.isArray(event.actions)) {
+                    if (event.type === 'processing') {
+                        streamMessage.bubble.classList.remove('is-streaming');
+                        streamMessage.bubble.classList.add('is-preparing');
+                        setRequestInProgress(true, 'preparing');
+
+                        return;
+                    }
+
+                    if (event.type === 'tools' && Array.isArray(event.actions) && event.actions.length > 0) {
                         streamedActions = event.actions;
                         renderActionTags(streamMessage.bubble, event.actions);
 
@@ -521,16 +734,11 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
                 });
             });
 
+            const assistantText = typeof result.message === 'string' ? result.message : streamMessage.text.textContent;
+            const resolvedActions = resolveStreamActions(result);
+
             finalizeAssistantStream(streamMessage, {
-                actions:
-                    streamedActions
-                    ?? result.actions
-                    ?? (directActions.length > 0
-                        ? directActions
-                        : buildActionsFromExtras({
-                            profileUpdates: result.profile_updates,
-                            draftAnswer: result.draft_answer,
-                        })),
+                actions: resolvedActions,
                 finalMessage: result.message,
             });
             streamMessage = null;

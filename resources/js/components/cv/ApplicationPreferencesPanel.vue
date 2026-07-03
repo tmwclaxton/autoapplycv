@@ -7,7 +7,7 @@ const applicationSettings = defineModel<ApplicationSettings>({
 </script>
 
 <template>
-    <div class="postbox-panel space-y-6 p-6">
+    <form autocomplete="on" class="postbox-panel space-y-6 p-6" @submit.prevent>
         <div>
             <h2 class="postbox-label">What you're looking for</h2>
             <p class="mt-1 text-sm text-muted-foreground">
@@ -18,9 +18,14 @@ const applicationSettings = defineModel<ApplicationSettings>({
         </div>
 
         <div>
-            <label class="postbox-label">Job preferences</label>
+            <label for="field-job-preferences" class="postbox-label"
+                >Job preferences</label
+            >
             <textarea
+                id="field-job-preferences"
                 v-model="applicationSettings.job_preferences"
+                name="job_preferences"
+                autocomplete="off"
                 class="postbox-input mt-2 min-h-28"
                 placeholder="Roles, locations, remote/hybrid, industries, notice period…"
             />
@@ -28,9 +33,14 @@ const applicationSettings = defineModel<ApplicationSettings>({
 
         <div class="grid gap-4 sm:grid-cols-2">
             <div>
-                <label class="postbox-label">Phone country code</label>
+                <label for="field-phone-country-code" class="postbox-label"
+                    >Phone country code</label
+                >
                 <select
+                    id="field-phone-country-code"
                     v-model="applicationSettings.phone_country_code"
+                    name="tel-country-code"
+                    autocomplete="tel-country-code"
                     class="postbox-input mt-2"
                 >
                     <option value="+44">United Kingdom (+44)</option>
@@ -43,21 +53,32 @@ const applicationSettings = defineModel<ApplicationSettings>({
             </div>
 
             <div>
-                <label class="postbox-label">Years of experience</label>
+                <label for="field-years-of-experience" class="postbox-label"
+                    >Years of experience</label
+                >
                 <input
+                    id="field-years-of-experience"
                     v-model="applicationSettings.years_of_experience"
+                    name="years_of_experience"
                     type="number"
                     min="0"
                     max="50"
+                    autocomplete="off"
                     class="postbox-input mt-2"
                 />
             </div>
         </div>
 
         <div>
-            <label class="postbox-label">Expected salary (optional)</label>
+            <label for="field-expected-salary" class="postbox-label"
+                >Expected salary (optional)</label
+            >
             <input
+                id="field-expected-salary"
                 v-model="applicationSettings.expected_salary"
+                name="expected_salary"
+                type="text"
+                autocomplete="off"
                 class="postbox-input mt-2"
                 placeholder="e.g. £45,000"
             />
@@ -65,9 +86,14 @@ const applicationSettings = defineModel<ApplicationSettings>({
 
         <div class="grid gap-4 sm:grid-cols-2">
             <div>
-                <label class="postbox-label">Visa sponsorship needed?</label>
+                <label for="field-visa-sponsorship" class="postbox-label"
+                    >Visa sponsorship needed?</label
+                >
                 <select
+                    id="field-visa-sponsorship"
                     v-model="applicationSettings.visa_sponsorship"
+                    name="visa_sponsorship"
+                    autocomplete="off"
                     class="postbox-input mt-2"
                 >
                     <option value="no">No</option>
@@ -76,9 +102,14 @@ const applicationSettings = defineModel<ApplicationSettings>({
             </div>
 
             <div>
-                <label class="postbox-label">Legally authorized to work?</label>
+                <label for="field-legally-authorized" class="postbox-label"
+                    >Legally authorized to work?</label
+                >
                 <select
+                    id="field-legally-authorized"
                     v-model="applicationSettings.legally_authorized"
+                    name="legally_authorized"
+                    autocomplete="off"
                     class="postbox-input mt-2"
                 >
                     <option value="yes">Yes</option>
@@ -87,9 +118,14 @@ const applicationSettings = defineModel<ApplicationSettings>({
             </div>
 
             <div>
-                <label class="postbox-label">Willing to relocate?</label>
+                <label for="field-willing-to-relocate" class="postbox-label"
+                    >Willing to relocate?</label
+                >
                 <select
+                    id="field-willing-to-relocate"
                     v-model="applicationSettings.willing_to_relocate"
+                    name="willing_to_relocate"
+                    autocomplete="off"
                     class="postbox-input mt-2"
                 >
                     <option value="yes">Yes</option>
@@ -98,9 +134,14 @@ const applicationSettings = defineModel<ApplicationSettings>({
             </div>
 
             <div>
-                <label class="postbox-label">Valid driver's license?</label>
+                <label for="field-drivers-license" class="postbox-label"
+                    >Valid driver's license?</label
+                >
                 <select
+                    id="field-drivers-license"
                     v-model="applicationSettings.drivers_license"
+                    name="drivers_license"
+                    autocomplete="off"
                     class="postbox-input mt-2"
                 >
                     <option value="yes">Yes</option>
@@ -108,5 +149,5 @@ const applicationSettings = defineModel<ApplicationSettings>({
                 </select>
             </div>
         </div>
-    </div>
+    </form>
 </template>

@@ -182,8 +182,16 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
             </h3>
             <div class="mt-4 grid gap-4 sm:grid-cols-2">
                 <div>
-                    <label class="postbox-label">Category</label>
-                    <select v-model="selectedCategory" class="postbox-input">
+                    <label for="document-category" class="postbox-label"
+                        >Category</label
+                    >
+                    <select
+                        id="document-category"
+                        v-model="selectedCategory"
+                        name="document_category"
+                        autocomplete="off"
+                        class="postbox-input"
+                    >
                         <option
                             v-for="category in categories"
                             :key="category.value"
@@ -194,19 +202,29 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
                     </select>
                 </div>
                 <div>
-                    <label class="postbox-label">Title (optional)</label>
+                    <label for="document-title" class="postbox-label"
+                        >Title (optional)</label
+                    >
                     <input
+                        id="document-title"
                         v-model="title"
+                        name="document_title"
                         type="text"
+                        autocomplete="off"
                         class="postbox-input"
                         placeholder="e.g. BSc graduation certificate"
                     />
                 </div>
                 <div class="sm:col-span-2">
-                    <label class="postbox-label">Notes (optional)</label>
+                    <label for="document-notes" class="postbox-label"
+                        >Notes (optional)</label
+                    >
                     <input
+                        id="document-notes"
                         v-model="notes"
+                        name="document_notes"
                         type="text"
+                        autocomplete="off"
                         class="postbox-input"
                         placeholder="e.g. Includes official transcript stamp"
                     />
@@ -217,6 +235,8 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
                 <input
                     ref="fileInput"
                     type="file"
+                    name="document_file"
+                    autocomplete="off"
                     accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
                     class="hidden"
                     @change="onFileSelected"

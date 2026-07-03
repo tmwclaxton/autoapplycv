@@ -19,7 +19,7 @@ class GenerateBlogPostCommand extends Command
                             {--length=medium : Article length: short, medium, long, or random}
                             {--dry-run : Output topic and format without generating or saving}';
 
-    protected $description = 'Generate a bi-weekly AI blog post about AutoCVApply for job seekers';
+    protected $description = 'Generate a weekly AI blog post about AutoCVApply for job seekers';
 
     public function handle(
         NanoGptService $nanoGpt,

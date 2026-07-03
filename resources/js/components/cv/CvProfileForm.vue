@@ -235,104 +235,146 @@ function addAdditionalSectionItem(sectionIndex: number): void {
 </script>
 
 <template>
-    <div class="space-y-6">
+    <form autocomplete="on" class="space-y-6" @submit.prevent>
         <div v-if="show('basic')" class="postbox-panel p-6">
             <h2 class="postbox-label">Basic information</h2>
             <div class="grid gap-4 sm:grid-cols-2">
                 <div>
-                    <label class="postbox-label">Full name</label>
+                    <label for="field-full-name" class="postbox-label"
+                        >Full name</label
+                    >
                     <input
+                        id="field-full-name"
                         v-model="profile.full_name"
+                        name="full_name"
                         type="text"
+                        autocomplete="name"
                         class="postbox-input"
                         placeholder="Your full name"
                     />
                 </div>
                 <div>
-                    <label class="postbox-label">Headline</label>
+                    <label for="field-headline" class="postbox-label"
+                        >Headline</label
+                    >
                     <input
                         id="field-headline"
                         v-model="profile.headline"
+                        name="headline"
                         type="text"
+                        autocomplete="organization-title"
                         class="postbox-input"
                         placeholder="Senior Software Engineer"
                     />
                 </div>
                 <div>
-                    <label class="postbox-label">Email</label>
+                    <label for="field-email" class="postbox-label"
+                        >Email</label
+                    >
                     <input
+                        id="field-email"
                         v-model="profile.email"
+                        name="email"
                         type="email"
+                        autocomplete="email"
                         class="postbox-input"
                         placeholder="you@example.com"
                     />
                 </div>
                 <div>
-                    <label class="postbox-label">Phone</label>
+                    <label for="field-phone" class="postbox-label"
+                        >Phone</label
+                    >
                     <input
                         id="field-phone"
                         v-model="profile.phone"
-                        type="text"
+                        name="tel"
+                        type="tel"
+                        autocomplete="tel"
                         class="postbox-input"
                         placeholder="+44 7700 000000"
                     />
                 </div>
                 <div>
-                    <label class="postbox-label">Location</label>
+                    <label for="field-location" class="postbox-label"
+                        >Location</label
+                    >
                     <input
                         id="field-location"
                         v-model="profile.location"
+                        name="location"
                         type="text"
+                        autocomplete="address-level3"
                         class="postbox-input"
                         placeholder="London, UK"
                     />
                 </div>
                 <div>
-                    <label class="postbox-label">City</label>
+                    <label for="field-city" class="postbox-label"
+                        >City</label
+                    >
                     <input
                         id="field-city"
                         v-model="profile.city"
+                        name="city"
                         type="text"
+                        autocomplete="address-level2"
                         class="postbox-input"
                         placeholder="London"
                     />
                 </div>
                 <div>
-                    <label class="postbox-label">Postcode</label>
+                    <label for="field-postcode" class="postbox-label"
+                        >Postcode</label
+                    >
                     <input
                         id="field-postcode"
                         v-model="profile.postcode"
+                        name="postal-code"
                         type="text"
+                        autocomplete="postal-code"
                         class="postbox-input"
                         placeholder="SW1A 1AA"
                     />
                 </div>
                 <div>
-                    <label class="postbox-label">Country</label>
+                    <label for="field-country" class="postbox-label"
+                        >Country</label
+                    >
                     <input
                         id="field-country"
                         v-model="profile.country"
+                        name="country"
                         type="text"
+                        autocomplete="country-name"
                         class="postbox-input"
                         placeholder="United Kingdom"
                     />
                 </div>
                 <div>
-                    <label class="postbox-label">LinkedIn</label>
+                    <label for="field-linkedin-url" class="postbox-label"
+                        >LinkedIn</label
+                    >
                     <input
                         id="field-linkedin-url"
                         v-model="profile.linkedin_url"
+                        name="linkedin_url"
                         type="url"
+                        autocomplete="url"
                         class="postbox-input"
                         placeholder="https://linkedin.com/in/you"
                     />
                 </div>
                 <div>
-                    <label class="postbox-label">Website</label>
+                    <label for="field-website-url" class="postbox-label"
+                        >Website</label
+                    >
                     <input
                         id="field-website-url"
                         v-model="profile.website_url"
+                        name="website_url"
                         type="url"
+                        autocomplete="url"
                         class="postbox-input"
                         placeholder="https://yoursite.com"
                     />
@@ -354,29 +396,41 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
             <div class="grid gap-4 sm:grid-cols-2">
                 <div>
-                    <label class="postbox-label">Address line 1</label>
+                    <label for="field-address-line-1" class="postbox-label"
+                        >Address line 1</label
+                    >
                     <input
                         id="field-address-line-1"
                         v-model="profile.structured_data.address_line_1"
+                        name="address-line1"
                         type="text"
+                        autocomplete="address-line1"
                         class="postbox-input"
                     />
                 </div>
                 <div>
-                    <label class="postbox-label">Address line 2</label>
+                    <label for="field-address-line-2" class="postbox-label"
+                        >Address line 2</label
+                    >
                     <input
                         id="field-address-line-2"
                         v-model="profile.structured_data.address_line_2"
+                        name="address-line2"
                         type="text"
+                        autocomplete="address-line2"
                         class="postbox-input"
                     />
                 </div>
                 <div>
-                    <label class="postbox-label">State / region</label>
+                    <label for="field-state-region" class="postbox-label"
+                        >State / region</label
+                    >
                     <input
                         id="field-state-region"
                         v-model="profile.structured_data.state_region"
+                        name="address-level1"
                         type="text"
+                        autocomplete="address-level1"
                         class="postbox-input"
                     />
                 </div>
@@ -393,12 +447,14 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                     <input
                         v-model="link.label"
                         type="text"
+                        autocomplete="off"
                         class="postbox-input"
                         placeholder="Label (e.g. GitHub)"
                     />
                     <input
                         v-model="link.url"
                         type="url"
+                        autocomplete="url"
                         class="postbox-input"
                         placeholder="https://"
                     />
@@ -418,8 +474,11 @@ function addAdditionalSectionItem(sectionIndex: number): void {
         <div v-if="show('summary')" id="field-summary" class="postbox-panel scroll-mt-24 p-6">
             <h2 class="postbox-label">Professional summary</h2>
             <textarea
+                id="field-summary-text"
                 v-model="profile.summary"
+                name="summary"
                 rows="4"
+                autocomplete="off"
                 class="postbox-input"
                 placeholder="A brief summary about yourself…"
             />
@@ -447,6 +506,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 <input
                     v-model="newSkill"
                     type="text"
+                    autocomplete="off"
                     class="postbox-input flex-1"
                     placeholder="Add a skill…"
                     @keydown.enter.prevent="addSkill"
@@ -534,13 +594,14 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                     </span>
                 </div>
                 <div class="flex gap-2">
-                    <input
-                        v-model="newSoftSkill"
-                        type="text"
-                        class="postbox-input flex-1"
-                        placeholder="Add a soft skill…"
-                        @keydown.enter.prevent="addSoftSkill"
-                    />
+                <input
+                    v-model="newSoftSkill"
+                    type="text"
+                    autocomplete="off"
+                    class="postbox-input flex-1"
+                    placeholder="Add a soft skill…"
+                    @keydown.enter.prevent="addSoftSkill"
+                />
                     <button
                         type="button"
                         class="postbox-btn-outline shrink-0"
@@ -591,6 +652,9 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                             <input
                                 v-model="exp.title"
                                 type="text"
+                                :autocomplete="
+                                    i === 0 ? 'organization-title' : 'off'
+                                "
                                 class="postbox-input"
                             />
                         </div>
@@ -599,6 +663,9 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                             <input
                                 v-model="exp.company"
                                 type="text"
+                                :autocomplete="
+                                    i === 0 ? 'organization' : 'off'
+                                "
                                 class="postbox-input"
                             />
                         </div>
@@ -607,6 +674,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                             <input
                                 v-model="exp.location"
                                 type="text"
+                                autocomplete="off"
                                 class="postbox-input"
                             />
                         </div>
@@ -615,6 +683,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                             <input
                                 v-model="exp.employment_type"
                                 type="text"
+                                autocomplete="off"
                                 class="postbox-input"
                                 placeholder="Full-time, Contract…"
                             />
@@ -624,6 +693,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                             <input
                                 v-model="exp.start_date"
                                 type="text"
+                                autocomplete="off"
                                 class="postbox-input"
                             />
                         </div>
@@ -632,6 +702,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                             <input
                                 v-model="exp.end_date"
                                 type="text"
+                                autocomplete="off"
                                 class="postbox-input"
                                 placeholder="Present"
                             />
@@ -740,6 +811,9 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                             <input
                                 v-model="edu.institution"
                                 type="text"
+                                :autocomplete="
+                                    i === 0 ? 'organization' : 'off'
+                                "
                                 class="postbox-input"
                             />
                         </div>
@@ -1293,12 +1367,14 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                         <input
                             v-model="ref.email"
                             type="email"
+                            autocomplete="off"
                             class="postbox-input"
                             placeholder="Email"
                         />
                         <input
                             v-model="ref.phone"
-                            type="text"
+                            type="tel"
+                            autocomplete="off"
                             class="postbox-input"
                             placeholder="Phone"
                         />
@@ -1338,6 +1414,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 <input
                     v-model="newInterest"
                     type="text"
+                    autocomplete="off"
                     class="postbox-input flex-1"
                     placeholder="Add an interest…"
                     @keydown.enter.prevent="addInterest"
@@ -1456,8 +1533,11 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 anything the extension should know.
             </p>
             <textarea
+                id="field-extra-context-text"
                 v-model="profile.extra_context"
+                name="extra_context"
                 rows="4"
+                autocomplete="off"
                 class="postbox-input"
                 placeholder="E.g. Authorised to work in the UK. Four weeks' notice. Senior roles in fintech preferred."
             />
@@ -1486,5 +1566,5 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             :categories="documentCategories"
             @upload-cv="emit('uploadCv', $event)"
         />
-    </div>
+    </form>
 </template>
