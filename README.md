@@ -10,9 +10,15 @@
 </p>
 
 <p align="center">
+  <a href="https://autocvapply.com"><img src="https://img.shields.io/badge/Website-autocvapply.com-C8102E?style=for-the-badge" alt="Website" /></a>
+  <a href="https://github.com/tmwclaxton/autoapplycv"><img src="https://img.shields.io/badge/GitHub-Source-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" /></a>
+</p>
+
+<p align="center">
   <a href="https://autocvapply.com">Website</a> ·
   <a href="https://github.com/tmwclaxton/autoapplycv">GitHub</a> ·
-  <a href="https://autocvapply.com/how-to">How it works</a>
+  <a href="https://autocvapply.com/how-to">How it works</a> ·
+  <a href="https://autocvapply.com/dashboard">Dashboard</a>
 </p>
 
 <p align="center">
@@ -25,6 +31,20 @@
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License" />
 </p>
 
+<p align="center">
+  <strong><a href="https://autocvapply.com">Sign up free at autocvapply.com</a></strong> — upload your CV, connect the extension, fill forms in minutes.<br />
+  <sub>Not an auto-submit bot. You review every field and click Submit yourself.</sub>
+</p>
+
+---
+
+## See it in action
+
+<!-- TODO: replace with YouTube thumbnail + link once demo video is recorded -->
+<!-- [![AutoCVApply demo](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://youtu.be/VIDEO_ID) -->
+
+> **Demo video coming soon.** Until then, see [How it works on autocvapply.com](https://autocvapply.com/how-to) or sign up and try Draft All on a real Greenhouse or Ashby form.
+
 ---
 
 ## The problem
@@ -32,6 +52,34 @@
 Job applications are a copy-paste endurance test. Workday wants your address. Greenhouse wants it again. Ashby wants a cover letter you've already written three times this week. Every ATS renders the same questions differently — custom widgets, shadow DOM, multi-step wizards, iframe embeds.
 
 **AutoCVApply** reads your CV once, builds a structured profile, and stamps it onto application forms through a battle-tested Chrome extension — so you spend time on roles that matter, not on retyping your phone number for the forty-seventh time.
+
+## Without vs with AutoCVApply
+
+| Without AutoCVApply | With AutoCVApply |
+|---------------------|------------------|
+| Retype contact details, education, and skills on every ATS | **One structured profile** — filled from your uploaded CV |
+| Blank stare at "Why do you want this role?" textareas | **Draft All** streams AI answers for free-text questions |
+| Skip cover letters because they're tedious | **One-click cover letter** tailored to the job description |
+| Same generic CV for every posting | **Tailored resume draft** matched to the role |
+| No idea how your CV reads against the JD | **ATS score** with keyword and formatting feedback |
+| Pray comboboxes and wizards don't break mid-form | **1,850-scenario test corpus** — Greenhouse, Ashby, Workday, and more |
+| Submit applications blindly | **You stay in control** — we fill fields; you review and submit |
+
+> AutoCVApply is **not** LinkedIn Easy Apply automation. We do not click Submit on your behalf.
+
+## Who it's for
+
+- **Job seekers** applying across multiple ATS platforms in a week
+- **Career changers** who need tailored answers without rewriting everything
+- **Privacy-conscious applicants** who want a clear account, revocable API tokens, and a published [privacy policy](https://autocvapply.com/privacy)
+- **Developers and contributors** who care about verified form-fill quality, not just demo GIFs
+
+**Why choose AutoCVApply?**
+
+- **Save time** — autofill plus AI drafting for the questions that actually slow you down
+- **Stay honest** — answers draw from your profile and preferences, not invented credentials
+- **Trust the engineering** — four-layer fill verification, Playwright smoke tests, and 223 PHPUnit methods
+- **British Postbox UI** — Royal Mail red, navy, warm paper tones. Feels like sending a letter, not filling a spreadsheet
 
 ## How it works
 
@@ -48,28 +96,46 @@ flowchart LR
 |------|--------------|
 | **1. Post your CV** | Drop a PDF or DOCX. Tesseract OCR + NanoGPT extract name, contact, skills, experience, and education into a structured profile. |
 | **2. Check the details** | Tweak anything we missed — summary, visa status, salary expectations, application preferences. |
-| **3. Connect the extension** | Install the Chrome extension, paste your connection JSON (`token` + `api_base`) from the dashboard. |
-| **4. Fill and draft** | Autofill fields on any job form. **Draft All** streams AI-written answers for free-text questions, cover letters, and tailored resumes. |
+| **3. Connect the extension** | Install the Chrome or Firefox extension, paste your connection JSON (`token` + `api_base`) from the dashboard. |
+| **4. Fill and draft** | Autofill fields on any job form. **Draft All** streams AI-written answers for free-text questions, cover letters, and tailored resumes. **You submit when ready.** |
 
-## Features
+## Full feature suite
 
-### Smart CV parsing
-Upload PDF or Word documents. NanoGPT pulls structured data into an editable profile you control — with Tesseract OCR for scanned documents and local `pdftoppm` preprocessing before any vision fallback.
-
-### One-click autofill
-A Manifest V3 Chrome extension detects application forms across the web and fills them from your profile — including comboboxes, radio groups, multi-step wizards, shadow DOM, and iframe-embedded fields.
-
-### Application assistant
-The extension sidebar talks to a streaming Application Assistant API: field inventory, job context extraction, per-field drafting, **Draft All** (batch fill), cover letters, tailored resumes, and ATS scoring.
+| Module | Feature | What it does |
+|--------|---------|--------------|
+| **CV parsing** | PDF & Word upload | Structured profile extraction with Tesseract OCR + local `pdftoppm` preprocessing |
+| **CV parsing** | Editable profile | Skills, experience, education, summary, application preferences — you control the source of truth |
+| **Autofill** | One-click fill | Profile data stamped onto native inputs, comboboxes, radios, checkboxes, multi-step wizards |
+| **Autofill** | Shadow DOM & iframes | Content scripts traverse embedded ATS widgets other extensions miss |
+| **Application Assistant** | Field inventory | AI maps the page's questions to fillable refs before drafting |
+| **Application Assistant** | Job context | Extracts title, company, and description from the posting |
+| **Application Assistant** | Draft All | Streams batch answers for unanswered fields (NDJSON) |
+| **Application Assistant** | Draft field | Single-field AI answer on demand |
+| **Documents** | Cover letter | Job-specific letter from your profile + posting |
+| **Documents** | Tailored resume | Role-matched resume draft |
+| **Documents** | ATS score | Keyword and compatibility feedback against the job description |
+| **Dashboard** | Usage & billing | Monthly autofill allowance, extension connection, GoCardless subscriptions (UK) |
+| **Analytics** | Public aggregate stats | Daily totals across all users — no personal application history exposed |
 
 ### Supported platforms
+
 Autofill is verified against real and synthetic fixtures from the ATS platforms that actually hire:
 
-`Ashby` · `Greenhouse` · `Lever` · `Workday` · `SmartRecruiters` · `Teamtailor` · `BambooHR` · `Trakstar` · `WordPress/WPForms`
-
-The extension runs on `<all_urls>` — these platforms are where we invest the deepest test coverage, not where we stop.
+| Platform | Coverage | Notes |
+|----------|----------|-------|
+| **Ashby** | Curated + smoke + widget checks | Yes/no and checkbox widget scenarios |
+| **Greenhouse** | Curated + smoke | Scraped real boards in corpus |
+| **Lever** | Curated + smoke | Multi-step apply flows |
+| **Workday** | Curated + smoke | Wizard-style applications |
+| **SmartRecruiters** | Curated + smoke | Long multi-section forms |
+| **Teamtailor** | Curated + smoke | Nordic/EU hiring stacks |
+| **BambooHR** | Curated tier | HR suite apply pages |
+| **Trakstar** | Curated tier | Performance/hiring forms |
+| **WordPress / WPForms** | Curated + smoke | Generic employer sites |
+| **Any site** | Extension runs on `<all_urls>` | Deepest test coverage on ATS platforms above — not where we stop |
 
 ### Postbox design
+
 British utilitarian UI — Royal Mail red, navy, warm paper tones. Built to feel like sending a letter, not filling in a spreadsheet.
 
 ### Pricing
@@ -83,6 +149,78 @@ Plans are based on **extension autofill** allowance. CV upload and profile editi
 | **Pro** | £17/mo | 15,000 |
 
 > Each successfully filled form input uses one autofill. Allowances reset on the 1st of each month.
+
+---
+
+## Install
+
+> **Recommended:** create a free account at **[autocvapply.com](https://autocvapply.com)**, upload your CV, then download the extension from your dashboard. Chrome Web Store listing is not live yet — sideload via zip for now.
+
+### Option A: Production (autocvapply.com)
+
+1. **[Sign up](https://autocvapply.com)** and upload your CV
+2. Open **Dashboard → Extension** and choose your browser
+3. Download the zip (Chrome, Edge, Brave, or Firefox)
+4. Sideload using the on-screen instructions
+5. Copy your connection JSON (`token` + `api_base`) into the extension sidebar
+
+| Browser | Install method | Store listing |
+|---------|----------------|---------------|
+| **Chrome / Edge / Brave** | Download zip from dashboard → Load unpacked | Chrome Web Store — *coming soon* |
+| **Firefox** | Download zip from dashboard → Load Temporary Add-on | Firefox Add-ons — *coming soon* |
+
+### Option B: Developer mode (this repo)
+
+```bash
+git clone https://github.com/tmwclaxton/autoapplycv.git
+cd autoapplycv
+composer run setup   # or follow Getting started below
+npm run build:extension
+```
+
+Then in Chrome: `chrome://extensions` → Developer mode → **Load unpacked** → select `extension/dist/`.
+
+Generate a connection from the dashboard and paste it into the extension sidebar. Developer installs do not auto-update.
+
+---
+
+## Security & privacy
+
+- **Your profile, your account** — CV and structured profile data live on autocvapply.com under WorkOS authentication. You can delete your account from settings.
+- **Extension fills locally** — the browser extension fetches your profile via a revocable Sanctum token and writes values into the page DOM. It does not send completed submissions back to us.
+- **No data selling** — we do not sell personal data. See the full [privacy policy](https://autocvapply.com/privacy).
+- **AI processing** — CV parsing and drafting send text to our NanoGPT provider as needed to extract fields or generate answers. Job context from the page may be included in draft requests.
+- **Open source** — MIT-licensed core. Inspect the extension, backend, and 1,850-scenario test corpus on GitHub.
+- **You submit** — AutoCVApply never auto-clicks Submit Application. Final review is always yours.
+
+---
+
+## Job search tips
+
+Practical advice for high-volume applications (no magic numbers — your mileage varies):
+
+1. **Apply while the posting is fresh.** Early applicants often face less competition; automation helps you move faster without cutting corners on quality.
+2. **Keep your master CV ATS-simple.** Single column, standard headings, no graphics in the parse path. Use AutoCVApply's ATS score against the job description before you submit.
+3. **Tailor the narrative, not just keywords.** Draft All and cover letters work best when your profile summary and application preferences reflect what you actually want.
+4. **Review every field.** We fill aggressively; you confirm accuracy — especially salary, visa, and eligibility questions.
+5. **Track applications yourself for now.** Use your own spreadsheet or notes; a personal application tracker in the dashboard is on the roadmap.
+
+---
+
+## Links
+
+| | |
+|---|---|
+| **Website** | [autocvapply.com](https://autocvapply.com) |
+| **Dashboard** | [autocvapply.com/dashboard](https://autocvapply.com/dashboard) |
+| **How it works** | [autocvapply.com/how-to](https://autocvapply.com/how-to) |
+| **Analytics** | [autocvapply.com/analytics](https://autocvapply.com/analytics) |
+| **Blog** | [autocvapply.com/blog](https://autocvapply.com/blog) |
+| **Privacy** | [autocvapply.com/privacy](https://autocvapply.com/privacy) |
+| **Contact** | [autocvapply.com/contact](https://autocvapply.com/contact) |
+| **GitHub** | [github.com/tmwclaxton/autoapplycv](https://github.com/tmwclaxton/autoapplycv) |
+| **Chrome Web Store** | *Listing not published yet — use dashboard zip download* |
+| **Form corpus docs** | [`scripts/form-corpus/README.md`](scripts/form-corpus/README.md) |
 
 ---
 
@@ -416,7 +554,26 @@ MIT — use it, fork it, ship it.
 
 ---
 
+## Assets we need from you
+
+These polish items couldn't be copied from competitors without your input:
+
+| Asset | Why we need it |
+|-------|----------------|
+| **Demo video** (YouTube URL + thumbnail) | Replace the "coming soon" block in [See it in action](#see-it-in-action) |
+| **Chrome Web Store listing URL** | Enable Option A store badge and install table links |
+| **Firefox Add-ons listing URL** | Complete the browser install table |
+| **Screenshots / GIFs** | Hero images for README and autocvapply.com (extension sidebar, Draft All, dashboard) |
+| **Before/after time stats** | Only if you have real user data — we avoided inventing "50+ apps/day" claims |
+| **Testimonial quotes** | Social proof section (optional) |
+| **Discord / community link** | Support and contributor channel (optional) |
+| **Twitter/X or LinkedIn handle** | Links table and footer badges |
+| **Personal application tracker** | Backend model exists; UI not shipped — remove roadmap note once live |
+
+---
+
 <p align="center">
+  <strong><a href="https://autocvapply.com">Get started free at autocvapply.com</a></strong><br />
   <sub>Built for people who'd rather apply to jobs than retype their CV.<br />
   Verified against 1,850 form scenarios. Battle-tested on real ATS platforms.</sub>
 </p>
