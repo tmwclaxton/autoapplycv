@@ -143,6 +143,82 @@ class CvUploadTest extends TestCase
     }
 
     #[Test]
+    public function test_cv_upload_persists_long_headline_and_extra_context(): void
+    {
+        $longHeadline = str_repeat('Senior Software Engineer specialising in distributed systems. ', 20);
+        $longExtraContext = str_repeat('Certification: AWS Solutions Architect Professional with advanced networking. ', 30);
+
+        $this->mock(CvParserService::class, function ($mock): void {
+            $mock->shouldReceive('extractText')->once()->andReturn('Raw CV text for long fields test');
+            $mock->shouldReceive('extractHyperlinks')->once()->andReturn([]);
+        });
+
+        $this->mock(CvExtractionService::class, function ($mock) use ($longHeadline, $longExtraContext): void {
+            $mock->shouldReceive('extract')
+                ->once()
+                ->andReturn([
+                    'full_name' => 'Alex Developer',
+                    'headline' => $longHeadline,
+                    'email' => 'alex@example.com',
+                    'phone' => null,
+                    'location' => null,
+                    'city' => null,
+                    'postcode' => null,
+                    'country' => null,
+                    'linkedin_url' => null,
+                    'website_url' => null,
+                    'summary' => 'Backend engineer.',
+                    'skills' => ['PHP'],
+                    'experience' => [],
+                    'education' => [],
+                    'structured_data' => [
+                        'headline' => null,
+                        'address_line_1' => null,
+                        'address_line_2' => null,
+                        'state_region' => null,
+                        'social_links' => [],
+                        'languages' => [],
+                        'certifications' => [],
+                        'projects' => [],
+                        'publications' => [],
+                        'awards' => [],
+                        'volunteering' => [],
+                        'memberships' => [],
+                        'references' => [],
+                        'interests' => [],
+                        'technical_skills' => [],
+                        'soft_skills' => [],
+                        'additional_sections' => [],
+                    ],
+                    'formatted_cv_text' => str_repeat("Alex Developer\n", 100),
+                    'extra_context' => $longExtraContext,
+                ]);
+        });
+
+        $user = User::factory()->create();
+
+        $file = UploadedFile::fake()->createWithContent(
+            'long-fields-cv.pdf',
+            '%PDF-1.4 sample',
+        );
+
+        $response = $this->actingAs($user)
+            ->postJson(route('cv.upload'), ['cv' => $file]);
+
+        $response->assertOk()
+            ->assertJsonPath('profile.headline', $longHeadline)
+            ->assertJsonPath('profile.extra_context', $longExtraContext);
+
+        $profile = $user->fresh()->cvProfile;
+
+        $this->assertNotNull($profile);
+        $this->assertSame($longHeadline, $profile->headline);
+        $this->assertSame($longExtraContext, $profile->extra_context);
+        $this->assertGreaterThan(255, strlen($profile->headline));
+        $this->assertGreaterThan(255, strlen($profile->extra_context));
+    }
+
+    #[Test]
     public function test_replacement_cv_upload_overwrites_existing_cv_document(): void
     {
         $this->mock(CvParserService::class, function ($mock): void {

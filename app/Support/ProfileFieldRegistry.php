@@ -69,7 +69,7 @@ class ProfileFieldRegistry
     {
         return [
             'full_name' => ['sometimes', 'nullable', 'string', 'max:255'],
-            'headline' => ['sometimes', 'nullable', 'string', 'max:255'],
+            'headline' => ['sometimes', 'nullable', 'string'],
             'email' => ['sometimes', 'nullable', 'email', 'max:255'],
             'phone' => ['sometimes', 'nullable', 'string', 'max:50'],
             'location' => ['sometimes', 'nullable', 'string', 'max:255'],

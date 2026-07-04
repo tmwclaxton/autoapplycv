@@ -96,7 +96,7 @@ class CvUploadController extends Controller
     {
         $validated = $request->validate([
             'full_name' => 'nullable|string|max:255',
-            'headline' => 'nullable|string|max:255',
+            'headline' => 'nullable|string',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:50',
             'location' => 'nullable|string|max:255',
