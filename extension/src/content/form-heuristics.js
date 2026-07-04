@@ -340,21 +340,25 @@ const AutoCVApplyFormHeuristics = (() => {
         return false;
     }
 
+    function getComboboxForListbox(root, listbox) {
+        const listboxId = listbox.id;
+
+        if (!listboxId) {
+            return null;
+        }
+
+        return root.querySelector(
+            `[role="combobox"][aria-controls="${escapeSelectorValue(listboxId)}"], [aria-controls="${escapeSelectorValue(listboxId)}"][role="combobox"]`,
+        );
+    }
+
     function isApplicationListbox(root, listbox, label) {
         if (isIncidentalListbox(listbox, label)) {
             return false;
         }
 
-        const listboxId = listbox.id;
-
-        if (listboxId) {
-            const combobox = root.querySelector(
-                `[role="combobox"][aria-controls="${escapeSelectorValue(listboxId)}"]`,
-            );
-
-            if (combobox) {
-                return true;
-            }
+        if (getComboboxForListbox(root, listbox)) {
+            return true;
         }
 
         return listbox.closest(
@@ -368,11 +372,15 @@ const AutoCVApplyFormHeuristics = (() => {
         const doc = root.ownerDocument || document;
 
         for (const listbox of root.querySelectorAll('[role="listbox"]')) {
-            if (!isVisible(listbox)) {
+            const combobox = getComboboxForListbox(root, listbox);
+            const comboboxControlled = combobox !== null;
+
+            if (!comboboxControlled && !isVisible(listbox)) {
                 continue;
             }
 
-            const options = Array.from(listbox.querySelectorAll('[role="option"]')).filter(isVisible);
+            const options = Array.from(listbox.querySelectorAll('[role="option"]'))
+                .filter((option) => comboboxControlled || isVisible(option));
 
             if (options.length < 2) {
                 continue;
@@ -380,10 +388,23 @@ const AutoCVApplyFormHeuristics = (() => {
 
             let label = getAccessibleLabel(doc, listbox);
 
-            if (label.length < 3 && listbox.id) {
-                const combobox = root.querySelector(`[role="combobox"][aria-controls="${escapeSelectorValue(listbox.id)}"], [aria-controls="${escapeSelectorValue(listbox.id)}"]`);
+            if ((label.length < 3 || /^(open|select)\s+/i.test(label)) && listbox.id) {
+                const labelledBy = listbox.getAttribute('aria-labelledby');
 
-                if (combobox) {
+                if (labelledBy) {
+                    const explicitLabel = labelledBy
+                        .split(/\s+/)
+                        .map((id) => doc.getElementById(id))
+                        .filter(Boolean)
+                        .map((element) => (element.textContent || '').replace(/\s+/g, ' ').trim())
+                        .find((text) => text.length >= 3);
+
+                    if (explicitLabel) {
+                        label = explicitLabel;
+                    }
+                }
+
+                if (label.length < 3 && combobox) {
                     label = getAccessibleLabel(doc, combobox) || getFieldLabel(combobox);
                 }
             }
