@@ -100,4 +100,21 @@ class CvParserServiceTest extends TestCase
         $this->assertStringContainsString('Senior Laravel Engineer', $text);
         $this->assertStringContainsString('Skills: PHP, Laravel, Vue', $text);
     }
+
+    #[Test]
+    public function test_plain_text_cv_extracts_file_contents(): void
+    {
+        $this->mock(TesseractOcrService::class);
+        $this->mock(NanoGptService::class);
+
+        $file = UploadedFile::fake()->createWithContent(
+            'plain-cv.txt',
+            "Jane Developer\nSenior Laravel Engineer",
+        );
+
+        $text = app(CvParserService::class)->extractText($file);
+
+        $this->assertStringContainsString('Jane Developer', $text);
+        $this->assertStringContainsString('Senior Laravel Engineer', $text);
+    }
 }

@@ -27,6 +27,7 @@ class CvParserService
         $text = match (true) {
             $mimeType === 'application/pdf' || $extension === 'pdf' => $this->extractFromPdfUpload($file),
             in_array($extension, ['docx', 'doc'], true) || str_contains($mimeType, 'word') => $this->extractFromWord($file->getRealPath()),
+            $extension === 'txt' || $mimeType === 'text/plain' => $this->extractFromPlainText($file),
             default => '',
         };
 
@@ -235,6 +236,19 @@ class CvParserService
         }
 
         return trim($text);
+    }
+
+    private function extractFromPlainText(UploadedFile $file): string
+    {
+        $path = $file->getRealPath();
+
+        if (! is_string($path) || ! is_readable($path)) {
+            return '';
+        }
+
+        $contents = file_get_contents($path);
+
+        return is_string($contents) ? trim($contents) : '';
     }
 
     /**

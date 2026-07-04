@@ -26,6 +26,7 @@ import {
 } from './draft-all-optimizations.js';
 import { requestDraftAllStream, requestDraftField, requestAssistChatStream, requestFieldInventory, requestJobContext } from './draft-all-stream.js';
 import { arrayBufferToBase64, base64ToBlob } from './file-transfer.js';
+import { validateCvUpload, validateDocumentUpload } from '../shared/upload-validation.js';
 import {
     applyDraftAnswerToTab,
     applyDraftBatchToTab,
@@ -65,6 +66,15 @@ async function uploadCv(filePayload) {
         throw new Error('Choose a CV file to upload.');
     }
 
+    const validationError = validateCvUpload({
+        fileName: filePayload.fileName,
+        mimeType: filePayload.mimeType,
+    });
+
+    if (validationError) {
+        throw new Error(validationError);
+    }
+
     const apiToken = await getApiToken();
     const apiBase = await getStoredApiBase();
     const formData = new FormData();
@@ -102,6 +112,15 @@ async function uploadProfileDocument(message) {
 
     if (!message.category) {
         throw new Error('Choose a document category.');
+    }
+
+    const validationError = validateDocumentUpload({
+        fileName: message.file.fileName,
+        mimeType: message.file.mimeType,
+    });
+
+    if (validationError) {
+        throw new Error(validationError);
     }
 
     const apiToken = await getApiToken();

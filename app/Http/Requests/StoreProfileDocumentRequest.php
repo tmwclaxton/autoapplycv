@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\ProfileDocumentCategory;
+use App\Support\UploadMimeRules;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
@@ -22,12 +23,25 @@ class StoreProfileDocumentRequest extends FormRequest
         return [
             'file' => [
                 'required',
-                File::types(config('cv.document_allowed_mimes', ['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg', 'webp']))
-                    ->max(config('cv.document_max_upload_kb', 10240)),
+                File::types(UploadMimeRules::documentUploadMimes())
+                    ->max(UploadMimeRules::documentUploadMaxKilobytes()),
             ],
             'category' => ['required', Rule::enum(ProfileDocumentCategory::class)],
             'title' => ['nullable', 'string', 'max:255'],
             'notes' => ['nullable', 'string', 'max:2000'],
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'file.required' => 'Choose a file to upload.',
+            'file.mimes' => UploadMimeRules::documentValidationMessage(),
+            'file.extensions' => UploadMimeRules::documentValidationMessage(),
+            'file.max' => 'The file must not be larger than '.(int) (UploadMimeRules::documentUploadMaxKilobytes() / 1024).'MB.',
         ];
     }
 }

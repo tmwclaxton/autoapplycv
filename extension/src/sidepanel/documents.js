@@ -1,4 +1,10 @@
 import { readFilePayload, triggerBrowserDownload } from './file-transfer.js';
+import {
+    cvAcceptAttribute,
+    documentAcceptAttribute,
+    validateCvUpload,
+    validateDocumentUpload,
+} from '../shared/upload-validation.js';
 
 export function initDocumentsPanel({
     showMessage,
@@ -57,6 +63,12 @@ export function initDocumentsPanel({
         }
 
         cvHint.hidden = categorySelect.value !== 'cv';
+
+        if (fileInput) {
+            fileInput.accept = categorySelect.value === 'cv'
+                ? cvAcceptAttribute()
+                : documentAcceptAttribute();
+        }
     }
 
     function renderDocuments() {
@@ -185,6 +197,17 @@ export function initDocumentsPanel({
         event.target.value = '';
 
         if (!file) {
+            return;
+        }
+
+        const validationError = categorySelect.value === 'cv'
+            ? validateCvUpload({ fileName: file.name, mimeType: file.type })
+            : validateDocumentUpload({ fileName: file.name, mimeType: file.type });
+
+        if (validationError) {
+            uploadStatus.textContent = validationError;
+            showMessage(validationError, 'error');
+
             return;
         }
 

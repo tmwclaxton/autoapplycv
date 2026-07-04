@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCvUploadRequest;
 use App\Models\CvProfile;
 use App\Models\CvUpload;
 use App\Models\ProfileDocument;
@@ -16,7 +17,6 @@ use App\Support\CvExtractionSchema;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\File;
 
 class CvUploadController extends Controller
 {
@@ -28,17 +28,9 @@ class CvUploadController extends Controller
         private readonly AutofillAnalyticsService $analytics,
     ) {}
 
-    public function store(Request $request): JsonResponse
+    public function store(StoreCvUploadRequest $request): JsonResponse
     {
         set_time_limit((int) config('cv.upload_time_limit', 300));
-
-        $request->validate([
-            'cv' => [
-                'required',
-                File::types(config('cv.allowed_mimes', ['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg', 'webp']))
-                    ->max('10mb'),
-            ],
-        ]);
 
         $file = $request->file('cv');
         $user = $request->user();

@@ -156,6 +156,41 @@ class ProfileDocumentTest extends TestCase
     }
 
     #[Test]
+    public function test_user_can_upload_xlsx_supporting_document(): void
+    {
+        $user = User::factory()->create();
+        $file = UploadedFile::fake()->create(
+            'portfolio.xlsx',
+            120,
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        );
+
+        $this->actingAs($user)
+            ->postJson(route('profile.documents.store'), [
+                'file' => $file,
+                'category' => ProfileDocumentCategory::Portfolio->value,
+                'title' => 'Portfolio spreadsheet',
+            ])
+            ->assertCreated()
+            ->assertJsonPath('document.title', 'Portfolio spreadsheet');
+    }
+
+    #[Test]
+    public function test_user_cannot_upload_executable_supporting_document(): void
+    {
+        $user = User::factory()->create();
+        $file = UploadedFile::fake()->create('payload.exe', 120, 'application/octet-stream');
+
+        $this->actingAs($user)
+            ->postJson(route('profile.documents.store'), [
+                'file' => $file,
+                'category' => ProfileDocumentCategory::Other->value,
+            ])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['file']);
+    }
+
+    #[Test]
     public function test_document_categories_include_cv_option(): void
     {
         $values = collect(ProfileDocumentCategory::options())

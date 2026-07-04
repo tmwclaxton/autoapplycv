@@ -38,24 +38,31 @@ return [
 
     'ocr_prefer_pdf_tesseract' => filter_var(env('CV_OCR_PREFER_PDF_TESSERACT', false), FILTER_VALIDATE_BOOL),
 
-    'allowed_mimes' => [
+    'cv_upload_mimes' => [
         'pdf',
         'doc',
         'docx',
+        'txt',
         'png',
         'jpg',
         'jpeg',
         'webp',
     ],
 
-    'document_allowed_mimes' => [
+    'cv_upload_max_kb' => 10240,
+
+    'document_upload_mimes' => [
         'pdf',
         'doc',
         'docx',
+        'txt',
         'png',
         'jpg',
         'jpeg',
         'webp',
+        'gif',
+        'xls',
+        'xlsx',
     ],
 
     'document_max_upload_kb' => (int) env('CV_DOCUMENT_MAX_UPLOAD_KB', 10240),

@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { Download, FileText, Loader2, Trash2, Upload } from 'lucide-vue-next';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import {
     destroy as deleteDocument,
     store as storeDocument,
 } from '@/actions/App/Http/Controllers/ProfileDocumentController';
 import { useConfirm } from '@/composables/useConfirm';
+import {
+    cvAcceptAttribute,
+    documentAcceptAttribute,
+    validateCvUpload,
+    validateDocumentUpload,
+} from '@/lib/upload-validation';
 import { useToastStore } from '@/stores/toastStore';
 import type {
     DocumentCategoryOption,
@@ -35,6 +41,12 @@ const isUploading = ref(false);
 const deletingId = ref<number | null>(null);
 const uploadError = ref<string | null>(null);
 
+const fileAccept = computed(() =>
+    selectedCategory.value === 'cv'
+        ? cvAcceptAttribute()
+        : documentAcceptAttribute(),
+);
+
 function openFilePicker(): void {
     uploadError.value = null;
     fileInput.value?.click();
@@ -52,7 +64,23 @@ async function onFileSelected(event: Event): Promise<void> {
     }
 
     if (selectedCategory.value === 'cv') {
+        const validationError = validateCvUpload(file);
+
+        if (validationError) {
+            uploadError.value = validationError;
+
+            return;
+        }
+
         emit('uploadCv', file);
+
+        return;
+    }
+
+    const validationError = validateDocumentUpload(file);
+
+    if (validationError) {
+        uploadError.value = validationError;
 
         return;
     }
@@ -237,7 +265,7 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
                     type="file"
                     name="document_file"
                     autocomplete="off"
-                    accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
+                    :accept="fileAccept"
                     class="hidden"
                     @change="onFileSelected"
                 />
@@ -258,7 +286,7 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
                     }}
                 </button>
                 <span class="text-sm text-muted-foreground">
-                    PDF, Word, or image - up to 10MB
+                    PDF, Word, image, spreadsheet, or plain text - up to 10MB
                 </span>
             </div>
 

@@ -9,6 +9,7 @@ import {
 import CvProfileForm from '@/components/cv/CvProfileForm.vue';
 import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
 import { dashboard } from '@/routes';
+import { cvAcceptAttribute, validateCvUpload } from '@/lib/upload-validation';
 import { normalizeCvProfile } from '@/types/cvProfile';
 import type { CvProfile } from '@/types/cvProfile';
 import type {
@@ -84,21 +85,10 @@ function onFileInput(event: Event) {
 }
 
 function handleFile(file: File) {
-    const allowed = [
-        'application/pdf',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'application/msword',
-        'image/png',
-        'image/jpeg',
-        'image/webp',
-    ];
+    const validationError = validateCvUpload(file);
 
-    if (
-        !allowed.includes(file.type) &&
-        !file.name.match(/\.(pdf|docx|doc|png|jpe?g|webp)$/i)
-    ) {
-        uploadError.value =
-            'Please upload a PDF, Word document, or CV image (.pdf, .doc, .docx, .png, .jpg, .webp)';
+    if (validationError) {
+        uploadError.value = validationError;
 
         return;
     }
@@ -250,7 +240,7 @@ async function saveProfile() {
             <input
                 ref="fileInput"
                 type="file"
-                accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
+                :accept="cvAcceptAttribute()"
                 class="hidden"
                 @change="onFileInput"
             />
@@ -273,7 +263,7 @@ async function saveProfile() {
                         Drop your file here or click to browse
                     </p>
                     <p class="mt-1 text-sm text-muted-foreground">
-                        PDF, Word, or image - up to 10MB
+                        PDF, Word, plain text, or image - up to 10MB
                     </p>
                 </div>
             </div>

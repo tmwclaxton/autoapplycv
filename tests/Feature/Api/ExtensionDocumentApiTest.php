@@ -125,4 +125,74 @@ class ExtensionDocumentApiTest extends TestCase
                 ],
             ]);
     }
+
+    public function test_extension_token_can_upload_png_supporting_document(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create();
+        $token = $user->createToken('extension')->plainTextToken;
+        $file = UploadedFile::fake()->image('certificate.png');
+
+        $this->withToken($token)
+            ->post('/api/profile/documents', [
+                'file' => $file,
+                'category' => ProfileDocumentCategory::Portfolio->value,
+                'title' => 'Portfolio screenshot',
+            ], ['Accept' => 'application/json'])
+            ->assertCreated()
+            ->assertJsonPath('document.title', 'Portfolio screenshot');
+    }
+
+    public function test_extension_token_can_upload_xlsx_supporting_document(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create();
+        $token = $user->createToken('extension')->plainTextToken;
+        $file = UploadedFile::fake()->create(
+            'metrics.xlsx',
+            120,
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        );
+
+        $this->withToken($token)
+            ->post('/api/profile/documents', [
+                'file' => $file,
+                'category' => ProfileDocumentCategory::Other->value,
+                'title' => 'Work sample spreadsheet',
+            ], ['Accept' => 'application/json'])
+            ->assertCreated()
+            ->assertJsonPath('document.title', 'Work sample spreadsheet');
+    }
+
+    public function test_extension_token_rejects_executable_supporting_document(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create();
+        $token = $user->createToken('extension')->plainTextToken;
+        $file = UploadedFile::fake()->create('payload.exe', 120, 'application/octet-stream');
+
+        $this->withToken($token)
+            ->post('/api/profile/documents', [
+                'file' => $file,
+                'category' => ProfileDocumentCategory::Other->value,
+            ], ['Accept' => 'application/json'])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['file']);
+    }
+
+    public function test_extension_token_rejects_zip_supporting_document(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create();
+        $token = $user->createToken('extension')->plainTextToken;
+        $file = UploadedFile::fake()->create('archive.zip', 120, 'application/zip');
+
+        $this->withToken($token)
+            ->post('/api/profile/documents', [
+                'file' => $file,
+                'category' => ProfileDocumentCategory::Other->value,
+            ], ['Accept' => 'application/json'])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['file']);
+    }
 }

@@ -27,6 +27,7 @@ import ProfileDocumentsPanel from '@/components/cv/ProfileDocumentsPanel.vue';
 import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
 import billing from '@/routes/billing';
 import { useToastStore } from '@/stores/toastStore';
+import { cvAcceptAttribute, validateCvUpload } from '@/lib/upload-validation';
 import { normalizeCvProfile } from '@/types/cvProfile';
 import type { CvProfile, CvProfileSection } from '@/types/cvProfile';
 import type {
@@ -193,22 +194,11 @@ function onCvFileSelected(event: Event): void {
 }
 
 function uploadCv(file: File): void {
-    const allowed = [
-        'application/pdf',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'application/msword',
-        'image/png',
-        'image/jpeg',
-        'image/webp',
-    ];
+    const validationError = validateCvUpload(file);
 
-    if (
-        !allowed.includes(file.type) &&
-        !file.name.match(/\.(pdf|docx|doc|png|jpe?g|webp)$/i)
-    ) {
-        uploadError.value =
-            'Please upload a PDF, Word document, or CV image (.pdf, .doc, .docx, .png, .jpg, .webp)';
-        toastStore.error(uploadError.value);
+    if (validationError) {
+        uploadError.value = validationError;
+        toastStore.error(validationError);
 
         return;
     }
@@ -436,7 +426,7 @@ async function copyToken() {
                 name="cv"
                 autocomplete="off"
                 class="sr-only"
-                accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
+                :accept="cvAcceptAttribute()"
                 @change="onCvFileSelected"
             />
             <Link :href="billing.index().url" class="postbox-btn-outline text-sm">
