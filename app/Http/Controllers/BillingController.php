@@ -96,6 +96,51 @@ class BillingController extends Controller
             return redirect()->route('billing.index')->with('success', 'You are already on this plan.');
         }
 
+        if ($user->gocardless_billing_request_id !== null) {
+            $pendingTier = SubscriptionTier::resolve(
+                $user->pending_subscription_tier ?? $user->subscription_tier,
+            );
+
+            if ($pendingTier === $tier) {
+                try {
+                    $checkoutUrl = $this->goCardless->resumeCheckoutFlow($user);
+                } catch (InvalidArgumentException $exception) {
+                    Log::error('Billing checkout resume misconfigured', [
+                        'user_id' => $user->id,
+                        'tier' => $tier->value,
+                        'message' => $exception->getMessage(),
+                    ]);
+
+                    return redirect()
+                        ->route('billing.index')
+                        ->with('error', 'Billing is not configured yet. Please contact support.');
+                } catch (ApiException $exception) {
+                    Log::error('GoCardless checkout resume failed', [
+                        'user_id' => $user->id,
+                        'tier' => $tier->value,
+                        'message' => $exception->getMessage(),
+                        'errors' => $exception->getErrors(),
+                    ]);
+
+                    return redirect()
+                        ->route('billing.index')
+                        ->with('error', 'We could not resume Direct Debit setup. Please try again in a moment.');
+                } catch (Throwable $exception) {
+                    Log::error('Billing checkout resume failed', [
+                        'user_id' => $user->id,
+                        'tier' => $tier->value,
+                        'message' => $exception->getMessage(),
+                    ]);
+
+                    return redirect()
+                        ->route('billing.index')
+                        ->with('error', 'Something went wrong resuming checkout. Please try again.');
+                }
+
+                return Inertia::location($checkoutUrl);
+            }
+        }
+
         try {
             $checkoutUrl = $this->goCardless->createCheckoutFlow($user, $tier);
         } catch (InvalidArgumentException $exception) {

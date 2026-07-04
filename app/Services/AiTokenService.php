@@ -151,6 +151,10 @@ class AiTokenService
      * @return array{
      *     tier: string,
      *     tier_label: string,
+     *     effective_tier: string,
+     *     effective_tier_label: string,
+     *     pending_tier: string|null,
+     *     pending_tier_label: string|null,
      *     status: string,
      *     status_label: string,
      *     plan_description: string,
@@ -161,6 +165,8 @@ class AiTokenService
      *     can_autofill: bool,
      *     autofill_block_reason: string|null,
      *     checkout_in_progress: bool,
+     *     setup_incomplete: bool,
+     *     can_resume_checkout: bool,
      *     period_resets_at: string,
      * }
      */
@@ -170,29 +176,55 @@ class AiTokenService
 
         $tier = $user->subscriptionTier();
         $status = $user->subscriptionStatus();
+        $pendingTier = $user->pending_subscription_tier !== null
+            ? SubscriptionTier::resolve($user->pending_subscription_tier)
+            : null;
+
+        if ($pendingTier === null && $status === SubscriptionStatus::Pending && $tier !== SubscriptionTier::Free) {
+            $pendingTier = $tier;
+        }
         $checkoutInProgress = $user->gocardless_billing_request_id !== null
             && $tier === SubscriptionTier::Free;
+        $canResumeCheckout = $user->gocardless_billing_request_id !== null;
+        $blockReason = $this->autofillBlockReason($user);
+        $setupIncomplete = $status === SubscriptionStatus::Pending
+            && ($canResumeCheckout || $blockReason === 'pending_setup');
+        $effectiveTier = $blockReason === 'pending_setup'
+            ? SubscriptionTier::Free
+            : $tier;
+        $displayTier = $setupIncomplete && $pendingTier !== null
+            ? $pendingTier
+            : $tier;
+        $allowanceTier = $blockReason === 'pending_setup'
+            ? SubscriptionTier::Free
+            : $tier;
         $periodStart = $user->ai_tokens_period_start
             ? Carbon::parse($user->ai_tokens_period_start)
             : now()->startOfMonth();
-        $allowance = $this->monthlyAutofillAllowance($user);
+        $allowance = max(0, $allowanceTier->monthlyAutofills());
         $used = $this->autofillsUsed($user);
 
         return [
             'tier' => $tier->value,
             'tier_label' => $tier->label(),
+            'effective_tier' => $effectiveTier->value,
+            'effective_tier_label' => $effectiveTier->label(),
+            'pending_tier' => $pendingTier?->value,
+            'pending_tier_label' => $pendingTier?->label(),
             'status' => $status->value,
             'status_label' => $checkoutInProgress
                 ? SubscriptionStatus::Active->label()
                 : $status->label(),
-            'plan_description' => $tier->description(),
-            'features' => $tier->features(),
+            'plan_description' => $displayTier->description(),
+            'features' => $displayTier->features(),
             'monthly_autofills' => $allowance,
             'autofills_used' => $used,
             'autofills_remaining' => max(0, $allowance - $used),
             'can_autofill' => $this->canAutofill($user),
-            'autofill_block_reason' => $this->autofillBlockReason($user),
+            'autofill_block_reason' => $blockReason,
             'checkout_in_progress' => $checkoutInProgress,
+            'setup_incomplete' => $setupIncomplete,
+            'can_resume_checkout' => $canResumeCheckout,
             'period_resets_at' => $periodStart->copy()->addMonth()->startOfMonth()->toDateString(),
         ];
     }

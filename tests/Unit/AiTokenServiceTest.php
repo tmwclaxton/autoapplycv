@@ -119,6 +119,10 @@ class AiTokenServiceTest extends TestCase
         $this->assertTrue($summary['can_autofill']);
         $this->assertNull($summary['autofill_block_reason']);
         $this->assertTrue($summary['checkout_in_progress']);
+        $this->assertTrue($summary['setup_incomplete']);
+        $this->assertTrue($summary['can_resume_checkout']);
+        $this->assertSame('free', $summary['effective_tier']);
+        $this->assertSame('starter', $summary['pending_tier']);
     }
 
     public function test_quota_exhausted_returns_block_reason(): void

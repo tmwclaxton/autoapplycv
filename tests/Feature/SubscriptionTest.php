@@ -152,8 +152,115 @@ class SubscriptionTest extends TestCase
             ->assertJsonPath('props.subscription.can_autofill', true)
             ->assertJsonPath('props.subscription.autofill_block_reason', null)
             ->assertJsonPath('props.subscription.checkout_in_progress', true)
+            ->assertJsonPath('props.subscription.setup_incomplete', true)
+            ->assertJsonPath('props.subscription.can_resume_checkout', true)
+            ->assertJsonPath('props.subscription.effective_tier', 'free')
+            ->assertJsonPath('props.subscription.pending_tier', 'starter')
             ->assertJsonPath('props.subscription.status_label', 'Active')
             ->assertJsonPath('props.subscription.autofills_remaining', 250);
+    }
+
+    public function test_pending_paid_tier_summary_shows_free_effective_allowance(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'starter',
+            'subscription_status' => 'pending',
+            'gocardless_billing_request_id' => 'BRQ123',
+            'pending_subscription_tier' => 'starter',
+        ]);
+
+        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('reconcilePendingCheckout')->once()->andReturn(null);
+            $mock->shouldReceive('billingHistory')->once()->andReturn([
+                'next_payment_date' => null,
+                'next_payment_amount' => null,
+                'payments' => [],
+            ]);
+        });
+
+        $this->actingAs($user)
+            ->withHeaders(['X-Inertia' => 'true'])
+            ->get(route('billing.index'))
+            ->assertStatus(200)
+            ->assertJsonPath('props.subscription.effective_tier', 'free')
+            ->assertJsonPath('props.subscription.pending_tier', 'starter')
+            ->assertJsonPath('props.subscription.setup_incomplete', true)
+            ->assertJsonPath('props.subscription.can_resume_checkout', true)
+            ->assertJsonPath('props.subscription.can_autofill', false)
+            ->assertJsonPath('props.subscription.autofill_block_reason', 'pending_setup')
+            ->assertJsonPath('props.subscription.monthly_autofills', 250);
+    }
+
+    public function test_billing_page_reconciles_stuck_pending_subscription(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'starter',
+            'subscription_status' => 'pending',
+            'gocardless_subscription_id' => 'SB123',
+        ]);
+
+        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('reconcilePendingCheckout')
+                ->once()
+                ->andReturn('activated');
+            $mock->shouldReceive('billingHistory')
+                ->once()
+                ->andReturn([
+                    'next_payment_date' => '2026-08-03',
+                    'next_payment_amount' => '£7.00',
+                    'payments' => [],
+                ]);
+        });
+
+        $this->actingAs($user)
+            ->withHeaders(['X-Inertia' => 'true'])
+            ->get(route('billing.index'))
+            ->assertStatus(200)
+            ->assertSessionHas(
+                'success',
+                'Your plan is active. Direct Debit payments will be collected monthly.',
+            );
+    }
+
+    public function test_resume_checkout_redirects_to_gocardless(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'free',
+            'subscription_status' => 'pending',
+            'gocardless_billing_request_id' => 'BRQ123',
+            'pending_subscription_tier' => 'starter',
+        ]);
+
+        $this->mock(GoCardlessService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('resumeCheckoutFlow')
+                ->once()
+                ->andReturn('https://pay.gocardless.com/flow/resume');
+        });
+
+        $this->actingAs($user)
+            ->post(route('billing.checkout'), ['tier' => 'starter'])
+            ->assertRedirect('https://pay.gocardless.com/flow/resume');
+    }
+
+    public function test_abandoned_checkout_clears_paid_tier_pending_state(): void
+    {
+        $user = User::factory()->create([
+            'subscription_tier' => 'starter',
+            'subscription_status' => 'pending',
+            'gocardless_billing_request_id' => 'BRQ123',
+            'pending_subscription_tier' => 'starter',
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('billing.index', ['checkout' => 'abandoned']))
+            ->assertRedirect(route('billing.index'));
+
+        $user->refresh();
+
+        $this->assertNull($user->gocardless_billing_request_id);
+        $this->assertNull($user->pending_subscription_tier);
+        $this->assertSame('free', $user->subscription_tier);
+        $this->assertSame('active', $user->subscription_status);
     }
 
     public function test_abandoned_checkout_clears_pending_state(): void

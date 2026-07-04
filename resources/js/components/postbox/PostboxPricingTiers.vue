@@ -22,11 +22,17 @@ const props = withDefaults(
     defineProps<{
         plans: PricingPlan[];
         currentTier?: string | null;
+        pendingTier?: string | null;
+        subscriptionStatus?: string | null;
+        canResumeCheckout?: boolean;
         mode?: 'marketing' | 'billing';
         isAuthenticated?: boolean;
     }>(),
     {
         currentTier: null,
+        pendingTier: null,
+        subscriptionStatus: null,
+        canResumeCheckout: false,
         mode: 'marketing',
         isAuthenticated: false,
     },
@@ -52,6 +58,21 @@ function selectPlan(plan: PricingPlan) {
 
 function planButtonLabel(plan: PricingPlan): string {
     if (isBilling.value) {
+        if (
+            props.canResumeCheckout &&
+            props.subscriptionStatus === 'pending' &&
+            props.pendingTier === plan.key
+        ) {
+            return 'Finish Direct Debit setup';
+        }
+
+        if (
+            props.currentTier === plan.key &&
+            props.subscriptionStatus === 'active'
+        ) {
+            return 'Current plan';
+        }
+
         if (props.currentTier === plan.key) {
             return 'Current plan';
         }
@@ -66,6 +87,18 @@ function planButtonLabel(plan: PricingPlan): string {
     }
 
     return authenticated.value ? 'Go to dashboard' : 'Get started free';
+}
+
+function isPlanButtonDisabled(plan: PricingPlan): boolean {
+    if (
+        props.canResumeCheckout &&
+        props.subscriptionStatus === 'pending' &&
+        props.pendingTier === plan.key
+    ) {
+        return false;
+    }
+
+    return props.currentTier === plan.key;
 }
 </script>
 
@@ -86,6 +119,15 @@ function planButtonLabel(plan: PricingPlan): string {
                     class="postbox-stamp px-2 py-1 text-[10px]"
                 >
                     Current
+                </span>
+                <span
+                    v-else-if="
+                        pendingTier === plan.key &&
+                        subscriptionStatus === 'pending'
+                    "
+                    class="rounded-full bg-amber-100 px-2 py-1 text-[10px] font-semibold text-amber-900"
+                >
+                    Pending
                 </span>
             </div>
 
@@ -119,11 +161,13 @@ function planButtonLabel(plan: PricingPlan): string {
                 type="button"
                 class="mt-6 w-full"
                 :class="
-                    currentTier === plan.key
+                    currentTier === plan.key &&
+                    subscriptionStatus === 'active' &&
+                    !canResumeCheckout
                         ? 'postbox-btn-outline'
                         : 'postbox-btn'
                 "
-                :disabled="currentTier === plan.key"
+                :disabled="isPlanButtonDisabled(plan)"
                 @click="selectPlan(plan)"
             >
                 {{ planButtonLabel(plan) }}

@@ -6,6 +6,7 @@ import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
 import { useConfirm } from '@/composables/useConfirm';
 import { autofillNotice } from '@/lib/autofillNotice';
 import { dashboard } from '@/routes';
+import billing from '@/routes/billing';
 
 setLayoutProps({
     tagline: 'Extension autofills reset monthly.',
@@ -14,6 +15,10 @@ setLayoutProps({
 interface SubscriptionSummary {
     tier: string;
     tier_label: string;
+    effective_tier: string;
+    effective_tier_label: string;
+    pending_tier: string | null;
+    pending_tier_label: string | null;
     status: string;
     status_label: string;
     plan_description: string;
@@ -23,6 +28,9 @@ interface SubscriptionSummary {
     autofills_remaining: number;
     can_autofill: boolean;
     autofill_block_reason?: string | null;
+    checkout_in_progress: boolean;
+    setup_incomplete: boolean;
+    can_resume_checkout: boolean;
     period_resets_at: string;
 }
 
@@ -72,10 +80,29 @@ const usagePercent = computed(() => {
 
 const showBillingHistory = computed(
     () =>
-        props.subscription.tier !== 'free' ||
-        props.billing.next_payment_date !== null ||
-        props.billing.payments.length > 0,
+        props.subscription.status === 'active' &&
+        (props.subscription.tier !== 'free' ||
+            props.billing.next_payment_date !== null ||
+            props.billing.payments.length > 0),
 );
+
+const planHeading = computed(() =>
+    props.subscription.setup_incomplete ? 'Selected plan' : 'Current plan',
+);
+
+const planTitle = computed(() =>
+    props.subscription.setup_incomplete
+        ? (props.subscription.pending_tier_label ??
+          props.subscription.tier_label)
+        : props.subscription.tier_label,
+);
+
+function resumeCheckout(): void {
+    const tier =
+        props.subscription.pending_tier ?? props.subscription.tier;
+
+    router.post(billing.checkout.url(), { tier });
+}
 
 const autofillNoticeMessage = computed(() =>
     autofillNotice(props.subscription),
@@ -104,7 +131,11 @@ function paymentStatusClass(status: string): string {
         return 'bg-emerald-100 text-emerald-800';
     }
 
-    if (status === 'failed' || status === 'charged_back' || status === 'cancelled') {
+    if (
+        status === 'failed' ||
+        status === 'charged_back' ||
+        status === 'cancelled'
+    ) {
         return 'bg-red-100 text-red-800';
     }
 
@@ -158,14 +189,27 @@ async function cancelSubscription(): Promise<void> {
     <div class="postbox-panel mb-8 p-6">
         <div class="flex flex-wrap items-start justify-between gap-4">
             <div>
-                <p class="postbox-label">Current plan</p>
+                <p class="postbox-label">{{ planHeading }}</p>
                 <p class="text-xl font-bold text-postbox-navy">
-                    {{ subscription.tier_label }}
+                    {{ planTitle }}
+                </p>
+                <p
+                    v-if="
+                        subscription.setup_incomplete &&
+                        subscription.effective_tier !== subscription.tier
+                    "
+                    class="mt-2 text-sm text-muted-foreground"
+                >
+                    Your {{ subscription.effective_tier_label }} plan stays
+                    active until Direct Debit setup completes.
                 </p>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
                     {{ subscription.plan_description }}
                 </p>
-                <p class="mt-1 text-sm text-muted-foreground">
+                <p
+                    v-if="!subscription.checkout_in_progress"
+                    class="mt-1 text-sm text-muted-foreground"
+                >
                     Status: {{ subscription.status_label }}
                 </p>
             </div>
@@ -205,12 +249,21 @@ async function cancelSubscription(): Promise<void> {
             {{ autofillNoticeMessage }}
         </p>
 
+        <button
+            v-if="subscription.can_resume_checkout"
+            type="button"
+            class="postbox-btn mt-4"
+            @click="resumeCheckout"
+        >
+            Finish Direct Debit setup
+        </button>
+
         <Link :href="dashboard()" class="postbox-btn-outline mt-6">
             Back to dashboard
         </Link>
 
         <button
-            v-if="subscription.tier !== 'free'"
+            v-if="subscription.tier !== 'free' && subscription.status === 'active'"
             type="button"
             class="postbox-btn-outline mt-6 ml-3"
             @click="cancelSubscription"
@@ -220,7 +273,9 @@ async function cancelSubscription(): Promise<void> {
     </div>
 
     <div v-if="showBillingHistory" class="postbox-panel mb-8 p-6">
-        <h2 class="text-lg font-bold text-postbox-navy">Direct Debit billing</h2>
+        <h2 class="text-lg font-bold text-postbox-navy">
+            Direct Debit billing
+        </h2>
         <p class="mt-1 text-sm text-muted-foreground">
             Payments are collected monthly by Direct Debit through GoCardless.
         </p>
@@ -231,7 +286,9 @@ async function cancelSubscription(): Promise<void> {
         >
             <p class="postbox-label">Next payment</p>
             <p class="mt-1 text-sm text-postbox-navy">
-                <span class="font-semibold">{{ billing.next_payment_amount }}</span>
+                <span class="font-semibold">{{
+                    billing.next_payment_amount
+                }}</span>
                 on {{ formatDate(billing.next_payment_date) }}
             </p>
         </div>
@@ -252,7 +309,9 @@ async function cancelSubscription(): Promise<void> {
             <div v-else class="mt-3 overflow-x-auto">
                 <table class="min-w-full text-left text-sm">
                     <thead>
-                        <tr class="border-b border-postbox-navy/10 text-muted-foreground">
+                        <tr
+                            class="border-b border-postbox-navy/10 text-muted-foreground"
+                        >
                             <th class="py-2 pr-4 font-medium">Date</th>
                             <th class="py-2 pr-4 font-medium">Description</th>
                             <th class="py-2 pr-4 font-medium">Amount</th>
@@ -294,7 +353,10 @@ async function cancelSubscription(): Promise<void> {
 
     <PostboxPricingTiers
         :plans="plans"
-        :current-tier="subscription.tier"
+        :current-tier="subscription.effective_tier"
+        :pending-tier="subscription.pending_tier"
+        :subscription-status="subscription.status"
+        :can-resume-checkout="subscription.can_resume_checkout"
         mode="billing"
         :is-authenticated="true"
     />

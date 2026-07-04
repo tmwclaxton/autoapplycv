@@ -45,6 +45,27 @@ class GoCardlessService
         return $this->client;
     }
 
+    public function resumeCheckoutFlow(User $user): string
+    {
+        $billingRequestId = $user->gocardless_billing_request_id;
+
+        if ($billingRequestId === null) {
+            throw new InvalidArgumentException('No billing request to resume.');
+        }
+
+        $flow = $this->client()->billingRequestFlows()->create([
+            'params' => [
+                'redirect_uri' => route('billing.complete'),
+                'exit_uri' => route('billing.index', ['checkout' => 'abandoned']),
+                'links' => [
+                    'billing_request' => $billingRequestId,
+                ],
+            ],
+        ]);
+
+        return $flow->authorisation_url;
+    }
+
     public function createCheckoutFlow(User $user, SubscriptionTier $tier): string
     {
         if (! $tier->isPaid()) {
@@ -170,8 +191,25 @@ class GoCardlessService
             return false;
         }
 
+        if ($user->gocardless_subscription_id !== null) {
+            $user->forceFill([
+                'subscription_status' => SubscriptionStatus::Active->value,
+                'pending_subscription_tier' => null,
+                'gocardless_billing_request_id' => null,
+            ])->save();
+
+            return true;
+        }
+
         if ($user->subscriptionTier() !== SubscriptionTier::Free) {
-            return false;
+            $user->forceFill([
+                'subscription_tier' => SubscriptionTier::Free->value,
+                'subscription_status' => SubscriptionStatus::Active->value,
+                'pending_subscription_tier' => null,
+                'gocardless_billing_request_id' => null,
+            ])->save();
+
+            return true;
         }
 
         $user->forceFill([
@@ -188,6 +226,10 @@ class GoCardlessService
      */
     public function reconcilePendingCheckout(User $user): ?string
     {
+        if ($this->reconcileStuckPendingSubscription($user)) {
+            return 'activated';
+        }
+
         if ($user->gocardless_billing_request_id === null) {
             return null;
         }
@@ -298,6 +340,53 @@ class GoCardlessService
         }
     }
 
+    public function reconcileStuckPendingSubscription(User $user): bool
+    {
+        if ($user->subscriptionStatus() !== SubscriptionStatus::Pending) {
+            return false;
+        }
+
+        $subscriptionId = $user->gocardless_subscription_id;
+
+        if ($subscriptionId === null) {
+            return false;
+        }
+
+        try {
+            $subscription = $this->client()->subscriptions()->get($subscriptionId);
+        } catch (InvalidArgumentException) {
+            return false;
+        } catch (ApiException $exception) {
+            Log::warning('Failed to reconcile stuck pending subscription', [
+                'user_id' => $user->id,
+                'subscription_id' => $subscriptionId,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return false;
+        } catch (\Throwable $exception) {
+            Log::warning('Failed to reconcile stuck pending subscription', [
+                'user_id' => $user->id,
+                'subscription_id' => $subscriptionId,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return false;
+        }
+
+        if (! in_array($subscription->status ?? null, ['active', 'customer_approval_granted'], true)) {
+            return false;
+        }
+
+        $user->forceFill([
+            'subscription_status' => SubscriptionStatus::Active->value,
+            'pending_subscription_tier' => null,
+            'gocardless_billing_request_id' => null,
+        ])->save();
+
+        return true;
+    }
+
     /**
      * @return 'activated'|'cleared'|null
      */
@@ -323,10 +412,6 @@ class GoCardlessService
             $this->activateSubscriptionFromBillingRequest($user, $billingRequestId);
 
             return 'activated';
-        }
-
-        if ($user->subscriptionTier() !== SubscriptionTier::Free) {
-            return null;
         }
 
         if ($this->shouldClearAbandonedCheckout($billingRequest)) {
