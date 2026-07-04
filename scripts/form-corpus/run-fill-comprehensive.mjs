@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { loadManifest } from './lib/manifest.mjs';
-import { runFillVerifyForScenario, stackCategory, summarizeByStack } from './lib/fill-verify-runner.mjs';
-import { runFillVerifyParallel } from './lib/run-fill-verify-parallel.mjs';
 import { runFillScreenshotDiff } from './lib/fill-screenshot-diff.mjs';
+import { runFillVerifyForScenario, stackCategory, summarizeByStack } from './lib/fill-verify-runner.mjs';
+import { loadManifest } from './lib/manifest.mjs';
 import { FIXTURE_ROOT } from './lib/paths.mjs';
+import { runFillVerifyParallel } from './lib/run-fill-verify-parallel.mjs';
 
 const REPORT_PATH = join(FIXTURE_ROOT, 'fill-comprehensive-report.json');
 const NOTION_FIXTURE_ID = 'web-ashby-notion-bdm-f603aedb';

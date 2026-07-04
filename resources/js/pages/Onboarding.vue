@@ -8,8 +8,8 @@ import {
 } from '@/actions/App/Http/Controllers/CvUploadController';
 import CvProfileForm from '@/components/cv/CvProfileForm.vue';
 import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
-import { dashboard } from '@/routes';
 import { cvAcceptAttribute, validateCvUpload } from '@/lib/upload-validation';
+import { dashboard } from '@/routes';
 import { normalizeCvProfile } from '@/types/cvProfile';
 import type { CvProfile } from '@/types/cvProfile';
 import type {

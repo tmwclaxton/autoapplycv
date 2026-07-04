@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { searchWeb } from './lib/firecrawl-client.mjs';
-import { SEED_URLS } from './lib/seed-urls.mjs';
 import { DISCOVERED_URLS_PATH } from './lib/paths.mjs';
+import { SEED_URLS } from './lib/seed-urls.mjs';
 
 const QUERIES = [
     'job application form html template apply',

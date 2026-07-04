@@ -81,10 +81,6 @@ const AutoCVApplyFormHeuristics = (() => {
             && !isAshbyHiddenYesNoInput(element);
     }
 
-    function resolveAshbyChoiceClickTarget(input) {
-        return resolveAshbyChoiceClickTargets(input)[0] || input;
-    }
-
     function resolveAshbyChoiceClickTargets(input) {
         const doc = input.ownerDocument || document;
         const id = input.getAttribute('id');
@@ -144,20 +140,6 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         return false;
-    }
-
-    function isAshbyYesNoContainer(element) {
-        if (!element) {
-            return false;
-        }
-
-        const className = String(element.className || '');
-
-        if (className.includes('_yesno_')) {
-            return true;
-        }
-
-        return element.querySelector?.('[class*="_yesno_"]') !== null;
     }
 
     function findAshbyYesNoScope(root, { dataFieldPath = null, anchor = null } = {}) {

@@ -114,7 +114,11 @@ const AutoCVApplyFocusTracker = (() => {
         }
 
         quickAnswerButton?.classList.remove('is-visible', 'is-loading');
-        quickAnswerButton && (quickAnswerButton.textContent = 'Quick Answer');
+
+        if (quickAnswerButton) {
+            quickAnswerButton.textContent = 'Quick Answer';
+        }
+
         activeElement = null;
     }
 

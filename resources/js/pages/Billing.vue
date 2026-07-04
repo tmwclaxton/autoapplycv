@@ -6,7 +6,7 @@ import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
 import { useConfirm } from '@/composables/useConfirm';
 import { autofillNotice } from '@/lib/autofillNotice';
 import { dashboard } from '@/routes';
-import billing from '@/routes/billing';
+import billingRoutes from '@/routes/billing';
 
 setLayoutProps({
     tagline: 'Extension autofills reset monthly.',
@@ -101,7 +101,7 @@ function resumeCheckout(): void {
     const tier =
         props.subscription.pending_tier ?? props.subscription.tier;
 
-    router.post(billing.checkout.url(), { tier });
+    router.post(billingRoutes.checkout.url(), { tier });
 }
 
 const autofillNoticeMessage = computed(() =>

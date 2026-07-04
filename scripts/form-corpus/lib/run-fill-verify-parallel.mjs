@@ -1,5 +1,5 @@
-import { availableParallelism, cpus } from 'node:os';
 import { existsSync, readFileSync } from 'node:fs';
+import { availableParallelism, cpus } from 'node:os';
 import { join } from 'node:path';
 import { Worker } from 'node:worker_threads';
 import { EXPECTED_DIR, HTML_DIR } from './paths.mjs';

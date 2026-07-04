@@ -3,8 +3,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadManifest } from './lib/manifest.mjs';
 import { normalizeQuestion, normalizeOptions } from './lib/normalize.mjs';
-import { buildSnapshotFromFile } from './lib/snapshot-runner.mjs';
 import { EXPECTED_DIR, HTML_DIR } from './lib/paths.mjs';
+import { buildSnapshotFromFile } from './lib/snapshot-runner.mjs';
 
 const force = process.argv.includes('--force');
 const idArg = process.argv.find((arg) => arg.startsWith('--id='))?.split('=')[1];

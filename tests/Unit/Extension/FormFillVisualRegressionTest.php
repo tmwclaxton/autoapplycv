@@ -16,6 +16,10 @@ class FormFillVisualRegressionTest extends TestCase
             $this->markTestSkipped('Set FORM_CORPUS_PLAYWRIGHT=1 to run visual regression tests.');
         }
 
+        if (! filter_var(getenv('FORM_CORPUS_HEAVY') ?: '', FILTER_VALIDATE_BOOL)) {
+            $this->markTestSkipped('Set FORM_CORPUS_HEAVY=1 to run visual regression tests.');
+        }
+
         $result = Process::path(base_path())
             ->timeout(900)
             ->run(['node', 'scripts/form-corpus/run-visual-regression.mjs', '--json-only']);

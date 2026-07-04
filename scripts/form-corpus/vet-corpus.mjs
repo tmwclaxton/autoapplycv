@@ -3,8 +3,8 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadManifest, saveManifest } from './lib/manifest.mjs';
 import { normalizeQuestion, questionsMatch, normalizeOptions, domReferenceKey } from './lib/normalize.mjs';
-import { buildSnapshotFromFile } from './lib/snapshot-runner.mjs';
 import { EXPECTED_DIR, HTML_DIR, VET_REPORT_PATH } from './lib/paths.mjs';
+import { buildSnapshotFromFile } from './lib/snapshot-runner.mjs';
 
 const manifest = loadManifest();
 const idArg = process.argv.find((arg) => arg.startsWith('--id='))?.split('=')[1];
@@ -237,6 +237,7 @@ for (const scenario of manifest.scenarios) {
         report.totals.pending += 1;
     }
 }
+
 writeFileSync(VET_REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
 
 console.log(`Vet complete: ${report.totals.vetted} vetted, ${report.totals.rejected} rejected, ${report.totals.pending} pending.`);

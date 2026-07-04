@@ -1,4 +1,3 @@
-import { validateCvUpload, validateDocumentUpload } from './upload-validation.js';
 import { mapApplicationSettingsForAssist } from './application-settings.js';
 import {
     clearConnection,
@@ -38,6 +37,7 @@ import {
     sendTabMessage,
 } from './form-frame-messaging.js';
 import { createPerfTimer } from './perf-timer.js';
+import { validateCvUpload, validateDocumentUpload } from './upload-validation.js';
 
 void initDebugLog();
 

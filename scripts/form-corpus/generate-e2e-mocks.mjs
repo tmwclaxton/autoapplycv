@@ -9,8 +9,8 @@ import {
 } from './lib/e2e-scenarios.mjs';
 import { loadManifest } from './lib/manifest.mjs';
 import { buildFillPlan } from './lib/mock-answers.mjs';
-import { buildFormDomContext } from './lib/snapshot-runner.mjs';
 import { EXPECTED_DIR, HTML_DIR } from './lib/paths.mjs';
+import { buildFormDomContext } from './lib/snapshot-runner.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const OUTPUT_DIR = join(ROOT, 'tests/fixtures/extension-e2e/responses');

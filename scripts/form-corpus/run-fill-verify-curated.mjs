@@ -8,8 +8,8 @@ import {
     summarizeByPlatform,
 } from './lib/curated-manifest.mjs';
 import { runFillVerifyForScenario, stackCategory } from './lib/fill-verify-runner.mjs';
-import { runFillVerifyParallel } from './lib/run-fill-verify-parallel.mjs';
 import { FIXTURE_ROOT } from './lib/paths.mjs';
+import { runFillVerifyParallel } from './lib/run-fill-verify-parallel.mjs';
 
 const workersArg = process.argv.find((arg) => arg.startsWith('--workers='))?.split('=')[1];
 const outputArg = process.argv.find((arg) => arg.startsWith('--output='))?.split('=')[1];

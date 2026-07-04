@@ -5,8 +5,8 @@
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { HTML_DIR, MANIFEST_PATH } from './lib/paths.mjs';
 import { loadManifest, saveManifest, upsertScenario } from './lib/manifest.mjs';
+import { HTML_DIR, MANIFEST_PATH } from './lib/paths.mjs';
 
 const manifest = loadManifest();
 const known = new Set(manifest.scenarios.map((row) => row.id));

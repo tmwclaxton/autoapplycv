@@ -1,7 +1,7 @@
+import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execFileSync } from 'node:child_process';
 import { chromium } from 'playwright';
 import { createWorker } from 'tesseract.js';
 import {
@@ -250,6 +250,7 @@ export async function runFillScreenshotTest(options = {}) {
             const htmlPath = join(HTML_DIR, `${fixtureId}.html`);
             await loadFixturePage(page, htmlPath, pageUrl);
         }
+
         await page.locator(FORM_SELECTOR).first().waitFor({ state: 'visible', timeout: 30_000 });
         await page.locator(FORM_SELECTOR).first().scrollIntoViewIfNeeded();
 

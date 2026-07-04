@@ -2,10 +2,10 @@
 /**
  * Vet all pending scenarios in a single Node process (avoids manifest write races).
  */
-import { loadManifest, saveManifest } from './lib/manifest.mjs';
 import { execFileSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { loadManifest, saveManifest } from './lib/manifest.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const vetScript = join(root, 'scripts/form-corpus/vet-corpus.mjs');

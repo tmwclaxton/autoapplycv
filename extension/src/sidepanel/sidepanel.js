@@ -1,10 +1,10 @@
+import { initAssistChat } from './assist.js';
 import {
     DEFAULT_LOGIN_ENDPOINT,
     normalizeLoginEndpoint,
     parseConnectionInput,
 } from './connection.js';
 import { createRemoteLogger } from './debug-log.js';
-import { initAssistChat } from './assist.js';
 import { initDocumentsPanel } from './documents.js';
 
 const messageEl = document.getElementById('message');
@@ -476,11 +476,13 @@ async function init() {
         }
 
         renderSubscription(profileData?.subscription);
+
         try {
             await documentsPanel.refreshDocuments({ force: true });
         } catch (error) {
             showMessage(error.message, 'error');
         }
+
         await showOnboardingIfNeeded();
     } else {
         authState.classList.remove('is-visible');

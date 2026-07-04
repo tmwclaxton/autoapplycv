@@ -1,7 +1,7 @@
-import { availableParallelism, cpus } from 'node:os';
-import { Worker } from 'node:worker_threads';
 import { existsSync } from 'node:fs';
+import { availableParallelism, cpus } from 'node:os';
 import { join } from 'node:path';
+import { Worker } from 'node:worker_threads';
 import { HTML_DIR } from './paths.mjs';
 
 function resolveWorkerCount(requested, scenarioCount) {

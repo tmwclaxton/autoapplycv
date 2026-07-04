@@ -82,6 +82,7 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
 
         if (parts[0] === 'application_settings') {
             let node = profileData.application_settings ?? {};
+
             for (let index = 1; index < parts.length; index += 1) {
                 node = node?.[parts[index]];
             }
@@ -90,6 +91,7 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         }
 
         let node = profileData.profile ?? profileData;
+
         for (const part of parts) {
             node = node?.[part];
         }
@@ -665,7 +667,6 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         let streamMessage = beginAssistantStream();
 
         let completed = false;
-        let streamedActions = null;
 
         try {
             let focusedField = null;
@@ -696,7 +697,6 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
                     }
 
                     if (event.type === 'tools' && Array.isArray(event.actions) && event.actions.length > 0) {
-                        streamedActions = event.actions;
                         renderActionTags(streamMessage.bubble, event.actions);
 
                         return;
@@ -734,7 +734,6 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
                 });
             });
 
-            const assistantText = typeof result.message === 'string' ? result.message : streamMessage.text.textContent;
             const resolvedActions = resolveStreamActions(result);
 
             finalizeAssistantStream(streamMessage, {

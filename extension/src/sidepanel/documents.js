@@ -1,10 +1,10 @@
+import { readFilePayload, triggerBrowserDownload } from './file-transfer.js';
 import {
     cvAcceptAttribute,
     documentAcceptAttribute,
     validateCvUpload,
     validateDocumentUpload,
 } from './upload-validation.js';
-import { readFilePayload, triggerBrowserDownload } from './file-transfer.js';
 
 export function initDocumentsPanel({
     showMessage,
@@ -33,10 +33,8 @@ export function initDocumentsPanel({
     let documents = [];
     let categories = [...defaultCategories];
     let deletingId = null;
-    let uploading = false;
 
     function setUploading(next) {
-        uploading = next;
         uploadBtn.disabled = next;
         uploadBtn.textContent = next ? 'Uploading…' : 'Choose file';
     }

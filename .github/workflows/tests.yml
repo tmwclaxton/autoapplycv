@@ -1,10 +1,12 @@
+# Fast CI tier on every push — excludes form-corpus-heavy, playwright, and extension-e2e groups.
+# Heavy corpus eval, comprehensive fill verify, and full Playwright tiers run in tests-heavy.yml.
 name: "Tests"
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: ["main", "develop"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   php-tests:
@@ -31,7 +33,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.5'
+          php-version: "8.5"
           extensions: pdo, pdo_pgsql, mbstring, xml, curl, zip, bcmath
 
       - name: Install PHP dependencies
@@ -43,7 +45,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
           cache: npm
 
       - name: Install Node dependencies
@@ -52,7 +54,7 @@ jobs:
       - name: Build frontend assets
         run: npm run build
 
-      - name: Run PHP tests (exclude extension-e2e and playwright groups)
+      - name: Run PHP tests (fast tier)
         env:
           DB_CONNECTION: pgsql
           DB_HOST: 127.0.0.1
@@ -71,7 +73,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.5'
+          php-version: "8.5"
           extensions: pdo, pdo_pgsql, mbstring, xml, curl, zip, bcmath
 
       - name: Install PHP dependencies
@@ -83,7 +85,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
           cache: npm
 
       - name: Install Node dependencies
@@ -101,11 +103,4 @@ jobs:
       - name: Run platform smoke Playwright tests
         env:
           FORM_CORPUS_PLAYWRIGHT: 1
-        run: php artisan test --compact --group=playwright tests/Unit/Extension/FormFillCuratedTest.php tests/Unit/Extension/FormFillVisualRegressionTest.php
-
-      - name: Run extension E2E (optional)
-        env:
-          EXTENSION_E2E: 1
-          FORM_CORPUS_PLAYWRIGHT: 1
-        run: php artisan test --compact --group=extension-e2e
-        continue-on-error: true
+        run: php artisan test --compact --filter=test_platform_smoke_playwright_passes

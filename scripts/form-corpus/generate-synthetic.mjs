@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { HTML_DIR, MANIFEST_PATH } from './lib/paths.mjs';
 import { loadManifest, saveManifest, upsertScenario } from './lib/manifest.mjs';
 import { slugify } from './lib/normalize.mjs';
+import { HTML_DIR, MANIFEST_PATH } from './lib/paths.mjs';
 
 mkdirSync(HTML_DIR, { recursive: true });
 

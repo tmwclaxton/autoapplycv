@@ -1,17 +1,17 @@
 import { mkdirSync, readFileSync, writeFileSync, existsSync, copyFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
 import { chromium } from 'playwright';
+import { PNG } from 'pngjs';
 import {
     ashbyNotionFillCases,
     loadAshbyNotionProfile,
 } from './ashby-notion-fill-cases.mjs';
 import { detectFormErrorsInPage } from './fill-error-detector.mjs';
 import { buildFillPlan } from './mock-answers.mjs';
-import { buildFormDomContext } from './snapshot-runner.mjs';
 import { EXPECTED_DIR, FIELD_INVENTORY_PATH, FORM_HEURISTICS_PATH, HTML_DIR } from './paths.mjs';
+import { buildFormDomContext } from './snapshot-runner.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../../..');
 const DEFAULT_OUTPUT_DIR = join(ROOT, 'tests/output/form-fill-screenshots');
@@ -193,6 +193,7 @@ export async function runFillScreenshotDiff(options = {}) {
     const updateBaseline = options.updateBaseline ?? Boolean(process.env.UPDATE_BASELINES);
 
     mkdirSync(outputDir, { recursive: true });
+
     if (updateBaseline) {
         mkdirSync(baselineDir, { recursive: true });
     }

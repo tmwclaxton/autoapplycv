@@ -2,7 +2,6 @@
 /**
  * Full extension E2E: load unpacked extension, mock assist API, run Draft All.
  */
-import { loadManifest } from './lib/manifest.mjs';
 import {
     E2E_REPORT_PATH,
     listE2eScenarios,
@@ -13,6 +12,7 @@ import {
     runExtensionE2eBatch,
     summarizeE2eReport,
 } from './lib/extension-fill-e2e.mjs';
+import { loadManifest } from './lib/manifest.mjs';
 
 const DEFAULT_SCENARIOS = [
     'web-ashby-notion-bdm-f603aedb',

@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { runAshbyCheckboxSmoke } from './run-ashby-checkbox-playwright.mjs';
-import { runAshbyYesNoSmoke } from './run-ashby-yesno-playwright.mjs';
 import {
     buildSmokeManifest,
     loadCuratedManifest,
@@ -11,6 +9,8 @@ import {
 } from './lib/curated-manifest.mjs';
 import { runPlaywrightFillVerify } from './lib/fill-verify-playwright.mjs';
 import { FIXTURE_ROOT } from './lib/paths.mjs';
+import { runAshbyCheckboxSmoke } from './run-ashby-checkbox-playwright.mjs';
+import { runAshbyYesNoSmoke } from './run-ashby-yesno-playwright.mjs';
 
 const SMOKE_MANIFEST_PATH = join(FIXTURE_ROOT, 'fill-verify-smoke.json');
 const REPORT_PATH = join(FIXTURE_ROOT, 'fill-smoke-playwright-report.json');

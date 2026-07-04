@@ -10,13 +10,13 @@
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildFormDomContext } from '../form-corpus/lib/snapshot-runner.mjs';
 import {
     compactFieldsForDraft,
     compactSnapshotForInventory,
     shouldForceInventoryComplete,
     tryInferJobContextFromPage,
 } from '../../extension/src/shared/draft-all-optimizations.js';
+import { buildFormDomContext } from '../form-corpus/lib/snapshot-runner.mjs';
 import { formatMs, printSummaryTable, summarizeRuns } from './lib/stats.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

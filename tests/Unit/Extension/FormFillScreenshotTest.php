@@ -21,6 +21,10 @@ class FormFillScreenshotTest extends TestCase
 
     public function test_ashby_notion_fixture_fill_screenshot_ocr_passes(): void
     {
+        if (! filter_var(getenv('FORM_CORPUS_HEAVY') ?: '', FILTER_VALIDATE_BOOL)) {
+            $this->markTestSkipped('Set FORM_CORPUS_HEAVY=1 to run Playwright OCR fill screenshot tests.');
+        }
+
         $result = Process::path(base_path())
             ->timeout(300)
             ->run(['node', 'scripts/form-corpus/run-fill-screenshot-test.mjs']);

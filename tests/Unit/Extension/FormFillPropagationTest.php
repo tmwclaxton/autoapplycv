@@ -9,6 +9,10 @@ class FormFillPropagationTest extends TestCase
 {
     public function test_framework_and_basic_fill_propagation_passes(): void
     {
+        if (! filter_var(getenv('FORM_CORPUS_HEAVY') ?: '', FILTER_VALIDATE_BOOL)) {
+            $this->markTestSkipped('Set FORM_CORPUS_HEAVY=1 to run fill propagation tests.');
+        }
+
         $report = $this->runFillVerify([
             '--id-prefix=syn-fw-',
             '--workers=8',

@@ -7,6 +7,15 @@ use Tests\TestCase;
 
 class FormFillComprehensiveTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        if (! filter_var(getenv('FORM_CORPUS_HEAVY') ?: '', FILTER_VALIDATE_BOOL)) {
+            $this->markTestSkipped('Set FORM_CORPUS_HEAVY=1 to run comprehensive form fill tests.');
+        }
+    }
+
     public function test_framework_fill_passes_html5_validity_checks(): void
     {
         $report = $this->runFillVerify([
@@ -75,6 +84,9 @@ class FormFillComprehensiveTest extends TestCase
         }
     }
 
+    /**
+     * @group playwright
+     */
     public function test_ashby_notion_checkbox_fill_passes_in_playwright_chromium(): void
     {
         $result = Process::path(base_path())

@@ -5,8 +5,8 @@ import { detectFormErrors } from './fill-error-detector.mjs';
 import { checkHtml5Validity } from './fill-validation-runner.mjs';
 import { optionMatchesAnswer } from './fill-verify-shared.mjs';
 import { buildFillPlan } from './mock-answers.mjs';
-import { buildFormDomContext } from './snapshot-runner.mjs';
 import { EXPECTED_DIR, HTML_DIR } from './paths.mjs';
+import { buildFormDomContext } from './snapshot-runner.mjs';
 
 function escapeSelectorValue(value) {
     return String(value).replace(/\\/g, '\\\\').replace(/"/g, '\\"');

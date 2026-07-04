@@ -2,11 +2,11 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { JSDOM } from 'jsdom';
 import { chromium } from 'playwright';
+import { loadCuratedManifest, listPlaywrightScenarios, resolveCuratedScenarios } from './curated-manifest.mjs';
 import { checkA11yState } from './fill-a11y-runner.mjs';
 import { detectFormErrorsInPage } from './fill-error-detector.mjs';
-import { loadCuratedManifest, listPlaywrightScenarios, resolveCuratedScenarios } from './curated-manifest.mjs';
-import { buildFillPlan } from './mock-answers.mjs';
 import { runFillVerifyForScenario } from './fill-verify-runner.mjs';
+import { buildFillPlan } from './mock-answers.mjs';
 import { FORM_HEURISTICS_PATH, FIELD_INVENTORY_PATH, HTML_DIR, EXPECTED_DIR } from './paths.mjs';
 
 function extensionScriptContents() {
@@ -358,6 +358,7 @@ export async function compareJsdomAndPlaywright(scenario, verifyOptions = {}) {
     try {
         const entry = { platform: 'compare', priority: 'standard' };
         const playwrightResult = await runScenarioInPlaywright(page, scenario, entry);
+
         return { jsdom: jsdomResult, playwright: playwrightResult };
     } finally {
         await browser.close();

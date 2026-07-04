@@ -1,0 +1,86 @@
+# Nightly / manual form-corpus heavy tier — full extraction eval (~1800 scenarios),
+# comprehensive fill verify, Playwright priority tier, visual regression, extension E2E.
+# Does NOT run on every push; see tests.yml for the fast smoke tier.
+name: "Tests (heavy)"
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main, develop]
+    paths:
+      - "extension/**"
+      - "scripts/form-corpus/**"
+      - "tests/fixtures/form-extraction/**"
+      - "tests/Unit/Extension/**"
+      - ".github/workflows/tests-heavy.yml"
+
+jobs:
+  form-corpus-heavy:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: testing
+          POSTGRES_USER: sail
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.5"
+          extensions: pdo, pdo_pgsql, mbstring, xml, curl, zip, bcmath
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Copy env
+        run: cp .env.example .env && php artisan key:generate
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+
+      - name: Build extension
+        run: npm run build:extension
+
+      - name: Run form-corpus heavy PHPUnit tier
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: testing
+          DB_USERNAME: sail
+          DB_PASSWORD: password
+          FORM_CORPUS_HEAVY: 1
+          FORM_CORPUS_FULL_EVAL: 1
+          FORM_CORPUS_PLAYWRIGHT: 1
+        run: php artisan test --compact tests/Unit/Extension/
+
+      - name: Run extension E2E batch
+        env:
+          EXTENSION_E2E: 1
+          FORM_CORPUS_PLAYWRIGHT: 1
+        run: php artisan test --compact --group=extension-e2e
+        continue-on-error: true

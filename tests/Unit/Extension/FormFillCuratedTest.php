@@ -9,6 +9,10 @@ class FormFillCuratedTest extends TestCase
 {
     public function test_curated_jsdom_fill_verification_passes(): void
     {
+        if (! filter_var(getenv('FORM_CORPUS_HEAVY') ?: '', FILTER_VALIDATE_BOOL)) {
+            $this->markTestSkipped('Set FORM_CORPUS_HEAVY=1 to run curated JSDOM fill verification (extension-fill job runs this via npm).');
+        }
+
         $report = $this->runCuratedFillVerify([
             '--check-validity',
             '--check-a11y',

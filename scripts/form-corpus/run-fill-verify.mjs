@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { loadManifest } from './lib/manifest.mjs';
 import { runFillVerifyForScenario, summarizeByStack } from './lib/fill-verify-runner.mjs';
-import { runFillVerifyParallel } from './lib/run-fill-verify-parallel.mjs';
+import { loadManifest } from './lib/manifest.mjs';
 import { FIXTURE_ROOT } from './lib/paths.mjs';
+import { runFillVerifyParallel } from './lib/run-fill-verify-parallel.mjs';
 
 const idArg = process.argv.find((arg) => arg.startsWith('--id='))?.split('=')[1];
 const idPrefixArg = process.argv.find((arg) => arg.startsWith('--id-prefix='))?.split('=')[1];

@@ -37,6 +37,10 @@ class FormExtractionEvalTest extends TestCase
 
     public function test_all_vetted_scenarios_match_expected_snapshot_extraction(): void
     {
+        if (! filter_var(getenv('FORM_CORPUS_FULL_EVAL') ?: '', FILTER_VALIDATE_BOOL)) {
+            $this->markTestSkipped('Set FORM_CORPUS_FULL_EVAL=1 to run the full vetted extraction eval.');
+        }
+
         $snapshots = $this->loadAllSnapshots();
         $failures = [];
 

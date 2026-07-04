@@ -4,8 +4,8 @@ import { join } from 'node:path';
 import { isCreditError, scrapeHtml } from './lib/firecrawl-client.mjs';
 import { loadManifest, saveManifest, upsertScenario } from './lib/manifest.mjs';
 import { slugify } from './lib/normalize.mjs';
-import { buildSnapshotFromHtml } from './lib/snapshot-runner.mjs';
 import { DISCOVERED_URLS_PATH, HTML_DIR } from './lib/paths.mjs';
+import { buildSnapshotFromHtml } from './lib/snapshot-runner.mjs';
 
 const limit = Number(process.argv.find((arg) => arg.startsWith('--limit='))?.split('=')[1] || 40);
 const minFields = Number(process.argv.find((arg) => arg.startsWith('--min-fields='))?.split('=')[1] || 2);
@@ -83,6 +83,7 @@ for (const row of candidateUrls) {
         console.log(`Stopping early: ${maxConsecutiveCreditFailures} consecutive Firecrawl credit/rate failures.`);
         break;
     }
+
     if (accepted >= limit) {
         break;
     }
@@ -141,6 +142,7 @@ for (const row of candidateUrls) {
             suffix += 1;
             id = `${idBase.slice(0, 68)}-${suffix}`;
         }
+
         const filename = `${id}.html`;
         writeFileSync(join(HTML_DIR, filename), html);
         upsertScenario(manifest, {

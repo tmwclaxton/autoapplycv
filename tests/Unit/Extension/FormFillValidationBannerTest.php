@@ -38,6 +38,10 @@ class FormFillValidationBannerTest extends TestCase
 
     public function test_ashby_notion_screenshot_diff_reports_no_error_banner(): void
     {
+        if (! filter_var(getenv('FORM_CORPUS_HEAVY') ?: '', FILTER_VALIDATE_BOOL)) {
+            $this->markTestSkipped('Set FORM_CORPUS_HEAVY=1 to run screenshot diff tests.');
+        }
+
         $result = Process::path(base_path())
             ->timeout(300)
             ->run(['node', 'scripts/form-corpus/run-fill-screenshot-diff.mjs']);

@@ -103,6 +103,12 @@ export default defineConfigWithVueTs(
             ],
         },
     },
+    {
+        files: ['scripts/**/*.mjs', 'scripts/**/*.js'],
+        rules: {
+            '@typescript-eslint/no-unused-vars': 'off',
+        },
+    },
     prettier, // Turn off all rules that might conflict with Prettier
     {
         plugins: {
