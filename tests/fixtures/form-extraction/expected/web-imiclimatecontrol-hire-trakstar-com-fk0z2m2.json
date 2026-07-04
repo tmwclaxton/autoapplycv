@@ -1,0 +1,182 @@
+{
+  "id": "web-imiclimatecontrol-hire-trakstar-com-fk0z2m2",
+  "min_fields": 10,
+  "exact_field_count": 10,
+  "fields": [
+    {
+      "question": "title title title",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "Mr",
+        "Mrs",
+        "Ms",
+        "Prefer not to say"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "id_title",
+        "name": "title",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "first name first name first name",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_first_name",
+        "name": "candidate_first_name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "last name last name last name",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_last_name",
+        "name": "candidate_last_name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email email email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_email",
+        "name": "candidate_email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone phone phone",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_phone",
+        "name": "candidate_phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "are you a current employee of imi are you a current employee of imi are you a current employee of imi",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "Yes",
+        "No",
+        "No, but I have worked in the past for IMI"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "id_are_you_a_current_employee_of_imi",
+        "name": "are_you_a_current_employee_of_imi",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "what is your expected salary? what is your expected salary? what is your expected salary?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_what_is_your_expected_salary",
+        "name": "what_is_your_expected_salary",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "are you legally authorized to work in the us? are you legally authorized to work in the us? are you legally authorized to work in the us?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "id_are_you_legally_authorized_to_work_in_the_us",
+        "name": "are_you_legally_authorized_to_work_in_the_us",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "will you now or in the future require sponsorship for employment visa? will you now or in the future require sponsorship for employment visa? will you now or in the future require sponsorship for employment visa?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "id_will_you_now_or_in_the_future_require_sponsorship_for_employment_visa",
+        "name": "will_you_now_or_in_the_future_require_sponsorship_for_employment_visa",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "were you referred to us by a current imi employee? if so, please share their first and last name or list n/a if not applicable. were you referred to us by a current imi employee? if so, please share their first and last name or list n/a if not applicable. were you referred to us by a current imi employee? if so, please share their first and last name or list n/a if not applicable.",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_were_you_referred_to_us_by_a_current_imi_employee_if_so_please_share_their_first_and_last_name_or_li",
+        "name": "were_you_referred_to_us_by_a_current_imi_employee_if_so_please_share_their_first_and_last_name_or_li",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit Application"
+    }
+  ],
+  "vet_notes": []
+}

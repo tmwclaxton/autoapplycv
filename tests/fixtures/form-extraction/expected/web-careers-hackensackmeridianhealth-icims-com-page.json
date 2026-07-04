@@ -1,0 +1,4669 @@
+{
+  "id": "web-careers-hackensackmeridianhealth-icims-com-page",
+  "min_fields": 273,
+  "exact_field_count": 273,
+  "fields": [
+    {
+      "question": "keyword search keyword search job title or keyword(s)",
+      "field_type": "search",
+      "max_chars": 150,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "search-keyword-477cd77c31",
+        "name": "k",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "city, state, or zip city, state, or zip city, state, or zip",
+      "field_type": "text",
+      "max_chars": 150,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-location-477cd77c31",
+        "name": "l",
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "keyword keyword refine results",
+      "field_type": "text",
+      "max_chars": 150,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "keyword-tag",
+        "name": "keyword-tag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "access services 10 access services 10",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Access Services 10"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "administrative support services 30 administrative support services 30",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Administrative Support Services 30"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "advanced practice providers 106 advanced practice providers 106",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Advanced Practice Providers 106"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health 6 allied health 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "behavioral health 46 behavioral health 46",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Behavioral Health 46"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "business development / strategy / sales 1 business development / strategy / sales 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Business Development / Strategy / Sales 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "center for discovery & innovation 4 center for discovery & innovation 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Center for Discovery & Innovation 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "central processing 14 central processing 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Central Processing 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - compliance / audit / regulatory 1 corporate - compliance / audit / regulatory 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Compliance / Audit / Regulatory 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - population health / social impact / managed & accountable care 24 corporate - population health / social impact / managed & accountable care 24",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Population Health / Social Impact / Managed & Accountable Care 24"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "diagnostic imaging 91 diagnostic imaging 91",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Diagnostic Imaging 91"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "early careers 39 early careers 39",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Early Careers 39"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "education and day care 6 education and day care 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Education and Day Care 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "education and training 2 education and training 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Education and Training 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "ems/paramedics 31 ems/paramedics 31",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "EMS/Paramedics 31"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "environmental services 53 environmental services 53",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Environmental Services 53"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "executive leadership 5 executive leadership 5",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Executive Leadership 5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "facilities / realty / plant ops 10 facilities / realty / plant ops 10",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Facilities / Realty / Plant Ops 10"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "finance / payroll / accounting 2 finance / payroll / accounting 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Finance / Payroll / Accounting 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "food & nutrition 36 food & nutrition 36",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Food & Nutrition 36"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "foundation / philanthropy 4 foundation / philanthropy 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Foundation / Philanthropy 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "health & safety / risk management 5 health & safety / risk management 5",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Health & Safety / Risk Management 5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "health & wellness centers 25 health & wellness centers 25",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Health & Wellness Centers 25"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "healthcare 8 healthcare 8",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Healthcare 8"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "home care & hospice 83 home care & hospice 83",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Home Care & Hospice 83"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hospitality 19 hospitality 19",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hospitality 19"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "human resources 11 human resources 11",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Human Resources 11"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "it services 14 it services 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "IT Services 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "lab services 1 lab services 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Lab Services 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "long term acute care / ltach 7 long term acute care / ltach 7",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Long Term Acute Care / LTACH 7"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "long term care 11 long term care 11",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Long Term Care 11"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "marketing 8 marketing 8",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Marketing 8"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "medical assistants 13 medical assistants 13",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Medical Assistants 13"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - behavioral health 22 nursing - behavioral health 22",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Behavioral Health 22"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - cardiology 8 nursing - cardiology 8",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Cardiology 8"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - cath lab 6 nursing - cath lab 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Cath Lab 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - critical care/emergency services 60 nursing - critical care/emergency services 60",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Critical Care/Emergency Services 60"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - float pool 43 nursing - float pool 43",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Float Pool 43"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - intermediate care 56 nursing - intermediate care 56",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Intermediate Care 56"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - leadership 33 nursing - leadership 33",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Leadership 33"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - maternal child health 38 nursing - maternal child health 38",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Maternal Child Health 38"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - medical surgical 48 nursing - medical surgical 48",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Medical Surgical 48"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - nursing education 6 nursing - nursing education 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Nursing Education 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - oncology 22 nursing - oncology 22",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Oncology 22"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - outpatient 18 nursing - outpatient 18",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Outpatient 18"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - perioperative 30 nursing - perioperative 30",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Perioperative 30"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing support 207 nursing support 207",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing Support 207"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing support - behavioral health 16 nursing support - behavioral health 16",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing Support - Behavioral Health 16"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "patient experience 4 patient experience 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Patient Experience 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "patient transport 20 patient transport 20",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Patient Transport 20"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "perfusion 7 perfusion 7",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Perfusion 7"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "pharmacy 36 pharmacy 36",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Pharmacy 36"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "physician 31 physician 31",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Physician 31"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "physician practices/urgent care 178 physician practices/urgent care 178",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Physician Practices/Urgent Care 178"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "purchasing / materials management 1 purchasing / materials management 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Purchasing / Materials Management 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "quality 10 quality 10",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Quality 10"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "radiation therapist 3 radiation therapist 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Radiation Therapist 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "rehab services 62 rehab services 62",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Rehab Services 62"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "research 9 research 9",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Research 9"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "respiratory care 39 respiratory care 39",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Respiratory Care 39"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "revenue operations 12 revenue operations 12",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Revenue Operations 12"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "school of medicine 3 school of medicine 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "School of Medicine 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "school of nursing/education 5 school of nursing/education 5",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "School of Nursing/Education 5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "security 10 security 10",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Security 10"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "shore care 6 shore care 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Shore Care 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "social work 21 social work 21",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Social Work 21"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "transportation 2 transportation 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Transportation 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "avenel 1 avenel 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Avenel 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "bayville 1 bayville 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Bayville 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "belle mead 64 belle mead 64",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Belle Mead 64"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "borough of avon-by-the-sea 1 borough of avon-by-the-sea 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Borough of Avon-by-the-Sea 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "borough of eatontown 13 borough of eatontown 13",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Borough of Eatontown 13"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "borough of manasquan 3 borough of manasquan 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Borough of Manasquan 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "borough of neptune city 345 borough of neptune city 345",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Borough of Neptune City 345"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "borough of red bank 103 borough of red bank 103",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Borough of Red Bank 103"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "borough of ship bottom 1 borough of ship bottom 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Borough of Ship Bottom 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "borough of tinton falls 24 borough of tinton falls 24",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Borough of Tinton Falls 24"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "borough of west long branch 1 borough of west long branch 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Borough of West Long Branch 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "brick 166 brick 166",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Brick 166"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "clark 2 clark 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Clark 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "cliffside park 1 cliffside park 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Cliffside Park 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "clifton 4 clifton 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Clifton 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "east brunswick 1 east brunswick 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "East Brunswick 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "edison 202 edison 202",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Edison 202"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "forked river 6 forked river 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Forked River 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "fort lee 1 fort lee 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Fort Lee 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "glen ridge 2 glen ridge 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Glen Ridge 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hackensack 274 hackensack 274",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hackensack 274"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hasbrouck heights 3 hasbrouck heights 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hasbrouck Heights 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hazlet township 2 hazlet township 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hazlet Township 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hewitt 5 hewitt 5",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hewitt 5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hoboken 2 hoboken 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hoboken 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "holmdel 78 holmdel 78",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Holmdel 78"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "howell township 6 howell township 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Howell Township 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "iselin 65 iselin 65",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Iselin 65"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "jackson 3 jackson 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Jackson 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "lakewood 5 lakewood 5",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Lakewood 5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "little egg harbor township 2 little egg harbor township 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Little Egg Harbor Township 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "lodi 7 lodi 7",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Lodi 7"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "manahawkin 81 manahawkin 81",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Manahawkin 81"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "manalapan 1 manalapan 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Manalapan 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "manalapan township 1 manalapan township 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Manalapan Township 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "maywood 9 maywood 9",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Maywood 9"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "metuchen 2 metuchen 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Metuchen 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "montvale 3 montvale 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Montvale 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "morganville 1 morganville 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Morganville 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "north bergen 54 north bergen 54",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "North Bergen 54"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "north brunswick township 1 north brunswick township 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "North Brunswick Township 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nutley 7 nutley 7",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nutley 7"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "oakhurst 1 oakhurst 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Oakhurst 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "old bridge 30 old bridge 30",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Old Bridge 30"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "paramus 18 paramus 18",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Paramus 18"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "parlin 3 parlin 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Parlin 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "perth amboy 58 perth amboy 58",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Perth Amboy 58"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "plainfield 4 plainfield 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Plainfield 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "point pleasant 3 point pleasant 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Point Pleasant 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "rockleigh 1 rockleigh 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Rockleigh 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "rutherford 1 rutherford 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Rutherford 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "shrewsbury 2 shrewsbury 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Shrewsbury 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "south river 2 south river 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "South River 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "teaneck 2 teaneck 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Teaneck 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "teterboro 6 teterboro 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Teterboro 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "toms river 6 toms river 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Toms River 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "town of aberdeen 1 town of aberdeen 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Town of Aberdeen 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "wall 19 wall 19",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Wall 19"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "west freehold 9 west freehold 9",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "West Freehold 9"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "woodland park 17 woodland park 17",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Woodland Park 17"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "city-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "no 1736 no 1736",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "No 1736"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_internjob-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "yes 1 yes 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_internjob-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "behavioral health 22 behavioral health 22",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Behavioral Health 22"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_customfacet-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "mental health technician 14 mental health technician 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Mental Health Technician 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_customfacet-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "youth residential tech 1 youth residential tech 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Youth Residential tech 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_customfacet-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health - behavioral health 9 allied health - behavioral health 9",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health - Behavioral Health 9"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health - cma 13 allied health - cma 13",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health - CMA 13"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health - cpd 14 allied health - cpd 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health - CPD 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health - diagnostic 91 allied health - diagnostic 91",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health - Diagnostic 91"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health - education/day care 6 allied health - education/day care 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health - Education/Day Care 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health - ems/paramedics 31 allied health - ems/paramedics 31",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health - EMS/Paramedics 31"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health - lab 1 allied health - lab 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health - Lab 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health - mental health/social work 21 allied health - mental health/social work 21",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health - Mental Health/Social Work 21"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health - perfusion 7 allied health - perfusion 7",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health - Perfusion 7"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health - pharmacy 36 allied health - pharmacy 36",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health - Pharmacy 36"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health - radiation therapist 3 allied health - radiation therapist 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health - Radiation Therapist 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health - rehab 62 allied health - rehab 62",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health - Rehab 62"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health - respiratory care 39 allied health - respiratory care 39",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health - Respiratory Care 39"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "allied health - shorecare 6 allied health - shorecare 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allied Health - Shorecare 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - business development / strategy / sales 1 corporate - business development / strategy / sales 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Business Development / Strategy / Sales 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - centralized staffing 1 corporate - centralized staffing 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Centralized Staffing 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - compliance / audit 1 corporate - compliance / audit 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Compliance / Audit 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - executive leadership 5 corporate - executive leadership 5",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Executive Leadership 5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - finance / payroll / accounting / investment office 2 corporate - finance / payroll / accounting / investment office 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Finance / Payroll / Accounting / Investment Office 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - foundation 4 corporate - foundation 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Foundation 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - health & safety / risk management 5 corporate - health & safety / risk management 5",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Health & Safety / Risk Management 5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - human experience 4 corporate - human experience 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Human Experience 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - human resources 11 corporate - human resources 11",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Human Resources 11"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - it 14 corporate - it 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - IT 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - marketing 2 corporate - marketing 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Marketing 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - marketing / pac 6 corporate - marketing / pac 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Marketing / PAC 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - purchasing / materials management 1 corporate - purchasing / materials management 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Purchasing / Materials Management 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - quality 10 corporate - quality 10",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Quality 10"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - revenue operations 12 corporate - revenue operations 12",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Revenue Operations 12"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - transportation 2 corporate - transportation 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Transportation 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hospitality - access services 10 hospitality - access services 10",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hospitality - Access Services 10"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hospitality - administrative support services 28 hospitality - administrative support services 28",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hospitality - Administrative Support Services 28"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hospitality - evs 53 hospitality - evs 53",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hospitality - EVS 53"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hospitality - facilities 10 hospitality - facilities 10",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hospitality - Facilities 10"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hospitality - food & nutrition 36 hospitality - food & nutrition 36",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hospitality - Food & Nutrition 36"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hospitality - patient transport 20 hospitality - patient transport 20",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hospitality - Patient Transport 20"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hospitality - security 10 hospitality - security 10",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hospitality - Security 10"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "ltach - admin support 1 ltach - admin support 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "LTACH - Admin Support 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "ltach - allied 4 ltach - allied 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "LTACH - Allied 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "ltach - rn 3 ltach - rn 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "LTACH - RN 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - critical care 19 nursing - critical care 19",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Critical Care 19"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - dialysis 1 nursing - dialysis 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Dialysis 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - emergency department 37 nursing - emergency department 37",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Emergency Department 37"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - emergency services 4 nursing - emergency services 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Emergency Services 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - endoscopy 4 nursing - endoscopy 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Endoscopy 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - graduate nurses/nurse residency 12 nursing - graduate nurses/nurse residency 12",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Graduate Nurses/Nurse Residency 12"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - interventional radiology 5 nursing - interventional radiology 5",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Interventional Radiology 5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - maternal child health 26 nursing - maternal child health 26",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Maternal Child Health 26"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - med/surg 47 nursing - med/surg 47",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Med/Surg 47"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - nicu 6 nursing - nicu 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - NICU 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - nursing leadership 33 nursing - nursing leadership 33",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Nursing Leadership 33"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - operating room 17 nursing - operating room 17",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Operating Room 17"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - orthopedics 1 nursing - orthopedics 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Orthopedics 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - pacu 8 nursing - pacu 8",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - PACU 8"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - pediatrics 6 nursing - pediatrics 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Pediatrics 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - rehabilitation 7 nursing - rehabilitation 7",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Rehabilitation 7"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - same day surgery 5 nursing - same day surgery 5",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Same Day Surgery 5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - telemetry / pcu / step down 56 nursing - telemetry / pcu / step down 56",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Telemetry / PCU / Step Down 56"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing - wound care 1 nursing - wound care 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing - Wound Care 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing support - crisis intervention specialist 1 nursing support - crisis intervention specialist 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing Support - Crisis Intervention Specialist 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing support - mental health technical 14 nursing support - mental health technical 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing Support - Mental Health Technical 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing support - mobility technician 1 nursing support - mobility technician 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing Support - Mobility Technician 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing support - monitor tech 15 nursing support - monitor tech 15",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing Support - Monitor Tech 15"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing support - ob technician 3 nursing support - ob technician 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing Support - OB Technician 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing support - patient care associate 2 nursing support - patient care associate 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing Support - Patient Care Associate 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing support - patient care tech 103 nursing support - patient care tech 103",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing Support - Patient Care Tech 103"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing support - patient observer 28 nursing support - patient observer 28",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing Support - Patient Observer 28"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing support - pct apprentice program 2 nursing support - pct apprentice program 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing Support - PCT Apprentice Program 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing support - residential counselor 1 nursing support - residential counselor 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing Support - Residential Counselor 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing support - surgical support 13 nursing support - surgical support 13",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing Support - Surgical Support 13"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing support - unit secretary 27 nursing support - unit secretary 27",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing Support - Unit Secretary 27"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "other - cdi 4 other - cdi 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Other - CDI 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "other - physician services/practices 167 other - physician services/practices 167",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Other - Physician Services/Practices 167"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "other - physician services/practices - acquisition/lease 7 other - physician services/practices - acquisition/lease 7",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Other - Physician Services/Practices - Acquisition/Lease 7"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "other - physician services/practices - urgent care 4 other - physician services/practices - urgent care 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Other - Physician Services/Practices - Urgent Care 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "other - research 9 other - research 9",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Other - Research 9"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "other - residential care - allied health 1 other - residential care - allied health 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Other - Residential Care - Allied Health 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "other - residential care - cna 6 other - residential care - cna 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Other - Residential Care - CNA 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "other - residential care - lpn 3 other - residential care - lpn 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Other - Residential Care - LPN 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "other - residential care - rn 1 other - residential care - rn 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Other - Residential Care - RN 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "other - school of medicine 3 other - school of medicine 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Other - School of Medicine 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "other - school of nursing/education 5 other - school of nursing/education 5",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Other - School of Nursing/Education 5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "physician 1 physician 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Physician 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "provider - advanced practice rns 46 provider - advanced practice rns 46",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Provider - Advanced Practice RNs 46"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "provider - physician assistant 11 provider - physician assistant 11",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Provider - Physician Assistant 11"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "providers 49 providers 49",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Providers 49"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "university relations 25 university relations 25",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "University Relations 25"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_functionalcategory-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "nursing 390 nursing 390",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Nursing 390"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_ajdtype-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "bayshore medical center 67 bayshore medical center 67",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "BAYSHORE MEDICAL CENTER 67"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "eatontown retail pharmacy 1 eatontown retail pharmacy 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "EATONTOWN RETAIL PHARMACY 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hackensack meridian school of medicine (hmsom) 3 hackensack meridian school of medicine (hmsom) 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "HACKENSACK MERIDIAN SCHOOL OF MEDICINE (HMSOM) 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hackensack univ. medical group 33 hackensack univ. medical group 33",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "HACKENSACK UNIV. MEDICAL GROUP 33"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hackensack university med cntr 206 hackensack university med cntr 206",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "HACKENSACK UNIVERSITY MED CNTR 206"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hackensack urgcare plus essex 1 hackensack urgcare plus essex 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "HACKENSACK URGCARE PLUS ESSEX 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hartwyck @ oak tree inc 14 hartwyck @ oak tree inc 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "HARTWYCK @ OAK TREE INC 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "health innovations unlimited 1 health innovations unlimited 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Health Innovations Unlimited 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hm outpatient services 7 hm outpatient services 7",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "HM OUTPATIENT SERVICES 7"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hmh carrier clinic inc 54 hmh carrier clinic inc 54",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "HMH CARRIER CLINIC INC 54"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hmh foundation 4 hmh foundation 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "HMH FOUNDATION 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hmh hospitals corporation 1 hmh hospitals corporation 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "HMH Hospitals Corporation 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hmh hospitals corporation 99 hmh hospitals corporation 99",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "HMH HOSPITALS CORPORATION 99"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hmh physician services, inc. 182 hmh physician services, inc. 182",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "HMH PHYSICIAN SERVICES, INC. 182"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "hmhmg specialty care 570 66 hmhmg specialty care 570 66",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "HMHMG SPECIALTY CARE 570 66"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "imaging ambulatory specialty p 4 imaging ambulatory specialty p 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "IMAGING AMBULATORY SPECIALTY P 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "jersey shore university medical center 282 jersey shore university medical center 282",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "JERSEY SHORE UNIVERSITY MEDICAL CENTER 282"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "jfk merdian home care serv 15 jfk merdian home care serv 15",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "JFK Merdian Home Care Serv 15"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "jfk university medical center 131 jfk university medical center 131",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "JFK University Medical Center 131"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "johnson rehabilitation 36 johnson rehabilitation 36",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "JOHNSON REHABILITATION 36"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "meridian home care 50 meridian home care 50",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Meridian Home Care 50"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "mmg - faculty practice, pc 2 mmg - faculty practice, pc 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "MMG - FACULTY PRACTICE, PC 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "mmg - primary care, pc 9 mmg - primary care, pc 9",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "MMG - PRIMARY CARE, PC 9"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "ocean medical center 145 ocean medical center 145",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "OCEAN MEDICAL CENTER 145"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "palisades child care center 3 palisades child care center 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "PALISADES CHILD CARE CENTER 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "palisades medical center 45 palisades medical center 45",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "PALISADES MEDICAL CENTER 45"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "post-acute care pharmacy 4 post-acute care pharmacy 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "POST-ACUTE CARE PHARMACY 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "raritan bay medical center- old bridge 25 raritan bay medical center- old bridge 25",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "RARITAN BAY MEDICAL CENTER- OLD BRIDGE 25"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "raritan bay medical center- perth amboy 54 raritan bay medical center- perth amboy 54",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "RARITAN BAY MEDICAL CENTER- PERTH AMBOY 54"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "riverview medical center 99 riverview medical center 99",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "RIVERVIEW MEDICAL CENTER 99"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "southern ocean medical center 71 southern ocean medical center 71",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "SOUTHERN OCEAN MEDICAL CENTER 71"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "vhsnj at home llc 17 vhsnj at home llc 17",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "VHSNJ at Home LLC 17"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "company_name-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "patientcare 65 patientcare 65",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "PatientCare 65"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_patientcare-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "corporate - population health / social impact / managed & accountable care 25 corporate - population health / social impact / managed & accountable care 25",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corporate - Population Health / Social Impact / Managed & Accountable Care 25"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "home care & hospice - home care - allied health 22 home care & hospice - home care - allied health 22",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Home Care & Hospice - Home Care - Allied Health 22"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "home care & hospice - home care - chha 8 home care & hospice - home care - chha 8",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Home Care & Hospice - Home Care - CHHA 8"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "home care & hospice - home care - lpn 4 home care & hospice - home care - lpn 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Home Care & Hospice - Home Care - LPN 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "home care & hospice - home care - other 4 home care & hospice - home care - other 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Home Care & Hospice - Home Care - Other 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "home care & hospice - home care - rn 23 home care & hospice - home care - rn 23",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Home Care & Hospice - Home Care - RN 23"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "home care & hospice - hospice - allied health 1 home care & hospice - hospice - allied health 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Home Care & Hospice - Hospice - Allied Health 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "home care & hospice - hospice - chha 1 home care & hospice - hospice - chha 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Home Care & Hospice - Hospice - CHHA 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "home care & hospice - hospice - rn 7 home care & hospice - hospice - rn 7",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Home Care & Hospice - Hospice - RN 7"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "home care & hospice - infusion - dme/hiu - allied health 4 home care & hospice - infusion - dme/hiu - allied health 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Home Care & Hospice - Infusion - DME/HIU - Allied Health 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "home care & hospice - infusion - dme/hiu - other 2 home care & hospice - infusion - dme/hiu - other 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Home Care & Hospice - Infusion - DME/HIU - Other 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "home care & hospice - infusion - dme/hiu - rn 3 home care & hospice - infusion - dme/hiu - rn 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Home Care & Hospice - Infusion - DME/HIU - RN 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "home care & hospice - intake - other 2 home care & hospice - intake - other 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Home Care & Hospice - Intake - Other 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "home care & hospice - intake - rn 2 home care & hospice - intake - rn 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Home Care & Hospice - Intake - RN 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "other - health & wellness center 25 other - health & wellness center 25",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Other - Health & Wellness Center 25"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_relocation-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "jobs-mental-health-tech 11 jobs-mental-health-tech 11",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "jobs-mental-health-tech 11"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "multivaluefield1-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    },
+    {
+      "question": "jobs-youth-residential-tech 1 jobs-youth-residential-tech 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "jobs-youth-residential-tech 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "multivaluefield1-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save Job"
+    },
+    {
+      "name": "Save Job"
+    },
+    {
+      "name": "Save Job"
+    },
+    {
+      "name": "Save Job"
+    },
+    {
+      "name": "Save Job"
+    },
+    {
+      "name": "Save Job"
+    },
+    {
+      "name": "Save Job"
+    },
+    {
+      "name": "Save Job"
+    }
+  ],
+  "vet_notes": []
+}

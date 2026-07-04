@@ -2,11 +2,16 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadManifest, saveManifest } from './lib/manifest.mjs';
-import { normalizeQuestion, questionsMatch, normalizeOptions } from './lib/normalize.mjs';
+import { normalizeQuestion, questionsMatch, normalizeOptions, domReferenceKey } from './lib/normalize.mjs';
 import { buildSnapshotFromFile } from './lib/snapshot-runner.mjs';
 import { EXPECTED_DIR, HTML_DIR, VET_REPORT_PATH } from './lib/paths.mjs';
 
 const manifest = loadManifest();
+const idArg = process.argv.find((arg) => arg.startsWith('--id='))?.split('=')[1];
+const idPrefixArg = process.argv.find((arg) => arg.startsWith('--id-prefix='))?.split('=')[1];
+const pendingOnly = process.argv.includes('--pending-only');
+const reportOnly = process.argv.includes('--report-only');
+const slimReport = process.argv.includes('--slim-report');
 const report = {
     vetted_at: new Date().toISOString(),
     totals: { scenarios: 0, vetted: 0, rejected: 0, pending: 0 },
@@ -14,9 +19,61 @@ const report = {
     rejected: [],
 };
 
-function findMatchingField(expectedField, actualFields) {
-    for (const actual of actualFields) {
+function matchesFilter(scenario) {
+    if (idArg && scenario.id !== idArg) {
+        return false;
+    }
+
+    if (idPrefixArg && !scenario.id.startsWith(idPrefixArg)) {
+        return false;
+    }
+
+    if (pendingOnly && (scenario.status ?? '') === 'vetted') {
+        return false;
+    }
+
+    return true;
+}
+
+function findMatchingField(expectedField, actualFields, usedIndices = new Set()) {
+    const expectedDomKey = domReferenceKey(expectedField.dom, expectedField.field_type);
+
+    if (expectedDomKey) {
+        for (const [index, actual] of actualFields.entries()) {
+            if (usedIndices.has(index)) {
+                continue;
+            }
+
+            const actualDomKey = domReferenceKey(actual.dom, actual.field_type);
+
+            if (actualDomKey && actualDomKey === expectedDomKey) {
+                usedIndices.add(index);
+
+                return actual;
+            }
+        }
+    }
+
+    for (const [index, actual] of actualFields.entries()) {
+        if (usedIndices.has(index)) {
+            continue;
+        }
+
+        if (normalizeQuestion(expectedField.question) === normalizeQuestion(actual.question)) {
+            usedIndices.add(index);
+
+            return actual;
+        }
+    }
+
+    for (const [index, actual] of actualFields.entries()) {
+        if (usedIndices.has(index)) {
+            continue;
+        }
+
         if (questionsMatch(expectedField.question, actual.question)) {
+            usedIndices.add(index);
+
             return actual;
         }
     }
@@ -42,6 +99,7 @@ function vetScenario(scenario) {
         htmlPath,
         scenario.page_url || `https://example.test/forms/${scenario.id}`,
         scenario.page_title || 'Job Application',
+        scenario.interaction_steps || [],
     );
 
     const actualFields = snapshot.elements.map((element) => ({
@@ -50,7 +108,9 @@ function vetScenario(scenario) {
         max_chars: element.max_chars ?? null,
         options: normalizeOptions(element.options),
         required: element.required ?? false,
+        dom: element.dom ?? null,
     }));
+    const usedIndices = new Set();
 
     const minFields = expected.min_fields ?? expected.fields?.length ?? 0;
 
@@ -63,7 +123,7 @@ function vetScenario(scenario) {
     }
 
     for (const expectedField of expected.fields || []) {
-        const actual = findMatchingField(expectedField, actualFields);
+        const actual = findMatchingField(expectedField, actualFields, usedIndices);
 
         if (!actual) {
             issues.push(`Missing expected field: "${expectedField.question}".`);
@@ -120,24 +180,63 @@ function vetScenario(scenario) {
     return { status: scenario.source === 'synthetic' ? 'rejected' : 'pending', issues };
 }
 
+if (! reportOnly) {
+    const updates = new Map();
+
+    for (const scenario of manifest.scenarios) {
+        if (! matchesFilter(scenario)) {
+            continue;
+        }
+
+        const result = vetScenario(scenario);
+        updates.set(scenario.id, {
+            status: result.status,
+            vet_issues: result.issues,
+        });
+    }
+
+    const freshManifest = loadManifest();
+
+    for (const scenario of freshManifest.scenarios) {
+        const patch = updates.get(scenario.id);
+
+        if (patch) {
+            scenario.status = patch.status;
+            scenario.vet_issues = patch.vet_issues;
+        }
+    }
+
+    saveManifest(freshManifest);
+    Object.assign(manifest, freshManifest);
+
+    if (idArg) {
+        process.exit(0);
+    }
+}
+
+report.totals = { scenarios: 0, vetted: 0, rejected: 0, pending: 0 };
+report.vetted = [];
+report.rejected = [];
+
 for (const scenario of manifest.scenarios) {
     report.totals.scenarios += 1;
-    const result = vetScenario(scenario);
-    scenario.status = result.status;
-    scenario.vet_issues = result.issues;
 
-    if (result.status === 'vetted') {
+    if ((scenario.status ?? '') === 'vetted') {
         report.totals.vetted += 1;
-        report.vetted.push({ id: scenario.id, category: scenario.category, field_count: scenario.field_count });
-    } else if (result.status === 'rejected') {
+
+        if (! slimReport || report.vetted.length < 50) {
+            report.vetted.push({ id: scenario.id, category: scenario.category, field_count: scenario.field_count });
+        }
+    } else if ((scenario.status ?? '') === 'rejected') {
         report.totals.rejected += 1;
-        report.rejected.push({ id: scenario.id, category: scenario.category, issues: result.issues });
+
+        if (! slimReport || report.rejected.length < 100) {
+            report.rejected.push({ id: scenario.id, category: scenario.category, issues: scenario.vet_issues ?? [] });
+        }
     } else {
         report.totals.pending += 1;
     }
 }
-
-saveManifest(manifest);
 writeFileSync(VET_REPORT_PATH, `${JSON.stringify(report, null, 2)}\n`);
 
 console.log(`Vet complete: ${report.totals.vetted} vetted, ${report.totals.rejected} rejected, ${report.totals.pending} pending.`);

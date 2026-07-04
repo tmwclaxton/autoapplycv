@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Hidden chips</title></head>
+<body>
+<main><h1>Hidden chips</h1><form action="/apply" method="post">
+<label for="ix-name-15">Your name</label>
+<input type="text" id="ix-name-15" name="ix-name-15">
+<label for="ix-email-15">Personal email</label>
+<input type="email" id="ix-email-15" name="ix-email-15">
+<label for="ix-phone-15">Telephone</label>
+<input type="tel" id="ix-phone-15" name="ix-phone-15">
+<button type="button" id="show-skills-15" data-reveal="#skills-panel-15" aria-expanded="false">Show skill options</button>
+<div id="skills-panel-15" hidden style="display:none">
+<div role="group" id="skills-group-hidden-15" aria-labelledby="skills-group-hidden-15-lbl">
+<span id="skills-group-hidden-15-lbl">Core competencies</span>
+<div role="checkbox" aria-checked="false">React</div>
+<div role="checkbox" aria-checked="false">Vue</div>
+<div role="checkbox" aria-checked="false">Svelte</div>
+<div role="checkbox" aria-checked="false">Angular</div>
+</div>
+</div></form></main>
+</body>
+</html>

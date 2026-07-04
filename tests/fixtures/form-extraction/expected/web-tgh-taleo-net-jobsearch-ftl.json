@@ -1,0 +1,145 @@
+{
+  "id": "web-tgh-taleo-net-jobsearch-ftl",
+  "min_fields": 8,
+  "exact_field_count": 8,
+  "fields": [
+    {
+      "question": "job number job number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "JOB_NUMBER",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "keyword keyword",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "KEYWORD",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "location location",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "LOCATION",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search for jobs",
+      "field_type": "button",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "button",
+        "id": "search",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "urgent jobs : urgent jobs only",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "URGENT_JOB-1-option",
+        "name": "URGENT_JOB",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job schedule : full-time",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "1",
+        "2",
+        "4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "JOB_SCHEDULE-1-option",
+        "name": "JOB_SCHEDULE",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job shift : day job",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "1",
+        "2",
+        "3",
+        "7",
+        "5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "JOB_SHIFT-1-option",
+        "name": "JOB_SHIFT",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search name search name",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "saveSearchTitle",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save this Search"
+    }
+  ],
+  "vet_notes": []
+}

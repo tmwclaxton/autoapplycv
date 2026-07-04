@@ -1,0 +1,568 @@
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="google-site-verification" content="snA7C_3rIRtbTcg4ylbz0rNW84SKiKp-ykZbKoUq-jU" />
+
+
+<title>
+	Contact us
+</title>
+
+
+
+    <meta name="description" content="Ask questions about web forms. Suggest improvements."/>
+
+
+
+    <meta name="keywords" content="questions about web forms, suggest web form improvements, online forms suggestions"/>
+
+
+    
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="/js/jquery.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <link href="/css/site.css" rel="stylesheet" type="text/css" />
+
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	
+	  ga('create', 'UA-381273-7', 'auto');
+	  ga('send', 'pageview');
+	
+	</script>
+
+</head>
+<body>
+
+    <div class="container theme-showcase" role="main">
+
+		<div style="background-color: white;">
+			
+
+
+			<div class="main">
+
+                <div class="row">
+                    <div class="col-lg-8">
+                        <span style="font-size: 1.5em;">
+                            <span class="forms100"><span style="font-family:Arial">&nbsp;</span>1<span style="font-family:Arial">&nbsp;</span></span><span class="forms100"><span style="font-family:Arial">&nbsp;</span>0<span style="font-family:Arial">&nbsp;</span></span><span class="forms100"><span style="font-family:Arial">&nbsp;</span>0<span style="font-family:Arial">&nbsp;</span></span><span class="forms100"><span style="font-family:Arial">&nbsp;</span>F<span style="font-family:Arial">&nbsp;</span></span><span class="forms100"><span style="font-family:Arial">&nbsp;</span>O<span style="font-family:Arial">&nbsp;</span></span><span class="forms100"><span style="font-family:Arial">&nbsp;</span>R<span style="font-family:Arial">&nbsp;</span></span><span class="forms100"><span style="font-family:Arial">&nbsp;</span>M<span style="font-family:Arial">&nbsp;</span></span><span class="forms100"><span style="font-family:Arial">&nbsp;</span>S<span style="font-family:Arial">&nbsp;</span></span>
+                            - Online responsive HTML forms for your site
+                        </span>
+                    </div>
+                    <div class="col-lg-4">
+                        <div style="text-align: right; vertical-align: middle">
+                        
+                        
+                            <a href="/signup/" class="btn btn-sm btn-success">Register</a>
+                            <a href="/in/" class="btn btn-sm btn-success">Log In</a>
+                        
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="btn-group btn-group-justified">
+                    <a href="/" class="btn btn-primary">Home</a>
+                    <a href="/ready-forms/" class="btn btn-primary">Ready forms</a>
+                    <a href="/how-to/" class="btn btn-primary">How to</a>
+                    <a href="/pro-forms/" class="btn btn-primary"><span class="pro-forms">Pro forms</span></a>
+					<a href="/builder/" class="btn btn-primary">Form builder</a>
+                    <a href="/articles/" class="btn btn-primary">Articles</a>
+                    <a href="/contact-us/" class="btn btn-primary">Contact us</a>
+                </div>
+        
+			
+
+
+	<h1>Contact us</h1>
+	
+	<form method="post" action="/contact-us/" onSubmit="return validateForm();">
+	<p>
+        Name:<br />
+        <input name="client_name" type="text" value="" maxlength="100" id="formName" class="form-control" style="max-width:600px;" />
+        <span id="formNameError" style="color:#CC0000;display:none;">Name is empty.</span>
+    </p>
+	<p>
+        Email:<br />
+        <input name="client_email" type="text" value="" maxlength="150" id="formEmail" class="form-control" style="max-width:600px;" />
+        <span id="formEmailError" style="color:#CC0000;display:none;">Email is empty or invalid.</span>
+    </p>
+	<p>
+        URL:<br />
+        <input name="client_url" type="text" value="" maxlength="400" id="formUrl" class="form-control" style="max-width:600px;" />
+    </p>
+	<p>
+        Comments:<br />
+        <textarea name="client_comments" rows="5" id="formComments" class="form-control" style="max-width:600px;"></textarea>
+        <span id="formCommentsError" style="color:#CC0000;display:none;">Comments are empty.</span>
+    </p>
+    <p>
+        Are you a human or a bot? What is 10 + 10 equal?<br />
+        <input name="client_answer" type="text" value="" maxlength="400" id="formAnswer" class="form-control" style="max-width:600px;" />
+        <span id="formAnswerError" style="color:#CC0000;display:none;">Please answer math question so we know you are not a bot.</span>
+    </p>
+
+    <input type="hidden" name="ce" value="54cbd559-3cd7-41ee-b7aa-73b9df798f74" />
+    <p id="remainingTime" style="font-size: 1.4em; color: #FF3366;"></p>
+
+    <script type="application/javascript">
+
+        var startTime = new Date().getTime();
+        var countDownSeconds = 10000;
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+            var now = new Date().getTime();
+            var distance = startTime - now + countDownSeconds;
+            document.getElementById("remainingTime").innerHTML =
+                "ANTI-SPAM: The Submit button will be available in " + Math.floor((distance % (1000 * 60)) / 1000 + 1) + " seconds.";
+            if (distance <= 0) {
+                clearInterval(x);
+                document.getElementById("remainingTime").innerHTML = "";
+                document.getElementById("formSubmit").disabled = false;
+            }
+        }, 1000);
+    </script>
+
+    <input type="submit" name="formSubmit" id="formSubmit" class="btn btn-primary" disabled value="Submit"/>
+    
+    </form>
+
+    <script type="text/javascript">
+        function validateForm() {
+            document.getElementById('formNameError').style.display = "none";
+            document.getElementById('formEmailError').style.display = "none";
+            document.getElementById('formCommentsError').style.display = "none";
+            document.getElementById('formAnswerError').style.display = "none";
+
+            var isFailed = false;
+
+            var name = document.getElementById('formName').value.trim();
+            if (isEmpty(name)) {
+                document.getElementById('formNameError').style.display = "inline";
+                isFailed = true;
+            }
+
+            var email = document.getElementById('formEmail').value.trim();
+            if (!validateEmail(email)) {
+                document.getElementById('formEmailError').style.display = "inline";
+                isFailed = true;
+            }
+
+            var comments = document.getElementById('formComments').value.trim();
+            if (isEmpty(comments)) {
+                document.getElementById('formCommentsError').style.display = "inline";
+                isFailed = true;
+            }
+
+            var answer = document.getElementById('formAnswer').value.trim();
+            if (isEmpty(answer)) {
+                document.getElementById('formAnswerError').style.display = "inline";
+                isFailed = true;
+            }
+
+            if (isFailed) {
+                return false;
+            }
+
+            return true;
+        }
+
+        function isEmpty(str) {
+            return (str.length === 0 || !str.trim());
+        }
+
+        function validateEmail(email) {
+            var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,15}(?:\.[a-z]{2})?)$/i;
+            return re.test(email);
+        }
+    </script>
+	
+
+
+
+
+            <div class="panel panel-default" style="margin: 40px 0 15px 0;">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Site map</h3>
+                </div>
+                <div class="panel-body">
+
+					<table style="width: 100%;">
+						<tr>
+							<td colspan="3"><a href="/"><span class="bold-text">Home</span></a></td>
+						</tr>
+						<tr>
+							<td><a href="/how-to/">How to</a></td>
+							<td><a href="/pro-forms/"><span class="pro-forms">Pro forms</span></a></td>
+							<td><a href="/policy/">Policy</a></td>
+						</tr>
+						<tr>
+							<td><a href="/contact-us/">Contact us</a></td>
+							<td><a href="/signup/">Register</a></td>
+							<td><a href="/in/">Log in</a></td>
+						</tr>
+						
+						<tr>
+							<td colspan="3"><a href="/articles/"><span class="bold-text"><br/>Articles:</span></a></td>
+						</tr>						
+						<tr>
+							<td><a href="/articles/form-to-pdf-with-signature/">Form-to-PDF with Signature</a></td>
+							<td><a href="/articles/what-web-form-why-useful/">What a Web Form is &amp; Why It's Useful to You</a></td>
+							<td><a href="/articles/top-5-ways-web-forms-improve-website/">Top 5 Ways Web Forms Can Improve Your Website</a></td>
+						</tr>
+						<tr>
+							<td><a href="/articles/what-web-form-autoresponder-can-do/">What a Web Form Autoresponder Can Do for You</a></td>
+							<td><a href="/articles/why-should-not-list-email-on-website/">Why You Shouldn't List Your Email on Your Website</a></td>
+							<td><a href="/articles/how-to-improve-your-web-form-user-experience/">How to Improve Your Web Form User Experience</a></td>
+						</tr>
+						<tr>
+							<td colspan="3"><a href="/articles/web-forms-why-yours-must-be-short-and-sweet/">Web Forms: Why Yours Must be Short and Sweet</a></td>
+						</tr>
+						
+						<tr>
+							<td colspan="3"><a href="/ready-forms/"><span class="bold-text"><br/>Ready forms:</span></a></td>
+						</tr>
+						
+						
+						
+						<tr>
+							<td><a href="/ready-forms/accept-terms-and-conditions-with-signature-form/">Accept Terms And Conditions With A Signature form (Pro)</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/advertising-estimate-form/">Advertising Estimate form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/become-a-mystery-shopper-form/">Become A Mystery Shopper form</a></td>
+						</tr>
+						
+						
+						
+						<tr>
+							<td><a href="/ready-forms/bug-tracker-form/">Bug Tracker form (Pro)</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/cheerleader-registration-form/">Cheerleader Registration form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/church-donation-form/">Church Donation form</a></td>
+						</tr>
+						
+						
+						
+						<tr>
+							<td><a href="/ready-forms/competition-entry-form/">Competition Entry form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/congregation-survey-form/">Congregation Survey form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/contact-us-extended-form/">Contact Us Extended form</a></td>
+						</tr>
+						
+						
+						
+						<tr>
+							<td><a href="/ready-forms/contact-us-form/">Contact Us form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/dinner-attendance-request-form/">Dinner Attendance Request form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/driver-license-upload-and-signature-form/">Driver License Upload And Signature form (Pro)</a></td>
+						</tr>
+						
+						
+						
+						<tr>
+							<td><a href="/ready-forms/drop-us-a-line-form/">Drop Us a Line! form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/employment-application-form/">Employment Application form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/field-service-report-form/">Field Service Report form</a></td>
+						</tr>
+						
+						
+						
+						<tr>
+							<td><a href="/ready-forms/hotel-reservation-form/">Hotel Reservation form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/house-to-house-record-form/">House-to-House Record form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/invoice-payment-form/">Invoice Payment form</a></td>
+						</tr>
+						
+						
+						
+						<tr>
+							<td><a href="/ready-forms/invoice-request-form/">Invoice Request form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/job-application-with-resume-upload-form/">Job Application With Resume Upload form (Pro)</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/link-exchange-request-form/">Link Exchange Request form</a></td>
+						</tr>
+						
+						
+						
+						<tr>
+							<td><a href="/ready-forms/mailing-list-subscription-form/">Mailing List Subscription form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/newsletter-subscription-form/">Newsletter Subscription form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/nice-to-meet-you-form/">Nice to Meet You! form</a></td>
+						</tr>
+						
+						
+						
+						<tr>
+							<td><a href="/ready-forms/non-profit-organization-information-form/">Non-profit Organization Information form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/policy-with-signature-form/">Policy With Signature form (Pro)</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/product-review-form/">Product Review form</a></td>
+						</tr>
+						
+						
+						
+						<tr>
+							<td><a href="/ready-forms/report-an-issue-form/">Report An Issue form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/report-a-problem-form/">Report a Problem form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/sign-up-form/">Sign Up form</a></td>
+						</tr>
+						
+						
+						
+						<tr>
+							<td><a href="/ready-forms/student-evaluation-form/">Student Evaluation form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/student-feedback-form/">Student Feedback form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/table-reservation-form/">Table Reservation form</a></td>
+						</tr>
+						
+						
+						
+						<tr>
+							<td><a href="/ready-forms/team-performance-survey-form/">Team Performance Survey form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/testimonial-form/">Testimonial form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/training-course-signup-form/">Training Course Signup form</a></td>
+						</tr>
+						
+						
+						
+						<tr>
+							<td><a href="/ready-forms/trip-registration-form/">Trip Registration form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/volunteer-registration-form/">Volunteer Registration form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/volunteer-request-form/">Volunteer Request form</a></td>
+						</tr>
+						
+						
+						
+						<tr>
+							<td><a href="/ready-forms/waitress-evaluation-form/">Waitress Evaluation form</a></td>
+						
+						
+						
+						
+						
+						
+							<td><a href="/ready-forms/website-visitor-profile-form/">Website Visitor Profile form</a></td>
+						
+						
+						
+						
+												
+
+						
+							<td></td>
+						</tr>
+												
+						
+					</table>
+                </div>
+            </div>
+
+            <div class="clear">
+            </div>
+
+            <div style="text-align:center; padding:20px;">
+                <a href="/policy/">Policy</a> /
+                <script type="text/javascript">
+                    document.write("Our email address:\n");
+                    document.write("<a href='ma" + "ilto" + ":admin" + "@" + "100forms.com'>admin" + "@" + "100forms.com</a>\n");
+                </script>
+                <br />
+                
+                Copyright &copy; 1998-<span id="lblCurrentYear">2026</span>
+                GO WEB DIRECT GROUP LTD. / SnapHost.com / 100forms.com
+            </div>
+
+        </div>
+    </div>
+    </div>
+    <div class="footer">
+    </div>
+
+	<script type="text/javascript">
+		var lng = window.navigator.language.toLowerCase();
+		if(lng.indexOf('en-us') > -1) {
+			window._mfq = window._mfq || [];
+			(function () {
+				var mf = document.createElement("script");
+				mf.type = "text/javascript";
+				mf.async = true;
+				mf.src = "//cdn.mouseflow.com/projects/c6c22640-a510-4420-a1fe-120ab48074e0.js";
+				document.getElementsByTagName("head")[0].appendChild(mf);
+			})();
+		}
+	</script>
+
+</body>
+</html>
+

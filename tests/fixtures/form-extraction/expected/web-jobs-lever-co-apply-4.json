@@ -1,17 +1,25 @@
 {
   "id": "web-jobs-lever-co-apply-4",
-  "min_fields": 18,
-  "exact_field_count": 18,
+  "min_fields": 16,
+  "exact_field_count": 16,
   "fields": [
     {
-      "question": "full name✱ name full name✱ full name✱",
+      "question": "full name✱ full name✱ full name✱",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "he/him pronouns he/him he/him",
+      "question": "he/him he/him he/him",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
@@ -26,95 +34,173 @@
         "Hu/hu",
         "Use name only"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "pronouns",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "custom custompronounsoption custom he/him",
+      "question": "custom custom he/him",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Custom"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "customPronounsOption",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email✱ email email✱ email✱",
+      "question": "email✱ email✱ email✱",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "phone phone phone phone",
+      "question": "phone phone phone",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "current location no location found. try entering a different locationloading location location-input current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading",
+      "question": "current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading",
       "field_type": "text",
       "max_chars": 100,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "current company org current company current company",
+      "question": "current company current company current company",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "linkedin url✱ urls[linkedin] linkedin url✱ linkedin url✱",
+      "question": "linkedin url✱ linkedin url✱ linkedin url✱",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "portfolio url urls[portfolio] portfolio url portfolio url",
+      "question": "portfolio url portfolio url portfolio url",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Portfolio]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "other website urls[other] other website other website",
+      "question": "other website other website other website",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Other]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "yes cards[cbe67c0a-60e2-42b7-82a8-90b8b43fb624][field0] yes yes",
+      "question": "yes yes yes",
       "field_type": "radio",
       "max_chars": null,
       "options": [
         "Yes",
         "No"
       ],
-      "required": true
-    },
-    {
-      "question": "yes cards[cbe67c0a-60e2-42b7-82a8-90b8b43fb624][field1] yes yes",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "Yes",
-        "No"
-      ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[cbe67c0a-60e2-42b7-82a8-90b8b43fb624][field0]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "cards[5655b5d3-5bc5-4104-b37b-6710f09e7fe7][field0]",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[5655b5d3-5bc5-4104-b37b-6710f09e7fe7][field0]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "female surveysresponses[b30d8a74-c86a-44ee-a14a-08a543858e5d][responses][field0] female female",
+      "question": "female female female",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -124,21 +210,18 @@
         "Not Listed",
         "Prefer not to disclose"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[b30d8a74-c86a-44ee-a14a-08a543858e5d][responses][field0]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "yes surveysresponses[b30d8a74-c86a-44ee-a14a-08a543858e5d][responses][field1] yes yes",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "Yes",
-        "No",
-        "Prefer not to disclose"
-      ],
-      "required": false
-    },
-    {
-      "question": "hispanic or latine: a person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin, regardless of race. surveysresponses[b30d8a74-c86a-44ee-a14a-08a543858e5d][responses][field2] hispanic or latine: a person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin, regardless of race. hispanic or latine: a person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin, regardless of race.",
+      "question": "hispanic or latine: a person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin, regardless of race. hispanic or latine: a person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin, regardless of race. hispanic or latine: a person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin, regardless of race.",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -152,10 +235,18 @@
         "Two or more Races (not Hispanic or Latino)",
         "Prefer not to disclose"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[b30d8a74-c86a-44ee-a14a-08a543858e5d][responses][field2]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "i am a veteran surveysresponses[b30d8a74-c86a-44ee-a14a-08a543858e5d][responses][field3] i am a veteran i am a veteran",
+      "question": "i am a veteran i am a veteran i am a veteran",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -163,10 +254,18 @@
         "I am not a veteran",
         "Prefer not to disclose"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[b30d8a74-c86a-44ee-a14a-08a543858e5d][responses][field3]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "yes, i have a disability, or have a history/record of having a disability surveysresponses[b30d8a74-c86a-44ee-a14a-08a543858e5d][responses][field4] yes, i have a disability, or have a history/record of having a disability yes, i have a disability, or have a history/record of having a disability",
+      "question": "yes, i have a disability, or have a history/record of having a disability yes, i have a disability, or have a history/record of having a disability yes, i have a disability, or have a history/record of having a disability",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -174,7 +273,15 @@
         "No, I Don’t Have A Disability, Or A History/Record Of Having A Disability",
         "I Don’t Wish To Answer"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[b30d8a74-c86a-44ee-a14a-08a543858e5d][responses][field4]",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

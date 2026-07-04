@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-chips-012",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "legal name (9872) legal name (9872)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "chip-name-9872",
+        "name": "chip-name-9872",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email (9872) personal email (9872)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "chip-email-9872",
+        "name": "chip-email-9872",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9872) contact number (9872)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "chip-phone-9872",
+        "name": "chip-phone-9872",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "technical skills (9872)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Go",
+        "TypeScript",
+        "Rust",
+        "Python"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "span",
+        "type": null,
+        "id": "chip-group-9872",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

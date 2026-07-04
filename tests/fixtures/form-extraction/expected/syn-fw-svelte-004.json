@@ -1,0 +1,89 @@
+{
+  "id": "syn-fw-svelte-004",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "your name your name your name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sv-name",
+        "name": "sv-name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email personal email personal email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "sv-email",
+        "name": "sv-email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone telephone telephone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "sv-phone",
+        "name": "sv-phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "motivation statement motivation statement",
+      "field_type": "textarea",
+      "max_chars": 350,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement",
+        "name": "motivation-statement",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work location work location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "London",
+        "Berlin",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "work-location",
+        "name": "work-location",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

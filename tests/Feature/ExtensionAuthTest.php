@@ -25,12 +25,9 @@ class ExtensionAuthTest extends TestCase
             'extension_id' => $extensionId,
         ]));
 
-        $response->assertRedirect(route('login'));
-
-        $this->assertSame(
-            route('extension.login.complete', ['extension_id' => $extensionId]),
-            session('url.intended'),
-        );
+        $response->assertRedirect(route('extension.login.complete', [
+            'extension_id' => $extensionId,
+        ]));
     }
 
     public function test_extension_login_redirects_authenticated_user_to_complete_page(): void

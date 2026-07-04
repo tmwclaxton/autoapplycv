@@ -1,0 +1,91 @@
+{
+  "id": "syn-fw-ashby-007",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name applicant name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ashby-name",
+        "name": "ashby-name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact email contact email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ashby-email",
+        "name": "ashby-email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number contact number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ashby-phone",
+        "name": "ashby-phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "tell us about yourself tell us about yourself tell us about yourself",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself",
+        "name": "tell-us-about-yourself",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you require visa sponsorship?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "do-you-require-visa-spon-0",
+        "name": "do-you-require-visa-spon",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

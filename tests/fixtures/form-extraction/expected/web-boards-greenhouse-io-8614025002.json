@@ -1,0 +1,681 @@
+{
+  "id": "web-boards-greenhouse-io-8614025002",
+  "min_fields": 44,
+  "exact_field_count": 44,
+  "fields": [
+    {
+      "question": "first name first name first name first name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "first_name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "last name last name last name last name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "last_name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email email email email",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "email",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "country",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "location (city) location (city) first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate-location",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "school school",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "school--0",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "degree degree",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "degree--0",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "discipline discipline",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "discipline--0",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "current address (city – state – zip code) current address (city – state – zip code) current address (city – state – zip code) current address (city – state – zip code)",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142024002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "date available for employment date available for employment date available for employment date available for employment",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142025002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "travel availability (% of time) travel availability (% of time) travel availability (% of time) travel availability (% of time)",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142026002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "how did you hear about this job? how did you hear about this job? how did you hear about this job? how did you hear about this job?",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142027002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you have any friends or relatives employed by braeburn? do you have any friends or relatives employed by braeburn? current address (city – state – zip code)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142028002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "current address (city – state – zip code)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "employee's name (referral) employee's name (referral) employee's name (referral) employee's name (referral)",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142029002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current company current company current company current company",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142030002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "desired base salary ($) desired base salary ($) desired base salary ($) desired base salary ($)",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142031002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "desired total compensation $ (base salary + bonus) desired total compensation $ (base salary + bonus) desired total compensation $ (base salary + bonus) desired total compensation $ (base salary + bonus)",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142032002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "years of pharma experience years of pharma experience current address (city – state – zip code)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142033002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "years of buy and bill experience years of buy and bill experience years of buy and bill experience years of buy and bill experience",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142034002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "years of product procurement through national specialty pharmacies experience years of product procurement through national specialty pharmacies experience years of product procurement through national specialty pharmacies experience years of product procurement through national specialty pharmacies experience",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142035002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "years of addiction experience years of addiction experience years of addiction experience years of addiction experience",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142036002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "other experience",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Start-up",
+        "Product Launch",
+        "Injectables",
+        "Matrix Environment",
+        "REMS Product",
+        "Scheduled Class II to Class IV product",
+        "Patient/ HUB Services"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "question_37142037002[]",
+        "name": "question_37142037002[]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "are you at least 18 years old? are you at least 18 years old? current address (city – state – zip code)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142038002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "are you an american citizen, lawful permanent resident of the united states, temporary resident, refugee or asylee? are you an american citizen, lawful permanent resident of the united states, temporary resident, refugee or asylee? current address (city – state – zip code)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142039002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "are you presently authorized to work for braeburn in the position for which you are applying? are you presently authorized to work for braeburn in the position for which you are applying? current address (city – state – zip code)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142040002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "will you now or in the future require braeburn to sponsor you or to obtain, maintain or extend your employment authorization? will you now or in the future require braeburn to sponsor you or to obtain, maintain or extend your employment authorization? current address (city – state – zip code)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142041002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "are you related to any officer or member of the board of directors at braeburn? are you related to any officer or member of the board of directors at braeburn? current address (city – state – zip code)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142042002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "are you able to perform the essential functions of the job for which you are applying, either with or without reasonable accommodations? are you able to perform the essential functions of the job for which you are applying, either with or without reasonable accommodations? current address (city – state – zip code)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142043002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "if no, please describe the functions that cannot be performed? if no, please describe the functions that cannot be performed? if no, please describe the functions that cannot be performed? if no, please describe the functions that cannot be performed?",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142044002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "please list any professional licenses and/or certifications as applicable please list any professional licenses and/or certifications as applicable please list any professional licenses and/or certifications as applicable please list any professional licenses and/or certifications as applicable",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142045002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "has your professional license/certification/privilege ever been revoked or suspended (yes, no, n/a)? if yes, state the reason(s). has your professional license/certification/privilege ever been revoked or suspended (yes, no, n/a)? if yes, state the reason(s). has your professional license/certification/privilege ever been revoked or suspended (yes, no, n/a)? if yes, state the reason(s). has your professional license/certification/privilege ever been revoked or suspended (yes, no, n/a)? if yes, state the reason(s).",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142046002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "have you been excluded, debarred, suspended or otherwise declared ineligible to participate in federal or state healthcare programs? have you been excluded, debarred, suspended or otherwise declared ineligible to participate in federal or state healthcare programs? current address (city – state – zip code)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142047002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "have you ever been involuntarily terminated from employment? have you ever been involuntarily terminated from employment? have you ever been involuntarily terminated from employment? have you ever been involuntarily terminated from employment?",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142048002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "specify foreign language proficiency (if relevant to position) specify foreign language proficiency (if relevant to position) specify foreign language proficiency (if relevant to position) specify foreign language proficiency (if relevant to position)",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142049002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "please list three professional references from your last seven years of employment please list three professional references from your last seven years of employment please list three professional references from your last seven years of employment please list three professional references from your last seven years of employment",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142050002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "linkedin profile linkedin profile linkedin profile linkedin profile",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142051002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "any additional comments any additional comments any additional comments any additional comments",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142052002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "i understand that completion of this application does not obligate braeburn to hire me or offer me employment. i certify that my answers are true, accurate, and complete to the best of my knowledge, i understand that any falsification, misrepresentation, or omission of any facts in my application, resume, or any other accompanying or required material, or during any interviews, can be justification for refusal of employment, or immediate termination of employment, regardless of when and how discovered. i understand that this employment application is not a contract of employment. i understand that, if employed, my employment may be terminated with or without cause, and with or without notice, at any time, at the option of either braeburn or me. i understand that any oral or written statement to the contrary are hereby expressly disavowed and should not be relied upon by any prospective or existing employee. if hired, i agree to comply with all applicable laws and abide by the rules and regulations of braeburn as issued from time to time. braeburn may, at its sole discretion, hold in abeyance or revoke, amend or modify, abridge or change any benefit, policy, practice, condition or process affecting its employees. any offer of employment i may receive from braeburn is contingent upon my successful completion of the company’s pre-employment screening process, including the receipt by braeburn of references that it considers satisfactory. i authorize all of my former employers and those individuals i have listed as professional references to furnish information about my employment, work performance, abilities, and other qualities pertinent to my qualifications for employment, hereby releasing them from any and all liabilities for damages arising from furnishing the requested information. i also affirm that i have not signed any kind of restrictive document creating any obligation to any former employer that would restrict my acceptance of employment with braeburn in the position i am seeking. i acknowledge that i have read and understand all of the above statements. i understand that completion of this application does not obligate braeburn to hire me or offer me employment. i certify that my answers are true, accurate, and complete to the best of my knowledge, i understand that any falsification, misrepresentation, or omission of any facts in my application, resume, or any other accompanying or required material, or during any interviews, can be justification for refusal of employment, or immediate termination of employment, regardless of when and how discovered. i understand that this employment application is not a contract of employment. i understand that, if employed, my employment may be terminated with or without cause, and with or without notice, at any time, at the option of either braeburn or me. i understand that any oral or written statement to the contrary are hereby expressly disavowed and should not be relied upon by any prospective or existing employee. if hired, i agree to comply with all applicable laws and abide by the rules and regulations of braeburn as issued from time to time. braeburn may, at its sole discretion, hold in abeyance or revoke, amend or modify, abridge or change any benefit, policy, practice, condition or process affecting its employees. any offer of employment i may receive from braeburn is contingent upon my successful completion of the company’s pre-employment screening process, including the receipt by braeburn of references that it considers satisfactory. i authorize all of my former employers and those individuals i have listed as professional references to furnish information about my employment, work performance, abilities, and other qualities pertinent to my qualifications for employment, hereby releasing them from any and all liabilities for damages arising from furnishing the requested information. i also affirm that i have not signed any kind of restrictive document creating any obligation to any former employer that would restrict my acceptance of employment with braeburn in the position i am seeking. i acknowledge that i have read and understand all of the above statements. current address (city – state – zip code)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_37142053002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "gender gender gender",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "gender",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "are you hispanic/latino? are you hispanic/latino? are you hispanic/latino?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "hispanic_ethnicity",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "veteran status veteran status veteran status",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "veteran_status",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "disability status disability status disability status",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "disability_status",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

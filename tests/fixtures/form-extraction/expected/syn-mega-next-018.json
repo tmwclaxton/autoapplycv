@@ -1,0 +1,92 @@
+{
+  "id": "syn-mega-next-018",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "legal name (9238) legal name (9238)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "next-name-9238",
+        "name": "next-name-9238",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address (9238) email address (9238)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "next-email-9238",
+        "name": "next-email-9238",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9238) mobile number (9238)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "next-phone-9238",
+        "name": "next-phone-9238",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal statement (9238) personal statement (9238)",
+      "field_type": "textarea",
+      "max_chars": 450,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "personal-statement-9238-9238",
+        "name": "personal-statement-9238-9238",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "discovery channel (9238)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "LinkedIn",
+        "Referral",
+        "Job board"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "discovery-channel-9238-9-0",
+        "name": "discovery-channel-9238-9",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

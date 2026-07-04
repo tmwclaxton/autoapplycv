@@ -1,0 +1,182 @@
+{
+  "id": "web-masterworks-breezy-hr-apply",
+  "min_fields": 11,
+  "exact_field_count": 11,
+  "fields": [
+    {
+      "question": "%placeholder_full_name%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cName",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "%placeholder_email_address%",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "cEmail",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "%placeholder_phone_number%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cPhoneNumber",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "smsconsent",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "on"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "smsConsent",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "hp_7f2b",
+        "name": "hp_7f2b",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "{{ question.text }}",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_{{section._id}}_question_{{$index}}",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "%placeholder_full_name% {{ question.text }}",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_{{section._id}}_question_{{$questionIndex}}",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "%placeholder_email_address% {{ question.text }}",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "%placeholder_phone_number% {{ question.text }}",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "{{ opt.text }} {{ opt.text }} {{ question.text }}",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "{{ opt.text }}"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_{{section._id}}_question_{{$questionIndex}}",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "0000 {{ question.text }}",
+      "field_type": "text",
+      "max_chars": 4,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_{{section._id}}_question_{{$index}}",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "%BUTTON_CONTINUE%"
+    }
+  ],
+  "vet_notes": []
+}

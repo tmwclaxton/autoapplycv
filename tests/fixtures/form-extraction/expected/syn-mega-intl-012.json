@@ -1,0 +1,75 @@
+{
+  "id": "syn-mega-intl-012",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "complete name (9952) complete name (9952)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "intl-name-9952",
+        "name": "intl-name-9952",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email (9952) personal email (9952)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "intl-email-9952",
+        "name": "intl-email-9952",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone (9952) telephone (9952)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "intl-phone-9952",
+        "name": "intl-phone-9952",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work location (9952) work location (9952)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Berlin",
+        "Hybrid",
+        "Remote",
+        "London"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "work-location-9952-9952",
+        "name": "work-location-9952-9952",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

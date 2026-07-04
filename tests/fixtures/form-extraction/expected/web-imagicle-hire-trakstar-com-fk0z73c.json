@@ -1,0 +1,135 @@
+{
+  "id": "web-imagicle-hire-trakstar-com-fk0z73c",
+  "min_fields": 8,
+  "exact_field_count": 8,
+  "fields": [
+    {
+      "question": "yes yes yes i declare that i have read the privacy policy and consent to the processing of my data for the purposes contained therein https://www.imagicle.com/en/legal-terms/privacy-policy-applicants/ ?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "yes"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "id_have_you_read_our_privacy_policy_https_www_imagicle_com_en_legal_terms_privacy_policy_0",
+        "name": "have_you_read_our_privacy_policy_https_www_imagicle_com_en_legal_terms_privacy_policy",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "first name first name first name",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_first_name",
+        "name": "candidate_first_name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "last name last name last name",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_last_name",
+        "name": "candidate_last_name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email email email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_email",
+        "name": "candidate_email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "address address address",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "id_address",
+        "name": "address",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone phone phone",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_phone",
+        "name": "candidate_phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job change reasons job change reasons job change reasons",
+      "field_type": "textarea",
+      "max_chars": 300,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "id_job_change_reasons",
+        "name": "job_change_reasons",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "linkedin profile linkedin profile linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_linkedin_profile",
+        "name": "linkedin_profile",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit Application"
+    }
+  ],
+  "vet_notes": []
+}

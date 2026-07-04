@@ -4,32 +4,64 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "name as on cv name as on cv name-as-on-cv name-as-on-cv name as on cv",
+      "question": "name as on cv name as on cv name as on cv",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "name-as-on-cv",
+        "name": "name-as-on-cv",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "personal email personal email personal-email personal-email personal email",
+      "question": "personal email personal email personal email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "personal-email",
+        "name": "personal-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "phone phone phone phone phone",
+      "question": "phone phone phone",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone",
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "undefined undefined undefined undefined undefined",
+      "question": "undefined undefined undefined",
       "field_type": "url",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "undefined",
+        "name": "undefined",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

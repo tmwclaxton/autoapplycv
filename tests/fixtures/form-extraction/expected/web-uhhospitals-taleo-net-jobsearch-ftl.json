@@ -1,0 +1,193 @@
+{
+  "id": "web-uhhospitals-taleo-net-jobsearch-ftl",
+  "min_fields": 10,
+  "exact_field_count": 10,
+  "fields": [
+    {
+      "question": "keyword keyword",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "KEYWORD",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "location location",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "LOCATION",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search for jobs",
+      "field_type": "button",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "button",
+        "id": "search",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "JOB_NUMBER-text-criteria-input",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "employee status : prn",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "5",
+        "1",
+        "4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "EMPLOYEE_STATUS-5-option",
+        "name": "EMPLOYEE_STATUS",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job schedule : full-time",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "1",
+        "2",
+        "4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "JOB_SCHEDULE-1-option",
+        "name": "JOB_SCHEDULE",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job type : standard",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "1",
+        "2",
+        "8"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "JOB_TYPE-1-option",
+        "name": "JOB_TYPE",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job level : entry level",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "7",
+        "8",
+        "5",
+        "6",
+        "9"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "JOB_LEVEL-1-option",
+        "name": "JOB_LEVEL",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "will travel : no",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "1",
+        "7",
+        "8",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "WILL_TRAVEL-1-option",
+        "name": "WILL_TRAVEL",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search name search name",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "saveSearchTitle",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save this Search"
+    }
+  ],
+  "vet_notes": []
+}

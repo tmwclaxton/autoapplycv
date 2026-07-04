@@ -1,0 +1,105 @@
+{
+  "id": "syn-mega-conditional-009",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "complete name (9629) complete name (9629)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cond-name-9629",
+        "name": "cond-name-9629",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact email (9629) contact email (9629)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cond-email-9629",
+        "name": "cond-email-9629",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9629) mobile number (9629)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cond-phone-9629",
+        "name": "cond-phone-9629",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "portfolio url (9629) portfolio url (9629)",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "portfolio-url-9629-9629",
+        "name": "portfolio-url-9629-9629",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal statement (9629) personal statement (9629)",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "personal-statement-9629-9629",
+        "name": "personal-statement-9629-9629",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work location (9629) work location (9629)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Remote",
+        "Manchester",
+        "Hybrid",
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "work-location-9629-9629",
+        "name": "work-location-9629-9629",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

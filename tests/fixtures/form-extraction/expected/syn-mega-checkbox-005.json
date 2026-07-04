@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-checkbox-005",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "full name (9755) full name (9755)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "chk-name-9755",
+        "name": "chk-name-9755",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address (9755) email address (9755)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "chk-email-9755",
+        "name": "chk-email-9755",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone (9755) telephone (9755)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "chk-phone-9755",
+        "name": "chk-phone-9755",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "technical skills (9755)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Python",
+        "SQL",
+        "JavaScript",
+        "Rust"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "technical-skills-9755-97",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

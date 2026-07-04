@@ -1,0 +1,58 @@
+{
+  "id": "web-boards-greenhouse-io-7070870",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "search search search search search",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "keyword-filter",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "department department",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "department-filter",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "office office",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "office-filter",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next page"
+    }
+  ],
+  "vet_notes": []
+}

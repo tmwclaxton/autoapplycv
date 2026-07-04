@@ -1,0 +1,92 @@
+{
+  "id": "syn-mega-next-022",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "complete name (9242) complete name (9242)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "next-name-9242",
+        "name": "next-name-9242",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9242) work email (9242)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "next-email-9242",
+        "name": "next-email-9242",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9242) mobile number (9242)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "next-phone-9242",
+        "name": "next-phone-9242",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "tell us about yourself (9242) tell us about yourself (9242)",
+      "field_type": "textarea",
+      "max_chars": 450,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself-9242-",
+        "name": "tell-us-about-yourself-9242-",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "how did you hear about us? (9242)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "LinkedIn",
+        "Referral",
+        "Job board"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "how-did-you-hear-about-u-0",
+        "name": "how-did-you-hear-about-u",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

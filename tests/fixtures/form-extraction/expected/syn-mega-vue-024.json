@@ -1,0 +1,77 @@
+{
+  "id": "syn-mega-vue-024",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "preferred name (9024) preferred name (9024)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vue-name-9024",
+        "name": "vue-name-9024",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9024) primary email (9024)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "vue-email-9024",
+        "name": "vue-email-9024",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "direct line (9024) direct line (9024)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "vue-phone-9024",
+        "name": "vue-phone-9024",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "open to relocation? (9024)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Maybe later"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "open-to-relocation-9024--0",
+        "name": "open-to-relocation-9024-",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next step"
+    }
+  ],
+  "vet_notes": []
+}

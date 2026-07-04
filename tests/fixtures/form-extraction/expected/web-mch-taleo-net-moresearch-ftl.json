@@ -1,0 +1,114 @@
+{
+  "id": "web-mch-taleo-net-moresearch-ftl",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "jobs available in: jobs available in:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "languageSelectInterface.languageSelect",
+        "name": "languageSelect",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search query name search query name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "saveSearchInterface.SaveNameInput",
+        "name": "nameValue",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job number job number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "advancedSearchInterface.jobNumberInput",
+        "name": "jobNumberSearch",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "keywords keywords",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "advancedSearchInterface.keywordInput",
+        "name": "keyword",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job status",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Full Time",
+        "Part Time with Benefits",
+        "Part Time No Benefits",
+        "Pool",
+        "Temporary/Seasonal"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "advancedSearchInterface.udf1Input_1check",
+        "name": "udf1",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "shift",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Days",
+        "Evenings",
+        "Nights",
+        "Weekend Only"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "advancedSearchInterface.udf2Input_1check",
+        "name": "udf2",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save"
+    }
+  ],
+  "vet_notes": []
+}

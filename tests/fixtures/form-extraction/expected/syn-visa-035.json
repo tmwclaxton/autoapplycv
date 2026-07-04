@@ -4,18 +4,34 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "full name full name full-name full-name full name",
+      "question": "full name full name full name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "full-name",
+        "name": "full-name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email address email address email-address email-address email address",
+      "question": "email address email address email address",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email-address",
+        "name": "email-address",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "will you need sponsorship?",
@@ -26,7 +42,15 @@
         "No",
         "Not sure"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "will-you-need-sponsorshi-0",
+        "name": "will-you-need-sponsorshi",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "eligible to work in this country?",
@@ -36,7 +60,15 @@
         "Yes",
         "No"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "eligible-to-work-in-this-0",
+        "name": "eligible-to-work-in-this",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

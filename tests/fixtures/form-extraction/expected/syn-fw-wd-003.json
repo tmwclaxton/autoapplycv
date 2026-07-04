@@ -1,0 +1,41 @@
+{
+  "id": "syn-fw-wd-003",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "input-q_applicant-name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "input-q_contact-email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "input-q_contact-number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "input-q_tell-us-about-",
+      "field_type": "textarea",
+      "max_chars": 600,
+      "options": null,
+      "required": false
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save and continue"
+    }
+  ],
+  "vet_notes": []
+}

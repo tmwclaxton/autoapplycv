@@ -1,0 +1,193 @@
+{
+  "id": "web-digitalforms-recruitee-com-regular-android-developer",
+  "min_fields": 10,
+  "exact_field_count": 10,
+  "fields": [
+    {
+      "question": "my information",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-undefined",
+        "name": "candidate.name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "how many years of experience on this position you have?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "up to 1 year",
+        "up to 3 years",
+        "up to 5 years",
+        "up to 8 years",
+        "above 8 years"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6322299.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.6322299.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "what's your seniority level?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Junior",
+        "Mid",
+        "Senior",
+        "Lead"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6322300.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.6322300.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "what is your english language proficiency level?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "A1 (Beginner): Basic phrases, very limited communication.",
+        "A2 (Elementary): Simple tasks, basic professional interactions.",
+        "B1 (Intermediate): Understands main points, handles routine IT discussions.",
+        "B2 (Upper Intermediate): Good operational command, fluent in most IT contexts.",
+        "C1 (Advanced): Highly proficient, effective communication in complex IT scenarios.",
+        "C2 (Proficient): Near-native fluency, comprehensive understanding for any IT role."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6322301.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.6322301.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you have a polish business entity that can invoice b2b, or are you willing to set one up before starting?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6322302.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.6322302.flag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "questions",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.openQuestionAnswers.6322303.content-undefined",
+        "name": "candidate.openQuestionAnswers.6322303.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "can you work on your computer?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6322305.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.6322305.flag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "are you looking for a full-time commitment with your next role, or are you seeking something more flexible or parallel to other engagements?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Part time",
+        "Full time",
+        "Both"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.6322307.multiContent-undefined-0",
+        "name": "candidate.openQuestionAnswers.6322307.multiContent",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "would occasional international travel be acceptable to you if required for this position?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6322308.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.6322308.flag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "we have most of our clients in western countries. are you able to work in 3 to 7 pm overlap?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6322309.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.6322309.flag",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

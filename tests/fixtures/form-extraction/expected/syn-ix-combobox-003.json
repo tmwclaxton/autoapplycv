@@ -1,0 +1,41 @@
+{
+  "id": "syn-ix-combobox-003",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "your name your name ix-name-7 ix-name-7",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "personal email personal email ix-email-7 ix-email-7",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "telephone telephone ix-phone-7 ix-phone-7",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "where are you based?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "London",
+        "Remote",
+        "Hybrid"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

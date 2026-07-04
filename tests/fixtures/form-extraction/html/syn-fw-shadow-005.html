@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Web component apply 5</title></head>
+<body>
+
+<main>
+<h1>Web component apply 5</h1>
+<apply-form-widget data-stage="5">
+<form slot="application" action="/apply" method="post">
+<section class="wc-host">
+<label for="wc-name-4">Full name</label>
+<input id="wc-name-4" name="wc-name-4" type="text">
+<label for="wc-email-4">Email address</label>
+<input id="wc-email-4" name="wc-email-4" type="email">
+<label for="wc-phone-4">Phone number</label>
+<input id="wc-phone-4" name="wc-phone-4" type="tel">
+<div class="field-row"><label for="cover-letter">Cover letter</label><textarea id="cover-letter" name="cover-letter" rows="4" maxlength="300" ></textarea></div>
+</section>
+<button type="button">Continue</button>
+</form>
+</apply-form-widget>
+<job-application-panel>
+<div class="panel-inner" role="group" aria-label="Additional questions">
+
+</div>
+</job-application-panel>
+</main>
+</body>
+</html>

@@ -1,0 +1,138 @@
+{
+  "id": "web-uscareers-nyu-icims-com-intro",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "keywords/posting # keywords/posting # start your job search here",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jsb_f_keywords_i",
+        "name": "searchKeyword",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "category category",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "Academic Program Support",
+        "Business/Professional Administrative",
+        "Campus/Auxilary/Transportation, Facilities, Public Safety",
+        "Development/Sponsored Research/Grant Writing",
+        "Engineering",
+        "Finance/Real Estate/Procurement/Grant Management",
+        "General Office Administration",
+        "Health Services",
+        "Human Resources",
+        "Libraries",
+        "Marketing/Advertising/Public Relations/Media/Video/Audio",
+        "Other Non-Exempt Support, N.E.C.",
+        "Sciences Support",
+        "Student Services/Athletics",
+        "Technology"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_position_s",
+        "name": "searchCategory",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "school/division school/division",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "Abu Dhabi NY Campus (AB1001)",
+        "Admissions",
+        "Africa House (AS1336)",
+        "Arts and Science (AS1111)",
+        "Asian Pacific American Institute (WS1660)",
+        "Campus Services (WS1436)",
+        "Campus Services (WS1444)",
+        "Capital Projects and Facilities (WS2548)",
+        "Center for Data Science (CM1035)",
+        "College of Dentistry (DN1032)",
+        "Courant Institute of Mathematical Sciences (CIMS) (CM1017)",
+        "CUSP (US1016)",
+        "Department Administration (WS1643)",
+        "Development Research Institute (WS2012)",
+        "Development Research Institute (WS2047)",
+        "Division of Libraries (LB1082)",
+        "Faculty Housing & Residential Services (WS1153)",
+        "Faculty Senate (WS1676)",
+        "Financial Operations & Treasurer (WS1220)",
+        "Gallatin School of Individualized Study (IS1014)",
+        "Global Programs (WS1750)",
+        "Globalization and Multi-Cultural Affairs (WS1759)",
+        "Human Resources (WS1538)",
+        "Institute for Public Knowledge (WS2278)",
+        "Institute for the Study of the Ancient World (AW1016)",
+        "Institute of Fine Arts (IFA) (FA1012)",
+        "Internal Audit (WS1231)",
+        "Investment Office (WS1296)",
+        "Leadership Initiatives (WS2272)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_positiontype_s",
+        "name": "searchPositionType",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "location location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "(Current Location)",
+        "Brooklyn-NY-US",
+        "New York-NY-US",
+        "Washington-DC-US"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_location_s",
+        "name": "searchLocation",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "zip code zip code",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jsb_f_zipcode_i",
+        "name": "searchZip",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

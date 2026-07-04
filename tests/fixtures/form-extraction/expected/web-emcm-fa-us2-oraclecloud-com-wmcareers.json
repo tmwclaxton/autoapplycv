@@ -1,0 +1,43 @@
+{
+  "id": "web-emcm-fa-us2-oraclecloud-com-wmcareers",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "job title, skill, keyword job title, skill, keyword find jobs job title, skill, keyword",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "keyword",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "city, state, country city, state, country city, state, country",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue Working"
+    }
+  ],
+  "vet_notes": []
+}

@@ -1,0 +1,154 @@
+{
+  "id": "web-us-erac-icims-com-intro",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "start your job search here start your job search here start your job search here",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jsb_f_keywords_i",
+        "name": "searchKeyword",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "category category",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "Accounting/Finance - Accounting",
+        "Administrative/Clerical - All Positions",
+        "Automotive / Transportation - ASE Certified Mechanic",
+        "Automotive / Transportation - Automotive Apprentice",
+        "Automotive / Transportation - Automotive Maintenance Technician (LOFR)",
+        "Automotive / Transportation - CDL Bus Driver",
+        "Automotive / Transportation - Driver",
+        "Automotive / Transportation - Service Agent/Car Washer/Detailer",
+        "Automotive / Transportation - Shuttle Bus Driver",
+        "Automotive / Transportation - Vehicle Service Attendance - Truck",
+        "Customer Service/Support - Customer Service/Support",
+        "Facilities/Real Estate - All Positions",
+        "Internships / Co-op - Accounting Internship",
+        "Internships / Co-op - MT Internships",
+        "Legal - All Positions",
+        "Management Trainee Program - All Positions",
+        "Marketing - Analytics/SEO",
+        "Marketing - Digital/Content",
+        "Sales - Sales",
+        "Supply Chain - All Positions",
+        "Technology - All Other Positions",
+        "Technology - Engineering",
+        "Technology - IT",
+        "Technology - Product"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_position_s",
+        "name": "searchCategory",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "position type position type",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "Regular Full-Time",
+        "Regular Part-Time",
+        "Intern Full-Time",
+        "Intern Part-Time",
+        "Temporary Full-Time",
+        "Temporary Part-Time",
+        "Seasonal Full-Time",
+        "Seasonal Part-Time",
+        "Contract",
+        "Contract to Permanent (Full Time)",
+        "Contract to Permanent (Part Time)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_positiontype_s",
+        "name": "searchPositionType",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "location location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "(Current Location)",
+        "US-AK",
+        "US-AL",
+        "US-AR",
+        "US-AZ",
+        "US-CA",
+        "US-CO",
+        "US-CT",
+        "US-DC",
+        "US-DE",
+        "US-FL",
+        "US-GA",
+        "US-HI",
+        "US-IA",
+        "US-ID",
+        "US-IL",
+        "US-IN",
+        "US-KS",
+        "US-KY",
+        "US-LA",
+        "US-MA",
+        "US-MD",
+        "US-ME",
+        "US-MI",
+        "US-MN",
+        "US-MO",
+        "US-MS",
+        "US-MT",
+        "US-NC"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_location_s",
+        "name": "searchLocation",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "zip code zip code",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jsb_f_zipcode_i",
+        "name": "searchZip",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

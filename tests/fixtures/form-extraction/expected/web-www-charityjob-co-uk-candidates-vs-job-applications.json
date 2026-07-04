@@ -1,0 +1,157 @@
+{
+  "id": "web-www-charityjob-co-uk-candidates-vs-job-applications",
+  "min_fields": 9,
+  "exact_field_count": 9,
+  "fields": [
+    {
+      "question": "search",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "s",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "fname",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "fname",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "source source",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Email",
+        "Search Engine",
+        "Social Media",
+        "Referral"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "source",
+        "name": "source",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "i am a candidate i am a candidate i am a candidate",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I am a Candidate",
+        "I am a Recruiter",
+        "I am a Candidate",
+        "I am a Recruiter"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "candidate",
+        "name": "type",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "agree",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "on",
+        "on"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "agree",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "your email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email_footer_1",
+        "name": "Email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "honeypot",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "honeypot",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "honey",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "honey",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

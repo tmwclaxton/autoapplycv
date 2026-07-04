@@ -1,0 +1,113 @@
+{
+  "id": "web-unwatch-recruitee-com-volunteer-internship",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "my information",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-undefined",
+        "name": "candidate.name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "questions",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.openQuestionAnswers.1986232.content-undefined",
+        "name": "candidate.openQuestionAnswers.1986232.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "please indicate which internship you are applying for (spring, summer, or fall)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Spring (February, March, April)",
+        "Summer (May, June, July)",
+        "Fall (September, October, November)",
+        "Other (Please specify below)"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.1986240.multiContent-undefined-0",
+        "name": "candidate.openQuestionAnswers.1986240.multiContent",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "are you available full-time?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.5771765.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.5771765.flag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "disciplinary action: have you, during your high school studies, university career, or army service, incurred serious disciplinary action? have you ever been dismissed or suspended from school or the army, placed on probation, or voluntarily absent for an extended period?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "'No'",
+        "Yes"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.1986241.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.1986241.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "i hereby present my candidacy for a un watch volunteer internship, and affirm that all of the information i have submitted is truthful and accurate. i have thoroughly familiarized myself with the aims and activities of un watch, and i am committed to faithfully carry them out in my capacity as a volunteer intern. i am aware that as a volunteer intern i will receive no remuneration, and will be required to pay for my own living, lodging, health insurance and all other costs related to my internship.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "'No'",
+        "Yes"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.1986252.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.1986252.content",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

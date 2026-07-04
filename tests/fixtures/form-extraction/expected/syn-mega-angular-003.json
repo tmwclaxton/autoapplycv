@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-angular-003",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9163) applicant name (9163)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ang-name-9163",
+        "name": "ang-name-9163",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact email (9163) contact email (9163)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ang-email-9163",
+        "name": "ang-email-9163",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9163) contact number (9163)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ang-phone-9163",
+        "name": "ang-phone-9163",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "motivation statement (9163) motivation statement (9163)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement-9163-91",
+        "name": "motivation-statement-9163-91",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work location (9163) work location (9163)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Remote",
+        "Berlin",
+        "Hybrid",
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "work-location-9163-9163",
+        "name": "work-location-9163-9163",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

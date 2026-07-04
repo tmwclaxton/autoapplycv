@@ -1,0 +1,90 @@
+{
+  "id": "syn-mega-svelte-002",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "legal name (9112) legal name (9112)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sv-name-9112",
+        "name": "sv-name-9112",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9112) primary email (9112)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "sv-email-9112",
+        "name": "sv-email-9112",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9112) mobile number (9112)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "sv-phone-9112",
+        "name": "sv-phone-9112",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal statement (9112) personal statement (9112)",
+      "field_type": "textarea",
+      "max_chars": 350,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "personal-statement-9112-9112",
+        "name": "personal-statement-9112-9112",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9112) office preference (9112)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "London",
+        "Manchester",
+        "Hybrid",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "office-preference-9112-9112",
+        "name": "office-preference-9112-9112",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

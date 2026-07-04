@@ -1,0 +1,87 @@
+{
+  "id": "syn-mega-grid-008",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "your name (9908) your name (9908)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "grid-name-9908",
+        "name": "grid-name-9908",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9908) primary email (9908)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "grid-email-9908",
+        "name": "grid-email-9908",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9908) cell phone (9908)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "grid-phone-9908",
+        "name": "grid-phone-9908",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9908) why this role? (9908)",
+      "field_type": "textarea",
+      "max_chars": 450,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9908-9908",
+        "name": "why-this-role-9908-9908",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "willing to relocate? (9908)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "willing-to-relocate-9908-0",
+        "name": "willing-to-relocate-9908",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

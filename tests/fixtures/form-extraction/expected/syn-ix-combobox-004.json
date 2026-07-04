@@ -1,0 +1,41 @@
+{
+  "id": "syn-ix-combobox-004",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "full name full name ix-name-8 ix-name-8",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "email address email address ix-email-8 ix-email-8",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "phone number phone number ix-phone-8 ix-phone-8",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "preferred location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "New York",
+        "San Francisco",
+        "Austin"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

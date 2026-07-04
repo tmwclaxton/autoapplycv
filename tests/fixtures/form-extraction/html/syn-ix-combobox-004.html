@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Combobox controls</title></head>
+<body>
+<main><h1>Combobox controls</h1><form action="/apply" method="post">
+<label for="ix-name-8">Full name</label>
+<input type="text" id="ix-name-8" name="ix-name-8">
+<label for="ix-email-8">Email address</label>
+<input type="email" id="ix-email-8" name="ix-email-8">
+<label for="ix-phone-8">Phone number</label>
+<input type="tel" id="ix-phone-8" name="ix-phone-8">
+<span id="combo-list-8-lbl">Preferred location</span>
+<button type="button" role="combobox" aria-expanded="false" aria-controls="combo-list-8" aria-labelledby="combo-list-8-lbl" data-reveal="#combo-list-8">Open preferred location</button>
+<div role="listbox" id="combo-list-8" aria-labelledby="combo-list-8-lbl" hidden style="display:none">
+<div role="option">New York</div><div role="option">San Francisco</div><div role="option">Austin</div>
+</div></form></main>
+</body>
+</html>

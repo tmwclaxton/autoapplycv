@@ -1,0 +1,39 @@
+{
+  "id": "web-mdn2-netlify-app-sending-and-retrieving-form-data",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "search mdn search mdn site search... (press \"/\" to focus)",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "main-q",
+        "name": "q",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search",
+      "field_type": "submit",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "submit",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

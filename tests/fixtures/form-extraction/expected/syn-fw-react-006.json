@@ -1,0 +1,75 @@
+{
+  "id": "syn-fw-react-006",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "legal name legal name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "react-name",
+        "name": "react-name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email work email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "react-email",
+        "name": "react-email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number mobile number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "react-phone",
+        "name": "react-phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application source application source",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "LinkedIn",
+        "Referral",
+        "Job board",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "application-source",
+        "name": "application-source",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

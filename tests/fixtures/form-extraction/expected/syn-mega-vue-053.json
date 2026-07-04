@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-vue-053",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "your name (9053) your name (9053)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vue-name-9053",
+        "name": "vue-name-9053",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9053) primary email (9053)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "vue-email-9053",
+        "name": "vue-email-9053",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9053) cell phone (9053)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "vue-phone-9053",
+        "name": "vue-phone-9053",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9053) why this role? (9053)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9053-9053",
+        "name": "why-this-role-9053-9053",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current city (9053) current city (9053)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Hybrid",
+        "Manchester",
+        "London",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "current-city-9053-9053",
+        "name": "current-city-9053-9053",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save and continue"
+    }
+  ],
+  "vet_notes": []
+}

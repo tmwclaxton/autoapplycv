@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-listbox-030",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "legal name (9690) legal name (9690)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "lb-name-9690",
+        "name": "lb-name-9690",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9690) work email (9690)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "lb-email-9690",
+        "name": "lb-email-9690",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9690) contact number (9690)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "lb-phone-9690",
+        "name": "lb-phone-9690",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work location (9690)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Hybrid",
+        "Berlin",
+        "Remote",
+        "London"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-h-9690",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

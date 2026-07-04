@@ -4,25 +4,49 @@
   "exact_field_count": 3,
   "fields": [
     {
-      "question": "name name name name-input",
+      "question": "name name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "name-input",
+        "name": "name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email email _replyto email-input",
+      "question": "email email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email-input",
+        "name": "_replyto",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "message message message message-input",
+      "question": "message message",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "message-input",
+        "name": "message",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

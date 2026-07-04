@@ -1,0 +1,463 @@
+{
+  "id": "web-boards-greenhouse-io-8529553002",
+  "min_fields": 30,
+  "exact_field_count": 30,
+  "fields": [
+    {
+      "question": "first name first name first name first name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "first_name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "last name last name last name last name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "last_name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred first name preferred first name preferred first name preferred first name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "preferred_name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email email email email",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "email",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "country",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "location (city) location (city) first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate-location",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "school school",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "school--0",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "degree degree",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "degree--0",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "discipline discipline",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "discipline--0",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "linkedin profile linkedin profile linkedin profile linkedin profile",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347848002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "how did you hear about this job? how did you hear about this job? linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347850002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "please specify please specify please specify please specify",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347851002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "gpa (undergraduate) gpa (undergraduate) linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347852002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "gpa (graduate) gpa (graduate) linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347853002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "gpa (doctorate) gpa (doctorate) linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347854002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "sat score sat score linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347855002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "act score act score linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347856002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "gre score gre score linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347857002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "active security clearance(s) active security clearance(s) linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347858002[]",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "spacex, xai & x employment history spacex, xai & x employment history linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347859002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "can you perform all of the essential functions of this role with or without reasonable accommodations? can you perform all of the essential functions of this role with or without reasonable accommodations? linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347860002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "are you legally authorized to work in the united states? are you legally authorized to work in the united states? linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347861002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "citizenship status citizenship status linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347862002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "if (f) other, please explain: if (f) other, please explain: if (f) other, please explain: if (f) other, please explain:",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36347863002",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "gender gender gender",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "gender",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "are you hispanic/latino? are you hispanic/latino? are you hispanic/latino?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "hispanic_ethnicity",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "veteran status veteran status veteran status",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "veteran_status",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "disability status disability status disability status",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "disability_status",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

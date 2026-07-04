@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-dropdown-029",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "preferred name (9829) preferred name (9829)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "dd-name-9829",
+        "name": "dd-name-9829",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact email (9829) contact email (9829)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "dd-email-9829",
+        "name": "dd-email-9829",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9829) cell phone (9829)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "dd-phone-9829",
+        "name": "dd-phone-9829",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9829)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "London",
+        "Dublin",
+        "Hybrid",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-h-9829",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

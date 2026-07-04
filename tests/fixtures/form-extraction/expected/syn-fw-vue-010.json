@@ -1,0 +1,73 @@
+{
+  "id": "syn-fw-vue-010",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "legal name legal name legal name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vue-name",
+        "name": "vue-name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email work email work email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "vue-email",
+        "name": "vue-email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number mobile number mobile number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "vue-phone",
+        "name": "vue-phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? why this role?",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role",
+        "name": "why-this-role",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save and continue"
+    }
+  ],
+  "vet_notes": []
+}

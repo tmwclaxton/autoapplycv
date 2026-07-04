@@ -1,0 +1,91 @@
+{
+  "id": "syn-mega-react-035",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "full name (9090) full name (9090)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "react-name-9090",
+        "name": "react-name-9090",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address (9090) email address (9090)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "react-email-9090",
+        "name": "react-email-9090",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "direct line (9090) direct line (9090)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "react-phone-9090",
+        "name": "react-phone-9090",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "motivation statement (9090) motivation statement (9090)",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement-9090-90",
+        "name": "motivation-statement-9090-90",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you require visa sponsorship? (9090)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "do-you-require-visa-spon",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

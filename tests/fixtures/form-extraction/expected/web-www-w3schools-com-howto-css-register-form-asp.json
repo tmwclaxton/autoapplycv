@@ -4,92 +4,188 @@
   "exact_field_count": 12,
   "fields": [
     {
-      "question": "search field search field search field search... tnb-google-search-input",
+      "question": "search field search field search field search...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "tnb-google-search-input",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": " darktoggle_on_small ",
+      "question": " ",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         ""
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "darkToggle_on_small",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "tutorials filter input filter... filter-tutorials-input",
+      "question": "tutorials filter input filter...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "filter-tutorials-input",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "references filter bar filter... filter-references-input",
+      "question": "references filter bar filter...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "filter-references-input",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "exercises filter bar filter... filter-exercises-input",
+      "question": "exercises filter bar filter...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "filter-exercises-input",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "certificates filter input filter... filter-certified-input",
+      "question": "certificates filter input filter...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "filter-certified-input",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "dark mode  darktoggle dark mode ",
+      "question": "dark mode  dark mode ",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Dark mode "
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "darkToggle",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "services filter input services filter input services filter bar filter... filter-services-input",
+      "question": "services filter input services filter input services filter bar filter...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "filter-services-input",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "search...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "enter email",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "enter password",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "repeat password",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

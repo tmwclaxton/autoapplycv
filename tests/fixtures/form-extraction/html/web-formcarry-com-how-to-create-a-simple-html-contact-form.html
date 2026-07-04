@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en" class="auto-color">
+<head>
+
+    <title>How to create a simple HTML contact form that sends email</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/blog/assets/built/screen.css?v=064d31dbe3" />
+
+    <meta name="description" content="In this guide you&#x27;ll learn how to create a HTML contact form that sends you an email by bare minimum code with PHP and CSS or with formcarry" />
+    <link rel="icon" href="https://formcarry.com/blog/content/images/size/w256h256/2022/08/android-chrome-512x512.png" type="image/png" />
+    <link rel="canonical" href="https://formcarry.com/blog/how-to-create-a-simple-html-contact-form/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="https://formcarry.com/blog/how-to-create-a-simple-html-contact-form/amp/" />
+    
+    <meta property="og:site_name" content="Formcarry Blog" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="How to create a simple HTML contact form that sends email" />
+    <meta property="og:description" content="In this guide you&#x27;ll learn how to create a HTML contact form that sends you an email by bare minimum code with PHP and CSS or with formcarry" />
+    <meta property="og:url" content="https://formcarry.com/blog/how-to-create-a-simple-html-contact-form/" />
+    <meta property="og:image" content="https://formcarry.com/blog/content/images/2022/10/Cover.jpg" />
+    <meta property="article:published_time" content="2022-10-31T04:54:30.000Z" />
+    <meta property="article:modified_time" content="2023-08-21T12:21:34.000Z" />
+    <meta property="article:tag" content="Guides" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/formcarry" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How to create a simple HTML contact form | Formcarry." />
+    <meta name="twitter:description" content="In this guide you&#x27;ll learn how to create a HTML contact form that sends you an email by bare minimum code with PHP and CSS or with formcarry" />
+    <meta name="twitter:url" content="https://formcarry.com/blog/how-to-create-a-simple-html-contact-form/" />
+    <meta name="twitter:image" content="https://formcarry.com/blog/content/images/2022/10/Cover.jpg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Nusu Alabuga" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Guides" />
+    <meta name="twitter:site" content="@formcarry" />
+    <meta name="twitter:creator" content="@nusualabuga" />
+    <meta property="og:image:width" content="2000" />
+    <meta property="og:image:height" content="1127" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Formcarry Blog",
+        "url": "https://formcarry.com/blog/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://formcarry.com/blog/content/images/2022/12/formcarry_dark_surface.png"
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Nusu Alabuga",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://formcarry.com/blog/content/images/2020/10/pp_small-1.jpg",
+            "width": 375,
+            "height": 500
+        },
+        "url": "https://formcarry.com/blog/author/nusu/",
+        "sameAs": [
+            "https://twitter.com/nusualabuga"
+        ]
+    },
+    "headline": "How to create a simple HTML contact form that sends email",
+    "url": "https://formcarry.com/blog/how-to-create-a-simple-html-contact-form/",
+    "datePublished": "2022-10-31T04:54:30.000Z",
+    "dateModified": "2023-08-21T12:21:34.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://formcarry.com/blog/content/images/2022/10/Cover.jpg",
+        "width": 2000,
+        "height": 1127
+    },
+    "keywords": "Guides",
+    "description": "In this guide I’m going to show you how to create a HTML contact form that sends you an email by bare minimum code.\n\nCollecting form submissions is an essential part of any business. There are drag-and-drop form builders, but sometimes you might want to use just your HTML form. Let&#x27;s get started!\n\nYou can scroll down to see HTML code for contact form👇 on front-end, followed by the PHP code for processing form data👇 that delivers your form to email.\n\n\nTable of contents:\n\n * HTML Form Code\n * CS",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://formcarry.com/blog/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 5.22" />
+    <link rel="alternate" type="application/rss+xml" title="Formcarry Blog" href="https://formcarry.com/blog/rss/" />
+    
+    <script defer src="https://cdn.jsdelivr.net/ghost/sodo-search@~1.1/umd/sodo-search.min.js" data-key="3b37b67657a09ca498469d0174" data-styles="https://cdn.jsdelivr.net/ghost/sodo-search@~1.1/umd/main.css" data-sodo-search="https://formcarry.com/blog/" crossorigin="anonymous" type="4aca8a8ede250dada169cdc3-text/javascript"></script>
+    <script defer src="/blog/public/cards.min.js?v=064d31dbe3" type="4aca8a8ede250dada169cdc3-text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/blog/public/cards.min.css?v=064d31dbe3">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-okaidia.min.css" integrity="sha512-mIs9kKbaw6JZFfSuo+MovjU+Ntggfoj8RwAmJbVXQ5mkAX5LlgETQEweFPI18humSPHymTb5iikEOKWF7I8ncQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style type="text/css" media="screen">
+    .post-full-content pre strong {
+        color: white;
+    }
+    .post-full-content pre {
+        line-height: 1;
+    }
+    .post-full-content pre code {
+        white-space: pre-wrap;
+        hyphens: auto;
+        line-height: 0.7;
+        font-size: 0.7em;
+    }
+</style>
+<style>
+	.main-wrap {
+        max-width: 1170px;
+        margin: 0 auto;
+        width: 100%;
+        margin-top: 50px;
+    }
+    
+    @media (min-width: 968px) {
+    	.main-wrap {
+            margin-top: 67px;
+        }	
+    }
+</style>
+<script type="4aca8a8ede250dada169cdc3-text/javascript">
+  const ghostSearchApiKey = 'e6b935b8bfe01b6c3b6e2180f4'
+</script><style>:root {--ghost-accent-color: #081526;}</style>
+
+</head>
+<body class="post-template tag-guides has-cover">
+<div class="viewport">
+
+    <header id="gh-head" class="gh-head outer">
+        <nav class="gh-head-inner inner">
+
+            <div class="gh-head-brand">
+                <a class="gh-head-logo" href="https://formcarry.com/blog">
+                        <img src="https://formcarry.com/blog/content/images/2022/12/formcarry_dark_surface.png" alt="Formcarry Blog" />
+                </a>
+                <div class="gh-head-brand-wrapper">
+                    <button class="gh-search" data-ghost-search><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
+                    <a class="gh-burger" role="button">
+                        <div class="gh-burger-box">
+                            <div class="gh-burger-inner"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="gh-head-menu">
+                <ul class="nav">
+    <li class="nav-blog"><a href="https://formcarry.com/blog/">Blog</a></li>
+    <li class="nav-documentations"><a href="https://formcarry.com/docs">Documentations</a></li>
+    <li class="nav-formcarry"><a href="https://formcarry.com">Formcarry</a></li>
+    <li class="nav-html-form-generator"><a href="https://formcarry.com/html-form-generator">HTML Form Generator</a></li>
+    <li class="nav-form-api"><a href="https://formcarry.com">Form API</a></li>
+</ul>
+
+            </div>
+            <div class="gh-head-actions">
+                <button class="gh-search" data-ghost-search><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
+                <div class="gh-social">
+                        <a class="gh-social-link gh-social-facebook" href="https://www.facebook.com/formcarry" title="Facebook" target="_blank" rel="me noopener"><svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z"/></svg></a>
+                        <a class="gh-social-link gh-social-twitter" href="https://twitter.com/formcarry" title="Twitter" target="_blank" rel="me noopener"><svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"/></svg></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="site-content">
+        
+
+
+
+<main id="site-main" class="site-main">
+<article class="article post tag-guides ">
+
+    <header class="article-header gh-canvas">
+
+        <div class="article-tag post-card-tags">
+                <span class="post-card-primary-tag">
+                    <a href="/blog/tag/guides/">Guides</a>
+                </span>
+        </div>
+
+        <h1 class="article-title">How to create a simple HTML contact form from scratch</h1>
+
+
+        <div class="article-byline">
+        <section class="article-byline-content">
+
+            <ul class="author-list">
+                <li class="author-list-item">
+                    <a href="/blog/author/nusu/" class="author-avatar">
+                        <img class="author-profile-image" src="/blog/content/images/size/w100/2020/10/pp_small-1.jpg" alt="Nusu Alabuga" />
+                    </a>
+                </li>
+            </ul>
+
+            <div class="article-byline-meta">
+                <h4 class="author-name"><a href="/blog/author/nusu/">Nusu Alabuga</a></h4>
+                <div class="byline-meta-content">
+                    <time class="byline-meta-date" datetime="2022-10-31">Oct 31, 2022</time>
+                        <span class="byline-reading-time"><span class="bull">&bull;</span> 9 min read</span>
+                </div>
+            </div>
+
+        </section>
+        </div>
+
+            <figure class="article-image">
+                <img
+                    srcset="/blog/content/images/size/w300/2022/10/Cover.jpg 300w,
+                            /blog/content/images/size/w600/2022/10/Cover.jpg 600w,
+                            /blog/content/images/size/w1000/2022/10/Cover.jpg 1000w,
+                            /blog/content/images/size/w2000/2022/10/Cover.jpg 2000w"
+                    sizes="(min-width: 1400px) 1400px, 92vw"
+                    src="/blog/content/images/size/w2000/2022/10/Cover.jpg"
+                    alt="How to create a simple HTML contact form from scratch"
+                />
+            </figure>
+
+    </header>
+
+    <section class="gh-content gh-canvas">
+        <p>In this guide I’m going to show you <strong>how to create a HTML contact form that sends you an email</strong> by bare minimum code.</p><p>Collecting form submissions is an essential part of any business. There are drag-and-drop form builders, but sometimes you might want to use just your HTML form. Let's get started!</p><p>You can scroll down to see <strong><a href="#create-a-form-using-html">HTML code for contact form👇</a></strong> on front-end, followed by the PHP code for <strong><a href="#option-1-html-form-processing-with-php">processing form data👇</a></strong> that delivers your form to email.</p><h2 id="table-of-contents-">Table of contents:</h2><hr><ul><li><a href="#create-a-form-using-html">HTML Form Code</a></li><li><a href="#css-codes-for-your-html-form">CSS Style Code</a></li><li>Form Processing Code</li><li><a href="#option-1-html-form-processing-with-php">Option 1: Form processing with PHP</a></li><li><a href="#option-2-html-form-processing-with-formcarry">Option 2: Form processing using Form Backend</a></li><li><a href="#html-label-field">HTML Label Field</a></li><li><a href="#html-text-field">HTML Text Field</a></li><li><a href="#html-textarea-field">HTML Textarea Field</a></li><li><a href="#html-email-field">HTML Email Field</a></li><li><a href="#html-telephone-field">HTML Telephone Field</a></li><li><a href="#html-date-field">HTML Date Field</a></li><li><a href="#html-password-field">HTML Password Field</a></li></ul><p>The form we’re building is very simple, if you want to achieve advanced features like file upload or spam protection please take a look at our <strong><a href="https://formcarry.com/blog/how-to-create-a-html-contact-form-with-file-upload/">file upload form ↗️</a></strong></p><blockquote>Already have a HTML form and not much time? We offer spam protection, google sheets integration, and email notifications for free at <strong><a href="https://formcarry.com">formcarry ↗️</a></strong></blockquote><hr><h2 id="create-a-simple-html-contact-form">Create a Simple HTML Contact Form</h2><p>Copy and paste this code to your HTML page, this is going to be the base of our form.</p><figure class="kg-card kg-code-card"><pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+    &lt;meta http-equiv="X-UA-Compatible" content="ie=edge" /&gt;
+    &lt;title&gt;Contact Form&lt;/title&gt;
+    &lt;!-- Form styling --&gt;
+    &lt;link rel="stylesheet" href="formcarry-form.css" /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class="formcarry-container"&gt;
+      &lt;form action="#" method="POST" class="formcarry-form"&gt;
+        &lt;label for="name"&gt;Your Name&lt;/label&gt;
+        &lt;input type="text" id="name" name="fullName" required /&gt;
+
+        &lt;label for="email"&gt;Your Email Address&lt;/label&gt;
+        &lt;input type="email" id="email" name="email" required /&gt;
+
+        &lt;label for="message"&gt;Your Message&lt;/label&gt;
+        &lt;textarea name="message" id="message" cols="30" rows="10"&gt;&lt;/textarea&gt;
+
+        &lt;button type="submit"&gt;Send&lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre><figcaption>How do you make a web form from scratch?</figcaption></figure><hr><h2 id="css-codes-for-your-html-form">CSS codes for your HTML form</h2><p><strong>File name: formcarry-form.css</strong> (Please save using exact name)</p><p>Paste this code to make styling work</p><pre><code class="language-css">@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;display=swap");
+
+/* 
+  CONTACT FORM EXAMPLE FOR FORMCARRY
+
+  IMPORTANT NOTE:
+  PLEASE ADD formcarry-form class to your form element
+  to apply the styles.
+*/
+
+.formcarry-container * {
+  box-sizing: border-box;
+	font-family: "Inter", sans-serif;
+
+  /* colors */
+  --color-blue: #2552d0;
+  --color-light-blue: #3266e3;
+  --color-gray: #e5e7eb;
+  --color-dark-gray: #9da3ae;
+  --color-pink: #edadd2;
+}
+
+.formcarry-container {
+  /* container */
+  --c-width: 50%;
+  --c-max-width: 500px;
+
+  width: var(--c-width);
+  max-width: var(--c-max-width);
+  display: block;
+  margin: 10vh auto 0 auto;
+}
+
+.formcarry-form label {
+  display: block;
+  padding: 12px 0 2px 0;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.formcarry-form input,
+.formcarry-form textarea {
+  font-size: 16px;
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--color-gray);
+  border: none;
+  border: 4px solid var(--color-gray);
+  outline: none;
+  border-radius: 8px;
+  color: var(--color-dark-gray);
+}
+
+.formcarry-form input:focus,
+.formcarry-form textarea:focus {
+  background-color: #fff;
+  color: var(--color-dark-gray);
+}
+
+.formcarry-form input:focus:required:invalid {
+  border-color: var(--color-pink);
+  background-color: #fff;
+}
+
+.formcarry-form button {
+  display: block;
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 8px;
+	border-color: transparent;
+  background-color: var(--color-blue);
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+
+  transition: 300ms all;
+}
+
+.formcarry-form button:hover {
+  background-color: var(--color-light-blue);
+}
+
+.formcarry-alert {
+  padding: 12px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 12px;
+  display: none;
+}
+
+.formcarry-alert.visible {
+  display: block;
+}
+
+.formcarry-alert.success {
+  background: #69cf9d;
+}
+
+.formcarry-alert.error {
+  background: #de524c;
+}</code></pre><h2 id="bonus-free-html5-contact-form-generator">Bonus: Free HTML5 Contact Form Generator</h2><p>We have created a form generator that you can use to build your own contact forms and completely customize it with your brand or website's color scheme and design style. They are free to download and can be used on your personal or commercial projects. </p><p>Click here to check out our <a href="https://formcarry.com/html-form-generator">free form generator ↗️</a></p><hr><h2 id="option-1-html-form-processing-with-php">Option 1: HTML Form Processing with PHP</h2><p>First replace the <code>#</code> with <code>form-process.php</code> like below</p><pre><code class="language-html">&lt;!-- Replace this --&gt;
+&lt;form action="#" method="POST" class="formcarry-form"&gt;
+&lt;!-- With this --&gt;
+&lt;form action="form-process.php" method="POST" class="formcarry-form"&gt;</code></pre><blockquote>Why? because action part of the form element tells your browser to where to send form data, in this case we need to point our form data to<strong> form-process.php</strong></blockquote><p>Then create a file called: <strong>form-process.php</strong> (should be exact name)</p><pre><code class="language-php">&lt;?php
+if (isset($_POST['email'])) {
+
+    // REPLACE THIS 2 LINES AS YOU DESIRE
+    $email_to = "you@awesomecompany.com";
+    $email_subject = "You've got a new submission";
+
+    function problem($error)
+    {
+        echo "Oh looks like there is some problem with your form data: &lt;br&gt;&lt;br&gt;";
+        echo $error . "&lt;br&gt;&lt;br&gt;";
+        echo "Please fix those to proceed.&lt;br&gt;&lt;br&gt;";
+        die();
+    }
+
+    // validation expected data exists
+    if (
+        !isset($_POST['fullName']) ||
+        !isset($_POST['email']) ||
+        !isset($_POST['message'])
+    ) {
+        problem('Oh looks like there is some problem with your form data.');
+    }
+
+    $name = $_POST['fullName']; // required
+    $email = $_POST['email']; // required
+    $message = $_POST['message']; // required
+
+    $error_message = "";
+    $email_exp = '/^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
+
+    if (!preg_match($email_exp, $email)) {
+        $error_message .= 'Email address does not seem valid.&lt;br&gt;';
+    }
+
+    $string_exp = "/^[A-Za-z .'-]+$/";
+
+    if (!preg_match($string_exp, $name)) {
+        $error_message .= 'Name does not seem valid.&lt;br&gt;';
+    }
+
+    if (strlen($message) &lt; 2) {
+        $error_message .= 'Message should not be less than 2 characters&lt;br&gt;';
+    }
+
+    if (strlen($error_message) &gt; 0) {
+        problem($error_message);
+    }
+
+    $email_message = "Form details following:\n\n";
+
+    function clean_string($string)
+    {
+        $bad = array("content-type", "bcc:", "to:", "cc:", "href");
+        return str_replace($bad, "", $string);
+    }
+
+    $email_message .= "Name: " . clean_string($name) . "\n";
+    $email_message .= "Email: " . clean_string($email) . "\n";
+    $email_message .= "Message: " . clean_string($message) . "\n";
+
+    // create email headers
+    $headers = 'From: ' . $email . "\r\n" .
+        'Reply-To: ' . $email . "\r\n" .
+        'X-Mailer: PHP/' . phpversion();
+    @mail($email_to, $email_subject, $email_message, $headers);
+?&gt;
+
+    &lt;!-- Replace this as your success message --&gt;
+
+    Thanks for contacting us, we will get back to you as soon as possible.
+
+&lt;?php
+}
+?&gt;</code></pre><p>This is how your form supposed to look like:</p><figure class="kg-card kg-image-card"><img src="https://formcarry.com/blog/content/images/2022/10/form-html.png" class="kg-image" alt loading="lazy" width="1024" height="1114" srcset="https://formcarry.com/blog/content/images/size/w600/2022/10/form-html.png 600w, https://formcarry.com/blog/content/images/size/w1000/2022/10/form-html.png 1000w, https://formcarry.com/blog/content/images/2022/10/form-html.png 1024w" sizes="(min-width: 720px) 720px"></figure><p>While this will create a working HTML form that sends you an email, you need to be aware of:</p><ul><li><strong>No spam protection:</strong> spam submissions can be 90% of the total submissions if there is no protection in-built which takes time to implement and improve.</li><li><strong>Emails can land into the spam folder:</strong> you need to check your SMTP server health regularly, your server might crash and you won’t notice it for a long time, which can cost very bad for your business.</li><li><strong>File upload takes time to implement:</strong> In case you need to upload files from your form, be aware that implementation of it takes a lot of time, and creates a lot more complexity and security concerns to deal with.</li></ul><hr><h2 id="option-2-html-form-processing-with-formcarry">Option 2: HTML form processing with Formcarry</h2><p>If you need more functionalities from your form, you need to deal with the complexity that comes with it. If you want to make a working simple HTML contact <a href="https://formcarry.com">form backend</a> without PHP, we have the solution.</p><p>Try our product <a href="https://formcarry.com">formcarry ↗️</a> for free which can be a perfect solution for you, it works with your own HTML code, you just need to change your form action attribute.</p><h3 id="create-a-form-in-formcarry">Create a form in formcarry</h3><p><a href="https://app.formcarry.com/register">Create an account ↗️</a> then create a form like below</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://formcarry.com/blog/content/images/2022/10/create-form.gif" class="kg-image" alt="Creating a form in formcarry dashboard" loading="lazy" width="1970" height="1439" srcset="https://formcarry.com/blog/content/images/size/w600/2022/10/create-form.gif 600w, https://formcarry.com/blog/content/images/size/w1000/2022/10/create-form.gif 1000w, https://formcarry.com/blog/content/images/size/w1600/2022/10/create-form.gif 1600w, https://formcarry.com/blog/content/images/2022/10/create-form.gif 1970w" sizes="(min-width: 720px) 720px"><figcaption>Create a form in formcarry</figcaption></figure><h3 id="integrate-your-html-form">Integrate your HTML form</h3><p>Copy your form endpoint by clicking <strong>copy clipboard</strong> button, then change your HTML form code that we used above.</p><pre><code class="language-html">&lt;!-- Replace this --&gt;
+&lt;form action="#" method="POST" class="formcarry-form"&gt;
+&lt;!-- With this --&gt;
+&lt;form action="{PASTE YOUR FORM ENDPOINT HERE}" method="POST" class="formcarry-form"&gt;
+</code></pre><p>That’s all you need to process your form now</p><h3 id="try-your-form">Try your form</h3><figure class="kg-card kg-image-card"><img src="https://formcarry.com/blog/content/images/2022/10/CleanShot-2022-10-23-at-22.15.49.gif" class="kg-image" alt loading="lazy" width="1970" height="1439" srcset="https://formcarry.com/blog/content/images/size/w600/2022/10/CleanShot-2022-10-23-at-22.15.49.gif 600w, https://formcarry.com/blog/content/images/size/w1000/2022/10/CleanShot-2022-10-23-at-22.15.49.gif 1000w, https://formcarry.com/blog/content/images/size/w1600/2022/10/CleanShot-2022-10-23-at-22.15.49.gif 1600w, https://formcarry.com/blog/content/images/2022/10/CleanShot-2022-10-23-at-22.15.49.gif 1970w" sizes="(min-width: 720px) 720px"></figure><p>Just by changing your action attribute, you can achieve:</p><ul><li><a href="https://formcarry.com/docs/features/thank-you-pages">3 different thank you page</a> ↗️ for your form.</li><li><a href="https://formcarry.com/docs/features/self-email-notifications">Email notifications ↗️</a> for new submissions</li><li><a href="https://formcarry.com/docs/features/respondent-email-notifications">Auto-responses ↗️</a> for your submitters</li><li>A dashboard that you can sort, filter and export your form data</li><li><a href="https://formcarry.com/blog/how-to-create-a-file-upload-form/">Easy file uploads ↗️</a></li><li><a href="https://formcarry.com/docs/integrations/zapier">Integrations with Google Sheets and 1000+ other apps ↗️</a></li></ul><p>Take a look at your dashboard and you’ll see your new submission:</p><figure class="kg-card kg-image-card"><img src="https://formcarry.com/blog/content/images/2022/10/read-submission.gif" class="kg-image" alt loading="lazy" width="1970" height="1440" srcset="https://formcarry.com/blog/content/images/size/w600/2022/10/read-submission.gif 600w, https://formcarry.com/blog/content/images/size/w1000/2022/10/read-submission.gif 1000w, https://formcarry.com/blog/content/images/size/w1600/2022/10/read-submission.gif 1600w, https://formcarry.com/blog/content/images/2022/10/read-submission.gif 1970w" sizes="(min-width: 720px) 720px"></figure><p>Also email notification for the new submission, which you can add as many emails as you like from the self email notification settings.</p><figure class="kg-card kg-image-card"><img src="https://formcarry.com/blog/content/images/2022/10/email-client.png" class="kg-image" alt loading="lazy" width="2000" height="1744" srcset="https://formcarry.com/blog/content/images/size/w600/2022/10/email-client.png 600w, https://formcarry.com/blog/content/images/size/w1000/2022/10/email-client.png 1000w, https://formcarry.com/blog/content/images/size/w1600/2022/10/email-client.png 1600w, https://formcarry.com/blog/content/images/size/w2400/2022/10/email-client.png 2400w" sizes="(min-width: 720px) 720px"></figure><p>Creating a working form with formcarry less than 2 minutes, and it’s free up to 100 submissions per month.</p><hr><h2 id="html-form-field-examples">HTML Form Field examples</h2><p>It's possible for you to ask which HTML element is used to create an HTML form for user input? Let us show you the fields that you can use in your form, just copy and paste the codes below.</p><hr><h3 id="html-label-field">HTML Label Field</h3><p>Label field is the text that’ll focus to the desired form element on click, to target a field you need to give target element id inside the label elements for attribute like this:</p><pre><code class="language-html">&lt;!-- insert the ID of target element inside the for attribute --&gt;
+&lt;label for="myElement"&gt;Focus to the field&lt;/label&gt;
+&lt;!-- give an ID attribute to the target element so label can work --&gt;
+&lt;input id="myElement" type="text" /&gt;
+</code></pre><!--kg-card-begin: html--><style>
+.formcarry-container * {
+  box-sizing: border-box;
+
+  /* colors */
+  --color-blue: #2552d0;
+  --color-light-blue: #3266e3;
+  --color-gray: #e5e7eb;
+  --color-dark-gray: #9da3ae;
+  --color-pink: #edadd2;
+  font-family: "Inter", sans-serif;
+}
+
+.formcarry-container {
+  /* container */
+  --c-width: 50%;
+  --c-max-width: 500px;
+
+  width: var(--c-width);
+  max-width: var(--c-max-width);
+  display: block;
+  margin: 20px auto 0 auto;
+}
+
+.formcarry-form label {
+  display: block;
+  padding: 12px 0 2px 0;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.formcarry-form input,
+.formcarry-form textarea {
+  font-size: 16px;
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--color-gray);
+  border: none;
+  border: 4px solid var(--color-gray);
+  outline: none;
+  border-radius: 8px;
+  color: var(--color-dark-gray);
+}
+
+.formcarry-form input:focus,
+.formcarry-form textarea:focus {
+  background-color: #fff;
+  color: var(--color-dark-gray);
+}
+
+.formcarry-form input:focus:required:invalid {
+  border-color: var(--color-pink);
+  background-color: #fff;
+}
+
+.formcarry-form button {
+  display: block;
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background-color: var(--color-blue);
+  border-color: transparent;
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+
+  transition: 300ms all;
+}
+
+.formcarry-form button:hover {
+  background-color: var(--color-light-blue);
+}
+
+.formcarry-alert {
+  padding: 12px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 12px;
+  display: none;
+}
+
+.formcarry-alert.visible {
+  display: block;
+}
+
+.formcarry-alert.success {
+  background: #69cf9d;
+}
+
+.formcarry-alert.error {
+  background: #de524c;
+}
+</style>
+<div class="formcarry-container">
+    <form action="#" method="POST" class="formcarry-form">
+        <label for="name">Focus to the field</label>
+        <input type="text" id="name" name="fullName" required />
+    </form>
+</div>
+<!--kg-card-end: html--><hr><h3 id="html-text-field">HTML Text Field</h3><p>Text field is the most used form field on the web, this is widely used for short texts.</p><pre><code class="language-html">&lt;label for="name"&gt;Text Field&lt;/label&gt;
+&lt;input type="text" id="name" name="fullName" /&gt;
+</code></pre><!--kg-card-begin: html--><div class="formcarry-container">
+    <form action="#" method="POST" class="formcarry-form">
+        <label for="name">Text Field</label>
+        <input type="text" id="name" name="fullName" />
+    </form>
+</div><!--kg-card-end: html--><hr><h3 id="html-textarea-field">HTML Textarea Field</h3><p>Textarea is like text field but it’s for much bigger content, like messages.</p><pre><code class="language-html">&lt;label for="message"&gt;Textarea Field&lt;/label&gt;
+&lt;textarea type="text" id="message" rows="5" cols="5" name="message"&gt;&lt;/textarea&gt;
+</code></pre><p><code>rows</code> and <code>cols</code> attributes allow you to specify width and height of textarea yet you can always manipulate that using CSS.</p><!--kg-card-begin: html--><div class="formcarry-container">
+    <form action="#" method="POST" class="formcarry-form">
+        <label for="message">Textarea Field</label>
+        <textarea
+                  type="text"
+                  id="message"
+                  name="message"
+                  rows="5"
+                  cols="30"
+                  ></textarea>
+    </form>
+</div><!--kg-card-end: html--><h3 id="html-email-field">HTML Email Field</h3><p>Some HTML fields have built in validations, Email input is one of them, it will complain unless you enter a valid email address, and it won’t let you submit.</p><pre><code class="language-html">&lt;input type="email" /&gt;
+</code></pre><!--kg-card-begin: html--><div class="formcarry-container">
+    <form action="#" method="POST" class="formcarry-form">
+        <label for="message">Email Field</label>
+        <input type="email" id="email" name="emailAddress" required />
+        <button type="submit">Send</button>
+    </form>
+</div><!--kg-card-end: html--><blockquote>Try to submit by entering normal text, the field will warn you that it requires a valid email address</blockquote><blockquote>Notice how input border color reacts to validity of your input, until you enter a valid email address you’ll see a red color, I’ve implemented this for demo purposes so that’s not the default behavior.</blockquote><hr><h3 id="html-telephone-field">HTML Telephone Field</h3><p>You specify a number pattern with telephone field, and it will complain unless you enter phone number through the pattern you have specified.</p><pre><code class="language-html">&lt;input type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" /&gt;
+</code></pre><!--kg-card-begin: html--><div class="formcarry-container">
+      <form action="#" method="POST" class="formcarry-form">
+        <label for="telephone">Telephone Field</label>
+        <input
+          type="tel"
+          id="telephone"
+          name="telephone"
+          pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+          required
+        />
+        <p>Required format 123-45-678</p>
+        <button type="submit">Send</button>
+      </form>
+    </div><!--kg-card-end: html--><p>Tel field also shows num pad on mobile devices.</p><figure class="kg-card kg-image-card"><img src="https://formcarry.com/blog/content/images/2022/10/telephone-1.png" class="kg-image" alt loading="lazy" width="390" height="844"></figure><hr><h3 id="html-date-field">HTML Date Field</h3><p>Date field is very handy most of the time, because it’s a native type all devices will show some sort of date selector to the user, you can specify minimum and maximum ranges for dates to be chosen.</p><pre><code class="language-html">&lt;input type="date" value="2022-10-29" min="2022-01-01" max="2022-12-31" /&gt;
+</code></pre><!--kg-card-begin: html--><div class="formcarry-container">
+      <form action="#" method="POST" class="formcarry-form">
+        <label for="date">Date Field</label>
+        <input
+          type="date"
+          id="date"
+          name="date"
+          value="2022-10-29"
+          min="2022-01-01"
+          max="2022-12-31"
+        />
+        <button type="submit">Send</button>
+      </form>
+    </div><!--kg-card-end: html--><figure class="kg-card kg-image-card"><img src="https://formcarry.com/blog/content/images/2022/10/date.png" class="kg-image" alt loading="lazy" width="390" height="844"></figure><hr><h3 id="html-password-field">HTML Password Field</h3><p>Password field is normal text field but the difference is the value you entered will be masked with asterisks to hide sensitive information.</p><pre><code class="language-html">&lt;input type="password" /&gt;
+</code></pre><!--kg-card-begin: html--><div class="formcarry-container">
+    <form action="#" method="POST" class="formcarry-form">
+        <label for="pw">Password Field</label>
+        <input type="password" id="pw" name="pw" />
+    </form>
+</div><!--kg-card-end: html-->
+    </section>
+
+
+</article>
+</main>
+
+
+
+
+            <aside class="read-more-wrap outer">
+                <div class="read-more inner">
+                        
+<article class="post-card post keep-ratio">
+
+    <a class="post-card-image-link" href="/blog/form-abondonment/">
+
+        <img class="post-card-image"
+            srcset="/blog/content/images/size/w300/2023/01/Frame-52--1-.jpg 300w,
+                    /blog/content/images/size/w600/2023/01/Frame-52--1-.jpg 600w,
+                    /blog/content/images/size/w1000/2023/01/Frame-52--1-.jpg 1000w,
+                    /blog/content/images/size/w2000/2023/01/Frame-52--1-.jpg 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/blog/content/images/size/w600/2023/01/Frame-52--1-.jpg"
+            alt="Form abandonment: How to increase your conversion rates"
+            loading="lazy"
+        />
+
+
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/blog/form-abondonment/">
+            <header class="post-card-header">
+                <div class="post-card-tags">
+                </div>
+                <h2 class="post-card-title">
+                    Form abandonment: How to increase your conversion rates
+                </h2>
+            </header>
+                <div class="post-card-excerpt">Form abandonment is a common problem that can have a big impact on a business's success. When a user leaves an online form without completing it, it can lead to lost sales, missed opportunities, and wasted time and money. In fact, nearly 70% of site visitors will abandon a form</div>
+        </a>
+
+        <footer class="post-card-meta">
+            <time class="post-card-meta-date" datetime="2023-01-07">Jan 7, 2023</time>
+                <span class="post-card-meta-length">3 min read</span>
+        </footer>
+
+    </div>
+
+</article>
+                        
+<article class="post-card post keep-ratio">
+
+    <a class="post-card-image-link" href="/blog/how-to-add-shopify-contact-form/">
+
+        <img class="post-card-image"
+            srcset="/blog/content/images/size/w300/2022/12/blog-cover.jpg 300w,
+                    /blog/content/images/size/w600/2022/12/blog-cover.jpg 600w,
+                    /blog/content/images/size/w1000/2022/12/blog-cover.jpg 1000w,
+                    /blog/content/images/size/w2000/2022/12/blog-cover.jpg 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/blog/content/images/size/w600/2022/12/blog-cover.jpg"
+            alt="How to add a contact form to your Shopify website: Step-by-step guide"
+            loading="lazy"
+        />
+
+
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/blog/how-to-add-shopify-contact-form/">
+            <header class="post-card-header">
+                <div class="post-card-tags">
+                </div>
+                <h2 class="post-card-title">
+                    How to add a contact form to your Shopify website: Step-by-step guide
+                </h2>
+            </header>
+                <div class="post-card-excerpt">Building a contact form on your Shopify website is a great way to collect customer data and keep in touch with your customers. In this article, we will walk you through the process of adding a contact form to your Shopify website in 7 steps.
+
+At the end of the</div>
+        </a>
+
+        <footer class="post-card-meta">
+            <time class="post-card-meta-date" datetime="2022-12-27">Dec 27, 2022</time>
+                <span class="post-card-meta-length">7 min read</span>
+        </footer>
+
+    </div>
+
+</article>
+                        
+<article class="post-card post keep-ratio">
+
+    <a class="post-card-image-link" href="/blog/how-to-upload-files-as-base64/">
+
+        <img class="post-card-image"
+            srcset="/blog/content/images/size/w300/2021/09/cvr-4---8-1.png 300w,
+                    /blog/content/images/size/w600/2021/09/cvr-4---8-1.png 600w,
+                    /blog/content/images/size/w1000/2021/09/cvr-4---8-1.png 1000w,
+                    /blog/content/images/size/w2000/2021/09/cvr-4---8-1.png 2000w"
+            sizes="(max-width: 1000px) 400px, 800px"
+            src="/blog/content/images/size/w600/2021/09/cvr-4---8-1.png"
+            alt="How to upload files from your HTML form using Base64 encoding"
+            loading="lazy"
+        />
+
+
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="/blog/how-to-upload-files-as-base64/">
+            <header class="post-card-header">
+                <div class="post-card-tags">
+                </div>
+                <h2 class="post-card-title">
+                    How to upload files from your HTML form using Base64 encoding
+                </h2>
+            </header>
+                <div class="post-card-excerpt">Uploading files using Base64 encoding is a common practice, the usage of the technique has been increased since React and Vue.js like frameworks gained popularity.
+
+In this guide I'm going to show you how to upload files using base64 encoding
+
+
+What's Base64 Encoding?
+
+Base64 is a encoding algorithm that</div>
+        </a>
+
+        <footer class="post-card-meta">
+            <time class="post-card-meta-date" datetime="2021-09-16">Sep 16, 2021</time>
+                <span class="post-card-meta-length">13 min read</span>
+        </footer>
+
+    </div>
+
+</article>
+                </div>
+            </aside>
+
+
+
+    </div>
+
+    <footer class="site-footer outer">
+        <div class="inner">
+            <section class="copyright"><a href="https://formcarry.com/blog">Formcarry Blog</a> &copy; 2026</section>
+            <nav class="site-footer-nav">
+                
+            </nav>
+            <div><a href="https://ghost.org/" target="_blank" rel="noopener">Powered by Ghost</a></div>
+        </div>
+    </footer>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous" type="4aca8a8ede250dada169cdc3-text/javascript">
+</script>
+<script src="/blog/assets/built/casper.js?v=064d31dbe3" type="4aca8a8ede250dada169cdc3-text/javascript"></script>
+<script type="4aca8a8ede250dada169cdc3-text/javascript">
+$(document).ready(function () {
+    // Mobile Menu Trigger
+    $('.gh-burger').click(function () {
+        $('body').toggleClass('gh-head-open');
+    });
+    // FitVids - Makes video embeds responsive
+    $(".gh-content").fitVids();
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js" integrity="sha512-hpZ5pDCF2bRCweL5WoA0/N1elet1KYL5mx3LP555Eg/0ZguaHawxNvEjF6O3rufAChs16HVNhEc6blF/rZoowQ==" crossorigin="anonymous" referrerpolicy="no-referrer" type="4aca8a8ede250dada169cdc3-text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-markup-templating.min.js" integrity="sha512-TbMpeuT8rHP3DrAX8tSkpspYIT3It0fypBn5XaSp+Hiy3n9wvPFjd3pal7YtesrphulbmxcLNB9E0sq7xDGtWg==" crossorigin="anonymous" referrerpolicy="no-referrer" type="4aca8a8ede250dada169cdc3-text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-javascript.min.js" integrity="sha512-3oavHcAYV/4pmn+iDuax6ru7dpjKnd+21+SzCQrYdTiYDncloL7QJ3qYvsA9JU0p7ZQjB+DizGeWMm2sUrCzSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" type="4aca8a8ede250dada169cdc3-text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-css.min.js" integrity="sha512-Jv/EO8zjSyqIDa2S0YjCGFY+mEROxud6g7AhfA0KcggjdzhPBhoRyetxV7G7/dnfBdZBzcOvpRn1K+J6sn3jyw==" crossorigin="anonymous" referrerpolicy="no-referrer" type="4aca8a8ede250dada169cdc3-text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-php.min.js" integrity="sha512-2RfDhHj8vXXJWFGaCJTSkt//hXtdb9/Sh2c68tx/Jf+0V5a7xOHY1oIlzF9KX591HX/cB+uDQMBXeYX/JKvlrw==" crossorigin="anonymous" referrerpolicy="no-referrer" type="4aca8a8ede250dada169cdc3-text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-sql.min.js" integrity="sha512-OrjGiH3KgAUReMA3g1ieErj5gbS4IBRO7hAklulWwKfEKryUcepiJX68CsdotsNNgY7LzaMuYxX4dxwuVETQmw==" crossorigin="anonymous" referrerpolicy="no-referrer" type="4aca8a8ede250dada169cdc3-text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-json.min.js" integrity="sha512-NFh0rog24tZqD7+bvhZ15l9r10u/yir42sQ1EuUEWpw2Pyh1KrGUKKXI1TWSAX7RxaohbPn0u1fTb6+YU4u3zA==" crossorigin="anonymous" referrerpolicy="no-referrer" type="4aca8a8ede250dada169cdc3-text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-bash.min.js" integrity="sha512-/xr8BBHgclic5pEsdspPqQS8ne+X8QbYRK22c1WRDj8zERTBJDH+Ic/3o8vnrdz5yeGzlzMfp8k33tGgDaAh6g==" crossorigin="anonymous" referrerpolicy="no-referrer" type="4aca8a8ede250dada169cdc3-text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-diff.min.js" integrity="sha512-APZIP469dJT50s8LGBjlVJ77JB9mwRavs7icvrrhhx6cLRVg5QPmrP7X1zv7sXmiFgAJV5gmamL+JrxvaI8Mrg==" crossorigin="anonymous" referrerpolicy="no-referrer" type="4aca8a8ede250dada169cdc3-text/javascript"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PWFJ9Y40J7" type="4aca8a8ede250dada169cdc3-text/javascript"></script>
+<script type="4aca8a8ede250dada169cdc3-text/javascript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PWFJ9Y40J7');
+</script>
+
+<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="4aca8a8ede250dada169cdc3-|49" defer></script></body>
+</html>

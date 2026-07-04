@@ -1,0 +1,42 @@
+{
+  "id": "syn-fw-angular-009",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "full name full name grid-name grid-name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "email address email address grid-email grid-email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "phone number phone number grid-phone grid-phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "current city current city current-city current-city",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Office",
+        "Remote",
+        "Hybrid"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

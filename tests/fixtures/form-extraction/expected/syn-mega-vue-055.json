@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-vue-055",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "complete name (9055) complete name (9055)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vue-name-9055",
+        "name": "vue-name-9055",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9055) primary email (9055)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "vue-email-9055",
+        "name": "vue-email-9055",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9055) cell phone (9055)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "vue-phone-9055",
+        "name": "vue-phone-9055",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "tell us about yourself (9055) tell us about yourself (9055)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself-9055-",
+        "name": "tell-us-about-yourself-9055-",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work location (9055) work location (9055)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Dublin",
+        "Berlin",
+        "Hybrid",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "work-location-9055-9055",
+        "name": "work-location-9055-9055",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save and continue"
+    }
+  ],
+  "vet_notes": []
+}

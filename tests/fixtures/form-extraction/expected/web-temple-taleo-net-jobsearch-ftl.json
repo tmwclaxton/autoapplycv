@@ -1,0 +1,128 @@
+{
+  "id": "web-temple-taleo-net-jobsearch-ftl",
+  "min_fields": 7,
+  "exact_field_count": 7,
+  "fields": [
+    {
+      "question": "keyword keyword",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "KEYWORD",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job number job number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "JOB_NUMBER",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search for jobs",
+      "field_type": "button",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "button",
+        "id": "search",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "urgent jobs : urgent jobs only",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "URGENT_JOB-1-option",
+        "name": "URGENT_JOB",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "employee status : regular",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "1",
+        "4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "EMPLOYEE_STATUS-1-option",
+        "name": "EMPLOYEE_STATUS",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job shift : day job",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "1",
+        "2",
+        "3",
+        "5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "JOB_SHIFT-1-option",
+        "name": "JOB_SHIFT",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search name search name",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "saveSearchTitle",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save this Search"
+    }
+  ],
+  "vet_notes": []
+}

@@ -4,32 +4,64 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "your name your name your-name your-name your name",
+      "question": "your name your name your name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "your-name",
+        "name": "your-name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "contact email contact email contact-email contact-email contact email",
+      "question": "contact email contact email contact email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "contact-email",
+        "name": "contact-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "telephone telephone telephone telephone telephone",
+      "question": "telephone telephone telephone",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "telephone",
+        "name": "telephone",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "linkedin profile linkedin profile linkedin-profile linkedin-profile linkedin profile",
+      "question": "linkedin profile linkedin profile linkedin profile",
       "field_type": "url",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "linkedin-profile",
+        "name": "linkedin-profile",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

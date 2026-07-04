@@ -1,0 +1,46 @@
+{
+  "id": "web-career4-successfactors-com-career-4",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "your friend’s email address: your friend’s email address:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "mailjob_friend_email",
+        "name": "mailjob_friend_email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "message: message:",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "mailjob_message",
+        "name": "mailjob_message",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save Job"
+    },
+    {
+      "name": "Save Job"
+    }
+  ],
+  "vet_notes": []
+}

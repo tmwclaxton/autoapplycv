@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-angular-007",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "legal name (9167) legal name (9167)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ang-name-9167",
+        "name": "ang-name-9167",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application email (9167) application email (9167)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ang-email-9167",
+        "name": "ang-email-9167",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "direct line (9167) direct line (9167)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ang-phone-9167",
+        "name": "ang-phone-9167",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9167) why this role? (9167)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9167-9167",
+        "name": "why-this-role-9167-9167",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9167) office preference (9167)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Dublin",
+        "London",
+        "Berlin",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "office-preference-9167-9167",
+        "name": "office-preference-9167-9167",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

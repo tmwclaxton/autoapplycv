@@ -1,0 +1,77 @@
+{
+  "id": "syn-mega-vue-006",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "your name (9006) your name (9006)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vue-name-9006",
+        "name": "vue-name-9006",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email (9006) personal email (9006)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "vue-email-9006",
+        "name": "vue-email-9006",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9006) mobile number (9006)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "vue-phone-9006",
+        "name": "vue-phone-9006",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "willing to relocate? (9006)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Maybe later"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "willing-to-relocate-9006-0",
+        "name": "willing-to-relocate-9006",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next step"
+    }
+  ],
+  "vet_notes": []
+}

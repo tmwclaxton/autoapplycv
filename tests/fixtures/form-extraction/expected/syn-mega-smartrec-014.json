@@ -1,0 +1,93 @@
+{
+  "id": "syn-mega-smartrec-014",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "your name (9544) your name (9544)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sr-name-9544",
+        "name": "sr-name-9544",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application email (9544) application email (9544)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "sr-email-9544",
+        "name": "sr-email-9544",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone (9544) telephone (9544)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "sr-phone-9544",
+        "name": "sr-phone-9544",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "motivation statement (9544) motivation statement (9544)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement-9544-95",
+        "name": "motivation-statement-9544-95",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "where are you based? (9544)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Manchester",
+        "Berlin",
+        "Hybrid",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-9544",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue application"
+    }
+  ],
+  "vet_notes": []
+}

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Angular material grid 6</title></head>
+<body>
+
+<main ng-controller="ApplyCtrl"><h1>Material grid 6</h1>
+<form ng-submit="submit()" action="/apply" method="post">
+<div class="mat-grid-list">
+<div class="mat-grid-tile"><label for="grid-name">Legal name</label><input id="grid-name" name="grid-name" type="text"></div>
+<div class="mat-grid-tile"><label for="grid-email">Work email</label><input id="grid-email" name="grid-email" type="email"></div>
+<div class="mat-grid-tile"><label for="grid-phone">Mobile number</label><input id="grid-phone" name="grid-phone" type="tel"></div>
+<div class="mat-grid-tile"><div class="field-row"><label for="preferred-location">Preferred location</label><select id="preferred-location" name="preferred-location" ><option value="">Choose one…</option><option value="office">Office</option><option value="remote">Remote</option><option value="hybrid">Hybrid</option></select></div></div>
+</div>
+</form></main>
+</body>
+</html>

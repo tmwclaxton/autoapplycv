@@ -1,0 +1,41 @@
+{
+  "id": "syn-ix-chips-002",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "applicant name applicant name ix-name-14 ix-name-14",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "contact email contact email ix-email-14 ix-email-14",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "contact number contact number ix-phone-14 ix-phone-14",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "primary expertise",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Design systems",
+        "Accessibility",
+        "Performance"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

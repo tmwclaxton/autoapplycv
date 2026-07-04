@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coding With Smile 😊 | IT Training Center Bhildi</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+<script>
+(function(){
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+  s.onload = function(){ emailjs.init({ publicKey: 'NBhBm9UGQiifmRP9z' }); };
+  document.head.appendChild(s);
+})();
+</script>
+<style>
+:root {
+  --bg: #080C14;
+  --bg2: #0D1421;
+  --bg3: #111827;
+  --orange: #FF5722;
+  --orange2: #FF7043;
+  --green: #00E676;
+  --blue: #2979FF;
+  --text: #F1F5F9;
+  --muted: #94A3B8;
+  --border: rgba(255,255,255,0.08);
+  --card: rgba(255,255,255,0.04);
+  --glow: rgba(255,87,34,0.3);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:4px;}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 6%;height:72px;
+  background:rgba(8,12,20,0.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:800;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.logo span{color:var(--orange);}
+.logo-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:0.9rem;font-weight:500;transition:color 0.2s;}
+.nav-links a:hover{color:var(--orange);}
+.nav-demo{
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  color:white;border:none;padding:0.55rem 1.4rem;
+  border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:700;font-size:0.9rem;cursor:pointer;
+  text-decoration:none;transition:all 0.2s;
+  box-shadow:0 4px 20px var(--glow);
+}
+.nav-demo:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--glow);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
+.hamburger span{width:24px;height:2px;background:var(--text);border-radius:2px;transition:0.3s;display:block;}
+.mobile-menu{display:none;position:fixed;top:72px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:1.5rem 6%;z-index:999;flex-direction:column;gap:1rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--muted);text-decoration:none;font-weight:500;padding:0.5rem 0;border-bottom:1px solid var(--border);}
+
+/* HERO */
+#home{
+  min-height:100vh;padding:120px 6% 80px;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;align-items:center;position:relative;overflow:hidden;
+}
+.hero-grid-bg{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,87,34,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,87,34,0.03) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.hero-glow{
+  position:absolute;top:20%;right:0;width:600px;height:600px;
+  background:radial-gradient(circle,rgba(255,87,34,0.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-glow2{
+  position:absolute;bottom:10%;left:-100px;width:400px;height:400px;
+  background:radial-gradient(circle,rgba(0,230,118,0.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-left{position:relative;z-index:1;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid rgba(255,87,34,0.3);
+  background:rgba(255,87,34,0.08);
+  padding:0.4rem 1rem;border-radius:50px;
+  font-size:0.8rem;font-weight:600;color:var(--orange);
+  margin-bottom:1.5rem;
+  opacity:1;
+}
+.badge-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 1.5s infinite;}
+h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(2.8rem,5.5vw,4.5rem);font-weight:800;
+  line-height:1.05;margin-bottom:1.5rem;
+  opacity:1;
+}
+h1 .line2{color:var(--orange);display:block;}
+h1 .line3{
+  background:linear-gradient(90deg,var(--green),var(--blue));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;display:block;
+}
+.hero-desc{
+  color:var(--muted);font-size:1.05rem;line-height:1.8;
+  max-width:480px;margin-bottom:2rem;
+  opacity:1;
+}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;opacity:1;}
+.btn-fire{
+  background:linear-gradient(135deg,var(--orange),#FF8A65);
+  color:white;padding:0.85rem 2rem;border-radius:10px;
+  text-decoration:none;font-weight:700;font-size:1rem;
+  box-shadow:0 8px 30px var(--glow);
+  transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-fire:hover{transform:translateY(-3px);box-shadow:0 15px 40px var(--glow);}
+.btn-ghost{
+  border:1px solid var(--border);color:var(--text);
+  padding:0.85rem 2rem;border-radius:10px;
+  text-decoration:none;font-weight:600;font-size:1rem;
+  transition:all 0.2s;background:var(--card);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-ghost:hover{border-color:var(--orange);color:var(--orange);}
+.hero-stats{
+  display:flex;gap:2rem;margin-top:3rem;
+  opacity:1;
+}
+.hstat{border-left:2px solid var(--orange);padding-left:1rem;}
+.hstat-num{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:800;color:var(--text);display:block;}
+.hstat-label{font-size:0.8rem;color:var(--muted);}
+
+/* HERO RIGHT - Terminal */
+.hero-right{position:relative;z-index:1;opacity:1;}
+.terminal{
+  background:#0A0E1A;border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+  box-shadow:0 40px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(255,87,34,0.1);
+}
+.terminal-bar{
+  background:#141922;padding:0.8rem 1rem;
+  display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid var(--border);
+}
+.t-dot{width:12px;height:12px;border-radius:50%;}
+.t-title{margin-left:auto;margin-right:auto;color:var(--muted);font-size:0.8rem;}
+.terminal-body{padding:1.5rem;font-family:'Courier New',monospace;font-size:0.88rem;line-height:2;}
+.t-cm{color:#4B5563;}
+.t-kw{color:#F472B6;}
+.t-fn{color:#34D399;}
+.t-str{color:#FCD34D;}
+.t-num{color:#60A5FA;}
+.t-var{color:#A78BFA;}
+.cursor{display:inline-block;width:8px;height:16px;background:var(--green);animation:blink 1s infinite;vertical-align:middle;margin-left:2px;}
+.courses-strip{
+  display:flex;flex-wrap:wrap;gap:8px;padding:1rem 1.5rem;
+  border-top:1px solid var(--border);
+}
+.cs-tag{
+  background:rgba(255,87,34,0.1);border:1px solid rgba(255,87,34,0.2);
+  color:var(--orange);padding:0.25rem 0.8rem;border-radius:6px;
+  font-size:0.75rem;font-weight:600;
+}
+
+/* STATS BAND */
+.stats-band{
+  background:linear-gradient(135deg,rgba(255,87,34,0.15),rgba(255,87,34,0.05));
+  border-top:1px solid rgba(255,87,34,0.2);
+  border-bottom:1px solid rgba(255,87,34,0.2);
+  padding:50px 6%;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:2rem;text-align:center;
+}
+.bs-num{font-family:'Space Grotesk',sans-serif;font-size:3rem;font-weight:800;color:var(--orange);display:block;}
+.bs-label{color:var(--muted);font-size:0.85rem;margin-top:4px;}
+
+/* SECTIONS */
+section{padding:90px 6%;}
+.sec-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,87,34,0.1);border:1px solid rgba(255,87,34,0.2);
+  color:var(--orange);padding:0.3rem 1rem;border-radius:50px;
+  font-size:0.78rem;font-weight:700;letter-spacing:0.08em;
+  text-transform:uppercase;margin-bottom:1rem;
+}
+.sec-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(2rem,4vw,3rem);font-weight:800;
+  line-height:1.15;margin-bottom:1rem;
+}
+.sec-title span{color:var(--orange);}
+.sec-desc{color:var(--muted);font-size:1rem;max-width:580px;line-height:1.8;}
+
+/* COURSES */
+#courses{background:var(--bg2);}
+.courses-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:1.5rem;margin-top:3rem;
+}
+.course-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:1.8rem;
+  transition:all 0.3s;position:relative;overflow:hidden;
+  cursor:pointer;
+}
+.course-card::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,87,34,0.05),transparent);
+  opacity:0;transition:opacity 0.3s;
+}
+.course-card:hover{border-color:rgba(255,87,34,0.4);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,0.3);}
+.course-card:hover::after{opacity:1;}
+.c-icon{
+  width:52px;height:52px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;margin-bottom:1.2rem;
+  background:rgba(255,87,34,0.1);border:1px solid rgba(255,87,34,0.2);
+}
+.c-name{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:0.5rem;}
+.c-desc{color:var(--muted);font-size:0.88rem;line-height:1.7;margin-bottom:1.2rem;}
+.c-meta{display:flex;gap:1rem;margin-bottom:1.2rem;flex-wrap:wrap;}
+.c-tag{
+  display:flex;align-items:center;gap:4px;
+  font-size:0.78rem;color:var(--muted);font-weight:500;
+}
+.c-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:1rem;border-top:1px solid var(--border);
+}
+.c-price{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:800;color:var(--orange);}
+.c-enroll{
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  color:white;border:none;padding:0.5rem 1.2rem;
+  border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:700;font-size:0.85rem;cursor:pointer;
+  transition:all 0.2s;
+}
+.c-enroll:hover{transform:scale(1.05);box-shadow:0 6px 20px var(--glow);}
+
+/* TIME SLOTS */
+#timeslots{background:var(--bg);}
+.slots-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:1rem;margin-top:2.5rem;
+}
+.slot{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:1.2rem;text-align:center;
+  cursor:pointer;transition:all 0.2s;
+}
+.slot:hover,.slot.active{
+  border-color:var(--orange);
+  background:rgba(255,87,34,0.08);
+  box-shadow:0 0 20px rgba(255,87,34,0.15);
+}
+.slot-time{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;}
+.slot-label{color:var(--muted);font-size:0.78rem;margin-top:4px;}
+.slot-dot{width:8px;height:8px;background:var(--green);border-radius:50%;margin:6px auto 0;animation:pulse 2s infinite;}
+
+/* EXPERTS */
+#experts{background:var(--bg2);}
+.experts-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:2rem;margin-top:3rem;
+}
+.expert-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;padding:2rem;text-align:center;
+  transition:all 0.3s;
+}
+.expert-card:hover{border-color:rgba(255,87,34,0.4);transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,0.3);}
+.expert-avatar{
+  width:88px;height:88px;border-radius:50%;
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  margin:0 auto 1.2rem;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.5rem;
+  box-shadow:0 8px 30px var(--glow);
+}
+.expert-name{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;}
+.expert-qual{color:var(--orange);font-size:0.85rem;font-weight:600;margin:0.3rem 0;}
+.expert-phone{color:var(--muted);font-size:0.85rem;margin-bottom:1rem;}
+.expert-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+.etag{
+  background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.2);
+  color:var(--green);padding:0.2rem 0.7rem;border-radius:6px;
+  font-size:0.75rem;font-weight:600;
+}
+
+/* GALLERY */
+#gallery{background:var(--bg);}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:200px 200px;
+  gap:1rem;margin-top:2.5rem;
+}
+.gitem{
+  border-radius:16px;overflow:hidden;
+  position:relative;cursor:pointer;
+  background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:3.5rem;transition:transform 0.3s;
+  border:1px solid var(--border);
+}
+.gitem:hover{transform:scale(1.02);}
+.gitem.big{grid-row:span 2;}
+.glabel{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(0,0,0,0.8));
+  padding:1rem 0.8rem 0.6rem;
+  color:white;font-size:0.82rem;font-weight:600;
+}
+.gitem:nth-child(1){background:linear-gradient(135deg,#0D1B2A,#1B2838);}
+.gitem:nth-child(2){background:linear-gradient(135deg,#1A0A00,#2D1500);}
+.gitem:nth-child(3){background:linear-gradient(135deg,#001A0D,#003319);}
+.gitem:nth-child(4){background:linear-gradient(135deg,#0A001A,#15003D);}
+.gitem:nth-child(5){background:linear-gradient(135deg,#1A0D00,#3D2000);}
+
+/* ENQUIRY */
+#enquiry{background:var(--bg2);}
+.enquiry-wrap{
+  display:grid;grid-template-columns:1fr 1.2fr;
+  gap:4rem;align-items:start;margin-top:3rem;
+}
+.eq-left h3{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;}
+.eq-point{display:flex;gap:1rem;margin-bottom:1.5rem;align-items:flex-start;}
+.eq-icon{
+  width:44px;height:44px;border-radius:10px;
+  background:rgba(255,87,34,0.1);border:1px solid rgba(255,87,34,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+}
+.eq-text h4{font-weight:700;margin-bottom:3px;font-size:0.95rem;}
+.eq-text p{color:var(--muted);font-size:0.88rem;line-height:1.6;}
+
+.eq-form{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;padding:2rem;
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.fg{margin-bottom:1.2rem;}
+.fg label{display:block;font-weight:600;font-size:0.85rem;margin-bottom:6px;color:var(--muted);}
+.fg input,.fg select,.fg textarea{
+  width:100%;padding:0.8rem 1rem;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);border-radius:10px;
+  color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.92rem;outline:none;transition:border-color 0.2s;
+}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--orange);}
+.fg select option{background:var(--bg2);color:var(--text);}
+.fg textarea{resize:vertical;min-height:90px;}
+.submit-btn{
+  width:100%;
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  color:white;border:none;padding:1rem;border-radius:10px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;
+  font-weight:700;cursor:pointer;transition:all 0.2s;
+  box-shadow:0 6px 25px var(--glow);
+}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 12px 35px var(--glow);}
+
+/* CONTACT */
+#contact{background:var(--bg);}
+.contact-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1.5rem;margin-top:3rem;
+  overflow:visible;
+}
+.contact-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:1.5rem;
+  transition:all 0.2s;
+}
+.contact-card:hover{border-color:rgba(255,87,34,0.3);}
+.cc-icon{font-size:2rem;margin-bottom:1rem;display:block;}
+.cc-label{color:var(--muted);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
+.cc-val{color:var(--text);font-weight:600;font-size:0.92rem;line-height:1.6;}
+
+/* FOOTER */
+footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:2rem 6%;text-align:center;
+  color:var(--muted);font-size:0.88rem;
+}
+footer a{color:var(--orange);text-decoration:none;}
+
+/* CHATBOT */
+.chat-fab{
+  position:fixed;bottom:2rem;right:2rem;z-index:999;
+  width:58px;height:58px;border-radius:50%;
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  border:none;cursor:pointer;font-size:1.5rem;
+  box-shadow:0 8px 30px var(--glow);
+  transition:all 0.2s;display:flex;align-items:center;justify-content:center;
+}
+.chat-fab:hover{transform:scale(1.1);}
+.chat-box{
+  position:fixed;bottom:5.5rem;right:2rem;z-index:999;
+  width:340px;height:500px;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:20px;display:none;flex-direction:column;overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,0.5);
+}
+.chat-box.open{display:flex;animation:slideUp 0.3s ease;}
+.chat-head{
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  padding:1rem 1.2rem;display:flex;align-items:center;gap:10px;
+}
+.chat-head-ava{font-size:1.4rem;}
+.chat-head-name{font-weight:700;font-size:0.95rem;}
+.chat-head-status{font-size:0.72rem;opacity:0.85;}
+.chat-head-close{margin-left:auto;cursor:pointer;font-size:1.1rem;opacity:0.8;background:none;border:none;color:white;}
+.chat-msgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:10px;}
+.chat-msgs::-webkit-scrollbar{width:3px;}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--orange);border-radius:3px;}
+.cmsg{max-width:82%;padding:0.7rem 1rem;border-radius:14px;font-size:0.88rem;line-height:1.6;}
+.cmsg.bot{background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:14px 14px 14px 4px;align-self:flex-start;}
+.cmsg.user{background:linear-gradient(135deg,var(--orange),var(--orange2));color:white;border-radius:14px 14px 4px 14px;align-self:flex-end;}
+.chat-input-row{padding:0.8rem;border-top:1px solid var(--border);display:flex;gap:8px;}
+.chat-inp{
+  flex:1;background:rgba(255,255,255,0.05);border:1px solid var(--border);
+  border-radius:50px;padding:0.6rem 1rem;color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;outline:none;
+}
+.chat-inp:focus{border-color:var(--orange);}
+.chat-send-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  border:none;cursor:pointer;color:white;font-size:0.9rem;
+  display:flex;align-items:center;justify-content:center;transition:transform 0.2s;
+}
+.chat-send-btn:hover{transform:scale(1.1);}
+.typing-dots{display:flex;gap:4px;padding:4px 0;}
+.typing-dots span{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:tdot 1.2s infinite;}
+.typing-dots span:nth-child(2){animation-delay:0.2s;}
+.typing-dots span:nth-child(3){animation-delay:0.4s;}
+
+/* REVEAL */
+.reveal{opacity:1;transform:none;transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.animate{opacity:0;transform:translateY(25px);}
+.reveal.animate.visible{opacity:1;transform:translateY(0);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.6;transform:scale(1.3);}}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes tdot{0%,100%{transform:translateY(0);opacity:0.4;}50%{transform:translateY(-4px);opacity:1;}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  #home{grid-template-columns:1fr;text-align:center;}
+  .hero-btns{justify-content:center;}
+  .hero-stats{justify-content:center;}
+  .hero-right{display:none;}
+  .stats-band{grid-template-columns:repeat(2,1fr);}
+  .enquiry-wrap{grid-template-columns:1fr;}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:auto;}
+  .gitem.big{grid-row:span 1;}
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+}
+@media(max-width:600px){
+  .form-row{grid-template-columns:1fr;}
+  .chat-box{width:calc(100vw - 2rem);right:1rem;}
+  .stats-band{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="logo">
+    <div class="logo-dot"></div>
+    Coding<span>With</span>Smile
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#experts">Experts</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#enquiry">Enquiry</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#enquiry" class="nav-demo">Free Demo →</a>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" onclick="closeMenu()">Home</a>
+  <a href="#courses" onclick="closeMenu()">Courses</a>
+  <a href="#experts" onclick="closeMenu()">Experts</a>
+  <a href="#gallery" onclick="closeMenu()">Gallery</a>
+  <a href="#enquiry" onclick="closeMenu()">Enquiry</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+  <a href="#enquiry" class="nav-demo" style="text-align:center;margin-top:0.5rem;" onclick="closeMenu()">Free Demo →</a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-left">
+    <div class="hero-badge"><div class="badge-dot"></div>IT Training Center · Bhildi, Gujarat</div>
+    <h1>
+      Learn to Code
+      <span class="line2">With Confidence</span>
+      <span class="line3">& Land Your Dream Job</span>
+    </h1>
+    <p class="hero-desc">Professional IT training by MCA & PhD qualified experts. Python, Web Dev, C, C++, PHP, .NET, SQL & more. Online + Offline both available!</p>
+    <div class="hero-btns">
+      <a href="#enquiry" class="btn-fire">🚀 Book Free Demo</a>
+      <a href="#courses" class="btn-ghost">📚 View Courses</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat">
+        <span class="hstat-num" data-target="150">0</span>
+        <span class="hstat-label">Students Passed Out</span>
+      </div>
+      <div class="hstat">
+        <span class="hstat-num" data-target="45">0</span>
+        <span class="hstat-label">Currently Studying</span>
+      </div>
+      <div class="hstat">
+        <span class="hstat-num" data-target="8">0</span>
+        <span class="hstat-label">Courses</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="t-dot" style="background:#FF5F56"></div>
+        <div class="t-dot" style="background:#FFBD2E"></div>
+        <div class="t-dot" style="background:#27C93F"></div>
+        <span class="t-title">coding_with_smile.py</span>
+      </div>
+      <div class="terminal-body">
+        <span class="t-cm"># Coding With Smile 😊</span><br>
+        <span class="t-cm"># IT Training, Bhildi</span><br><br>
+        <span class="t-kw">class</span> <span class="t-fn">Student</span>:<br>
+        &nbsp;&nbsp;<span class="t-kw">def</span> <span class="t-fn">__init__</span>(<span class="t-var">self</span>):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="t-var">self</span>.skills = []<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="t-var">self</span>.future = <span class="t-str">"bright"</span><br><br>
+        &nbsp;&nbsp;<span class="t-kw">def</span> <span class="t-fn">enroll</span>(<span class="t-var">self</span>):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="t-kw">return</span> <span class="t-str">"Career starts NOW! 🚀"</span><br><br>
+        <span class="t-var">me</span> = <span class="t-fn">Student</span>()<br>
+        <span class="t-fn">print</span>(<span class="t-var">me</span>.<span class="t-fn">enroll</span>())<br>
+        <span class="t-cm"># Career starts NOW! 🚀</span><span class="cursor"></span>
+      </div>
+      <div class="courses-strip">
+        <span class="cs-tag">Python</span>
+        <span class="cs-tag">HTML/CSS/JS</span>
+        <span class="cs-tag">C / C++</span>
+        <span class="cs-tag">PHP</span>
+        <span class="cs-tag">.NET</span>
+        <span class="cs-tag">SQL</span>
+        <span class="cs-tag">Oracle</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAND -->
+<div class="stats-band">
+  <div class="reveal"><span class="bs-num">150+</span><div class="bs-label">Students Passed Out</div></div>
+  <div class="reveal"><span class="bs-num">45+</span><div class="bs-label">Currently Studying</div></div>
+  <div class="reveal"><span class="bs-num">3</span><div class="bs-label">Expert Teachers</div></div>
+  <div class="reveal"><span class="bs-num">100%</span><div class="bs-label">Certificate Provided</div></div>
+</div>
+
+<!-- COURSES -->
+<section id="courses">
+  <div class="sec-tag">📚 Courses</div>
+  <h2 class="sec-title">Pick Your <span>Course</span></h2>
+  <p class="sec-desc">All courses include certificate, flexible timings & FREE demo class. Online + Offline both available!</p>
+  <div class="courses-grid">
+    <div class="course-card reveal">
+      <div class="c-icon">🐍</div>
+      <div class="c-name">Python Programming</div>
+      <div class="c-desc">Variables, loops, functions, OOP, file handling & real-world projects. Most in-demand skill!</div>
+      <div class="c-meta">
+        <span class="c-tag">⏱ 2-3 months</span>
+        <span class="c-tag">📅 1hr/day</span>
+        <span class="c-tag">🎓 Certificate</span>
+      </div>
+      <div class="c-footer">
+        <span class="c-price">₹5,000</span>
+        <button class="c-enroll" onclick="openEnquiry('Python Programming')">Enroll Now</button>
+      </div>
+    </div>
+    <div class="course-card reveal">
+      <div class="c-icon">🌐</div>
+      <div class="c-name">HTML / CSS / JS</div>
+      <div class="c-desc">Build stunning websites from scratch. HTML5, CSS3, JavaScript & responsive design.</div>
+      <div class="c-meta">
+        <span class="c-tag">⏱ 2-3 months</span>
+        <span class="c-tag">📅 1hr/day</span>
+        <span class="c-tag">🎓 Certificate</span>
+      </div>
+      <div class="c-footer">
+        <span class="c-price">₹3,500</span>
+        <button class="c-enroll" onclick="openEnquiry('HTML/CSS/JS')">Enroll Now</button>
+      </div>
+    </div>
+    <div class="course-card reveal">
+      <div class="c-icon">⚙️</div>
+      <div class="c-name">C Programming</div>
+      <div class="c-desc">Foundation of all programming. Pointers, arrays, structures, file I/O & algorithms.</div>
+      <div class="c-meta">
+        <span class="c-tag">⏱ 2-3 months</span>
+        <span class="c-tag">📅 1hr/day</span>
+        <span class="c-tag">🎓 Certificate</span>
+      </div>
+      <div class="c-footer">
+        <span class="c-price">₹4,000</span>
+        <button class="c-enroll" onclick="openEnquiry('C Programming')">Enroll Now</button>
+      </div>
+    </div>
+    <div class="course-card reveal">
+      <div class="c-icon">🔷</div>
+      <div class="c-name">C++ Programming</div>
+      <div class="c-desc">Object-oriented programming. Classes, inheritance, polymorphism & STL library.</div>
+      <div class="c-meta">
+        <span class="c-tag">⏱ 2-3 months</span>
+        <span class="c-tag">📅 1hr/day</span>
+        <span class="c-tag">🎓 Certificate</span>
+      </div>
+      <div class="c-footer">
+        <span class="c-price">₹4,000</span>
+        <button class="c-enroll" onclick="openEnquiry('C++ Programming')">Enroll Now</button>
+      </div>
+    </div>
+    <div class="course-card reveal">
+      <div class="c-icon">🐘</div>
+      <div class="c-name">PHP Development</div>
+      <div class="c-desc">Server-side web development. PHP basics, MySQL integration, forms & session handling.</div>
+      <div class="c-meta">
+        <span class="c-tag">⏱ 2-3 months</span>
+        <span class="c-tag">📅 1hr/day</span>
+        <span class="c-tag">🎓 Certificate</span>
+      </div>
+      <div class="c-footer">
+        <span class="c-price">₹4,500</span>
+        <button class="c-enroll" onclick="openEnquiry('PHP Development')">Enroll Now</button>
+      </div>
+    </div>
+    <div class="course-card reveal">
+      <div class="c-icon">💜</div>
+      <div class="c-name">.NET Framework</div>
+      <div class="c-desc">Microsoft .NET development. C#, ASP.NET, Windows Forms & web applications.</div>
+      <div class="c-meta">
+        <span class="c-tag">⏱ 2-3 months</span>
+        <span class="c-tag">📅 1hr/day</span>
+        <span class="c-tag">🎓 Certificate</span>
+      </div>
+      <div class="c-footer">
+        <span class="c-price">₹4,500</span>
+        <button class="c-enroll" onclick="openEnquiry('.NET Framework')">Enroll Now</button>
+      </div>
+    </div>
+    <div class="course-card reveal">
+      <div class="c-icon">🗄️</div>
+      <div class="c-name">SQL Database</div>
+      <div class="c-desc">Database management. Queries, joins, stored procedures, triggers & optimization.</div>
+      <div class="c-meta">
+        <span class="c-tag">⏱ 2-3 months</span>
+        <span class="c-tag">📅 1hr/day</span>
+        <span class="c-tag">🎓 Certificate</span>
+      </div>
+      <div class="c-footer">
+        <span class="c-price">₹3,500</span>
+        <button class="c-enroll" onclick="openEnquiry('SQL Database')">Enroll Now</button>
+      </div>
+    </div>
+    <div class="course-card reveal">
+      <div class="c-icon">🔶</div>
+      <div class="c-name">Oracle Database</div>
+      <div class="c-desc">Enterprise database. PL/SQL, Oracle architecture, performance tuning & administration.</div>
+      <div class="c-meta">
+        <span class="c-tag">⏱ 2-3 months</span>
+        <span class="c-tag">📅 1hr/day</span>
+        <span class="c-tag">🎓 Certificate</span>
+      </div>
+      <div class="c-footer">
+        <span class="c-price">₹3,500</span>
+        <button class="c-enroll" onclick="openEnquiry('Oracle Database')">Enroll Now</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIME SLOTS -->
+<section id="timeslots">
+  <div class="sec-tag">⏰ Timings</div>
+  <h2 class="sec-title">Flexible <span>Time Slots</span></h2>
+  <p class="sec-desc">Learn at your own pace — morning, afternoon or evening. Online classes also available anytime!</p>
+  <div class="slots-grid">
+    <div class="slot reveal" onclick="selectSlot(this,'7:00 AM')"><div class="slot-time">7:00 AM</div><div class="slot-label">Morning Batch</div><div class="slot-dot"></div></div>
+    <div class="slot reveal" onclick="selectSlot(this,'9:00 AM')"><div class="slot-time">9:00 AM</div><div class="slot-label">Morning Batch</div><div class="slot-dot"></div></div>
+    <div class="slot reveal" onclick="selectSlot(this,'11:00 AM')"><div class="slot-time">11:00 AM</div><div class="slot-label">Mid Morning</div><div class="slot-dot"></div></div>
+    <div class="slot reveal" onclick="selectSlot(this,'2:00 PM')"><div class="slot-time">2:00 PM</div><div class="slot-label">Afternoon</div><div class="slot-dot"></div></div>
+    <div class="slot reveal" onclick="selectSlot(this,'4:00 PM')"><div class="slot-time">4:00 PM</div><div class="slot-label">Evening Batch</div><div class="slot-dot"></div></div>
+    <div class="slot reveal" onclick="selectSlot(this,'6:00 PM')"><div class="slot-time">6:00 PM</div><div class="slot-label">Evening Batch</div><div class="slot-dot"></div></div>
+    <div class="slot reveal" onclick="selectSlot(this,'Online')"><div class="slot-time">Online</div><div class="slot-label">Anytime</div><div class="slot-dot"></div></div>
+  </div>
+</section>
+
+<!-- EXPERTS -->
+<section id="experts">
+  <div class="sec-tag">👨‍🏫 Experts</div>
+  <h2 class="sec-title">Learn from the <span>Best</span></h2>
+  <p class="sec-desc">Qualified, experienced teachers who are dedicated to making you job-ready.</p>
+  <div class="experts-grid">
+    <div class="expert-card reveal">
+      <div class="expert-avatar">👨‍💻</div>
+      <div class="expert-name">Nikunj Maheshwari</div>
+      <div class="expert-qual">MCA Graduate</div>
+      <div class="expert-phone">📞 97144 65982</div>
+      <div class="expert-tags">
+        <span class="etag">Python</span>
+        <span class="etag">Web Dev</span>
+        <span class="etag">AI/ML</span>
+      </div>
+    </div>
+    <div class="expert-card reveal">
+      <div class="expert-avatar">👨‍🔬</div>
+      <div class="expert-name">Yogesh Thakkar</div>
+      <div class="expert-qual">PhD Scholar</div>
+      <div class="expert-phone">📞 85119 96361</div>
+      <div class="expert-tags">
+        <span class="etag">C / C++</span>
+        <span class="etag">.NET</span>
+        <span class="etag">SQL</span>
+      </div>
+    </div>
+    <div class="expert-card reveal">
+      <div class="expert-avatar">👨‍🏫</div>
+      <div class="expert-name">Bhavesh Panchal</div>
+      <div class="expert-qual">B.Ed Graduate</div>
+      <div class="expert-phone">📞 96648 98764</div>
+      <div class="expert-tags">
+        <span class="etag">PHP</span>
+        <span class="etag">Oracle</span>
+        <span class="etag">HTML/CSS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="sec-tag">📸 Gallery</div>
+  <h2 class="sec-title">Life at <span>Coding With Smile</span></h2>
+  <p class="sec-desc">A modern, energetic learning environment where careers are built!</p>
+  <div class="gallery-grid">
+    <div class="gitem big reveal">💻<div class="glabel">Computer Lab — Bhildi</div></div>
+    <div class="gitem reveal">🎓<div class="glabel">Certificate Ceremony</div></div>
+    <div class="gitem reveal">📊<div class="glabel">Live Classroom Sessions</div></div>
+    <div class="gitem reveal">🏆<div class="glabel">Student Achievements</div></div>
+    <div class="gitem reveal">🤝<div class="glabel">Hands-on Training</div></div>
+  </div>
+</section>
+
+<!-- ENQUIRY -->
+<section id="enquiry">
+  <div class="sec-tag">📝 Enquiry</div>
+  <h2 class="sec-title">Book Your <span>Free Demo</span></h2>
+  <p class="sec-desc">Fill the form — our team will contact you within 24 hours!</p>
+  <div class="enquiry-wrap">
+    <div class="eq-left reveal">
+      <h3>Why Choose Us? 🌟</h3>
+      <div class="eq-point">
+        <div class="eq-icon">🎁</div>
+        <div class="eq-text"><h4>FREE Demo Class</h4><p>Try before you enroll! No commitment required.</p></div>
+      </div>
+      <div class="eq-point">
+        <div class="eq-icon">📜</div>
+        <div class="eq-text"><h4>Certificate on Completion</h4><p>Verified certificate after passing the final test.</p></div>
+      </div>
+      <div class="eq-point">
+        <div class="eq-icon">🌐</div>
+        <div class="eq-text"><h4>Online + Offline Both</h4><p>Learn from home or visit our center in Bhildi.</p></div>
+      </div>
+      <div class="eq-point">
+        <div class="eq-icon">⏰</div>
+        <div class="eq-text"><h4>Flexible Timings</h4><p>7AM to 7PM — pick a slot that fits your life.</p></div>
+      </div>
+    </div>
+    <div class="eq-form">
+      <div class="form-row">
+        <div class="fg"><label>Full Name *</label><input type="text" id="fname" placeholder="Your full name"></div>
+        <div class="fg"><label>Phone Number *</label><input type="tel" id="fphone" placeholder="9876543210"></div>
+      </div>
+      <div class="fg"><label>Email Address</label><input type="email" id="femail" placeholder="you@email.com"></div>
+      <div class="form-row">
+        <div class="fg">
+          <label>Interested Course *</label>
+          <select id="fcourse">
+            <option value="">Select Course</option>
+            <option>Python Programming</option>
+            <option>HTML / CSS / JS</option>
+            <option>C Programming</option>
+            <option>C++ Programming</option>
+            <option>PHP Development</option>
+            <option>.NET Framework</option>
+            <option>SQL Database</option>
+            <option>Oracle Database</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Preferred Time Slot</label>
+          <select id="fslot">
+            <option value="">Select Slot</option>
+            <option>7:00 AM</option>
+            <option>9:00 AM</option>
+            <option>11:00 AM</option>
+            <option>2:00 PM</option>
+            <option>4:00 PM</option>
+            <option>6:00 PM</option>
+            <option>Online (Flexible)</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg"><label>Message (Optional)</label><textarea id="fmsg" placeholder="Any questions or requirements..."></textarea></div>
+      <button class="submit-btn" id="submitBtn" onclick="submitForm()">🚀 Book Free Demo Class</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-tag">📍 Contact</div>
+  <h2 class="sec-title">Visit <span>Our Center</span></h2>
+  <p class="sec-desc">Located in the heart of Bhildi, Banaskantha — easy to find and reach!</p>
+  <div class="contact-grid">
+    <div class="contact-card reveal">
+      <span class="cc-icon">📍</span>
+      <div class="cc-label">Address</div>
+      <div class="cc-val">Smile Xerox, Near Goga Maharaj Mandir, Soyla Road, Bhildi-385530</div>
+    </div>
+    <div class="contact-card reveal">
+      <span class="cc-icon">📧</span>
+      <div class="cc-label">Email</div>
+      <div class="cc-val"><a href="mailto:codingwithsmile2025@gmail.com" style="color:var(--orange);text-decoration:none;">codingwithsmile2025@gmail.com</a></div>
+    </div>
+    <div class="contact-card reveal">
+      <span class="cc-icon">📞</span>
+      <div class="cc-label">Call Us</div>
+      <div class="cc-val">
+        <a href="tel:+919714465982" style="color:var(--text);text-decoration:none;">97144 65982</a><br>
+        <a href="tel:+918511996361" style="color:var(--text);text-decoration:none;">85119 96361</a><br>
+        <a href="tel:+919664898764" style="color:var(--text);text-decoration:none;">96648 98764</a>
+      </div>
+    </div>
+    <div class="contact-card reveal">
+      <span class="cc-icon">⏰</span>
+      <div class="cc-label">Working Hours</div>
+      <div class="cc-val">Mon – Sat<br>7:00 AM – 7:00 PM</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 <strong style="color:var(--orange)">Coding With Smile 😊</strong> · IT Training Center, Bhildi, Banaskantha, Gujarat</p>
+  <p style="margin-top:8px;">Made with ❤️ | <a href="mailto:codingwithsmile2025@gmail.com">codingwithsmile2025@gmail.com</a></p>
+</footer>
+
+<!-- CHATBOT -->
+<button class="chat-fab" onclick="toggleChat()" title="Chat with us!">💬</button>
+<div class="chat-box" id="chatBox">
+  <div class="chat-head">
+    <div class="chat-head-ava">😊</div>
+    <div>
+      <div class="chat-head-name">Coding With Smile Bot</div>
+      <div class="chat-head-status">● Online · Replies instantly</div>
+    </div>
+    <button class="chat-head-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-msgs" id="chatMsgs">
+    <div class="cmsg bot">👋 Hi! Welcome to Coding With Smile! Ask me about courses, fees, timings or admission. How can I help? 😊</div>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-inp" id="chatInp" placeholder="Ask anything..." onkeypress="if(event.key==='Enter')sendMsg()">
+    <button class="chat-send-btn" onclick="sendMsg()">➤</button>
+  </div>
+</div>
+
+<script>
+// SCROLL REVEAL - safe version, never hides things that are already visible
+function revealAll(){
+  document.querySelectorAll('.reveal').forEach(function(el){
+    var r = el.getBoundingClientRect();
+    if(r.top < window.innerHeight + 100) el.classList.add('visible');
+  });
+}
+document.addEventListener('scroll', revealAll, {passive:true});
+revealAll();
+setTimeout(revealAll, 200);
+setTimeout(revealAll, 800);
+</script>
+
+<script>
+// COUNTER
+function runCounters(){
+  document.querySelectorAll('[data-target]').forEach(function(el){
+    if(el.getAttribute('data-counted')) return;
+    el.setAttribute('data-counted','1');
+    var t = parseInt(el.getAttribute('data-target'));
+    var c = 0, step = Math.max(1, t/60);
+    var timer = setInterval(function(){
+      c += step;
+      if(c >= t){ el.textContent = t+'+'; clearInterval(timer); }
+      else el.textContent = Math.floor(c);
+    }, 25);
+  });
+}
+runCounters();
+setTimeout(runCounters, 500);
+setTimeout(runCounters, 1500);
+</script>
+
+<script>
+// HAMBURGER
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+// SLOT SELECT
+function selectSlot(el, time){
+  document.querySelectorAll('.slot').forEach(function(s){ s.classList.remove('active'); });
+  el.classList.add('active');
+  var sel = document.getElementById('fslot');
+  for(var i=0; i<sel.options.length; i++){
+    if(sel.options[i].text.startsWith(time)){ sel.value = sel.options[i].value; break; }
+  }
+  document.getElementById('enquiry').scrollIntoView({behavior:'smooth'});
+}
+
+// OPEN ENQUIRY
+function openEnquiry(course){
+  document.getElementById('fcourse').value = course;
+  document.getElementById('enquiry').scrollIntoView({behavior:'smooth'});
+}
+</script>
+
+<script>
+// EmailJS Keys
+var EJS_SVC  = 'service_sice7mo';
+var EJS_TPL  = 'template_k7g5ivc';
+var EJS_CTPL = 'template_zh4j7nl';
+
+// FORM SUBMIT
+async function submitForm(){
+  var name   = document.getElementById('fname').value.trim();
+  var phone  = document.getElementById('fphone').value.trim();
+  var email  = document.getElementById('femail').value.trim();
+  var course = document.getElementById('fcourse').value;
+  var slot   = document.getElementById('fslot').value;
+  var msg    = document.getElementById('fmsg').value.trim();
+
+  if(!name || !phone || !course){
+    alert('Please fill Name, Phone and Course!');
+    return;
+  }
+
+  var btn = document.getElementById('submitBtn');
+  btn.textContent = '⏳ Sending...';
+  btn.disabled = true;
+
+  // Send emails via EmailJS (only if loaded)
+  if(typeof emailjs !== 'undefined'){
+    try {
+      await emailjs.send(EJS_SVC, EJS_TPL, {
+        name: name,
+        from_name: name, from_phone: phone,
+        from_email: email || 'Not provided',
+        course: course, time_slot: slot || 'Not selected',
+        message: msg || 'No message',
+        email: email || 'Not provided'
+      });
+      console.log('Institute email sent!');
+    } catch(e){ console.log('Institute email error:', e); }
+    if(email){
+      try {
+        await emailjs.send(EJS_SVC, EJS_CTPL, {
+          name: name,
+          to_name: name, to_email: email,
+          course: course, time_slot: slot || 'Will be confirmed', phone: phone,
+          email: email
+        });
+        console.log('Student confirmation sent!');
+      } catch(e){ console.log('Confirmation error:', e); }
+    }
+  } else {
+    console.log('EmailJS not ready - WhatsApp will still open');
+  }
+
+  btn.textContent = '✅ Sent! We will contact you soon.';
+  setTimeout(function(){ btn.textContent='🚀 Book Free Demo Class'; btn.disabled=false; }, 4000);
+
+  // WhatsApp
+  var wa = 'Hello Coding With Smile!\n\nName: ' + name + '\nPhone: ' + phone + '\nCourse: ' + course;
+  if(slot) wa += '\nTime Slot: ' + slot;
+  if(msg)  wa += '\nMessage: ' + msg;
+  wa += '\n\nI would like to book a FREE demo class!';
+  setTimeout(function(){ window.open('https://wa.me/919714465982?text=' + encodeURIComponent(wa), '_blank'); }, 500);
+}
+</script>
+
+<script>
+// CHATBOT
+function toggleChat(){
+  document.getElementById('chatBox').classList.toggle('open');
+}
+
+var localReplies = {
+  python: '🐍 Python course: ₹5,000 · 2-3 months · 1hr/day. Topics include basics, OOP, projects & more! Want to book a FREE demo?',
+  html: '🌐 HTML/CSS/JS course: ₹3,500 · 2-3 months. Build beautiful websites from scratch!',
+  'c++': '🔷 C++ course: ₹4,000 · 2-3 months. OOP, classes, inheritance & STL!',
+  php: '🐘 PHP course: ₹4,500 · 2-3 months. Server-side web dev with MySQL!',
+  sql: '🗄️ SQL course: ₹3,500 · 2-3 months. Database management & queries!',
+  oracle: '🔶 Oracle course: ₹3,500 · 2-3 months. Enterprise DB & PL/SQL!',
+  '.net': '💜 .NET course: ₹4,500 · 2-3 months. C# & ASP.NET development!',
+  fee: '💰 Fees range ₹3,500–₹5,000. All include certificate! Which course interests you?',
+  time: '⏰ Classes from 7AM–7PM! Slots: 7AM, 9AM, 11AM, 2PM, 4PM, 6PM. Online also available!',
+  demo: '🎁 FREE demo available for all courses! Call 97144 65982 or fill the enquiry form.',
+  address: '📍 Smile Xerox, Near Goga Maharaj Mandir, Soyla Road, Bhildi-385530, Banaskantha.',
+  contact: '📞 Nikunj: 97144 65982 | Yogesh: 85119 96361 | Bhavesh: 96648 98764',
+  certificate: '🎓 Yes! Certificate provided after passing the final test. Fully verified!',
+  online: '🌐 Yes! Both online and offline classes available. Online is fully flexible!',
+  admission: '✅ No entrance exam! Just book a FREE demo, then enroll. Call 97144 65982!',
+};
+
+async function sendMsg(){
+  var inp  = document.getElementById('chatInp');
+  var msgs = document.getElementById('chatMsgs');
+  var text = inp.value.trim();
+  if(!text) return;
+
+  msgs.innerHTML += '<div class="cmsg user">' + text + '</div>';
+  inp.value = '';
+  msgs.scrollTop = msgs.scrollHeight;
+
+  var typing = document.createElement('div');
+  typing.className = 'cmsg bot';
+  typing.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+  msgs.appendChild(typing);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  var reply = null;
+
+  // Try AI first
+  try {
+    var res = await fetch('https://niks-shop-ai-agent.onrender.com/chat', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({message: text}),
+      signal: AbortSignal.timeout(8000)
+    });
+    if(res.ok){ var d = await res.json(); reply = d.reply; }
+  } catch(e){ console.log('AI offline, using local replies'); }
+
+  // Fallback to local replies
+  if(!reply){
+    var m = text.toLowerCase();
+    var keys = Object.keys(localReplies);
+    for(var i=0; i<keys.length; i++){
+      if(m.includes(keys[i])){ reply = localReplies[keys[i]]; break; }
+    }
+    if(!reply) reply = '😊 I can help with courses, fees, timings, demo & admission! Try asking: "Python course", "fees", "demo", "timings" or "contact".';
+  }
+
+  typing.remove();
+  msgs.innerHTML += '<div class="cmsg bot">' + reply + '</div>';
+  msgs.scrollTop = msgs.scrollHeight;
+}
+</script>
+
+</body>
+</html>

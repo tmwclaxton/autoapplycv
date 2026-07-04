@@ -1,0 +1,39 @@
+{
+  "id": "web-www-monster-com-jobs",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "search jobs, keywords, companies search jobs, keywords, companies search jobs, keywords, companies search jobs, keywords, companies",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "horizontal-input-one-undefined",
+        "name": "q",
+        "data_testid": "combobox",
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "enter location or \"remote\" enter location or \"remote\" enter location or \"remote\" enter location or \"remote\"",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "horizontal-input-two-undefined",
+        "name": "where",
+        "data_testid": "combobox",
+        "role": "combobox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

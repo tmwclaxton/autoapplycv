@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <meta name="description" content="Level up and gain score by shooting at other players and bosses while keeping yourself alive! Play the game at https://arras.io/.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:image" content="/favicon/128x128.png">
+  <meta property="og:image:width" content="54">
+  <meta property="og:image:height" content="54">
+  <title>arras.io</title>
+
+  <script async src="https://s.nitropay.com/ads-423.js"></script>
+  <script>
+  !function(a){window.loadedAdService=Math.random()<2/3?'adinplay':'bsa';a.async=true;a.src=window.loadedAdService==='bsa'?'https://cdn4.buysellads.net/pub/arras.js?'+(new Date()-new Date()%600000):'https://api.adinplay.com/libs/aiptag/pub/ACX/arras.io/tag.min.js';(document.head||document.body).appendChild(a)}(document.createElement('script'))
+  </script>
+  <script async defer src="https://www.googletagmanager.com/gtag/js?id=UA-120544149-1"></script>
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token":"a5ebfa0ea9364b2ca5cddf829c28095e"}'></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700">
+  <link rel="stylesheet" href="/css/main.css?887a326c961fe519">
+
+  <link rel="apple-touch-icon" sizes="60x60" href="/favicon/60x60.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/favicon/120x120.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/180x180.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/32x32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon/64x64.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon/96x96.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="/favicon/128x128.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/favicon/192x192.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="/favicon/256x256.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon/512x512.png">
+  <link rel="icon" type="image/png" sizes="1024x1024" href="/favicon/1024x1024.png">
+  <link rel="icon" type="image/png" sizes="2048x2048" href="/favicon/2048x2048.png">
+  <link rel="icon" type="image/svg+xml" sizes="400x400" href="/favicon/base.svg">
+  <link rel="manifest" href="/favicon/manifest.json">
+  <link rel="canonical" href="https://arras.io/">
+  <meta name="theme-color" content="#8abc3f">
+</head>
+<body>
+  <div class="gameAreaWrapper">
+    <canvas id="canvas"></canvas>
+    <div id="respawn-banner" class="respawn-banner"><div id="arras-io_728x90"></div><div id="ad-respawn-container"></div><div id="bsa-zone_1643827950431-2_123456"></div></div>
+  </div>
+  <div class="mainWrapper">
+    <div id="startMenuWrapper">
+      <div id="menuTabs" class="menuTabs" style="text-align: right;">
+        <!---<span class="menuTab achieve">View Achievements</span>-->
+        <!---<span class="menuTab achieve">View Rules</span>-->
+        <!--<span class="menuTab discord"><a href="/logout">Log out</a></span>
+        <span class="menuTab stat"><a href="/stats">View stats</a></span>-->
+        <!--<span class="menuTab discord"><a href="/login">Log in via Discord</a></span>-->
+      </div>
+      <div class="startMenu">
+        <div class="startMenuHolder linkHolder">
+          <div class="bannerHolder"><a id="referral-fallback" class="referral-fallback" href="https://www.serverhunter.com/landing/?ad=arrasio&utm_source=arrasio&utm_medium=cpc&utm_content=banner"><img src="/img/server-hunter.jpg" alt="Server Hunter referral banner"></a><div id="arras-io_336x280"></div><div id="ad-spawn"></div><div id="bsa-zone_1643828555140-9_123456"></div></div>
+          <div class="bottomHolder">
+            <a style="background: #7289da;" href="https://discord.gg/yqBWVnj">Discord</a>
+            <a style="background: #f74501;" href="https://www.reddit.com/r/Arrasio/">Reddit</a>
+            <a style="background: #f71701;" href="https://www.youtube.com/arrasio">YouTube</a>
+          </div>
+        </div>
+        <div class="startMenuHolder mainHolder">
+          <div class="sliderHolder">
+            <div class="slider startMenuSlidingContent">
+              <div class="header"><a href="https://arras.io/" class="icon" tabindex="-1"><img src="/favicon/base.svg" alt="arras.io icon"></a><h1>arras.io</h1></div>
+              <div><div class="horizontalSelector" id="serverFilterRegion"></div><div class="horizontalSelector" id="serverFilterMode"></div></div>
+              <div class="serverSelector shadowScroll"><table><tbody id="serverSelector"></tbody></table></div>
+              <input type="text" autofocus tabindex="1" spellcheck="false" placeholder="This is the tale of" id="optName" maxlength="24">
+            </div>
+            <div class="slider" id="startMenuSlidingTrigger">
+              <h3>
+                <span id="viewOptionText">view options</span>&nbsp;&nbsp;<i class="arrow" id="optionArrow" style="transform: rotate(-45deg);"></i>
+              </h3>
+            </div>
+            <div class="slider startMenuSlidingContent">
+              <div class="horizontalSelector" id="optionMenuTabs"><span class="active">Appearance</span><span>Options</span><span class="desktopControlTab">Controls</span><span>Links</span></div>
+              <div id="tabAppearance">
+                <div class="optionsHeader">Themes</div>
+                <select id="optColors" tabindex="-1"></select>
+                <select id="optBorders" tabindex="-1">
+                  <option value="normal">Soft Borders</option>
+                  <option value="dark">Dark Borders</option>
+                  <option value="neon">Neon Mode</option>
+                  <option value="glass">Glass Mode</option>
+                </select>
+                <input id="optCustom" style="display: none;" placeholder="Enter your theme code here">
+                <table>
+                  <tr>
+                    <td><div>
+                      <label class="container"><input id="optColoredNest" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Colored Nest</label>
+                    </div></td>
+                    <td><div>
+                      <label class="container"><input id="optMiter" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Sharp Polygons</label>
+                    </div></td>
+                  </tr><tr>
+                    <td><div>
+                      <label class="container"><input id="optNoGrid" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Hide Grid</label>
+                    </div></td>
+                    <td><div>
+                      <label class="container"><input id="optMiterStars" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Sharp Traps</label>
+                    </div></td>
+                  </tr><tr>
+                    <td><div>
+                      <label class="container"><input id="optShield" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Separate Shield Bar</label>
+                    </div></td>
+                    <td><div>
+                      <label class="container"><input id="optQuadraticStars" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Curvy Traps</label>
+                    </div></td>
+                  </tr>
+                </table>
+                <div class="optionsHeader">UI Elements</div>
+                <table>
+                  <tr>
+                    <td><div>
+                      <label class="container"><input id="optRenderGui" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>GUI</label>
+                    </div></td>
+                    <td><div>
+                      <label class="container"><input id="optRenderLeaderboard" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Leaderboard</label>
+                    </div></td>
+                  </tr><tr>
+                    <td><div>
+                      <label class="container"><input id="optRenderNames" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Player Names</label>
+                    </div></td>
+                    <td><div>
+                      <label class="container"><input id="optRenderHealth" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Health Bars</label>
+                    </div></td>
+                  </tr><tr>
+                    <td><div>
+                      <label class="container"><input id="optRenderScores" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Player Scores</label>
+                    </div></td>
+                    <td><div>
+                      <label class="container"><input id="optReducedInfo" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Reduced Info Bar</label>
+                    </div></td>
+                  </tr>
+                </table>
+              </div>
+              <div id="tabOptions">
+                <div class="optionsHeader">Performance</div>
+                <table>
+                  <tr>
+                    <td><div>
+                      <label class="container"><input id="optInterpolation" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Interpolation</label>
+                    </div></td>
+                    <td><div>
+                      <label class="container"><input id="optAlphaAnimations" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Fancy Animations</label>
+                    </div></td>
+                  </tr><tr>
+                    <td><div>
+                      <label class="container"><input id="optLowGraphics" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Low Resolution</label>
+                    </div></td>
+                  </tr>
+                </table>
+                <div class="optionsHeader">Miscellaneous</div>
+                <select id="optNames" tabindex="-1">
+                  <option value="none">No Filter</option>
+                  <option value="low">Filter Offensive Names</option>
+                  <option value="high">Filter Swear Words</option>
+                </select>
+                <select id="optMobile" tabindex="-1">
+                  <option value="joysticks">Joysticks</option>
+                  <option value="desktop">Desktop</option>
+                </select>
+                <table>
+                  <tr>
+                    <td><div>
+                      <label class="container"><input id="optInstantMax" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Auto-Level Up</label>
+                    </div></td>
+                    <td><div>
+                      <label class="container"><input id="optIncognito" tabindex="-1" class="checkbox" type="checkbox"><span class="checkmark"></span>Incognito Mode</label>
+                    </div></td>
+                  </tr>
+                </table>
+              </div>
+              <div id="tabControls">
+                <div class="optionsHeader">All Controls <i id="resetControls" class="reset resetControls" title="Reset controls"></i></div>
+                <table class="controlTable" id="controlTable">
+                  <tbody>
+                    <tr>
+                      <td></td>
+                      <td><div><b data-key="KEY_UP">W</b><span> - </span>move up</div></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><div><b data-key="KEY_LEFT">A</b><span> - </span>move left</div></td>
+                      <td><div><b data-key="KEY_DOWN">S</b><span> - </span>move down</div></td>
+                      <td><div><b data-key="KEY_RIGHT">D</b><span> - </span>move right</div></td>
+                    </tr>
+                    <tr>
+                      <td><div><b data-key="KEY_AUTO_FIRE">E</b><span> - </span>auto-fire</div></td>
+                      <td><div><b data-key="KEY_AUTO_SPIN">C</b><span> - </span>auto-spin</div></td>
+                      <td><div><b data-key="KEY_OVER_RIDE" data-help="KEY_OVER_RIDE">R</b><span> - </span>disable AI</div></td>
+                    </tr>
+                    <tr>
+                      <td><div><b data-key="KEY_LEVEL_UP" data-help="KEY_LEVEL_UP">N</b><span> - </span>level up</div></td>
+                      <td><div><b data-key="KEY_REVERSE_TANK">V</b><span> - </span>reverse tank</div></td>
+                      <td><div><b data-key="KEY_REVERSE_MOUSE">B</b><span> - </span>reverse mouse</div></td>
+                    </tr>
+                    <tr>
+                      <td><div><b data-key="KEY_SCREENSHOT">Q</b><span> - </span>screenshot</div></td>
+                      <td><div><b data-key="KEY_UPGRADE_MAX">M</b><span> - </span>maximize stat</div></td>
+                      <td><div><b data-key="KEY_CLASS_TREE">T</b><span> - </span>show class tree</div></td>
+                    </tr>
+                    <tr>
+                      <td><div><b data-key="KEY_RECORD">Z</b><span> - </span>record video</div></td>
+                      <td><div><b data-key="KEY_SUICIDE">O</b><span> - </span>self-destruct</div></td>
+                      <td><div><b data-key="KEY_PING">L</b><span> - </span>show latency</div></td>
+                    </tr>
+                    <tr>
+                      <td><div><b data-key="KEY_PAUSE">G</b><span> - </span>save score</div></td>
+                      <td><div><b data-key="KEY_ABILITY" data-help="KEY_ABILITY">F</b><span> - </span>use action</div></td>
+                      <td><div><b data-key="KEY_SPECIAL" data-help="KEY_SPECIAL">`</b><span> - </span>sandbox</div></td>
+                    </tr>
+                    <tr>
+                      <td><div><b data-key="KEY_CHOOSE_1" data-help="KEY_CHOOSE_1">Y</b><span> - </span>upgrade 1</div></td>
+                      <td><div><b data-key="KEY_CHOOSE_2" data-help="KEY_CHOOSE_2">U</b><span> - </span>upgrade 2</div></td>
+                      <td><div><b data-key="KEY_CHOOSE_3" data-help="KEY_CHOOSE_3">I</b><span> - </span>upgrade 3</div></td>
+                    </tr>
+                    <tr>
+                      <td><div><b data-key="KEY_CHOOSE_4" data-help="KEY_CHOOSE_4">H</b><span> - </span>upgrade 4</div></td>
+                      <td><div><b data-key="KEY_CHOOSE_5" data-help="KEY_CHOOSE_5">J</b><span> - </span>upgrade 5</div></td>
+                      <td><div><b data-key="KEY_CHOOSE_6" data-help="KEY_CHOOSE_6">K</b><span> - </span>upgrade 6</div></td>
+                    </tr>
+                    <tr>
+                      <td><div><b data-key="KEY_CHOOSE_7" data-help="KEY_CHOOSE_7"></b><span> - </span>upgrade 7</div></td>
+                      <td><div><b data-key="KEY_CHOOSE_8" data-help="KEY_CHOOSE_8"></b><span> - </span>upgrade 8</div></td>
+                      <td><div><b data-key="KEY_CHOOSE_9" data-help="KEY_CHOOSE_9"></b><span> - </span>upgrade 9</div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div id="tabAbout">
+                <div class="optionsHeader">Original Game</div>
+                <div class="moreLinks">
+                  <a tabindex="-1" id="proxy-link-0">...</a>
+                </div>
+                <div class="optionsHeader">Original Game's Proxy Sites</div>
+                <div class="moreLinks">
+                  <a tabindex="-1" id="proxy-link-1">...</a>
+                  <a tabindex="-1" id="proxy-link-2">...</a>
+                  <a tabindex="-1" id="proxy-link-3">...</a>
+                </div>
+                <div class="optionsHeader">Resources</div>
+                <div class="moreLinks">
+                  <span data-ccpa-link="1"></span>
+                  <a tabindex="-1" href="https://codepen.io/road-to-100k/full/GRpvMzb/">Road's Custom Theme Maker</a>
+                  <a tabindex="-1" href="https://glitch.com/edit/#!/arras-template">Old Official Private Server Template</a>
+                  <a tabindex="-1" href="/ext/custom-shape">Custom Shape Builder</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="startButtonHolder">
+            <button id="startButton" tabindex="2">Play</button>
+          </div>
+        </div>
+        <div class="startMenuHolder changelogHolder">
+          <div class="horizontalSelector" id="changelogTabs"><span class="active" title="Updates, events, polls, and announcements" data-type="default">Bulletin&nbsp;Board</span> <span title="All major updates" data-type="updates">Updates</span> <span title="Every balance update, major or minor" data-type="balance">Balance</span> <span title="Every single update" data-type="changelog">Changelog</span></div>
+          <div id="patchNotes" class="shadowScroll default"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/bundle.js?887a326c961fe519"></script>
+</body>
+</html>

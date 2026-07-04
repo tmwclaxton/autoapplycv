@@ -4,18 +4,34 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "legal name legal name legal-name legal-name legal name",
+      "question": "legal name legal name legal name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "legal-name",
+        "name": "legal-name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email email email email email",
+      "question": "email email email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "which skills apply to you?",
@@ -28,7 +44,15 @@
         "SQL",
         "AWS"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "which-skills-apply-to-yo-0",
+        "name": "which-skills-apply-to-yo[]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "which languages do you speak?",
@@ -40,7 +64,15 @@
         "Spanish",
         "German"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "which-languages-do-you-s-0",
+        "name": "which-languages-do-you-s[]",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

@@ -1,0 +1,90 @@
+{
+  "id": "syn-mega-svelte-044",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9154) applicant name (9154)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sv-name-9154",
+        "name": "sv-name-9154",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9154) work email (9154)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "sv-email-9154",
+        "name": "sv-email-9154",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9154) cell phone (9154)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "sv-phone-9154",
+        "name": "sv-phone-9154",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9154) why this role? (9154)",
+      "field_type": "textarea",
+      "max_chars": 350,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9154-9154",
+        "name": "why-this-role-9154-9154",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred location (9154) preferred location (9154)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Hybrid",
+        "Remote",
+        "Manchester",
+        "Berlin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-location-9154-9154",
+        "name": "preferred-location-9154-9154",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

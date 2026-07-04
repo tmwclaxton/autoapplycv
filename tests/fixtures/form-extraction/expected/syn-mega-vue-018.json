@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-vue-018",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "legal name (9018) legal name (9018)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vue-name-9018",
+        "name": "vue-name-9018",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address (9018) email address (9018)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "vue-email-9018",
+        "name": "vue-email-9018",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9018) cell phone (9018)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "vue-phone-9018",
+        "name": "vue-phone-9018",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cover letter (9018) cover letter (9018)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter-9018-9018",
+        "name": "cover-letter-9018-9018",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred location (9018) preferred location (9018)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Hybrid",
+        "Berlin",
+        "Dublin",
+        "Manchester"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-location-9018-9018",
+        "name": "preferred-location-9018-9018",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save and continue"
+    }
+  ],
+  "vet_notes": []
+}

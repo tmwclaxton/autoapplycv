@@ -1,0 +1,200 @@
+{
+  "id": "web-wpforms-com-hiring-form-template",
+  "min_fields": 12,
+  "exact_field_count": 12,
+  "fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "wpforms-14761-field_0",
+        "name": "wpforms[fields][0][first]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "wpforms-14761-field_1",
+        "name": "wpforms[fields][1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone phone phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "wpforms-14761-field_3",
+        "name": "wpforms[fields][3]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "wpforms-14761-field_4",
+        "name": "wpforms[fields][4][address1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current organization current organization",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "wpforms-14761-field_13",
+        "name": "wpforms[fields][13]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "start date start date",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "wpforms-14761-field_16",
+        "name": "wpforms[fields][16][date]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job title job title",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "wpforms-14761-field_14",
+        "name": "wpforms[fields][14]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "reason for leaving reason for leaving",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "wpforms-14761-field_15",
+        "name": "wpforms[fields][15]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "how did you find out about this position?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Current Employee",
+        "Career Fair",
+        "Newspaper Ad",
+        "Radio/TV Ad",
+        "Search Engine",
+        "Social Media",
+        "Glassdoor",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "wpforms-14761-field_5_1",
+        "name": "wpforms[fields][5]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "if other if other",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "wpforms-14761-field_6",
+        "name": "wpforms[fields][6]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "salary expectations (in usd) salary expectations (in usd)",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "wpforms-14761-field_9",
+        "name": "wpforms[fields][9]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you authorize a background check as part of the employment?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I consent"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "wpforms-14761-field_11_1",
+        "name": "wpforms[fields][11][]",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Svelte interactive mix</title></head>
+<body>
+<main><h1>Svelte interactive mix</h1><form action="/apply" method="post">
+<label for="ix-name-29">Legal name</label>
+<input type="text" id="ix-name-29" name="ix-name-29">
+<label for="ix-email-29">Work email</label>
+<input type="email" id="ix-email-29" name="ix-email-29">
+<label for="ix-phone-29">Mobile number</label>
+<input type="tel" id="ix-phone-29" name="ix-phone-29">
+<div class="svelte-app">
+<button type="button" data-reveal="#svelte-chips-29">Select skills</button>
+<div id="svelte-chips-29" hidden style="display:none">
+<div role="group" aria-labelledby="svelte-group-29-lbl" id="svelte-group-29">
+<span id="svelte-group-29-lbl">Technical skills</span>
+<span role="checkbox" aria-checked="false">Design systems</span>
+<span role="checkbox" aria-checked="false">Accessibility</span>
+<span role="checkbox" aria-checked="false">Performance</span>
+</div>
+</div>
+</div>
+<label for="date-trigger-31">When can you start?</label>
+<button type="button" id="date-trigger-31" aria-haspopup="dialog" aria-controls="date-panel-31" data-reveal="#date-panel-31">Choose date</button>
+<div id="date-panel-31" role="dialog" hidden style="display:none" aria-label="When can you start?">
+<label for="date-input-31">When can you start?</label>
+<input type="date" id="date-input-31" name="date-input-31">
+</div></form></main>
+</body>
+</html>

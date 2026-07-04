@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Job Application Form</title>
+  <style>
+    body {
+      background-color: #ccc;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .apply-box {
+      max-width: 600px;
+      padding: 20px;
+      background-color: #fff;
+      margin: 50px auto 40px;
+      box-shadow: 4px 3px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    .web {
+      font-size: 20px;
+    }
+    .form-container {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .form-control {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+    input,
+    select,
+    textarea {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 15px;
+      transition: border-color 0.3s ease;
+    }
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #ff3b3b;
+      box-shadow: 0 0 5px #ff3b3b88;
+    }
+    .error-msg {
+      color: red;
+      font-size: 13px;
+      margin-top: 3px;
+      display: none;
+    }
+    .button-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 25px;
+    }
+    button {
+      background-color: #ff3b3b;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #d32f2f;
+    }
+    .textarea-control {
+      grid-column: 1 / span 2;
+    }
+    .textarea-control textarea {
+      width: 100%;
+      resize: vertical;
+    }
+    ul#file-list {
+      margin-top: 10px;
+      list-style: none;
+      padding-left: 10px;
+      max-height: 120px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    ul#file-list li {
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      .textarea-control {
+        grid-column: 1 / span 1;
+      }
+      .apply-box {
+        padding: 15px;
+        margin: 20px;
+      }
+      h1 {
+        font-size: 22px;
+        text-align: center;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="apply-box">
+      <h1>Job Application <span class="web">(Web)</span></h1>
+      <form id="jobForm" novalidate>
+        <div class="form-container">
+          <div class="form-control">
+            <label for="first-name">First Name</label>
+            <input id="first-name" name="first-name" placeholder="Enter First Name..." required />
+            <small class="error-msg"></small>
+          </div>
+
+          <div class="form-control">
+            <label for="last-name">Last Name</label>
+            <input id="last-name" name="last-name" placeholder="Enter Last Name..." required />
+            <small class="error-msg"></small>
+          </div>
+
+          <div class="form-control">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter Email..."
+              required
+              autocomplete="off"
+            />
+            <small class="error-msg"></small>
+          </div>
+
+          <div class="form-control">
+            <label for="job-role">Job Role</label>
+            <select id="job-role" name="job-role" required>
+              <option value="">Select Job Role</option>
+              <option value="frontend">Frontend Developer</option>
+              <option value="backend">Backend Developer</option>
+              <option value="full_stack">Full Stack Developer</option>
+              <option value="ui_ux">UI UX Designer</option>
+            </select>
+            <small class="error-msg"></small>
+          </div>
+
+          <div class="textarea-control">
+            <label for="address">Address</label>
+            <textarea
+              id="address"
+              name="address"
+              rows="4"
+              placeholder="Enter Address"
+              required
+            ></textarea>
+            <small class="error-msg"></small>
+          </div>
+
+          <div class="form-control city-control">
+            <label for="city">City</label>
+            <input id="city" name="city" placeholder="Enter City Name..." required />
+            <small class="error-msg"></small>
+          </div>
+
+          <div class="form-control">
+            <label for="pincode">Pincode</label>
+            <input
+              type="number"
+              id="pincode"
+              name="pincode"
+              placeholder="Enter Pincode..."
+              required
+              min="0"
+            />
+            <small class="error-msg"></small>
+          </div>
+
+          <div class="form-control">
+            <label for="date">Date</label>
+            <input
+              type="date"
+              id="date"
+              name="date"
+              value="2025-08-02"
+              required
+            />
+            <small class="error-msg"></small>
+          </div>
+
+          <div class="form-control">
+            <label for="upload">Upload Your CV (PDF, DOC, DOCX | Max 2MB each)</label>
+            <input
+              type="file"
+              id="upload"
+              name="upload"
+              accept=".pdf,.doc,.docx"
+              multiple
+              required
+            />
+            <ul id="file-list"></ul>
+            <small class="error-msg"></small>
+          </div>
+        </div>
+
+        <div class="button-container">
+          <button type="submit">Apply Now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("jobForm");
+    const emailInput = document.getElementById("email");
+    const uploadInput = document.getElementById("upload");
+    const fileList = document.getElementById("file-list");
+
+    const allowedFileTypes = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+    const maxFileSize = 2 * 1024 * 1024; // 2MB
+
+    // Show file list and validate on change
+    uploadInput.addEventListener("change", () => {
+      fileList.innerHTML = "";
+      const files = Array.from(uploadInput.files);
+
+      if (files.length === 0) {
+        fileList.innerHTML = "<li>No files selected.</li>";
+        return;
+      }
+
+      files.forEach((file) => {
+        const li = document.createElement("li");
+
+        if (!allowedFileTypes.includes(file.type)) {
+          li.style.color = "red";
+          li.textContent = `${file.name} - Unsupported file type!`;
+        } else if (file.size > maxFileSize) {
+          li.style.color = "red";
+          li.textContent = `${file.name} - File size exceeds 2MB!`;
+        } else {
+          li.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+        }
+
+        fileList.appendChild(li);
+      });
+    });
+
+    // Email instant validation
+    emailInput.addEventListener("input", () => {
+      const errorElem = emailInput.nextElementSibling;
+      const emailVal = emailInput.value;
+      const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+      if (!isValid && emailVal.length > 0) {
+        errorElem.style.display = "block";
+        errorElem.textContent = "Please enter a valid email address.";
+      } else {
+        errorElem.style.display = "none";
+        errorElem.textContent = "";
+      }
+    });
+
+    // Form submit validation
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      let isFormValid = true;
+
+      // Clear previous errors
+      const errorMessages = form.querySelectorAll(".error-msg");
+      errorMessages.forEach((el) => {
+        el.style.display = "none";
+        el.textContent = "";
+      });
+
+      // Validate required fields
+      form.querySelectorAll("input[required], select[required], textarea[required]").forEach((input) => {
+        if (!input.value.trim()) {
+          const errorEl = input.nextElementSibling;
+          errorEl.style.display = "block";
+          errorEl.textContent = `${input.previousElementSibling.textContent} is required.`;
+          isFormValid = false;
+        }
+      });
+
+      // Validate email format
+      const emailVal = emailInput.value.trim();
+      if (emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+        const errorEl = emailInput.nextElementSibling;
+        errorEl.style.display = "block";
+        errorEl.textContent = "Please enter a valid email address.";
+        isFormValid = false;
+      }
+
+      // Validate files
+      const files = Array.from(uploadInput.files);
+      if (files.length === 0) {
+        const errorEl = uploadInput.nextElementSibling.nextElementSibling;
+        errorEl.style.display = "block";
+        errorEl.textContent = "Please upload at least one CV file.";
+        isFormValid = false;
+      } else {
+        for (let file of files) {
+          if (!allowedFileTypes.includes(file.type)) {
+            const errorEl = uploadInput.nextElementSibling.nextElementSibling;
+            errorEl.style.display = "block";
+            errorEl.textContent = "Only PDF, DOC, DOCX files allowed.";
+            isFormValid = false;
+            break;
+          }
+          if (file.size > maxFileSize) {
+            const errorEl = uploadInput.nextElementSibling.nextElementSibling;
+            errorEl.style.display = "block";
+            errorEl.textContent = "File size must be less than 2MB.";
+            isFormValid = false;
+            break;
+          }
+        }
+      }
+
+      if (isFormValid) {
+        alert("Form submitted successfully!");
+        form.reset();
+        fileList.innerHTML = "";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Wizard apply 6</title></head>
+<body>
+<main><h1>Wizard apply 6</h1><form action="/apply" method="post">
+<div class="wizard" data-step="1">
+<nav aria-label="Application progress"><ol><li aria-current="step">Contact</li><li>Experience</li><li>Review</li></ol></nav>
+<div class="wizard-panel" role="group" aria-labelledby="wizard-step1">
+<h2 id="wizard-step1">Contact information</h2>
+<label for="wiz-name">Legal name</label><input id="wiz-name" name="wiz-name" type="text">
+<label for="wiz-email">Work email</label><input id="wiz-email" name="wiz-email" type="email">
+<label for="wiz-phone">Mobile number</label><input id="wiz-phone" name="wiz-phone" type="tel">
+</div>
+<div class="wizard-panel" aria-hidden="true" style="display:none"><p>Experience step (not yet visible)</p></div>
+<div class="field-row"><label for="why-this-role">Why this role?</label><textarea id="why-this-role" name="why-this-role" rows="4" maxlength="400" ></textarea></div>
+<button type="button">Continue</button>
+<button type="button">Next step</button>
+<button type="button">Save and continue</button>
+</div></form></main>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Vue interactive mix</title></head>
+<body>
+<main><h1>Vue interactive mix</h1><form action="/apply" method="post">
+<label for="ix-name-27">Your name</label>
+<input type="text" id="ix-name-27" name="ix-name-27">
+<label for="ix-email-27">Personal email</label>
+<input type="email" id="ix-email-27" name="ix-email-27">
+<label for="ix-phone-27">Telephone</label>
+<input type="tel" id="ix-phone-27" name="ix-phone-27">
+<div id="app" data-v-app>
+<div class="v-select">
+<span id="vue-listbox-27-lbl">Where are you based?</span>
+<button type="button" class="custom-dropdown-trigger" role="combobox" aria-expanded="false" aria-controls="vue-listbox-27" aria-labelledby="vue-listbox-27-lbl" data-reveal="#vue-listbox-27">Where are you based?</button>
+<ul role="listbox" id="vue-listbox-27" aria-labelledby="vue-listbox-27-lbl" hidden style="display:none">
+<li role="option">London</li>
+<li role="option">Remote</li>
+<li role="option">Hybrid</li>
+</ul>
+</div>
+</div>
+<button type="button" id="add-answer-27" data-reveal="#answer-panel-27">Add answer</button>
+<div id="answer-panel-27" hidden style="display:none">
+<label for="answer-27">Tell us about a recent project</label>
+<textarea id="answer-27" name="answer-27" rows="5" maxlength="600"></textarea>
+</div></form></main>
+</body>
+</html>

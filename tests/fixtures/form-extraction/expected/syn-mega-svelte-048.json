@@ -1,0 +1,90 @@
+{
+  "id": "syn-mega-svelte-048",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "preferred name (9158) preferred name (9158)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sv-name-9158",
+        "name": "sv-name-9158",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9158) work email (9158)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "sv-email-9158",
+        "name": "sv-email-9158",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "direct line (9158) direct line (9158)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "sv-phone-9158",
+        "name": "sv-phone-9158",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9158) why this role? (9158)",
+      "field_type": "textarea",
+      "max_chars": 350,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9158-9158",
+        "name": "why-this-role-9158-9158",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current city (9158) current city (9158)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Manchester",
+        "Berlin",
+        "Hybrid",
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "current-city-9158-9158",
+        "name": "current-city-9158-9158",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

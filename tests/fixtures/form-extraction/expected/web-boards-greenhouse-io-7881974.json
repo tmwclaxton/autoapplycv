@@ -4,25 +4,49 @@
   "exact_field_count": 3,
   "fields": [
     {
-      "question": "search search search search keyword-filter search",
+      "question": "search search search search search",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "keyword-filter",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "department department department-filter",
+      "question": "department department",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "department-filter",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "office office office-filter",
+      "question": "office office",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "office-filter",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     }
   ],
   "controls": [

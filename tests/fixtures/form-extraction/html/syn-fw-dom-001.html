@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Nested fieldsets 1</title></head>
+<body>
+<main><h1>Nested fieldsets 1</h1><form action="/apply" method="post">
+<fieldset aria-labelledby="section-0-legend">
+<legend id="section-0-legend">Personal details</legend>
+<fieldset><legend>Full name</legend><input type="text" id="dom-name" name="dom-name" aria-label="Full name"></fieldset>
+<label for="dom-email">Email address</label><input type="email" id="dom-email" name="dom-email">
+<p id="dom-email-help" class="help-text">We will use this to contact you about your application.</p>
+<label for="dom-phone">Phone number</label><input type="tel" id="dom-phone" name="dom-phone" aria-describedby="dom-email-help">
+</fieldset>
+<fieldset><legend>Open to relocation?</legend><label for="open-to-relocation-0"><input type="radio" id="open-to-relocation-0" name="open-to-relocation" value="yes"> Yes</label><label for="open-to-relocation-1"><input type="radio" id="open-to-relocation-1" name="open-to-relocation" value="no"> No</label></fieldset>
+<div class="field-row"><label for="cover-letter">Cover letter</label><textarea id="cover-letter" name="cover-letter" rows="4" maxlength="450" ></textarea></div></form></main>
+</body>
+</html>

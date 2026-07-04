@@ -1,0 +1,224 @@
+{
+  "id": "web-jobs-eu-lever-co-apply-6",
+  "min_fields": 13,
+  "exact_field_count": 13,
+  "fields": [
+    {
+      "question": "full name✱ full name✱ full name✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email✱ email✱ email✱",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone phone phone",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current location ✱no location found. try entering a different locationloading current location ✱no location found. try entering a different locationloading current location ✱no location found. try entering a different locationloading",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current company current company current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "linkedin url linkedin url linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "twitter url twitter url twitter url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Twitter]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "github url github url github url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[GitHub]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "portfolio url portfolio url portfolio url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Portfolio]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "other website other website other website",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Other]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "linkedin linkedin linkedin",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Linkedin",
+        "Web Site",
+        "Facebook",
+        "Monster",
+        "Glickon",
+        "Glassdoor",
+        "Stack overflow",
+        "University",
+        "Objectway Referral Program",
+        "Other platforms"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[1d789a73-9ff0-48cb-a572-b52ace04b7a9][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[1094e710-2a7b-427b-a16f-5ac98708ee30][field0]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[1094e710-2a7b-427b-a16f-5ac98708ee30][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "beginner beginner beginner",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Beginner",
+        "Intermediate",
+        "Advanced",
+        "Native/Bilingual"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[cbe225e1-b9d2-4fed-88bc-2b1803c42ca3][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

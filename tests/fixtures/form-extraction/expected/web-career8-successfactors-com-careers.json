@@ -1,0 +1,39 @@
+{
+  "id": "web-career8-successfactors-com-careers",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "search by keyword",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "q",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search by location",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "locationsearch",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,87 @@
+{
+  "id": "syn-mega-grid-021",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "preferred name (9921) preferred name (9921)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "grid-name-9921",
+        "name": "grid-name-9921",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9921) work email (9921)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "grid-email-9921",
+        "name": "grid-email-9921",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number (9921) phone number (9921)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "grid-phone-9921",
+        "name": "grid-phone-9921",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cover letter (9921) cover letter (9921)",
+      "field_type": "textarea",
+      "max_chars": 450,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter-9921-9921",
+        "name": "cover-letter-9921-9921",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "relocation preference (9921)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "relocation-preference-99-0",
+        "name": "relocation-preference-99",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

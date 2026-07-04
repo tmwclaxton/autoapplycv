@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Svelte apply 7</title></head>
+<body>
+<main><h1>Svelte apply 7</h1><form action="/apply" method="post">
+<div class="svelte-0102 application">
+<div class="field svelte-0102"><label class="svelte-0102" for="sv-name">Applicant name</label><input class="svelte-0102" id="sv-name" name="sv-name" type="text" bind:value={name}></div>
+<div class="field svelte-0102"><label class="svelte-0102" for="sv-email">Contact email</label><input class="svelte-0102" id="sv-email" name="sv-email" type="email" bind:value={email}></div>
+<div class="field svelte-0102"><label class="svelte-0102" for="sv-phone">Contact number</label><input class="svelte-0102" id="sv-phone" name="sv-phone" type="tel" bind:value={phone}></div>
+<div class="field-row"><label for="tell-us-about-yourself">Tell us about yourself</label><textarea id="tell-us-about-yourself" name="tell-us-about-yourself" rows="4" maxlength="350" class="svelte-0102"></textarea></div>
+<fieldset><legend>Open to relocation?</legend><label for="open-to-relocation-0"><input type="radio" id="open-to-relocation-0" name="open-to-relocation" value="yes"> Yes</label><label for="open-to-relocation-1"><input type="radio" id="open-to-relocation-1" name="open-to-relocation" value="no"> No</label></fieldset>
+</div></form></main>
+</body>
+</html>

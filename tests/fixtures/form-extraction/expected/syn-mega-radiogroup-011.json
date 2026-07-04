@@ -1,0 +1,73 @@
+{
+  "id": "syn-mega-radiogroup-011",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "applicant name (9731) applicant name (9731)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "rg-name-9731",
+        "name": "rg-name-9731",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9731) primary email (9731)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "rg-email-9731",
+        "name": "rg-email-9731",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9731) contact number (9731)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "rg-phone-9731",
+        "name": "rg-phone-9731",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "visa sponsorship needed? (9731)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Not applicable"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "visa-sponsorship-needed-",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

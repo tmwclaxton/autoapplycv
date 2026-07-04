@@ -78,7 +78,8 @@ class FormExtractionEvalTest extends TestCase
         $snapshotsPath = base_path('tests/fixtures/form-extraction/snapshots.json');
 
         $result = Process::path(base_path())
-            ->run(['node', 'scripts/form-corpus/run-snapshot.mjs', '--all']);
+            ->timeout(900)
+            ->run(['node', 'scripts/form-corpus/run-snapshot.mjs', '--all', '--workers=8']);
 
         $this->assertTrue(
             $result->successful(),

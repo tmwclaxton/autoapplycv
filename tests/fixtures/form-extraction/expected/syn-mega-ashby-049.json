@@ -1,0 +1,91 @@
+{
+  "id": "syn-mega-ashby-049",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "complete name (9389) complete name (9389)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ashby-name-9389",
+        "name": "ashby-name-9389",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact email (9389) contact email (9389)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ashby-email-9389",
+        "name": "ashby-email-9389",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number (9389) phone number (9389)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ashby-phone-9389",
+        "name": "ashby-phone-9389",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "motivation statement (9389) motivation statement (9389) motivation statement (9389)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement-9389-93",
+        "name": "motivation-statement-9389-93",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work authorization status (9389)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "work-authorization-statu-0",
+        "name": "work-authorization-statu",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

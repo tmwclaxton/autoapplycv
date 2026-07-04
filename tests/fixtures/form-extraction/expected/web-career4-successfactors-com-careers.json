@@ -1,0 +1,84 @@
+{
+  "id": "web-career4-successfactors-com-careers",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "search by keyword or requisition id",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "q",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search by location",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "locationsearch",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search by postal code",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "geolocation",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address: email address: email address:",
+      "field_type": "text",
+      "max_chars": 99,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "username",
+        "name": "username",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "password: password: password:",
+      "field_type": "password",
+      "max_chars": 99,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "password",
+        "name": "password",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

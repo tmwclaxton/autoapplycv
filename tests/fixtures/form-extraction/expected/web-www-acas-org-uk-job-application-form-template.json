@@ -1,14 +1,22 @@
 {
   "id": "web-www-acas-org-uk-job-application-form-template",
-  "min_fields": 6,
-  "exact_field_count": 6,
+  "min_fields": 4,
+  "exact_field_count": 4,
   "fields": [
     {
-      "question": "search website search website search website keys search--edit-keys search website",
+      "question": "search website search website search website search website",
       "field_type": "text",
       "max_chars": 128,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search--edit-keys",
+        "name": "keys",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "please tell us why the information did not help",
@@ -20,35 +28,45 @@
         "I cannot work out what to do next",
         "Other"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "edit-radios--wrapper",
+        "name": "radios",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "tell us more about your answer tell us more about your answer answer edit-answer tell us more about your answer",
+      "question": "tell us more about your answer tell us more about your answer tell us more about your answer",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "edit-answer",
+        "name": "answer",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "leave this field blank leave this field blank url edit-url leave this field blank",
+      "question": "leave this field blank leave this field blank leave this field blank",
       "field_type": "text",
       "max_chars": 128,
       "options": null,
-      "required": false
-    },
-    {
-      "question": "tell us more about your answer tell us more about your answer answer edit-answer--2 tell us more about your answer",
-      "field_type": "textarea",
-      "max_chars": null,
-      "options": null,
-      "required": false
-    },
-    {
-      "question": "leave this field blank leave this field blank url edit-url--2 leave this field blank",
-      "field_type": "text",
-      "max_chars": 128,
-      "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "edit-url",
+        "name": "url",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

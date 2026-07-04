@@ -1,0 +1,91 @@
+{
+  "id": "syn-mega-ashby-001",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "preferred name (9341) preferred name (9341)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ashby-name-9341",
+        "name": "ashby-name-9341",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application email (9341) application email (9341)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ashby-email-9341",
+        "name": "ashby-email-9341",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9341) contact number (9341)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ashby-phone-9341",
+        "name": "ashby-phone-9341",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9341) why this role? (9341) why this role? (9341)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9341-9341",
+        "name": "why-this-role-9341-9341",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "visa sponsorship needed? (9341)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "visa-sponsorship-needed--0",
+        "name": "visa-sponsorship-needed-",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

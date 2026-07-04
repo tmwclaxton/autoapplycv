@@ -1,0 +1,351 @@
+{
+  "id": "web-jobs-eu-lever-co-apply-5",
+  "min_fields": 18,
+  "exact_field_count": 18,
+  "fields": [
+    {
+      "question": "full name✱ full name✱ full name✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email✱ email✱ email✱",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone ✱ phone ✱ phone ✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current company current company current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "linkedin url linkedin url linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "other url other url other url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Other]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes yes yes",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Sponsorship Required"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[43ce3de4-0205-4a8f-be9a-7d9e166537e1][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[43ce3de4-0205-4a8f-be9a-7d9e166537e1][field2]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[43ce3de4-0205-4a8f-be9a-7d9e166537e1][field2]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[43ce3de4-0205-4a8f-be9a-7d9e166537e1][field3]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[43ce3de4-0205-4a8f-be9a-7d9e166537e1][field3]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "ivc evidensia website ivc evidensia website ivc evidensia website",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "IVC Evidensia Website",
+        "LinkedIn",
+        "Indeed",
+        "Word of Mouth",
+        "Facebook",
+        "Event",
+        "Internal Job Board",
+        "Vet Times",
+        "ACCA Careers",
+        "Other External Job Board"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[43ce3de4-0205-4a8f-be9a-7d9e166537e1][field4]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "17 or younger 17 or younger 17 or younger",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "17 or younger",
+        "18-20",
+        "21-29",
+        "30-39",
+        "40-49",
+        "50-59",
+        "60 or older",
+        "Prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[e5839a01-af99-4e3c-8f1c-42b99aca311b][responses][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "vision (eg due to blindness or partial sight) vision (eg due to blindness or partial sight) vision (eg due to blindness or partial sight)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Vision (eg due to blindness or partial sight)",
+        "Hearing (eg due to deafness or partial hearing)",
+        "Mobility, walking short distances, stairs, lifting heavy objects",
+        "Long standing illness",
+        "Mental health",
+        "Stamina or difficulty breathing",
+        "Social or behavioural ie: Autism, ADHD or Asperger's",
+        "Learning or concentrating, or memory",
+        "Other",
+        "Prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "surveysResponses[e5839a01-af99-4e3c-8f1c-42b99aca311b][responses][field2]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "white / caucasian white / caucasian select all that apply",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "White / Caucasian",
+        "Hispanic, Latino, or Spanish origin",
+        "Black or African American",
+        "Asian",
+        "Native Hawaiian or other Pacific Islander",
+        "Indigenous Peoples, First Nations, Native American, or Alaska Native",
+        "Middle Eastern or North African",
+        "Some other race, ethnicity, or origin",
+        "Prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "surveysResponses[e5839a01-af99-4e3c-8f1c-42b99aca311b][responses][field3]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "female female female",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Female",
+        "Male",
+        "Other",
+        "Prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[e5839a01-af99-4e3c-8f1c-42b99aca311b][responses][field4]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "no religion no religion no religion",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "No religion",
+        "Christian",
+        "Muslim",
+        "Hindu",
+        "Sikh",
+        "Jewish",
+        "Buddhist",
+        "Other",
+        "Prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[e5839a01-af99-4e3c-8f1c-42b99aca311b][responses][field6]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "heterosexual / straight heterosexual / straight heterosexual / straight",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Heterosexual / Straight",
+        "Gay or Lesbian",
+        "Bisexual",
+        "Other",
+        "Prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[e5839a01-af99-4e3c-8f1c-42b99aca311b][responses][field7]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes, ivc can contact me about future job opportunities for up to 2 yearsprivacy policy yes, ivc can contact me about future job opportunities for up to 2 yearsprivacy policy yes, ivc can contact me about future job opportunities for up to 2 yearsprivacy policy",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes, IVC can contact me about future job opportunities for up to 2 yearsPrivacy policy"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "consent[marketing]",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

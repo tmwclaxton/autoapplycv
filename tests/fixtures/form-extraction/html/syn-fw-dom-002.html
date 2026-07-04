@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Duplicate label patterns 2</title></head>
+<body>
+<main><h1>Duplicate label patterns 2</h1><form action="/apply" method="post">
+<div class="grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+<div><label for="dup-name">Legal name</label><span class="helper">Required</span><input id="dup-name" name="dup-name" type="text"></div>
+<div><label for="dup-email">Work email</label><span class="helper">Required</span><input id="dup-email" name="dup-email" type="email"></div>
+<div style="grid-column:span 2"><label for="dup-phone">Mobile number</label><input id="dup-phone" name="dup-phone" type="tel"><small class="helper-text">Include country code</small></div>
+</div>
+<div role="radiogroup" aria-labelledby="visa-sponsorship-needed-lbl" id="visa-sponsorship-needed">
+<span id="visa-sponsorship-needed-lbl">Visa sponsorship needed?</span>
+<div role="radio" tabindex="0" aria-checked="false" data-value="yes">Yes</div><div role="radio" tabindex="-1" aria-checked="false" data-value="no">No</div><div role="radio" tabindex="-1" aria-checked="false" data-value="unsure">Unsure</div>
+</div></form></main>
+</body>
+</html>

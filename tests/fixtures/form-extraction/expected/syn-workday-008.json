@@ -8,28 +8,60 @@
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "input-q_your-name",
+        "data_testid": "input-q_your-name-input",
+        "role": null
+      }
     },
     {
       "question": "input-q_contact-email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "input-q_contact-email",
+        "data_testid": "input-q_contact-email-input",
+        "role": null
+      }
     },
     {
       "question": "input-q_tell-us-about-yo",
       "field_type": "textarea",
       "max_chars": 500,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "input-q_tell-us-about-yo",
+        "data_testid": "input-q_tell-us-about-yo-input",
+        "role": null
+      }
     },
     {
       "question": "input-q_years-in-this-fi",
       "field_type": "number",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": null,
+        "name": "input-q_years-in-this-fi",
+        "data_testid": "input-q_years-in-this-fi-input",
+        "role": null
+      }
     }
   ],
   "controls": [

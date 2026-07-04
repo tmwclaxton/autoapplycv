@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-angular-004",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "preferred name (9164) preferred name (9164)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ang-name-9164",
+        "name": "ang-name-9164",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9164) work email (9164)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ang-email-9164",
+        "name": "ang-email-9164",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9164) cell phone (9164)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ang-phone-9164",
+        "name": "ang-phone-9164",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal statement (9164) personal statement (9164)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "personal-statement-9164-9164",
+        "name": "personal-statement-9164-9164",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9164) office preference (9164)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "London",
+        "Manchester",
+        "Remote",
+        "Hybrid"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "office-preference-9164-9164",
+        "name": "office-preference-9164-9164",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

@@ -1,0 +1,92 @@
+{
+  "id": "syn-mega-next-039",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9259) applicant name (9259)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "next-name-9259",
+        "name": "next-name-9259",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email (9259) personal email (9259)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "next-email-9259",
+        "name": "next-email-9259",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9259) mobile number (9259)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "next-phone-9259",
+        "name": "next-phone-9259",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9259) why this role? (9259)",
+      "field_type": "textarea",
+      "max_chars": 450,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9259-9259",
+        "name": "why-this-role-9259-9259",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "referral source (9259)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "LinkedIn",
+        "Referral",
+        "Job board"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "referral-source-9259-925-0",
+        "name": "referral-source-9259-925",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

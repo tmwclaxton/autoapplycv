@@ -1,0 +1,43 @@
+{
+  "id": "web-ats-rippling-com-15834a90-86e8-4749-93ed-8330ce244955",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "type your search and hit enter type your search and hit enter",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "header_search_input",
+        "name": "s",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "your email your email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "mce-EMAIL",
+        "name": "EMAIL",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "next step"
+    }
+  ],
+  "vet_notes": []
+}

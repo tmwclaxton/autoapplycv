@@ -1,0 +1,93 @@
+{
+  "id": "syn-mega-smartrec-012",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "complete name (9542) complete name (9542)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sr-name-9542",
+        "name": "sr-name-9542",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address (9542) email address (9542)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "sr-email-9542",
+        "name": "sr-email-9542",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number (9542) phone number (9542)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "sr-phone-9542",
+        "name": "sr-phone-9542",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9542) why this role? (9542)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9542-9542",
+        "name": "why-this-role-9542-9542",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9542)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Remote",
+        "Manchester",
+        "Hybrid",
+        "Berlin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-9542",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue application"
+    }
+  ],
+  "vet_notes": []
+}

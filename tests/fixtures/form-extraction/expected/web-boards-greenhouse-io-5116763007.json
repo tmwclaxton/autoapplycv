@@ -1,0 +1,73 @@
+{
+  "id": "web-boards-greenhouse-io-5116763007",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "search for pages, news, insights, and people",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": null,
+        "name": "localSearch",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "area of interest show all areas of interest area of interest show all areas of interest",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Show all Areas of Interest"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "AreasOfInterest",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "location show all locations location show all locations",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Show all Locations"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "Location",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "JobTitleFilter",
+        "name": "localSearch",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

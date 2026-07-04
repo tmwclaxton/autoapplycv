@@ -4,32 +4,64 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "your name your name question_your-name question_your-name your name",
+      "question": "your name your name your name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_your-name",
+        "name": "question_your-name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "contact email contact email question_contact-email question_contact-email contact email",
+      "question": "contact email contact email contact email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "question_contact-email",
+        "name": "question_contact-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "telephone telephone question_telephone question_telephone telephone",
+      "question": "telephone telephone telephone",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "question_telephone",
+        "name": "question_telephone",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "motivation statement motivation statement motivation-statement motivation-statement motivation statement",
+      "question": "motivation statement motivation statement motivation statement",
       "field_type": "textarea",
       "max_chars": 1000,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement",
+        "name": "motivation-statement",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

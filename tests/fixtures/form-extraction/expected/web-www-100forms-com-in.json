@@ -1,0 +1,56 @@
+{
+  "id": "web-www-100forms-com-in",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "field1 usernamecontrol",
+      "field_type": "text",
+      "max_chars": 300,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "usernameControl",
+        "name": "field1",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "field2 passwordcontrol",
+      "field_type": "password",
+      "max_chars": 300,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "passwordControl",
+        "name": "field2",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "field3 maincontent_chkrememberme",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "on"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "MainContent_chkRememberMe",
+        "name": "field3",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

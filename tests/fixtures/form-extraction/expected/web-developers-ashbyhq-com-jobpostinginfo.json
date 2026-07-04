@@ -1,0 +1,87 @@
+{
+  "id": "web-developers-ashbyhq-com-jobpostinginfo",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "jobpostingid jobpostingid e9ed20fd-d45f-4aad-8a00-a19bfba0083e jobpostingid",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "body-jobPostingInfo_jobPostingId",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "jobboardid",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "body-jobPostingInfo_jobBoardId__selected",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "includeunpublishedjobpostings",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "true",
+        "false"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "body-jobPostingInfo_includeUnpublishedJobPostings__selected",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "username username",
+      "field_type": "password",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": null,
+        "name": "user",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "password password",
+      "field_type": "password",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": null,
+        "name": "pass",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

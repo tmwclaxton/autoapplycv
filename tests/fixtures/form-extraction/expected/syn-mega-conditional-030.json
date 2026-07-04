@@ -1,0 +1,105 @@
+{
+  "id": "syn-mega-conditional-030",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "applicant name (9650) applicant name (9650)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cond-name-9650",
+        "name": "cond-name-9650",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address (9650) email address (9650)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cond-email-9650",
+        "name": "cond-email-9650",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "direct line (9650) direct line (9650)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cond-phone-9650",
+        "name": "cond-phone-9650",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal website (9650) personal website (9650)",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "personal-website-9650-9650",
+        "name": "personal-website-9650-9650",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9650) why this role? (9650)",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9650-9650",
+        "name": "why-this-role-9650-9650",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred location (9650) preferred location (9650)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Dublin",
+        "Remote",
+        "Manchester",
+        "Berlin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-location-9650-9650",
+        "name": "preferred-location-9650-9650",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

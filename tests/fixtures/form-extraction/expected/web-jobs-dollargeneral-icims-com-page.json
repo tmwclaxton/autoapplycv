@@ -1,0 +1,58 @@
+{
+  "id": "web-jobs-dollargeneral-icims-com-page",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "search keyword, category or job title search keyword, category or job title keyword search search keyword",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "keyword-search",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "search locations search locations search by address, city, st or zip search by address, city, st or zip",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-search",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "write a reply...",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "widget_composer_input",
+        "name": null,
+        "data_testid": "widget_input_text",
+        "role": "textbox"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next Page of Job Search Results"
+    }
+  ],
+  "vet_notes": []
+}

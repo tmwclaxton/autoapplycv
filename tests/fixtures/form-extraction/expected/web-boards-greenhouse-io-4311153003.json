@@ -4,46 +4,94 @@
   "exact_field_count": 13,
   "fields": [
     {
-      "question": "first name first name first name first_name first name",
+      "question": "first name first name first name first name",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "first_name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "last name last name last name last_name last name",
+      "question": "last name last name last name last name",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "last_name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email email email email email",
+      "question": "email email email email",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "email",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "phone",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "country",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "linkedin profile linkedin profile linkedin profile question_5330822003 linkedin profile",
+      "question": "linkedin profile linkedin profile linkedin profile linkedin profile",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_5330822003",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "website website website question_5330823003 website",
+      "question": "website website website website",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_5330823003",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "which departments/disciplines are you interested in? please select up to three.",
@@ -67,49 +115,105 @@
         "Recruiting / Talent",
         "Strategic Planning"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "question_5330824003[]",
+        "name": "question_5330824003[]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "what else should we know about you? what else should we know about you? what else should we know about you? question_5330826003 what else should we know about you?",
+      "question": "what else should we know about you? what else should we know about you? what else should we know about you? what else should we know about you?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "question_5330826003",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "what gender do you identify as? what gender do you identify as? 4000356003",
+      "question": "what gender do you identify as? what gender do you identify as?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4000356003",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "what is your racial identity? what is your racial identity? 4000357003",
+      "question": "what is your racial identity? what is your racial identity?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4000357003",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "do you live with a disability (as outlined by the ada/dda/eaa or equivalents)? do you live with a disability (as outlined by the ada/dda/eaa or equivalents)? 4000358003",
+      "question": "do you live with a disability (as outlined by the ada/dda/eaa or equivalents)? do you live with a disability (as outlined by the ada/dda/eaa or equivalents)?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4000358003",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "what sexual orientation do you most closely identify with? what sexual orientation do you most closely identify with? 4000359003",
+      "question": "what sexual orientation do you most closely identify with? what sexual orientation do you most closely identify with?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4000359003",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "are you a veteran or have you served in the military? are you a veteran or have you served in the military? 4000360003",
+      "question": "are you a veteran or have you served in the military? are you a veteran or have you served in the military?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4000360003",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     }
   ],
   "controls": [

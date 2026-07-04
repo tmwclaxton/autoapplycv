@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Web component apply 6</title></head>
+<body>
+
+<main>
+<h1>Web component apply 6</h1>
+<apply-form-widget data-stage="6">
+<form slot="application" action="/apply" method="post">
+<section class="wc-host">
+<label for="wc-name-5">Legal name</label>
+<input id="wc-name-5" name="wc-name-5" type="text">
+<label for="wc-email-5">Work email</label>
+<input id="wc-email-5" name="wc-email-5" type="email">
+<label for="wc-phone-5">Mobile number</label>
+<input id="wc-phone-5" name="wc-phone-5" type="tel">
+<fieldset><legend>Relocation preference</legend><label for="relocation-preference-0"><input type="radio" id="relocation-preference-0" name="relocation-preference" value="yes"> Yes</label><label for="relocation-preference-1"><input type="radio" id="relocation-preference-1" name="relocation-preference" value="no"> No</label></fieldset>
+</section>
+<button type="button">Continue</button>
+</form>
+</apply-form-widget>
+<job-application-panel>
+<div class="panel-inner" role="group" aria-label="Additional questions">
+<div class="field-row"><label for="application-source">Application source</label><select id="application-source" name="application-source" ><option value="">Choose one…</option><option value="website">Website</option><option value="linkedin">LinkedIn</option><option value="friend">Friend</option><option value="other">Other</option></select></div>
+</div>
+</job-application-panel>
+</main>
+</body>
+</html>

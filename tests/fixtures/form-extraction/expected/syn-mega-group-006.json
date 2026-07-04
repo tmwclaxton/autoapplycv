@@ -1,0 +1,72 @@
+{
+  "id": "syn-mega-group-006",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "legal name (9786) legal name (9786)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "grp-name-9786",
+        "name": "grp-name-9786",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9786) primary email (9786)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "grp-email-9786",
+        "name": "grp-email-9786",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number (9786) phone number (9786)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "grp-phone-9786",
+        "name": "grp-phone-9786",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "relocation preference (9786)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "relocation-preference-97-0",
+        "name": "relocation-preference-97",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

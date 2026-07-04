@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-combobox-006",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "legal name (9696) legal name (9696)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cb-name-9696",
+        "name": "cb-name-9696",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact email (9696) contact email (9696)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cb-email-9696",
+        "name": "cb-email-9696",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number (9696) phone number (9696)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cb-phone-9696",
+        "name": "cb-phone-9696",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current city (9696)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Hybrid",
+        "Dublin",
+        "Remote",
+        "Berlin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "combo-list-9696",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

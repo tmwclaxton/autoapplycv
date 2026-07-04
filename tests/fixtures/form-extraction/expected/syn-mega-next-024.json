@@ -1,0 +1,92 @@
+{
+  "id": "syn-mega-next-024",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9244) applicant name (9244)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "next-name-9244",
+        "name": "next-name-9244",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address (9244) email address (9244)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "next-email-9244",
+        "name": "next-email-9244",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number (9244) phone number (9244)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "next-phone-9244",
+        "name": "next-phone-9244",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "tell us about yourself (9244) tell us about yourself (9244)",
+      "field_type": "textarea",
+      "max_chars": 450,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself-9244-",
+        "name": "tell-us-about-yourself-9244-",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "referral source (9244)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "LinkedIn",
+        "Referral",
+        "Job board"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "referral-source-9244-924-0",
+        "name": "referral-source-9244-924",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

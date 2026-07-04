@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-vue-007",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "legal name (9007) legal name (9007)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vue-name-9007",
+        "name": "vue-name-9007",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9007) primary email (9007)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "vue-email-9007",
+        "name": "vue-email-9007",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9007) mobile number (9007)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "vue-phone-9007",
+        "name": "vue-phone-9007",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current city (9007)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Remote",
+        "Dublin",
+        "Berlin",
+        "Manchester"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-9007",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

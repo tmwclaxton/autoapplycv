@@ -1,153 +1,137 @@
 {
   "id": "web-getbootstrap-com-validation",
-  "min_fields": 23,
-  "exact_field_count": 23,
+  "min_fields": 9,
+  "exact_field_count": 9,
   "fields": [
     {
-      "question": "username username validationcustomusername",
+      "question": "username username",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "validationCustomUsername",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "city city validationcustom03",
+      "question": "city city",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "validationCustom03",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "state state validationcustom04",
+      "question": "state state",
       "field_type": "select",
       "max_chars": null,
       "options": [
         "Choose...",
         "..."
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "validationCustom04",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "zip zip validationcustom05",
+      "question": "zip zip",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "validationCustom05",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "agree to terms and conditions agree to terms and conditions invalidcheck",
+      "question": "agree to terms and conditions agree to terms and conditions",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Agree to terms and conditions"
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "invalidCheck",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "username username validationdefaultusername",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": true
-    },
-    {
-      "question": "city city validationdefault03",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": true
-    },
-    {
-      "question": "state state validationdefault04",
-      "field_type": "select",
-      "max_chars": null,
-      "options": [
-        "Choose...",
-        "..."
-      ],
-      "required": true
-    },
-    {
-      "question": "zip zip validationdefault05",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": true
-    },
-    {
-      "question": "agree to terms and conditions agree to terms and conditions invalidcheck2",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Agree to terms and conditions"
-      ],
-      "required": true
-    },
-    {
-      "question": "username username validationserverusername",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": true
-    },
-    {
-      "question": "city city validationserver03",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": true
-    },
-    {
-      "question": "state state validationserver04",
-      "field_type": "select",
-      "max_chars": null,
-      "options": [
-        "Choose...",
-        "..."
-      ],
-      "required": true
-    },
-    {
-      "question": "zip zip validationserver05",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": true
-    },
-    {
-      "question": "agree to terms and conditions agree to terms and conditions invalidcheck3",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Agree to terms and conditions"
-      ],
-      "required": true
-    },
-    {
-      "question": "textarea textarea required example textarea validationtextarea",
+      "question": "textarea textarea required example textarea",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "validationTextarea",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "check this checkbox check this checkbox validationformcheck1",
+      "question": "check this checkbox check this checkbox",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Check this checkbox"
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "validationFormCheck1",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "toggle this radio toggle this radio radio-stacked validationformcheck2",
+      "question": "toggle this radio toggle this radio",
       "field_type": "radio",
       "max_chars": null,
       "options": [
         "Toggle this radio",
         "Or toggle this other radio"
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "validationFormCheck2",
+        "name": "radio-stacked",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "select example",
@@ -159,38 +143,15 @@
         "Two",
         "Three"
       ],
-      "required": true
-    },
-    {
-      "question": "username username validationtooltipusername",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": true
-    },
-    {
-      "question": "city city validationtooltip03",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": true
-    },
-    {
-      "question": "state state validationtooltip04",
-      "field_type": "select",
-      "max_chars": null,
-      "options": [
-        "Choose...",
-        "..."
-      ],
-      "required": true
-    },
-    {
-      "question": "zip zip validationtooltip05",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

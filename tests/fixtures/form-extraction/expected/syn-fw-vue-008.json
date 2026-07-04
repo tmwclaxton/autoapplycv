@@ -1,0 +1,77 @@
+{
+  "id": "syn-fw-vue-008",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "your name your name your name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "p-name",
+        "name": "p-name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email personal email personal email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "p-email",
+        "name": "p-email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone telephone telephone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "p-phone",
+        "name": "p-phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "willing to relocate?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Maybe later"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "willing-to-relocate-0",
+        "name": "willing-to-relocate",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next step"
+    }
+  ],
+  "vet_notes": []
+}

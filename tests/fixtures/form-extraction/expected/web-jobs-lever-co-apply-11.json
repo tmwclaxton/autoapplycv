@@ -1,0 +1,605 @@
+{
+  "id": "web-jobs-lever-co-apply-11",
+  "min_fields": 35,
+  "exact_field_count": 35,
+  "fields": [
+    {
+      "question": "opportunitylocationid",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select...",
+        "United States",
+        "Dallas, Texas",
+        "Boston, MA"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "opportunityLocationId",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "full name✱ full name✱ full name✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email✱ email✱ email✱",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone phone phone",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current company current company current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "linkedin url linkedin url linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "twitter url twitter url twitter url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Twitter]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "github url github url github url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[GitHub]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "portfolio url portfolio url portfolio url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Portfolio]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "other website other website other website",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Other]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes yes yes",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[115d9079-dcfa-4a25-aff3-f213bf88362e][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[115d9079-dcfa-4a25-aff3-f213bf88362e][field2]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[115d9079-dcfa-4a25-aff3-f213bf88362e][field2]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "a united states citizen a united states citizen a united states citizen",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "A United States Citizen",
+        "A lawful permanent resident of the United States (i.e. Greencard holder)",
+        "A protected individual",
+        "Other"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[7e99ef70-58ab-4a59-bc31-cc1c35935935][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[7e99ef70-58ab-4a59-bc31-cc1c35935935][field1]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[7e99ef70-58ab-4a59-bc31-cc1c35935935][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[5f2a739c-bb0e-4283-92c6-1dc8c09b459c][field1]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[5f2a739c-bb0e-4283-92c6-1dc8c09b459c][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "campus visit campus visit campus visit",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Campus visit",
+        "LinkedIn Post",
+        "LinkedIn Sponsored Job/Ad",
+        "Industry Conference",
+        "Twitter/X",
+        "Instagram",
+        "Referral",
+        "Handshake",
+        "Other"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[a90569ad-6b52-448e-9792-055f7c122285][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[a90569ad-6b52-448e-9792-055f7c122285][field1]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[a90569ad-6b52-448e-9792-055f7c122285][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "type your response",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[eb3750bb-e1f0-473c-a54d-012919c5e349][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "no no no",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "No",
+        "Yes"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "hiring our heroes hiring our heroes hiring our heroes",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Hiring our Heroes",
+        "NextOp",
+        "Skillbridge general (no program)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field2]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field2]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field3]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field3]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field4]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field4]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field5]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field5]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[f27077c2-d069-4885-b031-ee14b393fd41][field0]",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select an option",
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[f27077c2-d069-4885-b031-ee14b393fd41][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "san diego, california san diego, california san diego, california",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "San Diego, California",
+        "Dallas, Texas",
+        "Washington, DC",
+        "Boston, MA",
+        "International",
+        "San Francisco, California"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[f27077c2-d069-4885-b031-ee14b393fd41][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[f27077c2-d069-4885-b031-ee14b393fd41][field2]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[f27077c2-d069-4885-b031-ee14b393fd41][field2]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "genderselect ...malefemaledecline to self-identify genderselect ...malefemaledecline to self-identify genderselect ...malefemaledecline to self-identify",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select ...",
+        "Male",
+        "Female",
+        "Decline to self-identify"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "eeo[gender]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "race hispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races.decline to self-identify hispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race. hispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race. race hispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races.decline to self-identify",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Race Hispanic or LatinoA person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.White (Not Hispanic or Latino)A person having origins in any of the original peoples of Europe, the Middle East, or North Africa.Black or African American (Not Hispanic or Latino)A person having origins in any of the black racial groups of Africa.Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)A person having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands.Asian (Not Hispanic or Latino)A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam.American Indian or Alaska Native (Not Hispanic or Latino)A person having origins in any of the original peoples of North and South America (including Central America), and who maintain tribal affiliation or community attachment.Two or More Races (Not Hispanic or Latino)All persons who identify with more than one of the above five races.Decline to self-identify",
+        "White (Not Hispanic or Latino)A person having origins in any of the original peoples of Europe, the Middle East, or North Africa.",
+        "Black or African American (Not Hispanic or Latino)A person having origins in any of the black racial groups of Africa.",
+        "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)A person having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands.",
+        "Asian (Not Hispanic or Latino)A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam.",
+        "American Indian or Alaska Native (Not Hispanic or Latino)A person having origins in any of the original peoples of North and South America (including Central America), and who maintain tribal affiliation or community attachment.",
+        "Two or More Races (Not Hispanic or Latino)All persons who identify with more than one of the above five races.",
+        "Decline to self-identify"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "eeo[race]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "veteran statusselect ...i identify as one or more of the classifications of protected veteran listed abovei am not a protected veterani decline to self-identify for protected veteran status veteran statusselect ...i identify as one or more of the classifications of protected veteran listed abovei am not a protected veterani decline to self-identify for protected veteran status veteran statusselect ...i identify as one or more of the classifications of protected veteran listed abovei am not a protected veterani decline to self-identify for protected veteran status",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select ...",
+        "I identify as one or more of the classifications of protected veteran listed above",
+        "I am not a protected veteran",
+        "I decline to self-identify for protected veteran status"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "eeo[veteran]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "disability statusselect ...yes, i have a disability, or have had one in the pastno, i do not have a disability and have not had one in the pasti do not want to answer disability statusselect ...yes, i have a disability, or have had one in the pastno, i do not have a disability and have not had one in the pasti do not want to answer disability statusselect ...yes, i have a disability, or have had one in the pastno, i do not have a disability and have not had one in the pasti do not want to answer",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select ...",
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "disabilitySelectElement",
+        "name": "eeo[disability]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "name enter your full name name name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "eeo[disabilitySignature]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "date mm/dd/yyyy date date",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "eeo[disabilitySignatureDate]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes, Shield AI can contact me about future job opportunities for up to 1 yearPrivacy policy"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "consent[marketing]",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

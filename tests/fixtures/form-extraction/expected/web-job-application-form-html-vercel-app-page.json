@@ -4,28 +4,52 @@
   "exact_field_count": 11,
   "fields": [
     {
-      "question": "first name: first name: enter your first name. first_name first_name",
+      "question": "first name: first name: enter your first name.",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "first_name",
+        "name": "first_name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "middle name: middle name: enter your middle name. middle_name middle_name",
+      "question": "middle name: middle name: enter your middle name.",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "middle_name",
+        "name": "middle_name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "last name: last name: enter your last name. last_name last_name",
+      "question": "last name: last name: enter your last name.",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "last_name",
+        "name": "last_name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "male: male: gender male",
+      "question": "male: male:",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -33,24 +57,48 @@
         "Female:",
         "Other:"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "male",
+        "name": "gender",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email: email: abc@example.com email email",
+      "question": "email: email: abc@example.com",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "contact number: contact number: contact_details contact_details",
+      "question": "contact number: contact number:",
       "field_type": "tel",
       "max_chars": 10,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "contact_details",
+        "name": "contact_details",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "job qualification: job qualification: job_role job_role",
+      "question": "job qualification: job qualification:",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -61,10 +109,18 @@
         "UI/UX Designer",
         "Graphics Designer"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "job_role",
+        "name": "job_role",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "choose a car: choose a car: cars cars",
+      "question": "choose a car: choose a car:",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -76,28 +132,60 @@
         "Yatri",
         "BMW"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "cars",
+        "name": "cars",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "address: address: enter your address. address address",
+      "question": "address: address: enter your address.",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "address",
+        "name": "address",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "postal code: postal code: postal_code postal_code",
+      "question": "postal code: postal code:",
       "field_type": "number",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "postal_code",
+        "name": "postal_code",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "date: date: date date",
+      "question": "date: date:",
       "field_type": "date",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "date",
+        "id": "date",
+        "name": "date",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

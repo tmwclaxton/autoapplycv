@@ -1,0 +1,48 @@
+{
+  "id": "web-www-surveymonkey-com-6jcq6k9",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "are you legally authorized to work in the canada?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "256246261_1807705755",
+        "name": "256246261",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "how did you hear about this position?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "LinkedIn",
+        "Indeed",
+        "WorkInNonProfits.ca.",
+        "Friend/family/colleague",
+        "Other (please specify)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "256246262_1807705760",
+        "name": "256246262[]",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

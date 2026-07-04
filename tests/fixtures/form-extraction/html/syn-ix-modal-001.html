@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Modal add details</title></head>
+<body>
+<main><h1>Modal add details</h1><form action="/apply" method="post">
+<label for="ix-name-20">Full name</label>
+<input type="text" id="ix-name-20" name="ix-name-20">
+<label for="ix-email-20">Email address</label>
+<input type="email" id="ix-email-20" name="ix-email-20">
+<label for="ix-phone-20">Phone number</label>
+<input type="tel" id="ix-phone-20" name="ix-phone-20">
+<button type="button" data-open-modal="" aria-haspopup="dialog" aria-controls="modal-20" data-reveal="#modal-20">Add details</button>
+<div id="modal-20" role="dialog" hidden style="display:none" aria-label="Additional details">
+<label for="modal-location-20">Preferred location</label>
+<input type="text" id="modal-location-20" name="modal-location-20">
+<label for="modal-notes-20">Additional notes</label>
+<textarea id="modal-notes-20" name="modal-notes-20" rows="3" maxlength="300"></textarea>
+</div></form></main>
+</body>
+</html>

@@ -4,42 +4,82 @@
   "exact_field_count": 5,
   "fields": [
     {
-      "question": "search in all form templates search in all form templates search in all form templates search in all form templates search in all form templates q search-input search in all form templates",
+      "question": "search in all form templates search in all form templates search in all form templates search in all form templates search in all form templates search in all form templates",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-input",
+        "name": "q",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "search in all form templates search in all form templates search in all form templates q search-input search in all form templates",
+      "question": "search in all form templates search in all form templates search in all form templates search in all form templates",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-input",
+        "name": "q",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "search in all form templates search bar search in all form templates q search-input",
+      "question": "search in all form templates search bar search in all form templates",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-input",
+        "name": "q",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "search in all form templates search in all form templates q search-input search in all form templates",
+      "question": "search in all form templates search in all form templates search in all form templates",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-input",
+        "name": "q",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "classic classic form-layout classic classic",
+      "question": "classic classic classic",
       "field_type": "radio",
       "max_chars": null,
       "options": [
         "Classic",
         "Card"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "classic",
+        "name": "form-layout",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

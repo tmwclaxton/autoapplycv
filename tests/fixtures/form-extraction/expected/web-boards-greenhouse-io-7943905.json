@@ -1,0 +1,111 @@
+{
+  "id": "web-boards-greenhouse-io-7943905",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "search-form search...",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": null,
+        "name": "s",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "enter keywords...",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "keyword",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "department hierarchical-department-6a48d01ec94df",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "All Teams",
+        "Commercial",
+        "Customer Operations",
+        "Engineering & Technology",
+        "Cyber Security",
+        "Data Analytics",
+        "Data Analytics/Data Science",
+        "Data Engineering",
+        "Platform Engineering",
+        "Software Engineering",
+        "Tech Operations",
+        "Finance",
+        "Executive",
+        "Human Resources",
+        "Legal",
+        "Marketing",
+        "Product",
+        "Risk & Trading",
+        "Strategy & Operations",
+        "Marketing"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "hierarchical-department-6a48d01ec94df",
+        "name": "department",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "meta_location_only hierarchical-meta_location_only-6a48d01ec957c",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "All Locations",
+        "All United States",
+        "Atlanta",
+        "Atlanta, Georgia, United States",
+        "Atlanta, Georgia, United States; New York City",
+        "Illinois, USA",
+        "Jersey City",
+        "Los Angeles",
+        "Los Angeles, California, United States",
+        "New Jersey, United States",
+        "New Jersey, United States; New York City",
+        "New York City",
+        "All Canada",
+        "Calgary, Alberta, Canada",
+        "Edmonton, Alberta, Canada",
+        "Toronto, Ontario, Canada",
+        "All United Kingdom",
+        "Edinburgh / Hybrid",
+        "Edinburgh, Scotland, United Kingdom",
+        "UK Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "hierarchical-meta_location_only-6a48d01ec957c",
+        "name": "meta_location_only",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,75 @@
+{
+  "id": "syn-mega-intl-016",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "legal name (9956) legal name (9956)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "intl-name-9956",
+        "name": "intl-name-9956",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9956) primary email (9956)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "intl-email-9956",
+        "name": "intl-email-9956",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone (9956) telephone (9956)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "intl-phone-9956",
+        "name": "intl-phone-9956",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "where are you based? (9956) where are you based? (9956)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Dublin",
+        "Manchester",
+        "Berlin",
+        "Hybrid"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "where-are-you-based-9956-995",
+        "name": "where-are-you-based-9956-995",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

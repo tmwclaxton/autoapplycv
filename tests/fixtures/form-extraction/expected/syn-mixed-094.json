@@ -8,17 +8,33 @@
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "input-q_name-as-on-cv",
+        "data_testid": "input-q_name-as-on-cv-input",
+        "role": null
+      }
     },
     {
-      "question": "personal email personal email question_personal-email question_personal-email personal email",
+      "question": "personal email personal email personal email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "question_personal-email",
+        "name": "question_personal-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "current city current city current-city current-city current city",
+      "question": "current city current city current city",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -28,7 +44,15 @@
         "Remote",
         "Hybrid"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "current-city",
+        "name": "current-city",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "visa sponsorship required?",
@@ -38,14 +62,30 @@
         "Yes",
         "No"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "visa-sponsorship-require-0",
+        "name": "visa-sponsorship-require",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "cover letter cover letter cover-letter cover-letter cover letter",
+      "question": "cover letter cover letter cover letter",
       "field_type": "textarea",
       "max_chars": 600,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter",
+        "name": "cover-letter",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

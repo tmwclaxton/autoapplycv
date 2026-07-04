@@ -1,0 +1,87 @@
+{
+  "id": "syn-mega-grid-011",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "preferred name (9911) preferred name (9911)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "grid-name-9911",
+        "name": "grid-name-9911",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9911) work email (9911)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "grid-email-9911",
+        "name": "grid-email-9911",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "direct line (9911) direct line (9911)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "grid-phone-9911",
+        "name": "grid-phone-9911",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "tell us about yourself (9911) tell us about yourself (9911)",
+      "field_type": "textarea",
+      "max_chars": 450,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself-9911-",
+        "name": "tell-us-about-yourself-9911-",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "open to relocation? (9911)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "open-to-relocation-9911--0",
+        "name": "open-to-relocation-9911-",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

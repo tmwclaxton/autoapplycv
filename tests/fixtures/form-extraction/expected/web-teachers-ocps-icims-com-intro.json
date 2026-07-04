@@ -1,0 +1,130 @@
+{
+  "id": "web-teachers-ocps-icims-com-intro",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "language translate widget",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select Language",
+        "Abkhaz",
+        "Acehnese",
+        "Acholi",
+        "Afar",
+        "Afrikaans",
+        "Albanian",
+        "Alur",
+        "Amharic",
+        "Arabic",
+        "Armenian",
+        "Assamese",
+        "Avar",
+        "Awadhi",
+        "Aymara",
+        "Azerbaijani",
+        "Balinese",
+        "Baluchi",
+        "Bambara",
+        "Baoulé",
+        "Bashkir",
+        "Basque",
+        "Batak Karo",
+        "Batak Simalungun",
+        "Batak Toba",
+        "Belarusian",
+        "Bemba",
+        "Bengali",
+        "Betawi",
+        "Bhojpuri"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "GoogleTranslate",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "sl goog-gt-votinginputsrclang",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "goog-gt-votingInputSrcLang",
+        "name": "sl",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "tl goog-gt-votinginputtrglang",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "goog-gt-votingInputTrgLang",
+        "name": "tl",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "query goog-gt-votinginputsrctext",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "goog-gt-votingInputSrcText",
+        "name": "query",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "gtrans goog-gt-votinginputtrgtext",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "goog-gt-votingInputTrgText",
+        "name": "gtrans",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "vote goog-gt-votinginputvote",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "goog-gt-votingInputVote",
+        "name": "vote",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

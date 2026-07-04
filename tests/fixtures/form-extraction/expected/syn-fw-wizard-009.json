@@ -1,0 +1,47 @@
+{
+  "id": "syn-fw-wizard-009",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "full name full name wiz-name wiz-name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "email address email address wiz-email wiz-email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "phone number phone number wiz-phone wiz-phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "cover letter cover letter cover-letter cover-letter",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    },
+    {
+      "name": "Next step"
+    },
+    {
+      "name": "Save and continue"
+    }
+  ],
+  "vet_notes": []
+}

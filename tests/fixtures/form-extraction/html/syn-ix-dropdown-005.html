@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Dropdown text trigger</title></head>
+<body>
+<main><h1>Dropdown text trigger</h1><form action="/apply" method="post">
+<label for="ix-name-4">Full name</label>
+<input type="text" id="ix-name-4" name="ix-name-4">
+<label for="ix-email-4">Email address</label>
+<input type="email" id="ix-email-4" name="ix-email-4">
+<label for="ix-phone-4">Phone number</label>
+<input type="tel" id="ix-phone-4" name="ix-phone-4">
+<div class="field-row">
+<span id="listbox-hidden-4-lbl">Preferred location</span>
+<button type="button" class="location-trigger" role="combobox" aria-expanded="false" aria-controls="listbox-hidden-4" aria-labelledby="listbox-hidden-4-lbl" data-reveal="#listbox-hidden-4">Select preferred location</button>
+<div role="listbox" id="listbox-hidden-4" aria-labelledby="listbox-hidden-4-lbl" hidden style="display:none">
+<div role="option" data-value="london">London</div>
+<div role="option" data-value="remote">Remote</div>
+<div role="option" data-value="hybrid">Hybrid</div>
+<div role="option" data-value="berlin">Berlin</div>
+</div>
+</div></form></main>
+</body>
+</html>

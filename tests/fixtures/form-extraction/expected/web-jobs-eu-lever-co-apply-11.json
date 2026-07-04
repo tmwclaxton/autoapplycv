@@ -1,0 +1,261 @@
+{
+  "id": "web-jobs-eu-lever-co-apply-11",
+  "min_fields": 14,
+  "exact_field_count": 14,
+  "fields": [
+    {
+      "question": "full name✱ full name✱ full name✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email✱ email✱ email✱",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone ✱ phone ✱ phone ✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current company current company current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "linkedin url linkedin url linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "other url other url other url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Other]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes yes yes",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "Yes, sponsorship required",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[394b51ed-9415-448a-9965-2e1ef51d3f98][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes, current employee yes, current employee yes, current employee",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, current employee",
+        "Yes, previous employee",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[394b51ed-9415-448a-9965-2e1ef51d3f98][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current locum current locum current locum",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Current Locum",
+        "European/American College Job Board (Referrals)",
+        "Event",
+        "Facebook",
+        "Indeed",
+        "Instagram",
+        "IVC Evidensia Careers Website",
+        "LinkedIn",
+        "Vet Record",
+        "Vet Times",
+        "Vetnurse.co.uk",
+        "Vetsurgeon.org",
+        "Word of Mouth",
+        "Other",
+        "Internal"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[394b51ed-9415-448a-9965-2e1ef51d3f98][field3]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "vet surgeon vet surgeon vet surgeon",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Vet Surgeon",
+        "Vet Nurse",
+        "In clinic support (Receptionist/Animal Care Assistant)",
+        "Non Clinical Management"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[394b51ed-9415-448a-9965-2e1ef51d3f98][field4]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "i am a member of the roman catholic community i am a member of the roman catholic community i am a member of the roman catholic community",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I am a member of the Roman Catholic community",
+        "I am a member of the Protestant community",
+        "I am a member of neither the Protestant or Roman Catholic community"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[25df0ed6-4ba2-41db-955a-9c1a26ae993d][responses][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "male male male",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Male",
+        "Female"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[25df0ed6-4ba2-41db-955a-9c1a26ae993d][responses][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes, ivc can contact me about future job opportunities for up to 2 yearsprivacy policy yes, ivc can contact me about future job opportunities for up to 2 yearsprivacy policy yes, ivc can contact me about future job opportunities for up to 2 yearsprivacy policy",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes, IVC can contact me about future job opportunities for up to 2 yearsPrivacy policy"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "consent[marketing]",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

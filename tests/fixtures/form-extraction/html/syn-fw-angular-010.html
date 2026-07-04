@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Angular apply 10</title></head>
+<body>
+
+<main ng-app="apply"><h1>Angular Application 10</h1>
+<form ngNoForm class="application-form" action="/apply" method="post" novalidate>
+<mat-form-field appearance="outline">
+<mat-label>Legal name</mat-label>
+<label for="ang-name">Legal name</label>
+<input matInput id="ang-name" name="ang-name" type="text" ng-model="candidate.name">
+</mat-form-field>
+<mat-form-field appearance="outline">
+<mat-label>Work email</mat-label>
+<label for="ang-email">Work email</label>
+<input matInput id="ang-email" name="ang-email" type="email" ng-model="candidate.email">
+</mat-form-field>
+<mat-form-field appearance="outline">
+<mat-label>Mobile number</mat-label>
+<label for="ang-phone">Mobile number</label>
+<input matInput id="ang-phone" name="ang-phone" type="tel" ng-model="candidate.phone">
+</mat-form-field>
+<div class="field-row"><label for="why-this-role">Why this role?</label><textarea id="why-this-role" name="why-this-role" rows="4" maxlength="500" ></textarea></div>
+<button mat-button type="button">Continue</button>
+</form></main>
+</body>
+</html>

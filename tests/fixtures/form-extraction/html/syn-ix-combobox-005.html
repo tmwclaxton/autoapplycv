@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Haspopup combobox</title></head>
+<body>
+<main><h1>Haspopup combobox</h1><form action="/apply" method="post">
+<label for="ix-name-9">Legal name</label>
+<input type="text" id="ix-name-9" name="ix-name-9">
+<label for="ix-email-9">Work email</label>
+<input type="email" id="ix-email-9" name="ix-email-9">
+<label for="ix-phone-9">Mobile number</label>
+<input type="tel" id="ix-phone-9" name="ix-phone-9">
+<label id="haspopup-list-9-lbl">Work location</label>
+<button type="button" aria-haspopup="listbox" aria-controls="haspopup-list-9" data-reveal="#haspopup-list-9">Choose location</button>
+<div role="listbox" id="haspopup-list-9" aria-labelledby="haspopup-list-9-lbl" hidden style="display:none">
+<div role="option">Dublin</div><div role="option">Edinburgh</div><div role="option">Cardiff</div>
+</div></form></main>
+</body>
+</html>

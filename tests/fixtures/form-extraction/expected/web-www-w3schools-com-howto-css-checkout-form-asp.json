@@ -4,148 +4,308 @@
   "exact_field_count": 20,
   "fields": [
     {
-      "question": "search field search field search field search... tnb-google-search-input",
+      "question": "search field search field search field search...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "tnb-google-search-input",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": " darktoggle_on_small ",
+      "question": " ",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         ""
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "darkToggle_on_small",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "tutorials filter input filter... filter-tutorials-input",
+      "question": "tutorials filter input filter...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "filter-tutorials-input",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "references filter bar filter... filter-references-input",
+      "question": "references filter bar filter...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "filter-references-input",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "exercises filter bar filter... filter-exercises-input",
+      "question": "exercises filter bar filter...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "filter-exercises-input",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "certificates filter input filter... filter-certified-input",
+      "question": "certificates filter input filter...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "filter-certified-input",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "dark mode  darktoggle dark mode ",
+      "question": "dark mode  dark mode ",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Dark mode "
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "darkToggle",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "services filter input services filter input services filter bar filter... filter-services-input",
+      "question": "services filter input services filter input services filter bar filter...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "filter-services-input",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "search...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "full name accepted cards full name john m. doe firstname fname",
+      "question": "full name accepted cards full name john m. doe",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "fname",
+        "name": "firstname",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email email john@example.com email email",
+      "question": "email email john@example.com",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "address address 542 w. 15th street address adr",
+      "question": "address address 542 w. 15th street",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "adr",
+        "name": "address",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "city city new york city city",
+      "question": "city city new york",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "city",
+        "name": "city",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "state state ny state state",
+      "question": "state state ny",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "state",
+        "name": "state",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "zip zip 10001 zip zip",
+      "question": "zip zip 10001",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "zip",
+        "name": "zip",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "name on card name on card john more doe cardname cname",
+      "question": "name on card name on card john more doe",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cname",
+        "name": "cardname",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "credit card number credit card number 1111-2222-3333-4444 cardnumber ccnum",
+      "question": "credit card number credit card number 1111-2222-3333-4444",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ccnum",
+        "name": "cardnumber",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "exp month exp month september expmonth expmonth",
+      "question": "exp month exp month september",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "expmonth",
+        "name": "expmonth",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "exp year exp year 2018 expyear expyear",
+      "question": "exp year exp year 2018",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "expyear",
+        "name": "expyear",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "cvv cvv 352 cvv cvv",
+      "question": "cvv cvv 352",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cvv",
+        "name": "cvv",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

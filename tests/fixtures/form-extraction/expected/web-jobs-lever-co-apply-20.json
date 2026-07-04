@@ -1,0 +1,297 @@
+{
+  "id": "web-jobs-lever-co-apply-20",
+  "min_fields": 17,
+  "exact_field_count": 17,
+  "fields": [
+    {
+      "question": "opportunitylocationid",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select...",
+        "Work From Home",
+        "Birmingham, AL"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "opportunityLocationId",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "full name✱ full name✱ full name✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email✱ email✱ email✱",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone ✱ phone ✱ phone ✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current company current company current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "linkedin url linkedin url linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "github url github url github url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[GitHub]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "portfolio/video resume url portfolio/video resume url portfolio/video resume url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Portfolio/video resume]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "other website other website other website",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Other]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "i consent i consent i consent",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I Consent"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[f92461a0-7d13-408b-8bce-5d17337396dd][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes yes yes",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[f92461a0-7d13-408b-8bce-5d17337396dd][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "type your response",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[f92461a0-7d13-408b-8bce-5d17337396dd][field4]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[f92461a0-7d13-408b-8bce-5d17337396dd][field5]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[f92461a0-7d13-408b-8bce-5d17337396dd][field5]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "college/campus recruiting college/campus recruiting college/campus recruiting",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "College/Campus Recruiting",
+        "Contacted by Recruiter",
+        "DiversityJobs.com",
+        "Employee Referral",
+        "Facebook/Twitter",
+        "Glassdoor",
+        "Google",
+        "I am a Current Employee",
+        "Indeed",
+        "LinkedIn",
+        "Other Internet Job Board",
+        "Protective.com",
+        "Recruiting/Staffing Agency"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[f92461a0-7d13-408b-8bce-5d17337396dd][field6]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[ba43c847-0c2c-4fd6-a076-338b3601098a][field0]",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select...",
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[ba43c847-0c2c-4fd6-a076-338b3601098a][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes, protective can contact me about future job opportunities for up to 3 years yes, protective can contact me about future job opportunities for up to 3 years yes, protective can contact me about future job opportunities for up to 3 years",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes, Protective can contact me about future job opportunities for up to 3 years"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "consent[marketing]",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

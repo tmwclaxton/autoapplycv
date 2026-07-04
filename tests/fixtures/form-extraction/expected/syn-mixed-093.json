@@ -8,17 +8,33 @@
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "input-q_applicant-name",
+        "data_testid": "input-q_applicant-name-input",
+        "role": null
+      }
     },
     {
-      "question": "work email work email question_work-email question_work-email work email",
+      "question": "work email work email work email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "question_work-email",
+        "name": "question_work-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "location location location location location",
+      "question": "location location location",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -28,7 +44,15 @@
         "Remote",
         "Hybrid"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "location",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "do you require visa sponsorship?",
@@ -38,14 +62,30 @@
         "Yes",
         "No"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "do-you-require-visa-spon-0",
+        "name": "do-you-require-visa-spon",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "motivation statement motivation statement motivation-statement motivation-statement motivation statement",
+      "question": "motivation statement motivation statement motivation statement",
       "field_type": "textarea",
       "max_chars": 600,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement",
+        "name": "motivation-statement",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

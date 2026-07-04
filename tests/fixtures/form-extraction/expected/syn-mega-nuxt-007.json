@@ -1,0 +1,95 @@
+{
+  "id": "syn-mega-nuxt-007",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "preferred name (9267) preferred name (9267)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "nuxt-name-9267",
+        "name": "nuxt-name-9267",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9267) work email (9267)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "nuxt-email-9267",
+        "name": "nuxt-email-9267",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9267) contact number (9267)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "nuxt-phone-9267",
+        "name": "nuxt-phone-9267",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work location (9267) work location (9267)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Berlin",
+        "Dublin",
+        "Remote",
+        "Manchester"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "work-location-9267-9267",
+        "name": "work-location-9267-9267",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "key skills (9267)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Python",
+        "SQL",
+        "Rust",
+        "Go"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "key-skills-9267-9267",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

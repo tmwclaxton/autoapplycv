@@ -4,18 +4,34 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "your name your name your-name your-name your name",
+      "question": "your name your name your name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "your-name",
+        "name": "your-name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "contact email contact email contact-email contact-email contact email",
+      "question": "contact email contact email contact email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "contact-email",
+        "name": "contact-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "open to relocation?",
@@ -26,7 +42,15 @@
         "No",
         "Maybe later"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "open-to-relocation",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
     },
     {
       "question": "work authorization",
@@ -36,7 +60,15 @@
         "Yes",
         "No"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "work-authorization",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
     }
   ],
   "controls": [],

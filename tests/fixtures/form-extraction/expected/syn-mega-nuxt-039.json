@@ -1,0 +1,95 @@
+{
+  "id": "syn-mega-nuxt-039",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9299) applicant name (9299)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "nuxt-name-9299",
+        "name": "nuxt-name-9299",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9299) primary email (9299)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "nuxt-email-9299",
+        "name": "nuxt-email-9299",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone (9299) telephone (9299)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "nuxt-phone-9299",
+        "name": "nuxt-phone-9299",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9299) office preference (9299)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Remote",
+        "Dublin",
+        "Hybrid",
+        "Berlin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "office-preference-9299-9299",
+        "name": "office-preference-9299-9299",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "core competencies (9299)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "SQL",
+        "JavaScript",
+        "TypeScript",
+        "Rust"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "core-competencies-9299-9",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

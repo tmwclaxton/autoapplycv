@@ -8,17 +8,33 @@
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "input-q_legal-name",
+        "data_testid": "input-q_legal-name-input",
+        "role": null
+      }
     },
     {
-      "question": "email email question_email question_email email",
+      "question": "email email email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "question_email",
+        "name": "question_email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "city city city city city",
+      "question": "city city city",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -28,7 +44,15 @@
         "Remote",
         "Hybrid"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "city",
+        "name": "city",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "do you require visa sponsorship?",
@@ -38,14 +62,30 @@
         "Yes",
         "No"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "do-you-require-visa-spon-0",
+        "name": "do-you-require-visa-spon",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "tell us about yourself tell us about yourself tell-us-about-yourself tell-us-about-yourself tell us about yourself",
+      "question": "tell us about yourself tell us about yourself tell us about yourself",
       "field_type": "textarea",
       "max_chars": 600,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself",
+        "name": "tell-us-about-yourself",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

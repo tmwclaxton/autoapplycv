@@ -1,0 +1,91 @@
+{
+  "id": "syn-mega-react-005",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "legal name (9060) legal name (9060)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "react-name-9060",
+        "name": "react-name-9060",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9060) primary email (9060)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "react-email-9060",
+        "name": "react-email-9060",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9060) cell phone (9060)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "react-phone-9060",
+        "name": "react-phone-9060",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9060) why this role? (9060)",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9060-9060",
+        "name": "why-this-role-9060-9060",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you require visa sponsorship? (9060)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "do-you-require-visa-spon",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

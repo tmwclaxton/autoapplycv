@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Date dialog</title></head>
+<body>
+<main><h1>Date dialog</h1><form action="/apply" method="post">
+<label for="ix-name-11">Your name</label>
+<input type="text" id="ix-name-11" name="ix-name-11">
+<label for="ix-email-11">Personal email</label>
+<input type="email" id="ix-email-11" name="ix-email-11">
+<label for="ix-phone-11">Telephone</label>
+<input type="tel" id="ix-phone-11" name="ix-phone-11">
+<label for="date-trigger-12">Earliest start date</label>
+<button type="button" id="date-trigger-12" aria-haspopup="dialog" aria-controls="date-panel-12" data-reveal="#date-panel-12">Choose date</button>
+<div id="date-panel-12" role="dialog" hidden style="display:none" aria-label="Earliest start date">
+<label for="date-input-12">Earliest start date</label>
+<input type="date" id="date-input-12" name="date-input-12">
+</div></form></main>
+</body>
+</html>

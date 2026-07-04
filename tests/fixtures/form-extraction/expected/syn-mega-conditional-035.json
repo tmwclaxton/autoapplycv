@@ -1,0 +1,105 @@
+{
+  "id": "syn-mega-conditional-035",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "preferred name (9655) preferred name (9655)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cond-name-9655",
+        "name": "cond-name-9655",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9655) primary email (9655)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cond-email-9655",
+        "name": "cond-email-9655",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9655) cell phone (9655)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cond-phone-9655",
+        "name": "cond-phone-9655",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "github profile (9655) github profile (9655)",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "github-profile-9655-9655",
+        "name": "github-profile-9655-9655",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9655) why this role? (9655)",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9655-9655",
+        "name": "why-this-role-9655-9655",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9655) office preference (9655)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Hybrid",
+        "Berlin",
+        "Manchester",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "office-preference-9655-9655",
+        "name": "office-preference-9655-9655",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

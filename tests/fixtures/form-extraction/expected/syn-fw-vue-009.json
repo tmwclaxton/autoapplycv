@@ -1,0 +1,75 @@
+{
+  "id": "syn-fw-vue-009",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "full name full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "g-name",
+        "name": "g-name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address email address",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "g-email",
+        "name": "g-email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "g-phone",
+        "name": "g-phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current city current city",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "London",
+        "Remote",
+        "Hybrid",
+        "Manchester"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "current-city",
+        "name": "current-city",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

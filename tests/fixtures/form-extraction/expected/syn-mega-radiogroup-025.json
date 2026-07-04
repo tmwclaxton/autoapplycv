@@ -1,0 +1,73 @@
+{
+  "id": "syn-mega-radiogroup-025",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "preferred name (9745) preferred name (9745)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "rg-name-9745",
+        "name": "rg-name-9745",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact email (9745) contact email (9745)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "rg-email-9745",
+        "name": "rg-email-9745",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone (9745) telephone (9745)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "rg-phone-9745",
+        "name": "rg-phone-9745",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work authorization status (9745)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Not applicable"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "work-authorization-statu",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,105 @@
+{
+  "id": "syn-mega-conditional-021",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "complete name (9641) complete name (9641)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cond-name-9641",
+        "name": "cond-name-9641",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9641) work email (9641)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cond-email-9641",
+        "name": "cond-email-9641",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9641) mobile number (9641)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cond-phone-9641",
+        "name": "cond-phone-9641",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work samples link (9641) work samples link (9641)",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "work-samples-link-9641-9641",
+        "name": "work-samples-link-9641-9641",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cover letter (9641) cover letter (9641)",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter-9641-9641",
+        "name": "cover-letter-9641-9641",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "where are you based? (9641) where are you based? (9641)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Manchester",
+        "Remote",
+        "Hybrid",
+        "London"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "where-are-you-based-9641-964",
+        "name": "where-are-you-based-9641-964",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

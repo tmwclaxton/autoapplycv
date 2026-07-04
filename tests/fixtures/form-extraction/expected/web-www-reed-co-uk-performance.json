@@ -1,0 +1,101 @@
+{
+  "id": "web-www-reed-co-uk-performance",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "firstName",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "company",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job title",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "jobTitle",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "workEmail",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phoneNumber",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "by ticking this box, i consent to receive marketing materials for recruiters. by ticking this box, i consent to receive marketing materials for recruiters.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "on"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "marketingConsent",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

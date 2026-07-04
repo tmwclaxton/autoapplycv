@@ -8,44 +8,92 @@
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vn",
+        "name": "First name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "i agree to the processing of my entries. data processing confirmed agree i agree to the processing of my entries.",
+      "question": "i agree to the processing of my entries. i agree to the processing of my entries.",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "I agree to the processing of my entries."
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "agree",
+        "name": "Data processing confirmed",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "_gotcha",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "_gotcha",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "name & company name & company name msg-name",
+      "question": "name & company name & company",
       "field_type": "text",
       "max_chars": 50,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "msg-name",
+        "name": "Name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "your email address your email address email msg-email",
+      "question": "your email address your email address",
       "field_type": "email",
       "max_chars": 250,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "msg-email",
+        "name": "Email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "your message your message nachricht msg-text",
+      "question": "your message your message",
       "field_type": "textarea",
       "max_chars": 1000,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "msg-text",
+        "name": "Nachricht",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

@@ -1,0 +1,95 @@
+{
+  "id": "syn-mega-nuxt-002",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "legal name (9262) legal name (9262)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "nuxt-name-9262",
+        "name": "nuxt-name-9262",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9262) work email (9262)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "nuxt-email-9262",
+        "name": "nuxt-email-9262",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone (9262) telephone (9262)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "nuxt-phone-9262",
+        "name": "nuxt-phone-9262",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred location (9262) preferred location (9262)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Berlin",
+        "Manchester",
+        "Hybrid",
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-location-9262-9262",
+        "name": "preferred-location-9262-9262",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "core competencies (9262)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Go",
+        "SQL",
+        "JavaScript",
+        "Python"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "core-competencies-9262-9",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

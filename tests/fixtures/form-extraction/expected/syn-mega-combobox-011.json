@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-combobox-011",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "preferred name (9701) preferred name (9701)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cb-name-9701",
+        "name": "cb-name-9701",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact email (9701) contact email (9701)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cb-email-9701",
+        "name": "cb-email-9701",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "direct line (9701) direct line (9701)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cb-phone-9701",
+        "name": "cb-phone-9701",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9701)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Hybrid",
+        "Manchester",
+        "Berlin",
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "combo-list-9701",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -4,11 +4,19 @@
   "exact_field_count": 3,
   "fields": [
     {
-      "question": "type to filter the list... sidebar-search",
+      "question": "type to filter the list...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sidebar-search",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "light dark light dark",
@@ -17,7 +25,15 @@
       "options": [
         "Light Dark"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "default without panels default without panels",
@@ -26,7 +42,15 @@
       "options": [
         "Default Without Panels"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

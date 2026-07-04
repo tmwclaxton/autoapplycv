@@ -1,0 +1,90 @@
+{
+  "id": "syn-mega-greenhouse-010",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9400) applicant name (9400) applicant name (9400)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "gh-name-9400",
+        "name": "gh-name-9400",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9400) work email (9400) work email (9400)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "gh-email-9400",
+        "name": "gh-email-9400",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number (9400) phone number (9400) phone number (9400)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "gh-phone-9400",
+        "name": "gh-phone-9400",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "motivation statement (9400) motivation statement (9400) phone number (9400)",
+      "field_type": "textarea",
+      "max_chars": 600,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement-9400-94",
+        "name": "motivation-statement-9400-94",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "how did you hear about us? (9400) how did you hear about us? (9400) phone number (9400)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "LinkedIn",
+        "Referral",
+        "Company site",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "how-did-you-hear-about-us-94",
+        "name": "how-did-you-hear-about-us-94",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

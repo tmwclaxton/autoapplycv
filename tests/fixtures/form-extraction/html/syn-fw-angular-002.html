@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Angular CDK 2</title></head>
+<body>
+
+<main><h1>Angular CDK 2</h1>
+<form action="/apply" method="post">
+<div cdk-scrollable class="form-container">
+<div class="mat-form-field"><label for="cdk-name">Legal name</label><input id="cdk-name" name="cdk-name" type="text" ng-model="name"></div>
+<div class="mat-form-field"><label for="cdk-email">Work email</label><input id="cdk-email" name="cdk-email" type="email"></div>
+<div class="mat-form-field"><label for="cdk-phone">Mobile number</label><input id="cdk-phone" name="cdk-phone" type="tel"></div>
+<div cdkTrapFocus role="group" aria-label="Work preferences"><fieldset><legend>Visa sponsorship needed?</legend><label for="visa-sponsorship-needed-0"><input type="radio" id="visa-sponsorship-needed-0" name="visa-sponsorship-needed" value="yes"> Yes</label><label for="visa-sponsorship-needed-1"><input type="radio" id="visa-sponsorship-needed-1" name="visa-sponsorship-needed" value="no"> No</label><label for="visa-sponsorship-needed-2"><input type="radio" id="visa-sponsorship-needed-2" name="visa-sponsorship-needed" value="not-applicable"> Not applicable</label></fieldset></div>
+</div>
+</form></main>
+</body>
+</html>

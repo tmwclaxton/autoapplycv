@@ -1,0 +1,91 @@
+{
+  "id": "syn-mega-react-026",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "full name (9081) full name (9081)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "react-name-9081",
+        "name": "react-name-9081",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9081) work email (9081)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "react-email-9081",
+        "name": "react-email-9081",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone (9081) telephone (9081)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "react-phone-9081",
+        "name": "react-phone-9081",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "tell us about yourself (9081) tell us about yourself (9081)",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself-9081-",
+        "name": "tell-us-about-yourself-9081-",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work authorization status (9081)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "work-authorization-statu",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

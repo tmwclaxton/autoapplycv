@@ -4,18 +4,34 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "name as on cv name as on cv name-as-on-cv name-as-on-cv name as on cv",
+      "question": "name as on cv name as on cv name as on cv",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "name-as-on-cv",
+        "name": "name-as-on-cv",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "personal email personal email personal-email personal-email personal email",
+      "question": "personal email personal email personal email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "personal-email",
+        "name": "personal-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "are you willing to relocate?",
@@ -26,7 +42,15 @@
         "No",
         "Maybe later"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "are-you-willing-to-reloc",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
     },
     {
       "question": "are you legally authorized to work?",
@@ -36,7 +60,15 @@
         "Yes",
         "No"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "are-you-legally-authoriz",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
     }
   ],
   "controls": [],

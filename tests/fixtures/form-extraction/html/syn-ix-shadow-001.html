@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Open shadow form</title></head>
+<body>
+<main><h1>Open shadow form</h1><form action="/apply" method="post">
+<label for="ix-name-30">Applicant name</label>
+<input type="text" id="ix-name-30" name="ix-name-30">
+<label for="ix-email-30">Contact email</label>
+<input type="email" id="ix-email-30" name="ix-email-30">
+<label for="ix-phone-30">Contact number</label>
+<input type="tel" id="ix-phone-30" name="ix-phone-30">
+<apply-form-element id="shadow-host-30"></apply-form-element>
+<script>
+(function () {
+  class ApplyFormElement extends HTMLElement {
+    connectedCallback() {
+      if (this.shadowRoot) return;
+      const shadow = this.attachShadow({ mode: 'open' });
+      shadow.innerHTML = `
+        <style>:host { display:block; }</style>
+        <form>
+          <label for="shadow-name">Applicant name</label>
+          <input type="text" id="shadow-name" name="shadow-name">
+          <label for="shadow-email">Contact email</label>
+          <input type="email" id="shadow-email" name="shadow-email">
+        </form>
+      `;
+    }
+  }
+  if (!customElements.get('apply-form-element')) {
+    customElements.define('apply-form-element', ApplyFormElement);
+  }
+})();
+</script>
+<p data-limitation="closed-shadow-not-supported">Open shadow DOM supplies fields inside custom element; closed shadow roots are not traversed.</p></form></main>
+</body>
+</html>

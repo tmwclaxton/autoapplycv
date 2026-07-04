@@ -1,0 +1,117 @@
+{
+  "id": "web-framestore-recruitee-com-assistante-aux-ressources-humaines-human-re",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "my information",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-undefined",
+        "name": "candidate.name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "questions",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.openQuestionAnswers.7193067.content-undefined",
+        "name": "candidate.openQuestionAnswers.7193067.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "will you need visa sponsorship?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.7193070.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.7193070.flag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "where did you hear about this job?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Advert in trade press/forum",
+        "Social networking (e.g. LinkedIn)",
+        "Attended an event",
+        "Framestore media",
+        "Employee referral",
+        "Other"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.7193072.multiContent-undefined-0",
+        "name": "candidate.openQuestionAnswers.7193072.multiContent",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "what are your pronouns?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "She/Her",
+        "He/Him",
+        "They/Them",
+        "Ze/Zee",
+        "Prefer not to say"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.7193073.multiContent-undefined-0",
+        "name": "candidate.openQuestionAnswers.7193073.multiContent",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "legal agreements",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "false"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "candidate.agreements.0.consent",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,93 @@
+{
+  "id": "syn-mega-smartrec-020",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9550) applicant name (9550)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sr-name-9550",
+        "name": "sr-name-9550",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact email (9550) contact email (9550)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "sr-email-9550",
+        "name": "sr-email-9550",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9550) mobile number (9550)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "sr-phone-9550",
+        "name": "sr-phone-9550",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "tell us about yourself (9550) tell us about yourself (9550)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself-9550-",
+        "name": "tell-us-about-yourself-9550-",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "where are you based? (9550)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "London",
+        "Berlin",
+        "Hybrid",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-9550",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue application"
+    }
+  ],
+  "vet_notes": []
+}

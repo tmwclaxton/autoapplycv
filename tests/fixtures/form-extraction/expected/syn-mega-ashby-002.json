@@ -1,0 +1,91 @@
+{
+  "id": "syn-mega-ashby-002",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9342) applicant name (9342)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ashby-name-9342",
+        "name": "ashby-name-9342",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact email (9342) contact email (9342)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ashby-email-9342",
+        "name": "ashby-email-9342",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone (9342) telephone (9342)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ashby-phone-9342",
+        "name": "ashby-phone-9342",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9342) why this role? (9342) why this role? (9342)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9342-9342",
+        "name": "why-this-role-9342-9342",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you require visa sponsorship? (9342)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "do-you-require-visa-spon-0",
+        "name": "do-you-require-visa-spon",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

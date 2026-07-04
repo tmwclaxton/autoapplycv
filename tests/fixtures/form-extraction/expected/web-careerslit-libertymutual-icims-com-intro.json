@@ -1,0 +1,106 @@
+{
+  "id": "web-careerslit-libertymutual-icims-com-intro",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "start your job search here",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jsb_f_keywords_i",
+        "name": "searchKeyword",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "category category",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "Administrative Services",
+        "Data Science",
+        "Digital Customer Experience",
+        "Finance & Accounting",
+        "Human Resources",
+        "Marketing & Communications",
+        "Product Management",
+        "Technology"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_position_s",
+        "name": "searchCategory",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "position type position type",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "Full-Time",
+        "Part-Time",
+        "Externship",
+        "Intern/Coop"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_positiontype_s",
+        "name": "searchPositionType",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "location location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "(Current Location)",
+        "(Postal code)",
+        "Belfast",
+        "Galway"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_location_s",
+        "name": "searchLocation",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "postal code postal code",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jsb_f_zipcode_i",
+        "name": "searchZip",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

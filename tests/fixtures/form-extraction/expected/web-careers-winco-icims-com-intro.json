@@ -1,0 +1,152 @@
+{
+  "id": "web-careers-winco-icims-com-intro",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "start your job search here start your job search here start your job search here",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jsb_f_keywords_i",
+        "name": "searchKeyword",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "category category",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "Accounting/Finance/Payroll",
+        "Administrative/Clerical",
+        "Advertising",
+        "Asset Protection",
+        "Aviation",
+        "Communications/Public Relations",
+        "Customer Service/Support",
+        "Distribution-Warehouse and Transportation",
+        "Division - Meat",
+        "Engineering/Construction/Real Estate",
+        "Food/Environmental Safety",
+        "Human Resources",
+        "Information Technology",
+        "IT SRVC DEL SPC",
+        "Leadership/Management",
+        "Legal",
+        "Merchandising/Space Management",
+        "Other",
+        "Pricing",
+        "Procurement",
+        "PROPERTY ACCTG",
+        "Risk Management",
+        "Store - Administrative",
+        "Store - All Other",
+        "Store - Bakery",
+        "Store - Bulk Foods",
+        "Store - Cashier",
+        "Store - Deli",
+        "Store - Freight"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_position_s",
+        "name": "searchCategory",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "position type position type",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "Corporate Office",
+        "Distribution Center/Warehouse",
+        "Retail/Store",
+        "District/Division"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_positiontype_s",
+        "name": "searchPositionType",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "location location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "(Current Location)",
+        "AZ-Gilbert",
+        "AZ-Glendale",
+        "AZ-Goodyear",
+        "AZ-Phoenix",
+        "AZ-Surprise",
+        "CA-Folsom",
+        "CA-Fontana",
+        "CA-Lakewood",
+        "CA-Lancaster",
+        "CA-Norco",
+        "CA-Oceanside",
+        "CA-Pomona",
+        "CA-San Marcos",
+        "CA-Temecula",
+        "CA-Ventura",
+        "ID-Boise",
+        "ID-Eagle",
+        "ID-Idaho Falls",
+        "ID-Lewiston",
+        "ID-Meridian",
+        "ID-Moscow",
+        "ID-Nampa",
+        "ID-Twin Falls",
+        "MT-Billings",
+        "MT-Bozeman",
+        "MT-Helena",
+        "MT-Missoula",
+        "NV-Las Vegas"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_location_s",
+        "name": "searchLocation",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "zip code zip code",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jsb_f_zipcode_i",
+        "name": "searchZip",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

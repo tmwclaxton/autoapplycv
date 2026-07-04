@@ -8,193 +8,409 @@
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "a stacked form",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "stacked-email",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "username username username aligned-name",
+      "question": "username username username",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "aligned-name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "password password password aligned-password",
+      "question": "password password password",
       "field_type": "password",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "aligned-password",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email address email address email address aligned-email",
+      "question": "email address email address email address",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "aligned-email",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "supercalifragilistic label supercalifragilistic label enter something here... aligned-foo",
+      "question": "supercalifragilistic label supercalifragilistic label enter something here...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "aligned-foo",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "i've read the terms and conditions i've read the terms and conditions aligned-cb i've read the terms and conditions",
+      "question": "i've read the terms and conditions i've read the terms and conditions i've read the terms and conditions",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "I've read the terms and conditions"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "aligned-cb",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "legend",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "multi-first-name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "username",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "password",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "a title",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "textareas work too",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": ".pure-input-1",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": ".pure-input-2-3",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": ".pure-input-1-2",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": ".pure-input-1-3",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": ".pure-input-1-4",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": ".pure-u-1-4",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": ".pure-u-3-4",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": ".pure-u-1-2",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": ".pure-u-1-8",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": ".pure-u-1-5",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": ".pure-u-2-5",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": ".pure-u-1",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "requires an email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "here's option one. here's option one. checkbox-radio-option-one here's option one.",
+      "question": "here's option one. here's option one. here's option one.",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Here's option one."
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "checkbox-radio-option-one",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

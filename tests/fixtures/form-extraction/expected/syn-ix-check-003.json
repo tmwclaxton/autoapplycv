@@ -1,0 +1,41 @@
+{
+  "id": "syn-ix-check-003",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "your name your name ix-name-19 ix-name-19",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "personal email personal email ix-email-19 ix-email-19",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "telephone telephone ix-phone-19 ix-phone-19",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "language proficiency",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "English",
+        "French",
+        "German"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

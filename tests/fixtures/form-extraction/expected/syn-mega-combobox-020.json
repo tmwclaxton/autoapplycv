@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-combobox-020",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "applicant name (9710) applicant name (9710)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cb-name-9710",
+        "name": "cb-name-9710",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address (9710) email address (9710)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cb-email-9710",
+        "name": "cb-email-9710",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9710) contact number (9710)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cb-phone-9710",
+        "name": "cb-phone-9710",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9710)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Hybrid",
+        "Manchester",
+        "London",
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "combo-list-9710",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

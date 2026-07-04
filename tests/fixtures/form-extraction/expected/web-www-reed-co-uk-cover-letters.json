@@ -1,0 +1,54 @@
+{
+  "id": "web-www-reed-co-uk-cover-letters",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "keywords e.g. interview",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "s",
+        "name": "s",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "what what e.g. 'office assistant'",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "keywords",
+        "name": "keywords",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "where where town or postcode",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

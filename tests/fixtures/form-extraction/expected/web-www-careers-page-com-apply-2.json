@@ -1,0 +1,248 @@
+{
+  "id": "web-www-careers-page-com-apply-2",
+  "min_fields": 15,
+  "exact_field_count": 15,
+  "fields": [
+    {
+      "question": "school [[ field.label ]]:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "school",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "[[ field.label ]]:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select Degree *",
+        "[[ degreetype ]]"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "specialization [[ field.label ]]:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "specialization",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "start date [[ field.label ]]:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "started_at",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "end date [[ field.label ]]:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "ended_at",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "final grade [[ field.label ]]:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "final_grade",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "score type, eg: %, gpa ... [[ field.label ]]:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "score_type",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "location [[ field.label ]]:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "description [[ field.label ]]:",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "description",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "position name [[ field.label ]]:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "title",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "employer [[ field.label ]]:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "employer",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "salary [[ field.label ]]:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "salary",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "currency [[ field.label ]]:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "currency",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "[[ answer ]] [[ answer ]] [[ field.label ]]:",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "[[ answer ]]"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "terms_and_condition",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "checked"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "terms_and_condition",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save"
+    },
+    {
+      "name": "Save"
+    }
+  ],
+  "vet_notes": []
+}

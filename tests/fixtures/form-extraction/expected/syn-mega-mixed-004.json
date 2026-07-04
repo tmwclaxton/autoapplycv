@@ -1,0 +1,89 @@
+{
+  "id": "syn-mega-mixed-004",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "full name (9984) full name (9984)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "mix-name-9984",
+        "name": "mix-name-9984",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9984) primary email (9984)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "mix-email-9984",
+        "name": "mix-email-9984",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "direct line (9984) direct line (9984)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "mix-phone-9984",
+        "name": "mix-phone-9984",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "github profile (9984) github profile (9984)",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "modal-loc-9984",
+        "name": "modal-loc-9984",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "where are you based? (9984)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Dublin",
+        "Manchester",
+        "Remote",
+        "Berlin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-h-9984",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,236 @@
+{
+  "id": "web-formjdm-netlify-app-page",
+  "min_fields": 12,
+  "exact_field_count": 12,
+  "fields": [
+    {
+      "question": "e.g. john",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "first-name",
+        "name": "first-name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "e.g. doe",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "last-name",
+        "name": "last-name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "+1xxxxxxxxx",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone",
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes yes do you have legal right to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "legalYes",
+        "name": "legalRightToWork",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "driver yes",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Company Driver",
+        "Owner-Operator"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "yes",
+        "name": "driver",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "example@gmail.com",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "street address",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "addressline1",
+        "name": "addressline1",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "lawrenceville",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "city",
+        "name": "city",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "state state",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "Alabama",
+        "Alaska",
+        "Arizona",
+        "Arkansas",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "Florida",
+        "Georgia",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana",
+        "Maine",
+        "Maryland",
+        "Massachusetts",
+        "Michigan",
+        "Minnesota",
+        "Mississippi",
+        "Missouri",
+        "Montana",
+        "Nebraska",
+        "Nevada",
+        "New Hampshire"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "state",
+        "name": "state",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "postal/zip code",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "zipcode",
+        "name": "zipcode",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "checkbox",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "DRY VAN",
+        "REEFER",
+        "FLATBED",
+        "TANKER ENDORSEMENT",
+        "DOUBLE DROP"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "checkbox",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "applicant name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "consent",
+        "name": "consent",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next Step"
+    }
+  ],
+  "vet_notes": []
+}

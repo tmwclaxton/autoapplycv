@@ -4,25 +4,49 @@
   "exact_field_count": 3,
   "fields": [
     {
-      "question": "email address email address email-address email-address email address",
+      "question": "email address email address email address",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email-address",
+        "name": "email-address",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "phone number phone number phone-number phone-number phone number",
+      "question": "phone number phone number phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone-number",
+        "name": "phone-number",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "why do you want this role? why do you want this role? why-do-you-want-this-rol why-do-you-want-this-rol why do you want this role?",
+      "question": "why do you want this role? why do you want this role? why do you want this role?",
       "field_type": "textarea",
       "max_chars": 400,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-do-you-want-this-rol",
+        "name": "why-do-you-want-this-rol",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

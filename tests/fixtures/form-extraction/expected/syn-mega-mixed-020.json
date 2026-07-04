@@ -1,0 +1,89 @@
+{
+  "id": "syn-mega-mixed-020",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (10000) applicant name (10000)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "mix-name-10000",
+        "name": "mix-name-10000",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application email (10000) application email (10000)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "mix-email-10000",
+        "name": "mix-email-10000",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone (10000) telephone (10000)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "mix-phone-10000",
+        "name": "mix-phone-10000",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal website (10000) personal website (10000)",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "modal-loc-10000",
+        "name": "modal-loc-10000",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current city (10000)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Remote",
+        "Dublin",
+        "Berlin",
+        "Hybrid"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-h-10000",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

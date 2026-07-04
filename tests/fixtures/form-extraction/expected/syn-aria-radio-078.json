@@ -4,18 +4,34 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "applicant name applicant name applicant-name applicant-name applicant name",
+      "question": "applicant name applicant name applicant name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "applicant-name",
+        "name": "applicant-name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "work email work email work-email work-email work email",
+      "question": "work email work email work email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "work-email",
+        "name": "work-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "willing to relocate for this role?",
@@ -26,7 +42,15 @@
         "No",
         "Maybe later"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "willing-to-relocate-for-",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
     },
     {
       "question": "eligible to work in this country?",
@@ -36,7 +60,15 @@
         "Yes",
         "No"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "eligible-to-work-in-this",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
     }
   ],
   "controls": [],

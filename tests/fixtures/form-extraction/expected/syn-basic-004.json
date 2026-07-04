@@ -4,32 +4,64 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "applicant name applicant name applicant-name applicant-name applicant name",
+      "question": "applicant name applicant name applicant name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "applicant-name",
+        "name": "applicant-name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "work email work email work-email work-email work email",
+      "question": "work email work email work email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "work-email",
+        "name": "work-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "contact number contact number contact-number contact-number contact number",
+      "question": "contact number contact number contact number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "contact-number",
+        "name": "contact-number",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "linkedin link linkedin link linkedin-link linkedin-link linkedin link",
+      "question": "linkedin link linkedin link linkedin link",
       "field_type": "url",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "linkedin-link",
+        "name": "linkedin-link",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

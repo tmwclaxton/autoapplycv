@@ -4,25 +4,49 @@
   "exact_field_count": 3,
   "fields": [
     {
-      "question": "personal email personal email personal-email personal-email personal email",
+      "question": "personal email personal email personal email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "personal-email",
+        "name": "personal-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "phone phone phone phone phone",
+      "question": "phone phone phone",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone",
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "cover letter cover letter cover-letter cover-letter cover letter",
+      "question": "cover letter cover letter cover letter",
       "field_type": "textarea",
       "max_chars": 400,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter",
+        "name": "cover-letter",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

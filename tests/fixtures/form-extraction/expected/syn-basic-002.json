@@ -4,32 +4,64 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "legal name legal name legal-name legal-name legal name",
+      "question": "legal name legal name legal name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "legal-name",
+        "name": "legal-name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email email email email email",
+      "question": "email email email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "mobile number mobile number mobile-number mobile-number mobile number",
+      "question": "mobile number mobile number mobile number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "mobile-number",
+        "name": "mobile-number",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "linkedin url linkedin url linkedin-url linkedin-url linkedin url",
+      "question": "linkedin url linkedin url linkedin url",
       "field_type": "url",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "linkedin-url",
+        "name": "linkedin-url",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

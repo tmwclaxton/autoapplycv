@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-chips-011",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "applicant name (9871) applicant name (9871)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "chip-name-9871",
+        "name": "chip-name-9871",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9871) work email (9871)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "chip-email-9871",
+        "name": "chip-email-9871",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9871) mobile number (9871)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "chip-phone-9871",
+        "name": "chip-phone-9871",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "key skills (9871)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "SQL",
+        "JavaScript",
+        "Rust",
+        "Go"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "span",
+        "type": null,
+        "id": "chip-group-9871",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

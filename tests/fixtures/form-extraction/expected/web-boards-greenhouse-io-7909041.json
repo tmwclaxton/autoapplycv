@@ -4,18 +4,34 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "search-form search... s",
+      "question": "search-form search...",
       "field_type": "search",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": null,
+        "name": "s",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "enter keywords... keyword",
+      "question": "enter keywords...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "keyword",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "department hierarchical-department-6a48340ee9fc6",
@@ -43,7 +59,15 @@
         "Strategy & Operations",
         "Marketing"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "hierarchical-department-6a48340ee9fc6",
+        "name": "department",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "meta_location_only hierarchical-meta_location_only-6a48340eea087",
@@ -71,7 +95,15 @@
         "Edinburgh, Scotland, United Kingdom",
         "UK Remote"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "hierarchical-meta_location_only-6a48340eea087",
+        "name": "meta_location_only",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

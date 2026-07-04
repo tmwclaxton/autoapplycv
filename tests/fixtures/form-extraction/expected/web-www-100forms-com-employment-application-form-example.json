@@ -4,74 +4,154 @@
   "exact_field_count": 10,
   "fields": [
     {
-      "question": "first name first name first_name first_name",
+      "question": "first name first name",
       "field_type": "text",
       "max_chars": 50,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "First_Name",
+        "name": "First_Name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "last name last name last_name last_name",
+      "question": "last name last name",
       "field_type": "text",
       "max_chars": 50,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Last_Name",
+        "name": "Last_Name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email email email_address email_address",
+      "question": "email email",
       "field_type": "text",
       "max_chars": 100,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Email_Address",
+        "name": "Email_Address",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "position you are applying for position you are applying for position position",
+      "question": "position you are applying for position you are applying for",
       "field_type": "text",
       "max_chars": 100,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Position",
+        "name": "Position",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "salary requirements salary requirements salary salary",
+      "question": "salary requirements salary requirements",
       "field_type": "text",
       "max_chars": 50,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Salary",
+        "name": "Salary",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "when can you start? when can you start? startdate startdate",
+      "question": "when can you start? when can you start?",
       "field_type": "text",
       "max_chars": 50,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "StartDate",
+        "name": "StartDate",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "phone phone phone phone",
+      "question": "phone phone",
       "field_type": "text",
       "max_chars": 50,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Phone",
+        "name": "Phone",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "fax fax fax fax",
+      "question": "fax fax",
       "field_type": "text",
       "max_chars": 50,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Fax",
+        "name": "Fax",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "last company you worked for last company you worked for organization organization",
+      "question": "last company you worked for last company you worked for",
       "field_type": "text",
       "max_chars": 100,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "Organization",
+        "name": "Organization",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "reference / comments / questions reference / comments / questions reference reference",
+      "question": "reference / comments / questions reference / comments / questions",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "Reference",
+        "name": "Reference",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

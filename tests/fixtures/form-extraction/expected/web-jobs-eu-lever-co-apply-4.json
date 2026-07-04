@@ -1,0 +1,356 @@
+{
+  "id": "web-jobs-eu-lever-co-apply-4",
+  "min_fields": 20,
+  "exact_field_count": 20,
+  "fields": [
+    {
+      "question": "full name✱ full name✱ full name✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "he/him he/him he/him",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "He/him",
+        "She/her",
+        "They/them",
+        "Xe/xem",
+        "Ze/hir",
+        "Ey/em",
+        "Hir/hir",
+        "Fae/faer",
+        "Hu/hu",
+        "Use name only"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "pronouns",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "custom custom he/him",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Custom"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "customPronounsOption",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email✱ email✱ email✱",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone phone phone",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current company current company current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "linkedin url linkedin url linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "twitter url twitter url twitter url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Twitter]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "github url github url github url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[GitHub]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "other website other website other website",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Other]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes yes yes",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[64227d84-e21f-4896-91a7-21f52a2ba3b1][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[64227d84-e21f-4896-91a7-21f52a2ba3b1][field1]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[64227d84-e21f-4896-91a7-21f52a2ba3b1][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "genderselect ...malefemaledecline to self-identify genderselect ...malefemaledecline to self-identify genderselect ...malefemaledecline to self-identify",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select ...",
+        "Male",
+        "Female",
+        "Decline to self-identify"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "eeo[gender]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "raceselect ...hispanic or latinowhite (not hispanic or latino)black or african american (not hispanic or latino)native hawaiian or other pacific islander (not hispanic or latino)asian (not hispanic or latino)american indian or alaska native (not hispanic or latino)two or more races (not hispanic or latino)decline to self-identifyhispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races. raceselect ...hispanic or latinowhite (not hispanic or latino)black or african american (not hispanic or latino)native hawaiian or other pacific islander (not hispanic or latino)asian (not hispanic or latino)american indian or alaska native (not hispanic or latino)two or more races (not hispanic or latino)decline to self-identifyhispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races. raceselect ...hispanic or latinowhite (not hispanic or latino)black or african american (not hispanic or latino)native hawaiian or other pacific islander (not hispanic or latino)asian (not hispanic or latino)american indian or alaska native (not hispanic or latino)two or more races (not hispanic or latino)decline to self-identifyhispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races.",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select ...",
+        "Hispanic or Latino",
+        "White (Not Hispanic or Latino)",
+        "Black or African American (Not Hispanic or Latino)",
+        "Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)",
+        "Asian (Not Hispanic or Latino)",
+        "American Indian or Alaska Native (Not Hispanic or Latino)",
+        "Two or More Races (Not Hispanic or Latino)",
+        "Decline to self-identify"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "eeo[race]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "veteran statusselect ...i identify as one or more of the classifications of protected veteran listed abovei am not a protected veterani decline to self-identify for protected veteran status veteran statusselect ...i identify as one or more of the classifications of protected veteran listed abovei am not a protected veterani decline to self-identify for protected veteran status veteran statusselect ...i identify as one or more of the classifications of protected veteran listed abovei am not a protected veterani decline to self-identify for protected veteran status",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select ...",
+        "I identify as one or more of the classifications of protected veteran listed above",
+        "I am not a protected veteran",
+        "I decline to self-identify for protected veteran status"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "eeo[veteran]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "disability statusselect ...yes, i have a disability, or have had one in the pastno, i do not have a disability and have not had one in the pasti do not want to answer disability statusselect ...yes, i have a disability, or have had one in the pastno, i do not have a disability and have not had one in the pasti do not want to answer disability statusselect ...yes, i have a disability, or have had one in the pastno, i do not have a disability and have not had one in the pasti do not want to answer",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select ...",
+        "Yes, I have a disability, or have had one in the past",
+        "No, I do not have a disability and have not had one in the past",
+        "I do not want to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "disabilitySelectElement",
+        "name": "eeo[disability]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "name enter your full name name name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "eeo[disabilitySignature]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "date mm/dd/yyyy date date",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "eeo[disabilitySignatureDate]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes, siteimprove can contact me about future job opportunities for up to 1 yearprivacy policy yes, siteimprove can contact me about future job opportunities for up to 1 yearprivacy policy yes, siteimprove can contact me about future job opportunities for up to 1 yearprivacy policy",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes, Siteimprove can contact me about future job opportunities for up to 1 yearPrivacy policy"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "consent[marketing]",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

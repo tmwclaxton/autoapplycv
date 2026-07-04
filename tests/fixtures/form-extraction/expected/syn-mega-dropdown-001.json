@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-dropdown-001",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "full name (9801) full name (9801)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "dd-name-9801",
+        "name": "dd-name-9801",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9801) work email (9801)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "dd-email-9801",
+        "name": "dd-email-9801",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9801) contact number (9801)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "dd-phone-9801",
+        "name": "dd-phone-9801",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred location (9801)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Manchester",
+        "Berlin",
+        "London",
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-h-9801",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -4,32 +4,64 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "full name full name full-name full-name full name",
+      "question": "full name full name full name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "full-name",
+        "name": "full-name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email address email address email-address email-address email address",
+      "question": "email address email address email address",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email-address",
+        "name": "email-address",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "phone number phone number phone-number phone-number phone number",
+      "question": "phone number phone number phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone-number",
+        "name": "phone-number",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "linkedin profile url linkedin profile url linkedin-profile-url linkedin-profile-url linkedin profile url",
+      "question": "linkedin profile url linkedin profile url linkedin profile url",
       "field_type": "url",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "linkedin-profile-url",
+        "name": "linkedin-profile-url",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

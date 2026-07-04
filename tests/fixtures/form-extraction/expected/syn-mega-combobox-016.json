@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-combobox-016",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "preferred name (9706) preferred name (9706)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cb-name-9706",
+        "name": "cb-name-9706",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9706) primary email (9706)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cb-email-9706",
+        "name": "cb-email-9706",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone (9706) telephone (9706)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cb-phone-9706",
+        "name": "cb-phone-9706",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9706)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "London",
+        "Berlin",
+        "Remote",
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "combo-list-9706",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

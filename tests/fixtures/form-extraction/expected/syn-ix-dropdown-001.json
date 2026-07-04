@@ -1,0 +1,42 @@
+{
+  "id": "syn-ix-dropdown-001",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "full name full name ix-name-0 ix-name-0",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "email address email address ix-email-0 ix-email-0",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "phone number phone number ix-phone-0 ix-phone-0",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "preferred location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "London",
+        "Remote",
+        "Hybrid",
+        "Manchester"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

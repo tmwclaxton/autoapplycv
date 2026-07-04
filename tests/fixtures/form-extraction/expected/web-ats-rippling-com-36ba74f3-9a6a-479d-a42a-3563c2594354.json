@@ -1,0 +1,279 @@
+{
+  "id": "web-ats-rippling-com-36ba74f3-9a6a-479d-a42a-3563c2594354",
+  "min_fields": 16,
+  "exact_field_count": 16,
+  "fields": [
+    {
+      "question": "website website",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "applicant-website",
+        "name": "website",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "first name first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "first-name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "last name last name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "last-name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number phone number (208) 555-1234",
+      "field_type": "tel",
+      "max_chars": 14,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone-number",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "zip code zip code 83201",
+      "field_type": "text",
+      "max_chars": 5,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "zip-code",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email (optional) email (optional) you@example.com",
+      "field_type": "email",
+      "max_chars": 254,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email-optional-",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "i understand this caregiver role may include personal care, toileting/incontinence support, mobility assistance, transfers, walking, stairs, bending, reaching, and lifting up to 50 pounds. i confirm that i can perform the essential functions of the role, with or without reasonable accommodation. i understand this caregiver role may include personal care, toileting/incontinence support, mobility assistance, transfers, walking, stairs, bending, reaching, and lifting up to 50 pounds. i confirm that i can perform the essential functions of the role, with or without reasonable accommodation.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I understand this caregiver role may include personal care, toileting/incontinence support, mobility assistance, transfers, walking, stairs, bending, reaching, and lifting up to 50 pounds. I confirm that I can perform the essential functions of the role, with or without reasonable accommodation."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "i have reliable transportation to client locations. i have reliable transportation to client locations.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I have reliable transportation to client locations."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "to the best of my knowledge, i can pass happy to help caregiving's required background check for this role. to the best of my knowledge, i can pass happy to help caregiving's required background check for this role.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "To the best of my knowledge, I can pass Happy to Help Caregiving's required background check for this role."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "are you comfortable assisting with bathing, dressing, toileting, and incontinence care?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Prefer to discuss"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "personal-care-comfort",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "are you comfortable helping with transfers and mobility support?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Prefer to discuss"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "mobility-transfers-comfort",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "are you willing to work around pets or smoking homes?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Depends"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "pet-smoke-comfort",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you have a valid driver's license and auto insurance if a role requires client transportation or errands?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Not sure"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "driver-license-auto-insurance",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "what shifts are you generally available for?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Weekdays"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "text messages about my application (optional)by checking this box, i agree to receive text messages from happy to help caregiving at the phone number provided above about my caregiver application, employment, scheduling, onboarding, and hr updates. message frequency varies. message and data rates may apply. reply stop to cancel at any time. reply help for help. see our privacy policy and terms of service. consent to receive text messages is not a condition of applying and is not required to apply. text messages about my application (optional)by checking this box, i agree to receive text messages from happy to help caregiving at the phone number provided above about my caregiver application, employment, scheduling, onboarding, and hr updates. message frequency varies. message and data rates may apply. reply stop to cancel at any time. reply help for help. see our privacy policy and terms of service. consent to receive text messages is not a condition of applying and is not required to apply. text messages about my application (optional)by checking this box, i agree to receive text messages from happy to help caregiving at the phone number provided above about my caregiver application, employment, scheduling, onboarding, and hr updates. message frequency varies. message and data rates may apply. reply stop to cancel at any time. reply help for help. see our privacy policy and terms of service. consent to receive text messages is not a condition of applying and is not required to apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Text messages about my application (optional)By checking this box, I agree to receive text messages from Happy to Help Caregiving at the phone number provided above about my caregiver application, employment, scheduling, onboarding, and HR updates. Message frequency varies. Message and data rates may apply. Reply STOP to cancel at any time. Reply HELP for help. See our Privacy Policy and Terms of Service. Consent to receive text messages is not a condition of applying and is not required to apply."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "_R_4l7lfiv5ubsiv3b_",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "zip code zip code enter your zip code",
+      "field_type": "text",
+      "max_chars": 5,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "careers-zip-code",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit Application Interest"
+    }
+  ],
+  "vet_notes": []
+}

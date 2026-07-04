@@ -1,0 +1,105 @@
+{
+  "id": "syn-mega-conditional-001",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "your name (9621) your name (9621)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cond-name-9621",
+        "name": "cond-name-9621",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address (9621) email address (9621)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cond-email-9621",
+        "name": "cond-email-9621",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "direct line (9621) direct line (9621)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cond-phone-9621",
+        "name": "cond-phone-9621",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work samples link (9621) work samples link (9621)",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "work-samples-link-9621-9621",
+        "name": "work-samples-link-9621-9621",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9621) why this role? (9621)",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9621-9621",
+        "name": "why-this-role-9621-9621",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9621) office preference (9621)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Dublin",
+        "Manchester",
+        "Berlin",
+        "Hybrid"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "office-preference-9621-9621",
+        "name": "office-preference-9621-9621",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-angular-035",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "preferred name (9195) preferred name (9195)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ang-name-9195",
+        "name": "ang-name-9195",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email (9195) personal email (9195)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ang-email-9195",
+        "name": "ang-email-9195",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone (9195) telephone (9195)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ang-phone-9195",
+        "name": "ang-phone-9195",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal statement (9195) personal statement (9195)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "personal-statement-9195-9195",
+        "name": "personal-statement-9195-9195",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current city (9195) current city (9195)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Hybrid",
+        "Manchester",
+        "Berlin",
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "current-city-9195-9195",
+        "name": "current-city-9195-9195",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

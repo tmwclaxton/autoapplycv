@@ -1,0 +1,171 @@
+{
+  "id": "web-tradingeconomics-hire-trakstar-com-fk0zum",
+  "min_fields": 10,
+  "exact_field_count": 10,
+  "fields": [
+    {
+      "question": "first name first name first name",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_first_name",
+        "name": "candidate_first_name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "last name last name last name",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_last_name",
+        "name": "candidate_last_name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email email email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_email",
+        "name": "candidate_email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone phone phone",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_phone",
+        "name": "candidate_phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "when can you start? when can you start? when can you start?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_whencanyoustart",
+        "name": "whencanyoustart",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "monday monday monday days of the week you can work?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "id_daysoftheweekyoucanwork_0",
+        "name": "daysoftheweekyoucanwork",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "minimum wage - per hour - in us dollars - you are willing to accept? minimum wage - per hour - in us dollars - you are willing to accept? minimum wage - per hour - in us dollars - you are willing to accept?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_minimumwageperhourinusdollarsyouarewillingtoaccept",
+        "name": "minimumwageperhourinusdollarsyouarewillingtoaccept",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "minimum of time - in months - you are available to work for us? minimum of time - in months - you are available to work for us? minimum of time - in months - you are available to work for us?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_minimumoftimeinmonthsyouareavailabletoworkforus",
+        "name": "minimumoftimeinmonthsyouareavailabletoworkforus",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "please use this box to write any comments please use this box to write any comments please use this box to write any comments",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "id_pleaseusethisboxtowriteanycomments",
+        "name": "pleaseusethisboxtowriteanycomments",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "how many hours - per week - can you be available? how many hours - per week - can you be available? how many hours - per week - can you be available?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_howmanyhoursperweekcanyoubeavailable",
+        "name": "howmanyhoursperweekcanyoubeavailable",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit Application"
+    }
+  ],
+  "vet_notes": []
+}

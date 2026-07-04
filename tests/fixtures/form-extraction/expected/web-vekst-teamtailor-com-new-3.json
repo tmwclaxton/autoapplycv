@@ -1,0 +1,225 @@
+{
+  "id": "web-vekst-teamtailor-com-new-3",
+  "min_fields": 13,
+  "exact_field_count": 13,
+  "fields": [
+    {
+      "question": "analytics analytics",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Analytics"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "analytics",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "marketing marketing",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Marketing"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "marketing",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "vilken eller vilka avdelningar är du intresserad av att sammankopplas med?required välj den eller de avdelningar du skulle kunna tänka dig att arbeta inom, inte de områden du har erfarenhet av.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Commercial",
+        "Project Management",
+        "Performance Marketing & Media",
+        "Analytics & Insights",
+        "Digital Content & Creative"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "id_34512376",
+        "name": "candidate[answers_attributes][0][choices][]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "berätta lite kort om varför du fastnade för vekst och blev intresserad av att jobba hos oss? berätta lite kort om varför du fastnade för vekst och blev intresserad av att jobba hos oss? berätta lite kort om varför du fastnade för vekst och blev intresserad av att jobba hos oss?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_1_text",
+        "name": "candidate[answers_attributes][1][text]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "berätta kortfattat om vad du sysselsätter dig med just nu.required berätta kortfattat om vad du sysselsätter dig med just nu.required berätta kortfattat om vad du sysselsätter dig med just nu.required",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_2_text",
+        "name": "candidate[answers_attributes][2][text]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "berätta kortfattat om din erfarenhet som du tror är relevant för det/de områden du är intresserad av att arbeta med hos oss. required berätta kortfattat om din erfarenhet som du tror är relevant för det/de områden du är intresserad av att arbeta med hos oss. required berätta kortfattat om din erfarenhet som du tror är relevant för det/de områden du är intresserad av att arbeta med hos oss. required",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_3_text",
+        "name": "candidate[answers_attributes][3][text]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "vilken stad utgår du ifrån?required vilken stad utgår du ifrån?required vilken stad utgår du ifrån?required",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate_answers_attributes_4_text",
+        "name": "candidate[answers_attributes][4][text]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "first namerequired first namerequired",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate_first_name",
+        "name": "candidate[first_name]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "last namerequired last namerequired",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate_last_name",
+        "name": "candidate[last_name]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "emailrequired emailrequired",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "candidate_email",
+        "name": "candidate[email]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phonerequired phonerequired phone number with country code",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "candidate_phone",
+        "name": "candidate[phone]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "required.by submitting this application, i agree that i have read the privacy policy and confirm that vekst store my personal details to be able to process my job application. required.by submitting this application, i agree that i have read the privacy policy and confirm that vekst store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Required.By submitting this application, I agree that I have read the Privacy Policy and confirm that Vekst store my personal details to be able to process my job application.*"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "candidate_consent_given",
+        "name": "candidate[consent_given]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes, vekst can contact me directly about specific future job opportunities. yes, vekst can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes, Vekst can contact me directly about specific future job opportunities."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "candidate_consent_given_future_jobs",
+        "name": "candidate[consent_given_future_jobs]",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Preview summary."
+    },
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

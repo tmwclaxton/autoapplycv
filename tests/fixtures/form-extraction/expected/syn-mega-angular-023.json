@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-angular-023",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "full name (9183) full name (9183)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ang-name-9183",
+        "name": "ang-name-9183",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address (9183) email address (9183)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ang-email-9183",
+        "name": "ang-email-9183",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9183) contact number (9183)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ang-phone-9183",
+        "name": "ang-phone-9183",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cover letter (9183) cover letter (9183)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter-9183-9183",
+        "name": "cover-letter-9183-9183",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "where are you based? (9183) where are you based? (9183)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Berlin",
+        "London",
+        "Dublin",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "where-are-you-based-9183-918",
+        "name": "where-are-you-based-9183-918",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

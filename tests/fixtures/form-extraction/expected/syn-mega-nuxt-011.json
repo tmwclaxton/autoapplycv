@@ -1,0 +1,95 @@
+{
+  "id": "syn-mega-nuxt-011",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "legal name (9271) legal name (9271)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "nuxt-name-9271",
+        "name": "nuxt-name-9271",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email (9271) personal email (9271)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "nuxt-email-9271",
+        "name": "nuxt-email-9271",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9271) mobile number (9271)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "nuxt-phone-9271",
+        "name": "nuxt-phone-9271",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9271) office preference (9271)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Remote",
+        "Dublin",
+        "Berlin",
+        "London"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "office-preference-9271-9271",
+        "name": "office-preference-9271-9271",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "skill highlights (9271)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "SQL",
+        "JavaScript",
+        "Go",
+        "Python"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "skill-highlights-9271-92",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

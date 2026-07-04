@@ -1,0 +1,94 @@
+{
+  "id": "web-framestore-recruitee-com-crowd-td-4",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "my information",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-undefined",
+        "name": "candidate.name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "questions",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.openQuestionAnswers.7017684.content-undefined",
+        "name": "candidate.openQuestionAnswers.7017684.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "will you need visa sponsorship",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.7017689.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.7017689.flag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "what is your preferred pronoun",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "She/her",
+        "He/him",
+        "They/their",
+        "Prefer not to say"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.7017691.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.7017691.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "legal agreements",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "false"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "candidate.agreements.0.consent",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

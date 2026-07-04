@@ -1,0 +1,443 @@
+{
+  "id": "web-jobs-lever-co-apply-24",
+  "min_fields": 22,
+  "exact_field_count": 22,
+  "fields": [
+    {
+      "question": "full name✱ full name✱ full name✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email✱ email✱ email✱",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone ✱ phone ✱ phone ✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current company current company current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "type your response",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[ad04b143-8346-4e3c-af8a-b0b48def18e5][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes yes yes",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[f89fc97b-fb49-4d47-86dc-aa5c68064d28][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[f89fc97b-fb49-4d47-86dc-aa5c68064d28][field2]",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose a school",
+        "HTe",
+        "HTeX",
+        "HTM",
+        "HTMMA",
+        "HTH",
+        "HTHMA",
+        "HTHI",
+        "HTHCV",
+        "HTMCV",
+        "HTeCV",
+        "HTHNC",
+        "HTMNC",
+        "HTeNC",
+        "HTHM",
+        "HTMM",
+        "HTeM",
+        "Central Office/CMO",
+        "N/A"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[f89fc97b-fb49-4d47-86dc-aa5c68064d28][field2]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes, i am legally authorized to work in the united states without requiring sponsorship now or in the future. yes, i am legally authorized to work in the united states without requiring sponsorship now or in the future. yes, i am legally authorized to work in the united states without requiring sponsorship now or in the future.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I am legally authorized to work in the United States without requiring sponsorship now or in the future.",
+        "No, I am not legally authorized to work in the United States without requiring sponsorship now or in the future."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[a8ade5d7-24e7-4c8b-961f-3a0b4a170dc2][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes, i give permission to contact my references. yes, i give permission to contact my references. yes, i give permission to contact my references.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes, I give permission to contact my references.",
+        "No, I do not give permission to contact my references."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[43d4a3ae-cb68-4d98-9585-374a62212b8d][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[7c6f720a-e798-4ba6-97fe-47d47fbadbf1][field7]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[7c6f720a-e798-4ba6-97fe-47d47fbadbf1][field7]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[7c6f720a-e798-4ba6-97fe-47d47fbadbf1][field8]",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select the number of months you were employed",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[7c6f720a-e798-4ba6-97fe-47d47fbadbf1][field8]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes, i attest i worked 1,000 hours or more each year yes, i attest i worked 1,000 hours or more each year yes, i attest i worked 1,000 hours or more each year",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I attest I worked 1,000 hours or more each year",
+        "No, I worked less than 1,000 hours per year"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[7c6f720a-e798-4ba6-97fe-47d47fbadbf1][field11]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[7c6f720a-e798-4ba6-97fe-47d47fbadbf1][field19]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[7c6f720a-e798-4ba6-97fe-47d47fbadbf1][field19]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[7c6f720a-e798-4ba6-97fe-47d47fbadbf1][field20]",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select the number of months you were employed",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[7c6f720a-e798-4ba6-97fe-47d47fbadbf1][field20]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[7c6f720a-e798-4ba6-97fe-47d47fbadbf1][field31]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[7c6f720a-e798-4ba6-97fe-47d47fbadbf1][field31]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[7c6f720a-e798-4ba6-97fe-47d47fbadbf1][field32]",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select the number of months you were employed",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[7c6f720a-e798-4ba6-97fe-47d47fbadbf1][field32]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes --> notify hr during onboarding you have more experience to report yes --> notify hr during onboarding you have more experience to report yes --> notify hr during onboarding you have more experience to report",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes --> Notify HR during onboarding you have more experience to report",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[7c6f720a-e798-4ba6-97fe-47d47fbadbf1][field36]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes, i understand yes, i understand yes, i understand",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes, I understand"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[d7537e07-2994-4aae-8ae1-39e32211aef6][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "17 or younger 17 or younger 17 or younger",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "17 or younger",
+        "18-20",
+        "21-29",
+        "30-39",
+        "40-49",
+        "50-59",
+        "60 or older"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[6084b2e8-d72c-46bc-a934-78056c8a132b][responses][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "white / caucasian white / caucasian select all that apply",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "White / Caucasian",
+        "Hispanic, Latino, or Spanish origin",
+        "Black or African American",
+        "Asian",
+        "Native Hawaiian or other Pacific Islander",
+        "Indigenous Peoples, First Nations, Native American, or Alaska Native",
+        "Middle Eastern or North African",
+        "Some other race, ethnicity, or origin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "surveysResponses[6084b2e8-d72c-46bc-a934-78056c8a132b][responses][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "female female female",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Female",
+        "Male",
+        "Non-binary"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[6084b2e8-d72c-46bc-a934-78056c8a132b][responses][field2]",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

@@ -1,0 +1,105 @@
+{
+  "id": "syn-mega-conditional-003",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "full name (9623) full name (9623)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cond-name-9623",
+        "name": "cond-name-9623",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application email (9623) application email (9623)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cond-email-9623",
+        "name": "cond-email-9623",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9623) contact number (9623)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cond-phone-9623",
+        "name": "cond-phone-9623",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "portfolio url (9623) portfolio url (9623)",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "portfolio-url-9623-9623",
+        "name": "portfolio-url-9623-9623",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "tell us about yourself (9623) tell us about yourself (9623)",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself-9623-",
+        "name": "tell-us-about-yourself-9623-",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred location (9623) preferred location (9623)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Manchester",
+        "London",
+        "Dublin",
+        "Berlin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-location-9623-9623",
+        "name": "preferred-location-9623-9623",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

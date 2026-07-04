@@ -1,0 +1,93 @@
+{
+  "id": "syn-mega-smartrec-032",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "complete name (9562) complete name (9562)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sr-name-9562",
+        "name": "sr-name-9562",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9562) primary email (9562)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "sr-email-9562",
+        "name": "sr-email-9562",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9562) mobile number (9562)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "sr-phone-9562",
+        "name": "sr-phone-9562",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cover letter (9562) cover letter (9562)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter-9562-9562",
+        "name": "cover-letter-9562-9562",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current city (9562)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Remote",
+        "Berlin",
+        "Dublin",
+        "London"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-9562",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue application"
+    }
+  ],
+  "vet_notes": []
+}

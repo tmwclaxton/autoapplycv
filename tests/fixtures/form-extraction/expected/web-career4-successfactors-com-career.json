@@ -1,0 +1,45 @@
+{
+  "id": "web-career4-successfactors-com-career",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "name of saved search/alert: name of saved search/alert:",
+      "field_type": "text",
+      "max_chars": 99,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jobAlertName",
+        "name": "jobAlertName",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email me:field is required. email me:field is required.",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "- Select -",
+        "Daily",
+        "Weekly",
+        "Every Two Weeks",
+        "Never"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "alertFrequency",
+        "name": "alertFrequency",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

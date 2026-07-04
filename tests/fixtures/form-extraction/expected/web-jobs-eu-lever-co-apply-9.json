@@ -1,0 +1,358 @@
+{
+  "id": "web-jobs-eu-lever-co-apply-9",
+  "min_fields": 20,
+  "exact_field_count": 20,
+  "fields": [
+    {
+      "question": "full name✱ full name✱ full name✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email✱ email✱ email✱",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone ✱ phone ✱ phone ✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current company ✱ current company ✱ current company ✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "linkedin url linkedin url linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "twitter url twitter url twitter url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Twitter]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "github url github url github url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[GitHub]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "portfolio url portfolio url portfolio url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Portfolio]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "other website other website other website",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Other]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes, i am located within a commutable distance to this office yes, i am located within a commutable distance to this office yes, i am located within a commutable distance to this office",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I am located within a commutable distance to this office",
+        "No, I am not located within a commutable distance to this office"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[0d08ff62-4f50-457d-9c1e-574744fab2e9][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes, i am willing to relocate to a commutable distance of this office. yes, i am willing to relocate to a commutable distance of this office. yes, i am willing to relocate to a commutable distance of this office.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I am willing to relocate to a commutable distance of this office.",
+        "No, I am not willing to relocate."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[0d08ff62-4f50-457d-9c1e-574744fab2e9][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes yes yes",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[d18c1078-1ee3-486d-8bbd-8194671db544][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "h1b visa h1b visa h1b visa",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "H1B visa",
+        "F1 or OPT/CPT",
+        "TN visa",
+        "O1 visa",
+        "J1 visa",
+        "H4 with EAD",
+        "AOS EAD",
+        "L2",
+        "Other",
+        "N/A - I am a US citizen, legal permanent resident, asylee or refugee"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[d18c1078-1ee3-486d-8bbd-8194671db544][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "by checking this box, i confirm that i have read and understood the information regarding u.s. export control laws and regulations as outlined above. by checking this box, i confirm that i have read and understood the information regarding u.s. export control laws and regulations as outlined above. by checking this box, i confirm that i have read and understood the information regarding u.s. export control laws and regulations as outlined above.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "By checking this box, I confirm that I have read and understood the information regarding U.S. export control laws and regulations as outlined above."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[45254036-0f38-4d61-80e5-471bdee2539e][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "acknowledged acknowledged acknowledged",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Acknowledged"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[9d175a52-dea2-4ea2-a8ed-3c82fb6fb552][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "hispanic or latino hispanic or latino hispanic or latino",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hispanic or Latino",
+        "White (Not Hispanic or Latino)",
+        "Black or African American (Not Hispanic or Latino)",
+        "Asian (Not Hispanic or Latino)",
+        "Native Hawaiian or other Pacific Islander (Not Hispanic or Latino)",
+        "American Indian or Alaska Native (Not Hispanic or Latino)",
+        "2 or more races",
+        "Decline to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "surveysResponses[a67a9ad4-5213-4bda-a7fc-f783fc447a62][responses][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "female female female",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Female",
+        "Male",
+        "Decline to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[a67a9ad4-5213-4bda-a7fc-f783fc447a62][responses][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "i identify as one or more of the classifications of protected veteran listed above. i identify as one or more of the classifications of protected veteran listed above. cirrus logic is a government contractor or subcontractor subject to the section 4212 of the vietnam era veterans’ readjustment assistance act of 1974, as amended by the jobs for veterans act of 2002, which requires government contractors to take affirmative action to employ and advance in employment. (1) disabled veterans – a veteran who served on active duty in the u.s. military and is entitled to disability compensation (or who but for the receipt of military retired pay would be entitled to disability compensation) under laws administered by the secretary of veterans affairs, or was discharged or released from active duty because of a service-connected disability; (2) recently separated veteran – a veteran separated during the three-year period beginning on the date of the veteran's discharge or release from active duty in the u.s military, ground, naval, or air service. (3) active duty wartime or campaign badge veteran – a veteran who served on active duty in the u.s. military during a war, or in a campaign or expedition for which a campaign badge was authorized under the laws administered by the department of defense; (4) armed forces service medal veteran – a veteran who, while serving on active duty in the u.s. military ground, naval, or air service, participated in a united states military operation for which an armed forces service medal was awarded pursuant to executive order 12985 (61 fed. reg. 1209). if you believe that you belong to any of the categories of protected veterans, please indicate by making the appropriate selection.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I identify as one or more of the classifications of protected veteran listed above.",
+        "I am not a protected veteran.",
+        "Decline to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[a67a9ad4-5213-4bda-a7fc-f783fc447a62][responses][field2]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes. i have a disability or have had one in the past. yes. i have a disability or have had one in the past. why are you being asked to complete this form? we are a federal contractor or subcontractor. the law requires us to provide equal employment opportunity to qualified people with disabilities. we have a goal of having at least 7% of our workers as people with disabilities. the law says we must measure our progress towards this goal. to do this, we must ask applicants and employees if they have a disability or have ever had one. people can become disabled, so we need to ask this question at least every five years. completing this form is voluntary, and we hope that you will choose to do so. your answer is confidential. no one who makes hiring decisions will see it. your decision to complete the form and your answer will not harm you in any way. if you want to learn more about the law or this form, visit the u.s. department of labor’s office of federal contract compliance programs (ofccp) website at www.dol.gov/ofccp. how do you know if you have a disability? a disability is a condition that substantially limits one or more of your “major life activities.” if you have or have ever had such a condition, you are a person with a disability. disabilities include, but are not limited to: · alcohol or other substance use disorder (not currently using drugs illegally) · autoimmune disorder, for example, lupus, fibromyalgia, rheumatoid arthritis, hiv/aids · blind or low vision · cancer (past or present) · cardiovascular or heart disease · celiac disease · cerebral palsy · deaf or serious difficulty hearing · diabetes · disfigurement, for example, disfigurement caused by burns, wounds, accidents, or congenital disorders · epilepsy or other seizure disorder · gastrointestinal disorders, for example, crohn's disease, irritable bowel syndrome · intellectual or developmental disability · mental health conditions, for example, depression, bipolar disorder, anxiety disorder, schizophrenia, ptsd · missing limbs or partially missing limbs · mobility impairment, benefiting from the use of a wheelchair, scooter, walker, leg brace(s) and/or other supports · nervous system condition, for example, migraine headaches, parkinson’s disease, multiple sclerosis (ms) · neurodivergence, for example, attention-deficit/hyperactivity disorder (adhd), autism spectrum disorder, dyslexia, dyspraxia, other learning disabilities · partial or complete paralysis (any cause) · pulmonary or respiratory conditions, for example, tuberculosis, asthma, emphysema · short stature (dwarfism) · traumatic brain injury",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes. I have a disability or have had one in the past.",
+        "No. I do not have a disability and have not had one in the past.",
+        "Decline to answer"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "surveysResponses[a67a9ad4-5213-4bda-a7fc-f783fc447a62][responses][field3]",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

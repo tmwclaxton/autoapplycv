@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Toggle chips</title></head>
+<body>
+<main><h1>Toggle chips</h1><form action="/apply" method="post">
+<label for="ix-name-16">Full name</label>
+<input type="text" id="ix-name-16" name="ix-name-16">
+<label for="ix-email-16">Email address</label>
+<input type="email" id="ix-email-16" name="ix-email-16">
+<label for="ix-phone-16">Phone number</label>
+<input type="tel" id="ix-phone-16" name="ix-phone-16">
+<button type="button" data-reveal="#toggle-panel-16">Toggle preferences</button>
+<div id="toggle-panel-16" hidden style="display:none">
+<div role="group" aria-labelledby="pref-lbl-16">
+<span id="pref-lbl-16">Work preferences</span>
+<div role="checkbox" aria-checked="false">Flexible hours</div>
+<div role="checkbox" aria-checked="false">Travel</div>
+<div role="checkbox" aria-checked="false">On-site</div>
+</div>
+</div></form></main>
+</body>
+</html>

@@ -1,0 +1,103 @@
+{
+  "id": "web-careers-usap-icims-com-job",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "search",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "keys",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "start your job search here start your job search here start your job search here",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jsb_f_keywords_i",
+        "name": "searchKeyword",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "category category",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "Accounting/Finance",
+        "Administrative",
+        "Anesthesiologist",
+        "CAA",
+        "Clinical",
+        "Human Resources",
+        "Information Technology",
+        "Legal/Compliance",
+        "Operations",
+        "Other",
+        "Revenue Cycle Management"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_position_s",
+        "name": "searchCategory",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work location work location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "(Current Location)",
+        "Remote",
+        "FL-Orlando",
+        "TX-Austin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_location_s",
+        "name": "searchLocation",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "zip code zip code",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jsb_f_zipcode_i",
+        "name": "searchZip",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

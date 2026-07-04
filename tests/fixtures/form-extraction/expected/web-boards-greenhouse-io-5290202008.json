@@ -4,116 +4,244 @@
   "exact_field_count": 16,
   "fields": [
     {
-      "question": "first name first name first name first_name first name",
+      "question": "first name first name first name first name",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "first_name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "last name last name last name last_name last name",
+      "question": "last name last name last name last name",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "last_name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "preferred first name preferred first name preferred first name preferred_name preferred first name",
+      "question": "preferred first name preferred first name preferred first name preferred first name",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "preferred_name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email email email email email",
+      "question": "email email email email",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "email",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "phone",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "country",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "location (city) location (city) candidate-location first name",
+      "question": "location (city) location (city) first name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate-location",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
       "question": "first name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "linkedin profile linkedin profile linkedin profile question_16872269008 linkedin profile",
+      "question": "linkedin profile linkedin profile linkedin profile linkedin profile",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_16872269008",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "website website website question_16872270008 website",
+      "question": "website website website website",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_16872270008",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "are you eligible to work in the united states? are you eligible to work in the united states? question_16872271008 linkedin profile",
+      "question": "are you eligible to work in the united states? are you eligible to work in the united states? linkedin profile",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_16872271008",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
       "question": "linkedin profile",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "will you now, or in the future, require any kind of visa sponsorship and/or are you currently working on a student visa? will you now, or in the future, require any kind of visa sponsorship and/or are you currently working on a student visa? question_16872272008 linkedin profile",
+      "question": "will you now, or in the future, require any kind of visa sponsorship and/or are you currently working on a student visa? will you now, or in the future, require any kind of visa sponsorship and/or are you currently working on a student visa? linkedin profile",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_16872272008",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "gender gender gender gender",
+      "question": "gender gender gender",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "gender",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "are you hispanic/latino? are you hispanic/latino? hispanic_ethnicity are you hispanic/latino?",
+      "question": "are you hispanic/latino? are you hispanic/latino? are you hispanic/latino?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "hispanic_ethnicity",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "veteran status veteran status veteran_status veteran status",
+      "question": "veteran status veteran status veteran status",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "veteran_status",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "disability status disability status disability_status disability status",
+      "question": "disability status disability status disability status",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "disability_status",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     }
   ],
   "controls": [

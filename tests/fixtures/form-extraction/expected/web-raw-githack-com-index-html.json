@@ -4,25 +4,49 @@
   "exact_field_count": 3,
   "fields": [
     {
-      "question": "full name: full name: john doe name name",
+      "question": "full name: full name: john doe",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "name",
+        "name": "name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email: email: johndoe@example.com email email",
+      "question": "email: email: johndoe@example.com",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "why do you want this job? why do you want this job? type here... message message",
+      "question": "why do you want this job? why do you want this job? type here...",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "message",
+        "name": "message",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-combobox-023",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "applicant name (9713) applicant name (9713)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cb-name-9713",
+        "name": "cb-name-9713",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email (9713) personal email (9713)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cb-email-9713",
+        "name": "cb-email-9713",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9713) contact number (9713)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cb-phone-9713",
+        "name": "cb-phone-9713",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred location (9713)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "London",
+        "Remote",
+        "Dublin",
+        "Berlin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "combo-list-9713",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

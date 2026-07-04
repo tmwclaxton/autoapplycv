@@ -4,32 +4,64 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "name as on cv name as on cv question_name-as-on-cv question_name-as-on-cv name as on cv",
+      "question": "name as on cv name as on cv name as on cv",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_name-as-on-cv",
+        "name": "question_name-as-on-cv",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "personal email personal email question_personal-email question_personal-email personal email",
+      "question": "personal email personal email personal email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "question_personal-email",
+        "name": "question_personal-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "phone phone question_phone question_phone phone",
+      "question": "phone phone phone",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "question_phone",
+        "name": "question_phone",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "cover letter cover letter cover-letter cover-letter cover letter",
+      "question": "cover letter cover letter cover letter",
       "field_type": "textarea",
       "max_chars": 1000,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter",
+        "name": "cover-letter",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

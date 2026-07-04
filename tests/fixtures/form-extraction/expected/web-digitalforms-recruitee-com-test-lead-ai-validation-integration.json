@@ -1,0 +1,294 @@
+{
+  "id": "web-digitalforms-recruitee-com-test-lead-ai-validation-integration",
+  "min_fields": 15,
+  "exact_field_count": 15,
+  "fields": [
+    {
+      "question": "my information",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-undefined",
+        "name": "candidate.name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "how many years of experience on this position you have?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "up to 1 year",
+        "up to 3 years",
+        "up to 5 years",
+        "up to 8 years",
+        "above 8 years"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6574478.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.6574478.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "what's your seniority level?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Junior",
+        "Mid",
+        "Senior",
+        "Lead"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6574479.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.6574479.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "what is your english language proficiency level?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "A1 (Beginner): Basic phrases, very limited communication.",
+        "A2 (Elementary): Simple tasks, basic professional interactions.",
+        "B1 (Intermediate): Understands main points, handles routine IT discussions.",
+        "B2 (Upper Intermediate): Good operational command, fluent in most IT contexts.",
+        "C1 (Advanced): Highly proficient, effective communication in complex IT scenarios.",
+        "C2 (Proficient): Near-native fluency, comprehensive understanding for any IT role."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6574480.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.6574480.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "what is your polish language proficiency level?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "A1 (Beginner): Basic phrases, very limited communication.",
+        "A2 (Elementary): Simple tasks, basic professional interactions.",
+        "B1 (Intermediate): Understands main points, handles routine IT discussions.",
+        "B2 (Upper Intermediate): Good operational command, fluent in most IT contexts.",
+        "C1 (Advanced): Highly proficient, effective communication in complex IT scenarios.",
+        "C2 (Proficient): Near-native fluency, comprehensive understanding for any IT role."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6574481.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.6574481.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you have a polish business entity that can invoice b2b, or are you willing to set one up before starting?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6574482.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.6574482.flag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "what is your preferred b2b net hourly rate [pln]? please keep in mind that this rate should cover the use of your own computer and any vacation time, as we don't offer paid leave or benefits. it's easier to divide your expected salary by 168 hours.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        ">50 PLN",
+        "50-80 PLN",
+        "80-110 PLN",
+        "110-130 PLN",
+        "130-150 PLN",
+        "150-180 PLN",
+        "180-190 PLN",
+        ">190 PLN"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6574483.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.6574483.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "are you open to rate negotiation?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6574484.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.6574484.flag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "questions",
+      "field_type": "date",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "date",
+        "id": "input-candidate.openQuestionAnswers.6574485.content-undefined",
+        "name": "candidate.openQuestionAnswers.6574485.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "are you looking for a full-time commitment with your next role, or are you seeking something more flexible or parallel to other engagements?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Part time",
+        "Full time",
+        "Both"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.6574486.multiContent-undefined-0",
+        "name": "candidate.openQuestionAnswers.6574486.multiContent",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "are you currently employed anywhere?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6574487.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.6574487.flag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "can you work on your computer?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6574490.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.6574490.flag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "would occasional international travel be acceptable to you if required for this position?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6574491.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.6574491.flag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "we have most of our clients in western countries. are you able to work in 2 to 6 pm overlap?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6574492.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.6574492.flag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "this role requires both defining the qa strategy and personally executing tests (hands-on) until the team scales. which statement best describes your preference?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I prefer a pure management / strategy role without hands-on testing",
+        "I prefer mostly hands-on execution, with limited strategy ownership",
+        "I’m comfortable doing both strategy and hands-on test execution"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6574493.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.6574493.content",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

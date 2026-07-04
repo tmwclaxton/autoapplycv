@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-checkbox-028",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "your name (9778) your name (9778)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "chk-name-9778",
+        "name": "chk-name-9778",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email (9778) personal email (9778)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "chk-email-9778",
+        "name": "chk-email-9778",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9778) contact number (9778)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "chk-phone-9778",
+        "name": "chk-phone-9778",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "key skills (9778)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Go",
+        "TypeScript",
+        "Python",
+        "Rust"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "skills-group-9778",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

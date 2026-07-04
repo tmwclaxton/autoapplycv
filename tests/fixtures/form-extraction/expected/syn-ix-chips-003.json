@@ -1,0 +1,42 @@
+{
+  "id": "syn-ix-chips-003",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "your name your name ix-name-15 ix-name-15",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "personal email personal email ix-email-15 ix-email-15",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "telephone telephone ix-phone-15 ix-phone-15",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "core competencies",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "React",
+        "Vue",
+        "Svelte",
+        "Angular"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

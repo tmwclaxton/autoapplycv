@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-combobox-009",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "preferred name (9699) preferred name (9699)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cb-name-9699",
+        "name": "cb-name-9699",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application email (9699) application email (9699)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cb-email-9699",
+        "name": "cb-email-9699",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9699) mobile number (9699)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cb-phone-9699",
+        "name": "cb-phone-9699",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work location (9699)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Remote",
+        "London",
+        "Hybrid",
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "combo-list-9699",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

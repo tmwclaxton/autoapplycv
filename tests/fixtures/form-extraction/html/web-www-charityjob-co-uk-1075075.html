@@ -1,0 +1,1878 @@
+
+
+
+<!doctype html>
+<html lang="en-GB">
+<head>
+    
+<meta charset="utf-8">
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+
+
+    <meta http-equiv='content-language' content='en-GB'>
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge"><script type="text/javascript">window.NREUM||(NREUM={});NREUM.info = {"beacon":"bam.nr-data.net","errorBeacon":"bam.nr-data.net","licenseKey":"952bddc70e","applicationID":"8839495","transactionName":"NAYDbUUEWkoCVUMMDg1MLG90Sn5WAUUYLw4BJwRNVgxYFhhcWAclBhcAUFs1VUsCW0QY","queueTime":0,"applicationTime":23,"agent":"","atts":""}</script><script type="text/javascript">(window.NREUM||(NREUM={})).init={ajax:{deny_list:[],capture_payloads:"none"},api:{register:{duplicate_data_to_container:false,enabled:true}},session_trace:{sampling_rate:0.0,mode:"FIXED_RATE",enabled:true,error_sampling_rate:0.0},feature_flags:["soft_nav"],performance:{capture_marks:false,capture_detail:false,capture_measures:true},browser_consent_mode:{enabled:false}};(window.NREUM||(NREUM={})).loader_config={licenseKey:"952bddc70e",applicationID:"8839495",browserID:"8839500"};;/*! For license information please see nr-loader-rum-1.317.0.min.js.LICENSE.txt */
+(()=>{var e,t,r={384(e,t,r){"use strict";r.d(t,{NT:()=>a,Zm:()=>c,bQ:()=>d,dV:()=>u,pV:()=>l});var n=r(6154),i=r(1863),s=r(944),o=r(1910);const a={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net"};function c(){return n.gm.NREUM||(n.gm.NREUM={}),void 0===n.gm.newrelic&&(n.gm.newrelic=n.gm.NREUM),n.gm.NREUM}function u(){let e=c();return e.o||(e.o={ST:n.gm.setTimeout,SI:n.gm.setImmediate||n.gm.setInterval,CT:n.gm.clearTimeout,XHR:n.gm.XMLHttpRequest,REQ:n.gm.Request,EV:n.gm.Event,PR:n.gm.Promise,MO:n.gm.MutationObserver,FETCH:n.gm.fetch,WS:n.gm.WebSocket},(0,o.i)(...Object.values(e.o))),e}function d(e,t){let r=c();r.initializedAgents??={},t.initializedAt={ms:(0,i.t)(),date:new Date},r.initializedAgents[e]=t,2===Object.keys(r.initializedAgents).length&&(0,s.R)(69)}function l(){return function(){let e=c();const t=e.info||{};e.info={beacon:a.beacon,errorBeacon:a.errorBeacon,...t}}(),function(){let e=c();const t=e.init||{};e.init={...t}}(),u(),function(){let e=c();const t=e.loader_config||{};e.loader_config={...t}}(),c()}},782(e,t,r){"use strict";r.d(t,{T:()=>n});const n=r(860).K7.pageViewTiming},860(e,t,r){"use strict";r.d(t,{$J:()=>d,K7:()=>c,P3:()=>u,XX:()=>i,Yy:()=>a,df:()=>s,qY:()=>n,v4:()=>o});const n="events",i="jserrors",s="browser/blobs",o="rum",a="browser/logs",c={ajax:"ajax",genericEvents:"generic_events",jserrors:i,logging:"logging",metrics:"metrics",pageAction:"page_action",pageViewEvent:"page_view_event",pageViewTiming:"page_view_timing",sessionReplay:"session_replay",sessionTrace:"session_trace",softNav:"soft_navigations"},u={[c.pageViewEvent]:1,[c.pageViewTiming]:2,[c.metrics]:3,[c.jserrors]:4,[c.softNav]:5,[c.ajax]:6,[c.sessionTrace]:7,[c.sessionReplay]:8,[c.logging]:9,[c.genericEvents]:10},d={[c.pageViewEvent]:o,[c.pageViewTiming]:n,[c.ajax]:n,[c.softNav]:n,[c.metrics]:i,[c.jserrors]:i,[c.sessionTrace]:s,[c.sessionReplay]:s,[c.logging]:a,[c.genericEvents]:"ins"}},944(e,t,r){"use strict";r.d(t,{R:()=>i});var n=r(3241);function i(e,t){"function"==typeof console.debug&&(console.debug("New Relic Warning: https://github.com/newrelic/newrelic-browser-agent/blob/main/docs/warning-codes.md#".concat(e),t),(0,n.W)({drained:null,type:"data",name:"warn",feature:"warn",data:{code:e,secondary:t}}))}},981(e,t,r){"use strict";r.d(t,{R:()=>n});const n={AJAX:"AjaxRequest",PA:"PageAction",UA:"UserAction",BP:"BrowserPerformance",WS:"WebSocket",SPV:"SecurityPolicyViolation",JSE:"JavaScriptError",LOG:"Log",PVE:"PageView",PVT:"PageViewTiming",SR:"SessionReplay",ST:"SessionTrace",BI:"BrowserInteraction"}},1687(e,t,r){"use strict";r.d(t,{Ak:()=>a,Ze:()=>u,x3:()=>c});var n=r(3241),i=r(3606),s=r(860),o=r(2646);function a(e,t){if(!e)return;const r={staged:!1,priority:s.P3[t]||0};e.runtime.drainRegistry.get(t)||e.runtime.drainRegistry.set(t,r)}function c(e,t){if(!e)return;const r=e.runtime.drainRegistry;r&&(r.get(t)&&r.delete(t),l(e,t,!1),r.size&&d(e))}function u(e,t="feature",r=!1){if(e){if(!e.runtime.drainRegistry.get(t)||r)return l(e,t);e.runtime.drainRegistry.get(t).staged=!0,d(e)}}function d(e){if(!e)return;const t=Array.from(e.runtime.drainRegistry);t.every(([e,t])=>t.staged)&&(t.sort((e,t)=>e[1].priority-t[1].priority),t.forEach(([t])=>{e.runtime.drainRegistry.delete(t),l(e,t)}))}function l(e,t,r=!0){if(!e)return;const s=e.ee,a=i.i.handlers;if(s&&!s.aborted&&s.backlog&&a){if((0,n.W)({type:"lifecycle",name:"drain",feature:t}),r){const e=s.backlog[t],r=a[t];if(r){for(let t=0;e&&t<e.length;++t)f(e[t],r);Object.entries(r).forEach(([e,t])=>{Object.values(t||{}).forEach(t=>{t[0]?.on&&t[0].context()instanceof o.y&&!t[0].listeners(e).includes(t[1])&&t[0].on(e,t[1])})})}}s.isolatedBacklog||delete a[t],s.backlog[t]=null,s.emit("drain-"+t,[])}}function f(e,t){var r=e[1];Object.values(t[r]||{}).forEach(t=>{var r=e[0];if(t[0]===r){var n=t[1],i=e[3],s=e[2];n.apply(i,s)}})}},1738(e,t,r){"use strict";r.d(t,{U:()=>f,Y:()=>l});var n=r(3241),i=r(9908),s=r(1863),o=r(944),a=r(3969),c=r(8362),u=r(860),d=r(4261);function l(e,t,r,s){const l=s||r;!l||l[e]&&l[e]!==c.d.prototype[e]||(l[e]=function(){(0,i.p)(a.xV,["API/"+e+"/called"],void 0,u.K7.metrics,r.ee),(0,n.W)({drained:!!r.runtime?.activatedFeatures,type:"data",name:"api",feature:d.Pl+e,data:{}});try{return t.apply(this,arguments)}catch(e){(0,o.R)(23,e)}})}function f(e,t,r,n,o){const a=e.info;null===r?delete a.jsAttributes[t]:a.jsAttributes[t]=r,(o||null===r)&&(0,i.p)(d.Pl+n,[(0,s.t)(),t,r],void 0,"session",e.ee)}},1741(e,t,r){"use strict";r.d(t,{W:()=>s});var n=r(944),i=r(4261);class s{#e(e,...t){if(this[e]!==s.prototype[e])return this[e](...t);(0,n.R)(35,e)}addPageAction(e,t){return this.#e(i.hG,e,t)}register(e){return this.#e(i.eY,e)}recordCustomEvent(e,t){return this.#e(i.fF,e,t)}setPageViewName(e,t){return this.#e(i.Fw,e,t)}setCustomAttribute(e,t,r){return this.#e(i.cD,e,t,r)}noticeError(e,t){return this.#e(i.o5,e,t)}setUserId(e,t=!1){return this.#e(i.Dl,e,t)}setApplicationVersion(e){return this.#e(i.nb,e)}setErrorHandler(e){return this.#e(i.bt,e)}addRelease(e,t){return this.#e(i.k6,e,t)}log(e,t){return this.#e(i.$9,e,t)}start(){return this.#e(i.d3)}finished(e){return this.#e(i.BL,e)}recordReplay(){return this.#e(i.CH)}pauseReplay(){return this.#e(i.Tb)}addToTrace(e){return this.#e(i.U2,e)}setCurrentRouteName(e){return this.#e(i.PA,e)}interaction(e){return this.#e(i.dT,e)}wrapLogger(e,t,r){return this.#e(i.Wb,e,t,r)}measure(e,t){return this.#e(i.V1,e,t)}consent(e){return this.#e(i.Pv,e)}}},1863(e,t,r){"use strict";function n(){return Math.floor(performance.now())}r.d(t,{t:()=>n})},1910(e,t,r){"use strict";r.d(t,{i:()=>s});var n=r(944);const i=new Map;function s(...e){return e.every(e=>{if(i.has(e))return i.get(e);const t="function"==typeof e?e.toString():"",r=t.includes("[native code]"),s=t.includes("nrWrapper");return r||s||(0,n.R)(64,e?.name||t),i.set(e,r),r})}},2555(e,t,r){"use strict";r.d(t,{D:()=>a,f:()=>o});var n=r(384),i=r(8122);const s={beacon:n.NT.beacon,errorBeacon:n.NT.errorBeacon,licenseKey:void 0,applicationID:void 0,sa:void 0,queueTime:void 0,applicationTime:void 0,ttGuid:void 0,user:void 0,account:void 0,product:void 0,extra:void 0,jsAttributes:{},userAttributes:void 0,atts:void 0,transactionName:void 0,tNamePlain:void 0};function o(e){try{return!!e.licenseKey&&!!e.errorBeacon&&!!e.applicationID}catch(e){return!1}}const a=e=>(0,i.a)(e,s)},2614(e,t,r){"use strict";r.d(t,{BB:()=>s,Wt:()=>n,g:()=>c,iL:()=>a,tS:()=>o,wk:()=>i});const n="NRBA_SESSION::",i=144e5,s=18e5,o={STARTED:"session-started",PAUSE:"session-pause",RESET:"session-reset",RESUME:"session-resume",UPDATE:"session-update"},a={SAME_TAB:"same-tab",CROSS_TAB:"cross-tab"},c={OFF:0,FULL:1,ERROR:2}},2646(e,t,r){"use strict";r.d(t,{y:()=>n});class n{constructor(e){this.contextId=e}}},2843(e,t,r){"use strict";r.d(t,{G:()=>s,u:()=>i});var n=r(3878);function i(e,t=!1,r,i){(0,n.DD)("visibilitychange",function(){if(t)return void("hidden"===document.visibilityState&&e());e(document.visibilityState)},r,i)}function s(e,t,r){(0,n.sp)("pagehide",e,t,r)}},3241(e,t,r){"use strict";r.d(t,{W:()=>i});var n=r(6154);function i(e={}){try{n.gm.dispatchEvent(new CustomEvent("newrelic",{detail:e}))}catch(e){}}},3606(e,t,r){"use strict";r.d(t,{i:()=>s});var n=r(9908);s.on=o;var i=s.handlers={};function s(e,t,r,s){o(s||n.d,i,e,t,r)}function o(e,t,r,i,s){s||(s="feature"),e||(e=n.d);var o=t[s]=t[s]||{};(o[r]=o[r]||[]).push([e,i])}},3878(e,t,r){"use strict";function n(e,t){return{capture:e,passive:!1,signal:t}}function i(e,t,r=!1,i){window.addEventListener(e,t,n(r,i))}function s(e,t,r=!1,i){document.addEventListener(e,t,n(r,i))}r.d(t,{DD:()=>s,jT:()=>n,sp:()=>i})},3969(e,t,r){"use strict";r.d(t,{TZ:()=>n,XG:()=>a,rs:()=>i,xV:()=>o,z_:()=>s});const n=r(860).K7.metrics,i="sm",s="cm",o="storeSupportabilityMetrics",a="storeEventMetrics"},4234(e,t,r){"use strict";r.d(t,{W:()=>i});var n=r(1687);class i{constructor(e,t){this.agentRef=e,this.ee=e?.ee,this.featureName=t,this.blocked=!1}deregisterDrain(){(0,n.x3)(this.agentRef,this.featureName)}}},4261(e,t,r){"use strict";r.d(t,{$9:()=>u,BL:()=>a,CH:()=>g,Dl:()=>_,Fw:()=>y,PA:()=>h,Pl:()=>n,Pv:()=>A,Tb:()=>l,U2:()=>s,V1:()=>x,Wb:()=>R,bt:()=>b,cD:()=>v,d3:()=>w,dT:()=>c,eY:()=>p,fF:()=>f,hG:()=>i,k6:()=>o,nb:()=>m,o5:()=>d});const n="api-",i="addPageAction",s="addToTrace",o="addRelease",a="finished",c="interaction",u="log",d="noticeError",l="pauseReplay",f="recordCustomEvent",g="recordReplay",p="register",m="setApplicationVersion",h="setCurrentRouteName",v="setCustomAttribute",b="setErrorHandler",y="setPageViewName",_="setUserId",w="start",R="wrapLogger",x="measure",A="consent"},5289(e,t,r){"use strict";r.d(t,{GG:()=>o,Qr:()=>c,sB:()=>a});var n=r(3878),i=r(6389);function s(){return"undefined"==typeof document||"complete"===document.readyState}function o(e,t){if(s())return e();const r=(0,i.J)(e),o=setInterval(()=>{s()&&(clearInterval(o),r())},500);(0,n.sp)("load",r,t)}function a(e){if(s())return e();(0,n.DD)("DOMContentLoaded",e)}function c(e){if(s())return e();(0,n.sp)("popstate",e)}},5607(e,t,r){"use strict";r.d(t,{W:()=>n});const n=(0,r(9566).bz)()},6154(e,t,r){"use strict";r.d(t,{OF:()=>u,RI:()=>i,WN:()=>l,bv:()=>s,gm:()=>o,m:()=>c,mw:()=>a,sb:()=>d,zk:()=>f});var n=r(1863);const i="undefined"!=typeof window&&!!window.document,s="undefined"!=typeof WorkerGlobalScope&&("undefined"!=typeof self&&self instanceof WorkerGlobalScope&&self.navigator instanceof WorkerNavigator||"undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope&&globalThis.navigator instanceof WorkerNavigator),o=i?window:"undefined"!=typeof WorkerGlobalScope&&("undefined"!=typeof self&&self instanceof WorkerGlobalScope&&self||"undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope&&globalThis),a=Boolean("hidden"===o?.document?.visibilityState),c=""+o?.location,u=/iPad|iPhone|iPod/.test(o.navigator?.userAgent),d=u&&"undefined"==typeof SharedWorker,l=((()=>{const e=o.navigator?.userAgent?.match(/Firefox[/\s](\d+\.\d+)/);Array.isArray(e)&&e.length>=2&&e[1]})(),Date.now()-(0,n.t)()),f=()=>{const e=o?.performance?.getEntriesByType?.("navigation")?.[0];if(e&&e.responseStart>0&&e.responseStart<o.performance.now())return e}},6389(e,t,r){"use strict";function n(e,t=500,r={}){const n=r?.leading||!1;let i;return(...r)=>{n&&void 0===i&&(e.apply(this,r),i=setTimeout(()=>{i=clearTimeout(i)},t)),n||(clearTimeout(i),i=setTimeout(()=>{e.apply(this,r)},t))}}function i(e){let t=!1;return(...r)=>{t||(t=!0,e.apply(this,r))}}r.d(t,{J:()=>i,s:()=>n})},6630(e,t,r){"use strict";r.d(t,{T:()=>n});const n=r(860).K7.pageViewEvent},7699(e,t,r){"use strict";r.d(t,{It:()=>s,KC:()=>a,No:()=>i,qh:()=>o});var n=r(860);const i=16e3,s=1e6,o="SESSION_ERROR",a={[n.K7.logging]:!0,[n.K7.genericEvents]:!0,[n.K7.jserrors]:!0,[n.K7.ajax]:!0}},7836(e,t,r){"use strict";r.d(t,{P:()=>a,ee:()=>c});var n=r(384),i=r(8990),s=r(2646),o=r(5607);const a="nr@context:".concat(o.W),c=function e(t,r){var n={},o={},d={},l=!1;try{l=16===r.length&&u.initializedAgents?.[r]?.runtime.isolatedBacklog}catch(e){}var f={on:p,addEventListener:p,removeEventListener:function(e,t){var r=n[e];if(!r)return;for(var i=0;i<r.length;i++)r[i]===t&&r.splice(i,1)},emit:function(e,r,n,i,s){!1!==s&&(s=!0);if(c.aborted&&!i)return;t&&s&&t.emit(e,r,n);var a=g(n);m(e).forEach(e=>{e.apply(a,r)});var u=v()[o[e]];u&&u.push([f,e,r,a]);return a},get:h,listeners:m,context:g,buffer:function(e,t){const r=v();if(t=t||"feature",f.aborted)return;Object.entries(e||{}).forEach(([e,n])=>{o[n]=t,t in r||(r[t]=[])})},abort:function(){f._aborted=!0,Object.keys(f.backlog).forEach(e=>{delete f.backlog[e]})},isBuffering:function(e){return!!v()[o[e]]},debugId:r,backlog:l?{}:t&&"object"==typeof t.backlog?t.backlog:{},isolatedBacklog:l};return Object.defineProperty(f,"aborted",{get:()=>{let e=f._aborted||!1;return e||(t&&(e=t.aborted),e)}}),f;function g(e){return e&&e instanceof s.y?e:e?(0,i.I)(e,a,()=>new s.y(a)):new s.y(a)}function p(e,t){n[e]=m(e).concat(t)}function m(e){return n[e]||[]}function h(t){return d[t]=d[t]||e(f,t)}function v(){return f.backlog}}(void 0,"globalEE"),u=(0,n.Zm)();u.ee||(u.ee=c)},8122(e,t,r){"use strict";r.d(t,{a:()=>i});var n=r(944);function i(e,t){try{if(!e||"object"!=typeof e)return(0,n.R)(3);if(!t||"object"!=typeof t)return(0,n.R)(4);const r=Object.create(Object.getPrototypeOf(t),Object.getOwnPropertyDescriptors(t)),s=0===Object.keys(r).length?e:r;for(let o in s)if(void 0!==e[o])try{if(null===e[o]){r[o]=null;continue}Array.isArray(e[o])&&Array.isArray(t[o])?r[o]=Array.from(new Set([...e[o],...t[o]])):e[o]instanceof Map||e[o]instanceof Set||e[o]instanceof Date||e[o]instanceof RegExp?r[o]=e[o]:"object"==typeof e[o]&&"object"==typeof t[o]?r[o]=i(e[o],t[o]):r[o]=e[o]}catch(e){r[o]||(0,n.R)(1,e)}return r}catch(e){(0,n.R)(2,e)}}},8362(e,t,r){"use strict";r.d(t,{d:()=>s});var n=r(9566),i=r(1741);class s extends i.W{agentIdentifier=(0,n.LA)(16)}},8374(e,t,r){r.nc=(()=>{try{return document?.currentScript?.nonce}catch(e){}return""})()},8990(e,t,r){"use strict";r.d(t,{I:()=>i});var n=Object.prototype.hasOwnProperty;function i(e,t,r){if(n.call(e,t))return e[t];var i=r();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:i,writable:!0,enumerable:!1}),i}catch(e){}return e[t]=i,i}},9324(e,t,r){"use strict";r.d(t,{F3:()=>i,Xs:()=>s,xv:()=>n});const n="1.317.0",i="PROD",s="CDN"},9566(e,t,r){"use strict";r.d(t,{LA:()=>o,bz:()=>s});var n=r(6154);function i(e,t){return e?15&e[t]:16*Math.random()|0}function s(){const e=n.gm?.crypto||n.gm?.msCrypto;let t,r=0;return e&&e.getRandomValues&&(t=e.getRandomValues(new Uint8Array(30))),"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".split("").map(e=>"x"===e?i(t,r++).toString(16):"y"===e?(3&i()|8).toString(16):e).join("")}function o(e){const t=n.gm?.crypto||n.gm?.msCrypto;let r,s=0;t&&t.getRandomValues&&(r=t.getRandomValues(new Uint8Array(e)));const o=[];for(var a=0;a<e;a++)o.push(i(r,s++).toString(16));return o.join("")}},9908(e,t,r){"use strict";r.d(t,{d:()=>n,p:()=>i});var n=r(7836).ee.get("handle");function i(e,t,r,i,s){s?(s.buffer([e],i),s.emit(e,t,r)):(n.buffer([e],i),n.emit(e,t,r))}}},n={};function i(e){var t=n[e];if(void 0!==t)return t.exports;var s=n[e]={exports:{}};return r[e](s,s.exports,i),s.exports}i.m=r,i.d=(e,t)=>{for(var r in t)i.o(t,r)&&!i.o(e,r)&&Object.defineProperty(e,r,{enumerable:!0,get:t[r]})},i.f={},i.e=e=>Promise.all(Object.keys(i.f).reduce((t,r)=>(i.f[r](e,t),t),[])),i.u=e=>"nr-rum-1.317.0.min.js",i.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),e={},t="NRBA-1.317.0.PROD:",i.l=(r,n,s,o)=>{if(e[r])e[r].push(n);else{var a,c;if(void 0!==s)for(var u=document.getElementsByTagName("script"),d=0;d<u.length;d++){var l=u[d];if(l.getAttribute("src")==r||l.getAttribute("data-webpack")==t+s){a=l;break}}if(!a){c=!0;var f={296:"sha512-dDeLB65HNhC/52vAGvWxqlhzdrCMMyKyfDMLuD3glK6yvtLAoc7fLRa5TyYwZurrYnIgxKx6VGqcGByXhK/6SA=="};(a=document.createElement("script")).charset="utf-8",i.nc&&a.setAttribute("nonce",i.nc),a.setAttribute("data-webpack",t+s),a.src=r,0!==a.src.indexOf(window.location.origin+"/")&&(a.crossOrigin="anonymous"),f[o]&&(a.integrity=f[o])}e[r]=[n];var g=(t,n)=>{a.onerror=a.onload=null,clearTimeout(p);var i=e[r];if(delete e[r],a.parentNode&&a.parentNode.removeChild(a),i&&i.forEach(e=>e(n)),t)return t(n)},p=setTimeout(g.bind(null,void 0,{type:"timeout",target:a}),12e4);a.onerror=g.bind(null,a.onerror),a.onload=g.bind(null,a.onload),c&&document.head.appendChild(a)}},i.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},i.p="https://js-agent.newrelic.com/",(()=>{var e={374:0,840:0};i.f.j=(t,r)=>{var n=i.o(e,t)?e[t]:void 0;if(0!==n)if(n)r.push(n[2]);else{var s=new Promise((r,i)=>n=e[t]=[r,i]);r.push(n[2]=s);var o=i.p+i.u(t),a=new Error;i.l(o,r=>{if(i.o(e,t)&&(0!==(n=e[t])&&(e[t]=void 0),n)){var s=r&&("load"===r.type?"missing":r.type),o=r&&r.target&&r.target.src;a.message="Loading chunk "+t+" failed: ("+s+": "+o+")",a.name="ChunkLoadError",a.type=s,a.request=o,n[1](a)}},"chunk-"+t,t)}};var t=(t,r)=>{var n,s,[o,a,c]=r,u=0;if(o.some(t=>0!==e[t])){for(n in a)i.o(a,n)&&(i.m[n]=a[n]);if(c)c(i)}for(t&&t(r);u<o.length;u++)s=o[u],i.o(e,s)&&e[s]&&e[s][0](),e[s]=0},r=self["webpackChunk:NRBA-1.317.0.PROD"]=self["webpackChunk:NRBA-1.317.0.PROD"]||[];r.forEach(t.bind(null,0)),r.push=t.bind(null,r.push.bind(r))})(),(()=>{"use strict";i(8374);var e=i(8362),t=i(860);const r=Object.values(t.K7);var n=i(384),s=i(1741);var o=i(2555),a=i(981);t.K7.genericEvents,a.R.PA,a.R.UA,a.R.BP;const c="experimental.resources",u="register",d=(t.K7.ajax,"none"),l=e=>{if(!e||"string"!=typeof e)return!1;try{document.createDocumentFragment().querySelector(e)}catch{return!1}return!0};var f=i(2614),g=i(944),p=i(8122);const m="[data-nr-mask]",h=e=>(0,p.a)(e,(()=>{const e={feature_flags:[],experimental:{register:!1,resources:!1},mask_selector:"*",block_selector:"[data-nr-block]",mask_input_options:{color:!1,date:!1,"datetime-local":!1,email:!1,month:!1,number:!1,range:!1,search:!1,tel:!1,text:!1,time:!1,url:!1,week:!1,textarea:!1,select:!1,password:!0}};return{ajax:{deny_list:void 0,block_internal:!0,enabled:!0,autoStart:!0,capture_payloads:d},api:{register:{get enabled(){return e.feature_flags.includes(u)||e.experimental.register},set enabled(t){e.experimental.register=t},duplicate_data_to_container:!1}},browser_consent_mode:{enabled:!1},distributed_tracing:{enabled:void 0,exclude_newrelic_header:void 0,cors_use_newrelic_header:void 0,cors_use_tracecontext_headers:void 0,allowed_origins:void 0},get feature_flags(){return e.feature_flags},set feature_flags(t){e.feature_flags=t},generic_events:{enabled:!0,autoStart:!0},harvest:{interval:30},jserrors:{enabled:!0,autoStart:!0},logging:{enabled:!0,autoStart:!0},metrics:{enabled:!0,autoStart:!0},obfuscate:void 0,page_action:{enabled:!0},page_view_event:{enabled:!0,autoStart:!0},page_view_timing:{enabled:!0,autoStart:!0},performance:{capture_marks:!1,capture_measures:!1,capture_detail:!0,resources:{get enabled(){return e.feature_flags.includes(c)||e.experimental.resources},set enabled(t){e.experimental.resources=t},asset_types:[],first_party_domains:[],ignore_newrelic:!0}},privacy:{cookies_enabled:!0},proxy:{assets:void 0,beacon:void 0},session:{expiresMs:f.wk,inactiveMs:f.BB},session_replay:{autoStart:!0,enabled:!1,preload:!1,sampling_rate:10,error_sampling_rate:100,collect_fonts:!1,inline_images:!1,fix_stylesheets:!0,mask_all_inputs:!0,get mask_text_selector(){return e.mask_selector},set mask_text_selector(t){l(t)?e.mask_selector="".concat(t,",").concat(m):""===t||null===t?e.mask_selector=m:(0,g.R)(5,t)},get block_class(){return"nr-block"},get ignore_class(){return"nr-ignore"},get mask_text_class(){return"nr-mask"},get block_selector(){return e.block_selector},set block_selector(t){l(t)?e.block_selector+=",".concat(t):""!==t&&(0,g.R)(6,t)},get mask_input_options(){return e.mask_input_options},set mask_input_options(t){t&&"object"==typeof t?e.mask_input_options={...t,password:!0}:(0,g.R)(7,t)}},session_trace:{enabled:!0,autoStart:!0},soft_navigations:{enabled:!0,autoStart:!0},ssl:void 0,user_actions:{enabled:!0,elementAttributes:["id","className","tagName","type"]}}})());var v=i(6154),b=i(9324);let y=0;const _={buildEnv:b.F3,distMethod:b.Xs,version:b.xv,originTime:v.WN},w={consented:!1},R={activatedFeatures:void 0,appMetadata:{},configured:!1,get consented(){return this.session?.state?.consent||w.consented},set consented(e){w.consented=e},customTransaction:void 0,denyList:[],disabled:!1,drainRegistry:new Map,harvester:void 0,isolatedBacklog:!1,isRecording:!1,loaderType:void 0,maxBytes:3e4,obfuscator:void 0,onerror:void 0,ptid:void 0,releaseIds:{},session:void 0,timeKeeper:void 0,registeredEntities:[],jsAttributesMetadata:{bytes:0},get harvestCount(){return++y}};var x=i(7836),A=i(3241);const k={accountID:void 0,trustKey:void 0,agentID:void 0,licenseKey:void 0,applicationID:void 0,xpid:void 0};function S(e,t={},r,a){let{init:c,info:u,loader_config:d,runtime:l={},exposed:f=!0}=t;if(!u){const e=(0,n.pV)();c=e.init,u=e.info,d=e.loader_config}var g;e.init=h(c||{}),e.loader_config=(g=d||{},(0,p.a)(g,k)),u.jsAttributes??={},v.bv&&(u.jsAttributes.isWorker=!0),e.info=(0,o.D)(u);const m=e.init;e.runtime??=(e=>{const t=(0,p.a)(e,R),r=Object.keys(_).reduce((e,t)=>(e[t]={value:_[t],writable:!1,configurable:!0,enumerable:!0},e),{});return Object.defineProperties(t,r)})(l),m.proxy.assets&&(e=>{const t=e.startsWith("http");e+="/",i.p=t?e:"https://"+e})(m.proxy.assets),e.runtime.configured||(Object.defineProperty(e,"beacons",{get:()=>[e.info.beacon,e.info.errorBeacon,e.init.proxy.assets,e.init.proxy.beacon].filter(Boolean)}),Object.defineProperty(e.runtime,"denyList",{get:()=>[...e.init.ajax.deny_list||[],...e.init.ajax.block_internal?e.beacons:[]]}),e.runtime.ptid=e.agentIdentifier,function(e){const t=(0,n.pV)();Object.getOwnPropertyNames(s.W.prototype).forEach(r=>{const n=s.W.prototype[r];if("function"!=typeof n||"constructor"===n)return;let i=t[r];e[r]&&!1!==e.exposed&&"micro-agent"!==e.runtime?.loaderType&&(t[r]=(...t)=>{const n=e[r](...t);return i?i(...t):n})})}(e),e.runtime.loaderType=r,e.ee=x.ee.get(e.agentIdentifier),e.exposed=f,(0,A.W)({drained:!!e.runtime.activatedFeatures,type:"lifecycle",name:"initialize",feature:void 0,data:e.config}),e.runtime.configured=!0)}var T=i(9908),E=i(1863),j=i(4261),P=i(1738);var N=i(1687),O=i(4234),M=i(5289);const I=e=>v.RI&&!0===e?.privacy.cookies_enabled;function D(e){return!!(0,n.dV)().o.MO&&I(e)&&!0===e?.session_trace.enabled}var W=i(6389),V=i(7699);const B=new WeakSet;class K extends O.W{constructor(e,t){super(e,t),this.abortHandler=void 0,this.featAggregate=void 0,this.loadedSuccessfully=void 0,this.onAggregateImported=new Promise(e=>{this.loadedSuccessfully=e}),this.deferred=Promise.resolve(),!1===e.init[this.featureName].autoStart?this.deferred=new Promise((t,r)=>{this.ee.on("manual-start-all",(0,W.J)(()=>{(0,N.Ak)(e,this.featureName),t()}))}):(0,N.Ak)(e,t)}importAggregator(e,t,r={}){if(this.featAggregate)return;const n=async()=>{if(await this.deferred,this.#t(e),!(0,o.f)(e.info))return(0,g.R)(43),e.ee.abort(),void this.loadedSuccessfully(!1);let n;try{if(I(e.init)){const{setupAgentSession:t}=await i.e(296).then(i.bind(i,8));n=t(e)}}catch(e){(0,g.R)(20,e),this.ee.emit("internal-error",[e]),(0,T.p)(V.qh,[e],void 0,this.featureName,this.ee)}try{if(!this.#r(this.featureName,n,e.init))return(0,N.Ze)(this.agentRef,this.featureName),void this.loadedSuccessfully(!1);const{Aggregate:i}=await t();this.featAggregate=new i(e,r),e.runtime.harvester.initializedAggregates.push(this.featAggregate),this.loadedSuccessfully(!0)}catch(e){(0,g.R)(34,e),this.abortHandler?.(),(0,N.Ze)(this.agentRef,this.featureName,!0),this.loadedSuccessfully(!1),this.ee&&this.ee.abort()}};v.RI?(0,M.GG)(()=>n(),!0):n()}#r(e,r,n){if(this.blocked)return!1;switch(e){case t.K7.sessionReplay:return D(n)&&!!r;case t.K7.sessionTrace:return!!r;default:return!0}}#t(e){if(!B.has(e)&&(B.add(e),!(0,o.f)(e.info))){const t=(0,n.pV)();let r={...t.info?.jsAttributes};try{r={...r,...e.info?.jsAttributes}}catch(e){}S(e,{...t,info:{...t.info,jsAttributes:r},runtime:e.runtime},e.runtime.loaderType)}}}var C=i(6630);class U extends K{static featureName=C.T;constructor(e){var t;super(e,C.T),this.setupInspectionEvents(),t=e,(0,P.Y)(j.Fw,function(e,r){"string"==typeof e&&("/"!==e.charAt(0)&&(e="/"+e),t.runtime.customTransaction=(r||"http://custom.transaction")+e,(0,T.p)(j.Pl+j.Fw,[(0,E.t)()],void 0,void 0,t.ee))},t),this.importAggregator(e,()=>i.e(296).then(i.bind(i,1324)))}setupInspectionEvents(){const e=(e,t)=>{e&&(0,A.W)({timeStamp:e.timeStamp,loaded:"complete"===e.target.readyState,type:"window",name:t,data:e.target.location+""})};(0,M.sB)(t=>{e(t,"DOMContentLoaded")}),(0,M.GG)(t=>{e(t,"load")}),(0,M.Qr)(t=>{e(t,"navigate")}),this.ee.on(f.tS.UPDATE,(e,t)=>{(0,A.W)({type:"lifecycle",name:"session",data:t})})}}class F extends e.d{constructor(e){var t;(super(),v.gm)?(this.features={},(0,n.bQ)(this.agentIdentifier,this),this.desiredFeatures=new Set(e.features||[]),this.desiredFeatures.add(U),S(this,e,e.loaderType||"agent"),t=this,(0,P.Y)(j.cD,function(e,r,n=!1){if("string"==typeof e){if(["string","number","boolean"].includes(typeof r)||null===r)return(0,P.U)(t,e,r,j.cD,n);(0,g.R)(40,typeof r)}else(0,g.R)(39,typeof e)},t),function(e){(0,P.Y)(j.Dl,function(t,r=!1){if("string"!=typeof t&&null!==t)return void(0,g.R)(41,typeof t);const n=e.info.jsAttributes["enduser.id"];r&&null!=n&&n!==t?(0,T.p)(j.Pl+"setUserIdAndResetSession",[t],void 0,"session",e.ee):(0,P.U)(e,"enduser.id",t,j.Dl,!0)},e)}(this),function(e){(0,P.Y)(j.nb,function(t){if("string"==typeof t||null===t)return(0,P.U)(e,"application.version",t,j.nb,!1);(0,g.R)(42,typeof t)},e)}(this),function(e){(0,P.Y)(j.d3,function(){e.ee.emit("manual-start-all")},e)}(this),function(e){(0,P.Y)(j.Pv,function(t=!0){if("boolean"==typeof t){if((0,T.p)(j.Pl+j.Pv,[t],void 0,"session",e.ee),e.runtime.consented=t,t){const t=e.features.page_view_event;t.onAggregateImported.then(e=>{const r=t.featAggregate;e&&!r.sentRum&&r.sendRum()})}}else(0,g.R)(65,typeof t)},e)}(this),this.run()):(0,g.R)(21)}get config(){return{info:this.info,init:this.init,loader_config:this.loader_config,runtime:this.runtime}}get api(){return this}run(){try{const e=function(e){const t={};return r.forEach(r=>{t[r]=!!e[r]?.enabled}),t}(this.init),n=[...this.desiredFeatures];n.sort((e,r)=>t.P3[e.featureName]-t.P3[r.featureName]),n.forEach(r=>{if(!e[r.featureName]&&r.featureName!==t.K7.pageViewEvent)return;const n=function(e){switch(e){case t.K7.ajax:return[t.K7.jserrors];case t.K7.sessionTrace:return[t.K7.ajax,t.K7.pageViewEvent];case t.K7.sessionReplay:return[t.K7.sessionTrace];case t.K7.pageViewTiming:return[t.K7.pageViewEvent];default:return[]}}(r.featureName).filter(e=>!(e in this.features));n.length>0&&(0,g.R)(36,{targetFeature:r.featureName,missingDependencies:n}),this.features[r.featureName]=new r(this)})}catch(e){(0,g.R)(22,e);for(const e in this.features)this.features[e].abortHandler?.();const t=(0,n.Zm)();delete t.initializedAgents[this.agentIdentifier]?.features,delete this.sharedAggregator;return t.ee.get(this.agentIdentifier).abort(),!1}}}var L=i(2843),G=i(782);class H extends K{static featureName=G.T;constructor(e){super(e,G.T),v.RI&&((0,L.u)(()=>(0,T.p)("docHidden",[(0,E.t)()],void 0,G.T,this.ee),!0),(0,L.G)(()=>(0,T.p)("winPagehide",[(0,E.t)()],void 0,G.T,this.ee)),this.importAggregator(e,()=>i.e(296).then(i.bind(i,2117))))}}var z=i(3969);class Y extends K{static featureName=z.TZ;constructor(e){super(e,z.TZ),this.importAggregator(e,()=>i.e(296).then(i.bind(i,9623)))}}new F({features:[U,H,Y],loaderType:"lite"})})()})();</script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="canonical" href="https://www.charityjob.co.uk/jobs/bespace/head-of-operations/1075075" />
+
+
+
+    <title>Head of Operations | BeSpace | CharityJob</title>
+
+    <meta name="description" content="Apply now for Head of Operations. , &#xA3;43,000 - &#xA3;47,000 per year, find a career with meaning today" />
+<meta property="og:title" content="Head of Operations | BeSpace | CharityJob">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.charityjob.co.uk/jobs/bespace/head-of-operations/1075075">
+<meta property="og:image" content="https://www.charityjob.co.uk/assets/img/social-media/job-details.jpg">
+
+    <meta property="og:description" content="Apply now for Head of Operations. , &#xA3;43,000 - &#xA3;47,000 per year, find a career with meaning today">
+
+    <meta property="og:locale" content="en_GB">
+
+    <meta property="og:site_name" content="CharityJob">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Head of Operations | BeSpace | CharityJob">
+
+    <meta name="twitter:site" content="@CharityJob">
+
+    <meta name="twitter:description" content="Apply now for Head of Operations. , &#xA3;43,000 - &#xA3;47,000 per year, find a career with meaning today">
+
+    <meta name="twitter:image" content="https://www.charityjob.co.uk/assets/img/social-media/job-details.jpg">
+
+    <meta name="twitter:image:alt" content="Image with CharityJob brand logo and text stating &quot;Apply via CharityJob&quot; over a background image of a smiling person operating tablet computer.">
+
+<link rel="icon" type="image/png" sizes="16x16" href="/dist/assets/app-icons/favicon-16.png">
+
+<link rel="shortcut icon" href="/dist/assets/app-icons/favicon.ico">
+
+<link rel="icon" type="image/png" sizes="32x32" href="/dist/assets/app-icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/dist/assets/app-icons/favicon-48.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/dist/assets/app-icons/favicon-192.png">
+
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="/dist/assets/app-icons/apple-touch-icon-120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="152x152" href="/dist/assets/app-icons/apple-touch-icon-152.png">
+<link rel="apple-touch-icon" type="image/png" sizes="167x167" href="/dist/assets/app-icons/apple-touch-icon-167.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/dist/assets/app-icons/apple-touch-icon-180.png">
+
+<link rel="mask-icon" href="/dist/assets/app-icons/safari-pinned-tab.svg" color="#002a6f">
+
+<meta name="msapplication-TileColor" content="#da532c">
+
+<meta name="theme-color" content="#ffffff">
+
+    
+
+
+<script>
+    window.dataLayer = window.dataLayer || [];
+    const gTagTestEnviorament = 'false' == 'true';
+    var gTagConsentLoaded = false;
+    function gtag() { if (gTagTestEnviorament) { console.log('DataLayer: ' + JSON.stringify(arguments)); } window.dataLayer.push(arguments); }
+    async function gtagEventAsync(eventName, eventParams) { return new Promise((resolve, reject) => { try { const startTime = performance.now(), timeout = setTimeout(() => { gTagTestEnviorament && console.log(`Event callback for ${eventName} timed out after 500ms`), resolve(`Event callback for ${eventName} timed out after 500ms`) }, 500); (eventParams = eventParams || {})['event_callback'] = function () { clearTimeout(timeout); const duration = performance.now() - startTime; gTagTestEnviorament && console.log(`Event callback for ${eventName} executed in ${duration.toFixed(2)} ms`), resolve(`Event callback executed in ${duration.toFixed(2)} ms`) }; gtag('event', eventName, eventParams) } catch (error) { reject(error) } }) }
+    function sendDataLayerEvent(eventName) { if (gTagTestEnviorament) { console.log('DataLayer: ' + eventName); } window.dataLayer.push({ 'event': eventName }); }
+    function sendDataLayerToQueue(eventObject) { if (gTagTestEnviorament) { console.log('DataLayer: ' + JSON.stringify(eventObject)); }  let eventQueue = JSON.parse(sessionStorage.getItem('gt_event_queue')) || []; eventQueue.push(eventObject);sessionStorage.setItem('gt_event_queue', JSON.stringify(eventQueue)); }
+    gtag('consent', 'default', {'ad_storage':'denied','analytics_storage':'denied','personalization_storage':'denied','functionality_storage':'denied','security_storage':'granted','ad_user_data':'denied','ad_personalization':'denied','wait_for_update':500});
+    window.dataLayer.push({'is_staff': false});window.dataLayer.push({'experience': 'anonymous'});localStorage.setItem('experience', 'anonymous');window.dataLayer.push({'session_data': 'MDNTU1MwNzeyJ0eXBlIjoiIiwiaWQiOiIiLCJmbmFtZSI6IiIsImxuYW1lIjoiIiwiZW1haWwiOiIifQ-2'});;
+    ;
+</script>
+    <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://track.charityjob.co.uk/gtm.js?id=' + i + dl + '';
+        f.parentNode.insertBefore(j,f);
+        })(window, document, 'script', 'dataLayer', 'GTM-P6X27P');
+    </script>
+    <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" type="text/javascript" charset="UTF-8" data-domain-script="6a3d6ee2-2893-4cd9-8fc5-480e5fda585a"></script>
+    <script type="text/javascript">
+        function triggerDataLayer() { ; }
+        function processDataLayerStorageQueue() { let storedData = sessionStorage.getItem('gt_event_queue'); if (storedData) { let eventQueue = JSON.parse(storedData); window.dataLayer = window.dataLayer || []; eventQueue.forEach(function(eventObject) { window.dataLayer.push(eventObject); }); sessionStorage.removeItem('gt_event_queue');}}
+        function OptanonWrapper() { setTimeout(triggerDataLayer, 200); setTimeout(processDataLayerStorageQueue, 200); OneTrust.OnConsentChanged(function (e) { }); gTagConsentLoaded = true;  }
+    </script>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+        <link rel="preconnect" href="https://downloads.charityjob.co.uk" crossorigin>
+        <link rel="preconnect" href="https://api.charityjob.co.uk" crossorigin>
+
+    <script>
+        var apiRoot = 'https://api.charityjob.co.uk';
+        var isAuthenticated = false;
+    </script>
+    
+    <script type="text/plain" class="optanon-category-C0002">
+        !function (T, l, y) { var S = T.location, k = "script", D = "instrumentationKey", C = "ingestionendpoint", I = "disableExceptionTracking", E = "ai.device.", b = "toLowerCase", w = "crossOrigin", N = "POST", e = "appInsightsSDK", t = y.name || "appInsights"; (y.name || T[e]) && (T[e] = t); var n = T[t] || function (d) { var g = !1, f = !1, m = { initialize: !0, queue: [], sv: "5", version: 2, config: d }; function v(e, t) { var n = {}, a = "Browser"; return n[E + "id"] = a[b](), n[E + "type"] = a, n["ai.operation.name"] = S && S.pathname || "_unknown_", n["ai.internal.sdkVersion"] = "javascript:snippet_" + (m.sv || m.version), { time: function () { var e = new Date; function t(e) { var t = "" + e; return 1 === t.length && (t = "0" + t), t } return e.getUTCFullYear() + "-" + t(1 + e.getUTCMonth()) + "-" + t(e.getUTCDate()) + "T" + t(e.getUTCHours()) + ":" + t(e.getUTCMinutes()) + ":" + t(e.getUTCSeconds()) + "." + ((e.getUTCMilliseconds() / 1e3).toFixed(3) + "").slice(2, 5) + "Z" }(), iKey: e, name: "Microsoft.ApplicationInsights." + e.replace(/-/g, "") + "." + t, sampleRate: 100, tags: n, data: { baseData: { ver: 2 } } } } var h = d.url || y.src; if (h) { function a(e) { var t, n, a, i, r, o, s, c, u, p, l; g = !0, m.queue = [], f || (f = !0, t = h, s = function () { var e = {}, t = d.connectionString; if (t) for (var n = t.split(";"), a = 0; a < n.length; a++) { var i = n[a].split("="); 2 === i.length && (e[i[0][b]()] = i[1]) } if (!e[C]) { var r = e.endpointsuffix, o = r ? e.location : null; e[C] = "https://" + (o ? o + "." : "") + "dc." + (r || "services.visualstudio.com") } return e }(), c = s[D] || d[D] || "", u = s[C], p = u ? u + "/v2/track" : d.endpointUrl, (l = []).push((n = "SDK LOAD Failure: Failed to load Application Insights SDK script (See stack for details)", a = t, i = p, (o = (r = v(c, "Exception")).data).baseType = "ExceptionData", o.baseData.exceptions = [{ typeName: "SDKLoadFailed", message: n.replace(/\./g, "-"), hasFullStack: !1, stack: n + "\nSnippet failed to load [" + a + "] -- Telemetry is disabled\nHelp Link: https://go.microsoft.com/fwlink/?linkid=2128109\nHost: " + (S && S.pathname || "_unknown_") + "\nEndpoint: " + i, parsedStack: [] }], r)), l.push(function (e, t, n, a) { var i = v(c, "Message"), r = i.data; r.baseType = "MessageData"; var o = r.baseData; return o.message = 'AI (Internal): 99 message:"' + ("SDK LOAD Failure: Failed to load Application Insights SDK script (See stack for details) (" + n + ")").replace(/\"/g, "") + '"', o.properties = { endpoint: a }, i }(0, 0, t, p)), function (e, t) { if (JSON) { var n = T.fetch; if (n && !y.useXhr) n(t, { method: N, body: JSON.stringify(e), mode: "cors" }); else if (XMLHttpRequest) { var a = new XMLHttpRequest; a.open(N, t), a.setRequestHeader("Content-type", "application/json"), a.send(JSON.stringify(e)) } } }(l, p)) } function i(e, t) { f || setTimeout(function () { !t && m.core || a() }, 500) } var e = function () { var n = l.createElement(k); n.src = h; var e = y[w]; return !e && "" !== e || "undefined" == n[w] || (n[w] = e), n.onload = i, n.onerror = a, n.onreadystatechange = function (e, t) { "loaded" !== n.readyState && "complete" !== n.readyState || i(0, t) }, n }(); y.ld < 0 ? l.getElementsByTagName("head")[0].appendChild(e) : setTimeout(function () { l.getElementsByTagName(k)[0].parentNode.appendChild(e) }, y.ld || 0) } try { m.cookie = l.cookie } catch (p) { } function t(e) { for (; e.length;)!function (t) { m[t] = function () { var e = arguments; g || m.queue.push(function () { m[t].apply(m, e) }) } }(e.pop()) } var n = "track", r = "TrackPage", o = "TrackEvent"; t([n + "Event", n + "PageView", n + "Exception", n + "Trace", n + "DependencyData", n + "Metric", n + "PageViewPerformance", "start" + r, "stop" + r, "start" + o, "stop" + o, "addTelemetryInitializer", "setAuthenticatedUserContext", "clearAuthenticatedUserContext", "flush"]), m.SeverityLevel = { Verbose: 0, Information: 1, Warning: 2, Error: 3, Critical: 4 }; var s = (d.extensionConfig || {}).ApplicationInsightsAnalytics || {}; if (!0 !== d[I] && !0 !== s[I]) { var c = "onerror"; t(["_" + c]); var u = T[c]; T[c] = function (e, t, n, a, i) { var r = u && u(e, t, n, a, i); return !0 !== r && m["_" + c]({ message: e, url: t, lineNumber: n, columnNumber: a, error: i }), r }, d.autoExceptionInstrumented = !0 } return m }(y.cfg); function a() { y.onInit && y.onInit(n) } (T[t] = n).queue && 0 === n.queue.length ? (n.queue.push(a), n.trackPageView({})) : a() }(window, document, {
+            src: "https://js.monitor.azure.com/scripts/b/ai.2.min.js", // The SDK URL Source
+            // name: "appInsights", // Global SDK Instance name defaults to "appInsights" when not supplied
+            // ld: 0, // Defines the load delay (in ms) before attempting to load the sdk. -1 = block page load and add to head. (default) = 0ms load after timeout,
+            // useXhr: 1, // Use XHR instead of fetch to report failures (if available),
+            crossOrigin: "anonymous", // When supplied this will add the provided value as the cross origin attribute on the script tag
+            // onInit: null, // Once the application insights instance has loaded and initialized this callback function will be called with 1 argument -- the sdk instance (DO NOT ADD anything to the sdk.queue -- As they won't get called)
+            cfg: { // Application Insights Configuration
+                instrumentationKey: "81c169d7-d088-4ef9-b792-fe30d4198501",
+                excludeRequestFromAutoTrackingPatterns: [
+                    /\/cdn-cgi\//i,
+                    /px\.ads\.linkedin\.com/i,
+                    /bam\.nr-data\.net/i,
+                    /track\.charityjob\.co\.uk/i,
+                    /\.clarity\.ms/i,
+                    /\.cookielaw\.org/i,
+                    /\.newrelic\.com/i,
+                    /\.hotjar\.io/i,
+                    /\.googleadservices\.com/i,
+                    /\.analytics\.google\.com/i,
+                    /\.onetrust\.com/i,
+                    /\.googletagmanager\.com/i
+                ]
+            }
+        });
+    </script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/bundles/css/rebranding.css?v=DQTU15wecoWgr_-z8SJUWggWI1A" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js" integrity="sha512-MSOo1aY+3pXCOCdGAYoBZ6YGI0aragoQsg1mKKBHXCYPIWxamwOE7Drh+N5CPgGI5SA9IEKJiPjdfqWFWmZtRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+</head>
+<body class="candidate-padding">
+    <div class="wrapper">
+
+        
+
+        <div class="cj-ds">
+            
+
+<header class="nav-bar">
+    <nav class="desktop">
+        <div class="d-flex">
+                <a href="https://www.charityjob.co.uk?source=nav" class="ga-homepage-charityjob">
+                    <img src="https://downloads.charityjob.co.uk/assets/logos/cj-logo.svg"
+                    alt="Charity Job logo"
+                    style="height: 60px;" />
+                </a>
+
+        </div>
+        <ul class="nav-menu">
+                <li class="menu-item">
+                    <a href="https://www.charityjob.co.uk/jobs" class="nav-bar-link ga-homepage-job-page">Jobs</a>
+                </li>
+                <li class="menu-item">
+                    <a href="https://www.charityjob.co.uk/careeradvice/" target="_blank" class="nav-bar-link ga-homepage-career-advice">Career advice</a>
+                </li>
+                <li class="menu-item">
+                    <a href="https://www.charityconnect.co.uk/" target="_blank" class="nav-bar-link ga-homepage-charityconnect">Networking</a>
+                </li>
+                    <li class="nav-divider"></li>
+                    <li class="menu-item">
+                        <a href="https://www.charityjob.co.uk/recruiters" class="nav-bar-link -light">Are you recruiting?</a>
+                    </li>
+
+
+
+
+        </ul>
+        <div class="end-menu">
+
+                <div class="d-flex flex-row">
+                    <a class="btn -secondary mr-8 ga-candidate-sign-in" href="/account/signin?usertype=candidate">
+                        Log in
+                    </a>
+                    <a class="btn -primary ga-candidate-sign-up" href="/account/register?usertype=candidate">
+                        Sign up
+                    </a>
+                </div>
+
+
+
+
+        </div>
+    </nav>
+    <nav class="mobile">
+        <div class="left">
+                <cj-content-control triggeron="press" lockbackground="true" group="site-header">
+                    <button id="mobile-menu-toggle-left" class="toggle ga-hompage-menu-open" slot="trigger">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-open">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M2 6C2 5.44772 2.44772 5 3 5L21 5C21.5523 5 22 5.44772 22 6C22 6.55229 21.5523 7 21 7L3 7C2.44772 7 2 6.55228 2 6ZM2 12C2 11.4477 2.44772 11 3 11L17 11C17.5523 11 18 11.4477 18 12C18 12.5523 17.5523 13 17 13L3 13C2.44772 13 2 12.5523 2 12ZM2 18C2 17.4477 2.44772 17 3 17L21 17C21.5523 17 22 17.4477 22 18C22 18.5523 21.5523 19 21 19L3 19C2.44772 19 2 18.5523 2 18Z" fill="currentColor" />
+</svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-close">
+  <path d="M12 13.4L7.10005 18.3C6.91672 18.4834 6.68338 18.575 6.40005 18.575C6.11672 18.575 5.88338 18.4834 5.70005 18.3C5.51672 18.1167 5.42505 17.8834 5.42505 17.6C5.42505 17.3167 5.51672 17.0834 5.70005 16.9L10.6 12L5.70005 7.10005C5.51672 6.91672 5.42505 6.68338 5.42505 6.40005C5.42505 6.11672 5.51672 5.88338 5.70005 5.70005C5.88338 5.51672 6.11672 5.42505 6.40005 5.42505C6.68338 5.42505 6.91672 5.51672 7.10005 5.70005L12 10.6L16.9 5.70005C17.0834 5.51672 17.3167 5.42505 17.6 5.42505C17.8834 5.42505 18.1167 5.51672 18.3 5.70005C18.4834 5.88338 18.575 6.11672 18.575 6.40005C18.575 6.68338 18.4834 6.91672 18.3 7.10005L13.4 12L18.3 16.9C18.4834 17.0834 18.575 17.3167 18.575 17.6C18.575 17.8834 18.4834 18.1167 18.3 18.3C18.1167 18.4834 17.8834 18.575 17.6 18.575C17.3167 18.575 17.0834 18.4834 16.9 18.3L12 13.4Z" fill="currentColor" />
+</svg>
+                    </button>
+                    <div class="mobile-menu-container" slot="content">
+                        <ul class="nav-menu-mobile">
+
+
+                                <li class="menu-item">
+                                    <a href="https://www.charityjob.co.uk/jobs" class="nav-bar-link ga-homepage-job-page">Jobs</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://www.charityjob.co.uk/careeradvice/" target="_blank" class="nav-bar-link ga-homepage-career-advice">Career advice</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="https://www.charityconnect.co.uk/" target="_blank" class="nav-bar-link ga-homepage-charityconnect">Networking</a>
+                                </li>
+                                    <li class="menu-item">
+                                        <a href="https://www.charityjob.co.uk/recruiters" class="nav-bar-link -light">Are you recruiting?</a>
+                                    </li>
+
+
+                                <li class="logged-out-end">
+                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="90" height="92" viewBox="0 0 90 92">
+                                        <circle cx="36.6181" cy="36.5226" r="34.5714" fill="#FBDD66"></circle>
+                                        <ellipse cx="37.2719" cy="10.5741" rx="2.14634" ry="2.14634" fill="#002A6F"></ellipse>
+                                        <ellipse cx="45.6281" cy="12.1795" rx="2.14634" ry="2.14634" fill="#002A6F"></ellipse>
+                                        <ellipse cx="53.7179" cy="16.2245" rx="2.14634" ry="2.14634" fill="#002A6F"></ellipse>
+                                        <ellipse cx="58.7776" cy="23.3055" rx="2.14634" ry="2.14634" fill="#002A6F"></ellipse>
+                                        <ellipse cx="61.8153" cy="31.3954" rx="2.14634" ry="2.14634" fill="#002A6F"></ellipse>
+                                        <path d="M0.599487 36.8066C0.599518 16.7631 16.9079 0.456046 36.954 0.456046C56.9972 0.456071 73.3016 16.7632 73.3016 36.8066C73.3016 56.8531 56.9972 73.1582 36.954 73.1582C16.9078 73.1582 0.599487 56.8502 0.599487 36.8066ZM3.99207 36.8066C3.99207 54.9825 18.781 69.7686 36.9569 69.7686C55.1298 69.7685 69.9159 54.9825 69.9159 36.8066C69.9159 18.6308 55.1298 3.84473 36.9569 3.84472C18.781 3.84472 3.9921 18.6308 3.99207 36.8066Z" fill="#002A6F" stroke="#002A6F" stroke-width="0.8"></path>
+                                        <path d="M60.968 60.1514C61.0028 59.7361 61.1965 59.3499 61.509 59.0742C61.8216 58.7985 62.2293 58.6549 62.6458 58.6719C63.0622 58.6889 63.4564 58.8658 63.7454 59.166L63.761 59.1836L63.7659 59.1885C63.7689 59.192 63.7735 59.198 63.7795 59.2051C63.7916 59.2192 63.8098 59.2401 63.8333 59.2676C63.8806 59.323 63.9507 59.4055 64.0422 59.5127C64.2256 59.7274 64.4947 60.0424 64.8372 60.4434C65.5223 61.2456 66.5016 62.3924 67.677 63.7686C70.0278 66.5209 73.1643 70.1931 76.3069 73.8721C79.4494 77.5511 82.5986 81.2367 84.9739 84.0166C86.1615 85.4066 87.1551 86.5707 87.8586 87.3936C88.2103 87.8049 88.4897 88.1306 88.6838 88.3574C88.7808 88.4707 88.8564 88.5593 88.9094 88.6211C88.9359 88.652 88.9571 88.6762 88.9719 88.6934C88.9793 88.702 88.9853 88.709 88.9895 88.7139C88.9922 88.717 88.9937 88.7189 88.9944 88.7197C89.2231 88.977 89.3628 89.3004 89.3938 89.6406L89.3997 89.7881C89.3988 90.1154 89.299 90.4351 89.1126 90.7041C88.9259 90.9732 88.6611 91.1801 88.3547 91.2959C88.0486 91.4115 87.7145 91.4316 87.3967 91.3535C87.0787 91.2753 86.7911 91.1022 86.5735 90.8574L86.5686 90.8516L61.3303 61.3115L61.3235 61.3037C61.0609 60.98 60.9333 60.5667 60.968 60.1514Z" fill="#002A6F" stroke="#002A6F" stroke-width="0.8"></path>
+                                        <path d="M36.9505 48.0746V36.8063M36.9505 36.8063V25.5381M36.9505 36.8063H48.2188M36.9505 36.8063H25.6823" stroke="#002A6F" stroke-width="4" stroke-linecap="round"></path>
+                                    </svg>
+                                    <div class="title">Find jobs</div>
+                                    <div>Search more than 3,000 jobs in&nbsp;the charity sector.</div>
+                                    <a href="https://www.charityjob.co.uk/jobs" class="btn -legacy ga-homepage-job-page">Find a job</a>
+                                </li>
+                        </ul>
+                        <div class="mobile-menu-backdrop" cj-outside-content></div>
+                    </div>
+                </cj-content-control>
+
+            <div class="logo ">
+                    <a href="https://www.charityjob.co.uk?source=nav">
+                        <img src="https://downloads.charityjob.co.uk/assets/logos/cj-logo.svg"
+                             alt="Charity Job logo" />
+                    </a>
+
+            </div>
+        </div>
+        <div class="right">
+
+
+
+                <a class="icon-button p-12" type="button" href="/account/signin?usertype=candidate">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 10C13.6569 10 15 8.65685 15 7C15 5.34315 13.6569 4 12 4C10.3431 4 9 5.34315 9 7C9 8.65685 10.3431 10 12 10ZM16 13C19.3137 13 22 15.6863 22 19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19C2 15.6863 4.68629 13 8 13H16ZM8.99951 11C9.83526 11.6279 10.8742 12 12 12C13.1258 12 14.1647 11.6279 15.0005 11C16.2147 10.0878 17 8.6356 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 8.6356 7.78534 10.0878 8.99951 11ZM8 15C5.79086 15 4 16.7909 4 19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19C20 16.7909 18.2091 15 16 15H8Z" fill="currentColor" />
+</svg>
+                </a>
+
+        </div>
+    </nav>
+</header>
+
+
+        </div>
+
+        
+
+<div id="job-details-wrapper" data-crt-page="d" data-crt-jobid="1075075">
+    <div class="job-details-search-container-wrapper">
+        <div class="container search-container">
+            <form action="/jobs" class="desktop-search-form" id="header-search-form">
+                
+<div class="header-search-form" data-test="[]">
+    <div class="header-search-form-container">
+        <div class="job-search-selector-wrapper">
+            <div class="job-search-selector">
+                <a href="/jobs/?source=nav&" title="Find charity jobs" class="selected">Paid</a>
+                <a href="/volunteer-jobs/?source=nav&" title="Find volunteer roles" class="">Volunteer</a>
+            </div>
+        </div>
+
+        <div id="job-page-keywords-wrapper">
+
+            <cj-job-search-input placeholder="Job titles, keywords, organisations"
+                                 overlay-offset="193"
+                                 type="paid"
+                                 value=""
+                                 id="keywords"
+                                 class="desktop-keyword-search"
+                                 name="keywords">
+            </cj-job-search-input>
+
+        </div>
+        <div id="search-location-radius-wrapper">
+
+            <cj-location-search-input name="location"
+                                      id="location"
+                                      class="desktop-location-search"
+                                      model="[]"
+                                      placeholder="Locations"
+                                      overlay-offset="193"
+                                      radius="[{&quot;text&quot;:&quot;\u002B 1 mile&quot;,&quot;value&quot;:&quot;1&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 3 miles&quot;,&quot;value&quot;:&quot;3&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 5 miles&quot;,&quot;value&quot;:&quot;5&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 10 miles&quot;,&quot;value&quot;:&quot;10&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 20 miles&quot;,&quot;value&quot;:&quot;20&quot;,&quot;selected&quot;:true},{&quot;text&quot;:&quot;\u002B 40 miles&quot;,&quot;value&quot;:&quot;40&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 80 miles&quot;,&quot;value&quot;:&quot;80&quot;,&quot;selected&quot;:false}]">
+            </cj-location-search-input>
+
+        </div>
+        <div class="search-btn-wrapper">
+            <button type="button" class="button-main-reb medium submit-search ga-search-submit" disabled>Find jobs</button>
+        </div>
+
+        <div class="keyword-search-category-wrapper display-none">
+            
+<input type="hidden" id="default-list-data" value='[{&quot;Id&quot;:1,&quot;URLModification&quot;:&quot;jobtitle=fundraising\u002Bmanager&quot;,&quot;JobSearchFilterType&quot;:&quot;jobtitle&quot;,&quot;KeyWordCount&quot;:0,&quot;PriorityOrder&quot;:1,&quot;KeyWord&quot;:&quot;Fundraising Manager&quot;},{&quot;Id&quot;:2,&quot;URLModification&quot;:&quot;keywords=mental\u002Bhealth&quot;,&quot;JobSearchFilterType&quot;:&quot;keywords&quot;,&quot;KeyWordCount&quot;:0,&quot;PriorityOrder&quot;:2,&quot;KeyWord&quot;:&quot;Mental Health&quot;},{&quot;Id&quot;:3,&quot;URLModification&quot;:&quot;keywords=finance&quot;,&quot;JobSearchFilterType&quot;:&quot;keywords&quot;,&quot;KeyWordCount&quot;:0,&quot;PriorityOrder&quot;:3,&quot;KeyWord&quot;:&quot;Finance&quot;},{&quot;Id&quot;:4,&quot;URLModification&quot;:&quot;jobtitle=chief\u002Bexecutive\u002Bofficer%2cdirector&quot;,&quot;JobSearchFilterType&quot;:&quot;jobtitle&quot;,&quot;KeyWordCount&quot;:0,&quot;PriorityOrder&quot;:4,&quot;KeyWord&quot;:&quot;Director / CEO&quot;},{&quot;Id&quot;:22957,&quot;URLModification&quot;:&quot;organisationname=Victim\u002BSupport&quot;,&quot;JobSearchFilterType&quot;:&quot;organisationname&quot;,&quot;KeyWordCount&quot;:0,&quot;PriorityOrder&quot;:5,&quot;KeyWord&quot;:&quot;Victim Support&quot;}]' />
+    <div>
+        <ul class="column-list static-columns-1">
+                <li  class="">
+                    <a href="javascript:void(0)" key-value="Fundraising Manager">Fundraising Manager (0)</a>
+                </li>
+                <li  class="bottom-left-list-item">
+                    <a href="javascript:void(0)" key-value="Mental Health">Mental Health (0)</a>
+                </li>
+                <li  class="">
+                    <a href="javascript:void(0)" key-value="Finance">Finance (0)</a>
+                </li>
+                <li  class="">
+                    <a href="javascript:void(0)" key-value="Director / CEO">Director / CEO (0)</a>
+                </li>
+                <li  class="bottom-right-list-item">
+                    <a href="javascript:void(0)" key-value="Victim Support">Victim Support (0)</a>
+                </li>
+        </ul>
+    </div>
+
+        </div>
+    </div>
+    <div class="header-search-form-container-mobile">
+        <div class="job-search-selector-wrapper">
+            <div class="job-search-selector">
+                <a href="/jobs/?source=nav&" title="Find charity jobs" class="paid-job-selector selected">Paid</a>
+                <a href="/volunteer-jobs/?source=nav&" title="Find volunteer roles" class="volunteer-job-selector ">Volunteer</a>
+            </div>
+        </div>
+        <div class="search-field-placeholders btn-open-mobile-keywordsearch" data-type="search">
+
+
+
+            <job-search-input-dummy value="" class="job-search-placeholder"></job-search-input-dummy>
+
+
+            <location-search-input-dummy class="location-search-placeholder"
+                                         model="[]"
+                                         radius="[{&quot;text&quot;:&quot;\u002B 1 mile&quot;,&quot;value&quot;:&quot;1&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 3 miles&quot;,&quot;value&quot;:&quot;3&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 5 miles&quot;,&quot;value&quot;:&quot;5&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 10 miles&quot;,&quot;value&quot;:&quot;10&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 20 miles&quot;,&quot;value&quot;:&quot;20&quot;,&quot;selected&quot;:true},{&quot;text&quot;:&quot;\u002B 40 miles&quot;,&quot;value&quot;:&quot;40&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 80 miles&quot;,&quot;value&quot;:&quot;80&quot;,&quot;selected&quot;:false}]"
+                                         placeholder="Locations">
+            </location-search-input-dummy>
+
+         
+        </div>
+           <button id="mobile-search-filters" class="btn-open-mobile-keywordsearch " disabled data-type="filter">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M3.00133 2H17.0013C17.18 2.00001 17.3553 2.04793 17.5091 2.13867C17.663 2.22942 17.7899 2.3593 17.8763 2.51563C17.9627 2.67169 18.0061 2.84905 18.0013 3.02735C17.9966 3.20564 17.9435 3.37805 
+                    17.849 3.5293L13.0004 11.2871V15.002C13.0002 15.1704 12.9576 15.3349 12.8763 15.4824C12.795 15.63 12.6778 15.7556 12.5355 15.8457L8.59117 18.3457C8.44019 18.4403 8.26727 18.4919 8.08922 18.498C7.91117 18.5042 
+                    7.73464 18.4648 7.5775 18.3809C7.42084 18.2954 7.29021 18.1688 7.19859 18.0156C7.10698 17.8625 7.05723 17.6882 7.05602 17.5098L7.00328 11.293L2.15172 3.5293C2.0572 3.37805 2.00412 3.20564 1.99938 3.02735C1.99463 
+                    2.84905 2.03804 2.67169 2.12438 2.51563C2.211 2.35901 2.33828 2.22944 2.49254 2.13867C2.6468 2.04791 2.82235 1.99966 3.00133 2ZM15.2015 
+                    4H4.80797L8.85191 10.4707C8.94964 10.627 9.00259 10.8078 9.00426 10.9922L9.0443 15.6914L11.0043 14.4492V11C11.0041 10.8129 11.0571 10.6292 11.1566 10.4707L15.2015 4Z" fill="currentcolor" />
+                </svg>
+                <span>Filters</span>
+                
+               
+            </button>
+    </div>
+</div>
+
+            </form>
+        </div>
+    </div>
+
+
+    <div id="appwiz" class="appwiz" style="display: none">
+        <div class="app-box closeable clear-fix">
+            <h2>Your application for Head of Operations</h2>
+
+            <div class="alert-message notice" style="display: none;" id="jQuery-job-expired-error">
+                <span>The application for this job has now closed.</span>
+            </div>
+
+            <div class="app-wizard-slide-1b">
+                <div class="how-to-apply">
+                    <p class="how-to-apply-title">How to apply</p>
+                    <p class="how-to-apply-desc">Stage 1
+Complete a copy of our online application form.
+ 
+Link for form: <a href="https://form.jotform.com/261824106516352
+">https://form.jotform.com/261824106516352
+</a>
+Closing date: 10:00am on Thursday 30th July 2026
+
+All successful applicants will be notified via email by 5:30pm on Friday 31st July 2026
+
+Stage 2
+Successful applicants will be invited to an initial, 30 – 45 minute online Microsoft Teams interview, which will take place on the week of the 17th August 2026.  
+
+All applicants will be notified of the outcome by 5.30pm on Monday 24th August 2026.
+
+Stage 3
+Following initial interviews, 2-3 candidates will be invited to attend in-person interviews in Oxford or London on the week of the 7th September 2026. 
+
+The interview will be around 1 hour 15 minutes and will include 1-2 tasks. 
+
+BeSpace will reimburse any reasonable travel costs. 
+
+The candidates will be informed of BeSpace’s final decision by 5.30pm on Monday 14th September 2026.  
+
+Further Information
+If you would like to discuss the role or require support during the application process, please contact:
+Bekah Wiseman (Operations Coordinator) – <a href="/cdn-cgi/l/email-protection#89e0e7efe6c9ebecfaf9e8eaeca7ebecb6fafcebe3eceafdb4cae1e8fbe0fdf0c3e6eba9c8edb3a9c1ece8eda9e6efa9c6f9ecfbe8fde0e6e7fa"><span class="__cf_email__" data-cfemail="fc95929a93bc9e998f8c9d9f99d29e99">[email&#160;protected]</span></a>
+Catherine Clayton (CEO) – <a href="/cdn-cgi/l/email-protection#3a53545c557a585f494a5b595f14585f05494f58505f594e0779525b48534e437055581a7b5e001a725f5b5e1a555c1a754a5f485b4e53555449"><span class="__cf_email__" data-cfemail="61080f070e21030412110002044f0304">[email&#160;protected]</span></a>
+</p>
+                </div>
+                
+    <section class="job-attachments">
+        <div class="job-detail-section-heading ">Application resources</div>
+            <div class="job-attachment-file">
+                <div class="download-wrapper pdf">
+                    <a data-id="368518" data-filepath="https://downloads.charityjob.co.uk/attachments/head_of_operations_job_pack_2026_07_02_04_39_57_pm.pdf"
+                       href="https://downloads.charityjob.co.uk/attachments/head_of_operations_job_pack_2026_07_02_04_39_57_pm.pdf"
+                       data-filename="Head of Operations Job Pack (.pdf)"
+                       class="ga-application-details-download attachment-link buttonJobDetailsAttachmentPreview .pdf dl-application-form-log">
+                        <div class="attachment-desc">
+                            <div class="text">Head of Operations Job Pack</div>
+                            <div class="icon"></div>
+                        </div>
+                        <div class="attachment-size">0.65 MB</div>
+                    </a>
+                </div>
+            </div>
+    </section>
+
+                <div class="controls text-right visible-xs">
+                    <a id="CandidateRegistrationClose" class="close-button application-details-close-button ga-application-details-close">
+                        Cancel
+                    </a>
+                </div>
+
+                <a id="CandidateRegistrationCloseHeader" class="hidden-xs application-details-close-button ga-application-details-close"></a>
+
+            </div>
+        </div>
+    </div>
+
+    
+<input data-val="true" data-val-required="The Boolean field is required." id="applyOnLoad" name="applyOnLoad" type="hidden" value="False" />
+
+<section class="container job-details-wrapper single-job-add">
+    <article job-id="1075075" class="article-job-detail">
+
+        <input id="IsLoggedIn" name="IsLoggedIn" type="hidden" value="False" />
+        <input id="IsLoggedInRecruiter" name="IsLoggedInRecruiter" type="hidden" value="False" />
+        <input data-val="true" data-val-required="The Boolean field is required." id="IsDraft" name="IsDraft" type="hidden" value="False" />
+        <input data-val="true" data-val-required="The TrafficSourceId field is required." id="TrafficSourceId" name="TrafficSourceId" type="hidden" value="1" />
+        <input id="IsVoluntary" name="IsVoluntary" type="hidden" value="False" />
+        
+
+<section>
+    <div class="job-details-summary" job-id="1075075" is-future-job="false" is-expired-job="false" partner-id="23768" ts-id="0">
+        <div class="logo-wrapper">
+                <a href="#" title="BeSpace">
+                    <img src="https://downloads.charityjob.co.uk/cdn-cgi/image/width=172,height=129,fit=contain/uploads/1_2026_02_23_09_13_55_am.png" alt="BeSpace logo" onerror="this.onerror=null;this.src='/assets/img/no-logo.svg';">
+                </a>
+        </div>
+        <div class="job-summary">
+            <div class="job-title-wrapper">
+                <div class="logo-wrapper logo-wrapper-mobile">
+                        <a href="#" title="BeSpace">
+                            <img src="https://downloads.charityjob.co.uk/cdn-cgi/image/width=172,height=129,fit=contain/uploads/1_2026_02_23_09_13_55_am.png" alt="BeSpace logo" onerror="this.onerror=null;this.src='/assets/img/no-logo.svg';">
+                        </a>
+                </div>
+
+                <div>
+                        <h1 class="job-title">Head of Operations</h1>
+                        <div class="organisation"><a class="text-link" href="/organisation/bespace">BeSpace</a></div>
+                </div>
+            </div>
+
+
+            <div class="more-info">
+                <div class="job-summary">
+                            <div class="job-summary-item location-wrapper" style="">
+                                <i class="cj-icon icon-location"></i>
+                                <div>
+                                    Remote
+                                </div>
+                            </div>
+                        <div class="job-summary-item">
+                            <i class="cj-icon icon-pound"></i>
+                            <span>&#xA3;43,000 - &#xA3;47,000 per year</span>
+                        </div>
+                        <div class="job-summary-item">
+                            <i class="cj-icon-v2 icon-clock"></i>
+                                <span> Part-time (4 day/28 hours, with flexibility for the right candidate )</span>
+                        </div>
+                        <div class="job-summary-item">
+                            <i class="cj-icon-v3 icon-contract"></i>
+                                <span> Contract (Fixed term- 2 years with intention to extend subject to funding)</span>
+                        </div>
+                        <div class="job-summary-item">
+                            <i class="cj-icon-v3 icon-cause"></i>
+                            <span class="sector-area">
+                                    <span>
+                                        <a href="/jobs?cause=faith-based" class="secondary-text-link">Faith-based</a>
+                                    </span>
+                            </span>
+                        </div>
+
+                    <div class="job-extra-summary-item">
+                    </div>
+                    <div class="hide-tablet-and-below">
+                        <section class="job-apply-and-save">
+    <div class="job-apply-and-save-wrapper">
+        <div class="job-apply">
+                    <button id="ApplyButton" class="btn-apply  trigger-application-details" job-id="1075075" job-title="head-of-operations" org-name="bespace" is-loggedin="0" is-loggedinrecruiter="0" trafficsource-id="0">
+                        <span class="apply-text">How to apply</span>
+                    </button>
+        </div>
+
+            <div class="save-job-wrapper">
+                    <a href="#" title="Saved jobs" data-isloggedin="false" class="btn-save-job " job-id="1075075">
+                        <span class="cj-icon icon-star "></span>
+                        <span class="text "> Save </span>
+                        <span class="cj-icon icon-favourite display-none"></span>
+                        <span class="text display-none"> Saved </span>
+                    </a>
+            </div>
+    </div>
+</section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        
+<section class="job-description-wrapper">
+    <div class="job-detail-section-heading">Job description</div>
+    <div class="job-description">
+        <p><strong>About the Role</strong></p>
+
+<p>As we scale, we are looking for a <strong>Head of Operations</strong> to provide operational leadership to ensure the charity operates effectively, compliantly and sustainably in line with its mission and ethos. Working closely with the CEO, you will support the translation of the vision into reality by building strong foundations, enabling effective delivery, and supporting the scaling of the organisational from a regional base to a nationally impactful charity.</p>
+
+<p>This is a pivotal role shaping how BeSpace grows. You will lead on strengthening systems, people, governance and operational delivery embedding accountability, and continuous improvement.</p>
+
+<p>In this role, you will:</p>
+
+<p><strong>Strengthen governance, risk and compliance</strong></p>
+
+<p>&middot;&nbsp;&nbsp; Develop and maintain robust governance frameworks and ensure legal and regulatory compliance</p>
+
+<p>&middot;&nbsp;&nbsp; Embed effective risk management processes</p>
+
+<p>&middot;&nbsp;&nbsp; Oversee key compliance areas including safeguarding, GDPR and reporting</p>
+
+<p><strong>Build operational systems and infrastructure</strong></p>
+
+<p>&middot;&nbsp;&nbsp; Develop and implement scalable systems, processes and internal controls</p>
+
+<p>&middot;&nbsp;&nbsp; Improve data management (including CRM) and strengthen reporting</p>
+
+<p>&middot;&nbsp;&nbsp; Contribute to ensuring operational readiness to support national growth</p>
+
+<p>&middot;&nbsp;&nbsp; Work with external providers on IT and financial system integration</p>
+
+<p><strong>Lead people, culture and organisational development</strong></p>
+
+<p>&middot;&nbsp;&nbsp; Oversee recruitment, onboarding and retention of a high-performing team</p>
+
+<p>&middot;&nbsp;&nbsp; Strengthen performance management and accountability frameworks</p>
+
+<p>&middot;&nbsp;&nbsp; Support and foster a values-led, healthy team culture aligned with BeSpace&rsquo;s mission</p>
+
+<p><strong>Enable delivery, impact and growth</strong></p>
+
+<p>&middot;&nbsp;&nbsp; Strengthen operational support for programme delivery and expansion</p>
+
+<p>&middot;&nbsp;&nbsp; Support the<strong> </strong>translation of strategic ambitions into practical systems and ways of working</p>
+
+<p>&middot;&nbsp;&nbsp; Improve data insight to inform decision-making</p>
+
+<p>&middot;&nbsp;&nbsp; Support development of fundraising infrastructure.</p>
+
+<p><strong>Contribute to wider organisational life</strong></p>
+
+<p>&middot;&nbsp;&nbsp; Work collaboratively across the team to support evolving priorities</p>
+
+<p>&middot;&nbsp;&nbsp; Act as an ambassador for BeSpace&rsquo;s values and Christian ethos</p>
+
+<p><strong>About You</strong></p>
+
+<p>We are looking for someone who:</p>
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Has experience in operations, programme or an organisational role with increasing responsibility or has had operational leadership, ideally within a growing or changing organisation</p>
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Has good experience in developing systems, processes and organisational infrastructure</p>
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Can work closely with a CEO to translate vision into operational delivery</p>
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Has excellent organisational and project management skills</p>
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Is proactive, collaborative and relational leader who builds strong teams and culture</p>
+
+<p><strong>&nbsp;It would be a bonus if you:</strong></p>
+
+<p><strong>&nbsp;</strong>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Are an experienced operational leader motivated by impact, flexibility, and supporting the growth of a mission-led organisation</p>
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Have significantly enabled the scaling of a regional organisation to national growth operationally.</p>
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Have experience in fundraising systems or donor management</p>
+
+    </div>
+</section>
+        
+    <section class="job-attachments">
+        <div class="job-detail-section-heading ">Application resources</div>
+            <div class="job-attachment-file">
+                <div class="download-wrapper pdf">
+                    <a data-id="368516" data-filepath="https://downloads.charityjob.co.uk/attachments/job_advert_head_of_operations_2026_07_02_04_39_24_pm.pdf"
+                       href="https://downloads.charityjob.co.uk/attachments/job_advert_head_of_operations_2026_07_02_04_39_24_pm.pdf"
+                       data-filename="Job Advert (.pdf)"
+                       class="ga-application-details-download attachment-link buttonJobDetailsAttachmentPreview .pdf ">
+                        <div class="attachment-desc">
+                            <div class="text">Job Advert</div>
+                            <div class="icon"></div>
+                        </div>
+                        <div class="attachment-size">0.36 MB</div>
+                    </a>
+                </div>
+            </div>
+    </section>
+
+        <div id="dialogJobDetailsAttachmentPreview"  title="Attachments" class="previewModal" style="display: none">
+    <div class="documentModal">
+        <div class="container">
+            <h2 class="popup-header"></h2>
+            <a id="dialogJobDetailsAttachmentPreviewClose" class="documentModal-close" title="Close this modal" data-close="Close"><span class="text">Close</span><span class="cj-icon icon-cross"></span></a>
+            <a id="dialogJobDetailsAttachmentPreviewDownload" class="documentModal-download btn btn-important search-submit btn-preview-download ga-application-details-download">
+                <span class="text">Download</span><span class="cj-icon icon-download"></span>
+            </a>
+        </div>
+        <div id="placeholderJobDetailsAttachmentPreview" class="documentContent"></div>
+    </div>
+</div>
+        
+
+
+
+    <section class="job-organisation-profile">
+        <div class="job-detail-section-heading">Organisation</div>
+        <div class="organisation-profile">
+            <div class="mobile-logo-wrapper">
+                    <div class="no-logo">
+                        <img src="/dist/assets/icons/icon-logo-placeholder-48.svg" alt="Logo icon" />
+                    </div>
+            </div>
+            <div class="header">
+                <div class="logo-wrapper">
+                        <div class="no-logo">
+                            <img src="/dist/assets/icons/icon-logo-placeholder-48.svg" alt="Logo icon" />
+                        </div>
+                </div>
+                <div class="info-wrapper">
+                    <span class="org-profile-title">
+                        BeSpace
+                        <a href="/organisation/bespace" target="_blank" class="text-link text-link-headline">
+                            <span>View profile</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"><path fill="currentColor" d="M7.292 4.71a1 1 0 0 0 0 1.41l3.88 3.88-3.88 3.88a1.001 1.001 0 1 0 1.41 1.41l4.59-4.59a1 1 0 0 0 0-1.41L8.702 4.7a1 1 0 0 0-1.41.01"></path></svg>
+                        </a>
+                    </span>
+                    <span class="org-profile-size">
+                            <img class="mr-8" src="/dist/assets/icons/icon-company-type-20.svg" alt="Organisation type" />
+Registered Charity                            <span class="org-profile-size">
+                                <span class="mr-16"></span>
+                                <img class="mr-8" src="/dist/assets/icons/icon-company-size-20.svg" alt="Company size" />
+                                1 - 5
+                            </span>
+                    </span>
+                </div>
+            </div>
+            <div class="bottom-view-org-profile">
+                <a href="/organisation/bespace" target="_blank" class="text-link text-link-headline">
+                    <span>View profile</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none"><path fill="currentColor" d="M7.292 4.71a1 1 0 0 0 0 1.41l3.88 3.88-3.88 3.88a1.001 1.001 0 1 0 1.41 1.41l4.59-4.59a1 1 0 0 0 0-1.41L8.702 4.7a1 1 0 0 0-1.41.01"></path></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+        
+<section class="job-post-summary">
+
+
+    <div><span>Posted on:</span> <span>02 July 2026</span></div>
+
+    <div><span>Closing date:</span> <span>30 July 2026 at 16:31</span></div>
+
+        <div><span>Tags:</span> <span>Christian, Finance, Operations, CRM, Data Protection, Faith-Based, Risk Management, Safeguarding</span></div>
+
+    <section class="job-apply-and-save">
+    <div class="job-apply-and-save-wrapper">
+        <div class="job-apply">
+                    <button id="ApplyButton" class="btn-apply  trigger-application-details" job-id="1075075" job-title="head-of-operations" org-name="bespace" is-loggedin="0" is-loggedinrecruiter="0" trafficsource-id="0">
+                        <span class="apply-text">How to apply</span>
+                    </button>
+        </div>
+
+            <div class="save-job-wrapper">
+                    <a href="#" title="Saved jobs" data-isloggedin="false" class="btn-save-job " job-id="1075075">
+                        <span class="cj-icon icon-star "></span>
+                        <span class="text "> Save </span>
+                        <span class="cj-icon icon-favourite display-none"></span>
+                        <span class="text display-none"> Saved </span>
+                    </a>
+            </div>
+    </div>
+</section>
+</section>
+        <section class="job-detail-foot-note description-footer">
+    <div class="footer-print-social">
+        <div class="job-detail-section-heading">Share this job</div>
+        <div class="social-media-share">
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.charityjob.co.uk%2Fjobs%2Fbespace%2Fhead-of-operations%2F1075075&summary=Head&#x2B;of&#x2B;Operations&#x2B;%7C&#x2B;BeSpace&#x2B;%7C&#x2B;CharityJob"
+               data-social-url="https://www.linkedin.com/shareArticle?mini=true&url=" title="LinkedIn" class="social-share-button" target="_blank">
+                <svg role="img" aria-label="Share on LinkedIn" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <title>Share on LinkedIn</title>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M32 16C32 24.8365 24.8366 32 16 32C7.16341 32 0 24.8365 0 16C0 7.16345 7.16341 0 16 0C24.8366 0 32 7.16345 32 16ZM22.2042 25.3332H26.2222V17.079C26.2222 13.5865 24.2425 11.8979 21.4772 11.8979C18.7106 11.8979 17.5464 14.0523 17.5464 14.0523V12.2962H13.6741V25.3332H17.5464V18.4896C17.5464 16.6559 18.3905 15.5647 20.0061 15.5647C21.4912 15.5647 22.2042 16.6132 22.2042 18.4896V25.3332ZM6.66667 8.18339C6.66667 9.51188 7.73551 10.5891 9.05444 10.5891C10.3735 10.5891 11.4416 9.51188 11.4416 8.18339C11.4416 6.85486 10.3735 5.77767 9.05444 5.77767C7.73551 5.77767 6.66667 6.85486 6.66667 8.18339ZM11.0928 25.3332H7.05501V12.2962H11.0928V25.3332Z" fill="#0472C6" />
+                </svg>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.charityjob.co.uk%2Fjobs%2Fbespace%2Fhead-of-operations%2F1075075&t=Head&#x2B;of&#x2B;Operations&#x2B;%7C&#x2B;BeSpace&#x2B;%7C&#x2B;CharityJob"
+               data-social-url="https://www.facebook.com/sharer/sharer.php?u=" title="Facebook" class="social-share-button" target="_blank">
+                <svg role="img" aria-label="Share on Facebook" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <title>Share on Facebook</title>
+                    <path d="M18.6133 31.8182V20.5733H22.1333L22.8533 16.0933H18.6133V12.9733C18.6133 11.6933 19.0933 10.7333 21.0133 10.7333H23.0933V6.65333C21.9733 6.49333 20.6933 6.33333 19.5733 6.33333C15.8933 6.33333 13.3333 8.57333 13.3333 12.5733V16.0933H9.33333V20.5733H13.3333V31.8352C5.74653 30.4647 0 23.9107 0 16C0 7.2 7.2 0 16 0C24.8 0 32 7.2 32 16C32 23.92 26.24 30.48 18.64 31.84L18.6133 31.8182Z" fill="#0472C6" />
+                </svg>
+            </a>
+            <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.charityjob.co.uk%2Fjobs%2Fbespace%2Fhead-of-operations%2F1075075&t=Head&#x2B;of&#x2B;Operations&#x2B;%7C&#x2B;BeSpace&#x2B;%7C&#x2B;CharityJob"
+               data-social-url="https://twitter.com/intent/tweet?url=" title="Twitter" class="social-share-button" target="_blank">
+                <svg role="img" aria-label="Share on X" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <title>Share on X</title>
+                    <path d="M20.1898 23.5081H22.4627L12.0003 8.54256H9.72734L20.1898 23.5081Z" fill="#0472C6" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32ZM23.9418 7.42855L17.6972 14.6874L24.4885 24.5714H19.4936L14.9201 17.9155L9.19413 24.5714H7.71427L14.2631 16.9594L7.71427 7.42855H12.7092L17.0399 13.7313L22.462 7.42855H23.9418Z" fill="#0472C6" />
+                </svg>
+            </a>
+        </div>
+    </div>
+        <section id="job-detail-feedback-1075075" class="job-feedback-wrapper" data-feedbackid="1075075">
+        <div class="job-detail-section-heading">Does something look incorrect in this job listing?</div>
+        <button class="job-detail-feedback-btn">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 10V15C3 15.2833 2.90417 15.5208 2.7125 15.7125C2.52083 15.9042 2.28333 16 2 16C1.71667 16 1.47917 15.9042 1.2875 15.7125C1.09583 15.5208 1 15.2833 1 15V1C1 0.716667 1.09583 0.479167 1.2875 0.2875C1.47917 0.0958333 1.71667 0 2 0H9.175C9.40833 0 9.61667 0.075 9.8 0.225C9.98333 0.375 10.1 0.566667 10.15 0.8L10.4 2H15C15.2833 2 15.5208 2.09583 15.7125 2.2875C15.9042 2.47917 16 2.71667 16 3V11C16 11.2833 15.9042 11.5208 15.7125 11.7125C15.5208 11.9042 15.2833 12 15 12H9.825C9.59167 12 9.38333 11.925 9.2 11.775C9.01667 11.625 8.9 11.4333 8.85 11.2L8.6 10H3ZM10.65 10H14V4H9.575C9.34167 4 9.13333 3.925 8.95 3.775C8.76667 3.625 8.65 3.43333 8.6 3.2L8.35 2H3V8H9.425C9.65833 8 9.86667 8.075 10.05 8.225C10.2333 8.375 10.35 8.56667 10.4 8.8L10.65 10Z" fill="#0472C6" />
+            </svg>
+            Report an issue
+        </button>
+        <div class="main-modal details-feedback-modal">
+            <div class="modal fade job-details-feedback-modal" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content job-detail-feedback-report">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Report an issue</h4>
+                        </div>
+                        <div class="modal-scroll styled-scrollbar">
+                            <p class="text-left">
+                                What looks incorrect in the <strong>Head of Operations</strong> ad?
+                            </p>
+                            <form class="modal-body">
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8Nw9m37VlFpNtRDeYq5La9chOeUlsqDMGou4NI-xCMxSfuu_Ru3sq8O24WHnhNFbOIyZxHXwrV0ls1Uyxp3vm6Q8w_UqOYXAw7f46kJGXdx_vyYM0ZqfI-UzfRtmiB_FZIxfthprKJ40azXunL1agPw" />
+<input class="modal-reason" id="Job title 1075075" name="Job title" type="checkbox" value="true" /><label for="Job title 1075075">Job title</label><input class="modal-reason" id="Location 1075075" name="Location" type="checkbox" value="true" /><label for="Location 1075075">Location</label><input class="modal-reason" id="Salary 1075075" name="Salary" type="checkbox" value="true" /><label for="Salary 1075075">Salary</label><input class="modal-reason" id="Working hours and contract type 1075075" name="Working hours and contract type" type="checkbox" value="true" /><label for="Working hours and contract type 1075075">Working hours and contract type</label><input class="modal-reason" id="Job description 1075075" name="Job description" type="checkbox" value="true" /><label for="Job description 1075075">Job description</label><input class="modal-reason" id="Posting and closing dates 1075075" name="Posting and closing dates" type="checkbox" value="true" /><label for="Posting and closing dates 1075075">Posting and closing dates</label><input class="modal-reason" id="Tags 1075075" name="Tags" type="checkbox" value="true" /><label for="Tags 1075075">Tags</label><input class="modal-reason" id="Organisation information 1075075" name="Organisation information" type="checkbox" value="true" /><label for="Organisation information 1075075">Organisation information</label><input class="modal-reason" id="Other 1075075" name="Other" type="checkbox" value="true" /><label for="Other 1075075">Other</label>                                <div class="comment-area">
+                                    <p class="text-left comment-label">
+                                        Tell us more*
+                                    </p>
+                                    <textarea class="feedback-textarea" id="comment" maxLength="600" name="comment" placeholder="Please explain the issue">
+</textarea>
+                                        <p class="text-left comment-label">Leave your email address and we’ll contact you if needed</p>
+<input class="feedback-email" id="email" name="email" placeholder="Enter your email address" type="text" value="" />                                        <span class="validation-message feedback-email-error" style="display:none;">
+                                            Please enter a valid email address.
+                                        </span>
+                                </div>
+                            <input name="Job title" type="hidden" value="false" /><input name="Location" type="hidden" value="false" /><input name="Salary" type="hidden" value="false" /><input name="Working hours and contract type" type="hidden" value="false" /><input name="Job description" type="hidden" value="false" /><input name="Posting and closing dates" type="hidden" value="false" /><input name="Tags" type="hidden" value="false" /><input name="Organisation information" type="hidden" value="false" /><input name="Other" type="hidden" value="false" /></form>
+                        </div>
+                        <div class="modal-footer mt-12">
+                            <button type="button" class="btn btn-secondary job-details-feedback-modal-close" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary job-details-feedback-modal-submit" disabled>Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-none job-modal-thanks job-detail-feedback-thanks modal fade" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header text-center">
+                            <img src="/dist/assets/images/icons/tick-blue-shadowed.svg" alt="" height="90px" width="90px" />
+                            <h4 class="modal-title">Thank you!</h4>
+                        </div>
+                        <form class="modal-body text-center">
+                            <p class="subtitle">
+                                We’ll use your feedback to improve the quality of our job ads.
+                            </p>
+                            <p>
+                                Please note we're not responsible for the content of job ads, as they're posted by the recruiter. We'll aim to resolve the reported issue and we'll use your feedback to improve the quality of our ads.
+                            </p>
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary job-details-feedback-modal-close" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <p class="footer-warning">
+        You should never provide bank or financial information, or make any form of payment, when applying for a job. If you are ever asked to do this by a recruiter on our site, please email: <a style="color: #516173" href="/cdn-cgi/l/email-protection#1871767e77587b70796a716c6172777a367b77366d73"><span class="__cf_email__" data-cfemail="f0999e969fb0939891829984899a9f92de939fde859b">[email&#160;protected]</span></a>
+    </p>
+</section>
+    </article>
+    <aside class="related-job-items">
+        
+    <section class="related-jobs-wrapper">
+        <div class="job-detail-section-heading">
+            Other jobs you may like
+        </div>
+        <div class="ga-otherjobs-maylike related-jobs">
+                <article job-id="1073143" class="job-card-wrapper clickable-job-article" data-joburl="https://www.charityjob.co.uk/jobs/stewardship/head-of-customer-operations/1073143">
+                    <div class="job-card" job-id="1073143">
+                        <div class="logo-wrapper">
+                            <div class="logo ">
+                                    <a href="javascript:void(0)" title="Stewardship " class="job-card-logo">
+                                        <img src="https://downloads.charityjob.co.uk/cdn-cgi/image/width=172,height=129,fit=contain/uploads/stewardship_c_logo_black_on_sunshine_2025_01_22_12_24_23_pm.jpg" alt="Stewardship">
+                                    </a>
+                            </div>
+                        </div>
+                        <div class="job-summary">
+                            <div class="job-title ">
+                                <a href="https://www.charityjob.co.uk/jobs/stewardship/head-of-customer-operations/1073143" class="">
+                                    Head of Customer Operations
+                                </a>
+                            </div>
+                            <div class="organisation">Stewardship</div>
+                        </div>
+                        <div class="more-info">
+                            <div class="job-summary">
+                                    <div class="job-summary-item">
+                                        <i class="cj-icon icon-location"></i>
+                                        <span>EC1Y,  London  (Hybrid)</span>
+                                    </div>
+
+                                    <div class="job-summary-item">
+                                        <i class="cj-icon icon-pound"></i><span>&#xA3;47,000 - &#xA3;51,000 per year</span>
+                                    </div>
+                            </div>
+                                <div class="job-actions float-right">
+                                    <a href="#" title="Saved jobs" data-isloggedin="false" class="btn-save-job" job-id="1073143">
+                                        <span class="cj-icon icon-star "></span>
+                                        <span class="cj-icon icon-favourite display-none"></span>
+                                    </a>
+                                </div>
+                        </div>
+                    </div>
+                </article>
+                <article job-id="1073784" class="job-card-wrapper clickable-job-article" data-joburl="https://www.charityjob.co.uk/jobs/race-equality-foundation/head-of-operations/1073784">
+                    <div class="job-card" job-id="1073784">
+                        <div class="logo-wrapper">
+                            <div class="logo ">
+                                    <a href="javascript:void(0)" title="Race Equality Foundation " class="job-card-logo">
+                                        <img src="https://downloads.charityjob.co.uk/cdn-cgi/image/width=172,height=129,fit=contain/uploads/ref_logo_colours_2022_12_06_03_49_06_pm.png" alt="Race Equality Foundation">
+                                    </a>
+                            </div>
+                        </div>
+                        <div class="job-summary">
+                            <div class="job-title ">
+                                <a href="https://www.charityjob.co.uk/jobs/race-equality-foundation/head-of-operations/1073784" class="">
+                                    Head of Operations
+                                </a>
+                            </div>
+                            <div class="organisation">Race Equality Foundation</div>
+                        </div>
+                        <div class="more-info">
+                            <div class="job-summary">
+                                    <div class="job-summary-item">
+                                        <i class="cj-icon icon-location"></i>
+                                        <span>London (Hybrid)</span>
+                                    </div>
+
+                                    <div class="job-summary-item">
+                                        <i class="cj-icon icon-pound"></i><span>&#xA3;47,911 - &#xA3;53,890 per year</span>
+                                    </div>
+                            </div>
+                                <div class="job-actions float-right">
+                                    <a href="#" title="Saved jobs" data-isloggedin="false" class="btn-save-job" job-id="1073784">
+                                        <span class="cj-icon icon-star "></span>
+                                        <span class="cj-icon icon-favourite display-none"></span>
+                                    </a>
+                                </div>
+                        </div>
+                    </div>
+                </article>
+                <article job-id="1075047" class="job-card-wrapper clickable-job-article" data-joburl="https://www.charityjob.co.uk/jobs/1001-critical-days-foundation-/head-of-operations-and-finance/1075047">
+                    <div class="job-card" job-id="1075047">
+                        <div class="logo-wrapper">
+                            <div class="logo ">
+                                    <a href="javascript:void(0)" title="1001 Critical Days Foundation  " class="job-card-logo">
+                                        <img src="https://downloads.charityjob.co.uk/cdn-cgi/image/width=172,height=129,fit=contain/uploads/1001_critical_days_foundation_secondary_logo_stacked_mulitcolour_symbol_colour_2026_06_23_01_30_37_pm.jpg" alt="1001 Critical Days Foundation ">
+                                    </a>
+                            </div>
+                        </div>
+                        <div class="job-summary">
+                            <div class="job-title ">
+                                <a href="https://www.charityjob.co.uk/jobs/1001-critical-days-foundation-/head-of-operations-and-finance/1075047" class="">
+                                    Head of Operations and Finance
+                                </a>
+                            </div>
+                            <div class="organisation">1001 Critical Days Foundation </div>
+                        </div>
+                        <div class="more-info">
+                            <div class="job-summary">
+                                    <div class="job-summary-item">
+                                        <i class="cj-icon icon-location"></i>
+                                        <span>London (Hybrid)</span>
+                                    </div>
+
+                                    <div class="job-summary-item">
+                                        <i class="cj-icon icon-pound"></i><span>&#xA3;60,000 - &#xA3;65,000 per year</span>
+                                    </div>
+                            </div>
+                                <div class="job-actions float-right">
+                                    <a href="#" title="Saved jobs" data-isloggedin="false" class="btn-save-job" job-id="1075047">
+                                        <span class="cj-icon icon-star "></span>
+                                        <span class="cj-icon icon-favourite display-none"></span>
+                                    </a>
+                                </div>
+                        </div>
+                    </div>
+                </article>
+ 
+    <article class="search-suggested-action-article">
+        <div class="search-suggested-action-card">
+            <div class="content-container">
+                <div class="icon">
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M49 49C49 51.2091 47.2091 53 45 53H23C20.7909 53 19 51.2091 19 49V19C19 16.7909 20.7909 15 23 15H40L49 24V49Z" fill="#CDE3F4" />
+                        <path d="M37 40C37.5523 40 38 40.4477 38 41C38 41.5523 37.5523 42 37 42H23C22.4477 42 22 41.5523 22 41C22 40.4477 22.4477 40 23 40H37Z" fill="#002A6F" />
+                        <path d="M30.0205 26.001C30.0381 26.0013 30.0557 26.0017 30.0732 26.0029C30.0909 26.0042 30.1085 26.0056 30.126 26.0078C30.143 26.01 30.1598 26.0136 30.1768 26.0166C30.1865 26.0183 30.1964 26.0195 30.2061 26.0215C30.231 26.0267 30.2557 26.0329 30.2803 26.04C30.2881 26.0423 30.296 26.0444 30.3037 26.0469C30.3159 26.0507 30.3278 26.0552 30.3398 26.0596C30.3752 26.0723 30.409 26.088 30.4424 26.1045C30.4746 26.1204 30.5064 26.1376 30.5371 26.1572C30.5714 26.1791 30.6045 26.2027 30.6357 26.2285C30.6602 26.2487 30.6842 26.2701 30.707 26.293L34.707 30.293C35.0974 30.6835 35.0975 31.3166 34.707 31.707C34.3166 32.0974 33.6835 32.0974 33.293 31.707L31 29.4141V37C31 37.5523 30.5523 38 30 38C29.4477 38 29 37.5523 29 37V29.4141L26.707 31.707C26.3166 32.0974 25.6835 32.0974 25.293 31.707C24.9025 31.3165 24.9025 30.6835 25.293 30.293L29.293 26.293C29.3382 26.2477 29.3872 26.2059 29.4404 26.1699C29.4804 26.1429 29.5227 26.1202 29.5654 26.0996C29.6216 26.0724 29.6807 26.0505 29.7422 26.0342C29.7588 26.0298 29.7753 26.025 29.792 26.0215C29.803 26.0192 29.8141 26.0176 29.8252 26.0156C29.8427 26.0125 29.8603 26.01 29.8779 26.0078C29.8957 26.0056 29.9136 26.0041 29.9316 26.0029C29.9476 26.0018 29.9635 26.0013 29.9795 26.001C29.9863 26.0008 29.9931 26 30 26C30.0069 26 30.0137 26.0008 30.0205 26.001Z" fill="#002A6F" />
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M36 10C36.2652 10 36.5195 10.1054 36.707 10.293L45.707 19.293C45.8946 19.4805 46 19.7348 46 20V45C46 47.7614 43.7614 50 41 50H19C16.2386 50 14 47.7614 14 45V15C14 12.2386 16.2386 10 19 10H36ZM19 12C17.3431 12 16 13.3431 16 15V45C16 46.6569 17.3431 48 19 48H41C42.6569 48 44 46.6569 44 45V22H39C36.2386 22 34 19.7614 34 17V12H19ZM36 17C36 18.6569 37.3431 20 39 20H43.5859L36 12.4141V17Z" fill="#002A6F" />
+                    </svg>
+                </div>
+                <div class="content">
+                    <div class="text">
+                        <h3>Upload your CV</h3>
+                        <p>Save time when you spot your dream job. Upload your CV with ease.</p>
+                    </div>
+                    <a href="/candidate/profile" class="ga-jobsearch-uploadcv">
+                        Upload CV
+                    </a>
+                </div>
+            </div>
+            <div class="search-suggested-action-close-icon" role="button" tabindex="0" aria-label="Close suggested action" title="Dismiss">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.34015 15.6587C4.24717 15.5658 4.1734 15.4556 4.12308 15.3342C4.07275 15.2128 4.04688 15.0826 4.04688 14.9512C4.04688 14.8198 4.07275 14.6898 4.12308 14.5684C4.1734 14.447 4.24717 14.3365 4.34015 14.2437L8.58316 10.0007L4.34015 5.75879C4.24717 5.66592 4.1734 5.55548 4.12308 5.43408C4.07275 5.31268 4.04688 5.18269 4.04688 5.05127C4.04688 4.91985 4.07275 4.78961 4.12308 4.66821C4.1734 4.54681 4.24717 4.43662 4.34015 4.34375C4.52768 4.15628 4.78199 4.05078 5.04715 4.05078C5.31231 4.05078 5.56662 4.15628 5.75415 4.34375L9.99716 8.58667L14.2391 4.34473C14.332 4.25175 14.4423 4.17801 14.5637 4.12769C14.6851 4.07736 14.8152 4.05151 14.9467 4.05151C15.0781 4.05151 15.2082 4.07736 15.3296 4.12769C15.451 4.17801 15.5613 4.25175 15.6541 4.34473C15.8416 4.53225 15.9469 4.78659 15.9469 5.05176C15.9469 5.31692 15.8416 5.57126 15.6541 5.75879L11.4111 10.0017L15.6541 14.2446C15.8416 14.4322 15.9469 14.6865 15.9469 14.9517C15.9469 15.2168 15.8416 15.4712 15.6541 15.6587C15.4666 15.8462 15.2123 15.9514 14.9471 15.9514C14.682 15.9514 14.4277 15.8462 14.2401 15.6587L9.99716 11.4167L5.75415 15.6597C5.56666 15.8472 5.31234 15.9526 5.04715 15.9526C4.91577 15.9525 4.78571 15.9264 4.6644 15.876C4.54309 15.8255 4.4329 15.7517 4.34015 15.6587Z" fill="currentColor" />
+                </svg>
+            </div>
+        </div>
+    </article>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        (function(){
+        document.querySelectorAll('.search-suggested-action-article .search-suggested-action-close-icon')
+            .forEach(function (closeIcon) {
+                closeIcon.addEventListener('click', function () {
+                    var article = closeIcon.closest('.search-suggested-action-article');
+                    if (article) article.remove();
+                });
+            });
+        })();
+    </script>
+                <article job-id="1074125" class="job-card-wrapper clickable-job-article" data-joburl="https://www.charityjob.co.uk/jobs/rise-61/head-of-finance-and-operations/1074125">
+                    <div class="job-card" job-id="1074125">
+                        <div class="logo-wrapper">
+                            <div class="logo ">
+                                    <a href="javascript:void(0)" title="Rise:61 " class="job-card-logo">
+                                        <img src="https://downloads.charityjob.co.uk/cdn-cgi/image/width=172,height=129,fit=contain/uploads/mainlogo_300x300_2020_11_12_10_41_15_am.jpg" alt="Rise:61">
+                                    </a>
+                            </div>
+                        </div>
+                        <div class="job-summary">
+                            <div class="job-title ">
+                                <a href="https://www.charityjob.co.uk/jobs/rise-61/head-of-finance-and-operations/1074125" class="">
+                                    Head of Finance and Operations
+                                </a>
+                            </div>
+                            <div class="organisation">Rise:61</div>
+                        </div>
+                        <div class="more-info">
+                            <div class="job-summary">
+                                    <div class="job-summary-item">
+                                        <i class="cj-icon icon-location"></i>
+                                        <span>Salisbury,  Wiltshire  (Hybrid)</span>
+                                    </div>
+
+                                    <div class="job-summary-item">
+                                        <i class="cj-icon icon-pound"></i><span>Salary: &#xA3;36,000 &#x2013; &#xA3;40,000 FTE</span>
+                                    </div>
+                            </div>
+                                <div class="job-actions float-right">
+                                    <a href="#" title="Saved jobs" data-isloggedin="false" class="btn-save-job" job-id="1074125">
+                                        <span class="cj-icon icon-star "></span>
+                                        <span class="cj-icon icon-favourite display-none"></span>
+                                    </a>
+                                </div>
+                        </div>
+                    </div>
+                </article>
+                <article job-id="1071222" class="job-card-wrapper clickable-job-article" data-joburl="https://www.charityjob.co.uk/jobs/action-hampshire/head-of-finance-operations/1071222">
+                    <div class="job-card" job-id="1071222">
+                        <div class="logo-wrapper">
+                            <div class="logo ">
+                                    <a href="javascript:void(0)" title="Action Hampshire " class="job-card-logo">
+                                        <img src="https://downloads.charityjob.co.uk/cdn-cgi/image/width=172,height=129,fit=contain/uploads/action_hampshire_rgb_new_2024_05_09_10_38_24_am.jpg" alt="Action Hampshire">
+                                    </a>
+                            </div>
+                        </div>
+                        <div class="job-summary">
+                            <div class="job-title ">
+                                <a href="https://www.charityjob.co.uk/jobs/action-hampshire/head-of-finance-operations/1071222" class="">
+                                    Head of Finance &amp; Operations
+                                </a>
+                            </div>
+                            <div class="organisation">Action Hampshire</div>
+                        </div>
+                        <div class="more-info">
+                            <div class="job-summary">
+                                    <div class="job-summary-item">
+                                        <i class="cj-icon icon-location"></i>
+                                        <span>Hampshire (Hybrid)</span>
+                                    </div>
+
+                                    <div class="job-summary-item">
+                                        <i class="cj-icon icon-pound"></i><span>&#xA3;42,436 per year (full-time equivalent, pro rata for part-time role)</span>
+                                    </div>
+                            </div>
+                                <div class="job-actions float-right">
+                                    <a href="#" title="Saved jobs" data-isloggedin="false" class="btn-save-job" job-id="1071222">
+                                        <span class="cj-icon icon-star "></span>
+                                        <span class="cj-icon icon-favourite display-none"></span>
+                                    </a>
+                                </div>
+                        </div>
+                    </div>
+                </article>
+                <article job-id="1075063" class="job-card-wrapper clickable-job-article" data-joburl="https://www.charityjob.co.uk/jobs/british-dietetic-association/head-of-operations/1075063">
+                    <div class="job-card" job-id="1075063">
+                        <div class="logo-wrapper">
+                            <div class="logo ">
+                                    <div class="no-img"></div>
+                            </div>
+                        </div>
+                        <div class="job-summary">
+                            <div class="job-title ">
+                                <a href="https://www.charityjob.co.uk/jobs/british-dietetic-association/head-of-operations/1075063" class="">
+                                    Head of Operations
+                                </a>
+                            </div>
+                            <div class="organisation">British Dietetic Association</div>
+                        </div>
+                        <div class="more-info">
+                            <div class="job-summary">
+                                    <div class="job-summary-item">
+                                        <i class="cj-icon icon-location"></i>
+                                        <span>Birmingham (Hybrid)</span>
+                                    </div>
+
+                                    <div class="job-summary-item">
+                                        <i class="cj-icon icon-pound"></i><span>&#xA3;55,082 per year</span>
+                                    </div>
+                            </div>
+                                <div class="job-actions float-right">
+                                    <a href="#" title="Saved jobs" data-isloggedin="false" class="btn-save-job" job-id="1075063">
+                                        <span class="cj-icon icon-star "></span>
+                                        <span class="cj-icon icon-favourite display-none"></span>
+                                    </a>
+                                </div>
+                        </div>
+                    </div>
+                </article>
+                <article job-id="1074419" class="job-card-wrapper clickable-job-article" data-joburl="https://www.charityjob.co.uk/jobs/cystic-fibrosis-trust/head-of-registry-operations/1074419">
+                    <div class="job-card" job-id="1074419">
+                        <div class="logo-wrapper">
+                            <div class="logo ">
+                                    <a href="javascript:void(0)" title="Cystic Fibrosis Trust " class="job-card-logo">
+                                        <img src="https://downloads.charityjob.co.uk/cdn-cgi/image/width=172,height=129,fit=contain/uploads/cystic_fibrosis_2024_12_23_10_42_50_am.jpg" alt="Cystic Fibrosis Trust">
+                                    </a>
+                            </div>
+                        </div>
+                        <div class="job-summary">
+                            <div class="job-title ">
+                                <a href="https://www.charityjob.co.uk/jobs/cystic-fibrosis-trust/head-of-registry-operations/1074419" class="">
+                                    Head of Registry Operations
+                                </a>
+                            </div>
+                            <div class="organisation">Cystic Fibrosis Trust</div>
+                        </div>
+                        <div class="more-info">
+                            <div class="job-summary">
+                                    <div class="job-summary-item">
+                                        <i class="cj-icon icon-location"></i>
+                                        <span>Central London (Hybrid)</span>
+                                    </div>
+
+                                    <div class="job-summary-item">
+                                        <i class="cj-icon icon-pound"></i><span>&#xA3;64,000 per year plus &#xA3;3,000 per year for London Weighting OR &#xA3;450 per year Home Allowance</span>
+                                    </div>
+                            </div>
+                                <div class="job-actions float-right">
+                                    <a href="#" title="Saved jobs" data-isloggedin="false" class="btn-save-job" job-id="1074419">
+                                        <span class="cj-icon icon-star "></span>
+                                        <span class="cj-icon icon-favourite display-none"></span>
+                                    </a>
+                                </div>
+                        </div>
+                    </div>
+                </article>
+        </div>
+    </section>
+<script>
+    (() => {
+        document.querySelectorAll('.clickable-job-article').forEach(link => {
+            link.addEventListener('click', function (e) {
+                // Prevent redirect if clicking on interactive elements
+                if (
+                    e.target.closest("a") ||
+                    e.target.closest("button") ||
+                    e.target.closest(".btn-save-job")
+                ) {
+                    return;
+                }
+
+                const url = link.dataset.joburl;
+                if (url) {
+                    window.location.href = url;
+                }
+            });
+        });
+    })();
+
+</script>
+
+    </aside>
+</section>
+
+<div class="clearfix"></div>
+
+
+
+    <section class="sticky-buttons single-job-add ">
+            <div class="job-apply  ">
+                <a class="btn-apply trigger-application-details " title="How to apply" job-id="1075075"> <span class="apply-text">Apply</span></a>
+            </div>
+
+            <div class="save-job-wrapper">
+                <a href="#" title="Saved jobs" data-isloggedin="false" class="btn-save-job " job-id="1075075">
+                    <span class="cj-icon icon-star "></span>
+                    <span class="text "> Save </span>
+                    <span class="cj-icon icon-favourite display-none"></span>
+                    <span class="text display-none"> Saved </span>
+                </a>
+            </div>
+    </section>
+
+
+    <script type="application/ld+json">
+        {"@context":"https://schema.org","@type":"JobPosting","@id":"https://www.charityjob.co.uk/jobs/bespace/head-of-operations/1075075","title":"Head of Operations","description":"<p><strong>About the Role</strong></p>\n\n<p>As we scale, we are looking for a <strong>Head of Operations</strong> to provide operational leadership to ensure the charity operates effectively, compliantly and sustainably in line with its mission and ethos. Working closely with the CEO, you will support the translation of the vision into reality by building strong foundations, enabling effective delivery, and supporting the scaling of the organisational from a regional base to a nationally impactful charity.</p>\n\n<p>This is a pivotal role shaping how BeSpace grows. You will lead on strengthening systems, people, governance and operational delivery embedding accountability, and continuous improvement.</p>\n\n<p>In this role, you will:</p>\n\n<p><strong>Strengthen governance, risk and compliance</strong></p>\n\n<p>&middot; Develop and maintain robust governance frameworks and ensure legal and regulatory compliance</p>\n\n<p>&middot; Embed effective risk management processes</p>\n\n<p>&middot; Oversee key compliance areas including safeguarding, GDPR and reporting</p>\n\n<p><strong>Build operational systems and infrastructure</strong></p>\n\n<p>&middot; Develop and implement scalable systems, processes and internal controls</p>\n\n<p>&middot; Improve data management (including CRM) and strengthen reporting</p>\n\n<p>&middot; Contribute to ensuring operational readiness to support national growth</p>\n\n<p>&middot; Work with external providers on IT and financial system integration</p>\n\n<p><strong>Lead people, culture and organisational development</strong></p>\n\n<p>&middot; Oversee recruitment, onboarding and retention of a high-performing team</p>\n\n<p>&middot; Strengthen performance management and accountability frameworks</p>\n\n<p>&middot; Support and foster a values-led, healthy team culture aligned with BeSpace&rsquo;s mission</p>\n\n<p><strong>Enable delivery, impact and growth</strong></p>\n\n<p>&middot; Strengthen operational support for programme delivery and expansion</p>\n\n<p>&middot; Support the<strong> </strong>translation of strategic ambitions into practical systems and ways of working</p>\n\n<p>&middot; Improve data insight to inform decision-making</p>\n\n<p>&middot; Support development of fundraising infrastructure.</p>\n\n<p><strong>Contribute to wider organisational life</strong></p>\n\n<p>&middot; Work collaboratively across the team to support evolving priorities</p>\n\n<p>&middot; Act as an ambassador for BeSpace&rsquo;s values and Christian ethos</p>\n\n<p><strong>About You</strong></p>\n\n<p>We are looking for someone who:</p>\n\n<p>&middot; Has experience in operations, programme or an organisational role with increasing responsibility or has had operational leadership, ideally within a growing or changing organisation</p>\n\n<p>&middot; Has good experience in developing systems, processes and organisational infrastructure</p>\n\n<p>&middot; Can work closely with a CEO to translate vision into operational delivery</p>\n\n<p>&middot; Has excellent organisational and project management skills</p>\n\n<p>&middot; Is proactive, collaborative and relational leader who builds strong teams and culture</p>\n\n<p><strong>&nbsp;It would be a bonus if you:</strong></p>\n\n<p><strong>&nbsp;</strong>&middot; Are an experienced operational leader motivated by impact, flexibility, and supporting the growth of a mission-led organisation</p>\n\n<p>&middot; Have significantly enabled the scaling of a regional organisation to national growth operationally.</p>\n\n<p>&middot; Have experience in fundraising systems or donor management</p>","identifier":{"@type":"PropertyValue","name":"BeSpace","value":"1075075"},"url":"https://www.charityjob.co.uk/jobs/bespace/head-of-operations/1075075","applicantLocationRequirements":{"@type":"Country","name":"GB"},"baseSalary":{"@type":"MonetaryAmount","currency":"GBP","value":{"@type":"QuantitativeValue","maxValue":47000,"minValue":43000,"unitText":"YEAR"}},"datePosted":"2026-07-02","educationRequirements":"no requirements","employmentType":["CONTRACTOR","PART_TIME"],"experienceRequirements":"no requirements","hiringOrganization":{"@type":"Organization","name":"BeSpace","logo":"https://downloads.charityjob.co.uk/cdn-cgi/image/width=172,height=129,fit=contain/uploads/1_2026_02_23_09_13_55_am.png"},"industry":["Christian","Finance","Operations","CRM","Data Protection","Faith-Based","Risk Management","Safeguarding","Charities","Faith-based"],"jobLocationType":"TELECOMMUTE","validThrough":"2026-07-30"}
+    </script>
+
+<script type="text/plain" class="optanon-category-C0002">
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        'event': 'job_view',
+        'job_id': 1075075
+    });
+</script>
+</div>
+
+<div class="mobile-search-filters-wrapper">
+    <div class="mobile-search-form jobs-refine-search" style="display:none">
+    <form action="/jobs" id="header-search-form" class="search-filter-form">
+
+        <div class="header-search-form-container">
+            <div class="mobile-job-search-modal hide" id="mobile-search-fields">
+                <label for="keywords">Job titles, keywords, organisations</label>
+                <cj-job-search-input placeholder="Job titles, keywords, organisations"
+                                     overlay-offset="193"
+                                     type="paid"
+                                     value=""
+                                     id="mobileKeyword"
+                                     name="keywords">
+                </cj-job-search-input>
+                <div class="btns">
+                    <button type="button">Clear</button>
+                    <button class="submit-search" type="button">Find jobs</button>
+                </div>
+            </div>
+
+            <div class="mobile-locations-search-modal hide" id="mobile-search-fields">
+                <label for="location">Locations</label>
+                <cj-location-search-input name="location"
+                                          id="mobileLocation"
+                                          model="[]"
+                                          placeholder="Locations"
+                                          radius="[{&quot;text&quot;:&quot;\u002B 1 mile&quot;,&quot;value&quot;:&quot;1&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 3 miles&quot;,&quot;value&quot;:&quot;3&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 5 miles&quot;,&quot;value&quot;:&quot;5&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 10 miles&quot;,&quot;value&quot;:&quot;10&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 20 miles&quot;,&quot;value&quot;:&quot;20&quot;,&quot;selected&quot;:true},{&quot;text&quot;:&quot;\u002B 40 miles&quot;,&quot;value&quot;:&quot;40&quot;,&quot;selected&quot;:false},{&quot;text&quot;:&quot;\u002B 80 miles&quot;,&quot;value&quot;:&quot;80&quot;,&quot;selected&quot;:false}]">
+                </cj-location-search-input>
+                <div class="btns">
+                    <button type="button">Clear</button>
+                    <button class="submit-search" type="button">Find jobs</button>
+                </div>
+            </div>
+
+            <div class="mobile-search-filters mobile-search " id="mobile-filter-fields">
+                <div class="header-search-bar-filters-content mobile-display">
+                    <div class="mobile-filter-wrapper header-search-filters">
+                        <ul>
+                                <li class="filter-menu-option">
+                                    <span class="filter-label ">Cause</span>
+                                    <button type="button" class="btn btn-filter" name="Cause" default-display-text="Please select cause" option-selected-text="Cause">
+                                        <span class="float-left">Please select cause</span><i class="cj-icon icon-chevron-down"></i>
+                                    </button>
+                                    <span class="auto-hide">    <div class="filter-display-container cause-filter">
+        <div class="search-filter">
+            <ul class="column-list dynamic-columns">
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-1" data-id="1" type="checkbox" is-on-load-checked="false" name="cause" value="animal" >
+                                <span class="label" >Animal</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-2" data-id="2" type="checkbox" is-on-load-checked="false" name="cause" value="arts-culture-heritage" >
+                                <span class="label" >Arts, Culture and Heritage</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-3" data-id="3" type="checkbox" is-on-load-checked="false" name="cause" value="charity-support" >
+                                <span class="label" >Charity Support</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-4" data-id="4" type="checkbox" is-on-load-checked="false" name="cause" value="community" >
+                                <span class="label" >Community Development</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-5" data-id="5" type="checkbox" is-on-load-checked="false" name="cause" value="disability" >
+                                <span class="label" >Disability</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-6" data-id="6" type="checkbox" is-on-load-checked="false" name="cause" value="dei" >
+                                <span class="label" >Diversity and Inclusion</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-7" data-id="7" type="checkbox" is-on-load-checked="false" name="cause" value="education" >
+                                <span class="label" >Education</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-8" data-id="8" type="checkbox" is-on-load-checked="false" name="cause" value="elderly" >
+                                <span class="label" >Elderly</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-9" data-id="9" type="checkbox" is-on-load-checked="false" name="cause" value="environment" >
+                                <span class="label" >Environment</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-10" data-id="10" type="checkbox" is-on-load-checked="false" name="cause" value="faith-based" >
+                                <span class="label" >Faith-based</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-11" data-id="11" type="checkbox" is-on-load-checked="false" name="cause" value="health" >
+                                <span class="label" >Health</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="top-right-item-column-2" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-12" data-id="12" type="checkbox" is-on-load-checked="false" name="cause" value="housing-and-homelessness" >
+                                <span class="label" >Housing and Homelessness</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-13" data-id="13" type="checkbox" is-on-load-checked="false" name="cause" value="human-rights" >
+                                <span class="label" >Human Rights</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-14" data-id="14" type="checkbox" is-on-load-checked="false" name="cause" value="international-development" >
+                                <span class="label" >International Development</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="top-right-item-column-3" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-15" data-id="15" type="checkbox" is-on-load-checked="false" name="cause" value="justice" >
+                                <span class="label" >Justice</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-16" data-id="16" type="checkbox" is-on-load-checked="false" name="cause" value="membership" >
+                                <span class="label" >Membership Organisations</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-17" data-id="17" type="checkbox" is-on-load-checked="false" name="cause" value="mental-health" >
+                                <span class="label" >Mental Health</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-18" data-id="18" type="checkbox" is-on-load-checked="false" name="cause" value="research" >
+                                <span class="label" >Research</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-19" data-id="19" type="checkbox" is-on-load-checked="false" name="cause" value="social-welfare" >
+                                <span class="label" >Social Welfare</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-20" data-id="20" type="checkbox" is-on-load-checked="false" name="cause" value="sport" >
+                                <span class="label" >Sport</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox "id="sector-21" data-id="21" type="checkbox" is-on-load-checked="false" name="cause" value="youth-and-children" >
+                                <span class="label" >Youth and Children</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+            </ul>
+        </div>
+        <div class="filter-action clear-checkboxes hidden-xs">
+            <div class="button-main-reb-text display-none">
+    <a href="javascript:void(0)" class="small clear-filters ga-search-clear-individual-filter">Clear Filters</a>
+</div>
+<div>
+    <button type="submit" class="button-main-reb small apply-filters submit-search ga-search-apply-filter">
+        Apply Filters
+    </button>
+</div>
+<div class="max-filter-count-error display-none">You’ve reached the maximum number of filters</div>
+
+        </div>
+    </div>
+</span>
+                                </li>
+                                <li class="filter-menu-option">
+                                    <span class="filter-label">Contract type</span>
+                                    <button type="button" class="btn btn-filter" name="Contract type" default-display-text="Please select contract type" option-selected-text="Contract type">
+                                        <span class="float-left">Please select contract type</span><i class="cj-icon icon-chevron-down"></i>
+                                    </button>
+                                    <span class="auto-hide">
+    <div class="filter-display-container contract-type-filter">
+        <div class="search-filter">
+            <ul class="static-columns">
+                        <li class="top-right-list-item" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox" id="contract-type-1" data-id="1" type="checkbox" is-on-load-checked="false" name="contracttype" value="full-time" >
+                                <span class="label">Full-time</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox" id="contract-type-2" data-id="2" type="checkbox" is-on-load-checked="false" name="contracttype" value="part-time" >
+                                <span class="label">Part-time</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox" id="contract-type-3" data-id="3" type="checkbox" is-on-load-checked="false" name="contracttype" value="permanent" >
+                                <span class="label">Permanent</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox" id="contract-type-4" data-id="4" type="checkbox" is-on-load-checked="false" name="contracttype" value="contract" >
+                                <span class="label">Contract</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox" id="contract-type-5" data-id="5" type="checkbox" is-on-load-checked="false" name="contracttype" value="temporary" >
+                                <span class="label">Temporary</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox" id="contract-type-6" data-id="6" type="checkbox" is-on-load-checked="false" name="contracttype" value="internship" >
+                                <span class="label">Internship</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+
+            </ul>
+        </div>
+
+        <div class="filter-action clear-checkboxes hidden-xs">
+            <div class="button-main-reb-text display-none">
+    <a href="javascript:void(0)" class="small clear-filters ga-search-clear-individual-filter">Clear Filters</a>
+</div>
+<div>
+    <button type="submit" class="button-main-reb small apply-filters submit-search ga-search-apply-filter">
+        Apply Filters
+    </button>
+</div>
+<div class="max-filter-count-error display-none">You’ve reached the maximum number of filters</div>
+
+        </div>
+    </div>
+</span>
+                                </li>
+                                <li class="filter-menu-option">
+                                    <span class="filter-label">Workplace</span>
+                                    <button type="button" class="btn btn-filter" name="Work Location" default-display-text="Please select workplace type" option-selected-text="Work Location">
+                                        <span class="float-left">Remote / Hybrid</span><i class="cj-icon icon-chevron-down"></i>
+                                    </button>
+                                    <span class="auto-hide">
+    <div class="filter-display-container work-location-filter">
+        <div class="search-filter">
+            <ul class="static-columns">
+                        <li class="top-right-list-item" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox" id="work-place-1" data-id="1" type="checkbox" is-on-load-checked="false" name="workplace" value="on-site" >
+                                <span class="label">On-site</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox" id="work-place-2" data-id="2" type="checkbox" is-on-load-checked="false" name="workplace" value="hybrid" >
+                                <span class="label">Hybrid</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-checkbox" id="work-place-3" data-id="3" type="checkbox" is-on-load-checked="false" name="workplace" value="remote" >
+                                <span class="label">Remote</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+
+            </ul>
+        </div>
+
+        <div class="filter-action clear-checkboxes hidden-xs">
+            <div class="button-main-reb-text display-none">
+    <a href="javascript:void(0)" class="small clear-filters ga-search-clear-individual-filter">Clear Filters</a>
+</div>
+<div>
+    <button type="submit" class="button-main-reb small apply-filters submit-search ga-search-apply-filter">
+        Apply Filters
+    </button>
+</div>
+<div class="max-filter-count-error display-none">You’ve reached the maximum number of filters</div>
+
+        </div>
+    </div>
+</span>
+                                </li>
+                                <li class="filter-menu-option">
+                                    <span class="filter-label">Salary</span>
+                                    <button type="button" class="btn btn-filter display-none-important" name="Salary" default-display-text="Salary" option-selected-text="Salary">
+                                        <span class="float-left">Salary</span><i class="cj-icon icon-chevron-down"></i>
+                                    </button>
+                                    
+<div class="filter-display-container salary-filter">
+    <div class="filter-wrapper salary-filter-options">
+        <div id="slider-range">
+            <div id="custom-handle" class="ui-slider-handle"></div>
+        </div>
+        <div class="slider-range-values">
+            <div class="min">
+                <input id="min-salary" class="min-salary" type="text" name="minsalary" default-salary="£0" value="&#xA3;0" inital-salary-on-load="&#xA3;0">
+            </div>
+            <div class="max">
+                <input id="max-salary" class="max-salary" type="text" name="maxsalary" default-salary="£100,000+" value="&#xA3;100,000&#x2B;" inital-salary-on-load="&#xA3;100,000&#x2B;">
+            </div>
+        </div>
+
+    </div>
+    <div class="volunteer-job-suggestion hide">
+        <p>Are you looking for volunteer roles ?</p>
+        <p><a href="/volunteer-jobs">Go to volunteering section</a></p>
+    </div>
+    <div class="filter-action clear-salary">
+        <div class="button-main-reb-text display-none">
+    <a href="javascript:void(0)" class="small clear-filters ga-search-clear-individual-filter">Clear Filters</a>
+</div>
+<div>
+    <button type="submit" class="button-main-reb small apply-filters submit-search ga-search-apply-filter">
+        Apply Filters
+    </button>
+</div>
+<div class="max-filter-count-error display-none">You’ve reached the maximum number of filters</div>
+
+    </div>
+</div> 
+                                  
+                                </li>
+
+
+                                <li class="filter-menu-option">
+                                    <span class="filter-label">Date Posted</span>
+                                    <button type="button" class="btn btn-filter" name="date type" default-display-text="All time" option-selected-text="Posted filter">
+                                        <span class="float-left">Date posted</span><i class="cj-icon icon-chevron-down"></i>
+                                    </button>
+                                    
+    <div class="filter-display-container date-filter">
+        <div class="search-filter">
+            <ul class="static-columns">
+                        <li class="top-right-list-item" >
+                            <label class="labelled-checkbox labelled-radio">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-radio-button" id="date-filter-1" data-id="1" type="radio" is-on-load-checked="true" name="days" value="0" checked>
+                                <span class="label">Any time</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox labelled-radio">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-radio-button" id="date-filter-2" data-id="2" type="radio" is-on-load-checked="false" name="days" value="1" >
+                                <span class="label">Last 24 hours</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox labelled-radio">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-radio-button" id="date-filter-3" data-id="3" type="radio" is-on-load-checked="false" name="days" value="3" >
+                                <span class="label">Last 3 days</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox labelled-radio">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-radio-button" id="date-filter-4" data-id="4" type="radio" is-on-load-checked="false" name="days" value="7" >
+                                <span class="label">Last week</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+                        <li class="" >
+                            <label class="labelled-checkbox labelled-radio">
+                                <input class="job-search-filter-checkbox filter-checkbox custom-radio-button" id="date-filter-5" data-id="5" type="radio" is-on-load-checked="false" name="days" value="14" >
+                                <span class="label">Last 2 weeks</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </li>
+
+            </ul>
+        </div>
+
+        <div class="filter-action hidden-xs">
+            <div class="button-main-reb-text display-none">
+    <a href="javascript:void(0)" class="small clear-filters ga-search-clear-individual-filter">Clear Filters</a>
+</div>
+<div>
+    <button type="submit" class="button-main-reb small apply-filters submit-search ga-search-apply-filter">
+        Apply Filters
+    </button>
+</div>
+<div class="max-filter-count-error display-none">You’ve reached the maximum number of filters</div>
+
+        </div>
+    </div>
+
+                                </li>
+
+                                <li class="filter-menu-option others-filter">
+                                    <button type="button" class="btn btn-filter display-none-important" name="More filters" default-display-text="More filters" option-selected-text="More filters" hide-filter-info>
+                                        <span class="float-left">More filters</span><i class="cj-icon icon-chevron-down"></i>
+                                    </button>
+                                    
+<div class="filter-display-container other-filter">
+    <div class="filter-wrapper">
+
+            <div class="other-filter-options">
+                <div class="float-left other-filter-text">
+                    <p>Entry-level jobs only</p>
+                </div>
+                <div class="float-right">
+                    <label class="switch-button">
+                        <input type="checkbox" class="job-search-filter-checkbox toggle-switch switch-off"
+                               name="joblevel" is-on-load-checked=" false" value="entry_level" ><span class="slider round"></span></label>
+                </div>
+            </div>
+            <div class="other-filter-options">
+                <div class="float-left other-filter-text">
+                    <p>Apply Now jobs only</p>
+                </div>
+                <div class="float-right">
+                    <label class="switch-button">
+                        <input type="checkbox" class="job-search-filter-checkbox toggle-switch switch-off"
+                               name="applytype" is-on-load-checked=" false" value="online" ><span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="other-filter-options">
+                <div class="float-left other-filter-text">
+                    <p>Hide jobs from agencies</p>
+                </div>
+                <div class="float-right">
+                    <label class="switch-button">
+                        <input type="checkbox" class="job-search-filter-checkbox toggle-switch switch-off"
+                               name="employerType" is-on-load-checked=" false" value="direct-employer" ><span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+    </div>
+    <div class="filter-action hidden-xs">
+        <div class="button-main-reb-text display-none">
+    <a href="javascript:void(0)" class="small clear-filters ga-search-clear-individual-filter">Clear Filters</a>
+</div>
+<div>
+    <button type="submit" class="button-main-reb small apply-filters submit-search ga-search-apply-filter">
+        Apply Filters
+    </button>
+</div>
+<div class="max-filter-count-error display-none">You’ve reached the maximum number of filters</div>
+
+    </div>
+</div>
+
+
+
+                                </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="jobs-refine-search__apply-filters">
+                <h3>
+                    <span class="advanceSearchMessage"></span>m n 
+                </h3>
+                <button type="button" class="m-clear-search-filters">Clear filters</button>
+                <button class="button-main-reb jobs-refine-search__apply-filters-btn ga-mobile-search-apply submit-search" type="button" data-type="mobile">
+                    Apply Search
+                </button>
+            </div>
+           
+        </div>
+    </form>
+</div>
+
+
+</div>
+
+
+
+        <footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-social-media">
+            <img src="/dist/assets/images/cj-logo-inverted.svg" alt="CharityJob" class="logo" />
+            <ul class="social-links">
+                <li>
+                    <a href="https://www.linkedin.com/company/charityjob"  title="CharityJob on LinkedIn" target="_blank">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g id="icon_rzli">
+    <path id="icon" fill-rule="evenodd" clip-rule="evenodd" d="M24 12C24 18.6274 18.6274 24 12 24C5.37256 24 0 18.6274 0 12C0 5.37259 5.37256 0 12 0C18.6274 0 24 5.37259 24 12ZM16.6531 18.9999H19.6667V12.8092C19.6667 10.1899 18.1819 8.9234 16.1079 8.9234C14.033 8.9234 13.1598 10.5392 13.1598 10.5392V9.22214H10.2556V18.9999H13.1598V13.8672C13.1598 12.4919 13.7928 11.6735 15.0046 11.6735C16.1184 11.6735 16.6531 12.4599 16.6531 13.8672V18.9999ZM5 6.13754C5 7.13391 5.80164 7.94183 6.79083 7.94183C7.78009 7.94183 8.58118 7.13391 8.58118 6.13754C8.58118 5.14114 7.78009 4.33325 6.79083 4.33325C5.80164 4.33325 5 5.14114 5 6.13754ZM8.31958 18.9999H5.29126V9.22214H8.31958V18.9999Z" fill="currentcolor" />
+  </g>
+</svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.facebook.com/charityjobs" title="CharityJob on Facebook" target="_blank">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g id="icon_rzli">
+    <path id="icon" d="M13.96 23.8636V15.43H16.6L17.14 12.07H13.96V9.73C13.96 8.77 14.32 8.05 15.76 8.05H17.32V4.99C16.48 4.87 15.52 4.75 14.68 4.75C11.92 4.75 10 6.43 10 9.43V12.07H7V15.43H10V23.8764C4.3099 22.8485 0 17.9331 0 12C0 5.4 5.4 0 12 0C18.6 0 24 5.4 24 12C24 17.94 19.68 22.86 13.98 23.88L13.96 23.8636Z" fill="currentcolor" />
+  </g>
+</svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://x.com/charityjob" title="CharityJob on X" target="_blank">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g id="icon_rzli">
+    <g id="icon">
+      <path d="M15.1423 17.631H16.8471L9.00023 6.40692H7.2955L15.1423 17.631Z" fill="currentcolor" />
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24ZM17.9564 5.57141L13.2729 11.0155L18.3664 18.4286H14.6202L11.1901 13.4366L6.89559 18.4286H5.78571L10.6973 12.7196L5.78571 5.57141H9.5319L12.7799 10.2985L16.8465 5.57141H17.9564Z" fill="currentcolor" />
+    </g>
+  </g>
+</svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.youtube.com/channel/UC9DN7w_1WSaysLucZKRta3Q" title="CharityJob on YouTube" target="_blank">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M14.871 12L10.2 14.5714V9.42857L14.871 12Z" fill="currentColor" />
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24ZM20.856 9.48857C20.802 8.80286 20.721 8.26286 20.604 7.86C20.379 7.08857 19.857 6.59143 19.047 6.37714C18.12 6.13714 15.771 6 12 6L10.569 6.05143C9.579 6.05143 8.508 6.07714 7.338 6.13714C6.15 6.18857 5.376 6.26571 4.953 6.37714C4.143 6.59143 3.621 7.08857 3.396 7.86C3.144 8.74286 3 10.1229 3 12L3.054 12.72C3.054 13.2343 3.081 13.8257 3.144 14.5114C3.198 15.1971 3.279 15.7371 3.396 16.14C3.621 16.9114 4.143 17.4086 4.953 17.6229C5.88 17.8629 8.229 18 12 18L13.431 17.9486C14.421 17.9486 15.492 17.9229 16.662 17.8629C17.85 17.8114 18.624 17.7343 19.047 17.6229C19.857 17.4086 20.379 16.9114 20.604 16.14C20.856 15.2571 21 13.8771 21 12L20.946 11.28C20.946 10.7657 20.919 10.1743 20.856 9.48857Z" fill="currentColor" />
+</svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/charityjob/" title="CharityJob on Instagram" target="_blank">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M10.4264 8.20099C9.92751 8.40764 9.4742 8.71053 9.09236 9.09236C8.32121 9.86352 7.88798 10.9094 7.88798 12C7.88798 13.0906 8.32121 14.1365 9.09236 14.9076C9.86352 15.6788 10.9094 16.112 12 16.112C13.0906 16.112 14.1365 15.6788 14.9076 14.9076C15.2895 14.5258 15.5924 14.0725 15.799 13.5736C16.0057 13.0747 16.112 12.54 16.112 12C16.112 11.46 16.0057 10.9253 15.799 10.4264C15.5924 9.92751 15.2895 9.4742 14.9076 9.09236C14.5258 8.71053 14.0725 8.40764 13.5736 8.20099C13.0747 7.99434 12.54 7.88798 12 7.88798C11.46 7.88798 10.9253 7.99434 10.4264 8.20099ZM12.7759 14.5569C12.1843 14.7358 11.5488 14.7037 10.9782 14.4662C10.6137 14.315 10.2872 14.085 10.0223 13.7925C9.75744 13.5001 9.56068 13.1525 9.44621 12.7749C9.33175 12.3973 9.30243 11.999 9.36038 11.6087C9.41832 11.2184 9.56208 10.8458 9.78131 10.5177C10.0005 10.1896 10.2898 9.91424 10.6282 9.71137C10.9667 9.50849 11.3459 9.38318 11.7385 9.34445C12.1312 9.30572 12.5276 9.35453 12.8992 9.48738C13.2707 9.62023 13.6082 9.8338 13.8873 10.1127C14.3251 10.5491 14.5978 11.1239 14.6589 11.739C14.72 12.3541 14.5657 12.9713 14.2223 13.4853C13.8788 13.9992 13.3676 14.378 12.7759 14.5569Z" fill="currentColor" />
+  <path d="M17.2468 8.18471C17.1944 8.30377 17.1186 8.41111 17.024 8.50036C16.84 8.67396 16.5955 8.769 16.3426 8.76531C16.0896 8.76162 15.8481 8.6595 15.6692 8.48061C15.4903 8.30173 15.3882 8.06017 15.3845 7.80722C15.3808 7.55427 15.4759 7.30984 15.6495 7.12582C15.7387 7.0312 15.8461 6.95545 15.9651 6.90305C16.0842 6.85066 16.2125 6.82268 16.3426 6.82079C16.4727 6.81889 16.6018 6.84311 16.7223 6.89201C16.8429 6.94091 16.9524 7.0135 17.0443 7.10548C17.1363 7.19746 17.2089 7.30696 17.2578 7.4275C17.3067 7.54803 17.3309 7.67716 17.329 7.80722C17.3271 7.93729 17.2992 8.06565 17.2468 8.18471Z" fill="currentColor" />
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24ZM12 4C9.82691 4 9.55491 4.00873 8.70182 4.048C7.85091 4.08727 7.26836 4.22255 6.75927 4.41964C6.2258 4.62069 5.74257 4.93564 5.34327 5.34255C4.93609 5.74205 4.62089 6.22551 4.41964 6.75927C4.22255 7.26836 4.08655 7.85018 4.048 8.70255C4.00945 9.55491 4 9.82691 4 12C4 14.1724 4.00873 14.4444 4.048 15.2989C4.08727 16.1498 4.22255 16.7316 4.41964 17.2407C4.62059 17.7745 4.93555 18.2579 5.34255 18.6575C5.74241 19.0642 6.22612 19.3789 6.76 19.5796C7.26909 19.7775 7.85091 19.9135 8.70182 19.952C9.55491 19.9905 9.82691 20 12 20C14.1731 20 14.4451 19.9913 15.2989 19.952C16.1498 19.9127 16.7316 19.7775 17.2407 19.5796C17.7738 19.3789 18.2575 19.0647 18.6575 18.6575C19.0642 18.2576 19.3789 17.7739 19.5796 17.24C19.7775 16.7309 19.9135 16.1491 19.952 15.2982C19.9905 14.4451 20 14.1731 20 12C20 9.82764 19.9913 9.55564 19.952 8.70109C19.9127 7.85018 19.7775 7.26836 19.5796 6.75927C19.3789 6.22545 19.0647 5.74255 18.6575 5.34327C18.2575 4.936 17.7738 4.62109 17.2407 4.41964C16.7316 4.22255 16.1498 4.08655 15.2975 4.048C14.4451 4.00945 14.1731 4 12 4Z" fill="currentColor" />
+</svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h5>For candidates</h5>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/jobs">Jobs</a>
+                    </li>
+                    <li>
+                        <a href="/volunteer-jobs">Volunteering</a>
+                    </li>
+                    <li>
+                        <a href="/careeradvice">Career advice</a>
+                    </li>
+                    <li>
+                        <a href="/browse-jobs">Browse jobs</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="footer-column">
+            <h5>For recruiters</h5>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/recruiters/products">Job adverts</a>
+                    </li>
+                    <li>
+                        <a href="/recruiters/salary-checker">Salary checker</a>
+                    </li>
+                    <li>
+                        <a href="/recruiters/charityjob-recruiter">CharityJob recruiter</a>
+                    </li>
+                    <li>
+                        <a href="/recruiterinsights" target="_blank">Recruiter insights</a>
+                    </li>
+                    <li>
+                        <a href="/recruiters/faq">FAQs</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="footer-column">
+            <h5>CharityJob</h5>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="/info/aboutus">About us</a>
+                    </li>
+                    <li>
+                        <a href="https://www.charityconnect.co.uk/" target="_blank">CharityConnect</a>
+                    </li>
+                    <li>
+                        <a href="/info/legal/privacypolicy">Privacy policy</a>
+                    </li>
+                    <li>
+                        <a href="/info/legal/cookiepolicy">Cookie policy</a>
+                    </li>
+                    <li>
+                        <a href="/info/legal/termsandconditions">Terms & conditions</a>
+                    </li>
+                    <li>
+                        <a href="/info/contactus">Contact us</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="footer-column footer-partners">
+            <h5>Our partners</h5>
+            <ul class="footer-logos">
+                <li class="logo">
+                    <a href="/info/aboutus" title="The Chartered Institute of Fundraising official partners of CharityJob">
+                        <img src="/dist/assets/images/logos/ciof.svg" width="130" height="44" />
+                    </a>
+                </li>
+                <li class="logo">
+                    <a href="/info/aboutus" title="NCVO official partners of CharityJob">
+                        <img 
+                             src="/dist/assets/images/logos/ncvo-trusted-suppliers-2023-inverted-1x.png" 
+                             srcset="/dist/assets/images/logos/ncvo-trusted-suppliers-2023-inverted-1x.png 1x,
+                                    /dist/assets/images/logos/ncvo-trusted-suppliers-2023-inverted-2x.png 2x,
+                                    /dist/assets/images/logos/ncvo-trusted-suppliers-2023-inverted-4x.png 4x"
+                             alt="NCVO official partners of CharityJob" />
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="footer-copyright">
+            &#xA9;2026 JobLadder Ltd.
+        </div>
+    </div>
+</footer>
+
+
+    </div>
+
+    <script type="module">
+        import { select, tableTooltip } from "/dist/assets/scripts_include/cj-design/index.es.js?v=Z3q_QCDN3xBNRucFoIp52Tq3QnmT1ClA5vtHTClQHY8"
+        select();
+        tableTooltip();
+    </script>
+
+    <script src="/dist/assets/scripts_include/polyfills/element-internals-polyfill.js?v=et8gQB2g0Uh1hgsLaNHjvR3pIxTfu1R2-vnXRhEMD7w&amp;v=et8gQB2g0Uh1hgsLaNHjvR3pIxTfu1R2-vnXRhEMD7w"></script>
+    <script src="/bundles/js/jquerylib.js?v=_I3gpTpqM-RZNbSsji2sSGcKm20"></script>
+    <script src="/bundles/js/global.js?v=MAiDpwsZRAHYvRWeYE461TG2mZU"></script>
+    <script src="/bundles/js/cjscripts_rebranding.js?v=rZFpZDIUuQognlk39rP9rZny0Wg"></script>
+    <script src="/bundles/js/cjscripts_job_page.js?v=vKK8qHIXJtmeqU6xxA_fTm36GZ0"></script>
+    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/5.4.149/pdf.min.mjs" integrity="sha512-54wsEqEFNC3gPwTKkiB4A+/xQXSJIcPnRIjz6Gg8JZ+H+2bthEcYOFCk978ogjyXYaivHJpL/flsKCyrO2lMRg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/bundles/js/document_preview.js?v=qkPmi8uRWARetcCpEG-HT6a1TH4"></script>
+    <script src="https://www.google.com/jsapi?key=AIzaSyAO0WKi5SH4jmC7dR-NnG_l0NjC1AKaB5M"></script>
+    <!--[if !IE]><!-->
+    <script src="https://apis.google.com/js/client.js?onload=initPicker"></script>
+    <!--<![endif]-->
+ 
+    
+    
+
+
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"7b221a1dac70467c957f9249f1e9b9f6","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

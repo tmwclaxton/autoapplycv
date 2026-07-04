@@ -1,0 +1,95 @@
+{
+  "id": "syn-mega-nuxt-023",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "legal name (9283) legal name (9283)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "nuxt-name-9283",
+        "name": "nuxt-name-9283",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application email (9283) application email (9283)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "nuxt-email-9283",
+        "name": "nuxt-email-9283",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone (9283) telephone (9283)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "nuxt-phone-9283",
+        "name": "nuxt-phone-9283",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred location (9283) preferred location (9283)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "London",
+        "Manchester",
+        "Dublin",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-location-9283-9283",
+        "name": "preferred-location-9283-9283",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary expertise (9283)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "JavaScript",
+        "Go",
+        "SQL",
+        "Rust"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "primary-expertise-9283-9",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

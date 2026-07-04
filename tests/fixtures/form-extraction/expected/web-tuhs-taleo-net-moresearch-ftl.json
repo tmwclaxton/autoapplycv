@@ -1,0 +1,132 @@
+{
+  "id": "web-tuhs-taleo-net-moresearch-ftl",
+  "min_fields": 7,
+  "exact_field_count": 7,
+  "fields": [
+    {
+      "question": "jobs available in: jobs available in:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "languageSelectInterface.languageSelect",
+        "name": "languageSelect",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search query name search query name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "saveSearchInterface.SaveNameInput",
+        "name": "nameValue",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job number job number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "advancedSearchInterface.jobNumberInput",
+        "name": "jobNumberSearch",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "keywords keywords",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "advancedSearchInterface.keywordInput",
+        "name": "keyword",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "schedule",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Full-time",
+        "Part-time",
+        "Per Diem"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "advancedSearchInterface.jobSchedule_1check",
+        "name": "artJobSchedule",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "shift",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Day Job",
+        "Evening Job",
+        "Night Job",
+        "Rotating",
+        "Day Flex",
+        "Night Flex"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "advancedSearchInterface.jobShift_1check",
+        "name": "artJobShift",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "employee status",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Regular",
+        "Temporary"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "advancedSearchInterface.employeeStatus_1check",
+        "name": "artEmployeeStatus",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save"
+    }
+  ],
+  "vet_notes": []
+}

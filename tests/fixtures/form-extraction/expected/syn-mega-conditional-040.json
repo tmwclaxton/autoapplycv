@@ -1,0 +1,105 @@
+{
+  "id": "syn-mega-conditional-040",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "legal name (9660) legal name (9660)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cond-name-9660",
+        "name": "cond-name-9660",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact email (9660) contact email (9660)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cond-email-9660",
+        "name": "cond-email-9660",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9660) contact number (9660)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cond-phone-9660",
+        "name": "cond-phone-9660",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work samples link (9660) work samples link (9660)",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "work-samples-link-9660-9660",
+        "name": "work-samples-link-9660-9660",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9660) why this role? (9660)",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9660-9660",
+        "name": "why-this-role-9660-9660",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9660) office preference (9660)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Hybrid",
+        "Dublin",
+        "London",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "office-preference-9660-9660",
+        "name": "office-preference-9660-9660",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

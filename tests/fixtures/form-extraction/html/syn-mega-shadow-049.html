@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Web component 9379</title></head>
+<body>
+
+<main><h1>Web component apply 9379</h1>
+<form action="/apply" method="post">
+
+<label for="light-name-9379">Applicant name (9379)</label>
+<input type="text" id="light-name-9379" name="light-name-9379" autocomplete="name">
+<label for="light-email-9379">Personal email (9379)</label>
+<input type="email" id="light-email-9379" name="light-email-9379" autocomplete="email">
+<label for="light-phone-9379">Cell phone (9379)</label>
+<input type="tel" id="light-phone-9379" name="light-phone-9379" autocomplete="tel">
+<apply-form-widget data-stage="9379">
+<section class="wc-host" slot="application">
+<div class="field-row"><label for="portfolio-url-9379-9379">Portfolio URL (9379)</label><input type="url" id="portfolio-url-9379-9379" name="portfolio-url-9379-9379" ></div>
+</section>
+</apply-form-widget>
+<apply-form-element id="shadow-host-9379"></apply-form-element>
+<script>(function(){class ApplyFormElement extends HTMLElement{connectedCallback(){if(this.shadowRoot)return;const s=this.attachShadow({mode:'open'});s.innerHTML='<p data-shadow-note="not traversed">Shadow-only note</p>';}}if(!customElements.get('apply-form-element'))customElements.define('apply-form-element',ApplyFormElement);})();</script>
+<button type="button">Continue</button>
+</form></main>
+</body>
+</html>

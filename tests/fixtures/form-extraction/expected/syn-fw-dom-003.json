@@ -1,0 +1,43 @@
+{
+  "id": "syn-fw-dom-003",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "applicant name applicant name cond-name cond-name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "contact email contact email cond-email cond-email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "contact number contact number cond-phone cond-phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "where are you based? where are you based? where-are-you-based where-are-you-based",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "UK",
+        "EU",
+        "US",
+        "Other"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

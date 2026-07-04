@@ -1,0 +1,90 @@
+{
+  "id": "syn-mega-greenhouse-008",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9398) applicant name (9398) applicant name (9398)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "gh-name-9398",
+        "name": "gh-name-9398",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application email (9398) application email (9398) application email (9398)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "gh-email-9398",
+        "name": "gh-email-9398",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "direct line (9398) direct line (9398) direct line (9398)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "gh-phone-9398",
+        "name": "gh-phone-9398",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cover letter (9398) cover letter (9398) direct line (9398)",
+      "field_type": "textarea",
+      "max_chars": 600,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter-9398-9398",
+        "name": "cover-letter-9398-9398",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "how did you hear about us? (9398) how did you hear about us? (9398) direct line (9398)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "LinkedIn",
+        "Referral",
+        "Company site",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "how-did-you-hear-about-us-93",
+        "name": "how-did-you-hear-about-us-93",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

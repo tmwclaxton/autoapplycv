@@ -1,0 +1,73 @@
+{
+  "id": "syn-mega-radiogroup-001",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "applicant name (9721) applicant name (9721)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "rg-name-9721",
+        "name": "rg-name-9721",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email (9721) personal email (9721)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "rg-email-9721",
+        "name": "rg-email-9721",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number (9721) phone number (9721)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "rg-phone-9721",
+        "name": "rg-phone-9721",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you require visa sponsorship? (9721)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Not applicable"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "do-you-require-visa-spon",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

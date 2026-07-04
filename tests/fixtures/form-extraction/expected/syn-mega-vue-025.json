@@ -1,0 +1,77 @@
+{
+  "id": "syn-mega-vue-025",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "your name (9025) your name (9025)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vue-name-9025",
+        "name": "vue-name-9025",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9025) work email (9025)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "vue-email-9025",
+        "name": "vue-email-9025",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9025) mobile number (9025)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "vue-phone-9025",
+        "name": "vue-phone-9025",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "open to relocation? (9025)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Maybe later"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "open-to-relocation-9025--0",
+        "name": "open-to-relocation-9025-",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next step"
+    }
+  ],
+  "vet_notes": []
+}

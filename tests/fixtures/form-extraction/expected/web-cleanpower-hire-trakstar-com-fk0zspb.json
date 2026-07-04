@@ -1,0 +1,195 @@
+{
+  "id": "web-cleanpower-hire-trakstar-com-fk0zspb",
+  "min_fields": 11,
+  "exact_field_count": 11,
+  "fields": [
+    {
+      "question": "first name first name first name",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_first_name",
+        "name": "candidate_first_name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "last name last name last name",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_last_name",
+        "name": "candidate_last_name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email email email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_email",
+        "name": "candidate_email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone phone phone",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_candidate_phone",
+        "name": "candidate_phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "tell us why you're interested in clean power research tell us why you're interested in clean power research tell us why you're interested in clean power research",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "id_cover_letter_optional",
+        "name": "cover_letter_optional",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "how did you hear about clean power research? how did you hear about clean power research? how did you hear about clean power research?",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_how_did_you_hear_about_clean_power_research",
+        "name": "how_did_you_hear_about_clean_power_research",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "are you authorized to work lawfully in the united states for clean power research? are you authorized to work lawfully in the united states for clean power research? are you authorized to work lawfully in the united states for clean power research?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "id_are_you_authorized_to_work_lawfully_in_the_united_states_for_clean_power_research",
+        "name": "are_you_authorized_to_work_lawfully_in_the_united_states_for_clean_power_research",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "will you now or in the future require clean power research to commence (“sponsor”) an immigration case in order to employ you (for example, h-1b, opt or other employment-based immigration case)? will you now or in the future require clean power research to commence (“sponsor”) an immigration case in order to employ you (for example, h-1b, opt or other employment-based immigration case)? will you now or in the future require clean power research to commence (“sponsor”) an immigration case in order to employ you (for example, h-1b, opt or other employment-based immigration case)?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "id_will_you_now_or_in_the_future_require_clean_power_research_to_commence_sponsor_an_immigration_case_i",
+        "name": "will_you_now_or_in_the_future_require_clean_power_research_to_commence_sponsor_an_immigration_case_i",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "this role will be an in-house role in our bellevue, wa office. are you located in the greater seattle area? this role will be an in-house role in our bellevue, wa office. are you located in the greater seattle area? this role will be an in-house role in our bellevue, wa office. are you located in the greater seattle area?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "id_this_role_will_be_an_in_house_role_in_our_kirkland_wa_office_are_you_located_in_the_greater_seattle_",
+        "name": "this_role_will_be_an_in_house_role_in_our_kirkland_wa_office_are_you_located_in_the_greater_seattle_",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "if you are not located in greater seattle area, are you willing to relocate? if you are not located in greater seattle area, are you willing to relocate? if you are not located in greater seattle area, are you willing to relocate?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "Yes",
+        "No",
+        "Not applicable"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "id_if_you_are_not_located_in_greater_seattle_area_are_you_willing_to_relocate",
+        "name": "if_you_are_not_located_in_greater_seattle_area_are_you_willing_to_relocate",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "what is your experience in managing the delivery of saas products to customers? can you provide an example, including the key challenges you faced and how you ensured customer satisfaction? what is your experience in managing the delivery of saas products to customers? can you provide an example, including the key challenges you faced and how you ensured customer satisfaction? what is your experience in managing the delivery of saas products to customers? can you provide an example, including the key challenges you faced and how you ensured customer satisfaction?",
+      "field_type": "textarea",
+      "max_chars": 300,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "id_what_is_your_experience_in_managing_the_delivery_of_saas_products_to_customers_can_you_provide_an_ex",
+        "name": "what_is_your_experience_in_managing_the_delivery_of_saas_products_to_customers_can_you_provide_an_ex",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit Application"
+    }
+  ],
+  "vet_notes": []
+}

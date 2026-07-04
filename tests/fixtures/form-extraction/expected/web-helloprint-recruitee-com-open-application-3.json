@@ -1,0 +1,95 @@
+{
+  "id": "web-helloprint-recruitee-com-open-application-3",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "my information",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-undefined",
+        "name": "candidate.name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "questions",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "input-candidate.openQuestionAnswers.6960972.content-undefined",
+        "name": "candidate.openQuestionAnswers.6960972.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "we work from our rotterdam or valencia office five days a week. this is a deliberate part of how we operate, does this work for you?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I'm already based there (or nearby)",
+        "Yes, I'm open to relocating",
+        "No, I'm looking for a remote or hybrid role"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6960973.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.6960973.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you require sponsorship to work in the netherlands or spain?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "No, I am a EU citizen",
+        "Yes, I require VISA Sponsorship",
+        "It's complicated"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6960974.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.6960974.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "what is your preferred work location?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "HelloPrint - Rotterdam (Schiedamse Vest, Rotterdam, Zuid-Holland, Netherlands)",
+        "HelloPrint Valencia (Valencia, Comunidad Valenciana, Spain)"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.locations.value-undefined-0",
+        "name": "candidate.locations.value",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

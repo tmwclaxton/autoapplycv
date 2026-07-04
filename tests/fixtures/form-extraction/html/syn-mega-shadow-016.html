@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Web component 9316</title></head>
+<body>
+
+<main><h1>Web component apply 9316</h1>
+<form action="/apply" method="post">
+
+<label for="light-name-9316">Full name (9316)</label>
+<input type="text" id="light-name-9316" name="light-name-9316" autocomplete="name">
+<label for="light-email-9316">Application email (9316)</label>
+<input type="email" id="light-email-9316" name="light-email-9316" autocomplete="email">
+<label for="light-phone-9316">Direct line (9316)</label>
+<input type="tel" id="light-phone-9316" name="light-phone-9316" autocomplete="tel">
+<apply-form-widget data-stage="9316">
+<section class="wc-host" slot="application">
+<div class="field-row"><label for="portfolio-url-9316-9316">Portfolio URL (9316)</label><input type="url" id="portfolio-url-9316-9316" name="portfolio-url-9316-9316" ></div>
+</section>
+</apply-form-widget>
+<apply-form-element id="shadow-host-9316"></apply-form-element>
+<script>(function(){class ApplyFormElement extends HTMLElement{connectedCallback(){if(this.shadowRoot)return;const s=this.attachShadow({mode:'open'});s.innerHTML='<p data-shadow-note="not traversed">Shadow-only note</p>';}}if(!customElements.get('apply-form-element'))customElements.define('apply-form-element',ApplyFormElement);})();</script>
+<button type="button">Continue</button>
+</form></main>
+</body>
+</html>

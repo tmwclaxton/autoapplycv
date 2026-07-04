@@ -1,0 +1,92 @@
+{
+  "id": "syn-mega-next-003",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9223) applicant name (9223)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "next-name-9223",
+        "name": "next-name-9223",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9223) work email (9223)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "next-email-9223",
+        "name": "next-email-9223",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9223) contact number (9223)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "next-phone-9223",
+        "name": "next-phone-9223",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal statement (9223) personal statement (9223)",
+      "field_type": "textarea",
+      "max_chars": 450,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "personal-statement-9223-9223",
+        "name": "personal-statement-9223-9223",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "discovery channel (9223)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "LinkedIn",
+        "Referral",
+        "Job board"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "discovery-channel-9223-9-0",
+        "name": "discovery-channel-9223-9",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

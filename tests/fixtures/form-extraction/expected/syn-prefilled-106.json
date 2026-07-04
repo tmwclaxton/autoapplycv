@@ -4,25 +4,49 @@
   "exact_field_count": 3,
   "fields": [
     {
-      "question": "email email email email email",
+      "question": "email email email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "mobile number mobile number mobile-number mobile-number mobile number",
+      "question": "mobile number mobile number mobile number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "mobile-number",
+        "name": "mobile-number",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "tell us about yourself tell us about yourself tell-us-about-yourself tell-us-about-yourself tell us about yourself",
+      "question": "tell us about yourself tell us about yourself tell us about yourself",
       "field_type": "textarea",
       "max_chars": 400,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself",
+        "name": "tell-us-about-yourself",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

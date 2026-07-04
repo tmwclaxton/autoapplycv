@@ -1,0 +1,622 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+@font-face { font-family: "Source Sans Pro"; font-style: normal; font-display: swap; font-weight: 400; src: url("https://consent.trustarc.com/v2/asset/cyrillic-ext.woff2") format("woff2"); unicode-range: U+460-52F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F; }
+
+@font-face { font-family: "Source Sans Pro"; font-style: normal; font-display: swap; font-weight: 400; src: url("https://consent.trustarc.com/v2/asset/cyrillic.woff2") format("woff2"); unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116; }
+
+@font-face { font-family: "Source Sans Pro"; font-style: normal; font-display: swap; font-weight: 400; src: url("https://consent.trustarc.com/v2/asset/greek-ext.woff2") format("woff2"); unicode-range: U+1F00-1FFF; }
+
+@font-face { font-family: "Source Sans Pro"; font-style: normal; font-display: swap; font-weight: 400; src: url("https://consent.trustarc.com/v2/asset/greek.woff2") format("woff2"); unicode-range: U+370-3FF; }
+
+@font-face { font-family: "Source Sans Pro"; font-style: normal; font-display: swap; font-weight: 400; src: url("https://consent.trustarc.com/v2/asset/vietnamese.woff2") format("woff2"); unicode-range: U+102-103, U+110-111, U+128-129, U+168-169, U+1A0-1A1, U+1AF-1B0, U+1EA0-1EF9, U+20AB; }
+
+@font-face { font-family: "Source Sans Pro"; font-style: normal; font-display: swap; font-weight: 400; src: url("https://consent.trustarc.com/v2/asset/latin-ext.woff2") format("woff2"); unicode-range: U+100-24F, U+259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+@font-face { font-family: "Source Sans Pro"; font-style: normal; font-display: swap; font-weight: 400; src: url("https://consent.trustarc.com/v2/asset/latin.woff2") format("woff2"); unicode-range: U+0-FF, U+131, U+152-153, U+2BB-2BC, U+2C6, U+2DA, U+2DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+.trustarc-banner-content { display: flex; -webkit-box-pack: justify; justify-content: space-between; width: 100%; position: relative; }
+
+.trustarc-banner-wrapper { position: relative; line-height: normal; font-size: 100%; text-size-adjust: 100%; text-rendering: optimizelegibility; -webkit-font-smoothing: antialiased; text-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px; font-variant-ligatures: none; width: 100%; display: block; box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 4px; overflow: hidden; font-family: "Source Sans Pro", sans-serif; }
+
+.trustarc-banner-wrapper * { box-sizing: content-box; }
+
+.trustarc-banner-wrapper :active { box-shadow: none !important; outline: none !important; }
+
+.trustarc-banner-wrapper { box-shadow: none !important; }
+
+.trustarc-client-logo { padding: 30px; }
+
+.trustarc-client-logo img { object-fit: contain; max-width: 214px; max-height: 100%; }
+
+.trustarc-logo-container { display: flex; -webkit-box-pack: center; justify-content: center; height: 130px; -webkit-box-align: center; align-items: center; }
+
+.trustarc-banner-actions { padding: 30px; margin-right: 40px; }
+
+.trustarc-banner-actions > div { width: 260px; }
+
+.trustarc-body-text, .trustarc-warning-text { font-size: 16px; }
+
+.trustarc-secondary-btn, .trustarc-primary-btn, .trustarc-acceptall-btn, .trustarc-declineall-btn, .trustarc-banner-close { padding: 0px; }
+
+.trustarc-primary-btn:hover, .trustarc-secondary-btn:hover, .trustarc-acceptall-btn:hover, .trustarc-declineall-btn:hover { opacity: 0.8; }
+
+.trustarc-banner-details { padding: 30px 0px; -webkit-box-flex: 1; flex-grow: 1; }
+
+.languageSelectorContainer { display: flex; align-items: center; gap: 7px; margin: 12px 20px; padding-bottom: 12px; border-bottom: 1px solid rgb(223, 231, 239); font-family: "Source Sans Pro", sans-serif; font-size: 16px; font-weight: 400; }
+
+.languageSelectorAccessible { font: inherit; padding: 8px 32px 8px 12px; border: 1px solid rgb(117, 117, 117); border-radius: 6px; color: rgb(51, 65, 85); appearance: none; background-color: white; background-image: url("data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%228%22 viewBox=%220 0 12 8%22><path fill=%22%23666%22 d=%22M1.41 0L6 4.58 10.59 0 12 1.42l-6 6-6-6z%22/></svg>"); background-repeat: no-repeat; background-position: right 12px center; max-width: 100px; cursor: pointer; }
+
+.languageSelectorAccessible:focus-visible { outline: none; border-color: rgb(54, 153, 241); box-shadow: rgb(255, 255, 255) 0px 0px 0px 1px, rgb(54, 153, 241) 0px 0px 0px 4px; }
+
+.trustarc-info-show { color: rgb(255, 255, 255); font-size: 16px; background-color: rgb(10, 123, 233); -webkit-box-pack: justify; justify-content: space-between; display: flex; transition: opacity 400ms; }
+
+.trustarc-info-hide { opacity: 0; display: none; }
+
+.trustarc-info-img { align-self: center; }
+
+.trustarc-banner-footer { background-color: rgb(247, 247, 247); min-height: 40px; font-size: 12px; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; width: 100%; display: flex; flex-wrap: wrap; -webkit-box-pack: justify; justify-content: space-between; line-height: 25px; bottom: 0px; }
+
+.trustarc-banner-right { place-self: center flex-end; padding-right: 20px; position: relative; display: flex; border: 1px solid transparent; }
+
+.trustarc-banner-right :focus-visible { border: 1px solid blue; }
+
+.trustarc-banner-left { color: rgb(0, 82, 204); cursor: pointer; align-self: center; padding: 5px; text-decoration: underline; }
+
+.trustarc-banner-left:focus-visible { outline: solid 1px; text-decoration: underline; padding: 2px; border-radius: 3px; background-color: white; padding-block: 0px; padding-inline: 2px; border: 1px dotted transparent; }
+
+.trustarc-banner-footer-left { align-self: center; text-align: left; margin-left: 20px; display: flex; flex-wrap: wrap; -webkit-box-flex: 1; flex: 1 1 0%; }
+
+.trustarc-btn-disabled { opacity: 0.6; cursor: default; }
+
+.trustarc-btn-disabled:hover { opacity: 0.6; cursor: default; }
+
+@media only screen and (min-width: 1px) and (max-width: 950px) {
+  .trustarc-banner-content { flex-wrap: wrap; }
+  .trustarc-banner-wrapper, .trustarc-banner-content, .trustarc-banner-details { text-align: center; }
+  .trustarc-banner-details { padding: 0px 20px; }
+  .trustarc-client-logo { width: 100%; padding: 50px 0px 20px; }
+  .trustarc-banner-actions { display: flex; -webkit-box-pack: center; justify-content: center; width: 100%; margin: auto; padding: 10px 20px 20px; }
+  .trustarc-header-text { color: rgb(0, 0, 0); padding-bottom: 10px; font-size: 30px; }
+  @media only screen and (min-width: 1px) and (max-width: 768px) {
+  .trustarc-secondary-btn, .trustarc-primary-btn, .trustarc-acceptall-btn, .trustarc-declineall-btn { font-size: 18px !important; }
+  .trustarc-banner-actions > div { width: 100%; }
+}
+}
+
+.trustarc-background { background-color: rgb(255, 255, 255); }
+
+.trustarc-header-text { color: rgb(70, 78, 61); }
+
+.trustarc-body-text { color: rgb(107, 115, 98); }
+
+.trustarc-banner-background { background-color: rgb(255, 255, 255); }
+
+.trustarc-banner-header { color: rgb(70, 78, 61); }
+
+.trustarc-banner-body { color: rgb(107, 115, 98); }
+
+.trustarc-primary-btn { color: rgb(255, 255, 255); background-color: rgb(46, 121, 24); }
+
+.trustarc-secondary-btn { color: rgb(0, 0, 0) !important; background-color: rgb(255, 255, 255); }
+
+.trustarc-optin-btn { color: rgb(255, 255, 255); background-color: rgb(46, 121, 24); }
+
+.trustarc-optout-btn { color: rgb(255, 255, 255); background-color: rgb(46, 121, 24); }
+
+.trustarc-back-btn { color: rgb(0, 0, 0) !important; background-color: rgb(255, 255, 255); }
+
+.trustarc-acceptall-btn { color: rgb(255, 255, 255); background-color: rgb(94, 195, 35); }
+
+.trustarc-declineall-btn { color: rgb(0, 0, 0); background-color: rgb(220, 220, 220); }
+
+.trustarc-agree-btn { color: rgb(255, 255, 255) !important; background-color: rgb(46, 121, 24); }
+
+.trustarc-reject-btn { color: rgb(255, 255, 255) !important; background-color: rgb(115, 195, 29); }
+
+.trustarc-two-step-background { background-color: rgb(255, 255, 255); }
+
+.trustarc-two-step-body-text { color: rgb(0, 0, 0); }
+
+.trustarc-two-step-opt-out-btn { color: rgb(0, 0, 0); background-color: rgb(220, 220, 220); }
+
+.trustarc-two-step-opt-in-btn { color: rgb(255, 255, 255); background-color: rgb(6, 70, 118); }
+
+.trustarc-two-step-back-btn { color: rgb(0, 0, 0); background-color: rgb(220, 220, 220); }
+
+#consent-banner { position: fixed; right: 0px; z-index: 100000; max-width: 600px; margin-right: 100px; bottom: 18px !important; left: 18px !important; }
+
+.trustarc-banner-wrapper { border-radius: 15px; border: 1px solid rgb(228, 227, 224) !important; }
+
+.logo-container { display: none !important; }
+
+.trustarc-banner-header { display: none; }
+
+.my-auto { color: rgb(46, 121, 24); }
+
+#consent-banner .trustarc-banner-content { display: block !important; padding: 10px 25px !important; width: unset !important; text-align: left !important; }
+
+.trustarc-banner-footer { background-color: rgb(245, 244, 241) !important; min-height: unset !important; }
+
+.trustarc-agree-btn { padding: 10px 25px; font-weight: bold; font-size: 14px !important; border-radius: 100px !important; height: auto !important; width: auto !important; display: inline-block !important; margin-top: 10px !important; background-color: rgb(46, 121, 24) !important; }
+
+.trustarc-reject-btn { padding: 10px 25px; font-weight: bold; font-size: 14px !important; border-radius: 100px !important; height: auto !important; width: auto !important; margin-top: 6px !important; }
+
+.trustarc-client-logo { display: none; }
+
+.trustarc-banner-right { display: none; }
+
+#truste-show-consent { display: none; }
+
+.trustarc-banner-details { padding: 0px !important; text-align: left !important; }
+
+#truste-privacy-button { color: rgb(46, 121, 24) !important; }
+
+#consent-banner .trustarc-banner-actions { padding: 0px !important; display: flex !important; align-items: flex-start !important; justify-content: flex-start !important; }
+
+.trustarc-banner-actions > div { width: 132px !important; }
+
+@media only screen and (min-width: 951px) {
+  .trustarc-banner-content { padding-right: 0px !important; }
+}</style><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script type="text/javascript" src="https://mapixl.com/scripts/pixlv5.min.js" id="abbot-script" data-pid="60" data-key=" BHR001 " data-env="prod" data-session="30"></script><script type="text/javascript" async="" src="https://j.6sc.co/6si.min.js"></script><script type="text/javascript" async="" src="https://www.redditstatic.com/ads/pixel.js"></script><script type="text/javascript" src="https://mapixl.com/scripts/pixlv5.min.js" id="abbot-script" data-pid="60" data-key=" BHR001 " data-env="prod" data-session="30"></script><script type="text/javascript" async="" src="https://j.6sc.co/6si.min.js"></script><script type="text/javascript" async="" src="https://www.redditstatic.com/ads/pixel.js"></script><script type="text/javascript" async="" src="https://www.bamboohr.com/metrics/dunAAGampjPDq4vtha9-pxzMJfYDDYx9uMQjhhRf1Dvxkc6xDQ"></script><script type="text/javascript" async="" src="https://www.bamboohr.com/metrics/dunAAGamoEm3rezo8qkP2h7KNbMYSNI4-dc61h0Ohzuy1bEN"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-ZLCX&amp;gtg_health=1"></script><script async="" src="https://www.bamboohr.com/metrics/"></script><script>(function(w,i,g){w[g]=w[g]||[];if(typeof w[g].push=='function')w[g].push(i)})
+(window,'GTM-ZLCX','google_tags_first_party');</script><script>(function(w,d,s,l){w[l]=w[l]||[];(function(){w[l].push(arguments);})('set', 'developer_id.dY2E1Nz', true);
+		var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s);j.async=true;j.src='/metrics/';
+		f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer');</script>
+    <title>BambooHR Careers | Come grow with us</title>
+    <link rel="canonical" href="https://www.bamboohr.com/careers/application">
+    <meta name="description" content="Simplify job applications and onboarding with BambooHR's intuitive HR software. Empower your team with tools for applicant tracking, data management, and seamless workflows.">
+    <meta property="og:title" content="BambooHR Careers | Come grow with us">
+    <meta property="og:description" content="Simplify job applications and onboarding with BambooHR's intuitive HR software. Empower your team with tools for applicant tracking, data management, and seamless workflows.">
+    <meta property="og:url" content="https://www.bamboohr.com/careers/application">
+    <meta property="og:image" content="https://www.bamboohr.com/careers/media_1d7d0bd0227981c4a82dc033c2e7b05deedf3e650.png?width=1200&amp;format=pjpg&amp;optimize=medium">
+    <meta property="og:image:secure_url" content="https://www.bamboohr.com/careers/media_1d7d0bd0227981c4a82dc033c2e7b05deedf3e650.png?width=1200&amp;format=pjpg&amp;optimize=medium">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="BambooHR Careers | Come grow with us">
+    <meta name="twitter:description" content="Simplify job applications and onboarding with BambooHR's intuitive HR software. Empower your team with tools for applicant tracking, data management, and seamless workflows.">
+    <meta name="twitter:image" content="https://www.bamboohr.com/careers/media_1d7d0bd0227981c4a82dc033c2e7b05deedf3e650.png?width=1200&amp;format=pjpg&amp;optimize=medium">
+    <meta name="eyelash-banner-enabled" content="false">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://www.bamboohr.com/scripts/md5.min.js"></script>
+    <script src="https://www.bamboohr.com/scripts/cheq.js"></script>
+    <script src="https://www.bamboohr.com/scripts/scripts.js" type="module"></script>
+    <link rel="stylesheet" href="https://www.bamboohr.com/styles/styles.css">
+    <link rel="icon" type="image/svg+xml" href="https://www.bamboohr.com/favicon.ico">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.bamboohr.com/#organization",
+  "name": "BambooHR",
+  "url": "https://www.bamboohr.com/",
+  "logo": "https://www.bamboohr.com/images/about/media-assets/bamboohr-logo-green.png",
+  "description": "BambooHR is an all-in-one HR software platform providing human resources information systems, payroll, and benefits administration for small and medium-sized businesses.",
+  "sameAs": [
+    "https://www.facebook.com/bamboohr/",
+    "https://x.com/bamboohr/",
+    "https://www.instagram.com/bamboohr/",
+    "https://www.linkedin.com/company/bamboohr/",
+    "https://www.youtube.com/user/bamboohr/"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+1-866-387-9595",
+    "contactType": "customer service",
+    "areaServed": "US",
+    "availableLanguage": "English"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "42 Future Way",
+    "addressLocality": "Draper",
+    "addressRegion": "UT",
+    "postalCode": "84020",
+    "addressCountry": "US"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.5",
+    "reviewCount": "5254",
+    "bestRating": "5",
+    "worstRating": "3"
+  }
+}
+</script>
+  <script src="https://consent.trustarc.com/v2/notice/qvlbs6" async=""></script><script type="text/javascript" async="" src="https://munchkin.marketo.net/munchkin.js"></script><script async="" src="https://cdn.metadata.io/site-insights.js"></script><link rel="stylesheet" href="https://www.bamboohr.com/blocks/header/header.css"><script src="https://spoon.thebrightforks.com/i/47dc90ad568b2c4fffe90ca4469d6479.js" async="" data-ch="cheq4ppc" class="ct_clicktrue_27244" data-jsonp="onCheqResponse"></script><link rel="stylesheet" href="https://www.bamboohr.com/styles/fonts/early-fonts.css"><link rel="stylesheet" href="https://www.bamboohr.com/blocks/job-application/job-application.css"><script src="https://boards.greenhouse.io/embed/job_board/js?for=bamboohr17" type="text/javascript" async="true" defer="true"></script><script type="text/javascript" async="" src="https://munchkin.marketo.net/munchkin.js"></script><script async="" src="https://cdn.metadata.io/site-insights.js"></script><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "headline": "HR Software | People Data &amp; Analytics | Hiring | Onboarding | Compensation |Culture | BambooHR Software",
+  "description": "#1 Human Resources Software for small & medium business: Mobile and Online. Easiest way for HR to manage data: employee self-service, email alerts, doc storage, time off tracking, and more.",
+  "url": "https://www.bamboohr.com/careers/application",
+  "mainEntityOfPage": "https://www.bamboohr.com/careers/application",
+  "publisher": {
+    "@type": "Organization",
+    "name": "BambooHR",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.bamboohr.com/themes/custom/bamboohr/logo.svg"
+    }
+  }
+}</script><link rel="stylesheet" href="https://www.bamboohr.com/blocks/footer/footer.css"><link rel="stylesheet" href="https://www.bamboohr.com/styles/lazy-styles.css"><script src="https://knive.thebrightforks.com/ct?id=27244&amp;url=https%3A%2F%2Fwww.bamboohr.com%2Fcareers%2Fapplication&amp;sf=0&amp;tpi=&amp;ch=cheq4ppc&amp;uvid=&amp;tsf=0&amp;tsfmi=&amp;tsfu=&amp;cb=1783157599812&amp;hl=2&amp;op=0&amp;ag=3791034781&amp;rand=936180602156271200077018955526660420198282572925997109118769612065110109770051075201509287699&amp;fs=1920x993&amp;fst=1920x993&amp;np=linux%20x86_64&amp;nv=google%20inc.&amp;ref=https%3A%2F%2Fwww.google.com%2F&amp;ss=800x600&amp;nc=0&amp;at=&amp;di=W1siZWYiLDcxMzNdLFsiYWJuY2giLDE0XSxbLTIsIjIsTklTQUlKaEE0SkhSVUVRY0dDQlFzMmJGeXhlMFZVRUN6WThJcWlYQ3NpRnhWRnhRS2lWMEdRb2lpaUtMMG1vUk1nUU1xVDVHbW56TXh1LzkrYWM4NlRreEJBL056Mzg5NzNQNSJdLFstNSwiLSJdLFstMjMsIisiXSxbLTI3LCJbNTAsNi4wNSwwLFwiNGdcIixudWxsLFwiLVwiXSJdLFstMzQsIi0iXSxbLTQwLCIzMyJdLFstNTcsIldFMFplRXRMV0VBWGVsd1pFVkZOVFVsS0F4WVdTa2xXVmxjWFRWRmNXMHRRWGxGTlgxWkxVa29YV2xaVUZsQVdEUTVkV2dBSldGME1Ed0ZiQzFvTlgxOWZYQUFKV2xnTkRROEFYUThORGdBWFUwb0RDQU1BRHd3QUR4QVZXRTBaU3hrUlVVMU5TVW9ERmhaS1NWWldWeGROVVZ4YlMxQmVVVTFmVmt0U1NoZGFWbFFXVUJZTkRsMWFBQWxZWFF3UEFWc0xXZzFmWDE5Y0FBbGFXQTBORHdCZER3ME9BQmRUU2dNSUF3Z0pDdzBMQ0JBPSJdLFstNjcsIi0iXSxbLTEsIi0iXSxbLTcsIi0iXSxbLTMxLCJmYWxzZSJdLFstMzUsIlsxNzgzMTU3NTk5Nzg1LDRdIl0sWy0zNiwiW1wiNC8zXCIsXCI0LzNcIl0iXSxbLTQ0LCIwLDAsMCw1Il0sWy00NSwiNjIwLDAsMCwwLDAsNTYyLDAsMCw2NDgsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwIl0sWy01MywiMDAxIl0sWy02NCwiWzAsXCJMaW51eFwiLFt7XCJiXCI6XCJHb29nbGUgQ2hyb21lXCIsXCJ2XCI6XCIxNDlcIn0se1wiYlwiOlwiQ2hyb21pdW1cIixcInZcIjpcIjE0OVwifSx7XCJiXCI6XCJOb3QpQTtCcmFuZFwiLFwidlwiOlwiMjRcIn1dXSJdLFstNjYsImdlb2xvY2F0aW9uLGNodWFmdWxsdmVyc2lvbmxpc3QsY3Jvc3NvcmlnaW5pc29sYXRlZCxzY3JlZW53YWtlbG9jayxvbmRldmljZXNwZWVjaHJlY29nbml0aW9uLHRyYW5zbGF0b3IscHVibGlja2V5Y3JlZGVudGlhbHNnZXQsc2hhcmVkc3RvcmFnZXNlbGVjdHVybCxjaHVhYXJjaCxjb21wdXRlcHJlc3N1cmUsY2hwcmVmZXJzcmVkdWNlZHRyYW5zcGFyZW5jeSxkZWZlcnJlZGZldGNoLHVzYixjaHNhdmVkYXRhLHB1YmxpY2tleWNyZWRlbnRpYWxzY3JlYXRlLHNoYXJlZHN0b3JhZ2UsZGVmZXJyZWRmZXRjaG1pbmltYWwscnVuYWRhdWN0aW9uLGNoZG93bmxpbmssY2h1YWZvcm1mYWN0b3JzLG90cGNyZWRlbnRpYWxzLHBheW1lbnQsY2h1YSxjaHVhbW9kZWwsY2hlY3QsYXV0b3BsYXksY2FtZXJhLGxhbmd1YWdlZGV0ZWN0b3IscHJpdmF0ZXN0YXRldG9rZW5pc3N1YW5jZSxkaWdpdGFsY3JlZGVudGlhbHNnZXQsYWNjZWxlcm9tZXRlcixjaHVhcGxhdGZvcm12ZXJzaW9uLGlkbGVkZXRlY3Rpb24sbGFuZ3VhZ2Vtb2RlbCxwcml2YXRlYWdncmVnYXRpb24saW50ZXJlc3Rjb2hvcnQsY2h2aWV3cG9ydGhlaWdodCxjYXB0dXJlZHN1cmZhY2Vjb250cm9sLGxvY2FsZm9udHMsY2h1YXBsYXRmb3JtLG1pZGksY2h1YWZ1bGx2ZXJzaW9uLHhyc3BhdGlhbHRyYWNraW5nLGNsaXBib2FyZHJlYWQsZ2FtZXBhZCxkaXNwbGF5Y2FwdHVyZSxrZXlib2FyZG1hcCxqb2luYWRpbnRlcmVzdGdyb3VwLGFyaWFub3RpZnksbG9jYWxuZXR3b3JrLGNodWFoaWdoZW50cm9weXZhbHVlcyxjaHdpZHRoLGNocHJlZmVyc3JlZHVjZWRtb3Rpb24sYnJvd3Npbmd0b3BpY3MsZW5jcnlwdGVkbWVkaWEsbG9jYWxuZXR3b3JrYWNjZXNzLGd5cm9zY29wZSxzZXJpYWwsY2hydHQsY2h1YW1vYmlsZSx3aW5kb3dtYW5hZ2VtZW50LHVubG9hZCxjaGRwcixjaHByZWZlcnNjb2xvcnNjaGVtZSxjaHVhd293NjQsYXR0cmlidXRpb25yZXBvcnRpbmcsZnVsbHNjcmVlbixpZGVudGl0eWNyZWRlbnRpYWxzZ2V0LHByaXZhdGVzdGF0ZXRva2VucmVkZW1wdGlvbixoaWQsc3VtbWFyaXplcixjaHVhYml0bmVzcyxzdG9yYWdlYWNjZXNzLHN5bmN4aHIsY2hkZXZpY2VtZW1vcnksY2h2aWV3cG9ydHdpZHRoLHBpY3R1cmVpbnBpY3R1cmUsbWFnbmV0b21ldGVyLGxvb3BiYWNrbmV0d29yayxjbGlwYm9hcmR3cml0ZSxtaWNyb3Bob25lIl0sWy0xMiwibnVsbCJdLFstMjQsIltdIl0sWy0zMiwiMCJdLFstMzgsImksLTEsLTEsMCwwLDAsMCwwLDU5LDI5LC0xLDAsMjk2LDI5Niw1MjAsNTIxIl0sWy00MywiMDAwMDAwMDEwMTAwMDAwMTAwMTExMDExMDAxMDExMDEwMDAwMDEwMTEwMTEiXSxbLTUyLCItIl0sWy01NSwiMSJdLFstMTEsIntcInRcIjpcIlwiLFwibVwiOltcImRlc2NyaXB0aW9uXCIsXCJvZzp0aXRsZVwiLFwib2c6ZGVzY3JpcHRpb25cIixcInR3aXR0ZXI6dGl0bGVcIixcInR3aXR0ZXI6ZGVzY3JpcHRpb25cIl19Il0sWy0xMywiLSJdLFstMTgsIlswLDAsMCwxXSJdLFstNDEsIi0iXSxbLTQ2LCIwIl0sWy01MCwiLSJdLFstNTgsIi0iXSxbLTYyLCI4MCJdLFstNjksIkxpbnV4IHg4Nl82NHxHb29nbGUgSW5jLnwzMnwzMnxMaW51eHwwIl0sWy00LCItIl0sWy02LCJ7XCJ3XCI6W1wiMFwiLFwiZ29vZ2xlX3RhZ3NfZmlyc3RfcGFydHlcIixcImRhdGFMYXllclwiLFwibWQ1XCIsXCJvbkNoZXFSZXNwb25zZVwiLFwiY2FjaGVDaGVxRGF0YVdoZW5SZWFkeVwiLFwicmVzdG9yZUNoZXFEYXRhXCIsXCJnZXRDaGVxRGF0YUZyb21EYXRhTGF5ZXJcIixcImFkZENvbnNlbnRMaXN0ZW5lclRBXCIsXCJobHhcIixcInRydXN0ZVwiLFwiUFJFRl9NR1JfQVBJX0RFQlVHXCIsXCJQcml2YWN5TWFuYWdlckFQSVwiLFwiVFJVU1RFX0NNQVBJX0RFQlVHXCIsXCJnb29nbGVfdGFnX21hbmFnZXJcIixcInBvc3RzY3JpYmVcIixcImdvb2dsZV90YWdfbWFuYWdlcl9leHRlcm5hbFwiLFwianNwYkdldFR5cGVOYW1lXCIsXCJnb29nbGVfdGFnX2RhdGFcIixcInJkdFwiLFwiXzZzaVwiLFwiemlcIixcIlpJUHJvamVjdEtleVwiLFwiZ2VvTG9jYXRpb25cIixcInRyYWNraW5nUXVldWVcIixcIl9fYWxsb3lOU1wiLFwiYWxsb3lcIixcImNoZXFDb25zZW50QWxsb3dlZFwiLFwiZ2FcIixcImFuYWx5dGljc0xvYWRlZFwiLFwiYWxsb3lDb25maWd1cmVkXCIsXCJsYXp5U3R5bGVzTG9hZGVkXCIsXCJvbllvdVR1YmVJZnJhbWVBUElSZWFkeVwiLFwiaXNCb3RSZXN1bHRcIixcIk1ldGFkYXRhXCIsXCJfX2N0Y2dfY3RfMjcyNDRfZXhlY1wiXSxcIm5cIjpbXSxcImRcIjpbXX0iXSxbLTE3LCIzMiJdLFstMTksIlsyMCwyMCwyMCwyMCwwLDAsMSwyNCwyNCxcIi1cIiw4MDAsNjAwLDgwMCw2MDAsMTkyMCwxMDgwLDE5MjAsOTkzLDAsMCwwLDAsXCItXCIsXCItXCIsMTkwNSw5OTMsMF0iXSxbLTQ4LCJbXCItXCIsXCItXCIsXCItXCIsXCItXCIsXCItXCJdIl0sWy02MCwyMDddLFstNzEsImEwMTEwMDEwMTAwMTAwMTAxMDAwMTAxMDAxMTExMTAxMDAwMDEwIl0sWy03NCwiMCwwIl0sWy0xMCwiLSJdLFstMjUsIi0iXSxbLTI5LCItIl0sWy00NywiQW1lcmljYS9OZXdfWW9yayxlbi1VUyxsYXRuLGdyZWdvcnkiXSxbLTczLCJFaFE9Il0sWy03NSwie30uc29tZUZ1bmMgaXMgbm90IGEgZnVuY3Rpb24iXSxbMTIsIntcImVcIjowLFwid2dsXCI6MX0iXSxbLTIxLCItIl0sWy0zMCwiW1widlwiLDBdIl0sWy0zOSwiW1wiMjAwMzAxMDdcIiwyLFwiR2Vja29cIixcIk5ldHNjYXBlXCIsXCJNb3ppbGxhXCIsbnVsbCxudWxsLHRydWUsMzIsZmFsc2UsbnVsbCw1LHRydWUsdHJ1ZSxudWxsLDAsdHJ1ZSx0cnVlLGZhbHNlLHRydWVdIl0sWy00MiwiODgzMzk5MDE2Il0sWy01NiwibGFuZHNjYXBlLXByaW1hcnkiXSxbLTU5LCJkZWZhdWx0Il0sWy02MSwie1wid2dzbFwiOlwiOTtwYWNrZWRfNHg4X2ludGVnZXJfZG90X3Byb2R1Y3Q7c3ViZ3JvdXBfdW5pZm9ybWl0eTtsaW5lYXJfaW5kZXhpbmc7c3ViZ3JvdXBfaWQ7cmVhZG9ubHlfYW5kX3JlYWR3cml0ZV9zdG9yYWdlX3RleHR1cmVzO3VucmVzdHJpY3RlZF9wb2ludGVyX3BhcmFtZXRlcnM7cG9pbnRlcl9jb21wb3NpdGVfYWNjZXNzO3RleHR1cmVfYW5kX3NhbXBsZXJfbGV0O3VuaWZvcm1fYnVmZmVyX3N0YW5kYXJkX2xheW91dDtcIixcInBjZlwiOlwicmdiYTh1bm9ybVwifSJdLFstNjgsIi0iXSxbLTcyLCJFeFU9Il0sWy05LCIrIl0sWy0yMiwiW1wiblwiLFwiblwiXSJdLFstMjYsIntcInRqaHNcIjoyOTc3MTAzNyxcInVqaHNcIjoyMDgwOTEzNyxcImpoc2xcIjo0Mzk1NjMwNTkyfSJdLFstNjUsIi0iXSxbLTE1LCItIl0sWy0yOCwiZW4tVVMiXSxbLTMzLCItIl0sWy00OSwiLSJdLFstNTEsIi0iXSxbLTU0LCJ7XCJoXCI6W1wiXzNcIixcIjI4NzI4OTkzMjBcIl0sXCJkXCI6W10sXCJiXCI6W1wiXzFcIixcIjIzNzU4OTMyNlwiXSxcInNcIjoxfSJdLFstNzYsIi0iXSxbLTgsIi0iXSxbLTE2LCIwIl0sWy0yMCwiLSJdLFstMzcsIi0xMDktNjYtNzAtIl0sWyJibmNoIiw1NF0sWy0zLCJbXCJpbnRlcm5hbC1wZGYtdmlld2VyXCIsXCJpbnRlcm5hbC1wZGYtdmlld2VyXCIsXCJpbnRlcm5hbC1wZGYtdmlld2VyXCIsXCJpbnRlcm5hbC1wZGYtdmlld2VyXCIsXCJpbnRlcm5hbC1wZGYtdmlld2VyXCJdIl0sWy0xNCwiLSJdLFstNjMsIjAiXSxbLTcwLCItIl0sWyJkZGIiLCIwLDMsMCwwLDAsMSwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDEsNiwwLDAsMCwxLDAsMCwwLDEsMCwwLDAsMCwxLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwIl0sWyJjYiIsIjAsMCwwLDAsMCwwLDAsMCwwLDEsMCwwLDEsMCwwLDEsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDEsMCwwLDAsMCwwLDAsMCwwLDAsMCwwLDAsMSwwLDEsMCw2LDAsMCwwLDAsMSwwLDAsMSwwLDAsMCwwLDAsMCwwLDAsMCwwIl1d&amp;dep=0&amp;pre=0&amp;sdd=&amp;cri=F98eIIQeIj&amp;pto=539&amp;ver=66&amp;gac=-&amp;mei=&amp;ap=&amp;fe=1&amp;duid=1.1783157599.PCcGX4IppeEk9YUD&amp;suid=1.1783157599.8tlYCE8vjnOpS9Ce&amp;tuid=1.1783157599.3BnRKSYHgSnVtrS3&amp;sid=1.1783157599813.FP25CPH47MWvUk7Q&amp;fbc=-&amp;gtm=WyJ0cnVzdGFyYy1jY20tcmVhZHkiLCJDb25zZW50IENoYW5nZWQiXQ%3D%3D&amp;it=101%2C284%2C193&amp;fbcl=-&amp;gacl=-&amp;gacsd=-&amp;rtic=-&amp;rtict=-&amp;bgc=-&amp;spa=1&amp;urid=0&amp;ab=&amp;sck=-&amp;io=aGA2Oi17bmY2Og%3D%3D" async=""></script></head>
+  <body class="appear"><a href="https://www.bamboohr.com/careers/application#" tabindex="-1" aria-hidden="true" rel="nofollow" style="opacity: 0.01; position: absolute; z-index: -999; width: 54px; height: 22px;">___</a><div style="opacity: 0.01; position: absolute; z-index: -1000; width: 54px; height: 22px;"></div><a href="https://www.bamboohr.com/careers/application#main-content" class="skip-to-main">Skip to main content</a>
+    <header class="header-wrapper" data-testid="site-header"><div class="header block platform-nav" data-block-name="header" data-block-status="loaded"><div class="nav extra-buttons" role="navigation" aria-expanded="false"><div class="nav-hamburger" role="button" aria-label="Open navigation menu" tabindex="0"><div class="nav-hamburger-icon" aria-hidden="true"></div></div><div class="simple nav-brand">
+  <p><a href="https://www.bamboohr.com/" aria-label="bamboo hr homepage"><span class="icon icon-bamboo-hr-logo"><svg xmlns="http://www.w3.org/2000/svg"></svg></span></a></p>
+<div class="nav-tablet"><div class="country-dropdown brand-country-dropdown brand-country-dropdown-responsive">
+    <button class="country-dropdown-toggle " aria-haspopup="listbox" aria-expanded="false">
+      <img src="https://www.bamboohr.com/icons/flag-us.svg" alt="US flag" class="country-flag" width="22" height="16">
+      <span class="country-label">US</span>
+      <span class="country-caret"></span>
+    </button>
+    <ul class="country-dropdown-menu " tabindex="-1" role="listbox" aria-label="Select country" aria-hidden="true">
+      
+        <li role="option" tabindex="0" data-country="US">
+          <a href="https://www.bamboohr.com/"><img src="https://www.bamboohr.com/icons/flag-us.svg" alt="US flag" class="country-flag" width="20" height="15"> <span class="country-label">United States</span> <span class="country-bracket">(</span><span class="country-code">US</span><span class="country-bracket">)</span></a>
+        </li>
+      
+        <li role="option" tabindex="0" data-country="CA">
+          <a href="https://www.bamboohr.com/ca/"><img src="https://www.bamboohr.com/icons/flag-ca.svg" alt="CA flag" class="country-flag" width="20" height="15"> <span class="country-label">Canada</span> <span class="country-bracket">(</span><span class="country-code">CA</span><span class="country-bracket">)</span></a>
+        </li>
+      
+        <li role="option" tabindex="0" data-country="UK">
+          <a href="https://www.bamboohr.com/uk/"><img src="https://www.bamboohr.com/icons/flag-uk.svg" alt="UK flag" class="country-flag" width="20" height="15"> <span class="country-label">United Kingdom</span> <span class="country-bracket">(</span><span class="country-code">UK</span><span class="country-bracket">)</span></a>
+        </li>
+      
+    </ul>
+  </div><div class="nav-buttons"><button class="notifications has-new"><span class="icon icon-notification"><svg xmlns="http://www.w3.org/2000/svg"></svg></span></button>
+  <p class="nav-phone-num"><a href="tel:+1-866-387-9595" class="button small phone-number">1-866-387-9595</a></p>
+  
+  <p class="nav-login-btn"><em><a href="https://app.bamboohr.com/login/" class="button small light" data-testid="nav-login">Log In</a></em></p>
+  <p class="nav-free-trial-btn"><a href="https://www.bamboohr.com/signup/" class="button small">Try it free</a></p>
+</div></div></div>
+
+
+
+
+
+
+
+
+<div class="nav-sections" am-region="Main Nav"><div class="nav-section nav-section-platform-splash has-sub-menu" am-region="Our Platform">
+  <p><strong>Our Platform</strong></p>
+  <ul>
+    <li class="sub-menu" aria-expanded="false">Our Platform
+      <ul>
+        <li><a href="https://www.bamboohr.com/platform/">Platform Overview</a></li>
+        <li><a href="https://www.bamboohr.com/platform/ai">Bamboo AI™<span class="icon icon-ai-magic-2"><svg xmlns="http://www.w3.org/2000/svg"></svg></span></a></li>
+        <li><a href="https://www.bamboohr.com/platform/video-tour">Video Tour</a></li>
+        <li><a href="https://www.bamboohr.com/integrations/">Integrations Marketplace</a></li>
+      </ul>
+    </li>
+    <li class="sub-menu" aria-expanded="false"><del>Products</del>
+      <ul>
+        <li><a href="https://www.bamboohr.com/platform/hr-data-and-reporting/"><span class="icon icon-pie-chart-2"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>HR Data &amp; Reporting</a></li>
+        <li><a href="https://www.bamboohr.com/platform/payroll/"><span class="icon icon-pencil-note-2"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>Payroll</a></li>
+        <li><a href="https://www.bamboohr.com/platform/benefits-administration/"><span class="icon icon-heart-ekg"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>Benefits Administration</a></li>
+        <li><a href="https://www.bamboohr.com/platform/time-and-attendance/"><span class="icon icon-time-2"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>Time &amp; Attendance</a></li>
+        <li><a href="https://www.bamboohr.com/platform/applicant-tracking-system/"><span class="icon icon-person-magnifying-glass"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>Applicant Tracking System</a></li>
+        <li><a href="https://www.bamboohr.com/platform/global-employment/"><span class="icon icon-globe"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>Global Employment<span class="icon icon-new-2"><svg xmlns="http://www.w3.org/2000/svg"></svg></span></a></li>
+        <li><a href="https://www.bamboohr.com/platform/onboarding/"><span class="icon icon-person-add-3"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>Onboarding</a></li>
+        <li><a href="https://www.bamboohr.com/platform/performance-management/"><span class="icon icon-rocketship-4"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>Performance Management</a></li>
+        <li><a href="https://www.bamboohr.com/platform/employee-experience/"><span class="icon icon-employee-exp"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>Employee Experience</a></li>
+        <li><a href="https://www.bamboohr.com/platform/compensation/"><span class="icon icon-compensation"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>Compensation</a></li>
+        <li><a href="https://www.bamboohr.com/platform/compliance/"><span class="icon icon-compliance"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>Compliance</a></li>
+      </ul>
+    </li>
+    <li class="sub-menu" aria-expanded="false"><a href="https://www.bamboohr.com/product-updates/">See our Product Updates</a>
+      <ul>
+        <li>Ready to get started? <a href="https://www.bamboohr.com/demo">Get a Demo</a></li>
+      </ul>
+    </li>
+  </ul>
+</div><div class="nav-section" am-region="Pricing">
+  <p><strong><a href="https://www.bamboohr.com/pricing/">Pricing</a></strong></p>
+</div><div class="nav-section has-sub-menu" am-region="Solutions">
+  <p><strong>Solutions</strong></p>
+  <ul data-listener-desktop-hover="true">
+    <li class="sub-menu" aria-expanded="false">Industry
+      <ul>
+        <li><a href="https://www.bamboohr.com/hr-solutions/industry/construction">Construction</a></li>
+        <li><a href="https://www.bamboohr.com/hr-solutions/industry/education">Education</a></li>
+        <li><a href="https://www.bamboohr.com/hr-solutions/industry/finance">Finance</a></li>
+        <li><a href="https://www.bamboohr.com/hr-solutions/industry/healthcare">Healthcare</a></li>
+        <li><a href="https://www.bamboohr.com/hr-solutions/industry/manufacturing">Manufacturing</a></li>
+        <li><a href="https://www.bamboohr.com/hr-solutions/industry/nonprofit">Nonprofit</a></li>
+        <li><a href="https://www.bamboohr.com/hr-solutions/industry/technology">Technology</a></li>
+      </ul>
+    </li>
+    <li class="sub-menu" aria-expanded="false">Stakeholder Solutions
+      <ul>
+        <li><a href="https://www.bamboohr.com/hr-solutions/executives">Executives</a></li>
+        <li><a href="https://www.bamboohr.com/hr-solutions/finance">Finance</a></li>
+        <li><a href="https://www.bamboohr.com/hr-solutions/hr-professionals">HR</a></li>
+        <li><a href="https://www.bamboohr.com/hr-solutions/it-professionals">IT</a></li>
+      </ul>
+    </li>
+    <li class="sub-menu" aria-expanded="false">Solutions by Company Size
+      <ul>
+        <li><a href="https://www.bamboohr.com/hr-solutions/startups">Startups</a></li>
+        <li><a href="https://www.bamboohr.com/hr-solutions/small-businesses">Small Companies</a></li>
+        <li><a href="https://www.bamboohr.com/hr-solutions/medium-sized-businesses">Mid-sized Companies</a></li>
+        <li><a href="https://www.bamboohr.com/hr-solutions/large-businesses">Large Companies</a></li>
+      </ul>
+    </li>
+    <li><a href="https://www.bamboohr.com/solutions/hr-services">BambooHR Services</a></li>
+    <li><a href="https://www.bamboohr.com/partner-programs/overview">Partner With Us</a></li>
+  </ul>
+</div><div class="nav-section has-sub-menu" am-region="Why BambooHR">
+  <p><strong>Why BambooHR</strong></p>
+  <ul data-listener-desktop-hover="true">
+    <li><a href="https://www.bamboohr.com/why-bamboohr/">We Set You Free</a></li>
+    <li><a href="https://www.bamboohr.com/why-bamboohr/services">Award-Winning Service &amp; Support</a></li>
+    <li><a href="https://www.bamboohr.com/customers/">Case Studies</a></li>
+  </ul>
+</div><div class="nav-section has-sub-menu" am-region="Resources">
+  <p><strong>Resources</strong></p>
+  <ul data-listener-desktop-hover="true">
+    <li class="sub-menu" aria-expanded="false">HR Toolkit
+      <ul>
+        <li><a href="https://www.bamboohr.com/resources/">Content Library</a></li>
+        <li><a href="https://www.bamboohr.com/resources/hr-glossary/">HR Glossary</a></li>
+        <li><a href="https://www.bamboohr.com/hr-101-guide/chapter-1-introduction-and-overview">HR 101 Guide</a></li>
+        <li><a href="https://www.bamboohr.com/roi-calculator/">HR Software Calculator</a></li>
+      </ul>
+    </li>
+    <li><a href="https://www.bamboohr.com/blog/">Blog</a></li>
+    <li><a href="https://www.bamboohr.com/resources/data-at-work/">Data at Work</a></li>
+    <li><a href="https://www.bamboohr.com/resources/podcasts/hr-unplugged/">HR Unplugged Podcast</a></li>
+    <li class="sub-menu" aria-expanded="false">Events and Webinars
+      <ul>
+        <li><a href="https://www.bamboohr.com/resources/events/">Events Hub</a></li>
+        <li><a href="https://www.bamboohr.com/hr-virtual/on-demand/">HR Virtual Summit</a></li>
+        <li><a href="https://www.bamboohr.com/webinars/">Webinar Library</a></li>
+      </ul>
+    </li>
+    <li><a href="https://www.bamboohr.com/courses/ai-in-hr">AI in HR Starter Course</a></li>
+  </ul>
+</div><div class="nav-section has-sub-menu" am-region="About">
+  <p><strong>About</strong></p>
+  <ul data-listener-desktop-hover="true">
+    <li><a href="https://www.bamboohr.com/about-bamboohr/">Our Story</a></li>
+    <li><a href="https://www.bamboohr.com/about-bamboohr/media/">Media</a></li>
+    <li><a href="https://www.bamboohr.com/careers/">Careers</a></li>
+    <li><a href="https://www.bamboohr.com/about-bamboohr/contact/">Contact</a></li>
+    <li><a href="https://www.bamboohr.com/about-bamboohr/ai-principles">AI Principles</a></li>
+    <li><a href="https://www.bamboohr.com/about-bamboohr/data-principles">Data Principles</a></li>
+  </ul>
+</div><div class="nav-section nav-section-country has-sub-menu" aria-expanded="false" style="display: none;">
+      <p><strong tabindex="0"><img src="https://www.bamboohr.com/icons/flag-us.svg" alt="US flag" class="country-flag" width="22" height="16"> United States (US)</strong></p>
+      <ul>
+        
+          <li role="option" tabindex="0" data-country="US">
+            <a href="https://www.bamboohr.com/" class="country-link"><img src="https://www.bamboohr.com/icons/flag-us.svg" alt="US flag" class="country-flag" width="20" height="15"> United States (US)</a>
+          </li>
+        
+          <li role="option" tabindex="0" data-country="CA">
+            <a href="https://www.bamboohr.com/ca/" class="country-link"><img src="https://www.bamboohr.com/icons/flag-ca.svg" alt="CA flag" class="country-flag" width="20" height="15"> Canada (CA)</a>
+          </li>
+        
+          <li role="option" tabindex="0" data-country="UK">
+            <a href="https://www.bamboohr.com/uk/" class="country-link"><img src="https://www.bamboohr.com/icons/flag-uk.svg" alt="UK flag" class="country-flag" width="20" height="15"> United Kingdom (UK)</a>
+          </li>
+        
+      </ul>
+    </div><div class="nav-section nav-section-notifications has-sub-menu has-new"><p><strong><span class="icon icon-notification"><svg xmlns="http://www.w3.org/2000/svg"></svg></span> Announcements</strong></p></div></div><div class="nav-buttons"><div class="country-dropdown">
+    <button class="country-dropdown-toggle " aria-haspopup="listbox" aria-expanded="false">
+      <img src="https://www.bamboohr.com/icons/flag-us.svg" alt="US flag" class="country-flag" width="22" height="16">
+      <span class="country-label">US</span>
+      <span class="country-caret"></span>
+    </button>
+    <ul class="country-dropdown-menu " tabindex="-1" role="listbox" aria-label="Select country" aria-hidden="true">
+      
+        <li role="option" tabindex="0" data-country="US">
+          <a href="https://www.bamboohr.com/"><img src="https://www.bamboohr.com/icons/flag-us.svg" alt="US flag" class="country-flag" width="20" height="15"> <span class="country-label">United States</span> <span class="country-bracket">(</span><span class="country-code">US</span><span class="country-bracket">)</span></a>
+        </li>
+      
+        <li role="option" tabindex="0" data-country="CA">
+          <a href="https://www.bamboohr.com/ca/"><img src="https://www.bamboohr.com/icons/flag-ca.svg" alt="CA flag" class="country-flag" width="20" height="15"> <span class="country-label">Canada</span> <span class="country-bracket">(</span><span class="country-code">CA</span><span class="country-bracket">)</span></a>
+        </li>
+      
+        <li role="option" tabindex="0" data-country="UK">
+          <a href="https://www.bamboohr.com/uk/"><img src="https://www.bamboohr.com/icons/flag-uk.svg" alt="UK flag" class="country-flag" width="20" height="15"> <span class="country-label">United Kingdom</span> <span class="country-bracket">(</span><span class="country-code">UK</span><span class="country-bracket">)</span></a>
+        </li>
+      
+    </ul>
+  </div><button class="notifications has-new"><span class="icon icon-notification"><svg xmlns="http://www.w3.org/2000/svg"></svg></span></button>
+  <p class="nav-phone-num"><a href="tel:+1-866-387-9595" class="button small phone-number">1-866-387-9595</a></p>
+  
+  <p class="nav-login-btn"><em><a href="https://app.bamboohr.com/login/" class="button small light" data-testid="nav-login">Log In</a></em></p>
+  <p class="nav-free-trial-btn"><a href="https://www.bamboohr.com/signup/" class="button small">Try it free</a></p>
+</div></div></div></header>
+    <main id="main-content" data-testid-no-cta="true">
+      <div class="section job-application-container" data-section-status="loaded">
+        
+      <div class="job-application-wrapper"><div class="job-application block" data-block-name="job-application" data-block-status="loaded" style="min-height: 100vh;"><div id="grnhse_app"><div id="grnhse_iframe" width="100%" frameborder="0" scrolling="no" allow="geolocation" title="Greenhouse Job Board" src="https://job-boards.greenhouse.io/embed/job_board?for=bamboohr17&amp;validityToken=lUMt62_Y5l6951A2JhXa_FPcfbqoiZC3AWfzzKk2B3Lkthabj92G2AOlwnb2_sfCz9YrUaf1qtUtbvR0Qt7AV5mBq-0TlyP2hcmel65I3VvaV3qBl7pxhg8b_HjwyDLQB_HGv--ayxtBIgUQlMPR9yOC9tWGnoGuppYgeCGfNMD1cqpPxUQlHPW3isWljfgAwdQSrsUHMs5vXQkHQWaHCzcKcGKUx9HuPQD-mXWczxD_EEUpOc-04tqdG1J1UCaaDPr6uhP7bap_OhhlMtKlpIhq50C4u3-Wg6ayhMFgXs62TiAsxv-g95jwZj8akptyZBQJQX0ebiJdK3vh-dz74Q%3D%3D" height="5187" data-original-tag="iframe"><!DOCTYPE html><html lang="en" dir="ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.remix-css-b62m3t-container { position: relative; box-sizing: border-box; }</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.remix-css-7pg0cj-a11yText { z-index: 9999; border: 0px; clip: rect(1px, 1px, 1px, 1px); height: 1px; width: 1px; position: absolute; overflow: hidden; padding: 0px; white-space: nowrap; }</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.remix-css-13cymwt-control { -webkit-box-align: center; align-items: center; cursor: default; display: flex; flex-wrap: wrap; -webkit-box-pack: justify; justify-content: space-between; min-height: 38px; position: relative; transition: 100ms; background-color: rgb(255, 255, 255); border-color: rgb(204, 204, 204); border-radius: 4px; border-style: solid; border-width: 1px; box-sizing: border-box; outline: 0px !important; }
+
+.remix-css-13cymwt-control:hover { border-color: rgb(179, 179, 179); }</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.remix-css-hlgwow { -webkit-box-align: center; align-items: center; display: grid; flex: 1 1 0%; flex-wrap: wrap; position: relative; overflow: hidden; padding: 2px 8px; box-sizing: border-box; }</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.remix-css-1jqq78o-placeholder { grid-area: 1 / 1 / 2 / 3; color: rgb(128, 128, 128); margin-left: 2px; margin-right: 2px; box-sizing: border-box; }</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.remix-css-19bb58m { visibility: visible; flex: 1 1 auto; display: inline-grid; grid-area: 1 / 1 / 2 / 3; grid-template-columns: 0px min-content; margin: 2px; padding-bottom: 2px; padding-top: 2px; color: rgb(51, 51, 51); box-sizing: border-box; }
+
+.remix-css-19bb58m::after { content: attr(data-value) " "; visibility: hidden; white-space: pre; grid-area: 1 / 2; font: inherit; min-width: 2px; border: 0px; margin: 0px; outline: 0px; padding: 0px; }</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.remix-css-1wy0on6 { -webkit-box-align: center; align-items: center; align-self: stretch; display: flex; flex-shrink: 0; box-sizing: border-box; }</style><meta name="viewport" content="width=device-width,initial-scale=1"><meta property="og:image" content="https://s4-recruiting.cdn.greenhouse.io/external_greenhouse_job_boards/logos/400/797/800/original/bamboohr_logo_1200x628.jpg?1654191883"><meta property="og:type" content="article"><meta name="robots" content="noindex"><link rel="canonical" href="http://job-boards.greenhouse.io/embed/job_board?for=bamboohr17&amp;validityToken=lUMt62_Y5l6951A2JhXa_FPcfbqoiZC3AWfzzKk2B3Lkthabj92G2AOlwnb2_sfCz9YrUaf1qtUtbvR0Qt7AV5mBq-0TlyP2hcmel65I3VvaV3qBl7pxhg8b_HjwyDLQB_HGv--ayxtBIgUQlMPR9yOC9tWGnoGuppYgeCGfNMD1cqpPxUQlHPW3isWljfgAwdQSrsUHMs5vXQkHQWaHCzcKcGKUx9HuPQD-mXWczxD_EEUpOc-04tqdG1J1UCaaDPr6uhP7bap_OhhlMtKlpIhq50C4u3-Wg6ayhMFgXs62TiAsxv-g95jwZj8akptyZBQJQX0ebiJdK3vh-dz74Q%3D%3D"><title>Jobs at BambooHR</title><meta property="og:title" content="BambooHR"><meta property="og:description" content="<div class=&quot;CareersHeroContent__subhead typ-hero-subhead bhrcolor-white&quot;>&amp;nbsp;</div>
+<div class=&quot;CareersHeroContent__subhead typ-hero-subhead bhrcolor-white&quot;>Come Grow With Us!</div>
+<div class=&quot;CareersHeroContent__subhead typ-hero-subhead bhrcolor-white&quot;>If you're passionate about doing your best work, making a difference, and having fun doing it, apply to one of our open positions!</div>"><meta property="og:url" content="http://job-boards.greenhouse.io/embed/job_board?for=bamboohr17&amp;validityToken=lUMt62_Y5l6951A2JhXa_FPcfbqoiZC3AWfzzKk2B3Lkthabj92G2AOlwnb2_sfCz9YrUaf1qtUtbvR0Qt7AV5mBq-0TlyP2hcmel65I3VvaV3qBl7pxhg8b_HjwyDLQB_HGv--ayxtBIgUQlMPR9yOC9tWGnoGuppYgeCGfNMD1cqpPxUQlHPW3isWljfgAwdQSrsUHMs5vXQkHQWaHCzcKcGKUx9HuPQD-mXWczxD_EEUpOc-04tqdG1J1UCaaDPr6uhP7bap_OhhlMtKlpIhq50C4u3-Wg6ayhMFgXs62TiAsxv-g95jwZj8akptyZBQJQX0ebiJdK3vh-dz74Q%3D%3D"><link rel="stylesheet" href="https://job-boards.cdn.greenhouse.io/assets/entry-rL0h39AS.css"><link rel="stylesheet" href="https://job-boards.cdn.greenhouse.io/assets/vendor-da5IcPkB.css"></head><body style="--custom-link-color:#047957;--custom-active-field-color:#007152;--custom-focus-color:#007152;--custom-list-hover-color:#BFE0D7;--custom-primary-typography-color:#73C41D;--custom-button-color:#047957;--custom-button-hover-color:#007152;--custom-button-text-color:#FFFFFF;--custom-primary-font-family:&quot;Untitled Sans&quot;;--custom-secondary-font-family:&quot;Untitled Sans&quot;;--custom-dropdown-selection-color:#A6D4C8;--custom-secondary-typography-color:#262626;--custom-secondary-typography-10:#2626261A;--custom-secondary-typography-30:#2626264D;--custom-secondary-typography-60:#26262699;--custom-background-color:#ffffff"><div id="react-portal-mount-point"></div><main class="main font-secondary"><div class="index--content"><div class="image-container"><a href="https://www.bamboohr.com/careers/" target="_blank" rel="noreferrer" class="logo"><img src="https://s4-recruiting.cdn.greenhouse.io/external_greenhouse_job_boards/logos/400/797/800/original/bamboohr_logo_1200x628.jpg?1654191883" alt="BambooHR Logo" class=""></a></div><h1 class="page-header font-primary">Current openings at BambooHR</h1><div class="index--header"><div class="index--description"><div class="body"><span><div class="CareersHeroContent__subhead typ-hero-subhead bhrcolor-white">&nbsp;</div>
+<div class="CareersHeroContent__subhead typ-hero-subhead bhrcolor-white">Come Grow With Us!</div>
+<div class="CareersHeroContent__subhead typ-hero-subhead bhrcolor-white">If you're passionate about doing your best work, making a difference, and having fun doing it, apply to one of our open positions!</div></span></div></div><div class="job-alert"><svg class="svg-icon" fill="none" height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path class="icon--primary-color" d="M18.732 14.0039C17.988 13.2359 17.34 12.5759 17.34 9.67191C17.34 7.47591 16.008 5.59191 14.112 4.76391C13.992 4.71591 13.944 4.58391 14.004 4.46391C14.172 4.12791 14.256 3.74391 14.232 3.33591C14.16 2.21991 13.26 1.30791 12.144 1.22391C10.848 1.13991 9.74401 2.18391 9.74401 3.47991C9.74401 3.83991 9.82801 4.17591 9.97201 4.47591C10.032 4.58391 9.97201 4.71591 9.86401 4.77591C7.96801 5.60391 6.63601 7.48791 6.63601 9.68391C6.63601 12.5399 6.00001 13.1999 5.25601 13.9799C4.45201 14.8199 3.54001 15.7679 3.54001 18.9839C3.54001 19.3679 3.85201 19.6799 4.23601 19.6799H8.25601C8.58001 21.4439 10.14 22.7759 11.988 22.7759C13.836 22.7759 15.396 21.4439 15.72 19.6799H19.74C20.124 19.6799 20.436 19.3679 20.436 18.9839C20.448 15.7679 19.536 14.8319 18.732 14.0039ZM11.148 3.47991C11.148 3.01191 11.532 2.62791 12 2.62791C12.468 2.62791 12.852 3.01191 12.852 3.47991C12.852 3.94791 12.48 4.31991 12.012 4.33191C12.012 4.33191 12.012 4.33191 12 4.33191H11.988C11.52 4.31991 11.148 3.94791 11.148 3.47991ZM12 21.3719C10.92 21.3719 10.008 20.6519 9.70801 19.6679H14.292C13.992 20.6639 13.08 21.3719 12 21.3719ZM5.19601 18.2759C5.06401 18.2759 4.96801 18.1679 4.98001 18.0359C5.11201 16.1519 5.66401 15.5879 6.27601 14.9399C7.10401 14.0759 8.05201 13.0919 8.05201 9.67191C8.05201 7.49991 9.81601 5.72391 11.988 5.72391H12H12.012C14.184 5.73591 15.948 7.49991 15.948 9.67191C15.948 13.1399 16.896 14.1239 17.736 14.9759C18.348 15.6119 18.888 16.1639 19.02 18.0359C19.032 18.1679 18.924 18.2759 18.804 18.2759H5.19601Z"></path></svg><div><p class="body body--medium">Create a Job Alert</p><p class="body">Level-up your career by having opportunities at BambooHR sent directly to your inbox.</p><a class="link" target="_blank" href="https://my.greenhouse.io/users/sign_in?job_board=bamboohr17&amp;source=job_alert_board" rel="noreferrer">Create alert</a></div></div></div><div class="index__main"><div class="filters"><div class="text-input-wrapper"><div class="input-wrapper"><label id="keyword-filter-label" for="keyword-filter" class="label label">Search</label><input id="keyword-filter" class="input input__single-line" aria-label="Search" aria-describedby="keyword-filter-description keyword-filter-error keyword-filter-help" aria-invalid="false" aria-errormessage="keyword-filter-error" aria-required="false" type="text" placeholder="Search" maxlength="255" value=""></div></div><div class="select"><div class="select__container"><label id="department-filter-label" for="department-filter" class="label select__label">Department</label><div class="select-shell remix-css-b62m3t-container"><span id="react-select-department-filter-live-region" class="remix-css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false" aria-relevant="additions text" role="log" class="remix-css-7pg0cj-a11yText"></span><div><div class="select__control remix-css-13cymwt-control"><div class="select__value-container select__value-container--is-multi remix-css-hlgwow"><div class="select__placeholder remix-css-1jqq78o-placeholder" id="react-select-department-filter-placeholder">Select...</div><div class="select__input-container remix-css-19bb58m" data-value=""><input class="select__input" style="label:input;color:inherit;background:0;opacity:1;width:100%;grid-area:1 / 2;font:inherit;min-width:2px;border:0;margin:0;outline:0;padding:0" autocapitalize="none" autocomplete="off" autocorrect="off" id="department-filter" spellcheck="false" tabindex="0" type="text" aria-autocomplete="list" aria-expanded="false" aria-haspopup="true" aria-errormessage="department-filter-error" aria-invalid="false" aria-labelledby="department-filter-label" aria-required="false" role="combobox" aria-activedescendant="" aria-describedby="react-select-department-filter-placeholder department-filter-error" enterkeyhint="done" value=""></div></div><div class="select__indicators remix-css-1wy0on6"><button type="button" class="icon-button icon-button--sm" aria-label="Toggle flyout" tabindex="-1"><svg class="svg-icon" fill="none" height="20" width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path class="icon--primary-color" d="M11.4534 16.0667L5.90983 9.13729C5.54316 8.67895 5.86948 8 6.45644 8H17.5436C18.1305 8 18.4568 8.67895 18.0902 9.13729L12.5466 16.0667C12.2664 16.417 11.7336 16.417 11.4534 16.0667Z"></path></svg></button></div></div></div></div></div></div><div class="select"><div class="select__container"><label id="office-filter-label" for="office-filter" class="label select__label">Office</label><div class="select-shell remix-css-b62m3t-container"><span id="react-select-office-filter-live-region" class="remix-css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false" aria-relevant="additions text" role="log" class="remix-css-7pg0cj-a11yText"></span><div><div class="select__control remix-css-13cymwt-control"><div class="select__value-container select__value-container--is-multi remix-css-hlgwow"><div class="select__placeholder remix-css-1jqq78o-placeholder" id="react-select-office-filter-placeholder">Select...</div><div class="select__input-container remix-css-19bb58m" data-value=""><input class="select__input" style="label:input;color:inherit;background:0;opacity:1;width:100%;grid-area:1 / 2;font:inherit;min-width:2px;border:0;margin:0;outline:0;padding:0" autocapitalize="none" autocomplete="off" autocorrect="off" id="office-filter" spellcheck="false" tabindex="0" type="text" aria-autocomplete="list" aria-expanded="false" aria-haspopup="true" aria-errormessage="office-filter-error" aria-invalid="false" aria-labelledby="office-filter-label" aria-required="false" role="combobox" aria-activedescendant="" aria-describedby="react-select-office-filter-placeholder office-filter-error" enterkeyhint="done" value=""></div></div><div class="select__indicators remix-css-1wy0on6"><button type="button" class="icon-button icon-button--sm" aria-label="Toggle flyout" tabindex="-1"><svg class="svg-icon" fill="none" height="20" width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path class="icon--primary-color" d="M11.4534 16.0667L5.90983 9.13729C5.54316 8.67895 5.86948 8 6.45644 8H17.5436C18.1305 8 18.4568 8.67895 18.0902 9.13729L12.5466 16.0667C12.2664 16.417 11.7336 16.417 11.4534 16.0667Z"></path></svg></button></div></div></div></div></div></div></div><div class="padding"><h2 class="section-header section-header--large font-primary" data-testid="job-count-header">32 jobs</h2><div class="job-posts"><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Contractor / Sales Division - Contractor</p></div><h3 class="section-header font-primary">Sales-EMEA - Contractor</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5996530004" target="_top"><p class="body body--medium">Account Executive (EMEA)</p><p class="body body__secondary body--metadata">London | Hybrid</p></a></td></tr><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5998347004" target="_top"><p class="body body--medium">Business Development Representative, EMEA</p><p class="body body__secondary body--metadata">London | Hybrid</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Customer Experience</p></div><h3 class="section-header font-primary">Customer Service</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5969060004" target="_top"><p class="body body--medium">Client Service Specialist</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Customer Experience</p></div><h3 class="section-header font-primary">CX Journey Intelligence &amp; Digital Service</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/6006334004" target="_top"><p class="body body--medium">CX AI Optimization Partner</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Customer Experience</p></div><h3 class="section-header font-primary">CX Learning &amp; Development</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/6098042004" target="_top"><p class="body body--medium">Knowledge Governance Specialist II<span class="tag-container" style="margin-left:8px"><span class="ellipse"><span class="tag-text">New</span></span></span></p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Marketing Division</p></div><h3 class="section-header font-primary">Brand &amp; Integrated Marketing</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/6002587004" target="_top"><p class="body body--medium">Art Director</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Marketing Division</p></div><h3 class="section-header font-primary">Marketing Ops and Analytics</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/6004765004" target="_top"><p class="body body--medium">Sr. Analyst II, Marketing Business Intelligence</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/6004600004" target="_top"><p class="body body--medium">Sr.Digital Analyst II</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Marketing Division</p></div><h3 class="section-header font-primary">Revenue Marketing</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/6006421004" target="_top"><p class="body body--medium">Sr. Demand Marketer - Paid Search </p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Product Division</p></div><h3 class="section-header font-primary">Product</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5969835004" target="_top"><p class="body body--medium">Product Manager II - HRIS-Compensation</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5830340004" target="_top"><p class="body body--medium">Product Manager II - HRIS-Training</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Product Division</p></div><h3 class="section-header font-primary">Product Design</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5813221004" target="_top"><p class="body body--medium">Product Design Lead - Reporting &amp; Analytics</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/6031110004" target="_top"><p class="body body--medium">Sr Product Designer - Mobile<span class="tag-container" style="margin-left:8px"><span class="ellipse"><span class="tag-text">New</span></span></span></p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Sales Division</p></div><h3 class="section-header font-primary">Partner Channels</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5981620004" target="_top"><p class="body body--medium">Partner Development Manager, Strategic Partnerships</p><p class="body body__secondary body--metadata">Arizona | Remote; Florida | Remote; Georgia | Remote; Idaho | Remote; Nebraska | Remote; North Carolina | Remote; Oklahoma | Remote; Oregon | Remote; South Carolina | Remote; Tennessee | Remote; Texas | Remote; Utah | Remote; Virginia | Remote</p></a></td></tr><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5981612004" target="_top"><p class="body body--medium">Sr. Strategic Partner Account Manager (Reseller and Referral)</p><p class="body body__secondary body--metadata">Arizona | Remote; Florida | Remote; Georgia | Remote; Idaho | Remote; Nebraska | Remote; North Carolina | Remote; Oklahoma | Remote; Oregon | Remote; South Carolina | Remote; Tennessee | Remote; Texas | Remote; Utah | Remote; Virginia | Remote</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Sales Division</p></div><h3 class="section-header font-primary">Sales Development-Outbound</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5759811004" target="_top"><p class="body body--medium">Business Development Representative</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Sales Division</p></div><h3 class="section-header font-primary">Sales-Flow</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/6011645004" target="_top"><p class="body body--medium">Account Executive 1</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Sales Division</p></div><h3 class="section-header font-primary">Sales Ops &amp; Enablement</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5998305004" target="_top"><p class="body body--medium">Sales Operations Manager</p><p class="body body__secondary body--metadata">Utah | Remote</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Sales Division</p></div><h3 class="section-header font-primary">Sales-Outbound</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5691329004" target="_top"><p class="body body--medium">Outbound Account Executive</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Tech</p></div><h3 class="section-header font-primary">Applications Engineering &amp; Architecture</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5727054004" target="_top"><p class="body body--medium">Director of Software Engineering - Payroll Services </p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5710206004" target="_top"><p class="body body--medium">Distinguished Architect, Data Technology</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/6098097004" target="_top"><p class="body body--medium">Principal Software Architect</p><p class="body body__secondary body--metadata">Arizona | Remote; Idaho | Remote; Texas | Remote; Utah | Remote; Washington | Remote</p></a></td></tr><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/6008526004" target="_top"><p class="body body--medium">Staff Software Engineer</p><p class="body body__secondary body--metadata">Utah | Remote</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Tech</p></div><h3 class="section-header font-primary">Business Technology</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5994376004" target="_top"><p class="body body--medium">Helpdesk Technician</p><p class="body body__secondary body--metadata">Utah | On-Site</p></a></td></tr><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5996388004" target="_top"><p class="body body--medium">Salesforce Administrator II</p><p class="body body__secondary body--metadata">Utah | Remote</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Tech</p></div><h3 class="section-header font-primary">Data &amp; Business Intelligence</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5996687004" target="_top"><p class="body body--medium">Sr. Data Engineer</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/6003041004" target="_top"><p class="body body--medium">Sr. Data Governance Engineer</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Tech</p></div><h3 class="section-header font-primary">Platform Engineering</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5602050004" target="_top"><p class="body body--medium">Chief Architect</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5990126004" target="_top"><p class="body body--medium">Staff Software Engineer</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5602083004" target="_top"><p class="body body--medium">VP of Engineering</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Tech</p></div><h3 class="section-header font-primary">QA</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5770159004" target="_top"><p class="body body--medium">Manager, Performance and Test Engineering</p><p class="body body__secondary body--metadata">Utah | Remote</p></a></td></tr></tbody></table></div></div><div class="job-posts--table--department"><div class="job-posts--department-path"><p class="body body__secondary body--metadata">Tech</p></div><h3 class="section-header font-primary">Security</h3><div class="job-posts--table"><table><thead><tr><th scope="col" class="visually-hidden"><p class="table-header font-primary">Job</p></th></tr></thead><tbody><tr class="job-post"><td class="cell"><a href="https://job-boards.greenhouse.io/bamboohr17/jobs/5745177004" target="_top"><p class="body body--medium">Information Security Architect</p><p class="body body__secondary body--metadata">Utah | Hybrid</p></a></td></tr></tbody></table></div></div></div></div></div></div></main><script>((STORAGE_KEY, restoreKey) => {
+    if (!window.history.state || !window.history.state.key) {
+      let key = Math.random().toString(32).slice(2);
+      window.history.replaceState({
+        key
+      }, "");
+    }
+    try {
+      let positions = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "{}");
+      let storedY = positions[restoreKey || window.history.state.key];
+      if (typeof storedY === "number") {
+        window.scrollTo(0, storedY);
+      }
+    } catch (error) {
+      console.error(error);
+      sessionStorage.removeItem(STORAGE_KEY);
+    }
+  })("positions", null)</script><script>window.ENV = {"ASSET_URL":"https://job-boards.cdn.greenhouse.io","EMAIL_ADDRESS_VALIDATOR_HOST":"email-address-validator.us.greenhouse.io","JBEN_URL":"https://boards.greenhouse.io","LOCATION_CONTROL_PROVIDER":"pelias","LOCATION_CONTROL_API_KEY":"ge-39f1178289d5d0c5","LOCATION_CONTROL_BASE_URL":"https://api-geocode-earth-proxy.greenhouse.io/","LOTUS_GIT_COMMIT":"712794db24618be8fd654e3d205495a33270548d","MAX_POSTS_PER_PAGE":50,"ROLLBAR_ENV":"production","ROLLBAR_FE_ENABLED":true,"ROLLBAR_POST_CLIENT_ITEM_TOKEN":"fb557f59a5a84ab788801dd742eacf34","ROLLBAR_FILTER_HYDRATION_ERRORS":true,"GOOGLE_PICKER_APP_ID":"594601915089","GOOGLE_PICKER_DEVELOPER_KEY":"AIzaSyBeoz4WOjOsy8ZJFIkkQBvL8BZQCzLplHQ","GOOGLE_PICKER_CLIENT_ID":"594601915089-7c2994029qkt5qu2tmbppujr9jqrqqrs.apps.googleusercontent.com","DROPBOX_CHOOSER_API_KEY":"mh9jyh4mfwjnfhj","GOOGLE_RECAPTCHA_INVISIBLE_KEY":"6LfmcbcpAAAAAChNTbhUShzUOAMj_wY9LQIvLFX0","GOOGLE_RECAPTCHA_ENDPOINT":"https://www.recaptcha.net/recaptcha/enterprise.js","JOB_SEEKERS_URL":"https://my.greenhouse.io","SNOWPLOW_APP_ID":"job-board-renderer","SNOWPLOW_ENABLED":true,"SNOWPLOW_ENDPOINT":"c.spl.greenhouse.io","SNOWPLOW_NAMESPACE":"job-board-renderer-tracker","SNOWPLOW_DEBUG":false}</script></body></html></div></div></div></div></div>
+    </main>
+    <footer data-testid="site-footer" class="footer-wrapper"><div class="footer block" data-block-name="footer" data-block-status="loaded">
+<div class="platform">
+  <h3 id="platform">Platform</h3>
+  <ul>
+    <li><a href="https://www.bamboohr.com/platform/">Platform Overview</a></li>
+    <li><a href="https://www.bamboohr.com/platform/ai">Bamboo AI</a></li>
+    <li><a href="https://www.bamboohr.com/platform/video-tour">Video Tour</a></li>
+    <li><a href="https://www.bamboohr.com/product-updates/">Product Updates</a></li>
+    <li><a href="https://www.bamboohr.com/integrations/">Integration Marketplace</a></li>
+  </ul>
+</div>
+<div class="products">
+  <ul>
+    <li><a href="https://www.bamboohr.com/platform/hr-data-and-reporting/">HR Data &amp; Reporting</a></li>
+    <li><a href="https://www.bamboohr.com/platform/payroll/">Payroll</a></li>
+    <li><a href="https://www.bamboohr.com/platform/benefits-administration/">Benefits Administration</a></li>
+    <li><a href="https://www.bamboohr.com/platform/time-and-attendance/">Time &amp; Attendance</a></li>
+    <li><a href="https://www.bamboohr.com/platform/applicant-tracking-system/">Applicant Tracking System</a></li>
+    <li><a href="https://www.bamboohr.com/platform/global-employment/">Global Employment</a></li>
+    <li><a href="https://www.bamboohr.com/platform/onboarding/">Onboarding</a></li>
+    <li><a href="https://www.bamboohr.com/platform/performance-management/">Performance Management</a></li>
+    <li><a href="https://www.bamboohr.com/platform/employee-experience/">Employee Experience</a></li>
+    <li><a href="https://www.bamboohr.com/platform/compensation/">Compensation</a></li>
+    <li><a href="https://www.bamboohr.com/platform/compensation/">Compliance</a></li>
+  </ul>
+</div>
+<div class="resources">
+  <h3 id="resources">Resources</h3>
+  <ul>
+    <li><a href="https://www.bamboohr.com/resources/">Content Library</a></li>
+    <li><a href="https://www.bamboohr.com/resources/hr-glossary/">HR Glossary</a></li>
+    <li><a href="https://www.bamboohr.com/blog/">Blog</a></li>
+    <li><a href="https://www.bamboohr.com/webinars/">Webinar Library</a></li>
+    <li><a href="https://www.bamboohr.com/courses/ai-in-hr">AI in HR Starter Course</a></li>
+    <li><a href="https://www.bamboohr.com/resources/events/">Events</a></li>
+  </ul>
+</div>
+<div class="company">
+  <h3 id="company">Company</h3>
+  <ul>
+    <li><a href="https://www.bamboohr.com/about-bamboohr/">Our Story</a></li>
+    <li><a href="https://www.bamboohr.com/about-bamboohr/media/">Media</a></li>
+    <li><a href="https://www.bamboohr.com/careers/">Careers</a></li>
+    <li><a href="https://www.bamboohr.com/about-bamboohr/contact/">Contact</a></li>
+    <li><a href="https://www.bamboohr.com/partner-programs/overview">Partner with Us</a></li>
+    <li><a href="https://www.bamboohr.com/about-bamboohr/ai-principles">AI Principles</a></li>
+    <li><a href="https://www.bamboohr.com/about-bamboohr/data-principles">Data Principles</a></li>
+  </ul>
+</div>
+<div class="compare">
+  <h3 id="compare-bamboohr">Compare BambooHR</h3>
+  <ul>
+    <li><a href="https://www.bamboohr.com/why-bamboohr/compare/adp/">vs ADP</a></li>
+    <li><a href="https://www.bamboohr.com/why-bamboohr/compare/hibob">vs HiBob</a></li>
+    <li><a href="https://www.bamboohr.com/why-bamboohr/compare/paylocity/">vs Paylocity</a></li>
+    <li><a href="https://www.bamboohr.com/why-bamboohr/compare/zenefits/">vs Zenefits</a></li>
+    <li><a href="https://www.bamboohr.com/why-bamboohr/compare/gusto">vs Gusto</a></li>
+    <li><a href="https://www.bamboohr.com/why-bamboohr/compare/namely">vs Namely</a></li>
+    <li><a href="https://www.bamboohr.com/why-bamboohr/compare/rippling/">vs Rippling</a></li>
+    <li><a href="https://www.bamboohr.com/why-bamboohr/compare/paychex">vs Paychex</a></li>
+  </ul>
+</div>
+<div class="links">
+  <ul>
+    <li><a href="https://www.bamboohr.com/site-map">Site Map</a></li>
+    <li><a href="https://www.bamboohr.com/legal/security">Security</a></li>
+    <li><a href="https://www.bamboohr.com/legal/">Legal</a></li>
+    <li><a href="https://www.bamboohr.com/legal/">Privacy</a></li>
+    <li><div id="teconsent" consent="undefined"><a id="icon-id07492224736000613" lang="en" tabindex="0" role="link" style="cursor: pointer;">Cookie Preferences</a></div></li>
+    <li><a href="https://www.bamboohr.com/faq">FAQ</a></li>
+    <li><a href="https://www.bamboohr.com/exp/refer-friend">Refer a Friend, Earn $200</a></li>
+  </ul>
+  <ul>
+    <li><a href="https://www.bamboohr.com/legal/">Rewards Program Terms</a></li>
+    <li><a href="https://www.bamboohr.com/legal/bamboohr-modern-slavery-statement.pdf">Modern Slavery Statement</a></li>
+    <li><a href="https://www.bamboohr.com/legal/bamboohr-anti-bribery-statement.pdf">Anti-Bribery Statement</a></li>
+    <li><a href="https://documentation.bamboohr.com/docs/getting-started">API</a></li>
+    <li><a href="https://www.bamboohr.com/ai-information">AI Information</a></li>
+  </ul>
+</div>
+<div class="social">
+  <p><a href="https://www.facebook.com/bamboohr/"><span class="icon icon-facebook"><svg xmlns="http://www.w3.org/2000/svg"></svg></span></a></p>
+  <p><a href="https://x.com/bamboohr/"><span class="icon icon-x"><svg xmlns="http://www.w3.org/2000/svg"></svg></span></a></p>
+  <p><a href="https://www.instagram.com/bamboohr/"><span class="icon icon-instagram"><svg xmlns="http://www.w3.org/2000/svg"></svg></span></a></p>
+  <p><a href="https://www.linkedin.com/company/bamboohr/"><span class="icon icon-linkedin"><svg xmlns="http://www.w3.org/2000/svg"></svg></span></a></p>
+  <p><a href="https://www.youtube.com/user/bamboohr/"><span class="icon icon-youtube"><svg xmlns="http://www.w3.org/2000/svg"></svg></span></a></p>
+</div>
+<div class="brand">
+  <p>© 2026 Bamboo HR LLC. All Rights Reserved. BambooHR® is a registered trademark of Bamboo HR LLC</p>
+</div>
+<div class="legal">
+  <p><strong><a href="https://privacy.bamboohr.com/">Do not Sell or Share my Personal Information.</a></strong></p>
+</div>
+</div><div id="consent-banner" lang="en"><div id="truste-consent-track" class="trustarc-banner-wrapper trustarc-banner-background trustarc-background" style="overflow: auto; opacity: 1; display: block; transition: opacity 350ms;" role="dialog" aria-modal="true" aria-label="Cookie Consent Banner">    <div id="trustarc-info" class="trustarc-info-hide">        <div class="trustarc-info-img" style="margin: 14px 6px 14px 26px;" aria-hidden="true">            <img src="https://consent.trustarc.com/v2/asset/ic-error.svg" alt="alert icon">        </div>        <div tabindex="0" id="truste-repop-msg" class="trustarc-warning-text" style="margin: 14px;"></div>        <div class="trustarc-info-img" style="margin: 14px 26px 14px 6px;">            <a id="truste-repop-msg-close" role="button" style="cursor: pointer;" tabindex="0" aria-label="alert message close">                <img src="https://consent.trustarc.com/v2/asset/ic-close-white.svg" alt="alert message close" style="width: 14px; height: 14px;">            </a>        </div>    </div>    <div id="trustarc-clear-cookie-info" class="trustarc-info-hide">        <div class="trustarc-info-img" style="margin: 14px 6px 14px 26px;" aria-hidden="true">            <img src="https://consent.trustarc.com/v2/asset/ic-error.svg" alt="alert icon">        </div>        <div tabindex="0" id="truste-clear-cookie-msg" class="trustarc-warning-text" style="margin: 14px;"></div>        <div class="trustarc-info-img" style="margin: 14px 26px 14px 6px;">            <a id="truste-clear-cookie-msg-close" role="button" style="cursor: pointer;" tabindex="0" aria-label="alert message close">                <img src="https://consent.trustarc.com/v2/asset/ic-close-white.svg" alt="alert message close" style="width: 14px; height: 14px;">            </a>        </div>    </div>    <div id="trustarc-lang-container" class="languageSelectorContainer trustarc-info-hide">        <label id="trustarc-lang-selector-label" for="trustarc-lang-select">Select language</label>        <select id="trustarc-lang-select" class="languageSelectorAccessible"></select>    </div>    <div class="trustarc-banner-content" id="truste-consent-content">        <div class="trustarc-client-logo">          <a tabindex="0" class="trustarc-banner-close" id="truste-consent-close" role="button" style="position:absolute;right:0;top:0;margin:13px;padding:13px;cursor:pointer;" aria-label="close banner">            <img src="https://consent.trustarc.com/v2/asset/ic-close.svg" alt="close banner" width="14px" height="14px">          </a>          <div class="trustarc-logo-container" style="visibility: hidden;">            <img alt="company logo" id="truste-banner-logo" width="auto" height="auto" style="height: 0px;">          </div>                    </div>        <div class="trustarc-banner-details">            <div id="truste-header-text" class="trustarc-banner-header trustarc-header-text" style="font-size:42px;font-kerning:normal;font-weight:bold;">                <span style="font-weight:bolder;" role="heading" aria-level="2">We value your privacy.</span>            </div>            <div id="truste-consent-text" class="trustarc-banner-body trustarc-body-text">                We use cookies to improve your browsing experience. By continuing to use this website, you agree to our use of cookies in accordance with our privacy policy.            </div>        </div>        <div class="trustarc-banner-actions">            <div id="truste-consent-buttons">                <button tabindex="0" type="button" role="button" class="trustarc-secondary-btn" id="truste-show-consent" style="font-weight:600;margin-top:10px;height:50px;width:100%;font-size:22px;border: 1px solid #eee;border-radius:4px;cursor:pointer;color:#000;font-family:&quot;Source Sans Pro&quot;, sans-serif;">MANAGE CHOICES</button>                <button tabindex="0" type="button" role="button" class="trustarc-primary-btn trustarc-acceptall-btn trustarc-agree-btn" id="truste-consent-button" style="font-weight:600;margin-top:10px;height:50px;width:100%;font-size:22px;border: 1px solid #eee;border-radius:4px;cursor:pointer;color:#000;font-family:&quot;Source Sans Pro&quot;, sans-serif;">Okay, thanks!</button>                <button tabindex="0" type="button" role="button" class="trustarc-declineall-btn trustarc-reject-btn" id="truste-consent-required" style="display:none;opacity:0;font-weight:600;margin-top:10px;height:50px;width:100%;font-size:22px;border: 1px solid #eee;border-radius:4px;cursor:pointer;color:#000;font-family:&quot;Source Sans Pro&quot;, sans-serif;">Reject All</button>            </div>        </div>    </div>    <div class="trustarc-banner-footer">        <div class="trustarc-banner-footer-left" id="trustarc-footer-links-container">                    <a tabindex="0" class="trustarc-banner-left" id="truste-privacy-button" target="_blank" rel="noopener" aria-label="Privacy Policy" href="https://www.bamboohr.com/privacy-policy/">Privacy Policy</a></div>        <div class="trustarc-banner-right">            <span style="align-self: center;">Powered by:</span>            <a href="https://trustarc.com/" target="_blank" rel="noopener" id="truste-powered-by" tabindex="0" aria-label="trustarc">                <img src="https://consent.trustarc.com/v2/asset/trustarc-logo-xs.svg" style="margin-bottom:7px;padding-left:5px;padding-top:10px;image-rendering:auto;image-rendering:crisp-edges;image-rendering:pixelated;width:70px;height:16px;" alt="TrustArc logo">            </a>        </div>    </div></div></div></footer>
+  <script defer="" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;978396c582784347ac3a944fddf4b30a&quot;,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+
+
+<script id="" text="" charset="" type="text/javascript" src="https://cdn.bizible.com/_biz-a.js"></script><meta name="google-site-verification" content="wcd-ZZVpzqObShFbiW-i1j6y04hpXRaRfvyfdK8ZcRc"><script type="text/javascript" id="" charset="">(function(){function b(){!1===c&&(c=!0,Munchkin.init("195-LOZ-515"))}var c=!1,a=document.createElement("script");a.type="text/javascript";a.async=!0;a.src="//munchkin.marketo.net/munchkin.js";a.onreadystatechange=function(){"complete"!=this.readyState&&"loaded"!=this.readyState||b()};a.onload=b;document.getElementsByTagName("head")[0].appendChild(a)})();</script><script type="text/javascript" id="" charset="">(function(){function f(){if(!g){g=!0;var d="https://a.crmtom.com/v1/sndm/ga",c=h("email");var b="clientId";if("undefined"!==typeof GoogleAnalyticsObject&&void 0!==window[GoogleAnalyticsObject])if("function"===typeof window[GoogleAnalyticsObject].getAll)b=window[GoogleAnalyticsObject].getAll()[0].get(b);else throw Error("Unable to access GA "+b);else throw Error("GA not found on page");c={s:c,a:b,c:"b9b24a0f-8a8d-41eb-b7cf-068e5aa5ee47"};b=new XMLHttpRequest;b.open("POST",d,!1);b.setRequestHeader("Content-Type",
+"application/json");b.send(JSON.stringify(c))}}function h(d){var c=[function(a){return a.value},function(a){return"true"!==a.value},function(a){return"false"!==a.value},function(a){return"radio"!==a.type},function(a){return"hidden"!==a.type}],b=[].slice.call(document.querySelectorAll("input"));b=b.filter(function(a){return c.every(function(e){return e(a)})});b=b.filter(function(a){var e=document.querySelector('[for\x3d"'+a.id+'"]')||{innerHTML:""};a=[a.placeholder,a.id,a.name,e.innerHTML];return a.join("|").match(new RegExp(d,
+"i"))});return b.map(function(a){return a.value})}var g=!1;document.addEventListener("submit",f);document.addEventListener("beforeunload",f)})();</script><script type="text/javascript" id="" charset="">(function(){function b(){window.dataLayer.push({event:"emailInputFocusOut"})}var a=document.querySelector("#Email");a&&a.addEventListener("focusout",b)})();</script><script type="text/javascript" id="" charset="">window._6si=window._6si||[];window._6si.push(["enableEventTracking",!1]);window._6si.push(["setToken","6cf9754da13684edc005347325438e2e"]);window._6si.push(["setEndpoint","b.6sc.co"]);window._6si.push(["enableRetargeting",!1]);window._6si.push(["enableCompanyDetails",!0]);window._6si.push(["setEpsilonKey","Ask-your-CSM-for-a-token"]);
+(function(){var a=document.createElement("script");a.type="text/javascript";a.async=!0;a.src="//j.6sc.co/6si.min.js";var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})();</script><script type="text/javascript" id="" charset="">(function(){var c=document;var b=window.location;var a=c.createElement("IMG");b=b.protocol+"//tvspix.com/t.png?\x26t\x3d"+(new Date).getTime()+"\x26l\x3dtvscientific-pix-o-6ccca1d0-af30-45e7-adff-ffcfd82e38f6\x26u3\x3d"+encodeURIComponent(b.href);a.setAttribute("src",b);a.setAttribute("height","0");a.setAttribute("width","0");a.setAttribute("alt","");a.style.setProperty("display","none");a.style.setProperty("position","absolute");a.style.setProperty("visibility","hidden");c.body.appendChild(a)})();</script><img src="https://tvspix.com/t.png?&amp;t=1783157599550&amp;l=tvscientific-pix-o-6ccca1d0-af30-45e7-adff-ffcfd82e38f6&amp;u3=https%3A%2F%2Fwww.bamboohr.com%2Fcareers%2Fapplication" height="0" width="0" alt="" style="display: none; position: absolute; visibility: hidden;"><script type="text/javascript" id="" charset="">window[function(d,e){for(var b="",c=0;c<d.length;c++){a!=c;b==b;var a=d[c].charCodeAt();e>7;a-=e;a+=61;a%=94;a+=33;b+=String.fromCharCode(a)}return b}(atob("KXZ9QT45NDJDeDRI"),45)]="f4346b186f1680553218";var zi=document.createElement("script");zi.type="text/javascript";zi.async=!0;zi.src=function(d,e){for(var b="",c=0;c<d.length;c++){var a=d[c].charCodeAt();a-=e;a+=61;a%=94;a+=33;b==b;e>1;a!=c;b+=String.fromCharCode(a)}return b}(atob("PEhIREdsYWE+R2BOPV9HN0Y9REhHYDdDQWFOPV9INTtgPkc\x3d"),50);
+document.readyState==="complete"?document.body.appendChild(zi):window.addEventListener("load",function(){document.body.appendChild(zi)});</script><script type="text/javascript" id="" charset="">(function(){var a=document.createElement("script");a.type="text/javascript";a.src="https://mapixl.com/scripts/pixlv5.min.js";a.id="abbot-script";a.dataset.pid="60";a.dataset.key=" BHR001 ";a.dataset.env="prod";a.dataset.session="30";var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})();</script><script type="text/javascript" id="" charset="">(function(b){var a=document.createElement("script");a.async=!0;a.src="https://cdn.metadata.io/site-insights.js";a.onload=function(){window.Metadata.siteInsights.init(b)};document.head.appendChild(a)})({accountId:3339});</script><script id="" text="" charset="" type="text/javascript" src="https://fce3ae0034736fb2f8d94c846392c61c.cdn.bubble.io/d348/f1746548038648x738364250203605900/tracking.js"></script><script id="" text="" charset="" type="text/javascript" src="https://cdn.bizible.com/_biz-a.js"></script><meta name="google-site-verification" content="wcd-ZZVpzqObShFbiW-i1j6y04hpXRaRfvyfdK8ZcRc"><script type="text/javascript" id="" charset="">(function(){function b(){!1===c&&(c=!0,Munchkin.init("195-LOZ-515"))}var c=!1,a=document.createElement("script");a.type="text/javascript";a.async=!0;a.src="//munchkin.marketo.net/munchkin.js";a.onreadystatechange=function(){"complete"!=this.readyState&&"loaded"!=this.readyState||b()};a.onload=b;document.getElementsByTagName("head")[0].appendChild(a)})();</script><script type="text/javascript" id="" charset="">(function(){function f(){if(!g){g=!0;var d="https://a.crmtom.com/v1/sndm/ga",c=h("email");var b="clientId";if("undefined"!==typeof GoogleAnalyticsObject&&void 0!==window[GoogleAnalyticsObject])if("function"===typeof window[GoogleAnalyticsObject].getAll)b=window[GoogleAnalyticsObject].getAll()[0].get(b);else throw Error("Unable to access GA "+b);else throw Error("GA not found on page");c={s:c,a:b,c:"b9b24a0f-8a8d-41eb-b7cf-068e5aa5ee47"};b=new XMLHttpRequest;b.open("POST",d,!1);b.setRequestHeader("Content-Type",
+"application/json");b.send(JSON.stringify(c))}}function h(d){var c=[function(a){return a.value},function(a){return"true"!==a.value},function(a){return"false"!==a.value},function(a){return"radio"!==a.type},function(a){return"hidden"!==a.type}],b=[].slice.call(document.querySelectorAll("input"));b=b.filter(function(a){return c.every(function(e){return e(a)})});b=b.filter(function(a){var e=document.querySelector('[for\x3d"'+a.id+'"]')||{innerHTML:""};a=[a.placeholder,a.id,a.name,e.innerHTML];return a.join("|").match(new RegExp(d,
+"i"))});return b.map(function(a){return a.value})}var g=!1;document.addEventListener("submit",f);document.addEventListener("beforeunload",f)})();</script><script type="text/javascript" id="" charset="">(function(){function b(){window.dataLayer.push({event:"emailInputFocusOut"})}var a=document.querySelector("#Email");a&&a.addEventListener("focusout",b)})();</script><script type="text/javascript" id="" charset="">window._6si=window._6si||[];window._6si.push(["enableEventTracking",!1]);window._6si.push(["setToken","6cf9754da13684edc005347325438e2e"]);window._6si.push(["setEndpoint","b.6sc.co"]);window._6si.push(["enableRetargeting",!1]);window._6si.push(["enableCompanyDetails",!0]);window._6si.push(["setEpsilonKey","Ask-your-CSM-for-a-token"]);
+(function(){var a=document.createElement("script");a.type="text/javascript";a.async=!0;a.src="//j.6sc.co/6si.min.js";var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})();</script><script type="text/javascript" id="" charset="">(function(){var c=document;var b=window.location;var a=c.createElement("IMG");b=b.protocol+"//tvspix.com/t.png?\x26t\x3d"+(new Date).getTime()+"\x26l\x3dtvscientific-pix-o-6ccca1d0-af30-45e7-adff-ffcfd82e38f6\x26u3\x3d"+encodeURIComponent(b.href);a.setAttribute("src",b);a.setAttribute("height","0");a.setAttribute("width","0");a.setAttribute("alt","");a.style.setProperty("display","none");a.style.setProperty("position","absolute");a.style.setProperty("visibility","hidden");c.body.appendChild(a)})();</script><img src="https://tvspix.com/t.png?&amp;t=1783157599617&amp;l=tvscientific-pix-o-6ccca1d0-af30-45e7-adff-ffcfd82e38f6&amp;u3=https%3A%2F%2Fwww.bamboohr.com%2Fcareers%2Fapplication" height="0" width="0" alt="" style="display: none; position: absolute; visibility: hidden;"><script type="text/javascript" id="" charset="">window[function(d,e){for(var b="",c=0;c<d.length;c++){a!=c;b==b;var a=d[c].charCodeAt();e>7;a-=e;a+=61;a%=94;a+=33;b+=String.fromCharCode(a)}return b}(atob("KXZ9QT45NDJDeDRI"),45)]="f4346b186f1680553218";var zi=document.createElement("script");zi.type="text/javascript";zi.async=!0;zi.src=function(d,e){for(var b="",c=0;c<d.length;c++){var a=d[c].charCodeAt();a-=e;a+=61;a%=94;a+=33;b==b;e>1;a!=c;b+=String.fromCharCode(a)}return b}(atob("PEhIREdsYWE+R2BOPV9HN0Y9REhHYDdDQWFOPV9INTtgPkc\x3d"),50);
+document.readyState==="complete"?document.body.appendChild(zi):window.addEventListener("load",function(){document.body.appendChild(zi)});</script><script type="text/javascript" id="" charset="">(function(){var a=document.createElement("script");a.type="text/javascript";a.src="https://mapixl.com/scripts/pixlv5.min.js";a.id="abbot-script";a.dataset.pid="60";a.dataset.key=" BHR001 ";a.dataset.env="prod";a.dataset.session="30";var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})();</script><script type="text/javascript" id="" charset="">(function(b){var a=document.createElement("script");a.async=!0;a.src="https://cdn.metadata.io/site-insights.js";a.onload=function(){window.Metadata.siteInsights.init(b)};document.head.appendChild(a)})({accountId:3339});</script><script id="" text="" charset="" type="text/javascript" src="https://fce3ae0034736fb2f8d94c846392c61c.cdn.bubble.io/d348/f1746548038648x738364250203605900/tracking.js"></script><div class="notification-popout"><div class="notification-popout-bg"></div>
+    <div class="notification-popout-content">
+      <button class="notification-popout-close">Close notifications</button>
+      <h2 class="notification-popout-title">BambooHR announcements</h2>
+      <div class="notification-popout-items"><div class="notification-popout-item new">
+            <div class="notification-popout-item-image"><picture><source type="image/webp" srcset="/careers/media_1251328ed3c0dfda951af57aa34bc7cf6c8daf350.png?width=400&amp;format=webply&amp;optimize=medium"><img loading="lazy" alt="Stay on top of compliance" src="https://www.bamboohr.com/careers/media_1251328ed3c0dfda951af57aa34bc7cf6c8daf350.png?width=400&amp;format=png&amp;optimize=medium"></picture></div>
+            <div class="notification-popout-item-content">
+              <span class="icon icon-new"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>
+              <h3>Stay on top of compliance</h3>
+              <div class="typ-small-info"></div>
+              <p>Easily assign and track compliance courses with built-in Compliance Training powered by EasyLlama.</p>
+              <a href="https://www.bamboohr.com/platform/compliance/compliance-training?notification" class="caret-link">Learn more</a>
+            </div>
+          </div><div class="notification-popout-item new">
+            <div class="notification-popout-item-image"><picture><source type="image/webp" srcset="/careers/media_1ed8f1e64b9b277e83d5d11ddc71a6f618bc17bf0.png?width=400&amp;format=webply&amp;optimize=medium"><img loading="lazy" alt="Build a smarter compensation strategy" src="https://www.bamboohr.com/careers/media_1ed8f1e64b9b277e83d5d11ddc71a6f618bc17bf0.png?width=400&amp;format=png&amp;optimize=medium"></picture></div>
+            <div class="notification-popout-item-content">
+              <span class="icon icon-new"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>
+              <h3>Build a smarter compensation strategy</h3>
+              <div class="typ-small-info"></div>
+              <p>Simplify your entire pay process—from benchmarking to planning and approvals—with BambooHR® Compensation Management.</p>
+              <a href="https://www.bamboohr.com/platform/compensation/?notification" class="caret-link">Learn more</a>
+            </div>
+          </div><div class="notification-popout-item new">
+            <div class="notification-popout-item-image"><picture><source type="image/webp" srcset="/careers/media_1456b0efa7932a1de394cb16dfbd3107f2a61343e.png?width=400&amp;format=webply&amp;optimize=medium"><img loading="lazy" alt="Hire globally, confidently—with BambooHR® Employer of Record" src="https://www.bamboohr.com/careers/media_1456b0efa7932a1de394cb16dfbd3107f2a61343e.png?width=400&amp;format=png&amp;optimize=medium"></picture></div>
+            <div class="notification-popout-item-content">
+              <span class="icon icon-new"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>
+              <h3>Hire globally, confidently—with BambooHR® Employer of Record</h3>
+              <div class="typ-small-info"></div>
+              <p>Expand your talent pool and pay a diverse, global workforce with accuracy, compliance, and peace-of-mind.</p>
+              <a href="https://www.bamboohr.com/platform/global-employment/eor?notification" class="caret-link">Learn more</a>
+            </div>
+          </div><div class="notification-popout-item new">
+            <div class="notification-popout-item-image"><picture><source type="image/webp" srcset="/careers/media_1537f834cbb1ce2797723752fd13a0fb86b124983.png?width=400&amp;format=webply&amp;optimize=medium"><img loading="lazy" alt="Make smarter workforce decisions with advanced insights" src="https://www.bamboohr.com/careers/media_1537f834cbb1ce2797723752fd13a0fb86b124983.png?width=400&amp;format=png&amp;optimize=medium"></picture></div>
+            <div class="notification-popout-item-content">
+              <span class="icon icon-new"><svg xmlns="http://www.w3.org/2000/svg"></svg></span>
+              <h3>Make smarter workforce decisions with advanced insights</h3>
+              <div class="typ-small-info"></div>
+              <p>Our new Custom Dashboards and HR Benchmarks give you the trends and context to drive more strategic people decisions.</p>
+              <a href="https://www.bamboohr.com/platform/hr-data-and-reporting/?notification" class="caret-link">Learn more</a>
+            </div>
+          </div></div>
+    </div></div><div id="slide-down" role="alert"><p></p></div><script type="text/javascript" async="" src="https://js.zi-scripts.com/zi-tag.js"></script></body></html>

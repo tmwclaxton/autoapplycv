@@ -4,25 +4,49 @@
   "exact_field_count": 3,
   "fields": [
     {
-      "question": "email email enter email email email",
+      "question": "email email enter email",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "password password enter password psw psw",
+      "question": "password password enter password",
       "field_type": "password",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "psw",
+        "name": "psw",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "repeat password repeat password repeat password psw-repeat psw-repeat",
+      "question": "repeat password repeat password repeat password",
       "field_type": "password",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "psw-repeat",
+        "name": "psw-repeat",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

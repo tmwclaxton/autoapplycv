@@ -8,17 +8,33 @@
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "input-q_your-name",
+        "data_testid": "input-q_your-name-input",
+        "role": null
+      }
     },
     {
-      "question": "contact email contact email question_contact-email question_contact-email contact email",
+      "question": "contact email contact email contact email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "question_contact-email",
+        "name": "question_contact-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "where are you based? where are you based? where-are-you-based where-are-you-based where are you based?",
+      "question": "where are you based? where are you based? where are you based?",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -28,7 +44,15 @@
         "Remote",
         "Hybrid"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "where-are-you-based",
+        "name": "where-are-you-based",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "will you need sponsorship?",
@@ -38,14 +62,30 @@
         "Yes",
         "No"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "will-you-need-sponsorshi-0",
+        "name": "will-you-need-sponsorshi",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "tell us about yourself tell us about yourself tell-us-about-yourself tell-us-about-yourself tell us about yourself",
+      "question": "tell us about yourself tell us about yourself tell us about yourself",
       "field_type": "textarea",
       "max_chars": 600,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself",
+        "name": "tell-us-about-yourself",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

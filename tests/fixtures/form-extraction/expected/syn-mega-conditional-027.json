@@ -1,0 +1,105 @@
+{
+  "id": "syn-mega-conditional-027",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "your name (9647) your name (9647)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cond-name-9647",
+        "name": "cond-name-9647",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email (9647) personal email (9647)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cond-email-9647",
+        "name": "cond-email-9647",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number (9647) phone number (9647)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cond-phone-9647",
+        "name": "cond-phone-9647",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "github profile (9647) github profile (9647)",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "github-profile-9647-9647",
+        "name": "github-profile-9647-9647",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cover letter (9647) cover letter (9647)",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter-9647-9647",
+        "name": "cover-letter-9647-9647",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred location (9647) preferred location (9647)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Hybrid",
+        "Remote",
+        "London",
+        "Manchester"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-location-9647-9647",
+        "name": "preferred-location-9647-9647",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

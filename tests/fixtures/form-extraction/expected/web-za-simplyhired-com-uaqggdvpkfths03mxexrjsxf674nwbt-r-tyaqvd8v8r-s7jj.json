@@ -1,0 +1,39 @@
+{
+  "id": "web-za-simplyhired-com-uaqggdvpkfths03mxexrjsxf674nwbt-r-tyaqvd8v8r-s7jj",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "job title, skills or company job title, skills or company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-:R3b9adalnbr6:",
+        "name": "q",
+        "data_testid": "findJobsKeywordInput",
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "city, state, zip or \"remote\" city, state, zip or \"remote\"",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field-:R5b9adalnbr6:",
+        "name": "l",
+        "data_testid": "findJobsLocationInput",
+        "role": "combobox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -4,18 +4,34 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "legal name legal name legal-name legal-name legal name",
+      "question": "legal name legal name legal name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "legal-name",
+        "name": "legal-name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email email email email email",
+      "question": "email email email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "visa sponsorship required?",
@@ -26,7 +42,15 @@
         "No",
         "Not sure"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "visa-sponsorship-require-0",
+        "name": "visa-sponsorship-require",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "work authorization",
@@ -36,7 +60,15 @@
         "Yes",
         "No"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "work-authorization-0",
+        "name": "work-authorization",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

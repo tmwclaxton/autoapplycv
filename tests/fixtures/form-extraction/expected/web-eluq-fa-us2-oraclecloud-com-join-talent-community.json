@@ -1,0 +1,75 @@
+{
+  "id": "web-eluq-fa-us2-oraclecloud-com-join-talent-community",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "email address - avoid using an email address that is associated with a shared account (e.g. family accounts) email address - avoid using an email address that is associated with a shared account (e.g. family accounts) email address - avoid using an email address that is associated with a shared account (e.g. family accounts)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "primary-email-0",
+        "name": "primary-email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "honeypot honeypot honeypot",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "honey-pot-1",
+        "name": "honey-pot",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "i understand and accept the website terms & conditions and privacy policy available on our website as well as the terms and conditions. california residents: please review our ca privacy notice. i understand and accept the website terms & conditions and privacy policy available on our website as well as the terms and conditions. california residents: please review our ca privacy notice. i understand and accept the website terms & conditions and privacy policy available on our website as well as the terms and conditions. california residents: please review our ca privacy notice.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I understand and accept the Website Terms & Conditions and Privacy Policy available on our website as well as the Terms and Conditions. California Residents: Please review our CA Privacy Notice."
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "legal-disclaimer-checkbox",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "enter text to search for help guides search...",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue Working"
+    }
+  ],
+  "vet_notes": []
+}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Iframe apply 4</title></head>
+<body>
+
+<main>
+<h1>Iframe apply 4</h1>
+<form action="/apply" method="post">
+<label for="main-name">Your name</label><input id="main-name" name="main-name" type="text">
+<label for="main-email">Personal email</label><input id="main-email" name="main-email" type="email">
+<label for="main-phone">Telephone</label><input id="main-phone" name="main-phone" type="tel">
+<div class="field-row"><label for="motivation-statement">Motivation statement</label><textarea id="motivation-statement" name="motivation-statement" rows="4" maxlength="350" ></textarea></div>
+<button type="button">Continue</button>
+</form>
+<iframe title="Embedded application module" srcdoc="<!DOCTYPE html><html><body><form><label>Internal reference</label><input name=&quot;ref&quot; type=&quot;text&quot;><label>HR notes</label><textarea name=&quot;notes&quot;></textarea></form></body></html>" width="400" height="200"></iframe>
+</main>
+</body>
+</html>

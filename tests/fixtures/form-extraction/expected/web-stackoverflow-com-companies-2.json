@@ -1,0 +1,54 @@
+{
+  "id": "web-stackoverflow-com-companies-2",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "search search…",
+      "field_type": "text",
+      "max_chars": 240,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "q",
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "search all companies search all companies search all companies",
+      "field_type": "text",
+      "max_chars": 120,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "q",
+        "name": "q",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search company by location search company by location search company by location",
+      "field_type": "text",
+      "max_chars": 120,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "l",
+        "name": "l",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

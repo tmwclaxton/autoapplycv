@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Job application</title>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 id="title" class="text-center">Job application</h1>
+            <p id="description" class="description text-center">Enter your details</p>
+        </header>
+        <form action="" id="survey-form">
+            <div class="survey-form">
+                <label id="name-label" for="name">Name</label>
+                <input name="name" type="text" id="name" class="form-control" placeholder="Enter your name" required />
+            </div>
+            <div class="survey-form">
+                <label id="email-label" for="email">Email</label>
+                <input name="email" type="email" id="email" class="form-control" placeholder="Enter your Email"
+                    required />
+            </div>
+            <div class="survey-form">
+                <label id="number-label" for="number">Age <span>(optional)</span></label>
+                <input name="age" type="number" id="number" class="form-control" placeholder="Enter your age" min=10
+                    max=50 />
+            </div>
+            <div class="survey-form">
+                <p>Experience</p>
+                <select id="dropdown" class="form-control">
+                    <option disabled selected value="">Select from here</option>
+                    <option value="fresher">Fresher</option>
+                    <option value="experienced">Experienced</option>
+                    <!-- <option value="preferNo">Prefer not to say</option>
+                        <option value="other">Other</option> -->
+                </select>
+            </div>
+            <div class="survey-form">
+                <p>Are you ready to relocate</p>
+                <label>
+                    <input name="loc" type="radio" value="yes">Yes
+                </label>
+                <label>
+                    <input name="loc" type="radio" value="maybe">Maybe depending on job role
+                </label>
+                <label>
+                    <input name="loc" type="radio" value="no">No
+                </label>
+            </div>
+            <div class="survey-form">
+                <p>Which position your applying for?</p>
+                <select name="position" id="dropdown1" class="form-control">
+                    <option disabled selected value="">Select from here</option>
+                    <option value="backEnd">Back-end developer</option>
+                    <option value="frontEnt">Front-end developer</option>
+                    <option value="others">Other</option>
+                </select>
+            </div>
+            <div class="survey-form">
+                <p>Select technologies you know</p>
+                <label>
+                    <input name="tech" type="checkbox" value="java" />Java
+                </label>
+                <label>
+                    <input name="tech" type="checkbox" value="python" />Python
+                </label>
+                <label>
+                    <input name="tech" type="checkbox" value="html" />HTML
+                </label>
+                <label>
+                    <input name="tech" type="checkbox" value="css" />CSS
+                </label>
+                <label>
+                    <input name="tech" type="checkbox" value="javascript" />JavaScript
+                </label>
+                <label>
+                    <input name="tech" type="checkbox" value="github" />GitHub
+                </label>
+            </div>
+            <div class="survey-form">
+                <p>Tell us about yourself</p>
+                <textarea name="comments" id="comments" placeholder="Type here...." class="form-control"></textarea>
+            </div>
+            <div class="survey-form">
+                <button type="submit" id="submit" class="form-control">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Employment Application</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="page" , class="site">
+        <div class="container">
+            <div class="form-box">
+                <div class="progress">
+                    <div class="logo">
+                        <a href="/">
+                            <span>JDM</span> CO FREIGHT
+                        </a>
+                    </div>
+                    <ul class="progress-steps">
+                        <li class="step active">
+                            <span>1</span>
+                            <p>Applicant<br><span>1 minute to complete</span></p>
+                        </li>
+                        <li class="step">
+                            <span>2</span>
+                            <p>Contact<br><span>1 minute to complete</span></p>
+                        </li>
+                        <li class="step">
+                            <span>3</span>
+                            <p>License<br><span>1 minute to complete</span></p>
+                        </li>
+                        <li class="step">
+                            <span>4</span>
+                            <p>Experience<br><span>1 minute to complete</span></p>
+                        </li>
+                        <li class="step">
+                            <span>5</span>
+                            <p>Medical Card<br><span>1 minute to complete</span></p>
+                        </li>
+                        <li class="step">
+                            <span>6</span>
+                            <p>MVR Release<br><span>1 minute to complete</span></p>
+                        </li>
+                        <li class="step">
+                            <span>7</span>
+                            <p>To Be Read<br><span>1 minute to complete</span></p>
+                        </li>
+                    </ul>
+                </div>
+                <form id="employment-form">
+                    <div class="form-one form-step active">
+                        <div class="bg-svg"></div>
+                        <h2>Applicant information</h2>
+                        <p>Enter your personal information correctly</p>
+                        <div class="date">
+                            <label>Date of Application</label>
+                            <div class="grouping">
+                                <input type="text" pattern="[0-9]*" name="day" value="" min="0" max="31"
+                                    placeholder="DD" readonly>
+                                <input type="text" pattern="[0-9]*" name="month" value="" min="0" max="12"
+                                    placeholder="MM" readonly>
+                                <input type="text" pattern="[0-9]*" name="year" value="" min="0" max="250"
+                                    placeholder="YYYY " readonly>
+                            </div>
+                        </div>
+                        <div>
+                            <label>First Name<span style="color: red;">*</span></label>
+                            <input type="text" id="first-name" name="first-name" placeholder="e.g. John" required>
+                        </div>
+                        <div>
+                            <label>Middle Name</label>
+                            <input type="text" id="middle-name" name="middle-name" placeholder="e.g. John">
+                        </div>
+                        <div>
+                            <label>Last Name<span style="color: red;">*</span></label>
+                            <input type="text" id="last-name" name="last-name" placeholder="e.g. Doe" required>
+                        </div>
+                        <div>
+                            <label>Phone<span style="color: red;">*</span></label>
+                            <input type="tel" id="phone" name="phone" placeholder="+1xxxxxxxxx" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Do you have legal right to work in the United States?<span
+                                    style="color: red;">*</span></label>
+                            <div class="radio-group">
+                                <label><input type="radio" id="legalYes" name="legalRightToWork" value="yes" required>
+                                    Yes</label>
+                                <label><input type="radio" id="legalNo" name="legalRightToWork" value="no" required>
+                                    No</label>
+                            </div>
+                        </div>
+                        <div class="checkbox">
+                            <label>Are you Company Driver or Owner-Operator?<span style="color: red;">*</span></label>
+                            <div class="radio-group">
+                                <input type="radio" id="yes" name="driver" value="Company Driver" required>
+                                <label>Company Driver</label>
+                                <input type="radio" id="no" name="driver" value="Owner-Operator" required>
+                                <label>Owner-Operator</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-two form-step">
+                        <div class="bg-svg"></div>
+                        <h2>Contact</h2>
+                        <div>
+                            <label>Email<span style="color: red;">*</span></label>
+                            <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+                        </div>
+                        <div>
+                            <label>Address Line 1<span style="color: red;">*</span></label>
+                            <input type="text" id="addressline1" name="addressline1" placeholder="Street Address"
+                                required>
+                        </div>
+                        <div>
+                            <label>Address Line 2</label>
+                            <input type="text" id="addressline2" name="addressline2" placeholder="Street Address">
+                        </div>
+                        <div>
+                            <label>City<span style="color: red;">*</span></label>
+                            <input type="text" id="city" name="city" placeholder="Lawrenceville" required>
+                        </div>
+
+                        <!-- <div>
+                            <label>State<span style="color: red;">*</span></label>
+                            <input type="text" id="state" name="state" placeholder="1010 Providence Dr" required>
+                        </div> -->
+                        <label for="state">State<span style="color: red;">*</span></label>
+                        <select name="state" id="state">
+                            <option value="">Please select</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
+
+                        <div class="row-input">
+                            <label>Zip Code<span style="color: red;">*</span></label>
+                            <input class="zipcode" type="tel" id="zipcode" name="zipcode" placeholder="Postal/Zip Code"
+                                required>
+                            <div class="result" id="result"></div>
+                        </div>
+                    </div>
+                    <div class="form-three form-step">
+                        <div class="bg-svg"></div>
+                        <h2>Driver License<span style="color: red;">*</span></h2>
+                        <div class="file-upload" id="file-upload-3">
+                            <div class="file-upload-content">
+                                <h3>Drag & Drop your files here or click to upload</h3>
+                                <input type="file" id="file-input-3" name="file-input-3" multiple required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-fourth form-step">
+                        <div class="bg-svg"></div>
+                        <h2>DRIVING EXPERIENCE<span style="color: red;">*</span></h2>
+                        <div class="checkbox" required>
+                            <div>
+                                <input type="checkbox" name="checkbox" value="DRY VAN">
+                                <label>DRY VAN</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="checkbox" value="REEFER">
+                                <label>REEFER</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="checkbox" value="FLATBED">
+                                <label>FLATBED</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="checkbox" value="TANKER ENDORSEMENT">
+                                <label>TANKER ENDORSEMENT</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="checkbox" value="DOUBLE DROP">
+                                <label>DOUBLE DROP</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-five form-step">
+                        <div class="bg-svg"></div>
+                        <h2>Medical Card<span style="color: red;">*</span></h2>
+                        <div class="file-upload" id="file-upload-5">
+                            <div class="file-upload-content">
+                                <h3>Drag & Drop your files here or click to upload</h3>
+                                <input type="file" id="file-input-5" multiple required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-six form-step">
+                        <div class="bg-svg"></div>
+                        <h2>Consent Form<span style="color: red;">*</span></h2>
+                        <div class="consent-text">
+                            <p>In conjunction with my potential employment at JDM CO FREIGHT LLC (company),</p>
+                            <p>Josef Willis</p>
+                            <p>I <input type="text" class="inline-input" name="consent" id="consent"
+                                    placeholder="applicant name" required>
+                                (applicant) consent to the
+                                release of my Motor Vehicle Records (MVR) to the company. I understand the company will
+                                use these records to
+                                evaluate my suitability to fulfill driving duties that may be related to the position
+                                for which I am
+                                applying. I also consent to the review, evaluation, and other use of any MVR I may have
+                                provided to the
+                                company. This consent is given in satisfaction of Public Law 18 USC 2721 et. Seq.,
+                                “Federal Drivers Privacy
+                                Protection Act”, and is intended to constitute “written consent” as by this
+                                Act.</p>
+                            <p>Date: <span id="current-date"></span></p>
+                            <p>Applicant Sign<span style="color: red;">*</span>: <br>
+                                <canvas id="signature-pad" class="signature-pad" width=400 height=200 required></canvas>
+                            </p>
+                            <button type="button" id="clear-signature">Clear Signature</button>
+                        </div>
+                    </div>
+                    <div class="form-seven form-step">
+                        <div class="bg-svg"></div>
+                        <h2>TO BE READ AND SIGNED BY APPLICANT<span style="color: red;">*</span></h2>
+                        <div class="consent-text">
+                            <p>I authorize you to make investigations (including contacting current and prior employers)
+                                into my personal, employment,
+                                financial, medical history, and other related matters as may be necessary in arriving at
+                                an employment decision. I
+                                hereby
+                                release employers, health care providers, and other persons from all liability in
+                                responding to inquiries and releasing
+                                information in connection with my application.</p>
+                            <p>In the event of employment, I understand that false or misleading information given in my
+                                application or interview(s)
+                                may
+                                result in discharge. I also understand that I am required to abide by all rules and
+                                regulations of the Company.</p>
+                            <p> I understand that the information I provide regarding my current and/or prior employers
+                                may be used, and those
+                                employer(s)
+                                will be contacted for the purpose of investigating my safety performance history as
+                                required by 49 CFR 391.23. I
+                                understand
+                                that I have the right to:</p>
+                            <p>
+                                • Review information provided by current/previous employers;<br>
+                                • Have errors in the information corrected by previous employers, and for those previous
+                                employers to resend the
+                                corrected information to the prospective employer; and<br>
+                                • Have a rebuttal statement attached to the alleged erroneous information, if the
+                                previous employer(s) and I cannot
+                                agree on the accuracy of the information.
+                            </p>
+                            <p>This certifies that I completed this application, and that all entries on it and
+                                information in it are true and complete
+                                to the best of
+                                my knowledge. Note: A motor carrier may require an applicant to provide more information
+                                than that required by the
+                                Federal
+                                Motor Carrier Safety Regulations.
+                            <p>
+                            <p>Date: <span id="current-date2"></span></p>
+                            <p><input type="text" class="inline-input" name="consent2" id="consent2"
+                                    placeholder="applicant name" required>
+                            <p>Applicant Sign<span style="color: red;">*</span>: <br>
+                                <canvas id="signature-pad2" class="signature-pad2" width=400 height=200
+                                    required></canvas>
+                            </p>
+                            <button type="button" id="clear-signature2">Clear Signature</button>
+
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn-prev" disabled>Back</button>
+                        <button type="button" class="btn-next">Next Step</button>
+                        <button type="submit" class="btn-submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.4.0/dist/pdf-lib.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

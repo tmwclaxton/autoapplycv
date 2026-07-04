@@ -1,0 +1,89 @@
+{
+  "id": "syn-fw-svelte-006",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "legal name legal name legal name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sv-name",
+        "name": "sv-name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email work email work email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "sv-email",
+        "name": "sv-email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number mobile number mobile number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "sv-phone",
+        "name": "sv-phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? why this role?",
+      "field_type": "textarea",
+      "max_chars": 350,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role",
+        "name": "why-this-role",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred location preferred location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "London",
+        "Berlin",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-location",
+        "name": "preferred-location",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

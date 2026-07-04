@@ -1,0 +1,62 @@
+{
+  "id": "web-demoupcliplister-recruitee-com-initiativ-bewerbungen-2",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "my information",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-undefined",
+        "name": "candidate.name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "what department interests you?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Sales",
+        "IT",
+        "Product",
+        "Marketing",
+        "People and Culture",
+        "Content Creation / Production",
+        "Other"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.5628143.multiContent-undefined-0",
+        "name": "candidate.openQuestionAnswers.5628143.multiContent",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "questions",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.openQuestionAnswers.5628508.content-undefined",
+        "name": "candidate.openQuestionAnswers.5628508.content",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

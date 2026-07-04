@@ -1,0 +1,93 @@
+{
+  "id": "web-boards-greenhouse-io-sphereentertainment",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "accounting accounting",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Accounting",
+        "Art, Design",
+        "Business Operations",
+        "Construction",
+        "Engineering",
+        "Guest Experience",
+        "Human Resources/People Practices",
+        "Marketing",
+        "Networks",
+        "Productions",
+        "Sales/Ticketing",
+        "Student Opportunities (Internships)",
+        "Technology"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "department",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "bozeman, mt bozeman, mt",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Bozeman, MT",
+        "Burbank, CA",
+        "Burbank, CA; Las Vegas, NV; New York City, NY",
+        "Las Vegas, NV",
+        "London, UK",
+        "New York City, NY"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "full-time full-time",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Full-time",
+        "Part-time"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "position_type",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search jobs",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "searchFilter",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

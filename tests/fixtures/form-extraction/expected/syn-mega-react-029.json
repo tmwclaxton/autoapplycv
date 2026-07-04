@@ -1,0 +1,91 @@
+{
+  "id": "syn-mega-react-029",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9084) applicant name (9084)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "react-name-9084",
+        "name": "react-name-9084",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address (9084) email address (9084)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "react-email-9084",
+        "name": "react-email-9084",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "direct line (9084) direct line (9084)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "react-phone-9084",
+        "name": "react-phone-9084",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cover letter (9084) cover letter (9084)",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter-9084-9084",
+        "name": "cover-letter-9084-9084",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "visa sponsorship needed? (9084)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "visa-sponsorship-needed-",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

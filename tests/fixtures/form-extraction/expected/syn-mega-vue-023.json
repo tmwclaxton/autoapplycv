@@ -1,0 +1,77 @@
+{
+  "id": "syn-mega-vue-023",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "preferred name (9023) preferred name (9023)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vue-name-9023",
+        "name": "vue-name-9023",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application email (9023) application email (9023)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "vue-email-9023",
+        "name": "vue-email-9023",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9023) cell phone (9023)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "vue-phone-9023",
+        "name": "vue-phone-9023",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "relocation preference (9023)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Maybe later"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "relocation-preference-90-0",
+        "name": "relocation-preference-90",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next step"
+    }
+  ],
+  "vet_notes": []
+}

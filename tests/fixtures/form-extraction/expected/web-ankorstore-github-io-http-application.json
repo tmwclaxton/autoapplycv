@@ -1,0 +1,137 @@
+{
+  "id": "web-ankorstore-github-io-http-application",
+  "min_fields": 8,
+  "exact_field_count": 8,
+  "fields": [
+    {
+      "question": "yokai",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "__drawer",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "__search",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "__search",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "switch to dark mode",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "__palette_0",
+        "name": "__palette",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search search",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "query",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "getting started getting started getting started",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Getting started"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "__nav_2",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "http application table of contents table of contents http application",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "HTTP application"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "__toc",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "demos demos demos",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Demos"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "__nav_4",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "modules modules modules",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Modules"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "__nav_5",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

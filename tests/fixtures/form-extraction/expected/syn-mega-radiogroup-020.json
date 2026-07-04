@@ -1,0 +1,73 @@
+{
+  "id": "syn-mega-radiogroup-020",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "your name (9740) your name (9740)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "rg-name-9740",
+        "name": "rg-name-9740",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9740) work email (9740)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "rg-email-9740",
+        "name": "rg-email-9740",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9740) contact number (9740)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "rg-phone-9740",
+        "name": "rg-phone-9740",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "visa sponsorship needed? (9740)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Not applicable"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "visa-sponsorship-needed-",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

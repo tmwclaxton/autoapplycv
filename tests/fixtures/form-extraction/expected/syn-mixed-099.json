@@ -8,17 +8,33 @@
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "input-q_name-as-on-cv",
+        "data_testid": "input-q_name-as-on-cv-input",
+        "role": null
+      }
     },
     {
-      "question": "personal email personal email question_personal-email question_personal-email personal email",
+      "question": "personal email personal email personal email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "question_personal-email",
+        "name": "question_personal-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "current city current city current-city current-city current city",
+      "question": "current city current city current city",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -28,7 +44,15 @@
         "Remote",
         "Hybrid"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "current-city",
+        "name": "current-city",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "do you require visa sponsorship?",
@@ -38,14 +62,30 @@
         "Yes",
         "No"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "do-you-require-visa-spon-0",
+        "name": "do-you-require-visa-spon",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "why do you want this role? why do you want this role? why-do-you-want-this-rol why-do-you-want-this-rol why do you want this role?",
+      "question": "why do you want this role? why do you want this role? why do you want this role?",
       "field_type": "textarea",
       "max_chars": 600,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-do-you-want-this-rol",
+        "name": "why-do-you-want-this-rol",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

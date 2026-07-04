@@ -1,0 +1,442 @@
+{
+  "id": "web-jobs-lever-co-apply-23",
+  "min_fields": 21,
+  "exact_field_count": 21,
+  "fields": [
+    {
+      "question": "full name✱ full name✱ full name✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "he/him he/him he/him",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "He/him",
+        "She/her",
+        "They/them",
+        "Xe/xem",
+        "Ze/hir",
+        "Ey/em",
+        "Hir/hir",
+        "Fae/faer",
+        "Hu/hu",
+        "Use name only"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "pronouns",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "custom custom he/him",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Custom"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "customPronounsOption",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email✱ email✱ email✱",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone ✱ phone ✱ phone ✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current company current company current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "linkedin url✱ linkedin url✱ linkedin url✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[b852764f-bb3b-43d0-92fb-f75d9692788a][field0]",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select...",
+        "United States",
+        "Afghanistan",
+        "Akrotiri",
+        "Albania",
+        "Algeria",
+        "American Samoa",
+        "Andorra",
+        "Angola",
+        "Anguilla",
+        "Antarctica",
+        "Antigua and Barbuda",
+        "Argentina",
+        "Armenia",
+        "Aruba",
+        "Ashmore and Cartier Islands",
+        "Australia",
+        "Austria",
+        "Azerbaijan",
+        "Bahamas, The",
+        "Bahrain",
+        "Bangladesh",
+        "Barbados",
+        "Bassas da India",
+        "Belarus",
+        "Belgium",
+        "Belize",
+        "Benin",
+        "Bermuda",
+        "Bhutan"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[b852764f-bb3b-43d0-92fb-f75d9692788a][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[b852764f-bb3b-43d0-92fb-f75d9692788a][field1]",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select...",
+        "Other, please write below",
+        "Alabama",
+        "Alaska",
+        "American Samoa",
+        "Arizona",
+        "Arkansas",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "District of Columbia",
+        "Florida",
+        "Georgia",
+        "Guam",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana",
+        "Maine",
+        "Maryland",
+        "Massachusetts",
+        "Michigan",
+        "Minnesota",
+        "Mississippi",
+        "Missouri"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[b852764f-bb3b-43d0-92fb-f75d9692788a][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "type your response",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[b852764f-bb3b-43d0-92fb-f75d9692788a][field2]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes yes yes",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[b852764f-bb3b-43d0-92fb-f75d9692788a][field4]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[b852764f-bb3b-43d0-92fb-f75d9692788a][field5]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[b852764f-bb3b-43d0-92fb-f75d9692788a][field5]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[8eab4597-67af-43b5-b901-bded50eab888][field2]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[8eab4597-67af-43b5-b901-bded50eab888][field2]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[a885e868-c268-41e1-909d-ef68d603950f][field0]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[a885e868-c268-41e1-909d-ef68d603950f][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "3 months 3 months 3 months",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "3 months",
+        "6 months",
+        "9 months",
+        "One (1) year",
+        "Two (2) years"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[eb7adee4-661b-4589-a366-528f963a809b][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "art designer (print/direct mail) art designer (print/direct mail) art designer (print/direct mail)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Art Designer (print/direct mail)",
+        "Content Strategy",
+        "Copywriting/writing",
+        "Digital Editing/Editing",
+        "Graphic Design",
+        "Video Editing",
+        "Web design/email production (digital production)",
+        "Other"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[cee7fdc9-77d8-451b-885f-2716255c04b8][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[cee7fdc9-77d8-451b-885f-2716255c04b8][field1]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[cee7fdc9-77d8-451b-885f-2716255c04b8][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "weekdays weekdays weekdays",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Weekdays",
+        "Weeknights",
+        "Weekends",
+        "N/A"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[1cf8a70c-21af-4db9-ad50-67254dcf6d7b][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[1cf8a70c-21af-4db9-ad50-67254dcf6d7b][field1]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[1cf8a70c-21af-4db9-ad50-67254dcf6d7b][field1]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cards[61288002-c161-4312-88c0-e7a3800baadb][field0]",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select...",
+        "Linkedin.com",
+        "LGBTQremotely.com",
+        "HBCU20x20.com",
+        "Cultivate",
+        "Idealist.org",
+        "TechJobsForGood.com",
+        "Techqueria",
+        "Arena",
+        "WorkforGood.org",
+        "Indeed",
+        "GainPower",
+        "Unsure",
+        "Other (please write the source below)",
+        "Referral (please write name of referrer below)"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[61288002-c161-4312-88c0-e7a3800baadb][field0]",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

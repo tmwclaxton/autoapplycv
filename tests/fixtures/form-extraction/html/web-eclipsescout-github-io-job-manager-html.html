@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>JobManager :: Eclipse Scout</title>
+    <link rel="prev" href="exception-handling.html">
+    <link rel="next" href="run-context.html">
+    <meta name="generator" content="Antora 3.1.15">
+    <link rel="stylesheet" href="../../../../_/css/site.css">
+    <script>var uiRootPath = '../../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../../..">Eclipse Scout Docs</a>
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field">
+          <input id="search-input" type="text" placeholder="Search Docs">
+      		  <label class="filter checkbox">
+            <input type="checkbox" data-facet-filter="component:scout-docs"> In this project
+          </label>
+        </div>
+      </div>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <a class="logo" href="https://eclipse.dev/scout/"><img src="../../../26.1/index.html/../../../_/img/eclipse-scout-logo.svg" alt="Eclipse Scout"></a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="scout-docs" data-version="23.2">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../../index.html">Eclipse Scout</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../index.html">Overview</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../getstarted/getstarted.html">Get Started</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Scout Classic</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../getstarted/helloscout.html">Hello Scout Classic</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../getstarted/deploy-to-tomcat.html">Build Scout App and Deploy to Tomcat</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../getstarted/one-day-tutorial.html">One Day Tutorial</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Scout JS</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../getstarted/helloscout-js.html">Hello Scout JS</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../getstarted/helloscout-js-fullstack.html">Hello Scout JS Full Stack</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../getstarted/helloscout-cdn.html">Hello Scout JS with a CDN</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../technical-guide.html">Technical Guide</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Common Concepts</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="platform.html">Platform</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="exception-handling.html">Working with exceptions</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="3">
+    <a class="nav-link" href="job-manager.html">JobManager</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="run-context.html">RunContext</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="run-monitor.html">RunMonitor</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="security.html">Security</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="smtp-helper.html">SmtpHelper</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="observability.html">Observability</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">User Interface</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/widget.html">Widget</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/object-factory.html">Object Factory</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/form.html">Form</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/form-field.html">Form Field</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/composite-field.html">Composite Field</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/group-box.html">Group Box</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/logical-grid.html">Logical Grid</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/value-field.html">Value Field</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/desktop.html">Desktop</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/outline.html">Outline</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/page.html">Page</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/styling.html">Styling</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/mobile.html">Mobile Support</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/extensibility.html">Extensibility</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/texts.html">Texts</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/icons.html">Icons</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/widget-reference.html">Widget Reference</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/html-document-parser.html">HTML Document Parser</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/typescript.html">TypeScript Support</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/build-stack.html">Build Stack</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../user-interface/browser-support.html">Browser Support</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Working with Data</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../working-with-data/lookup-call.html">Lookup Call</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../working-with-data/code-type.html">Code Type</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../working-with-data/client-notification.html">Client Notifications</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../working-with-data/data-object.html">Data Objects</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../working-with-data/rest.html">REST</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../working-with-data/jax-ws.html">Webservices with JAX-WS</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../sdk/sdk.html">Scout SDK</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../sdk/sdk-intellij.html">Scout SDK for IntelliJ</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../../sdk/sdk-eclipse.html">Scout SDK for Eclipse</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../../howtos/how-tos.html">How-Tos</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Scout Classic</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../howtos/scout-classic/chart-how-to.html">How to Create a Chart</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../howtos/scout-classic/smart-field-how-to.html">SmartField: How to Apply Colors and Styles From a Lookup Row</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../howtos/scout-classic/js-form-how-to.html">How to open a Scout JS form in a Scout Classic application</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Scout JS</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../howtos/scout-js/chart-how-to.html">How to Create a Chart</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../../howtos/scout-js/flip-card-how-to.html">How to Create a Custom Field</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../releasenotes/release-notes.html">Release Notes</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../../migration/migration-guide.html">Migration Guide</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Eclipse Scout</span>
+    <span class="version">23.2</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../../../26.1/index.html">Eclipse Scout</a>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../../26.1/index.html">26.1</a>
+        </li>
+        <li class="version">
+          <a href="../../../25.2/index.html">25.2</a>
+        </li>
+        <li class="version">
+          <a href="../../../25.1/index.html">25.1</a>
+        </li>
+        <li class="version">
+          <a href="../../../24.2/index.html">24.2</a>
+        </li>
+        <li class="version">
+          <a href="../../../24.1/index.html">24.1</a>
+        </li>
+        <li class="version is-current">
+          <a href="../../index.html">23.2</a>
+        </li>
+        <li class="version">
+          <a href="../../../23.1/index.html">23.1</a>
+        </li>
+        <li class="version">
+          <a href="../../../22/index.html">22</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../../../26.1/index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../../index.html">Eclipse Scout</a></li>
+    <li><a href="../technical-guide.html">Technical Guide</a></li>
+    <li>Common Concepts</li>
+    <li><a href="job-manager.html">JobManager</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="version-menu-toggle" title="Show other versions of page">23.2</button>
+  <div class="version-menu">
+    <a class="version" href="../../../26.1/technical-guide/common-concepts/job-manager.html">26.1</a>
+    <a class="version" href="../../../25.2/technical-guide/common-concepts/job-manager.html">25.2</a>
+    <a class="version" href="../../../25.1/technical-guide/common-concepts/job-manager.html">25.1</a>
+    <a class="version" href="../../../24.2/technical-guide/common-concepts/job-manager.html">24.2</a>
+    <a class="version" href="../../../24.1/technical-guide/common-concepts/job-manager.html">24.1</a>
+    <a class="version is-current" href="job-manager.html">23.2</a>
+    <a class="version" href="../../../23.1/technical-guide/common-concepts/job-manager.html">23.1</a>
+    <a class="version" href="../../../22/technical-guide/common-concepts/job-manager.html">22</a>
+  </div>
+</div>
+  <div class="edit-this-page"><a href="https://github.com/eclipse-scout/scout.docs/edit/releases/23.2/docs/modules/technical-guide/pages/common-concepts/job-manager.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">JobManager</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+This document is referring to a past Scout release. Please click <a href="../../../26.1/technical-guide/common-concepts/job-manager.html" class="xref page">here</a> for the current version.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Scout provides a job manager based on Java Executors framework to run tasks in parallel, and on Quartz Trigger API to support for schedule plans and to compute firing times. A task (aka job) can be scheduled to commence execution either immediately upon being scheduled, or delayed some time in the future. A job can be single executing, or recurring based on some schedule plan. The job manager itself is implemented as an application scoped bean, meaning that it is a singleton which exists once in the web application.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="functionality"><a class="anchor" href="#functionality"></a>Functionality</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>immediate, delayed or timed execution</p>
+</li>
+<li>
+<p>single (one-shot) or repetitive execution (based on Quartz schedule plans)</p>
+</li>
+<li>
+<p>listen for job lifecycle events</p>
+</li>
+<li>
+<p>wait for job completion</p>
+</li>
+<li>
+<p>job cancellation</p>
+</li>
+<li>
+<p>limitation of the maximal concurrently level among jobs</p>
+</li>
+<li>
+<p><code>RunContext</code> based execution</p>
+</li>
+<li>
+<p>configurable thread pool size (core pool size, max pool size)</p>
+</li>
+<li>
+<p>association of job execution hints to select jobs (e.g. to cancel or await job&#8217;s completion)</p>
+</li>
+<li>
+<p>named jobs and threads to ease debugging</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="job"><a class="anchor" href="#job"></a>Job</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A job is defined as some work to be executed asynchronously and is associated with a <code>JobInput</code> to describe how to run that work. The work is given to the job manager in the form of a <code>Runnable</code> or <code>Callable</code>. The only difference is, that a <code>Runnable</code> represents  a 'fire-and-forget' action, meaning that the submitter of the job does not expect the job to return a result. On the other hand, a <code>Callable</code> returns the computation&#8217;s result, which the submitter can await for. Of course, a runnable&#8217;s completion can also be waited for.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 1. Work that does not return a result</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class Work implements IRunnable {
+
+  @Override
+  public void run() throws Exception {
+    // do some work
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Listing 2. Work that returns a computation result</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class WorkWithResult implements Callable&lt;String&gt; {
+
+  @Override
+  public String call() throws Exception {
+    // do some work
+    return "result";
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Upon scheduling a job, the job manager returns a <code>IFuture</code> to interact with the job, e.g. to cancel its execution, or to await its completion. The job itself can also access its <code>IFuture</code>, namely via <code>IFuture.CURRENT()</code> ThreadLocal.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 3. Accessing the Future from within the job</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class Job implements IRunnable {
+
+  @Override
+  public void run() throws Exception {
+    IFuture&lt;?&gt; myFuture = IFuture.CURRENT.get();
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="scheduling-a-job"><a class="anchor" href="#scheduling-a-job"></a>Scheduling a Job</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The job manager provides two scheduling methods, which only differ in the work they accept for execution (callable or runnable).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IFuture&lt;Void&gt; schedule(IRunnable runnable, JobInput input); <i class="conum" data-value="1"></i><b>(1)</b>
+
+&lt;RESULT&gt; IFuture&lt;RESULT&gt; schedule(Callable&lt;RESULT&gt; callable, JobInput input); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Use to schedule a runnable which does not return a result to the submitter</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Use to schedule a callable which does return a result to the submitter</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The second and mandatory argument to be provided is the <code>JobInput</code>, which tells the job manager how to run the job. Learn more about <a href="#jobinput">JobInput</a>.</p>
+</div>
+<div class="paragraph">
+<p>The following snippet illustrates how a job is actually scheduled.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 4. Schedule a job</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IJobManager jobManager = BEANS.get(IJobManager.class); <i class="conum" data-value="1"></i><b>(1)</b>
+
+<i class="conum" data-value="2"></i><b>(2)</b>
+jobManager.schedule(() -&gt; {
+  // do something
+}, BEANS.get(JobInput.class)); <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Obtain the job manager via bean manager (application scoped bean)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Provide the work to be executed (either runnable or callable)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Provide the <code>JobInput</code> to instrument job execution</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This looks a little clumsy, which is why Scout provides you with the <code>Jobs</code> class to simplify dealing with the job manager, and to support you in the creation of job related artifacts like <code>JobInput</code>, filter builders and more. Most importantly, it allows to schedule jobs in a shorter and more readable form.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 5. Schedule a job via Jobs helper class</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.schedule(() -&gt; {
+  // do something
+}, Jobs.newInput());</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="jobinput"><a class="anchor" href="#jobinput"></a>JobInput</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The job input tells the job manager how to run the job. It further names the job to ease debugging, declares in which context to run the job, and how to deal with unhandled exceptions. The job input itself is a bean, useful if adding some additional features to the job manager. The API of <code>JobInput</code> supports for method chaining for reduced and more solid code.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 6. Schedule a job and control execution via JobInput</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.schedule(() -&gt; {
+  // do something
+}, Jobs.newInput()
+    .withName("job name") <i class="conum" data-value="1"></i><b>(1)</b>
+    .withRunContext(ClientRunContexts.copyCurrent()) <i class="conum" data-value="2"></i><b>(2)</b>
+    .withExecutionTrigger(Jobs.newExecutionTrigger()
+        .withStartIn(10, TimeUnit.SECONDS) <i class="conum" data-value="3"></i><b>(3)</b>
+        .withSchedule(FixedDelayScheduleBuilder.repeatForever(5, TimeUnit.SECONDS))) <i class="conum" data-value="4"></i><b>(4)</b>
+    .withExceptionHandling(new ExceptionHandler() { <i class="conum" data-value="5"></i><b>(5)</b>
+
+      @Override
+      public void handle(Throwable t) {
+        System.err.println(t);
+      }
+    }, true));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This snippet instructs the job manager to run the job as following:</p>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Give the job a name.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Run the job in the current calling context, meaning in the very same context as the submitter is running when giving this job to the job manager. By copying the current context, the job will also be cancelled upon cancellation of the current <code>RunContext</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Commence execution in 10 seconds (delayed execution).</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Execute the job repeatedly, with a delay of 5 seconds between the termination of one and the commencement of the next execution. Also, repeat the job infinitely, until being cancelled.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Print any uncaught exception to the error console, and do not propagate the exception to the submitter, nor cancel the job upon an uncaught exception.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following paragraphs describe the functionality of <code>JobInput</code> in more detail.</p>
+</div>
+<div class="sect2">
+<h3 id="jobinput-withname"><a class="anchor" href="#jobinput-withname"></a>JobInput.withName</h3>
+<div class="paragraph">
+<p>To optionally specify the name of the job, which is used to name the worker thread (only in development environment) and for logging purpose. Optionally, <em>formatting anchors</em> in the form of {} pairs can be used in the name, which will be replaced by the respective argument.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.newInput()
+    .withName("Sending emails [from={}, to={}]", "frank", "john@eclipse.org, jack@eclipse.org");</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="jobinput-withruncontext"><a class="anchor" href="#jobinput-withruncontext"></a>JobInput.withRunContext</h3>
+<div class="paragraph">
+<p>To optionally specify the <code>RunContext</code> to be installed during job execution.
+The <code>RunMonitor</code> associated with the <code>RunContext</code> will be used as the job&#8217;s monitor, meaning that cancellation requests to the job future or the context&#8217;s monitor are equivalent. If no context is given, the job manager ensures a monitor to be installed, so that executing code can always query its cancellation status via <code>RunMonitor.CURRENT.get().isCancelled()</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="jobinput-withexecutiontrigger"><a class="anchor" href="#jobinput-withexecutiontrigger"></a>JobInput.withExecutionTrigger</h3>
+<div class="paragraph">
+<p>To optionally set the trigger to define the schedule upon which the job will commence execution. If not set, the job will commence execution immediately after being scheduled, and will execute exactly once.</p>
+</div>
+<div class="paragraph">
+<p>The trigger mechanism is provided by Quartz Scheduler, meaning that you can profit from the powerful Quartz schedule capabilities.</p>
+</div>
+<div class="paragraph">
+<p>For more information, see <a href="http://www.quartz-scheduler.org" class="bare">http://www.quartz-scheduler.org</a>.</p>
+</div>
+<div class="paragraph">
+<p>Use the static factory method <code>Jobs.newExecutionTrigger()</code> to get an instance:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Schedules a delayed single executing job
+Jobs.newInput()
+    .withName("job")
+    .withExecutionTrigger(Jobs.newExecutionTrigger()
+        .withStartIn(10, TimeUnit.SECONDS));
+
+// Schedules a repeatedly running job at a fixed rate (every hour), which ends in 24 hours
+Jobs.newInput()
+    .withName("job")
+    .withExecutionTrigger(Jobs.newExecutionTrigger()
+        .withEndIn(1, TimeUnit.DAYS)
+        .withSchedule(SimpleScheduleBuilder.repeatHourlyForever()));
+
+// Schedules a job which runs at 10:15am every Monday, Tuesday, Wednesday, Thursday and Friday
+Jobs.newInput()
+    .withName("job")
+    .withExecutionTrigger(Jobs.newExecutionTrigger()
+        .withSchedule(CronScheduleBuilder.cronSchedule("0 15 10 ? * MON-FRI")));</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Learn more about <a href="#executiontrigger">ExecutionTrigger</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="jobinput-withexecutionsemaphore"><a class="anchor" href="#jobinput-withexecutionsemaphore"></a>JobInput.withExecutionSemaphore</h3>
+<div class="paragraph">
+<p>To optionally control the maximal concurrently level among jobs assigned to the same semaphore.</p>
+</div>
+<div class="paragraph">
+<p>With a semaphore in place, this job only commences execution, once a permit is free or gets available. If free, the job commences execution immediately at the next reasonable opportunity, unless no worker thread is available.</p>
+</div>
+<div class="paragraph">
+<p>A semaphore initialized to one allows to run jobs in a mutually exclusive manner, and a semaphore initialized to zero to run no job at all. The number of total permits available can be changed at any time, which allows to adapt the maximal concurrency level to some dynamic criteria like time of day or system load. However, a semaphore can be sealed, meaning that the number of permits cannot be changed anymore, and any attempts will be rejected.</p>
+</div>
+<div class="paragraph">
+<p>A new semaphore instance can be obtained via <code>Jobs</code> class.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IExecutionSemaphore semaphore = Jobs.newExecutionSemaphore(5); <i class="conum" data-value="1"></i><b>(1)</b>
+
+for (int i = 0; i &lt; 100; i++) {
+  <i class="conum" data-value="2"></i><b>(2)</b>
+  Jobs.schedule(() -&gt; {
+    // doing something
+  }, Jobs.newInput()
+      .withName("job-{}", i)
+      .withExecutionSemaphore(semaphore)); <i class="conum" data-value="3"></i><b>(3)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Create a new <code>ExecutionSemaphore</code> via <code>Jobs</code> class. The semaphore is initialized with 5 permits, meaning that at any given time, there are no more than 5 jobs running concurrently.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Schedule 100 jobs in a row.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Set the semaphore to limit the maximal concurrency level to 5 jobs.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Learn more about <a href="#executionsemaphore">ExecutionSemaphore</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="jobinput-withexecutionhint"><a class="anchor" href="#jobinput-withexecutionhint"></a>JobInput.withExecutionHint</h3>
+<div class="paragraph">
+<p>To associate the job with an execution hint. An execution hint is simply a marker to mark a job, and can be evaluated by filters to select jobs, e.g. to listen to job lifecycle events of some particular jobs, or to wait for some particular jobs to complete, or to cancel some particular jobs. A job may have multiple hints associated. Further, hints can be registered directly on the future via <code>IFuture.addExecutionHint(hint)</code>, or removed via <code>IFuture.removeExecutionHint(hint)</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="jobinput-withexceptionhandling"><a class="anchor" href="#jobinput-withexceptionhandling"></a>JobInput.withExceptionHandling</h3>
+<div class="paragraph">
+<p>To control how to deal with uncaught exceptions.
+By default, an uncaught exception is handled by <code>ExceptionHandler</code> bean and then propagated to the submitter, unless the submitter is not waiting for the job to complete via <code>IFuture.awaitDoneAndGet()</code>.</p>
+</div>
+<div class="paragraph">
+<p>This method expects two arguments: an optional exception handler, and a boolean flag indicating whether to swallow exceptions. 'Swallow' is independent of the specified exception handler, and indicates whether an exception should be propagated to the submitter, or swallowed otherwise.</p>
+</div>
+<div class="paragraph">
+<p>If running a repetitive job with swallowing set to <code>true</code>, the job will continue its repetitive execution upon an uncaught exception. If set to false, the execution would exit.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="jobinput-withthreadname"><a class="anchor" href="#jobinput-withthreadname"></a>JobInput.withThreadName</h3>
+<div class="paragraph">
+<p>To set the thread name of the worker thread that will execute the job.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="jobinput-withexpirationtime"><a class="anchor" href="#jobinput-withexpirationtime"></a>JobInput.withExpirationTime</h3>
+<div class="paragraph">
+<p>To set the maximal expiration time upon which the job must commence execution. If elapsed, the job is cancelled and does not commence execution. By default, a job never expires.</p>
+</div>
+<div class="paragraph">
+<p>For a job that executes once, the expiration is evaluated just before it commences execution. For a job with a repeating schedule, it is evaluated before every single execution.</p>
+</div>
+<div class="paragraph">
+<p>In contrast, the trigger&#8217;s end time specifies the time at which the trigger will no longer fire. However, if fired, the job may not be executed immediately at this time, which depends on whether having to compete for an execution permit first. So the end time may already have elapsed once commencing execution. In contrast, the expiration time is evaluated just before starting execution.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ifuture"><a class="anchor" href="#ifuture"></a>IFuture</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A future represents the result of an asynchronous computation, and is returned by the job manager upon scheduling a job. The future provides functionality to await for the job to complete, or to get its computation result or exception, or to cancel its execution, and more.</p>
+</div>
+<div class="paragraph">
+<p>Learn more about job cancellation in <a href="#job-cancellation">Job cancellation</a>.<br>
+Learn more about listening for job lifecycle events in <a href="#subscribe-for-job-lifecycle-events">Subscribe for job lifecycle events</a>.<br>
+Learn more about awaiting the job&#8217;s completion in <a href="#awaiting-job-completion">Awaiting job completion</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="job-states"><a class="anchor" href="#job-states"></a>Job states</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Upon scheduling a job, the job transitions different states. The current state of a job can be queried from its associated <a href="#ifuture">IFuture</a>.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">state</th>
+<th class="tableblock halign-left valign-top">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SCHEDULED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates that a job was given to the job manager for execution.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">REJECTED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates that a job was rejected for execution. This might happen if the job manager has been shutdown, or if no more worker threads are available.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PENDING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates that a job&#8217;s execution is pending, either because scheduled with a delay, or because of being a repetitive job while waiting for the commencement of the next execution.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RUNNING</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates that a job is running.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DONE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates that a job finished execution, either normally or because it was cancelled. Use <code>IFuture.isCancelled()</code> to check for cancellation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WAITING_FOR_PERMIT</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates that a semaphore aware job is competing for a permit to become available.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WAITING_FOR_BLOCKING_CONDITION</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates that a job is blocked by a blocking condition, and is waiting for it to fall.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The state 'done' does not necessarily imply that the job already finished execution. That is because a job also enters 'done' state upon cancellation, but may still continue execution.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="future-filter"><a class="anchor" href="#future-filter"></a>Future filter</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A future filter is a filter which can be passed to various methods of the job manager to select some futures. The filter must implement <code>IFilter</code> interface, and has a single method to accept futures of interest.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 7. Example of a future filter</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class FutureFilter implements Predicate&lt;IFuture&lt;?&gt;&gt; {
+
+  @Override
+  public boolean test(IFuture&lt;?&gt; future) {
+    // Accept or reject the future
+    return false;
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Scout provides you with <code>FutureFilterBuilder</code> class to ease building filters which match multiple criteria joined by logical 'AND' operation.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 8. Usage of FutureFilterBuilder</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Predicate&lt;IFuture&lt;?&gt;&gt; filter = Jobs.newFutureFilterBuilder() <i class="conum" data-value="1"></i><b>(1)</b>
+    .andMatchExecutionHint("computation") <i class="conum" data-value="2"></i><b>(2)</b>
+    .andMatchNotState(JobState.PENDING) <i class="conum" data-value="3"></i><b>(3)</b>
+    .andAreSingleExecuting() <i class="conum" data-value="4"></i><b>(4)</b>
+    .andMatchNotFuture(IFuture.CURRENT.get()) <i class="conum" data-value="5"></i><b>(5)</b>
+    .andMatchRunContext(ClientRunContext.class) <i class="conum" data-value="6"></i><b>(6)</b>
+    .andMatch(new SessionFutureFilter(ISession.CURRENT.get())) <i class="conum" data-value="7"></i><b>(7)</b>
+    .toFilter(); <i class="conum" data-value="8"></i><b>(8)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Returns an instance of the future filter builder</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Specifies to match only futures associated with execution hint 'computation'</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Specifies to match only jobs not in state pending</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Specifies to match only single executing jobs, meaning no recurring jobs</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Specifies to exclude the current future (if any)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Specifies to match only jobs running on behalf of a <code>ClientRunContext</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Specifies to match only jobs of the current session</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td>Builds the filters to get a Filter instance</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Fore more information, refer to the JavaDoc of <code>FutureFilterBuilder</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="event-filter"><a class="anchor" href="#event-filter"></a>Event filter</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A job event filter is a filter which can be given to job manager to subscribe for job lifecycle events. The filter must implement <code>IFilter</code> interface, and has a single method to accept events of interest.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 9. Example of an event filter</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class EventFilter implements Predicate&lt;JobEvent&gt; {
+
+  @Override
+  public boolean test(JobEvent event) {
+    // Accept or reject the event
+    return false;
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Scout provides you with <code>JobEventFilterBuilder</code> class to ease building filters which match multiple criteria joined by logical 'AND' operation.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 10. Usage of JobEventFilterBuilder</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Predicate&lt;JobEvent&gt; filter = Jobs.newEventFilterBuilder() <i class="conum" data-value="1"></i><b>(1)</b>
+    .andMatchEventType(JobEventType.JOB_STATE_CHANGED) <i class="conum" data-value="2"></i><b>(2)</b>
+    .andMatchState(JobState.RUNNING) <i class="conum" data-value="3"></i><b>(3)</b>
+    .andMatch(new SessionJobEventFilter(ISession.CURRENT.get())) <i class="conum" data-value="4"></i><b>(4)</b>
+    .andMatchExecutionHint("computation") <i class="conum" data-value="5"></i><b>(5)</b>
+    .toFilter(); <i class="conum" data-value="6"></i><b>(6)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Returns an instance of the job event filter builder</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Specifies to match all events representing a job state change</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Specifies to match only events for jobs which transitioned into running state</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Specifies to match only events for jobs of the current session</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Specifies to match only events for jobs which are associated with the execution hint 'computation'</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Builds the filters to get a Filter instance</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Fore more information, refer to the JavaDoc of <code>JobEventFilterBuilder</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="job-cancellation"><a class="anchor" href="#job-cancellation"></a>Job cancellation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A job can be cancelled in two ways, either directly via its <a href="#ifuture">IFuture</a>, or via job manager. Both expect you to provide a boolean flag indicating whether to interrupt the executing working thread. Upon cancellation, the job immediately enters 'done' state. Learn more about <a href="#job-states">Job states</a>. If cancelling via job manager, a future filter must be given to select the jobs to be cancelled. Learn more about <a href="#future-filter">Future filter</a></p>
+</div>
+<div class="paragraph">
+<p>The cancellation attempt will be ignored if the job has already completed or was cancelled. If not running yet, the job will never run. If the job has already started, then the <em>interruptIfRunning</em> parameter determines whether the thread executing the job should be interrupted in an attempt to stop the job.</p>
+</div>
+<div class="paragraph">
+<p>In the following some examples:</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 11. Cancel a job via its future</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Schedule a job
+IFuture&lt;?&gt; future = Jobs.schedule(new Work(), Jobs.newInput());
+
+// Cancel the job via its future
+future.cancel(false);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Listing 12. Cancel multiple jobs via job manager</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.getJobManager().cancel(Jobs.newFutureFilterBuilder()
+    .andMatchFuture(future1, future2, future3)
+    .toFilter(), false);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Listing 13. Cancel multiple jobs which match a specific execution hint and the current session</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.getJobManager().cancel(Jobs.newFutureFilterBuilder()
+    .andMatchExecutionHint("computation")
+    .andMatch(new SessionFutureFilter(ISession.CURRENT.get()))
+    .toFilter(), false);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A job can query its current cancellation status via <code>RunMonitor.CURRENT.get().isCancelled()</code>. If doing some long-running operations, it is recommended for the job to regularly check for cancellation.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+A job which is scheduled to run on a copy of the submitting <code>RunContext</code>, it gets also cancelled once the RunMonitor of that context gets cancelled.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="subscribe-for-job-lifecycle-events"><a class="anchor" href="#subscribe-for-job-lifecycle-events"></a>Subscribe for job lifecycle events</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Sometimes it is useful to register for some job lifecycle events. The following event types can be subscribed for:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">state</th>
+<th class="tableblock halign-left valign-top">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JOB_STATE_CHANGED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signals that a job transitioned to a new JobState, e.g. form JobState.SCHEDULED to JobState.RUNNING.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JOB_EXECUTION_HINT_ADDED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signals that an execution hint was added to a job.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JOB_EXECUTION_HINT_REMOVED</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signals that an execution hint was removed from a job.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JOB_MANAGER_SHUTDOWN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Signals that the job manager was shutdown.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The listener is registered via job manager as following:</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 14. Subscribe for global job events</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.getJobManager().addListener(Jobs.newEventFilterBuilder() <i class="conum" data-value="1"></i><b>(1)</b>
+    .andMatchEventType(JobEventType.JOB_STATE_CHANGED)
+    .andMatchState(JobState.RUNNING)
+    .andMatch(new SessionJobEventFilter(ISession.CURRENT.get()))
+    .toFilter(), event -&gt; {
+  IFuture&lt;?&gt; future = event.getData().getFuture(); <i class="conum" data-value="2"></i><b>(2)</b>
+  System.out.println("Job commences execution: " + future.getJobInput().getName());
+});</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Subscribe for all events related to jobs just about to commence execution, and which belong to the current session</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Get the future this event was fired for</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If interested in only events of a single future, the listener can be registered directly on the future.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 15. Subscribe for local job events</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">future.addListener(Jobs.newEventFilterBuilder()
+    .andMatchEventType(JobEventType.JOB_STATE_CHANGED)
+    .andMatchState(JobState.RUNNING)
+    .toFilter(), event -&gt; System.out.println("Job commences execution"));</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="awaiting-job-completion"><a class="anchor" href="#awaiting-job-completion"></a>Awaiting job completion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A job&#8217;s completion can be either awaited on its <a href="#ifuture">IFuture</a>, or via job manager - the first optionally allows to consume the job&#8217;s computation result, whereas the second allows multiple futures to be awaited for.</p>
+</div>
+<div class="sect2">
+<h3 id="difference-between-done-and-finished-state"><a class="anchor" href="#difference-between-done-and-finished-state"></a>Difference between 'done' and 'finished' state</h3>
+<div class="paragraph">
+<p>When awaiting futures, the definition of 'done' and 'finished' state should be understood - 'done' means that the future completed either normally, or was cancelled. But, if cancelled while running, the job may still continue its execution, whereas a job which not commenced execution yet, will never do so. The latter typically applies for jobs scheduled with a delay. However, 'finished' state differs from 'done' state insofar as a cancelled, currently running job enters 'finished' state only upon its actual completion. Otherwise, if not cancelled, or cancelled before executing, it is equivalent to 'done' state. In most situations, it is sufficient to await for the future&#8217;s done state, especially because a cancelled job cannot return a result to the submitter anyway.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="awaiting-a-single-futures-done-state"><a class="anchor" href="#awaiting-a-single-futures-done-state"></a>Awaiting a single future&#8217;s 'done' state</h3>
+<div class="paragraph">
+<p>Besides of some overloaded methods, <a href="#ifuture">IFuture</a> basically provides two methods to wait for a future to enter 'done' state, namely <code>awaitDone</code> and <code>awaitDoneAndGet</code>, with the difference that the latter additionally returns the job&#8217;s result or exception. If the future is already done, those methods will return immediately. For both methods, there exists an overloaded version to wait for at most a given time, which once elapsed results in a <code>TimedOutError</code> thrown.</p>
+</div>
+<div class="paragraph">
+<p>Further, <code>awaitDoneAndGet</code> allows to specify an <code>IExceptionTranslator</code> to control exception translation. By default, <code>DefaultRuntimeExceptionTranslator</code> is used, meaning that a <code>RuntimeException</code> is propagated as it is, whereas a checked exception would be wrapped into a <code>PlatformException</code>. If you require checked exceptions to be thrown as they are, use <code>DefaultExceptionTranslator</code> instead, or even <code>NullExceptionTranslator</code> to work with the raw <code>ExecutionException</code> as being thrown by Java Executor framework.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 16. Examples of how to await done state on a future</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IFuture&lt;String&gt; future = Jobs.schedule(() -&gt; {
+  // doing something
+  return "computation result";
+}, Jobs.newInput());
+
+// Wait until done without consuming the result
+future.awaitDone(); <i class="conum" data-value="1"></i><b>(1)</b>
+future.awaitDone(10, TimeUnit.SECONDS); <i class="conum" data-value="2"></i><b>(2)</b>
+
+// Wait until done and consume the result
+String result = future.awaitDoneAndGet(); <i class="conum" data-value="3"></i><b>(3)</b>
+result = future.awaitDoneAndGet(10, TimeUnit.SECONDS); <i class="conum" data-value="4"></i><b>(4)</b>
+
+// Wait until done, consume the result, and use a specific exception translator
+result = future.awaitDoneAndGet(DefaultExceptionTranslator.class); <i class="conum" data-value="5"></i><b>(5)</b>
+result = future.awaitDoneAndGet(10, TimeUnit.SECONDS, DefaultExceptionTranslator.class); <i class="conum" data-value="6"></i><b>(6)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Waits if necessary for the job to complete, or until cancelled. This method does not throw an exception if cancelled or the computation failed, but throws <code>ThreadInterruptedError</code> if the current thread was interrupted while waiting.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Waits if necessary for at most 10 seconds for the job to complete, or until cancelled, or the timeout elapses. This method does not throw an exception if cancelled, or the computation failed, but throws <code>TimedOutError</code> if waiting timeout elapsed, or throws <code>ThreadInterruptedError</code> if the current thread was interrupted while waiting.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Waits if necessary for the job to complete, and then returns its result, if available, or throws its exception according to <code>DefaultRuntimeExceptionTranslator</code>, or throws <code>FutureCancelledError</code> if cancelled, or throws <code>ThreadInterruptedError</code> if the current thread was interrupted while waiting.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Waits if necessary for at most 10 seconds for the job to complete, and then returns its result, if available, or throws its exception according to <code>DefaultRuntimeExceptionTranslator</code>, or throws <code>FutureCancelledError</code> if cancelled, or throws <code>TimedOutError</code> if waiting timeout elapsed, or throws <code>ThreadInterruptedError</code> if the current thread was interrupted while waiting.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Waits if necessary for the job to complete, and then returns its result, if available, or throws its exception according to the given <code>DefaultExceptionTranslator</code>, or throws <code>FutureCancelledError</code> if cancelled, or throws <code>ThreadInterruptedError</code> if the current thread was interrupted while waiting.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Waits if necessary for at most the given time for the job to complete, and then returns its result, if available, or throws its exception according to the given <code>DefaultExceptionTranslator</code>, or throws <code>FutureCancelledError</code> if cancelled, or throws <code>TimedOutError</code> if waiting timeout elapsed, or throws <code>ThreadInterruptedError</code> if the current thread was interrupted while waiting.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>It is further possible to await asynchronously on a future to enter done state by registering a callback via <code>whenDone</code> method. The advantage over registering a listener is that the callback is invoked even if the future already entered done state upon registration.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 17. Example of when-done callback</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">future.whenDone(event -&gt; {
+  // invoked upon entering done state.
+}, ClientRunContexts.copyCurrent());</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Because invoked in another thread, this method optionally accepts a <a href="run-context.html" class="xref page">RunContext</a> to be applied when being invoked.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="awaiting-a-single-futures-finished-state"><a class="anchor" href="#awaiting-a-single-futures-finished-state"></a>Awaiting a single future&#8217;s 'finished' state</h3>
+<div class="paragraph">
+<p>Use the method <code>awaitFinished</code> to wait for the job to finish, meaning that the job either completed normally or by an exception, or that it will never commence execution due to a premature cancellation. To learn more about the difference between 'done' and 'finished' state, click <a href="#difference-between-done-and-finished-state">here</a>.
+Please note that this method does not return the job&#8217;s result, because by Java Future definition, a cancelled job cannot provide a result.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 18. Examples of how to await finished state on a future</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IFuture&lt;String&gt; future = Jobs.schedule(() -&gt; {
+  // doing something
+  return "computation result";
+}, Jobs.newInput());
+
+// Wait until finished
+future.awaitFinished(10, TimeUnit.SECONDS);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="awaiting-multiple-futures-done-state"><a class="anchor" href="#awaiting-multiple-futures-done-state"></a>Awaiting multiple future&#8217;s 'done' state</h3>
+<div class="paragraph">
+<p>Job Manager allows to await for multiple futures at once. The filter to be provided limits the futures to await for. This method requires you to provide a maximal time to wait.</p>
+</div>
+<div class="paragraph">
+<p>Filters can be plugged by using logical filters like <code>AndFilter</code> or <code>OrFilter</code>, or negated by enclosing a filter in <code>NotFilter</code>. Also see <a href="#future-filter">Future filter</a> to create a filter to match multiple criteria joined by logical 'AND' operation.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 19. Examples of how to await done state of multiple futures</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Wait for some futures
+Jobs.getJobManager().awaitDone(Jobs.newFutureFilterBuilder() <i class="conum" data-value="1"></i><b>(1)</b>
+    .andMatchFuture(future1, future2, future3)
+    .toFilter(), 1, TimeUnit.MINUTES);
+
+// Wait for all futures marked as 'reporting' jobs of the current session
+Jobs.getJobManager().awaitDone(Jobs.newFutureFilterBuilder() <i class="conum" data-value="2"></i><b>(2)</b>
+    .andMatchExecutionHint("reporting")
+    .andMatch(new SessionFutureFilter(ISession.CURRENT.get()))
+    .toFilter(), 1, TimeUnit.MINUTES);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Waits if necessary for at most 1 minute for all three futures to complete, or until cancelled, or the timeout elapses.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Waits if necessary for at most 1 minute until all jobs marked as 'reporting' jobs of the current session complete, or until cancelled, or the timeout elapses.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="awaiting-multiple-futures-finished-state"><a class="anchor" href="#awaiting-multiple-futures-finished-state"></a>Awaiting multiple future&#8217;s 'finished' state</h3>
+<div class="paragraph">
+<p>Use the method <code>awaitFinished</code> to wait for multiple jobs to finish, meaning that the jobs either completed normally or by an exception, or that they will never commence execution due to a premature cancellation. To learn more about the difference between 'done' and 'finished' state, click <a href="#difference-between-done-and-finished-state">here</a>.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 20. Examples of how to await finish state of multiple futures</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Wait for some futures
+Jobs.getJobManager().awaitFinished(Jobs.newFutureFilterBuilder() <i class="conum" data-value="1"></i><b>(1)</b>
+    .andMatchFuture(future1, future2, future3)
+    .toFilter(), 1, TimeUnit.MINUTES);
+
+// Wait for all futures marked as 'reporting' jobs of the current session
+Jobs.getJobManager().awaitFinished(Jobs.newFutureFilterBuilder() <i class="conum" data-value="2"></i><b>(2)</b>
+    .andMatchExecutionHint("reporting")
+    .andMatch(new SessionFutureFilter(ISession.CURRENT.get()))
+    .toFilter(), 1, TimeUnit.MINUTES);</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Waits if necessary for at most 1 minute for all three futures to finish, or until cancelled, or the timeout elapses.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Waits if necessary for at most 1 minute until all jobs marked as 'reporting' jobs of the current session finish, or until cancelled, or the timeout elapses.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="uncaught-job-exceptions"><a class="anchor" href="#uncaught-job-exceptions"></a>Uncaught job exceptions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If a job throws an exception, that exception is handled by <code>ExceptionHandler</code>, and propagated to the submitter. However, the exception is only propagated if having a waiting submitter. Also, an uncaught exception causes repetitive jobs to terminate.</p>
+</div>
+<div class="paragraph">
+<p>This default behavior as described can be changed via <a href="#jobinput-withexceptionhandling">JobInput.withExceptionHandling(..)</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="blocking-condition"><a class="anchor" href="#blocking-condition"></a>Blocking condition</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A blocking condition allows a thread to wait for a condition to become <em>true</em>. That is similar to the Java Object&#8217;s 'wait/notify' mechanism, but with some additional functionality regarding semaphore aware jobs. If a semaphore aware job enters a blocking condition, it releases ownership of the permit, which allows another job of that same semaphore to commence execution. Upon the condition becomes <em>true</em>, the job then must compete for a permit anew.</p>
+</div>
+<div class="paragraph">
+<p>A condition can be used across multiple threads to wait for the same condition. Also, a condition is reusable upon invalidation. And finally, a condition can be used even if not running within a job.</p>
+</div>
+<div class="paragraph">
+<p>A blocking condition is often used by model jobs to wait for something to happen, but to allow another model job to run while waiting. A typical use case would be to wait for a MessageBox to be closed.</p>
+</div>
+<div class="sect2">
+<h3 id="example-of-a-blocking-condition"><a class="anchor" href="#example-of-a-blocking-condition"></a>Example of a blocking condition</h3>
+<div class="paragraph">
+<p>You are running in a semaphore aware job and require to do some long-running operation. During that time you do not require to be the permit owner. A simple but wrong approach would be the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Schedule a long running operation.
+IFuture&lt;?&gt; future = Jobs.schedule(new LongRunningOperation(), Jobs.newInput());
+
+// Wait until done.
+future.awaitDone();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The problem with this approach is, that you still are the permit owner while waiting, meaning that you possibly prevent other jobs from running.
+Instead, you could use a blocking condition for that to achieve:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Create a blocking condition.
+final IBlockingCondition operationCompleted = Jobs.newBlockingCondition(true);
+
+// Schedule a long running operation.
+IFuture&lt;Void&gt; future = Jobs.schedule(new LongRunningOperation(), Jobs.newInput());
+
+// Register done callback to unblock the condition.
+future.whenDone(event -&gt; {
+  // Let the waiting job re-acquire a permit and continue execution.
+  operationCompleted.setBlocking(false);
+}, null);
+
+// Wait until done. Thereby, the permit of the current job is released for the time while waiting.
+operationCompleted.waitFor();</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="executionsemaphore"><a class="anchor" href="#executionsemaphore"></a>ExecutionSemaphore</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Represents a fair counting semaphore used in Job API to control the maximal number of jobs running concurrently.</p>
+</div>
+<div class="paragraph">
+<p>Jobs which are assigned to the same semaphore run concurrently until they reach the maximal concurrency level defined for that semaphore. Subsequent tasks then wait in the queue until a permit becomes available.</p>
+</div>
+<div class="paragraph">
+<p>A semaphore initialized to one allows to run jobs in a mutually exclusive manner, and a semaphore initialized to zero to run no job at all. The number of total permits available can be changed at any time, which allows to adapt the maximal concurrency level to some dynamic criteria like time of day or system load. However, once calling seal(), the number of permits cannot be changed anymore, and any attempts will result in an AssertionException. By default, a semaphore is unbounded.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="executiontrigger"><a class="anchor" href="#executiontrigger"></a>ExecutionTrigger</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Component that defines the schedule upon which a job will commence execution.</p>
+</div>
+<div class="paragraph">
+<p>A trigger can be as simple as a 'one-shot' execution at some specific point in time in the future, or represent a schedule which executes a job on a repeated basis. The latter can be configured to run infinitely, or to end at a specific point in time. It is further possible to define rather complex triggers, like to execute a job every second Friday at noon, but with the exclusion of all the business&#8217;s holidays.</p>
+</div>
+<div class="paragraph">
+<p>See the various schedule builders provided by Quartz Scheduler:
+<code>SimpleScheduleBuilder</code>, <code>CronScheduleBuilder</code>, <code>CalendarIntervalScheduleBuilder</code>, <code>DailyTimeIntervalScheduleBuilder</code>. The most powerful builder is <code>CronScheduleBuilder</code>. Cron is a UNIX tool with powerful and proven scheduling capabilities. For more information, see <a href="http://www.quartz-scheduler.org" class="bare">http://www.quartz-scheduler.org</a>.</p>
+</div>
+<div class="paragraph">
+<p>Additionally, Scout provides you with <code>FixedDelayScheduleBuilder</code> to run a job with a fixed delay between the termination of one execution and the commencement of the next execution.</p>
+</div>
+<div class="paragraph">
+<p>Use the static factory method 'Jobs.newExecutionTrigger()' to get an instance.</p>
+</div>
+<div class="sect2">
+<h3 id="misfiring"><a class="anchor" href="#misfiring"></a>Misfiring</h3>
+<div class="paragraph">
+<p>Regardless of the schedule used, job manager guarantees no concurrent execution of the same job. That may happen, if using a repeated schedule with the job not terminated its last execution yet, but the schedule&#8217;s trigger would like to fire for the next execution already. Such a situation is called a misfiring. The action to be taken upon a misfiring is configurable via the schedule&#8217;s misfiring policy. A policy can be to run the job immediately upon termination of the previous execution, or to just ignore that missed firing. See the JavaDoc of the schedule for more information.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="stopping-the-platform"><a class="anchor" href="#stopping-the-platform"></a>Stopping the platform</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Upon stopping the platform, the job manager will also be shutdown.If having a <code>IPlatformListener</code> to perform some cleanup work, and which requires the job manager to be still functional, that listener must be annotated with an <code>@Order</code> less than <code>IJobManager.DESTROY_ORDER</code>, which is 5'900. If not specifying an <code>@Order</code> explicitly, the listener will have the default order of <em>5</em>, meaning being invoked before job manager shutdown anyway.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="model-jobs"><a class="anchor" href="#model-jobs"></a>Model Jobs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Model jobs exist client side only, and are used to interact with the Scout client model to read and write model values in a serial manner per session.That enables no synchronization to be used when interacting with the model.</p>
+</div>
+<div class="paragraph">
+<p>By definition, a model job requires to be run on behalf of a <code>ClientRunContext</code> with a <code>IClientSession</code> set, and must have the session&#8217;s model job semaphore set as its <a href="#executionsemaphore">ExecutionSemaphore</a>.That causes all such jobs to be run in sequence in the model thread.At any given time, there is only one model thread active per client session.</p>
+</div>
+<div class="paragraph">
+<p>The class <code>ModelJobs</code> is a helper class, and is for convenience purpose to facilitate the creation of model job related artifacts, and to schedule model jobs.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 21. Running work in model thread</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java"><i class="conum" data-value="1"></i><b>(1)</b>
+ModelJobs.schedule(() -&gt; {
+  // doing something in model thread
+}, ModelJobs.newInput(ClientRunContexts.copyCurrent()) <i class="conum" data-value="2"></i><b>(2)</b>
+    .withName("Doing something in model thread"));</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Schedules the work to be executed in the model thread</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Creates the <code>JobInput</code> to become a model job, meaning with the session&#8217;s model job semaphore set</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For model jobs, it is also allowed to run according to a Quartz schedule plan, or to be executed with a delay. Then the model permit is acquired just before each execution, and not upon being scheduled.</p>
+</div>
+<div class="paragraph">
+<p>Furthermore, the class <code>ModelJobs</code> provides some useful static methods:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Returns true if the current thread represents the model thread for the current client session. At any given time, there is only one model thread active per client session.
+ModelJobs.isModelThread();
+
+// Returns true if the given Future belongs to a model job.
+ModelJobs.isModelJob(IFuture.CURRENT.get());
+
+// Returns a builder to create a filter for future objects representing a model job.
+ModelJobs.newFutureFilterBuilder();
+
+// Returns a builder to create a filter for JobEvent objects originating from model jobs.
+ModelJobs.newEventFilterBuilder();
+
+// Instructs the job manager that the current model job is willing to temporarily yield its current model job permit. It is rarely appropriate to use this method. It may be useful for debugging or testing purposes.
+ModelJobs.yield();</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuration"><a class="anchor" href="#configuration"></a>Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Job manager can be configured with properties starting with <code>scout.jobmanager</code>. See <a href="platform.html#sec-app.configProperties" class="xref page">Scout Config Properties</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="extending-job-manager"><a class="anchor" href="#extending-job-manager"></a>Extending job manager</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Job manager is implemented as an application scoped bean, and which can be replaced. To do so, create a class which extends <code>JobManager</code>, and annotate it with <code>@Replace</code> annotation. Most likely, you like to use the EE container&#8217;s <code>ThreadPoolExecutor</code>, or to contribute some behavior to the callable chain which finally executes the job.</p>
+</div>
+<div class="paragraph">
+<p>To change the executor, overwrite <code>createExecutor</code> method and return the executor of your choice. But do not forget to register a rejection handler to reject futures upon rejection. Also, overwrite <code>shutdownExecutor</code> to not shut down the container&#8217;s executor.</p>
+</div>
+<div class="paragraph">
+<p>To contribute some behavior to the callable chain, overwrite the method <code>interceptCallableChain</code> and contribute your decorator or interceptor. Refer to the method&#8217;s JavaDoc for more information.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="scheduling-examples"><a class="anchor" href="#scheduling-examples"></a>Scheduling examples</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This sections contains some common scheduling examples.</p>
+</div>
+<div class="listingblock">
+<div class="title">Listing 22. Schedule a one-shot job</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.schedule(() -&gt; {
+  // doing something
+}, Jobs.newInput()
+    .withName("Running once")
+    .withRunContext(ClientRunContexts.copyCurrent()));</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Listing 23. Schedule a job with a delay</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.schedule(() -&gt; {
+  // doing something
+}, Jobs.newInput()
+    .withName("Running in 10 seconds")
+    .withRunContext(ClientRunContexts.copyCurrent())
+    .withExecutionTrigger(Jobs.newExecutionTrigger()
+        .withStartIn(10, TimeUnit.SECONDS))); // delay of 10 seconds</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Listing 24. Schedule a repetitive job at a fixed rate</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.schedule(() -&gt; {
+  // doing something
+}, Jobs.newInput()
+    .withName("Running every minute")
+    .withRunContext(ClientRunContexts.copyCurrent())
+    .withExecutionTrigger(Jobs.newExecutionTrigger()
+        .withStartIn(1, TimeUnit.MINUTES) <i class="conum" data-value="1"></i><b>(1)</b>
+        .withSchedule(SimpleScheduleBuilder.simpleSchedule() <i class="conum" data-value="2"></i><b>(2)</b>
+            .withIntervalInMinutes(1) <i class="conum" data-value="3"></i><b>(3)</b>
+            .repeatForever()))); <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configure to fire in 1 minute for the first time</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Use Quartz simple schedule to achieve fixed-rate execution</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Repetitively fire every minute</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Repeat forever</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">Listing 25. Schedule a repetitive job which runs 60 times at every minute</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.schedule(() -&gt; {
+  // doing something
+}, Jobs.newInput()
+    .withName("Running every minute for total 60 times")
+    .withRunContext(ClientRunContexts.copyCurrent())
+    .withExecutionTrigger(Jobs.newExecutionTrigger()
+        .withStartIn(1, TimeUnit.MINUTES) <i class="conum" data-value="1"></i><b>(1)</b>
+        .withSchedule(SimpleScheduleBuilder.simpleSchedule() <i class="conum" data-value="2"></i><b>(2)</b>
+            .withIntervalInMinutes(1) <i class="conum" data-value="3"></i><b>(3)</b>
+            .withRepeatCount(59)))); <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configure to fire in 1 minute for the first time</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Use Quartz simple schedule to achieve fixed-rate execution</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Repetitively fire every minute</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Repeat 59 times, plus the initial execution</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">Listing 26. Schedule a repetitive job at a fixed delay</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.schedule(() -&gt; {
+  // doing something
+}, Jobs.newInput()
+    .withName("Running forever with a delay of 1 minute between the termination of the previous and the next execution")
+    .withRunContext(ClientRunContexts.copyCurrent())
+    .withExecutionTrigger(Jobs.newExecutionTrigger()
+        .withStartIn(1, TimeUnit.MINUTES) <i class="conum" data-value="1"></i><b>(1)</b>
+        .withSchedule(FixedDelayScheduleBuilder.repeatForever(1, TimeUnit.MINUTES)))); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configure to fire in 1 minute for the first time</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Use fixed delay schedule</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">Listing 27. Schedule a repetitive job which runs 60 times, but waits 1 minute between the termination of the previous and the commencement of the next execution</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.schedule(() -&gt; {
+  // doing something
+}, Jobs.newInput()
+    .withName("Running 60 times with a delay of 1 minute between the termination of the previous and the next execution")
+    .withRunContext(ClientRunContexts.copyCurrent())
+    .withExecutionTrigger(Jobs.newExecutionTrigger()
+        .withStartIn(1, TimeUnit.MINUTES) <i class="conum" data-value="1"></i><b>(1)</b>
+        .withSchedule(FixedDelayScheduleBuilder.repeatForTotalCount(60, 1, TimeUnit.MINUTES)))); <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configure to fire in 1 minute for the first time</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Use fixed delay schedule</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">Listing 28. Running at 10:15am every Monday, Tuesday, Wednesday, Thursday and Friday</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.schedule(() -&gt; {
+  // doing something
+}, Jobs.newInput()
+    .withName("Running at 10:15am every Monday, Tuesday, Wednesday, Thursday and Friday")
+    .withRunContext(ClientRunContexts.copyCurrent())
+    .withExecutionTrigger(Jobs.newExecutionTrigger()
+        .withSchedule(CronScheduleBuilder.cronSchedule("0 15 10 ? * MON-FRI")))); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Cron format: [second] [minute] [hour] [day_of_month] [month] [day_of_week] [year]?</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">Listing 29. Running every minute starting at 14:00 and ending at 14:05, every day</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.schedule(() -&gt; {
+  // doing something
+}, Jobs.newInput()
+    .withName("Running every minute starting at 14:00 and ending at 14:05, every day")
+    .withRunContext(ClientRunContexts.copyCurrent())
+    .withExecutionTrigger(Jobs.newExecutionTrigger()
+        .withSchedule(CronScheduleBuilder.cronSchedule("0 0-5 14 * * ?")))); <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Cron format: [second] [minute] [hour] [day_of_month] [month] [day_of_week] [year]?</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">Listing 30. Limit the maximal concurrency level among jobs</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">IExecutionSemaphore semaphore = Jobs.newExecutionSemaphore(5); <i class="conum" data-value="1"></i><b>(1)</b>
+
+for (int i = 0; i &lt; 100; i++) {
+  Jobs.schedule(() -&gt; {
+    // doing something
+  }, Jobs.newInput()
+      .withName("job-{}", i)
+      .withExecutionSemaphore(semaphore)); <i class="conum" data-value="2"></i><b>(2)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Create the execution semaphore initialized with 5 permits</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Set the execution semaphore to the job subject for limited concurrency</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">Listing 31. Cancel all jobs of the current session</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">Jobs.getJobManager().cancel(Jobs.newFutureFilterBuilder()
+    .andMatch(new SessionFutureFilter(ISession.CURRENT.get()))
+    .toFilter(), true);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Listing 32. Query for cancellation</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public class CancellableWork implements IRunnable {
+
+  @Override
+  public void run() throws Exception {
+
+    // do first chunk of operations
+
+    if (RunMonitor.CURRENT.get().isCancelled()) {
+      return;
+    }
+
+    // do next chunk of operations
+
+    if (RunMonitor.CURRENT.get().isCancelled()) {
+      return;
+    }
+
+    // do next chunk of operations
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Listing 33. Release current semaphore permit while executing</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">// Create a blocking condition.
+final IBlockingCondition operationCompleted = Jobs.newBlockingCondition(true);
+
+// Schedule a long running operation.
+IFuture&lt;Void&gt; future = Jobs.schedule(new LongRunningOperation(), Jobs.newInput());
+
+// Register done callback to unblock the condition.
+future.whenDone(event -&gt; {
+  // Let the waiting job re-acquire a permit and continue execution.
+  operationCompleted.setBlocking(false);
+}, null);
+
+// Wait until done. Thereby, the permit of the current job is released for the time while waiting.
+operationCompleted.waitFor();</code></pre>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="exception-handling.html">Working with exceptions</a></span>
+  <span class="next"><a href="run-context.html">RunContext</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using Antora.</p>
+</footer>
+<script id="site-script" src="../../../../_/js/site.js" data-ui-root-path="../../../../_"></script>
+<script async src="../../../../_/js/vendor/highlight.js"></script>
+<script src="../../../../_/js/vendor/lunr.js"></script>
+<script src="../../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../../.." data-snippet-length="100" data-stylesheet="../../../../_/css/search.css"></script>
+<script async src="../../../../search-index.js"></script>
+  </body>
+</html>

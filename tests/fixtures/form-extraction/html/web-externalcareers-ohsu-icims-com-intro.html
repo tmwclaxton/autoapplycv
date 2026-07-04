@@ -1,0 +1,920 @@
+<!DOCTYPE html><html lang="en" prefix="content: http://purl.org/rss/1.0/modules/content/  dc: http://purl.org/dc/terms/  foaf: http://xmlns.com/foaf/0.1/  og: http://ogp.me/ns#  rdfs: http://www.w3.org/2000/01/rdf-schema#  schema: http://schema.org/  sioc: http://rdfs.org/sioc/ns#  sioct: http://rdfs.org/sioc/types#  skos: http://www.w3.org/2004/02/skos/core#  xsd: http://www.w3.org/2001/XMLSchema# " class="js no-touchevents details js no-touchevents details js" style=""><head id="" class=""><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+iframe#_hjRemoteVarsFrame { display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important; }</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.icims_height_fix { background: none; display: initial; padding: 0px; max-width: 100% !important; width: 100% !important; }
+
+.parent_width_fix { max-width: 100% !important; }
+
+body { display: inherit !important; }</style><base href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/icims/">     <title>Oregon Health &amp; Science University | Careers Center | Welcome</title>          <script src="https://js-agent.newrelic.com/nr-1130.min.js"></script><script type="text/javascript">window.NREUM||(NREUM={}),__nr_require=function(e,n,t){function r(t){if(!n[t]){var o=n[t]={exports:{}};e[t][0].call(o.exports,function(n){var o=e[t][1][n];return r(o||n)},o,o.exports)}return n[t].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<t.length;o++)r(t[o]);return r}({1:[function(e,n,t){function r(){}function o(e,n,t){return function(){return i(e,[c.now()].concat(u(arguments)),n?null:this,t),n?void 0:this}}var i=e("handle"),a=e(3),u=e(4),f=e("ee").get("tracer"),c=e("loader"),s=NREUM;"undefined"==typeof window.newrelic&&(newrelic=s);var p=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],d="api-",l=d+"ixn-";a(p,function(e,n){s[n]=o(d+n,!0,"api")}),s.addPageAction=o(d+"addPageAction",!0),s.setCurrentRouteName=o(d+"routeName",!0),n.exports=newrelic,s.interaction=function(){return(new r).get()};var m=r.prototype={createTracer:function(e,n){var t={},r=this,o="function"==typeof n;return i(l+"tracer",[c.now(),e,t],r),function(){if(f.emit((o?"":"no-")+"fn-start",[c.now(),r,o],t),o)try{return n.apply(this,arguments)}catch(e){throw f.emit("fn-err",[arguments,this,e],t),e}finally{f.emit("fn-end",[c.now()],t)}}}};a("actionText,setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(e,n){m[n]=o(l+n)}),newrelic.noticeError=function(e,n){"string"==typeof e&&(e=new Error(e)),i("err",[e,c.now(),!1,n])}},{}],2:[function(e,n,t){function r(e,n){if(!o)return!1;if(e!==o)return!1;if(!n)return!0;if(!i)return!1;for(var t=i.split("."),r=n.split("."),a=0;a<r.length;a++)if(r[a]!==t[a])return!1;return!0}var o=null,i=null,a=/Version\/(\S+)\s+Safari/;if(navigator.userAgent){var u=navigator.userAgent,f=u.match(a);f&&u.indexOf("Chrome")===-1&&u.indexOf("Chromium")===-1&&(o="Safari",i=f[1])}n.exports={agent:o,version:i,match:r}},{}],3:[function(e,n,t){function r(e,n){var t=[],r="",i=0;for(r in e)o.call(e,r)&&(t[i]=n(r,e[r]),i+=1);return t}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],4:[function(e,n,t){function r(e,n,t){n||(n=0),"undefined"==typeof t&&(t=e?e.length:0);for(var r=-1,o=t-n||0,i=Array(o<0?0:o);++r<o;)i[r]=e[n+r];return i}n.exports=r},{}],5:[function(e,n,t){n.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],ee:[function(e,n,t){function r(){}function o(e){function n(e){return e&&e instanceof r?e:e?f(e,u,i):i()}function t(t,r,o,i){if(!d.aborted||i){e&&e(t,r,o);for(var a=n(o),u=v(t),f=u.length,c=0;c<f;c++)u[c].apply(a,r);var p=s[y[t]];return p&&p.push([b,t,r,a]),a}}function l(e,n){h[e]=v(e).concat(n)}function m(e,n){var t=h[e];if(t)for(var r=0;r<t.length;r++)t[r]===n&&t.splice(r,1)}function v(e){return h[e]||[]}function g(e){return p[e]=p[e]||o(t)}function w(e,n){c(e,function(e,t){n=n||"feature",y[t]=n,n in s||(s[n]=[])})}var h={},y={},b={on:l,addEventListener:l,removeEventListener:m,emit:t,get:g,listeners:v,context:n,buffer:w,abort:a,aborted:!1};return b}function i(){return new r}function a(){(s.api||s.feature)&&(d.aborted=!0,s=d.backlog={})}var u="nr@context",f=e("gos"),c=e(3),s={},p={},d=n.exports=o();d.backlog=s},{}],gos:[function(e,n,t){function r(e,n,t){if(o.call(e,n))return e[n];var r=t();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,n,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return e[n]=r,r}var o=Object.prototype.hasOwnProperty;n.exports=r},{}],handle:[function(e,n,t){function r(e,n,t,r){o.buffer([e],r),o.emit(e,n,t)}var o=e("ee").get("handle");n.exports=r,r.ee=o},{}],id:[function(e,n,t){function r(e){var n=typeof e;return!e||"object"!==n&&"function"!==n?-1:e===window?0:a(e,i,function(){return o++})}var o=1,i="nr@id",a=e("gos");n.exports=r},{}],loader:[function(e,n,t){function r(){if(!E++){var e=x.info=NREUM.info,n=l.getElementsByTagName("script")[0];if(setTimeout(s.abort,3e4),!(e&&e.licenseKey&&e.applicationID&&n))return s.abort();c(y,function(n,t){e[n]||(e[n]=t)}),f("mark",["onload",a()+x.offset],null,"api");var t=l.createElement("script");t.src="https://"+e.agent,n.parentNode.insertBefore(t,n)}}function o(){"complete"===l.readyState&&i()}function i(){f("mark",["domContent",a()+x.offset],null,"api")}function a(){return O.exists&&performance.now?Math.round(performance.now()):(u=Math.max((new Date).getTime(),u))-x.offset}var u=(new Date).getTime(),f=e("handle"),c=e(3),s=e("ee"),p=e(2),d=window,l=d.document,m="addEventListener",v="attachEvent",g=d.XMLHttpRequest,w=g&&g.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:g,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var h=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-1130.min.js"},b=g&&w&&w[m]&&!/CriOS/.test(navigator.userAgent),x=n.exports={offset:u,now:a,origin:h,features:{},xhrWrappable:b,userAgent:p};e(1),l[m]?(l[m]("DOMContentLoaded",i,!1),d[m]("load",r,!1)):(l[v]("onreadystatechange",o),d[v]("onload",r)),f("mark",["firstbyte",u],null,"api");var E=0,O=e(5)},{}]},{},["loader"]);</script>         <link rel="shortcut icon" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/themes/custom/ohsu_digs/favicon.ico" type="image/vnd.microsoft.icon">      <link rel="stylesheet" media="all" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/sites/default/files/css/css_DSl3C1ZLNbb_g7YFOkW8k0w-1kXTRq22gZpv2bDtRzQ.css?pyarf6"> <link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css?family=Lato:300,400,700"> <link rel="stylesheet" media="all" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/sites/default/files/css/css_5rJz_k4Ce0EQl4a6zzqREytvxZSLCPe9spv4zc2z8v8.css?pyarf6"> <link rel="stylesheet" media="print" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/sites/default/files/css/css_7UYr_U7881PodUFQ7UIxWDJi6Y_kx9YyoWC7CdE9-Js.css?pyarf6">       <!--[if lte IE 8]> <script src="/sites/default/files/js/js_VtafjXmRvoUgAzqzYTA3Wrjkx9wcWhjP0G4ZnnqRamA.js"></script> <![endif]--> <script src="https://c-9341-20190924-www-ohsu-edu.i.icims.com/core/assets/vendor/modernizr/modernizr.min.js?v=3.3.1"></script>    </head><!-- END OF ICIMS HEADER --><body class="page-icims-external-portal section-icims type-landing_page nav-dropdown template-interior-full-width body-text-small path-group role--anonymous with-subnav no-sidebar" style="">      <a id="icims_skipLink1" style="left: -9999px; position: absolute; top: -1px;" href="https://externalcareers-ohsu.icims.com/jobs/intro?mobile=false&amp;width=1889&amp;height=500&amp;bga=true&amp;needsRedirect=false&amp;jan1offset=-300&amp;jun1offset=-240#icims_content_iframe">Skip Branding</a><nav id="skip" class="skip-links" aria-label="OHSU skip navigation">   <a href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/icims/#main-content" class="skip-links__link">     Skip to main content   </a>   <a href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/icims/#nav-main" class="skip-links__link">     Skip to main navigation   </a> </nav>     <!-- Google Tag Manager (noscript) --> <noscript class=""></noscript> <!-- End Google Tag Manager (noscript) -->             <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas="">            <svg class="print-only logo--print" viewBox="-30 60 297.613 173.693" xmlns="http://www.w3.org/2000/svg">   <path d="M103.778 240.634c-32.982 0-64.82 3.56-90.538 9.455l1.117 3.182c25.004-4.509 54.279-7.338 85.446-6.32 20.399.671 39.852 3.33 57.768 6.32l3.366-9.512c-17.802-2.33-37.053-3.125-57.16-3.125M43.457 62.519c73.743-45.254 66.855-50.554 64.076-54.634l.207-.14c5.38 4.588 18.799 24.092-41.512 61.59-54.8 34.074-58.325 55.269-33.883 77.162 6.188 5.543 8.168 6.31 18.348 12.464l-7.869 10.218c-11.928-7.544-90.468-48.847.633-106.66" class=""></path>   <path d="M97.18 131.045C24.99 85.76 31.32 81.34 34.06 77.325l-.205-.142c-5.302 4.512-17.895 23.728 41.523 60.604 57.176 35.487 51.158 57.84 30.081 91.052.02.223-.277.396-.262.573 28.843-19.636 51.298-61.16-8.018-98.367" class=""></path>   <path d="M55.845 143.005C46.83 122.823 50.48 110.417 92.18 84.72 156.567 45.027 118.67 8.456 108.423.133l.199-.126c11.955 6.704 61.342 49.981-5.892 92.144-30.843 19.365-49.687 30.685-46.885 50.854m57.059 36.208c-37.047 22.848-50.847 41.251-40.037 55.98-3.17-20.297 25.566-29.441 55.096-48.14 88.186-55.837 24.664-106.508 7.892-114.857l-.279.157c14.41 10.399 59.505 55.972-22.672 106.86" class=""></path>   <path d="M101.178 225.295l-.012-.213c9.001-20.175-13.441-43.334-55.131-69.035-64.41-39.699-24.09-77.511-13.838-85.834l-2.6 1.914c-14.343 10.753-61.789 50.041 5.451 92.208 30.85 19.363 68.915 40.801 66.13 60.97" class=""></path>   <path d="M78.493 135.837c68.04-45.252 60.822-52.029 58.268-56.126l.203-.131c4.959 4.581 19.645 24.14-36.003 61.628-64.484 43.467-64.297 58.56-30.698 89.145l2.623 4.916c-14.301-7.714-78.612-43.28 5.68-99.358m-43.42 132.114c-6.125 0-10.57 5.137-10.57 11.707 0 6.57 4.445 11.707 10.57 11.707 6.076 0 10.522-5.137 10.522-11.707 0-6.57-4.446-11.707-10.522-11.707m0 29.588c-10.275 0-18.13-8.003-18.13-17.881 0-9.88 7.855-17.883 18.13-17.883 10.225 0 18.08 8.002 18.08 17.883 0 9.878-7.855 17.88-18.08 17.88m45.957-.591v-14.819h-14.67v14.82h-7.065v-34.58h7.064v13.782h14.671v-13.781h7.064v34.578m20.21-29.145c-2.37 0-4.496 1.186-4.496 3.458 0 2.668 3.26 3.408 5.928 4.348 4.89 1.678 10.768 3.95 10.768 11.213 0 7.508-7.063 10.719-13.09 10.719-5.334 0-9.483-2.026-13.238-5.779l4.693-4.596c2.815 2.719 4.988 4.348 8.595 4.348 2.765 0 5.483-1.333 5.483-4.397 0-2.963-3.162-4.1-6.67-5.385-4.494-1.678-9.533-3.654-9.533-10.274 0-6.57 5.582-9.683 11.312-9.683 4.446 0 7.953 1.435 11.461 4.102l-4.05 5.038c-1.927-1.63-4.496-3.112-7.163-3.112m45.933 12.844c0 10.867-4.15 16.893-14.029 16.893-9.682 0-13.833-6.026-13.833-16.893v-18.277h7.064v19.215c0 6.62 2.668 9.78 6.868 9.78 4.197 0 6.865-3.16 6.865-9.78v-19.215h7.064" class=""></path> </svg>  <header id="header" class="header site-header" role="banner" aria-label="Site header">    <div class="layout-full-width header-title-wrap">      <div class="title-bar-wrap">       <div class="title-bar-inner-wrap">          <div class="nav-home">           <a href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/" title="OHSU Home" rel="home" class="nav-logo">OHSU Home</a>             <h1 class="header-title no-parent-url">     <em class="header-title__name">     <a class="header-title__link" href="https://www.ohsu.edu/human-resources" id="ibrand-id-40106">Jobs</a>   </em> </h1>          </div><!-- / .nav-home -->           <nav class="nav-utility">       <div class="append-around-high-resolution" data-set="nav-tertiary-links"><nav role="navigation" id="block-nav-persistent" data-block-plugin-id="system_menu_block:menu--persistent-header" class="nav-tertiary block block-menu navigation menu--menu--persistent-header">                                                 </nav></div>      </nav><!-- / nav-utility -->  <div class="nav-options">   <a href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/icims/#" class="nav-search-toggle" aria-label="Toggle search"></a>   <a href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/icims/#" class="nav-main__toggle" aria-label="Toggle menu"><span class="">Menu</span></a> </div><!-- / nav-options -->        </div><!-- / title-bar-inner-wrap -->     </div><!-- / title-bar-wrap -->  	</div><!-- / layout-full-width header-title-wrap -->     <div class="layout-full-width nav-sticky">                <div class="layout-inner-wrap-flush append-around-low-resolution" data-set="search">    </div><!-- / layout-inner-wrap-flush -->       <div class="layout-inner-wrap-flush nav-wrap">               <div id="block-groupcontentsubmenublock" data-block-plugin-id="group_content_submenu_block" class="block">                <nav id="nav-main" class="">                                          <ul class="nav-main">                   <li class="nav-main__item">         <a href="https://nursingcareers-ohsu.icims.com/" class="nav-main__link" hreflang="en" data-drupal-link-system-path="group/4636/content/93861" id="ibrand-id-4435">Nursing Jobs</a>               </li>                  <li class="nav-main__item">         <a href="https://facultycareers-ohsu.icims.com/" class="nav-main__link" hreflang="en" data-drupal-link-system-path="group/4636/content/93866" id="ibrand-id-79340">Faculty Jobs</a>               </li>                  <li class="nav-main__item">         <a href="https://postdoctoral-ohsu.icims.com/" class="nav-main__link" hreflang="en" data-drupal-link-system-path="group/4636/content/93766" id="ibrand-id-70510">Post Doc Jobs</a>               </li>                  <li class="nav-main__item">                        </li>                  <li class="nav-main__item nav-main__item--active-trail">                        </li>                  <li class="nav-main__item">                        </li>                  <li class="nav-main__item">         <a href="https://careersat-ohsu.icims.com/" class="nav-main__link" data-drupal-link-system-path="group/4636" id="ibrand-id-13066">All Jobs</a>               </li>         </ul>    </nav>     </div>            <div class="append-around-low-resolution" data-set="nav-tertiary-links">       <!-- / nav-tertiary --> </div> <!-- / append-around-low-resolution -->        </div><!-- / layout-inner-wrap-flush.nav-wrap -->    </div><!-- / layout-full-width.nav-sticky -->   </header>      <main class="layout-full-width main-content">                           <div id="block-grouplandingpagebannerblock" data-block-plugin-id="ohsuwww_group_banner_block" class="block">                   <section class="banner--full banner--bottom" style="background-image: url(https://c-9341-20190924-www-ohsu-edu.i.icims.com/sites/default/files/2019-09/External_Portal_Final.jpg);">   <div class="banner__text-container"> 			<span class="hidden accessibility">Background image: People meeting in a room</span> 	    <!-- / banner__content -->   </div><!-- / banner__text-container --> </section>    </div>           <div class="layout-inner-wrap-flush">            <div class="region region--highlighted">         <aside class="region--highlighted__inner layout-full-width layout-container clearfix" role="complementary">             <div data-drupal-messages-fallback="" class="hidden"></div>           </aside>       </div>                <div class="region region--featured-top">         <aside class="region--featured-top__inner layout-full-width layout-container clearfix" role="complementary">                       </aside>       </div>                                <article class="layout-primary parent_width_fix"><div id="portal" class="icims_height_fix" style=""><div id="portal_inner" style="height: 100%;width: 100%;margin: 0 auto;"><!-- ICIMS START -->
+<script type="text/javascript" src="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/script/lib/domreplacement/domReplacement.js"></script>
+<script type="text/javascript" src="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/script/common/icims.js"></script>
+<script type="text/javascript" src="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/script/portal/utils.js"></script>
+<script type="text/javascript">var useAutoScrolling = false;</script>
+<!--[if lte IE 8]>
+<script type="text/javascript">useAutoScrolling = true;</script>
+<![endif]-->
+<script type="text/javascript">
+
+if (window.addEventListener) {
+window.addEventListener('message', icims_handlePostMessage, false);
+} else if (window.attachEvent) {
+window.attachEvent('onmessage', icims_handlePostMessage);
+}
+function icims_handlePostMessage(event) {
+// If this is not a message from an icims domain, ignore it.
+if (event.origin.indexOf('icims.com') == -1) return;
+var data = event.data;
+if (typeof data === "string") {
+try {
+data = ICIMS.jsonDecode(data);
+} catch(e) {
+data = event.data;
+}
+}
+try {
+if (data && data.height && !isNaN(data.height)) {
+document.getElementById('icims_content_iframe').height = parseInt(data.height);
+} else if ((data && 'x' in data && 'y' in data && !isNaN(parseInt(data.x)) && !isNaN(parseInt(data.y)))) {
+top.scrollTo(parseInt(data.x), parseInt(data.y));
+} else if(data && data.pageTitle){
+window.document.title = data.pageTitle;
+}
+} catch (e) {}
+}
+function getCookie(name) {
+var match = document.cookie.match(name + '=(.*?)(;|$)');
+if (match) return unescape(match[1]);
+else return "";
+}
+function updateUrl(url) {
+try {
+history.replaceState({}, '', url);
+} catch (e) {}
+}
+icimsAddOnload(function() {
+var icimsFrame = document.createElement('iframe');
+var iFrameHeight = 500;
+icimsFrame.id = 'icims_content_iframe';
+icimsFrame.name = 'icims_content_iframe';
+icimsFrame.src = 'https:\/\/externalcareers-ohsu.icims.com\/jobs\/intro?in_iframe=1';
+icimsFrame.setAttribute('style', 'width: 100%;border: none;margin: 0px');
+
+
+iFrameHeight = 500;
+
+icimsFrame.setAttribute('height', iFrameHeight);
+icimsFrame.setAttribute('title', 'iCIMS Content iFrame');
+icimsFrame.onload=function() {
+try {
+window.parent.parent.scrollTo(0,0);
+} catch (e) {}
+};
+document.getElementById('icims_iframe_span').appendChild(icimsFrame);
+try {
+var height = getCookie('cookie_icims_iframe_content_height');
+if (height > 0 && typeof style !== 'undefined') style.height = height + 'px';
+} catch(e) {}
+document.getElementById('icims_content_iframe').onreadystatechange = function() {
+try{
+if ('interactive' == this.readyState) {
+window.scroll(1,1);
+}
+} catch(e) {}
+};
+try {
+var height = 0;
+if (navigator.userAgent.indexOf("Firefox")!=-1) height = document.body.offsetHeight + 16;
+else height = document.body.scrollHeight;
+document.cookie="cookie_icims_iframe_content_height="+height+";SameSite=Strict;Secure;path=/;";
+} catch(e) {}
+});
+</script>
+<noscript>
+<iframe src="https://externalcareers-ohsu.icims.com/jobs/intro?in_iframe=1" id="noscript_icims_content_iframe" name="noscript_icims_content_iframe" title="Noscript iCIMS Content iFrame" style="width:100%;" height="500"></iframe>
+</noscript>
+<span id="icims_iframe_span" role="main" aria-label="Career Portal">
+<div id="icims_content_iframe" name="icims_content_iframe" src="https://externalcareers-ohsu.icims.com/jobs/intro?in_iframe=1&amp;mobile=false&amp;width=1889&amp;height=500&amp;bga=true&amp;needsRedirect=false&amp;jan1offset=-300&amp;jun1offset=-240" style="width: 100%;border: none;margin: 0px" height="875" title="iCIMS Content iFrame" data-original-tag="iframe"><!DOCTYPE html><html lang="en-US" class="framed no-touch"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-W8W92P"></script><script type="text/javascript">
+function icims_stripIFrameParameter(url) {
+url = url.replace(/\?in_iframe=1\&?/, '?');
+url = url.replace(/\&in_iframe=1\&?/, '&');
+url = url.replace(/(\?|&)$/, '');
+return url;
+}
+
+document.cookie = "i18next=en;SameSite=None;Secure";
+var icimsWindow = false;
+try {
+icimsWindow = window.top.location.href.indexOf('') >= 0;
+} catch (e) {}
+
+if (icimsWindow) {
+try {
+
+if (window.history.replaceState) {
+parent.updateUrl(icims_stripIFrameParameter(window.location.href));
+}
+} catch (e) {}
+
+try {
+
+var windowUrl = window.top.location.href;
+if (windowUrl.match(/\?in_iframe=1\&?/) || windowUrl.match(/\&in_iframe=1\&?/)) {
+document.cookie = 'icims_iframeRedirReferer=' + encodeURIComponent(document.referrer) + ';SameSite=None;Secure;path=/';
+window.top.location.href = icims_stripIFrameParameter(windowUrl);
+}
+} catch (e) {}
+
+}
+</script>
+<title>Oregon Health &amp; Science University | Careers Center | Welcome</title>
+<link rel="stylesheet" type="text/css" href="https://externalcareers-ohsu.icims.com/hostedcontent/platform_183.2.0.260610-35844108bc9-11-2/css/fonts.css">
+<link rel="preload" as="style" type="text/css" href="https://cdn02.icims.com/platform_183.2.0.260610-35844108bc9-11-2/provider.icims.com/staticcontent/css/social-portal.css">
+<link rel="stylesheet" type="text/css" href="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/css/icims.blue.ranked.css" data-theme-dark="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/css/icims.dark.css" data-theme-light="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/css/icims.blue.ranked.css" id="theme-icims">
+<link rel="stylesheet" type="text/css" href="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/css/bootstrap.blue.ranked.css" data-theme-dark="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/css/bootstrap.dark.css" data-theme-light="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/css/bootstrap.blue.ranked.css" id="theme-bootstrap">
+<link rel="stylesheet" type="text/css" href="https://cdn02.icims.com/platform_183.2.0.260610-35844108bc9-11-2/ohsu.icims.com/icims2/servlet/icims2?module=AppInert&amp;action=renderDynamicPortalCss&amp;a=0&amp;portal=17&amp;page=new_intro&amp;group=new_base%2Cnew_searchBox%2Cnew_search_agent_create&amp;asv=1782551381516&amp;type=adaptive">
+<script type="text/javascript" src="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/script/lib/jquery/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/script/lib/jquery/jquery-migrate-3.5.2.min.js"></script>
+<script type="text/javascript" src="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/script/lib/domreplacement/domReplacement.js"></script>
+<script type="text/javascript" src="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/script/common/icims.js"></script>
+<script type="text/javascript" src="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/script/portal/utils.js"></script>
+<script type="text/javascript" src="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/script/portal/login.js"></script>
+<script type="text/javascript" src="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/script/portal/geolocation.js"></script>
+<script type="text/javascript" src="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/script/icims.application.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<script type="text/javascript">
+var isMobile = false;
+</script>
+<meta name="description" content="Welcome to the Careers Center for Oregon Health &amp; Science University. Please browse all of our available job and career opportunities. Apply to any positions you believe you are a fit for and contact us today!">
+
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://externalcareers-ohsu.icims.com/jobs/intro">
+<link rel="alternate" media="only screen and (max-width: 767px)" href="https://externalcareers-ohsu.icims.com/jobs/intro?mobile=true&amp;needsRedirect=false">
+
+<script type="text/javascript">
+
+var geoErrNotSupported = 'Sorry, geolocation is not supported by your browser.';
+var geoErrDefault = 'Sorry, we can\'t get your location because an error occurred when retrieving your location.';
+var geoErrPermission = 'Sorry, we can\'t get your location because you don\'t have that enabled. Please turn it on in your system settings.';
+var geoErrPositionUnavailable = 'Sorry, we can\'t get your location because your location information is unavailable.';
+var geoErrTimeout = 'Sorry, we can\'t get your location because the request to get your location timed out.';
+var geoErrUnknown = 'Sorry, we can\'t get your location because an unknown error occurred when retrieving your location.';
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Loading resource bundle -->
+<script type="text/javascript" src="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/script/messageformat/messageformat.js"></script>
+<script type="text/javascript" src="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/script/messageformat/locale/en.js"></script>
+<script type="text/javascript">
+
+function ResourceBundle(lang) {
+var messageFormat = new MessageFormat(lang);
+var resourceBundle = new Array();
+resourceBundle['mootools_utils.helpers.js.SelectMonth_4'] = 'Select Month';
+resourceBundle['login.jsp.header.forgot.password'] = 'Forgot Your Password?';
+resourceBundle['icimsdropdown.js.NoResults_3'] = 'No Results';
+resourceBundle['utils.js.MsgtextPleaseWait_1153'] = '{msgText}, please wait...';
+resourceBundle['icimsdropdown.js.NoResults_1168'] = 'No Results';
+resourceBundle['mootools_utils.helpers.js.CloseDatePicker_1'] = 'Close Date Picker';
+resourceBundle['handlebarshelpers.js.MakeSelection'] = '&mdash; Make a Selection &mdash;';
+resourceBundle['login.jsp.label.password'] = 'Password';
+resourceBundle['login.jsp.message.cookie'] = 'Cookies must be enabled to login. Please enable cookies, then refresh this page.';
+resourceBundle['utils.js.Saving_687'] = 'Saving';
+resourceBundle['login.jsp.message.disabled.account'] = 'Your account has been disabled due to inactivity.';
+resourceBundle['utils.js.ErrorCannotOpenPopUpPleas_686'] = 'Error: Cannot open pop-up. Please make sure pop-up blockers are disabled.';
+resourceBundle['login.jsp.message.login.bad.credentials'] = 'You do not have proper credentials to access the system.';
+resourceBundle['utils.js.PleaseSpecifyAValidPageNu_691'] = 'Please specify a valid page number';
+resourceBundle['login.jsp.message.sso.user.enforce.sso'] = 'Login attempt denied. Your account can only be accessed via Single Sign-On (SSO).';
+resourceBundle['login.jsp.message.sso.error'] = 'Sorry, authentication through Single Sign-On is taking too long. Click the button below to try logging in again.';
+resourceBundle['login.jsp.button.login_again'] = 'Log In Again';
+resourceBundle['icims.tags.js.ResultsNotFound'] = 'No Results Found';
+resourceBundle['icimsdropdown.js.ResultsFound_4'] = 'Results available. Use down and up arrow keys to navigate.';
+resourceBundle['login.jsp.message.password.updated'] = 'Your password has been updated!';
+resourceBundle['utils.js.Loading_690'] = 'Loading';
+resourceBundle['mootools_utils.helpers.js.PreviousMonth_2'] = 'Previous Month';
+resourceBundle['icimsdropdown.js.MakeASelection_1166'] = '\u2014 Make a Selection \u2014';
+resourceBundle['icimsdropdown.js.TypeToSearch_2'] = '\u2014 Type to Search \u2014';
+resourceBundle['utils.js.Moved'] = '{itemsMoved} moved to {targetLabel}';
+resourceBundle['handlebarshelpers.js.Close_1'] = 'Close';
+resourceBundle['login.js.ThisLoginPageWasSupposedT_2466'] = 'This login page was supposed to automatically submit. For whatever reason, it did not. Please submit it manually (you may not have to worry about login\/password).';
+resourceBundle['login.jsp.message.login.failed'] = 'Login Attempt Failed - Please Try Again';
+resourceBundle['utils.js.Updating_689'] = 'Updating';
+resourceBundle['icimsdropdown.js.MakeASelection_1'] = '-Select-';
+resourceBundle['login.jsp.message.link.expired'] = 'The password reset link you used has expired.';
+resourceBundle['login.jsp.tlsVersion.warn'] = 'Your browser is connecting with TLS{version}. Please upgrade to a browser that supports TLS1.2. <a href=\"{site}\" target=\"_blank\" >Click here for more information. <\/a>';
+resourceBundle['login.jsp.button.login'] = 'Log In';
+resourceBundle['utils.js.Sending_688'] = 'Sending';
+resourceBundle['login.jsp.message.enter.new.password'] = 'Please enter your new password.';
+resourceBundle['login.jsp.label.login'] = 'Login';
+resourceBundle['icimsdropdown.js.Loading_1169'] = 'Loading...';
+resourceBundle['login.jsp.button.create.password'] = 'Create Password';
+resourceBundle['login.jsp.message.legal'] = 'By accessing and using the {platformName} Application, you (as an employee or agent of the company) agree to be bound by the terms and conditions of the Agreement signed by your company.';
+resourceBundle['mootools_utils.helpers.js.NextMonth_3'] = 'Next Month';
+resourceBundle['mootools_utils.helpers.js.SelectYear_5'] = 'Select Year';
+resourceBundle['icimsdropdown.js.ResultsFoundCount'] = '{count, plural, =1 {{count} result available. Use down and up arrow keys to navigate.} other {{count} results available. Use down and up arrow keys to navigate. }}';
+resourceBundle['utils.js.anError_1'] = 'An error occurred while attempting to contact the server. Please try again.';
+resourceBundle['login.jsp.header.password.reset'] = 'Create New Password';
+resourceBundle['utils.js.CandidateSearch_123'] = 'Candidate Search';
+resourceBundle['icimsdropdown.js.convertDropdownToTextOption_5'] = '\u2014 Enter Manually \u2014';
+resourceBundle['login.jsp.header.link.back'] = 'Login';
+resourceBundle['login.jsp.message.javascript'] = 'Javascript must be enabled to login. Please enable Javascript, then refresh this page.';
+resourceBundle['login.jsp.message.login.invalid'] = 'Invalid login or password.';
+resourceBundle['handlebarshelpers.js.welcome-text'] = 'Welcome, {name}!';
+resourceBundle['icimsdropdown.js.TypeToSearch_1167'] = '\u2014 Type to Search \u2014';
+resourceBundle['icims.tags.js.ResultsFoundCount'] = '{count, plural, =1 {{count} result available. Use down and up arrow keys to navigate.} other {{count} results available. Use down and up arrow keys to navigate.}}';
+
+ResourceBundle.prototype.get = function (message, variables) {
+if (typeof (resourceBundle[message]) === 'undefined') {
+return '';
+}
+if (typeof (resourceBundle[message]) === 'string') {
+resourceBundle[message] = messageFormat.compile(resourceBundle[message]);
+}
+return resourceBundle[message](variables);
+}
+}
+var resourceBundle = new ResourceBundle('');
+</script><script type="text/javascript">
+function icims_resizeIFrameHeight() {
+
+icims_resizeIFrame('https://externalcareers-ohsu.icims.com');
+
+}
+function icims_scroll(x, y) {
+icims_scrollIFrame(x, y, 'https://externalcareers-ohsu.icims.com');
+}
+if (window.attachEvent) {
+window.attachEvent('onresize', icims_resizeIFrameHeight);
+} else if (window.addEventListener) {
+window.addEventListener('resize', icims_resizeIFrameHeight, true);
+}
+icimsAddOnload(function() {
+icimsCheckCookie();
+icims_resizeIFrameHeight();
+
+if (document.querySelectorAll) {
+var errorMsg = document.querySelectorAll('.iCIMS_ErrorMessage');
+if (errorMsg && errorMsg.length > 0) {
+for (var i = 0; i < errorMsg.length; i++) {
+if (errorMsg[i].offsetHeight > 0) {
+try {
+errorMsg[i].focus();
+} catch (e) {}
+break;
+}
+}
+}
+}
+if (icimsWindow) {
+var inframeBodyTag = document.getElementsByTagName('body')[0];
+var h1Tag = document.getElementsByTagName('h1')[0];
+var innerSkipLink = document.getElementById('icims_skipLink2');
+if (!innerSkipLink) {
+innerSkipLink = document.createElement('a');
+innerSkipLink.textContent = 'Skip to Main Content';
+innerSkipLink.setAttribute('id', 'icims_skipLink2');
+innerSkipLink.setAttribute('style', 'left: -9999px; position: absolute; top: -1px;');
+innerSkipLink.setAttribute('href', '#iCIMS_Header');
+innerSkipLink.onfocus = function() {
+if(document.querySelector('.iCIMS_TopHeader')) {
+const topHeader = document.querySelector('.iCIMS_TopHeader');
+topHeader.style.marginTop = '15px'
+}
+innerSkipLink.setAttribute('style', 'top: 5px; position: relative; z-index: 999; padding: 10px;');
+}
+innerSkipLink.onblur = function() {
+innerSkipLink.setAttribute('style', 'left: -9999px; position: absolute; top: -1px;');
+}
+if (inframeBodyTag.firstElementChild) {
+inframeBodyTag.insertBefore(innerSkipLink, inframeBodyTag.firstElementChild);
+} else {
+inframeBodyTag.appendChild(innerSkipLink);
+}
+}
+}
+
+if (icimsWindow) {
+var bodyTag = window.parent.document.getElementsByTagName('body')[0];
+var outerSkiplink = window.parent.document.getElementById('icims_skipLink1');
+if (bodyTag) {
+if(outerSkiplink){
+outerSkiplink.parentNode.removeChild(outerSkiplink);
+}
+outerSkiplink = document.createElement('a');
+outerSkiplink.textContent = 'Skip Branding';
+outerSkiplink.setAttribute('id', 'icims_skipLink1');
+outerSkiplink.setAttribute('style', 'left: -9999px; position: absolute; top: -1px;');
+outerSkiplink.setAttribute('href', (icims_stripIFrameParameter ? icims_stripIFrameParameter(window.location.href) : window.location.href) + '#icims_content_iframe');
+outerSkiplink.onfocus = function() {
+if(document.querySelector('.iCIMS_TopHeader')) {
+const topHeader = document.querySelector('.iCIMS_TopHeader');
+topHeader.style.marginTop = '15px'
+}
+outerSkiplink.setAttribute('style', 'top: 5px; position: relative; z-index: 999; padding: 10px;');
+}
+outerSkiplink.onblur = function() {
+outerSkiplink.setAttribute('style', 'left: -9999px; position: absolute; top: -1px;');
+}
+if (bodyTag.firstElementChild) {
+bodyTag.insertBefore(outerSkiplink, bodyTag.firstElementChild);
+} else {
+bodyTag.appendChild(outerSkiplink);
+}
+}
+}
+
+var messages = document.getElementsByClassName('iCIMS_GenericMessage');
+var primaryMessage, secondaryMessage, focusMessage;
+if (messages) {
+for (var index = 0; index < messages.length; index++) {
+if (ICIMS.hasClass(messages[index], 'iCIMS_SuccessMessage') || (ICIMS.hasClass(messages[index], 'iCIMS_ErrorMessage') && !ICIMS.hasClass(messages[index], 'iCIMS_FieldError'))) {
+
+primaryMessage = primaryMessage || messages[index];
+} else if (ICIMS.hasClass(messages[index], 'iCIMS_SystemMessage')) {
+secondaryMessage = secondaryMessage || messages[index];
+}
+if (primaryMessage) {
+break;
+}
+}
+focusMessage = primaryMessage || secondaryMessage;
+if (focusMessage) {
+focusMessage.focus();
+}
+}
+
+});
+var icimsIframeResizeTimerAlwaysOn = false;
+var icimsIframeResizeTimer = setInterval(icims_resizeIFrameHeight, 500);
+
+try {
+if (window.orientation) {
+window.addEventListener("orientationchange", icims_resizeIFrameHeight, false);
+}
+} catch (e) {}
+
+var isHub = false;
+if (!window.history.replaceState || isHub) {
+icimsAddOnload(function() {
+var links = document.getElementsByTagName("a");
+for (var i = 0; i < links.length; i++) {
+if (!links[i].target) {
+var href = links[i].getAttribute('href')
+if (href) {
+var prevInnerHTML = links[i].innerHTML;
+links[i].setAttribute('href', icims_stripIFrameParameter(href));
+
+links[i].innerHTML = prevInnerHTML;
+}
+if (href && href != '#') {
+links[i].target = icimsWindow ? "_top" : "_parent";
+}
+}
+}
+});
+}
+
+icimsAddOnload(function() {
+try {
+parent.document.title = document.title;
+} catch (e) {}
+});
+</script>
+</head>
+<body class=" iCIMS_chrome iCIMS_chrome149">
+<a id="icims_skipLink2" style="left: -9999px; position: absolute; top: -1px;" href="https://externalcareers-ohsu.icims.com/jobs/intro?in_iframe=1&amp;mobile=false&amp;width=1889&amp;height=500&amp;bga=true&amp;needsRedirect=false&amp;jan1offset=-300&amp;jun1offset=-240#iCIMS_Header">Skip to Main Content</a><noscript>
+<META HTTP-EQUIV="Refresh" CONTENT="0;URL=/jsDisabledError.jsp">
+</noscript>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+dataLayer = [{"instance":{"id":"2DP2cxkHHhsYyhkDy","type":"careers"},"release":"183.2.0","finish.application.before.assessments":"0","language":"en-US","refererUrl":"https%3A%2F%2Fwww.google.com%2F","icimsGAAccount":"UA-35875149-10","customerEnv":"PRODUCTION","customerIdRaw":9341,"environment":"prod","pageType":"home","releasePhase":"Wave4","build":"platform_183.2.0.260610-35844108bc9-11-2","icimsGAAnonymizeIP":true,"customerId":"mEyNXz81gZzXC5dV","region":"US"}];
+</script>
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id="
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W8W92P');</script>
+<!-- Customer GTM Container -->
+
+<!-- End Google Tag Manager -->
+<script type="text/javascript">
+try {
+document.body.className += " iCIMS_chrome iCIMS_chrome149";
+} catch(e) {}
+</script>
+<div id="iCIMS_NoCookiesMessage" class="iCIMS_ErrorMsg iCIMS_ErrorMessage iCIMS_NoCookies" style="display: none">
+<div class="iCIMS_ErrorMsgTitle">Please Enable Cookies to Continue</div>
+Please enable cookies in your browser to experience all the personalized features of this site, including the ability to apply for a job.</div>
+
+<!-- Intro Core -->
+<div class="iCIMS_MainWrapper iCIMS_IntroPage  ">
+<div class="iCIMS_TopHeader">
+<div class="iCIMS_BackToWelcome"></div>
+<div class="icims-user-profile text-right">
+<div class="iCIMS_profilePicture">
+<div class="iCIMS_userMenu">
+<div class="iCIMS_userMenuName">
+Returning Candidate?</div>
+<div class="iCIMS_userMenuLink">
+<a href="https://externalcareers-ohsu.icims.com/jobs/login?loginOnly=1&amp;redirect=&amp;in_iframe=1&amp;hashed=-435594533">
+Log back in!</a>
+</div>
+</div>
+<div class="iCIMS_FloatHack"></div>
+</div>
+</div>
+</div>
+
+<div id="iCIMS_Header" tabindex="-1"><h1 class="iCIMS_Header">Welcome</h1></div>
+
+
+<div class="iCIMS_InfoMsg iCIMS_InfoMsg_Intro">
+<div class="iCIMS_Expandable_Container">
+<div class="iCIMS_Expandable_Text">
+<p style="margin: 0px;">Thank you for your interest in OHSU. Here you can view our current job openings and apply for positions online. <span>Or, if you prefer, you can&nbsp;</span><a href="https://jobs.ohsu.edu/join/talentcommunity/form?lang=en-US" target="_blank" title="Join our Talent Community" rel="noopener">Join our Talent Community</a><span>&nbsp;to get updates on future opportunities.</span></p><p style="margin: 0px;">&nbsp;</p><p style="margin: 0px;"><strong>Returning applicant?</strong><span>&nbsp;Check the status of your application by&nbsp;</span><a href="https://login.icims.com/u/login/identifier?state=hqFo2SBRb3Y1cTBrdEpGbVFIZ0JxQXRHMlVQcnNnRHRMRDlDSKFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIFA1S19QMkd5akd0VFFHZnp1dy1xZWRKai1xaS1EV1dno2NpZNkgS0pBOTVEeEhPUE5PNTZVYU5SZFJZNTdwem42Q01IY22lb3JnaWS0b3JnX3Z1TGRKdFI0WGhGNXJtOUSnb3JnbmFtZaRvaHN1" target="_blank" rel="noopener">logging back into your career profile</a><span>.</span></p><p style="margin: 0px;">&nbsp;</p><p style="margin: 0px;"><span><strong>Previously worked at OHSU?</strong>&nbsp;Former employees need to first&nbsp;<a href="https://ohsu.ca1.qualtrics.com/jfe/form/SV_418HGamDoBTk2b4" target="_blank" rel="noopener">provide basic information&nbsp;</a>in order to reinstate your previous career profile.</span></p><p style="margin: 0px;">&nbsp;</p><p style="margin: 0px;"><strong>OHSU Affiliate Jobs</strong></p><p style="margin: 0px;">Our affiliates have great job opportunities too.<span>&nbsp;</span><a href="https://www.ohsu.edu/human-resources/affiliate-jobs" target="_blank" rel="noopener">Learn more</a></p><p style="margin: 0px;">&nbsp;</p><p style="margin: 0px;"><strong>Notices to Applicants</strong></p><p style="margin: 0px;">Before applying, know your rights under federal and state employment laws, as well as OHSU’s policy on pre-employment drug testing.<span>&nbsp;</span><a href="https://www.ohsu.edu/human-resources/notices-applicants" target="_blank" rel="noopener">Learn more</a></p><p style="margin: 0px;">&nbsp;</p><p style="margin: 0px;">Please note: OHSU does not hire individuals who are Tier One or Tier Two members of PERS, or a member of OPSRP, who have officially retired and receive retirement benefits under the state retirement system (PERS, OPSRP)</p>
+
+
+
+
+
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 class="iCIMS_SubHeader iCIMS_SubHeader_JobSearch">
+Job Listings
+</h2>
+
+
+
+<div class="iCIMS_InfoMsg iCIMS_InfoMsg_JobSearch">
+<div class="iCIMS_Expandable_Container">
+<div class="iCIMS_Expandable_Text">
+You can <a href="https://externalcareers-ohsu.icims.com/jobs/search?ss=1&amp;in_iframe=1&amp;hashed=-435594533" class="iCIMS_Anchor">view all open positions</a> or use the following search form to find jobs that suit your specific career interests. Questions? See  <a href="https://www.ohsu.edu/human-resources/frequently-asked-questions" class="iCIMS_Anchor" target="_blank">OHSU Jobs FAQ</a>
+
+
+
+<br><br>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div id="geolocation_error_msg" class="iCIMS_Message iCIMS_ErrorMessage iCIMS_NoDisplay">
+The system cannot access your location for 1 of 2 reasons:<ol><li>Permission to access your location has been denied.  Please reload the page and allow the browser to access your location information.</li><li>Your location information has yet to be received. Please wait a moment then hit [Search] again.</li></ol>
+</div>
+<form accept-charset="utf-8" id="searchForm" name="searchForm" action="https://externalcareers-ohsu.icims.com/jobs/search?in_iframe=1&amp;hashed=-435594533">
+
+
+<div class="iCIMS_JobSearchTable">
+
+<div id="search_core_mobile_container_no_show">
+<div id="advanced_search_filters_mobile_modal_no_show">
+
+
+<div class="input-group">
+<label for="jsb_f_keywords_i">Start your job search here</label>
+<div class="form-group has-feedback">
+<input type="text" id="jsb_f_keywords_i" class="form-control Field_SearchKeywords iCIMS_RoundedInput" name="searchKeyword" maxlength="100" value="" placeholder="Start your job search here">
+<span class="form-control-feedback glyphicons glyphicons-search" aria-hidden="true"></span>
+</div>
+
+<div class="input-group-btn iCIMS_SearchButtonKeywordContainer">
+<input type="submit" id="jsb_form_submit_i" class="iCIMS_PrimaryButton" value="Search">
+</div>
+
+</div>
+
+<div class="" id="searchFormAdvancedFilters">
+
+<div class="iCIMS_Table">
+<div class="iCIMS_TableRow">
+
+<div class="iCIMS_InfoData iCIMS_InfoData_JobSearch iCIMS_TableCell">
+<label for="jsb_f_position_s" id="jsb_f_position_label">
+Position Category
+</label>
+<select id="jsb_f_position_s" class="Field_SearchMultiSelect" name="searchCategory">
+<option value="" selected="selected">
+(All)
+</option>
+
+<option value="8713">Accounting/Finance</option>
+
+<option value="8718">Administrative/Office Support</option>
+
+<option value="24536">Advanced Practice Provider</option>
+
+<option value="24537">Allied Health</option>
+
+<option value="24538">Business Services</option>
+
+<option value="24540">Certified Nursing Assistant</option>
+
+<option value="155418">Community Health Worker</option>
+
+<option value="24541">Dental</option>
+
+<option value="24543">Design &amp; Construction</option>
+
+<option value="24544">Environmental Health &amp; Safety</option>
+
+<option value="24513">Facilities/Custodian/Trades</option>
+
+<option value="24512">Faculty/Provider</option>
+
+<option value="24515">Fitness/Wellness</option>
+
+<option value="24514">Food/Nutrition</option>
+
+<option value="24529">Hospital/Clinic Support</option>
+
+<option value="8725">Human Resources</option>
+
+<option value="8730">Information Systems</option>
+
+<option value="24532">Laboratory</option>
+
+<option value="8739">Management/Supervisory</option>
+
+<option value="8741">Marketing/Communications</option>
+
+<option value="24531">Medical Assistant/LPN</option>
+
+<option value="24525">Mental Health</option>
+
+<option value="24535">Nursing-Care Management</option>
+
+<option value="24553">Nursing-Leadership</option>
+
+<option value="24533">Nursing-RN</option>
+
+<option value="24530">Ophthalmic Services</option>
+
+<option value="24528">Pharmacy</option>
+
+<option value="24519">Postdoctoral</option>
+
+<option value="24518">Professional</option>
+
+<option value="24517">Public Safety</option>
+
+<option value="24516">Radiology</option>
+
+<option value="24523">Rehabilitative</option>
+
+<option value="24522">Research</option>
+
+<option value="24521">Student</option>
+
+<option value="141373">Supply Chain</option>
+
+<option value="24520">Veterinary</option>
+
+</select>
+</div>
+
+
+
+
+<div class="iCIMS_InfoData iCIMS_InfoData_JobSearch iCIMS_TableCell">
+<label for="jsb_f_positiontype_s" id="jsb_f_positiontype_label">
+Position Type
+</label>
+<select id="jsb_f_positiontype_s" class="Field_SearchMultiSelect" name="searchPositionType">
+<option value="" selected="selected">
+(All)
+</option>
+
+<option value="2049">Regular Full-Time</option>
+
+<option value="2050">Regular Part-Time</option>
+
+<option value="2051">Temporary Full-Time</option>
+
+<option value="8709">Temporary Part-Time</option>
+
+<option value="18044">Limited Duration Full-Time</option>
+
+<option value="18046">Limited Duration Part-Time</option>
+
+<option value="31256">Relief/Flex/Resource</option>
+
+</select>
+</div>
+
+
+<div class="iCIMS_InfoData iCIMS_InfoData_JobSearch iCIMS_TableCell">
+<label for="jsb_f_location_s" id="jsb_f_location_label">
+Location (City State)
+</label>
+<select id="jsb_f_location_s" class="Field_SearchMultiSelect" name="searchLocation">
+<option value="" selected="selected">
+(All)
+</option>
+
+<option value="currentLocation">(Current Location)</option>
+
+<script type="text/javascript">document.write("<option value=\"zipRadius\" >(Zip Code)</option>");</script><option value="zipRadius">(Zip Code)</option>
+
+<option value="12781--Hybrid">US-Hybrid</option>
+
+<option value="12781--Remote">US-Remote</option>
+
+<option value="12781-12821-Astoria">US-OR-Astoria</option>
+
+<option value="12781-12821-Beaverton">US-OR-Beaverton</option>
+
+<option value="12781-12821-Bend">US-OR-Bend</option>
+
+<option value="12781-12821-Eugene">US-OR-Eugene</option>
+
+<option value="12781-12821-Gresham">US-OR-Gresham</option>
+
+<option value="12781-12821-Hillsboro">US-OR-Hillsboro</option>
+
+<option value="12781-12821-In Person">US-OR-In Person</option>
+
+<option value="12781-12821-Klamath Falls">US-OR-Klamath Falls</option>
+
+<option value="12781-12821-La Grande">US-OR-La Grande</option>
+
+<option value="12781-12821-Medford">US-OR-Medford</option>
+
+<option value="12781-12821-Monmouth">US-OR-Monmouth</option>
+
+<option value="12781-12821-Portland">US-OR-Portland</option>
+
+<option value="12781-12821-Salem">US-OR-Salem</option>
+
+<option value="12781-12821-Scappoose">US-OR-Scappoose</option>
+
+<option value="12781-12821-Tualatin">US-OR-Tualatin</option>
+
+</select>
+<div id="select_accessibility" class="sr-only" aria-live="polite"></div>
+<div id="select_accessibility_one" class="sr-only" aria-hidden="true">One additional field has been created</div>
+<div id="select_accessibility_two" class="sr-only" aria-hidden="true">Two additional fields have been created</div>
+<div id="select_accessibility_one_collapse" class="sr-only" aria-hidden="true">One field has been collapsed</div>
+<div id="select_accessibility_two_collapse" class="sr-only" aria-hidden="true">Two fields have been collapsed</div>
+
+
+</div>
+
+
+<div class="iCIMS_InfoData iCIMS_InfoData_JobSearch iCIMS_TableCell">
+<div class="iCIMS_Zip_Code_Block iCIMS_ZipRadiusBlock">
+<label for="jsb_f_zipcode_i">
+Zip Code
+</label>
+<input type="text" id="jsb_f_zipcode_i" name="searchZip" class="iCIMS_RoundedInput form-control" value="">
+</div>
+</div>
+<div class="iCIMS_InfoField_JobSearch_Zip iCIMS_TableCell">
+<div class="iCIMS_Radius_Block iCIMS_ZipRadiusBlock">
+
+
+
+<div class="iCIMS_InfoData iCIMS_Radius_Input">
+<label for="jsb_f_zipradius_s">
+Find jobs within
+(miles)
+</label>
+<select id="jsb_f_zipradius_s" name="searchRadius" class="iCIMS_RoundedInput">
+
+
+<option value="5">5</option>
+
+
+<option value="10">10</option>
+
+
+<option value="15">15</option>
+
+
+<option value="20" selected="selected">20</option>
+
+
+<option value="25">25</option>
+
+
+<option value="35">35</option>
+
+
+<option value="50">50</option>
+
+
+<option value="75">75</option>
+
+
+<option value="100">100</option>
+
+
+<option value="150">150</option>
+
+
+<option value="200">200</option>
+
+</select>
+</div>
+
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<div class="iCIMS_Table iCIMS_Search_Action_Container">
+<div class="iCIMS_TableRow">
+<div class="iCIMS_InfoData iCIMS_InfoData_JobSearch iCIMS_TableCell iCIMS_JobSearchSubmitBtn_Mobile">
+<input type="submit" id="jsb_form_submit_i_mobile" class="iCIMS_PrimaryButton" value="Search">
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+</div>
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<div class="iCIMS_Logo"><a class="iCIMS_Faq_Link" title="Application FAQs (Opens new window)" href="https://icims.help/candidate-faq" target="_blank">Application FAQs</a><span class="iCIMS_Logo_Image"></span><p class="iCIMS_Logo_Text">Software Powered by iCIMS<br><a href="http://www.icims.com/platform_help?utm_source=platform&amp;utm_medium=link&amp;utm_content=page1&amp;utm_campaign=platform%20help" target="_blank" title="Powered by the iCIMS Talent Platform (Opens new window)" class="iCIMS_Logo_Link">www.icims.com</a></p></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+if (icimsWindow) {
+try {
+window.parent.postMessage('{ "pageTitle" : "' + document.title + '" }', document.location.origin);
+} catch (e) {}
+}
+</script>
+<!-- GTM + Jibe Integration -->
+<script>
+var jibeAnalyticsData = {};
+</script>
+<script type="text/javascript" src="https://cdn02.icims.com/a/images.icims.com/content/platform_183.2.0.260610-35844108bc9-11-2/script/portal/dataLayer/jibeTracker.js"></script>
+<!-- GTM + Jibe Integration -->
+
+
+</body></html></div></span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ICIMS END --></div></div></article>             </div>   </main> <!-- /.layout-full-width .main-content -->    <footer class="site-footer">   <div class="layout-inner-wrap">       <article class="footer-about site-footer__about">   			<a href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/" class="ga-nav-footer ga-nav-footer__logo footer-logo site-footer__logo">Oregon Health &amp; Science University</a>                    <div id="block-footerabout-2" data-block-plugin-id="block_content:ff236175-80b2-4356-b06f-2bf92d4f94f9" class="block">                            <div class=""><p class="">Oregon Health &amp; Science University is dedicated to improving the health and quality of life for all Oregonians through excellence, innovation and leadership in health care, education and research.</p>  <p class="">© 2001-2019&nbsp;Oregon Health &amp; Science University. OHSU is an equal opportunity affirmative action institution.</p>  <p class=""><a class="ga-nav-footer ga-nav-footer__about" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/about/services/integrity/ips/npp.cfm">Notice of Privacy Practices</a><br class=""><a class="ga-nav-footer ga-nav-footer__about" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/information-technology/website-accessibility">Web Browser Accessibility</a></p></div>          </div>       		</article>        <nav class="site-footer__nav footer-nav">         <div class="footer-nav-column site-footer__nav-column">                      <div id="block-footermenu1-2" data-block-plugin-id="block_content:8d1f225b-affb-4798-83b7-67ddd4f79b3a" class="block">                            <div class=""><ul class="footer-nav-list"><li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/">OHSU Home</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/about/contact-us">Contact</a></li> </ul><h5 class="footer-nav-header"><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/about/">About OHSU</a></h5>  <ul class="footer-nav-list"><li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/visit">Maps and Directions</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/human-resources/">Jobs</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/library/">Library</a></li> 	<li class=""><a class="ga-nav-footer" href="https://www.onwardohsu.org/donation?utm_source=ohsu-edu&amp;utm_medium=referral&amp;utm_content=ohsu-footer&amp;utm_campaign=ohsu_internal_promos">Make a Gift</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/about/accessibility-ohsu">Accessibility</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/center-for-diversity-inclusion">Diversity and Inclusion</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/integrity-department">Integrity</a></li> 	<li class=""><a class="ga-nav-footer" href="https://www.ohsu.edu/office-of-civil-rights-investigations-and-compliance">Office of Civil Rights Investigations and Compliance</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/title-ix">Title IX</a></li> </ul></div>          </div>             </div>         <div class="footer-nav-column site-footer__nav-column">                      <div id="block-footermenu2-2" data-block-plugin-id="block_content:cefdb69d-b477-4e4b-a746-cc285a613534" class="block">                            <div class=""><h5 class="footer-nav-header"><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/health/for-patients-visitors/">Patient Resources</a></h5>  <ul class="footer-nav-list"><li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/health/for-patients-visitors/billing-insurance/">Billing and Insurance</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/health/services/find-doctor.cfm">Find a Doctor</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/health/services/find-clinic.cfm">Find a Clinic</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/health/for-patients-visitors/">For Patients and Visitors</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/health/clinical-trials/">Clinical Trials</a></li> </ul><h5 class="footer-nav-header"><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/research/">Research</a></h5>  <ul class="footer-nav-list"><li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/research/about/">About</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/research/administration/">Administration</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/research/centers-institutes/">Centers and Institutes</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/research/research-cores/">Cores and Shared Resources</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/research/techtransfer/">Technology Transfer</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/research/research-expertise/">Research Expertise</a></li> </ul></div>          </div>             </div>         <div class="footer-nav-column site-footer__nav-column">                      <div id="block-footermenu3-2" data-block-plugin-id="block_content:6fd22b64-6ad4-4892-ae88-fa9bd623238c" class="block">                            <div class=""><h5 class="footer-nav-header"><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/education/">Academics</a></h5>  <ul class="footer-nav-list"><li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/school-of-medicine/">School of Medicine</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/education/schools/school-of-nursing/">School of Nursing</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/xd/education/schools/school-of-dentistry/">School of Dentistry</a></li> 	<li class=""><a class="ga-nav-footer" href="https://ohsu-psu-sph.org/">School of Public Health</a></li> 	<li class=""><a class="ga-nav-footer" href="https://pharmacy.oregonstate.edu/">College of Pharmacy</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/education/academics-and-admissions">Admissions</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/education/registrar-and-financial-aid">Student Services</a></li> </ul><h5 class="footer-nav-header"><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/human-resources/">For Employees</a></h5>  <ul class="footer-nav-list"><li class=""><a class="ga-nav-footer" href="https://o2.ohsu.edu/">O2 Intranet</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/mail">Email</a></li> 	<li class=""><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/Citrix">Connecting Off-Campus</a></li> </ul></div>          </div>             </div>         <div class="footer-nav-column site-footer__nav-column">                      <div id="block-footerlastcolumn-2" data-block-plugin-id="block_content:1803796d-f3e9-43f2-b568-1e7c371060ef" class="block">                            <div class=""><h5 class="footer-nav-header"><a class="ga-nav-footer" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/health/inclusive-patient-care-and-communication">Inclusive Care and Access</a></h5> <ul class="footer-nav-list icon-list--inclusive"> <li class=""><a class="ga-nav-footer icon-inclusive icon-inclusive--braille" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/health/inclusive-patient-care-and-communication">&nbsp;</a></li> <li class=""><a class="ga-nav-footer icon-inclusive icon-inclusive--sign" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/health/inclusive-patient-care-and-communication">&nbsp;</a></li> <li class=""><a class="ga-nav-footer icon-inclusive icon-inclusive--interpreters" href="https://c-9341-20190924-www-ohsu-edu.i.icims.com/health/inclusive-patient-care-and-communication">&nbsp;</a></li> </ul> <ul class="footer-nav-list icon-list--social"> <li class="icon-social icon-social--facebook"><a href="https://www.facebook.com/OHSUedu" aria-label="OHSU on Facebook" class=""></a></li> <li class="icon-social icon-social--twitter"><a href="https://twitter.com/OHSUNews" aria-label="OHSU on Twitter" class=""></a></li> <li class="icon-social icon-social--linkedin"><a href="http://www.linkedin.com/edu/oregon-health-and-science-university-19198" aria-label="OHSU on LinkedIn" class=""></a></li> <li class="icon-social icon-social--youtube"><a href="http://www.youtube.com/user/OHSUvideo" aria-label="OHSU on Youtube" class=""></a></li> </ul> </div>          </div>             </div>       </nav>    </div> </footer>    </div>           <script type="application/json" data-drupal-selector="drupal-settings-json" class="">{"path":{"baseUrl":"\/","scriptPath":null,"pathPrefix":"","currentPath":"group\/4636\/content\/93761","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"en"},"pluralDelimiter":"\u0003","ohsu_digs":{"oiuGoogleTagManager":{"group":{"name":"iCIMS","type":"About","type_slug":"about"}}},"ajax":[],"user":{"uid":0,"permissionsHash":"0aed012fb56f8c21b212aaa81b6bb0c080fb63400f2cab90be49e393725b5fdd"}}</script> <script src="https://c-9341-20190924-www-ohsu-edu.i.icims.com/sites/default/files/js/js_3O88Jy70xpkpS9AYfN1nL4_U0gSyK5SCkclwcsTNIBE.js" class=""></script>        <script type="text/javascript" class="">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"1915665aaf","applicationID":"55451689","transactionName":"b1dQYURTXhFUVEwLW1Ydc1ZCW18MGnNKF0RZXm52WUBVPnhSVhdofFdUVENeRC9QWU0uXVZZZkdTV30DW15IF1hZRl1HRR8OAV1SWwl1W1FXRkU=","queueTime":0,"applicationTime":310,"atts":"QxBTFwxJTR8=","errorBeacon":"bam.nr-data.net","agent":""}</script>  <script type="text/javascript" id="" class="">window.jQuery&&jQuery("#nav-main a").hover(function(a){a=a.currentTarget;window.topNavHoverTrackingValue=a.innerText+" - "+a.href;window.topNavHoverTracking=setTimeout(function(a){window.dataLayer.push({event:"topnavMouseOver",label:window.topNavHoverTrackingValue})},600)},function(){clearTimeout(topNavHoverTracking)});</script><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><icimscss></icimscss>
+</body></html>

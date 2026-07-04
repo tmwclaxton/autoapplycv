@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-angular-056",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "full name (9216) full name (9216)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ang-name-9216",
+        "name": "ang-name-9216",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application email (9216) application email (9216)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ang-email-9216",
+        "name": "ang-email-9216",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9216) mobile number (9216)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ang-phone-9216",
+        "name": "ang-phone-9216",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal statement (9216) personal statement (9216)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "personal-statement-9216-9216",
+        "name": "personal-statement-9216-9216",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work location (9216) work location (9216)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Berlin",
+        "London",
+        "Manchester",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "work-location-9216-9216",
+        "name": "work-location-9216-9216",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

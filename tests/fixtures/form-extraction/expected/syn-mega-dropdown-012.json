@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-dropdown-012",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "legal name (9812) legal name (9812)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "dd-name-9812",
+        "name": "dd-name-9812",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application email (9812) application email (9812)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "dd-email-9812",
+        "name": "dd-email-9812",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9812) contact number (9812)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "dd-phone-9812",
+        "name": "dd-phone-9812",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work location (9812)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Remote",
+        "London",
+        "Manchester",
+        "Hybrid"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-h-9812",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

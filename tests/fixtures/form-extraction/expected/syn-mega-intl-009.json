@@ -1,0 +1,75 @@
+{
+  "id": "syn-mega-intl-009",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "applicant name (9949) applicant name (9949)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "intl-name-9949",
+        "name": "intl-name-9949",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application email (9949) application email (9949)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "intl-email-9949",
+        "name": "intl-email-9949",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9949) contact number (9949)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "intl-phone-9949",
+        "name": "intl-phone-9949",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "current city (9949) current city (9949)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Remote",
+        "Hybrid",
+        "London",
+        "Manchester"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "current-city-9949-9949",
+        "name": "current-city-9949-9949",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

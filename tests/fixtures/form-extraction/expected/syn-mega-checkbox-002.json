@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-checkbox-002",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "full name (9752) full name (9752)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "chk-name-9752",
+        "name": "chk-name-9752",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9752) work email (9752)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "chk-email-9752",
+        "name": "chk-email-9752",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9752) cell phone (9752)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "chk-phone-9752",
+        "name": "chk-phone-9752",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "core competencies (9752)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "SQL",
+        "Python",
+        "JavaScript",
+        "Go"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "skills-group-9752",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

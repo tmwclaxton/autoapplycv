@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-dropdown-030",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "applicant name (9830) applicant name (9830)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "dd-name-9830",
+        "name": "dd-name-9830",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact email (9830) contact email (9830)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "dd-email-9830",
+        "name": "dd-email-9830",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9830) contact number (9830)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "dd-phone-9830",
+        "name": "dd-phone-9830",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work location (9830)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Remote",
+        "London",
+        "Hybrid",
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-h-9830",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

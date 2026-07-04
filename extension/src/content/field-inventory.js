@@ -12,16 +12,57 @@ const AutoCVApplyFieldInventory = (() => {
 
     function registerTarget(target) {
         const ref = `f${refRegistry.size}`;
+        let fieldType;
+
+        if (Array.isArray(target)) {
+            fieldType = target[0]?.getAttribute?.('role') === 'checkbox' ? 'checkbox' : 'radio';
+        } else if (target?.getAttribute?.('role') === 'listbox') {
+            fieldType = 'select';
+        } else {
+            fieldType = target.type === 'radio' || target.type === 'checkbox'
+                ? target.type
+                : AutoCVApplyFormHeuristics.getFieldType(target);
+        }
+
         refRegistry.set(ref, {
             target,
-            field_type: Array.isArray(target)
-                ? 'radio'
-                : (target.type === 'radio' || target.type === 'checkbox'
-                    ? target.type
-                    : AutoCVApplyFormHeuristics.getFieldType(target)),
+            field_type: fieldType,
         });
 
         return ref;
+    }
+
+    function buildDomMetadata(target, roleRadios) {
+        let rep = roleRadios?.[0] || target;
+        let scope = rep;
+
+        if (roleRadios?.length) {
+            const repRole = roleRadios[0]?.getAttribute?.('role');
+
+            if (repRole === 'radio') {
+                scope = rep.closest('[role="radiogroup"]') || rep;
+            } else if (repRole === 'checkbox') {
+                scope = rep.closest('[role="group"], fieldset, [role="radiogroup"]') || rep;
+            }
+        } else if (target?.getAttribute?.('role') === 'listbox') {
+            scope = target;
+            rep = target.querySelector('[role="option"]') || target;
+        } else if (target?.type === 'radio' || target?.type === 'checkbox') {
+            scope = target.closest('fieldset, [role="radiogroup"], [role="group"]') || target;
+        }
+
+        const tag = (rep?.tagName || '').toLowerCase() || null;
+        const inputType = rep?.type || rep?.getAttribute?.('type') || null;
+        const type = tag === 'input' || tag === 'textarea' || tag === 'select' ? (inputType || null) : null;
+
+        return {
+            tag,
+            type,
+            id: scope?.id || rep?.id || null,
+            name: rep?.name || rep?.getAttribute?.('name') || scope?.getAttribute?.('name') || null,
+            data_testid: scope?.getAttribute?.('data-testid') || rep?.getAttribute?.('data-testid') || null,
+            role: scope?.getAttribute?.('role') || rep?.getAttribute?.('role') || null,
+        };
     }
 
     function getContextText(element) {
@@ -105,6 +146,7 @@ const AutoCVApplyFieldInventory = (() => {
                 options: field.options,
                 required: anchor?.required === true || anchor?.getAttribute('aria-required') === 'true',
                 context: anchor ? getContextText(anchor) : null,
+                dom: buildDomMetadata(target, roleRadios),
             });
         });
 

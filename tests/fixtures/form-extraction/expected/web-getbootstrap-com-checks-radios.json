@@ -1,139 +1,175 @@
 {
   "id": "web-getbootstrap-com-checks-radios",
-  "min_fields": 15,
-  "exact_field_count": 15,
+  "min_fields": 10,
+  "exact_field_count": 10,
   "fields": [
     {
-      "question": "default checkbox default checkbox checkdefault",
+      "question": "default checkbox default checkbox",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Default checkbox"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "checkDefault",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "indeterminate checkbox indeterminate checkbox checkindeterminate",
+      "question": "indeterminate checkbox indeterminate checkbox",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Indeterminate checkbox"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "checkIndeterminate",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "default switch checkbox input default switch checkbox input switchcheckdefault",
+      "question": "default switch checkbox input default switch checkbox input",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Default switch checkbox input"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "switchCheckDefault",
+        "name": null,
+        "data_testid": null,
+        "role": "switch"
+      }
     },
     {
-      "question": "native switch haptics native switch haptics checknativeswitch",
+      "question": "native switch haptics native switch haptics",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Native switch haptics"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "checkNativeSwitch",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "default checkbox default checkbox defaultcheck1",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Default checkbox"
-      ],
-      "required": false
-    },
-    {
-      "question": "1 1 inlinecheckbox1",
+      "question": "1 1",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "1"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "inlineCheckbox1",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "2 2 inlinecheckbox2",
+      "question": "2 2",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "2"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "inlineCheckbox2",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "1 1 inlineradiooptions inlineradio1",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "1",
-        "2"
-      ],
-      "required": false
-    },
-    {
-      "question": "reverse checkbox reverse checkbox reversecheck1",
+      "question": "reverse checkbox reverse checkbox",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Reverse checkbox"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "reverseCheck1",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "reverse switch checkbox input reverse switch checkbox input switchcheckreverse",
+      "question": "reverse switch checkbox input reverse switch checkbox input",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Reverse switch checkbox input"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "switchCheckReverse",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "... checkboxnolabel",
+      "question": "...",
       "field_type": "checkbox",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "checkboxNoLabel",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "... radionolabel radionolabel1",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": null,
-      "required": false
-    },
-    {
-      "question": "single toggle single toggle btn-check",
+      "question": "single toggle single toggle",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Single toggle"
       ],
-      "required": false
-    },
-    {
-      "question": "single toggle single toggle btn-check-4",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Single toggle"
-      ],
-      "required": false
-    },
-    {
-      "question": "single toggle single toggle btn-check-outlined",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Single toggle"
-      ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "btn-check",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

@@ -1,7 +1,7 @@
 {
   "id": "web-jobs-eu-lever-co-apply",
-  "min_fields": 17,
-  "exact_field_count": 17,
+  "min_fields": 15,
+  "exact_field_count": 15,
   "fields": [
     {
       "question": "opportunitylocationid",
@@ -12,63 +12,135 @@
         "Poland",
         "Cyprus"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "opportunityLocationId",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "full name✱ name full name✱ full name✱",
+      "question": "full name✱ full name✱ full name✱",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email✱ email email✱ email✱",
+      "question": "email✱ email✱ email✱",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "phone phone phone phone",
+      "question": "phone phone phone",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "current location ✱no location found. try entering a different locationloading location location-input current location ✱no location found. try entering a different locationloading current location ✱no location found. try entering a different locationloading",
+      "question": "current location ✱no location found. try entering a different locationloading current location ✱no location found. try entering a different locationloading current location ✱no location found. try entering a different locationloading",
       "field_type": "text",
       "max_chars": 100,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "current company org current company current company",
+      "question": "current company current company current company",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "linkedin url✱ urls[linkedin] linkedin url✱ linkedin url✱",
+      "question": "linkedin url✱ linkedin url✱ linkedin url✱",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "type your response cards[6a7b54fc-740b-4f88-b3f5-9d8e495382cf][field0]",
+      "question": "type your response",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[6a7b54fc-740b-4f88-b3f5-9d8e495382cf][field0]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "cards[a422a510-cd8d-4dc9-8fb0-25b8f0847775][field0]",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[a422a510-cd8d-4dc9-8fb0-25b8f0847775][field0]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "cards[056f4442-9f18-411a-a1a7-c5f235fa2d15][field0]",
@@ -82,20 +154,36 @@
         "B1 / Intermediate (Basic professional communication)",
         "A1 - A2 / Beginner or Elementary (Basic greetings/short phrases)"
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[056f4442-9f18-411a-a1a7-c5f235fa2d15][field0]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "yes cards[7fa9b20c-1e10-42ca-85f1-9ceb04ef2b58][field0] yes yes",
+      "question": "yes yes yes",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Yes",
         "No"
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[7fa9b20c-1e10-42ca-85f1-9ceb04ef2b58][field0]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "italian cards[7fa9b20c-1e10-42ca-85f1-9ceb04ef2b58][field1] italian italian",
+      "question": "italian italian italian",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
@@ -104,52 +192,64 @@
         "German",
         "Dutch"
       ],
-      "required": true
-    },
-    {
-      "question": "yes cards[7fa9b20c-1e10-42ca-85f1-9ceb04ef2b58][field2] yes yes",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Yes",
-        "No"
-      ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[7fa9b20c-1e10-42ca-85f1-9ceb04ef2b58][field1]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "cards[7fa9b20c-1e10-42ca-85f1-9ceb04ef2b58][field3]",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[7fa9b20c-1e10-42ca-85f1-9ceb04ef2b58][field3]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "yes cards[7fa9b20c-1e10-42ca-85f1-9ceb04ef2b58][field4] yes yes",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Yes",
-        "No"
-      ],
-      "required": true
-    },
-    {
-      "question": "finom has my consent to retain my data for the purpose of considering me for employment and for up to 1 year thereafter. i understand i may withdraw my consent at any time. consent[store] finom has my consent to retain my data for the purpose of considering me for employment and for up to 1 year thereafter. i understand i may withdraw my consent at any time. finom has my consent to retain my data for the purpose of considering me for employment and for up to 1 year thereafter. i understand i may withdraw my consent at any time.",
+      "question": "finom has my consent to retain my data for the purpose of considering me for employment and for up to 1 year thereafter. i understand i may withdraw my consent at any time. finom has my consent to retain my data for the purpose of considering me for employment and for up to 1 year thereafter. i understand i may withdraw my consent at any time. finom has my consent to retain my data for the purpose of considering me for employment and for up to 1 year thereafter. i understand i may withdraw my consent at any time.",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Finom has my consent to retain my data for the purpose of considering me for employment and for up to 1 year thereafter. I understand I may withdraw my consent at any time."
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "consent[store]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "finom has my consent to contact me about future job opportunities. consent[marketing] finom has my consent to contact me about future job opportunities. finom has my consent to retain my data for the purpose of considering me for employment and for up to 1 year thereafter. i understand i may withdraw my consent at any time.",
+      "question": "finom has my consent to contact me about future job opportunities. finom has my consent to contact me about future job opportunities. finom has my consent to retain my data for the purpose of considering me for employment and for up to 1 year thereafter. i understand i may withdraw my consent at any time.",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Finom has my consent to contact me about future job opportunities."
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "consent[marketing]",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

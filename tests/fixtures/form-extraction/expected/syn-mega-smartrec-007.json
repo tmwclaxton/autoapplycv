@@ -1,0 +1,93 @@
+{
+  "id": "syn-mega-smartrec-007",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "complete name (9537) complete name (9537)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sr-name-9537",
+        "name": "sr-name-9537",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9537) primary email (9537)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "sr-email-9537",
+        "name": "sr-email-9537",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number (9537) phone number (9537)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "sr-phone-9537",
+        "name": "sr-phone-9537",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cover letter (9537) cover letter (9537)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter-9537-9537",
+        "name": "cover-letter-9537-9537",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "where are you based? (9537)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "London",
+        "Remote",
+        "Hybrid",
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-9537",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue application"
+    }
+  ],
+  "vet_notes": []
+}

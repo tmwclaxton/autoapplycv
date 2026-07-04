@@ -1,0 +1,2423 @@
+<!DOCTYPE html><html lang="en" dir="ltr" class="oj-agent-os-linux oj-agent-browser-chrome"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+html { font-size: 16px; }
+
+.home-page__background { display: none; }
+
+[dir] .standard-apply-flow { background-image: none !important; }
+
+.candidate-self-service__delete-profile-button { visibility: hidden; }
+
+.candidate-links { display: none !important; }
+
+h1, .cc-element h1 { font-family: "Autozone Condensed"; text-transform: uppercase; font-size: 44px !important; font-weight: 700 !important; }
+
+h3, .cc-element h3 { font-family: "Autozone Condensed"; text-transform: uppercase; font-size: 32px !important; font-weight: 700 !important; }
+
+h4, .cc-element h4 { font-family: "Autozone Condensed"; text-transform: uppercase; font-size: 20px !important; font-weight: 700 !important; }
+
+h5, .cc-element h5 { font-family: "Autozone Condensed"; text-transform: uppercase; font-size: 18px !important; font-weight: 700 !important; }
+
+#competitive-benefits-title h3 { margin-left: 30px; text-align: left !important; font-size: 20px !important; }
+
+#competitive-benefits-title::before { content: url("https://egud.fa.us2.oraclecloud.com:443/hcmUI/CandidateExperience/images?imageId=4ABDD0FE-4554-4AD0-8D56-BE8802F09179"); position: absolute; left: 64px; top: 10px; height: 30px; width: 35px; overflow: visible; display: inline-block; }
+
+#insurance-title h3 { margin-left: 30px; text-align: left !important; font-size: 20px !important; }
+
+#insurance-title::before { content: url("https://egud.fa.us2.oraclecloud.com:443/hcmUI/CandidateExperience/images?imageId=7061B5A4-B202-470C-9A28-027B9CC5B1AB"); position: absolute; left: 64px; top: 10px; height: 30px; width: 35px; overflow: visible; display: inline-block; }
+
+#financial-title h3 { margin-left: 30px; text-align: left !important; font-size: 20px !important; }
+
+#financial-title::before { content: url("https://egud.fa.us2.oraclecloud.com:443/hcmUI/CandidateExperience/images?imageId=A6D2FC8F-6131-453D-A6D2-2E52A3FD66A6"); position: absolute; left: 64px; top: 10px; height: 30px; width: 35px; overflow: visible; display: inline-block; }
+
+@media screen and (max-width: 767px) {
+  [dir] #competitive-benefits-title h3, [dir] #insurance-title h3, [dir] #financial-title h3 { margin-left: 70px !important; }
+}
+
+@media screen and (max-width: 767px) {
+  [dir] #competitive-benefits-title::before, [dir] #insurance-title::before, [dir] #financial-title::before { left: 16px !important; }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  [dir] #competitive-benefits-title h3, [dir] #insurance-title h3, [dir] #financial-title h3 { margin-left: 40px !important; }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  [dir] #competitive-benefits-title::before, [dir] #insurance-title::before, [dir] #financial-title::before { left: 34px !important; top: 20px !important; }
+}
+
+.standard-apply-flow .apply-flow-block__title { font-family: inherit !important; }
+
+@media print, screen and (min-width: 1024px) {
+  header.app-header.apply-flow-header::before { content: ""; display: inline-block; position: absolute; left: 20px; top: 28px; height: 25px; width: 160px; background-size: 160px 25px; background-image: url("https://egud-dev4.fa.us2.oraclecloud.com:443/hcmUI/CandidateExperience/images?imageId=0A72EFB1-3806-48F9-BC86-E55034ED20E4"); }
+  .apply-flow-header__content { margin-left: 260px; }
+}
+
+@media print, screen and (min-width: 769px) and (max-width: 1023px) {
+  header.app-header.apply-flow-header::before { content: ""; display: inline-block; position: absolute; left: 20px; top: 14px; height: 25px; width: 160px; background-size: 160px 25px; background-image: url("https://egud-dev4.fa.us2.oraclecloud.com:443/hcmUI/CandidateExperience/images?imageId=0A72EFB1-3806-48F9-BC86-E55034ED20E4"); }
+  .apply-flow-header__content { margin-left: 200px; }
+}
+
+@media print, screen and (max-width: 768px) {
+  header.app-header.apply-flow-header::before { content: ""; display: inline-block; position: absolute; left: 20px; top: 17px; height: 19px; width: 120px; background-size: 120px 19px; background-image: url("https://egud-dev4.fa.us2.oraclecloud.com:443/hcmUI/CandidateExperience/images?imageId=0A72EFB1-3806-48F9-BC86-E55034ED20E4"); }
+  .apply-flow-header__content { margin-left: 160px; }
+}
+
+@media print, screen and (min-width: 1024px) {
+  [dir] .body--scrolled-down .standard-apply-flow .apply-flow-header { height: 64px; }
+}
+
+@media print, screen and (min-width: 1024px) {
+  [dir="ltr"] .standard-apply-flow .apply-flow-navigation-train { top: 100px; }
+}
+
+[dir] .standard-apply-flow .input-row__control:not(.phone-row__input):not(.communication-channel__email-control):not(.input-row__control--helper), [dir] .standard-apply-flow .input-row__item.communication-channel__email-row, [dir] .standard-apply-flow .input-row-composite__inputs.phone-row, [dir] .standard-apply-flow .cx-select-container .cx-select-input, [dir] .standard-apply-flow .input-row-composite__inputs { border-radius: 2px; border: 1px solid rgb(32, 33, 36); background: rgb(255, 255, 255); padding: 12px 13px; }
+
+.standard-apply-flow .input-row__control:not(.phone-row__input):not(.communication-channel__email-control):not(.input-row__control--helper), .standard-apply-flow .input-row__item.communication-channel__email-row, .standard-apply-flow .input-row-composite__inputs.phone-row, .standard-apply-flow .cx-select-container .cx-select-input, .standard-apply-flow .input-row-composite__inputs { height: 52px; margin-bottom: 16px; }
+
+[dir] .standard-apply-flow .input-row__validation, [dir] .standard-apply-flow .input-row__note { margin-top: 0px; margin-bottom: 32px; }
+
+@media screen and (min-width: 768px) {
+  [dir="ltr"] .standard-apply-flow .input-row-composite__inputs.phone-row .cx-select-container .input-field-container .input-field-container__right { top: 10px; }
+}
+
+[dir] button, [dir] .button, [dir] .button::before, [dir] .standard-apply-flow .pin-code-verification .apply-flow-dialog__footer .apply-flow-dialog__button::before { border-radius: 4px !important; font-weight: 700 !important; font-size: 16px !important; font-family: "Autozone Condensed" !important; }
+
+[dir] .button__label { font-weight: 700 !important; font-size: 16px !important; font-family: "Autozone Condensed" !important; }
+
+@media screen and (min-width: 768px) {
+  [dir] .standard-apply-flow .apply-flow-pagination__button:hover { background-color: var(--color-secondary); border-radius: 4px; }
+}
+
+.standard-apply-flow .cx-multi-select-container .input-field-container .icon-dropdown-arrow, .standard-apply-flow .cx-select-container .input-field-container .icon-dropdown-arrow, .standard-apply-flow .input-row-composite__inputs .cx-select-container .input-field-container__right .icon-dropdown-arrow, .standard-apply-flow .input-row-composite__inputs.phone-row .cx-select-container .input-field-container .input-field-container__right .icon-dropdown-arrow { font-size: 0.39rem !important; color: rgb(90, 108, 119); }
+
+.standard-apply-flow .cx-select-container .icon-clear { font-size: 0.77rem !important; }
+
+.oda-chat-wrapper .oda-chat-header .oda-chat-header-info-wrapper .oda-chat-title { color: rgb(255, 255, 255); }
+
+.oda-chat-wrapper .oda-chat-header-button svg > path { fill: rgb(255, 255, 255) !important; }
+
+.oda-chat-wrapper .oda-chat-message-bubble > * { color: rgb(32, 33, 36); font-family: "Autozone Body"; font-size: 16px; line-height: 1.2; }
+
+.input-row:has(input[name="issueDate"]) { display: none !important; }
+
+.input-row:has(input[name="expirationDate"]) { display: none !important; }
+
+.input-row:has(input[name="addlAddressAttribute4"]) { display: none !important; }
+
+.input-row:has(input[name="placeOfIssue"]) { display: none !important; }</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.component-styling-wrapper-32284 .search-box-compact__form::before, .component-styling-wrapper-32284 .search-box-compact__fieldset::before, .component-styling-wrapper-32284 .search-box-compact__button::before { opacity: 1 !important; }
+
+.component-styling-wrapper-32284 .search-box-compact__fieldset-spacer, .component-styling-wrapper-32284 .search-jobs__misc-spacer { }
+
+.component-styling-wrapper-32284 .search-box-compact__input { }
+
+.component-styling-wrapper-32284 .search-box-compact__input::placeholder { }
+
+.component-styling-wrapper-32284 .search-box-compact__button-border { opacity: 1 !important; }
+
+.component-styling-wrapper-32284 .search-box-compact__label { }
+
+.component-styling-wrapper-32284 .search-box-compact__radius, .component-styling-wrapper-32284 .search-box-compact__spinner, .component-styling-wrapper-32284 .search-jobs__misc-button, .component-styling-wrapper-32284 .search-jobs__misc .search-jobs__chromeless-select .oj-select-arrow { }</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.site-editor-cookie-consent-wrapper .app-dialog__main.cookie-consent-widget-container, .cookie-consent-site.cookie-consent-modal, .app-dialog__main.cookie-consent-widget-container .cookie-consent__pulse, .cookie-consent-modal .cookie-consent__pulse { border-radius: 4px; }
+
+.site-editor-cookie-consent-wrapper .app-dialog__main.cookie-consent-widget-container, .cookie-consent-site.cookie-consent-modal { border-width: 1px; border-style: solid; }
+
+@media (min-width: 768px) {
+  .site-editor-cookie-consent-wrapper .app-dialog__main.cookie-consent-widget-container, .cookie-consent-site.cookie-consent-modal { max-width: 380px; }
+}
+
+@media (min-width: 768px) {
+  .site-editor-cookie-consent-wrapper .app-dialog__main.cookie-consent-widget-container, .cookie-consent-site.cookie-consent-modal { padding-left: 21px; padding-right: 21px; }
+}
+
+@media (min-width: 768px) {
+  .site-editor-cookie-consent-wrapper .app-dialog__main.cookie-consent-widget-container, .cookie-consent-site.cookie-consent-modal { padding-top: 21px; padding-bottom: 21px; }
+}</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.component-styling-wrapper-11575.cookie-consent-widgets .cookie-consent__message { font-family: "Autozone Body", Arial, sans-serif; }</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+</style>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, minimum-scale=1">
+        
+                
+                        
+                   
+            <meta property="og:title" content="AutoZone Careers">
+            <meta property="og:description" content="JOIN OUR TEAM">
+                            <meta property="og:image" content="https://egud.fa.us2.oraclecloud.com:443/hcmUI/CandidateExperience/images?imageId=BD4D2BEE-8AF0-47D1-86C6-E6F0B7FB4BB3">
+                        
+            
+                        <meta property="og:type" content="website">
+                        
+            <meta property="og:site_name" content="AutoZone">
+            <meta name="twitter:card" content="summary_large_image">
+            <title>AutoZone Careers</title>
+        
+	
+                              <base href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1" data-apibaseurl="https://egud.fa.us2.oraclecloud.com:443" data-fahosturl="" data-vanitybaseurl="" data-sitenumber="CX_1" data-shorturl="{&quot;challengeFlag&quot;:null,&quot;url&quot;:null}" data-customjs-src="/hcmUI/CandExpStatic/js/ce-custom.js?themeNumber=9&amp;themeVersion=1&amp;brandVersion=11">
+                          
+        <link rel="icon" sizes="16x16" type="image/png" title="favicon" href="https://egud.fa.us2.oraclecloud.com/hcmRestApi/CandidateExperience/siteFavicon/favicon-16x16.png?siteNumber=CX_1&amp;size=16x16">
+        <link rel="icon" sizes="144x144" type="image/png" title="favicon" href="https://egud.fa.us2.oraclecloud.com/hcmRestApi/CandidateExperience/siteFavicon/favicon-144x144.png?siteNumber=CX_1&amp;size=144x144">
+        <link rel="icon" sizes="152x152" type="image/png" title="favicon" href="https://egud.fa.us2.oraclecloud.com/hcmRestApi/CandidateExperience/siteFavicon/favicon-152x152.png?siteNumber=CX_1&amp;size=152x152">
+
+        <link rel="apple-touch-icon" sizes="152x152" type="image/png" title="favicon" href="https://egud.fa.us2.oraclecloud.com/hcmRestApi/CandidateExperience/siteFavicon/favicon-152x152.png?siteNumber=CX_1&amp;size=152x152">
+
+        
+        <link rel="stylesheet" href="https://static.oracle.com/cdn/jet/19.0.0/default/css/redwood/oj-redwood-min.css">
+        <link rel="stylesheet" href="https://static.oracle.com/cdn/fa/oj-hcm-ce/2604.18.261410337/css/main-minimal.css">
+         
+        <link rel="stylesheet" title="cx-custom" data-custom-css="" href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandExpStatic/css/ce-custom.css?themeNumber=9&amp;lang=en&amp;themeVersion=1&amp;brandVersion=11&amp;brandTlVersion=6&amp;siteNumber=CX_1">
+
+        <script>
+                            const HASHBANG_REGEX = /\/?#\/(job|requisitions|jobs)\//;
+                if (window.location.href.match(HASHBANG_REGEX)) {	
+                        window.location.replace(window.location.href.replace(HASHBANG_REGEX, '/$1/'));
+                }
+                    </script>
+        <script src="https://static.oracle.com/cdn/fa/oj-hcm-ce/2604.18.261410337/js/main-minimal.js" defer=""></script>
+        	<script id="custom-js" src="https://egud.fa.us2.oraclecloud.com/hcmUI/CandExpStatic/js/ce-custom.js?themeNumber=9&amp;themeVersion=1&amp;brandVersion=11" defer="" data-custom-js=""></script>      
+                
+        <meta class="oj-mq-sm-only"><meta class="oj-mq-md-only"><meta class="oj-mq-lg-only"><meta class="oj-mq-sm-up"><meta class="oj-mq-md-up"><meta class="oj-mq-lg-up"><meta class="oj-mq-md-down"><meta class="oj-mq-lg-down"></head>
+    <body class="app-loading font-family-primary app-loaded" data-bind="loadingIndicator, a11y.toggleFocusIndicator, bodyScrolledDown, currentRoute" data-route="home-page" data-zoomrange="ZOOM-LTE-100">
+        <div class="preload" aria-hidden="true">
+            <div class="preload__icons"></div>
+            <div class="preload__primary-font"></div>
+            <div class="preload__secondary-font"></div>
+        </div>
+        <div class="app-loading-spinner"></div>
+        <div class="app" data-bind="view: 'layout'"><!--ko [ minimal ]--><!-- ko if: isBrowserUnsupported --><!-- /ko -->
+
+<!-- ko if: !isBrowserUnsupported -->
+<skip-navigation-link><a class="skip-navigation-link" href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1#main" data-bind="a11y.skipTo: skipTo, i18n: 'general.a11y.skip-navigation-link', i18nAttr: {'aria-label': skipNavLinkAriaLabel}" aria-label="Skip to main content.">Skip to main content.</a>
+
+<!-- ko if: showAiAssistantSkipLink  -->
+<ai-assistant-skip-navigation-link><!-- ko if: isAiAssistantEnabled --><!-- /ko -->
+</ai-assistant-skip-navigation-link>
+<!-- /ko -->
+</skip-navigation-link>
+
+<div class="app__viewport">
+    <div class="app__wrapper">
+        <div class="app__main">
+            <!-- ko component: 'custom-header' --><!-- ko if: enabled --><!-- /ko -->
+<!-- /ko -->
+
+            <div class="app__top-wrapper">
+                <div class="app__top">
+                    <!-- ko component: 'app-header' --><!-- ko if: isHeaderLoaded() -->
+<header>
+    <div class="app-header component-styling-wrapper-default" data-bind="class: uniqueWrapperClass">
+        
+        <!-- ko if: isHorizontalMenu --><!-- /ko -->
+
+        <!-- ko ifnot: isHorizontalMenu -->
+        <app-header-hamburger params="
+            globalHeaderSettings:globalHeaderSettings,
+            logoImages:logoImages,
+            headerId:headerId,
+            uniqueWrapperClass: uniqueWrapperClass
+        "><div class="app-header-hamburger">
+    <company-logo params="isLogoHidden: isLogoHidden, logoImages:logoImages, headerId:headerId"><!-- ko ifnot: isLogoHidden -->
+<!-- ko if: logoMobile -->
+<a class="app-header__logo app-header__logo--mobile" data-bind="route: 'home-page',
+    i18nAttr: { title: 'general.a11y.go-to-home-page', 'aria-label': 'general.a11y.go-to-home-page' }" href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/" title="Go to Home Page" aria-label="Go to Home Page">
+    <img class="app-header__logo-image--mobile" data-bind="attr: {'src': logoMobile}, event: { load: adjustLogoSize }" alt="" src="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/images?imageId=BD4D2BEE-8AF0-47D1-86C6-E6F0B7FB4BB3">
+</a>
+<!-- /ko -->
+
+<!-- ko if: logoDesktop -->
+<a class="app-header__logo app-header__logo--desktop" data-bind="route: 'home-page',
+    i18nAttr: { title: 'general.a11y.go-to-home-page', 'aria-label': 'general.a11y.go-to-home-page' }" href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/" title="Go to Home Page" aria-label="Go to Home Page">
+    <img class="app-header__logo-image" data-bind="attr: {'src': logoDesktop}, event: { load: adjustLogoSize }" alt="" src="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/images?imageId=BD4D2BEE-8AF0-47D1-86C6-E6F0B7FB4BB3">
+</a>
+<!-- /ko -->
+<!-- /ko -->
+</company-logo>
+
+    <div class="app-header__actions">
+        <sitemap-link><a data-bind="attr: { href: url }" class="sitemap-link" href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/sitemaps/sitemapIndex">sitemap</a>
+</sitemap-link>
+        <favourite-jobs><!-- ko if: hasFavourites --><!-- /ko -->
+</favourite-jobs>
+        <user-menu class="user-menu" params="profileText: profileText, isProfileButtonHidden: isProfileButtonHidden"><div class="header-menu user-menu__container" data-bind="css: { 'header-menu--active': isOpened } ,
+    clickOutside: { action: closeMenu, when: isOpened},
+    a11y.keysHandler: {keys: 'esc', handler: closeMenu},
+    a11y.setInitialFocus: { isVisible: isOpened, resetFocus: '.user-menu__header'}" tabindex="-1">
+    <!-- ko if: !isProfileButtonHidden() || userMenuButtonText() -->
+    <a class="user-menu__header focused-tooltip" id="user-menu-header" data-bind="click: menuClicked, css: {'theme-color-1': isOpened},
+            attr: {
+                'href': url,
+                'title': getUserMenuButtonLabel,
+                'aria-label': getUserMenuButtonLabel,
+                'aria-expanded': showUserData() ? (isOpened() ? 'true' : 'false') : 'undefined'
+            }" href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/my-profile/sign-in" title="Manage profile" aria-label="Manage profile" aria-expanded="undefined">
+        <!-- ko ifnot: showUserData -->
+        <!-- ko ifnot: isProfileButtonHidden -->
+        <span class="user-menu__icon"></span>
+        <!-- /ko -->
+
+        <!-- ko if: userMenuButtonText --><!-- /ko -->
+        <!-- /ko -->
+
+        <!-- ko if: showUserData --><!-- /ko -->
+    </a>
+    <!-- /ko -->
+
+    <div aria-live="polite" class="header-menu__dropdown user-menu__dropdown" data-bind="a11y.trapFocus">
+        <p class="user-menu__title-item" data-bind="text: model.title"></p>
+        <p dir="ltr" class="user-menu__subtitle-item text-color-secondary" data-bind="attr:{title: model.subtitle}, text: model.subtitle"></p>
+        <hr class="user-menu__separator">
+        <ul>
+            <li class="user-menu__action-item">
+                <button data-bind="click: goToCss,
+                    i18n: 'candidate-self-service.user-menu.my-profile'">Profile</button>
+            </li>
+            <li class="user-menu__action-item">
+                <button data-bind="i18n: 'candidate-self-service.sign-out',
+                    click: signOut">Sign Out</button>
+            </li>
+        </ul>
+    </div>
+</div>
+</user-menu>
+        <!-- ko if: isAppMenuNotEmpty() -->
+        <app-menu-toggle class="app-menu-toggle" params="uniqueWrapperClass: uniqueWrapperClass"><button class="app-toggle-menu__container focused-tooltip" data-bind="
+        click: open,
+        boolAttr: {'aria-expanded': isVisible},
+        i18nAttr: { title: 'general.a11y.open-menu', 'aria-label': 'general.a11y.open-menu' }
+    " aria-expanded="false" title="Open menu" aria-label="Open menu">
+    <span class="app-toggle-menu__strap-group">
+        <em class="app-toggle-menu__strap"></em>
+        <em class="app-toggle-menu__strap"></em>
+        <em class="app-toggle-menu__strap"></em>
+    </span>
+</button>
+</app-menu-toggle>
+        <!-- /ko -->
+    </div>
+</div>
+</app-header-hamburger>
+        <!-- /ko -->
+    </div>
+</header>
+<!-- /ko -->
+<!-- /ko -->
+                    <div class="app__top-background-wrapper">
+                        <div class="app__top-background"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="app__content-wrapper">
+                <main id="main" class="app__content" data-bind="view: 'main'" tabindex="-1"><!--ko [ splash-page ]--><!-- ko ifnot: splashPage --><!-- /ko -->
+<!-- ko if: splashPage -->
+<div class="home-page home-page--animated" data-bind="css: { 'home-page--default': !splashPage() }">
+    <cc-video-background params="videoUrl: splashPage().params.videoUrl, videoWrapper: false, isFullscreen: true"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+    <!-- ko component: { name: 'cc-page', params: {page: splashPage(), classModifier: 'splash-page'}} --><div class="cc-page cc-page--splash-page" data-bind="
+        css: {'cc-page--boxed': isPageDisplayBoxed},
+        class: classWithModifier
+    ">
+    <div class="cc-page__content">
+        <!-- ko foreach: { data: page.sections, as: 'section' } -->
+        <!-- ko component: {
+            name: 'cc-section',
+            params: {
+                section: section,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-section cc-section--width-null" data-bind="css: cssClass, style: { backgroundColor: params.backgroundColor, backgroundImage: backgroundSrc }" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: section.params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-section__content">
+        <!-- ko foreach: { data: components, as: 'component' } --><!-- /ko -->
+
+        <!-- ko foreach: { data: rows, as: 'row' } -->
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-space" data-bind="style: { height: height },css: params.cssClass, attr: { id: params.cssId }, customStyles: params" style="height: 50px;"></div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element-media cc-element-media--align-center null" data-bind="css: cssClass, attr: { id: params.cssId }, customStyles: params">
+    <!-- ko if: !!linkUrl() && !isAdminMode --><!-- /ko -->
+
+    <!-- ko if: !linkUrl() || isAdminMode -->
+    <!-- ko if: mobileSrc()?.length > 0 -->
+    <img class="media-element media-element--image media-element--mobile" data-bind="attr: {
+                src: mobileSrc,
+                alt: mobileAlt,
+                title: mobileAlt,
+                width: getDimension(params.mobileWidth),
+                height: params.mobileHeight,
+             }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=1E5723CB-C807-4E91-A895-AC256FB93301" width="">
+    <!-- /ko -->
+
+    <!-- ko if: params.desktopSrc()?.length > 0 -->
+    <img class="media-element media-element--image" data-bind="attr: {
+                src: params.desktopSrc,
+                alt: desktopAlt,
+                title: desktopAlt,
+                width: getDimension(params.desktopWidth),
+                height: params.desktopHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=1E5723CB-C807-4E91-A895-AC256FB93301" width="2560">
+    <!-- /ko -->
+    <!-- /ko -->
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-space" data-bind="style: { height: height },css: params.cssClass, attr: { id: params.cssId }, customStyles: params" style="height: 50px;"></div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-3" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--1-4" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgb(255, 255, 255);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--1-2" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgb(233, 233, 234);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--1-4" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-section',
+            params: {
+                section: section,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-section cc-section--width-null" data-bind="css: cssClass, style: { backgroundColor: params.backgroundColor, backgroundImage: backgroundSrc }" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: section.params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-section__content">
+        <!-- ko foreach: { data: components, as: 'component' } --><!-- /ko -->
+
+        <!-- ko foreach: { data: rows, as: 'row' } -->
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div data-bind="class: uniqueWrapperClass" class="component-styling-wrapper-32284">
+    <!-- ko if: customizationCompactParams && !isCustomSearch() -->
+    <!-- ko component: { name: 'search-box-compact-customization', params: { values: customizationCompactParams, uniqueWrapperSelector: uniqueWrapperClass } } -->
+<!-- /ko -->
+    <!-- /ko -->
+
+    <!-- ko if: isCustomSearch() --><!-- /ko -->
+
+    <div role="search" class="search-box-compact font-family-secondary" data-bind="class: customizationParams.commonParams ? customizationParams.commonParams.cssClass : '',
+        css: { 'search-box-compact--admin-mode': isAdminMode },
+        attr: { id: customizationParams.commonParams ? customizationParams.commonParams.cssId : '' },
+        customStyles: customizationParams.commonParams,
+        sticky: {
+            isEnabled: isStickySearchBarEnabled,
+            isReady: isReady,
+            className: 'search-box-compact--sticky'
+        }
+    " id="">
+        <div class="search-box-compact__form text-color-secondary">
+            <div class="search-box-compact__fieldset search-box-compact__fieldset--keyword" id="keyword-container">
+                <div class="search-box-compact__label text-color-secondary">
+                    <span data-bind="i18n: searchKeywordLabel">Find</span>
+                </div>
+                <div class="search-box-compact__field">
+                    <label for="keyword" class="oj-helper-hidden-accessible" data-bind="i18n: 'search.keyword-placeholder'">Job title, skill, keyword</label>
+                    <!-- ko component: { name: 'search-box-keyword',
+                    params: {
+                        value: keyword,
+                        action: performSearch } } --><input id="keyword" class="search-box-compact__input text-color-primary ui-autocomplete-input" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-owns="suggestions-keywords" aria-controls="suggestions-keywords" data-control-id="suggestions-keywords" data-qa="searchKeywordsInput" data-bind="textInput: keyword,
+        attr: {'aria-label': searchKeywordAriaLabel },
+        i18nAttr: { placeholder: searchKeywordPlaceHolder },
+        autocomplete: { model: keyword, source: fetch,
+        appendTo: '#keyword-container', id: 'suggestions-keywords',
+        select: (event, suggestion) => onSelectSuggestion(event, suggestion) },
+        a11y.keysHandler: { keys: 'enter', handler: action },
+        hasFocus: hasFocus" aria-label="Find jobs and events" placeholder="Job title, skill, keyword, event" autocomplete="off" aria-expanded="false">
+
+<!-- ko if: isWorking --><!-- /ko -->
+<!-- /ko -->
+                </div>
+            <ul id="suggestions-keywords" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete text-color-primary background-color-dropdown ui-front" role="listbox" style="display: none;"></ul></div>
+            <div class="search-box-compact__fieldset-spacer"></div>
+            <div class="search-box-compact__fieldset search-box-compact__fieldset--location" id="location-container">
+                <mode-menu><div class="search-box-compact__label text-color-secondary">
+    <!-- ko if: showSearchModeMenu -->
+    <button class="search-box-compact__menu-button" data-bind="click: toggleModeMenu, boolAttr: {'aria-expanded': isModeMenuVisible}, i18nAttr: {'aria-label' : {key: 'search.mode-menu.selected-mode', tokens: { search_mode:toggleButtonText}}}" aria-expanded="false" aria-label="You've selected the Near Location search mode.">
+        <span data-bind="text: toggleButtonText">Near Location</span>
+        <em class="search-box-compact__menu-icon icon-triangle-down"></em>
+    </button>
+    <!-- /ko -->
+    <!-- ko ifnot: showSearchModeMenu --><!-- /ko -->
+</div>
+
+<div class="search-box-compact__menu" data-bind="
+         css: { 'search-box-compact__menu--active': isModeMenuVisible },
+         a11y.trapFocus,
+         a11y.setInitialFocus: { isVisible: isModeMenuVisible, delay: 400 },
+         a11y.keysHandler: {keys: 'esc', handler: hideModeMenu},
+         clickOutside: { action: hideModeMenu, when: isModeMenuVisible, excludeElement: '.search-box-compact__menu-button' }" tabindex="-1">
+    <ul class="search-box-compact__menu-list">
+        <!-- ko ifnot: isSearchByRecruitingLocationsModeEnabled -->
+        <li class="search-box-compact__menu-item">
+            <button data-bind="
+                    click: handleModeSet.bind(this, MODES.LOCATION),
+                    attr: {'aria-current': mode() === 'location' ? 'true' : 'false'},
+                    i18nAttr: {'aria-label' : { key: 'search.mode-menu.search-context-label', tokens: {'VALUE': i18n('search.mode-menu.location')}}},
+                    i18n: 'search.mode-menu.location'" aria-current="true" aria-label="Search by Location">Location</button>
+        </li>
+        <!-- /ko -->
+        <!-- ko if: isSearchByRecruitingLocationsModeEnabled --><!-- /ko -->
+        <!-- ko if: isGeolocationEnabled -->
+        <li class="search-box-compact__menu-item">
+            <button data-bind="
+                    click: handleModeSet.bind(this, MODES.GEO_LOCATION),
+                    attr: {'aria-current': mode() === 'geolocation' ? 'true' : 'false'},
+                    i18nAttr: {'aria-label' : { key: 'search.mode-menu.search-context-label', tokens: {'VALUE': i18n('search.mode-menu.geolocation')}}},
+                    i18n: 'search.mode-menu.geolocation'" aria-current="false" aria-label="Search by My Location">My Location</button>
+        </li>
+        <!-- /ko -->
+        <!-- ko if: isZipcodeEnabled -->
+        <li class="search-box-compact__menu-item">
+            <button data-bind="
+                    click: handleModeSet.bind(this, MODES.ZIPCODE),
+                    attr: {'aria-current': mode() === 'zipcode' ? 'true' : 'false'},
+                    i18nAttr: {'aria-label' : { key: 'search.mode-menu.search-context-label', tokens: {'VALUE': i18n('search.mode-menu.zipcode')}}},
+                    i18n: 'search.mode-menu.zipcode'" aria-current="false" aria-label="Search by Postal Code">Postal Code</button>
+        </li>
+        <!-- /ko -->
+    </ul>
+</div>
+</mode-menu>
+                <div class="search-box-compact__field">
+                    <label for="location" class="oj-helper-hidden-accessible" data-bind="i18n: locationInputLabel">City, state, country</label>
+                    <!-- ko if: mode() === MODES.LOCATION -->
+                    <!-- ko component: { name: 'search-box-location',
+                        params: {
+                            value: location,
+                            action: performSearch,
+                            radiusValue: radiusValue,
+                            radiusUnit: radiusUnit } } --><input id="location" class="search-box-compact__input text-color-primary ui-autocomplete-input" type="text" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-owns="suggestions-locations" aria-controls="suggestions-locations" data-control-id="suggestions-locations" data-qa="searchLocationInput" data-bind="textInput: location,
+        disable: isDisabled,
+        hasFocus: hasFocus,
+        i18nAttr: { placeholder: 'location-bar.dropdown.location-input-label' },
+        autocomplete: { model: location, source: fetch, select: onSelect, appendTo: '#location-container',
+            response: onResponse, id: 'suggestions-locations'},
+        a11y.keysHandler: { keys: 'enter', handler: onPressEnter },
+        locationSearchFocus: { location: value }" placeholder="City, state, country" autocomplete="off" aria-expanded="false">
+
+<!-- ko if: isWorking --><!-- /ko -->
+
+<!-- ko if: showRadiusDisplay --><!-- /ko -->
+
+<!-- ko component: { name: 'search-box-popup', params: {
+    message: 'location-bar.dropdown.no-results',
+    value: showNoResultsHint,
+    focus: hasFocus,
+    restoreValue: true,
+    autoDismiss: false } } --><!-- ko if: visible --><!-- /ko -->
+<!-- /ko -->
+<!-- /ko -->
+                    <!-- /ko -->
+
+                    <!-- ko if: mode() === MODES.RECRUITING_LOCATION--><!-- /ko -->
+
+                    <!-- ko if: isGeolocationEnabled && mode() === MODES.GEO_LOCATION --><!-- /ko -->
+
+                    <!-- ko if: isZipcodeEnabled && mode() === MODES.ZIPCODE --><!-- /ko -->
+                </div>
+            <ul id="suggestions-locations" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete text-color-primary background-color-dropdown ui-front" role="listbox" style="display: none;"></ul></div>
+        </div>
+
+        <button class="search-box-compact__button text-color-secondary focused-tooltip" type="button" data-qa="searchStartBtn" data-bind="
+            click: performSearch,
+            i18nAttr: { title: searchTooltipLabel, 'aria-label': searchTooltipLabel }
+        " title="Search for Jobs and Events" aria-label="Search for Jobs and Events">
+            <em class="icon-search-thin theme-color-1"></em>
+
+            <span class="search-box-compact__button-background text-color-primary"></span>
+            <span class="search-box-compact__button-border text-color-secondary"></span>
+        </button>
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><ul class="categories-list font-family-secondary" data-bind="i18nAttr: {'aria-label': 'facets.facet-list-context-label'}" aria-label="Search categories">
+    <!-- ko if: loaded -->
+
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="click: viewAll, attr: {title: allJobsTitle, 'aria-label': allJobsTitle, href: getViewAllJobsUrl()}" data-qa="searchCategoriesShowAllJobsLink" title="All Jobs 9400" aria-label="All Jobs 9400" href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs">
+            <span class="categories-list__title" data-bind="i18n: 'search.all-jobs'">All Jobs</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: totalJobsCount">9400</span>)
+            </span>
+        </a>
+    </li>
+
+    <!-- ko if: isPostingDatesFacetEnabled -->
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="click: filterNewest, attr: {title: filterNewestTitle, 'aria-label': filterNewestTitle, href: getNewJobsUrl()}" title="New Jobs 7534" aria-label="New Jobs 7534" href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs?lastSelectedFacet=POSTING_DATES&amp;selectedPostingDatesFacet=30">
+            <span class="categories-list__title" data-bind="i18n: 'search.new-jobs'">New Jobs</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: newestJobsCount">7534</span>)
+            </span>
+        </a>
+    </li>
+    <!-- /ko -->
+
+    <!-- ko if: isCategoriesFacetEnabled -->
+
+    <!-- ko foreach: { data: primaryCategories, as: 'category' } -->
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="
+                click: $parent.filterByCategory,
+                attr: { title: category.text + ' ' + category.totalCount,
+                    'data-filter-name': category.text,
+                    'aria-label': category.text + ' ' + category.totalCount,
+                    href: $parent.getCategoryJobsUrl(category)
+                }
+            " title="Stores 9169" data-filter-name="Stores" aria-label="Stores 9169" href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000001250514">
+            <span class="categories-list__title" data-bind="text: category.text">Stores</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">9169</span>)
+            </span>
+        </a>
+    </li>
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="
+                click: $parent.filterByCategory,
+                attr: { title: category.text + ' ' + category.totalCount,
+                    'data-filter-name': category.text,
+                    'aria-label': category.text + ' ' + category.totalCount,
+                    href: $parent.getCategoryJobsUrl(category)
+                }
+            " title="Corporate 91" data-filter-name="Corporate" aria-label="Corporate 91" href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000001250499">
+            <span class="categories-list__title">Store Support Center</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">91</span>)
+            </span>
+        </a>
+    </li>
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="
+                click: $parent.filterByCategory,
+                attr: { title: category.text + ' ' + category.totalCount,
+                    'data-filter-name': category.text,
+                    'aria-label': category.text + ' ' + category.totalCount,
+                    href: $parent.getCategoryJobsUrl(category)
+                }
+            " title="Distribution Center - Warehouse 77" data-filter-name="Distribution Center - Warehouse" aria-label="Distribution Center - Warehouse 77" href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000001250505">
+            <span class="categories-list__title" data-bind="text: category.text">Distribution Center - Warehouse</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">77</span>)
+            </span>
+        </a>
+    </li>
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="
+                click: $parent.filterByCategory,
+                attr: { title: category.text + ' ' + category.totalCount,
+                    'data-filter-name': category.text,
+                    'aria-label': category.text + ' ' + category.totalCount,
+                    href: $parent.getCategoryJobsUrl(category)
+                }
+            " title="DataZone 31" data-filter-name="DataZone" aria-label="DataZone 31" href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000001250502">
+            <span class="categories-list__title">BTSSC</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">31</span>)
+            </span>
+        </a>
+    </li>
+    
+    <li class="categories-list__group">
+        <a class="categories-list__button" data-bind="
+                click: $parent.filterByCategory,
+                attr: { title: category.text + ' ' + category.totalCount,
+                    'data-filter-name': category.text,
+                    'aria-label': category.text + ' ' + category.totalCount,
+                    href: $parent.getCategoryJobsUrl(category)
+                }
+            " title="Field Mgmt &amp; Support 19" data-filter-name="Field Mgmt &amp; Support" aria-label="Field Mgmt &amp; Support 19" href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs?lastSelectedFacet=CATEGORIES&amp;selectedCategoriesFacet=300000001250508">
+            <span class="categories-list__title" data-bind="text: category.text">Field Mgmt &amp; Support</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: category.totalCount">19</span>)
+            </span>
+        </a>
+    </li>
+    <!-- /ko -->
+
+    <!-- ko if: isExpandButtonVisible -->
+    <li class="categories-list__expand">
+        <button type="button" class="categories-list__expand-button text-color-secondary focused-tooltip-left" data-bind="
+                            i18nAttr: { title: 'facets.show-all-categories-label',
+                            'aria-label': 'facets.show-all-categories-label'},
+                            click: expand
+                            " title="Show all categories" aria-label="Show all categories"></button>
+    </li>
+    <!-- /ko -->
+
+    <!-- ko if: expanded --><!-- /ko -->
+
+    <!-- /ko -->
+
+    <!-- ko if: areEventsEnabled && eventsLoaded() -->
+    <li class="categories-list__group categories-list__events">
+        <a class="categories-list__button" data-bind="click: viewAllEvents, attr: {title: viewAllEventsTitle, 'aria-label': viewAllEventsTitle, href: getViewAllEventsUrl()}" data-qa="searchCategoriesShowAllEventsLink" title="All Events 57" aria-label="All Events 57" href="https://egud.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/events">
+            <span class="categories-list__title" data-bind="i18n: 'search.all-events'">All Events</span>
+            <span class="categories-list__counter text-color-secondary">
+                (<span data-bind="text: totalEventsCount">57</span>)
+            </span>
+        </a>
+    </li>
+    <!-- /ko -->
+
+    <!-- /ko -->
+</ul>
+<!-- /ko -->
+        
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element--rich-text cc-headline" data-bind="html: content, css: params.cssClass, attr: { id: params.cssId }, customStyles: params"><h1 style="text-align:center;"><span style="color:#202124;font-family:'Autozone Condensed';">Career Areas</span></h1></div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-6" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element-media cc-element-media--align-center null" data-bind="css: cssClass, attr: { id: params.cssId }, customStyles: params">
+    <!-- ko if: !!linkUrl() && !isAdminMode -->
+    <a data-bind="attr: {href: linkUrl, target: targetAttr}, click: imageClickAction" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/5001">
+        <img class="media-element media-element--image media-element--mobile" data-bind="attr: {
+                src: mobileSrc,
+                alt: mobileAlt,
+                title: mobileAlt,
+                width: getDimension(params.mobileWidth),
+                height: params.mobileHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=1998BFCC-8C51-419C-A8FB-25D6EE3CA7F6" width="">
+
+        <img class="media-element media-element--image" data-bind="attr: {
+                src: params.desktopSrc,
+                alt: desktopAlt,
+                title: desktopAlt,
+                width: getDimension(params.desktopWidth),
+                height: params.desktopHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=1998BFCC-8C51-419C-A8FB-25D6EE3CA7F6" width="350">
+    </a>
+    <!-- /ko -->
+
+    <!-- ko if: !linkUrl() || isAdminMode --><!-- /ko -->
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element-media cc-element-media--align-center null" data-bind="css: cssClass, attr: { id: params.cssId }, customStyles: params">
+    <!-- ko if: !!linkUrl() && !isAdminMode -->
+    <a data-bind="attr: {href: linkUrl, target: targetAttr}, click: imageClickAction" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/5002">
+        <img class="media-element media-element--image media-element--mobile" data-bind="attr: {
+                src: mobileSrc,
+                alt: mobileAlt,
+                title: mobileAlt,
+                width: getDimension(params.mobileWidth),
+                height: params.mobileHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=78753D84-3590-4661-9CC7-01E802CCE61D" width="">
+
+        <img class="media-element media-element--image" data-bind="attr: {
+                src: params.desktopSrc,
+                alt: desktopAlt,
+                title: desktopAlt,
+                width: getDimension(params.desktopWidth),
+                height: params.desktopHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=78753D84-3590-4661-9CC7-01E802CCE61D" width="350">
+    </a>
+    <!-- /ko -->
+
+    <!-- ko if: !linkUrl() || isAdminMode --><!-- /ko -->
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element-media cc-element-media--align-center null" data-bind="css: cssClass, attr: { id: params.cssId }, customStyles: params">
+    <!-- ko if: !!linkUrl() && !isAdminMode -->
+    <a data-bind="attr: {href: linkUrl, target: targetAttr}, click: imageClickAction" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/7001">
+        <img class="media-element media-element--image media-element--mobile" data-bind="attr: {
+                src: mobileSrc,
+                alt: mobileAlt,
+                title: mobileAlt,
+                width: getDimension(params.mobileWidth),
+                height: params.mobileHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=B9409907-96A6-46CC-8ACD-4DCEF1901D63" width="">
+
+        <img class="media-element media-element--image" data-bind="attr: {
+                src: params.desktopSrc,
+                alt: desktopAlt,
+                title: desktopAlt,
+                width: getDimension(params.desktopWidth),
+                height: params.desktopHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=B9409907-96A6-46CC-8ACD-4DCEF1901D63" width="350">
+    </a>
+    <!-- /ko -->
+
+    <!-- ko if: !linkUrl() || isAdminMode --><!-- /ko -->
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element-media cc-element-media--align-center null" data-bind="css: cssClass, attr: { id: params.cssId }, customStyles: params">
+    <!-- ko if: !!linkUrl() && !isAdminMode -->
+    <a data-bind="attr: {href: linkUrl, target: targetAttr}, click: imageClickAction" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/6001">
+        <img class="media-element media-element--image media-element--mobile" data-bind="attr: {
+                src: mobileSrc,
+                alt: mobileAlt,
+                title: mobileAlt,
+                width: getDimension(params.mobileWidth),
+                height: params.mobileHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=F2B8CFB4-E023-48A5-9DAD-E9AC592DD631" width="">
+
+        <img class="media-element media-element--image" data-bind="attr: {
+                src: params.desktopSrc,
+                alt: desktopAlt,
+                title: desktopAlt,
+                width: getDimension(params.desktopWidth),
+                height: params.desktopHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=F2B8CFB4-E023-48A5-9DAD-E9AC592DD631" width="350">
+    </a>
+    <!-- /ko -->
+
+    <!-- ko if: !linkUrl() || isAdminMode --><!-- /ko -->
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-space" data-bind="style: { height: height },css: params.cssClass, attr: { id: params.cssId }, customStyles: params" style="height: 30px;"></div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-6" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element-media cc-element-media--align-center null" data-bind="css: cssClass, attr: { id: params.cssId }, customStyles: params">
+    <!-- ko if: !!linkUrl() && !isAdminMode -->
+    <a data-bind="attr: {href: linkUrl, target: targetAttr}, click: imageClickAction" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/11029">
+        <img class="media-element media-element--image media-element--mobile" data-bind="attr: {
+                src: mobileSrc,
+                alt: mobileAlt,
+                title: mobileAlt,
+                width: getDimension(params.mobileWidth),
+                height: params.mobileHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=140B5B1A-52C9-424B-9D75-DE52BADC554C" width="">
+
+        <img class="media-element media-element--image" data-bind="attr: {
+                src: params.desktopSrc,
+                alt: desktopAlt,
+                title: desktopAlt,
+                width: getDimension(params.desktopWidth),
+                height: params.desktopHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=140B5B1A-52C9-424B-9D75-DE52BADC554C" width="350">
+    </a>
+    <!-- /ko -->
+
+    <!-- ko if: !linkUrl() || isAdminMode --><!-- /ko -->
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element-media cc-element-media--align-center null" data-bind="css: cssClass, attr: { id: params.cssId }, customStyles: params">
+    <!-- ko if: !!linkUrl() && !isAdminMode -->
+    <a data-bind="attr: {href: linkUrl, target: targetAttr}, click: imageClickAction" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/9009">
+        <img class="media-element media-element--image media-element--mobile" data-bind="attr: {
+                src: mobileSrc,
+                alt: mobileAlt,
+                title: mobileAlt,
+                width: getDimension(params.mobileWidth),
+                height: params.mobileHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=C91FD7F7-D824-48B9-B742-D3EBAF9EC4F9" width="">
+
+        <img class="media-element media-element--image" data-bind="attr: {
+                src: params.desktopSrc,
+                alt: desktopAlt,
+                title: desktopAlt,
+                width: getDimension(params.desktopWidth),
+                height: params.desktopHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=C91FD7F7-D824-48B9-B742-D3EBAF9EC4F9" width="350">
+    </a>
+    <!-- /ko -->
+
+    <!-- ko if: !linkUrl() || isAdminMode --><!-- /ko -->
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element-media cc-element-media--align-center null" data-bind="css: cssClass, attr: { id: params.cssId }, customStyles: params">
+    <!-- ko if: !!linkUrl() && !isAdminMode -->
+    <a data-bind="attr: {href: linkUrl, target: targetAttr}, click: imageClickAction" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/9010">
+        <img class="media-element media-element--image media-element--mobile" data-bind="attr: {
+                src: mobileSrc,
+                alt: mobileAlt,
+                title: mobileAlt,
+                width: getDimension(params.mobileWidth),
+                height: params.mobileHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=AA18A2D9-67FD-4E71-9408-D40EE1B37DB9" width="">
+
+        <img class="media-element media-element--image" data-bind="attr: {
+                src: params.desktopSrc,
+                alt: desktopAlt,
+                title: desktopAlt,
+                width: getDimension(params.desktopWidth),
+                height: params.desktopHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=AA18A2D9-67FD-4E71-9408-D40EE1B37DB9" width="350">
+    </a>
+    <!-- /ko -->
+
+    <!-- ko if: !linkUrl() || isAdminMode --><!-- /ko -->
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element-media cc-element-media--align-center null" data-bind="css: cssClass, attr: { id: params.cssId }, customStyles: params">
+    <!-- ko if: !!linkUrl() && !isAdminMode -->
+    <a data-bind="attr: {href: linkUrl, target: targetAttr}, click: imageClickAction" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/9011">
+        <img class="media-element media-element--image media-element--mobile" data-bind="attr: {
+                src: mobileSrc,
+                alt: mobileAlt,
+                title: mobileAlt,
+                width: getDimension(params.mobileWidth),
+                height: params.mobileHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=9E4F21D3-3588-44D6-8246-6F1925AA9953" width="">
+
+        <img class="media-element media-element--image" data-bind="attr: {
+                src: params.desktopSrc,
+                alt: desktopAlt,
+                title: desktopAlt,
+                width: getDimension(params.desktopWidth),
+                height: params.desktopHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=9E4F21D3-3588-44D6-8246-6F1925AA9953" width="350">
+    </a>
+    <!-- /ko -->
+
+    <!-- ko if: !linkUrl() || isAdminMode --><!-- /ko -->
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } --><!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-2" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--1-2" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-space" data-bind="style: { height: height },css: params.cssClass, attr: { id: params.cssId }, customStyles: params" style="height: 50px;"></div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element--rich-text basic-formatter cc-paragraph" data-bind="html: content, css: params.cssClass, attr: { id: params.cssId }, customStyles: params"><p class="ck-paragraph__alignment-center"><span style="color:#202124;font-family:'Autozone Body';font-size:16px;">As the leading retailer and distributor of automotive replacement parts and accessories in the Americas, we pride ourselves on our commitment to providing exceptional customer service. At AutoZone, we believe that our AutoZoners are our greatest asset, and we're dedicated to fostering a dynamic and supportive work environment where everyone can thrive.</span></p><p class="ck-paragraph__alignment-center"><span style="color:#202124;font-family:'Autozone Body';font-size:16px;">Whether you're looking for a role in our stores, distribution centers, or offices, you'll find a wide range of opportunities to grow your career with us. We offer competitive benefits, ongoing training, and a culture that values teamwork, innovation, and excellence.</span></p></div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--1-2" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(239, 7, 7, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-space" data-bind="style: { height: height },css: params.cssClass, attr: { id: params.cssId }, customStyles: params" style="height: 50px;"></div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element--rich-text basic-formatter cc-paragraph" data-bind="html: content, css: params.cssClass, attr: { id: params.cssId }, customStyles: params"><p class="ck-paragraph__alignment-center"><span style="font-family:'Autozone Body';font-size:16px;">Explore our current job openings and discover how you can join the AutoZone family. We look forward to helping you drive your career!</span></p></div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element--button" data-bind="css: params.cssClass, attr: { id: params.cssId }, customStyles: params">
+    <div class="cc-button__wrapper cc-button__wrapper--align-center" data-bind="css: buttonRootClass">
+        <!-- ko if: isAdminMode --><!-- /ko -->
+
+        <!-- ko ifnot: isAdminMode -->
+        <!-- ko if: isExternal -->
+        <a data-bind="text: content, css: buttonClass, style: { background: params.backgroundColor }, attr: { 'href': externalURL, 'target': targetAttr }, click: buttonClickAction" class="button button--primary" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/jobs">View All Jobs</a>
+        <!-- /ko -->
+
+        <!-- ko ifnot: isExternal --><!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-space" data-bind="style: { height: height },css: params.cssClass, attr: { id: params.cssId }, customStyles: params" style="height: 50px;"></div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element--rich-text cc-headline" data-bind="html: content, css: params.cssClass, attr: { id: params.cssId }, customStyles: params"><h1 style="text-align:center;"><span style="color:#202124;font-family:'Autozone Condensed';">Benefits</span></h1></div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-3" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--1-3" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element--rich-text cc-headline" data-bind="html: content, css: params.cssClass, attr: { id: params.cssId }, customStyles: params" id="competitive-benefits-title"><h3 style="text-align:center;">Competitive Benefits Package</h3></div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element--rich-text basic-formatter cc-paragraph" data-bind="html: content, css: params.cssClass, attr: { id: params.cssId }, customStyles: params"><ul><li><span style="line-height:1;"><span style="font-family:'Autozone Body';font-size:16px;">Medical</span></span></li><li><span style="line-height:1;"><span style="font-family:'Autozone Body';font-size:16px;">Dental</span></span></li><li><span style="line-height:1;"><span style="font-family:'Autozone Body';font-size:16px;">Vision</span></span></li><li><span style="line-height:1;"><span style="font-family:'Autozone Body';font-size:16px;">Prescription Drug Plans</span></span></li><li><span style="line-height:1;"><span style="font-family:'Autozone Body';font-size:16px;">Healthcare Savings &amp; Rewards</span></span></li></ul></div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--1-3" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element--rich-text cc-headline" data-bind="html: content, css: params.cssClass, attr: { id: params.cssId }, customStyles: params" id="insurance-title"><h3 style="text-align:center;">Supplemental Insurance Plans</h3></div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element--rich-text basic-formatter cc-paragraph" data-bind="html: content, css: params.cssClass, attr: { id: params.cssId }, customStyles: params"><ul><li><span style="font-family:'Autozone Body';font-size:16px;">Life Insurance</span></li><li><span style="font-family:'Autozone Body';font-size:16px;">Disability</span></li><li><span style="font-family:'Autozone Body';font-size:16px;">Voluntary Benefits</span></li><li><span style="font-family:'Autozone Body';font-size:16px;">Identity Theft Protection</span></li></ul></div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--1-3" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element--rich-text cc-headline" data-bind="html: content, css: params.cssClass, attr: { id: params.cssId }, customStyles: params" id="financial-title"><h3 style="text-align:center;"><span style="font-family:'Autozone Condensed';">Financial Wellness Programs</span></h3></div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element--rich-text basic-formatter cc-paragraph" data-bind="html: content, css: params.cssClass, attr: { id: params.cssId }, customStyles: params"><ul><li><span style="font-family:'Autozone Body';font-size:16px;">401(k)</span></li><li><span style="font-family:'Autozone Body';font-size:16px;">Employee Stock Purchase Plan</span></li><li><span style="font-family:'Autozone Body';font-size:16px;">Tuition Reimbursement</span></li><li><span style="font-family:'Autozone Body';font-size:16px;">AutoZoner Assistance Fund</span></li></ul></div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-space" data-bind="style: { height: height },css: params.cssClass, attr: { id: params.cssId }, customStyles: params" style="height: 50px;"></div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div class="cc-element cc-element-media cc-element-media--align-left null" data-bind="css: cssClass, attr: { id: params.cssId }, customStyles: params">
+    <!-- ko if: !!linkUrl() && !isAdminMode -->
+    <a data-bind="attr: {href: linkUrl, target: targetAttr}, click: imageClickAction" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/join-talent-community" target="_blank">
+        <img class="media-element media-element--image media-element--mobile" data-bind="attr: {
+                src: mobileSrc,
+                alt: mobileAlt,
+                title: mobileAlt,
+                width: getDimension(params.mobileWidth),
+                height: params.mobileHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=F9C906A3-AE43-47A5-A1A6-15498EF551E0" width="">
+
+        <img class="media-element media-element--image" data-bind="attr: {
+                src: params.desktopSrc,
+                alt: desktopAlt,
+                title: desktopAlt,
+                width: getDimension(params.desktopWidth),
+                height: params.desktopHeight,
+            }" src="https://careers.autozone.com/hcmUI/CandidateExperience/images?imageId=F9C906A3-AE43-47A5-A1A6-15498EF551E0" width="2560">
+    </a>
+    <!-- /ko -->
+
+    <!-- ko if: !linkUrl() || isAdminMode --><!-- /ko -->
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+</div>
+
+<div class="home-page__background">
+    <!-- ko if: parallaxEnabled --><!-- /ko -->
+    <!-- ko ifnot: parallaxEnabled -->
+    <div class="home-page__background-inner default-bg" data-bind="frontImageBackground"></div>
+    <!-- /ko -->
+</div>
+<!-- /ko -->
+<!--/ko--></main>
+            </div>
+
+            <!-- ko view: 'dialogs' --><!-- /ko -->
+        </div>
+
+        <!-- ko component: 'app-footer' --><!-- ko if: footerEnable -->
+
+<footer class="app-footer">
+    <!-- ko if: footerMobileLinks().length --><!-- /ko -->
+
+    <!-- ko if: footerLinks().length -->
+    <div class="app-footer__links app-footer__links--desktop">
+        <ul class="footer-links">
+            <!-- ko foreach: footerLinks -->
+            <li class="footer-links__item">
+                <!-- ko if: url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+
+                <!-- ko if: url !== $parent.getCookieConsentIdentifier() -->
+                <a class="footer-links__link" data-bind="text: text, attr: { href: url }" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/">Home</a>
+                <!-- /ko -->
+
+                <!-- ko if: sublinks.length --><!-- /ko -->
+            </li>
+            
+            <li class="footer-links__item">
+                <!-- ko if: url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+
+                <!-- ko if: url !== $parent.getCookieConsentIdentifier() -->
+                <a class="footer-links__link" data-bind="text: text, attr: { href: url }" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/11034/">About Us</a>
+                <!-- /ko -->
+
+                <!-- ko if: sublinks.length --><!-- /ko -->
+            </li>
+            
+            <li class="footer-links__item">
+                <!-- ko if: url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+
+                <!-- ko if: url !== $parent.getCookieConsentIdentifier() -->
+                <a class="footer-links__link" data-bind="text: text, attr: { href: url }" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/29002">Help</a>
+                <!-- /ko -->
+
+                <!-- ko if: sublinks.length --><!-- /ko -->
+            </li>
+            
+            <li class="footer-links__item">
+                <!-- ko if: url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+
+                <!-- ko if: url !== $parent.getCookieConsentIdentifier() -->
+                <a class="footer-links__link" data-bind="text: text, attr: { href: url }" href="https://www.autozone.com/cdn/docs/careers/Applicant-and-AutoZoner-Privacy-Policy-English.pdf">PRIVACY POLICY</a>
+                <!-- /ko -->
+
+                <!-- ko if: sublinks.length --><!-- /ko -->
+            </li>
+            <!-- /ko -->
+        </ul>
+    </div>
+    <!-- /ko -->
+</footer>
+
+<!-- /ko -->
+<!-- /ko -->
+
+        <!-- ko component: 'custom-footer' --><!-- ko if: customFooterEnable --><!-- /ko -->
+<!-- /ko -->
+    </div>
+    <ai-assistant-container><!-- ko if: isAiAssistantEnabled && isAiAssistantWidgetVisible() --><!-- /ko -->
+</ai-assistant-container>
+</div>
+
+<!-- ko view: 'candidate-verification' --><!-- /ko -->
+
+<!-- ko component: 'app-menu'--><div class="app-menu font-family-secondary" role="dialog" data-bind="
+                boolAttr: {'aria-hidden': !isVisible()},
+                a11y.keysHandler: {keys: 'esc', handler: close},
+                a11y.setInitialFocus: {isVisible: isVisible, delay: 600, focusOn: focusOn},
+                a11y.trapFocus,
+                i18nAttr: { 'aria-label': 'candidate-self-service.show-menu-options'}" aria-hidden="true" tabindex="-1" aria-label="Show menu options">
+    <div class="app-menu__wrapper background-color-dialog" data-bind="css: wrapperClassName">
+        <div class="app-menu__header">
+            <!-- ko if: showLanguageSelector -->
+            <language-select params="headerOption: 'humburger-menu'"><div class="language-select" data-bind="react: { component: 'cx-menu-button',
+            props: {
+                id: headerOption + '-language-select-menu-button',
+                buttonLabel: getSelectedLanguageLabel(),
+                options: getOptions(),
+                selectedItem: $component.activeLang(),
+                action: changeLanguage,
+                ariaLabel: langSelectorAriaLabel,
+                className: headerOption,
+                disabled: isDisabled
+            }}
+        "><div class="humburger-menu cx-menu-button__component-container "><button id="humburger-menu-language-select-menu-button" type="button" aria-label="Change Site Language American English" aria-haspopup="true" aria-controls="humburger-menu-language-select-menu-button-menu-list" aria-expanded="false" class="cx-menu-button "><span>American English</span><span class="cx-menu-button__arrow-icon icon-triangle-down"></span></button><div class="cx-menu-button-actions-container "><ul id="humburger-menu-language-select-menu-button-menu-list" tabindex="-1" role="menu" aria-labelledby="humburger-menu-language-select-menu-button" aria-activedescendant="humburger-menu-language-select-menu-button-menu--item--1" class="cx-menu-button__list"><li role="none" lang="es" class="cx-menu-button__item"><a id="humburger-menu-language-select-menu-button-menu--item-0" role="menuitem" class="cx-menu-button__link ">Español</a></li><li role="none" lang="pt-BR" class="cx-menu-button__item"><a id="humburger-menu-language-select-menu-button-menu--item-1" role="menuitem" class="cx-menu-button__link ">Português do Brasil</a></li><li role="none" lang="en" class="cx-menu-button__item"><a id="humburger-menu-language-select-menu-button-menu--item-2" role="menuitem" class="cx-menu-button__link cx-menu-button__link--selected">American English</a></li></ul></div></div></div>
+</language-select>
+            <!-- /ko -->
+            <span class="app-menu__language-filler"></span>
+            <button class="app-menu__close" data-bind="
+                    click: close,
+                    i18nAttr: { title: 'general.a11y.close-menu', 'aria-label': 'general.a11y.close-menu' }" title="Close menu" aria-label="Close menu"></button>
+        </div>
+        <div class="app-menu__content">
+            <ul class="app-menu__links" role="menu" data-bind="click: onLinkClicked.bind($component)">
+                <!-- ko foreach: {data: links, as: 'link'} -->
+                <li class="app-menu__item" role="menuitem">
+                    <!-- ko if: link.url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+                    <!-- ko if: link.url !== $parent.getCookieConsentIdentifier() -->
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/">Home</a>
+                    <!-- /ko -->
+
+                    <!-- ko if: link.sublinks.length --><!-- /ko -->
+                </li>
+                
+                <li class="app-menu__item" role="menuitem">
+                    <!-- ko if: link.url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+                    <!-- ko if: link.url !== $parent.getCookieConsentIdentifier() -->
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/5001">Stores</a>
+                    <!-- /ko -->
+
+                    <!-- ko if: link.sublinks.length --><!-- /ko -->
+                </li>
+                
+                <li class="app-menu__item" role="menuitem">
+                    <!-- ko if: link.url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+                    <!-- ko if: link.url !== $parent.getCookieConsentIdentifier() -->
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/5002">Distribution Centers</a>
+                    <!-- /ko -->
+
+                    <!-- ko if: link.sublinks.length --><!-- /ko -->
+                </li>
+                
+                <li class="app-menu__item" role="menuitem">
+                    <!-- ko if: link.url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+                    <!-- ko if: link.url !== $parent.getCookieConsentIdentifier() -->
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/7001">Field Management</a>
+                    <!-- /ko -->
+
+                    <!-- ko if: link.sublinks.length --><!-- /ko -->
+                </li>
+                
+                <li class="app-menu__item" role="menuitem">
+                    <!-- ko if: link.url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+                    <!-- ko if: link.url !== $parent.getCookieConsentIdentifier() -->
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/6001">Store Support Center</a>
+                    <!-- /ko -->
+
+                    <!-- ko if: link.sublinks.length --><!-- /ko -->
+                </li>
+                
+                <li class="app-menu__item" role="menuitem">
+                    <!-- ko if: link.url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+                    <!-- ko if: link.url !== $parent.getCookieConsentIdentifier() -->
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/11029">ALLDATA</a>
+                    <!-- /ko -->
+
+                    <!-- ko if: link.sublinks.length --><!-- /ko -->
+                </li>
+                
+                <li class="app-menu__item" role="menuitem">
+                    <!-- ko if: link.url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+                    <!-- ko if: link.url !== $parent.getCookieConsentIdentifier() -->
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/9009">Mexico</a>
+                    <!-- /ko -->
+
+                    <!-- ko if: link.sublinks.length --><!-- /ko -->
+                </li>
+                
+                <li class="app-menu__item" role="menuitem">
+                    <!-- ko if: link.url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+                    <!-- ko if: link.url !== $parent.getCookieConsentIdentifier() -->
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/9010">Brazil</a>
+                    <!-- /ko -->
+
+                    <!-- ko if: link.sublinks.length --><!-- /ko -->
+                </li>
+                
+                <li class="app-menu__item" role="menuitem">
+                    <!-- ko if: link.url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+                    <!-- ko if: link.url !== $parent.getCookieConsentIdentifier() -->
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/9011">India</a>
+                    <!-- /ko -->
+
+                    <!-- ko if: link.sublinks.length --><!-- /ko -->
+                </li>
+                
+                <li class="app-menu__item" role="menuitem">
+                    <!-- ko if: link.url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+                    <!-- ko if: link.url !== $parent.getCookieConsentIdentifier() -->
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/11027">Students</a>
+                    <!-- /ko -->
+
+                    <!-- ko if: link.sublinks.length --><!-- /ko -->
+                </li>
+                
+                <li class="app-menu__item" role="menuitem">
+                    <!-- ko if: link.url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+                    <!-- ko if: link.url !== $parent.getCookieConsentIdentifier() -->
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/11034">About Us</a>
+                    <!-- /ko -->
+
+                    <!-- ko if: link.sublinks.length --><!-- /ko -->
+                </li>
+                
+                <li class="app-menu__item" role="menuitem">
+                    <!-- ko if: link.url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+                    <!-- ko if: link.url !== $parent.getCookieConsentIdentifier() -->
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/6002">Our Culture &amp; Values</a>
+                    <!-- /ko -->
+
+                    <!-- ko if: link.sublinks.length --><!-- /ko -->
+                </li>
+                
+                <li class="app-menu__item" role="menuitem">
+                    <!-- ko if: link.url === $parent.getCookieConsentIdentifier() --><!-- /ko -->
+                    <!-- ko if: link.url !== $parent.getCookieConsentIdentifier() -->
+                    <a data-bind="attr: { href:  link.url }, text: link.text" href="https://careers.autozone.com/hcmUI/CandidateExperience/en/sites/CX_1/pages/9003">Benefits</a>
+                    <!-- /ko -->
+
+                    <!-- ko if: link.sublinks.length --><!-- /ko -->
+                </li>
+                <!-- /ko -->
+            </ul>
+
+            <!-- ko ifnot: isSignedIn -->
+            <div class="app-menu__miscellaneous">
+                <div class="app-menu__miscellaneous-line background-color-secondary"></div>
+                <div class="app-menu__miscellaneous-list text-color-secondary">
+                    <div class="app-menu__miscellaneous-item">
+                        <internal-user-login-button params="employeeText: employeeText"><!-- ko if: userLoginButtonText() -->
+<a class="text-color-secondary" data-bind="
+        text: userLoginButtonText(),
+        attr: {
+            'href': iceUrl,
+            'title': userLoginButtonAriaLabel(),
+            'aria-label': userLoginButtonAriaLabel()
+        }" href="https://egud.fa.us2.oraclecloud.com/fscmUI/faces/deeplink?objType=IRC_RECRUITING&amp;action=ICE_JOB_SEARCH_RESP" title="I am an AutoZoner" aria-label="I am an AutoZoner">I am an AutoZoner</a>
+<!-- /ko -->
+</internal-user-login-button>
+                    </div>
+                </div>
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+
+    <div class="app-menu__overlay" data-bind="click: close"></div>
+</div>
+<!-- /ko -->
+
+<!-- ko component: 'cookie-consent-modal-details' --><!-- ko if: isCookieConsentVisible() && viewData.customPage && !isLoading() -->
+<div data-bind="
+        class: isWideModal() ? 'wide' : 'narrow',
+        a11y.setInitialFocus: {
+            isVisible: isCookieConsentVisible,
+            delay: 2000,
+            onInit: true,
+            focusOn: '.cookie-consent__message',
+            disabled: isAiAssistantModalAvailable
+        }" class="cookie-consent-modal font-family-primary cookie-consent-site narrow" tabindex="-1">
+    <div class="cookie-consent__content" role="dialog" aria-describedby="cookieConsentMessage" data-bind="i18nAttr: {'aria-label': 'admin.theme-editor.theme-editor-panel.cookie-consent-config.cookie-consent-message-label'}" aria-label="Cookie Consent Message">
+        <!-- ko ifnot: isWideModal -->
+        <div class="cookie-consent__pulse"></div>
+        <div class="cookie-consent__pulse"></div>
+        <div class="cookie-consent__pulse"></div>
+        <!-- /ko -->
+
+        <!-- ko if: viewData.customPage -->
+        <div class="cookie-consent-modal-wrapper">
+            
+
+            <div>
+                <article>
+                    <!-- ko component: {
+                            name: 'cc-page',
+                            params: {
+                                page: viewData.customPage(),
+                                pageData: pageData,
+                                classModifier: classModifier
+                            }
+                    } --><div class="cc-page cc-page--boxed cc-page--cookie-consent-modal" data-bind="
+        css: {'cc-page--boxed': isPageDisplayBoxed},
+        class: classWithModifier
+    ">
+    <div class="cc-page__content">
+        <!-- ko foreach: { data: page.sections, as: 'section' } -->
+        <!-- ko component: {
+            name: 'cc-section',
+            params: {
+                section: section,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-section cc-section--width-null" data-bind="css: cssClass, style: { backgroundColor: params.backgroundColor, backgroundImage: backgroundSrc }" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: section.params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-section__content">
+        <!-- ko foreach: { data: components, as: 'component' } --><!-- /ko -->
+
+        <!-- ko foreach: { data: rows, as: 'row' } -->
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div data-bind="class: uniqueWrapperClass" class="cookie-consent-widgets component-styling-wrapper-11575">
+    
+
+    <p tabindex="-1" class="cookie-consent__message text-color-primary">
+        <span id="cookieConsentMessage" role="document" data-bind="
+    html: pageData().cookiePopupMessage">We use cookies and similar technologies to understand user preferences, enhance website peformance, and personalize experiences. By not making a selection, you consent to accept all tracking technologies used on our digital channels.
+
+Learn more about the information we collect by visiting our Cookies Preference Center and <a href="https://www.autozone.com/cdn/docs/careers/Applicant-and-AutoZoner-Privacy-Policy-English.pdf">Privacy Policy.</a></span>
+        <!-- ko ifnot: pageData().isCookiePreferencesEnabled--><!-- /ko -->
+    </p>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        
+        <!-- ko component: { name: 'cc-row', params: { row: row, pageData: $parent.pageData, onMessage: $parent.onMessage } } --><div class="cc-row">
+    <div class="cc-row__content cc-columns-count-1" data-bind="class: 'cc-columns-count-' + columns.length, style: { gap: gap}">
+        <!-- ko foreach: { data: columns, as: 'column' } -->
+        <!-- ko component: {
+            name: 'cc-column',
+            params: {
+                column: column,
+                pageData: $parent.pageData,
+                onMessage: $parent.onMessage,
+            }
+        } --><div class="cc-column cc-column--default" data-bind="style: { 
+        backgroundColor: params.backgroundColor,
+        backgroundImage: backgroundSrc,
+        borderRadius: borderRadius,
+        maxWidth:maxWidth,
+        height: height },
+               class: 'cc-column--' + size() + className" style="background-color: rgba(255, 255, 255, 0);">
+    <cc-parallax params="backgroundSrc: backgroundSrc, isParallaxEnabled: isParallaxEnabled"><!-- ko if: isParallaxEnabled --><!-- /ko -->
+</cc-parallax>
+
+    <cc-video-background params="videoUrl: params.backgroundVideo, videoWrapper: true, isFullscreen: false"><!-- ko if: videoUrl --><!-- /ko -->
+</cc-video-background>
+
+    <div class="cc-column__content" data-bind="style:{padding: padding}">
+        <!-- ko foreach: { data: components, as: 'component' } -->
+        <!-- ko component: { name: component.params.type, params: component } --><div data-bind="class: uniqueWrapperClass" class="cookie-consent-widgets cookie-consent-actions__container component-styling-wrapper-11578">
+    
+
+    <div data-bind="template: template" class="app-dialog__buttons-bar font-family-secondary text-color-primary"><div class="cookie-consent__actions-wrapper">
+    <div class="cookie-consent__actions">
+        <button type="button" class="cookie-consent__button button accept app-dialog__footer-button large" data-bind="a11y.setFocusOnClick: { focusOn: '.search-box-compact__field', delay: 700}, click: acceptAll, css: buttonSize">
+            <span class="cookie-consent__button-label" data-bind="text: pageData().acceptButtonLabel">Accept All</span>
+        </button>
+
+        <!-- ko if: pageData().isDeclineButtonEnabled -->
+        <button type="button" class="cookie-consent__button button decline app-dialog__footer-button large" data-bind="a11y.setFocusOnClick: { focusOn: '.search-box-compact__field', delay: 700}, click: declineAll, css: buttonSize">
+            <span class="cookie-consent__button-label" data-bind="text: pageData().declineButtonLabel">Reject All</span>
+        </button>
+        <!-- /ko -->
+
+        <!-- ko if: isCookiePreferenceButtonEnabled--><!-- /ko -->
+    </div>
+    <div>
+        <!-- ko if: isCookiePreferenceLinkEnabled-->
+        <div class="cookie-consent__preferences">
+            <a class="cookie-consent__preferences__link" tabindex="0" role="button" data-bind="{click: openCookiePreferencesModal, text: pageData().cookiePreferenceButtonText}">Manage Preferences</a>
+        </div>
+        <!-- /ko -->
+    </div>
+</div>
+</div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+                </article>
+            </div>
+        </div>
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko component: 'cookie-policy-modal' --><!-- ko if: viewData.customPage --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko component: 'cookie-preferences-modal' --><!-- ko if: viewData.customPage --><!-- /ko -->
+<!-- /ko -->
+
+<!-- ko component: 'notifications' --><div role="alert" aria-live="assertive" aria-relevant="additions" class="notifications font-family-primary" data-bind="css: { 'notifications--active': showNotifications }, a11y.setInitialFocus: { isVisible: showNotifications, focusOn: '.notifications__remove-item--focus' }" tabindex="-1">
+    <!-- ko if: showNotifications --><!-- /ko -->
+</div>
+<!-- /ko -->
+
+<!-- ko component: 'session-expire' --><minimal-dialog params="isVisible: isDialogVisible, cancelBehavior:'none', baseClass: 'session-expire-dialog', isEnableBodyClass: true"><oj-dialog initial-visibility="hide" resize-behavior="none" drag-affordance="none" cancel-behavior="none" modality="modeless" aria-modal="true" data-bind="focus: focusCallback,
+        attr:{
+            'aria-label': ariaLabel,
+            'aria-describedby': ariaDescribedBy,
+            'role': role
+        },
+        class: 'app-dialog font-family-primary ' + baseClass,
+        a11y.keysHandler: { keys: 'esc', handler: close },
+        moveChatBot: {
+            shouldMoveChatbot: shouldMoveChatbot
+        },
+        isDialogVisible: {
+            isVisible: isVisible,
+            afterClose: afterClose,
+            onOjDialogClosed: onOjDialogClosed,
+            className: isEnableBodyClass ? baseClass : null,
+        }" class="app-dialog font-family-primary session-expire-dialog oj-dialog oj-component oj-incomplete" id="ui-id-1" tabindex="-1" role="dialog" style="display: none;">
+    <div class="oj-dialog-header app-dialog__hide-header" slot="header"></div>
+
+    <div class="app-dialog__wrapper app-dialog__wrapper--align-center" data-bind="
+            css: { 'app-dialog__wrapper--active': isVisible },
+            class: 'app-dialog__wrapper--align-' + alignment()
+        " slot="body">
+        <div class="oj-dialog-body app-dialog__main background-color-dialog session-expire-dialog__main session-expire-dialog__main-center" data-bind="
+                class: dialogBaseClass,
+                a11y.setInitialFocus: {isVisible: isVisible, focusOn: '.app-dialog__content', delay: 1000 },
+                attr: { style: width() ? 'max-width: ' + width() : '' }
+            " tabindex="-1" style="">
+            <!-- ko if: !nodes['dialog-bar'] --><!-- /ko -->
+
+            <!-- ko template: { nodes: nodes['dialog-bar'], data: $parent } --><!-- /ko -->
+
+            <!-- ko template: { nodes: nodes['dialog-body'], data: $parent } -->
+        <div data-bind="css: className" class="standard-apply-session-expire-container">
+            <div class="app-dialog__header">
+                <h1 class="heading" data-bind="i18n: 'general.session-expire.modal.title'">Are You Still With Us?</h1>
+            </div>
+
+            <div class="app-dialog__content">
+                <!-- ko component: {
+                    name: 'i18n',
+                    params: {
+                        key: 'general.session-expire.modal.content'
+                    }
+                } --><span data-bind="i18n: {key: key, tokens: tokens}">It seems you've been gone for a while. For security reasons we will end your session automatically in <span data-i18n-token="countdown" data-bind="text: $parent.counter()">03:00</span> unless you would like to continue working.</span>
+<!-- /ko -->
+            </div>
+
+            <div class="app-dialog__footer">
+                <div class="app-dialog__buttons-bar font-family-secondary text-color-primary">
+                    <button class="button app-dialog__footer-button end-session-button" data-bind="click: signOut">
+                        <span class="button__label" data-bind="i18n: 'general.session-expire.modal.end-session-button'">End Session</span>
+                    </button>
+
+                    <button class="button app-dialog__footer-button theme-color-1" data-bind="click: continueWorking">
+                        <span class="button__label" data-bind="i18n: 'general.session-expire.modal.continue-button'">Continue Working</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    <!-- /ko -->
+        </div>
+    </div>
+
+    <div class="app-dialog__background" data-bind="
+            attr: { style: opacity() ? 'opacity: ' + opacity() : '' },
+            css: { 'app-dialog__background--no-animation': opacity() }
+        " style=""></div>
+</oj-dialog>
+</minimal-dialog>
+<!-- /ko -->
+
+<!-- ko component: 'oda-summary' --><minimal-dialog params="isVisible: isDialogVisible"><oj-dialog initial-visibility="hide" resize-behavior="none" drag-affordance="none" cancel-behavior="none" modality="modeless" aria-modal="true" data-bind="focus: focusCallback,
+        attr:{
+            'aria-label': ariaLabel,
+            'aria-describedby': ariaDescribedBy,
+            'role': role
+        },
+        class: 'app-dialog font-family-primary ' + baseClass,
+        a11y.keysHandler: { keys: 'esc', handler: close },
+        moveChatBot: {
+            shouldMoveChatbot: shouldMoveChatbot
+        },
+        isDialogVisible: {
+            isVisible: isVisible,
+            afterClose: afterClose,
+            onOjDialogClosed: onOjDialogClosed,
+            className: isEnableBodyClass ? baseClass : null,
+        }" class="app-dialog font-family-primary oj-dialog oj-component oj-incomplete" id="ui-id-2" tabindex="-1" role="dialog" style="display: none;">
+    <div class="oj-dialog-header app-dialog__hide-header" slot="header"></div>
+
+    <div class="app-dialog__wrapper app-dialog__wrapper--align-center" data-bind="
+            css: { 'app-dialog__wrapper--active': isVisible },
+            class: 'app-dialog__wrapper--align-' + alignment()
+        " slot="body">
+        <div class="oj-dialog-body app-dialog__main background-color-dialog" data-bind="
+                class: dialogBaseClass,
+                a11y.setInitialFocus: {isVisible: isVisible, focusOn: '.app-dialog__content', delay: 1000 },
+                attr: { style: width() ? 'max-width: ' + width() : '' }
+            " tabindex="-1" style="">
+            <!-- ko if: !nodes['dialog-bar'] --><!-- /ko -->
+
+            <!-- ko template: { nodes: nodes['dialog-bar'], data: $parent } -->
+        <div class="app-dialog__bar text-color-secondary">
+            <button class="app-dialog__close focused-tooltip" data-bind="click: () => action('Decline'), i18nAttr: {'title': 'general.cancel-button', 'aria-label': 'general.cancel-button'}" title="Cancel" aria-label="Cancel"></button>
+        </div>
+    <!-- /ko -->
+
+            <!-- ko template: { nodes: nodes['dialog-body'], data: $parent } -->
+        <div class="app-dialog__header">
+            <h1 class="heading" data-bind="i18n : 'chatbot.popup.work-summary.header'">Work Summary</h1>
+        </div>
+        <div class="app-dialog__content">
+            <p class="oda-dialog__hint" data-bind="i18n: 'chatbot.popup.work-summary.edit-hint'" style="text-align: center">This summary is generated by AI Assist. Click inside the summary text box to make changes as necessary.</p>
+            <oj-text-area id="oda-work-summary-text-area" class="oda-dialog-text-area__content oj-textarea oj-form-control oj-component oj-text-field oj-has-no-value oj-incomplete" max-rows="-1" value="{{body}}" length.counter="remaining" length.max="1000" required="true"><div role="presentation" class="oj-text-field-container"><div class="oj-text-field-middle"><textarea data-oj-internal="" class="oj-textarea-input oj-text-field-input" placeholder="">            </textarea></div></div></oj-text-area>
+        </div>
+        <div class="app-dialog__footer">
+            <div class="app-dialog__buttons-bar font-family-secondary text-color-primary">
+                <button class="button app-dialog__footer-button" data-bind="click: () => action('Decline')">
+                    <span class="button__label" data-bind="i18n: 'chatbot.popup.work-summary.discard-button-label'">Discard</span>
+                </button>
+                <button class="button app-dialog__footer-button" data-bind="click: () => action('Accept')">
+                    <span class="button__label" data-bind="i18n : 'chatbot.popup.work-summary-add-button-label'">Add Summary</span>
+                </button>
+            </div>
+        </div>
+    <!-- /ko -->
+        </div>
+    </div>
+
+    <div class="app-dialog__background" data-bind="
+            attr: { style: opacity() ? 'opacity: ' + opacity() : '' },
+            css: { 'app-dialog__background--no-animation': opacity() }
+        " style=""></div>
+</oj-dialog>
+</minimal-dialog>
+<!-- /ko -->
+
+<!--ko component: 'accessibility-messages' --><div role="status" class="oj-helper-hidden-accessible" aria-live="polite" aria-relevant="additions" data-bind="accessibleMessage: status"></div>
+<div role="alert" class="oj-helper-hidden-accessible" aria-live="assertive" aria-relevant="additions" data-bind="accessibleMessage: alert"></div>
+<!-- /ko -->
+
+<!-- /ko -->
+<!--/ko--></div>
+           
+    
+
+<div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div></body></html>

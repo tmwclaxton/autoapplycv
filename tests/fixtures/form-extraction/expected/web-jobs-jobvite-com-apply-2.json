@@ -1,0 +1,114 @@
+{
+  "id": "web-jobs-jobvite-com-apply-2",
+  "min_fields": 7,
+  "exact_field_count": 7,
+  "fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "max_chars": 400,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cf-fname",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "max_chars": 400,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cf-lname",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": 400,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "cf-email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "website url?",
+      "field_type": "text",
+      "max_chars": 400,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cf-url",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cf-phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": null,
+        "name": "cf-phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cf-phone-fake",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": null,
+        "name": "cf-phone-fake",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "company email",
+      "field_type": "email",
+      "max_chars": 400,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "cf-email",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

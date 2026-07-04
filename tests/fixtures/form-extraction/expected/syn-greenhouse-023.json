@@ -4,32 +4,64 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "full name full name question_full-name question_full-name full name",
+      "question": "full name full name full name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_full-name",
+        "name": "question_full-name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email address email address question_email-address question_email-address email address",
+      "question": "email address email address email address",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "question_email-address",
+        "name": "question_email-address",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "phone number phone number question_phone-number question_phone-number phone number",
+      "question": "phone number phone number phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "question_phone-number",
+        "name": "question_phone-number",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "why do you want this role? why do you want this role? why-do-you-want-this-rol why-do-you-want-this-rol why do you want this role?",
+      "question": "why do you want this role? why do you want this role? why do you want this role?",
       "field_type": "textarea",
       "max_chars": 1000,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-do-you-want-this-rol",
+        "name": "why-do-you-want-this-rol",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

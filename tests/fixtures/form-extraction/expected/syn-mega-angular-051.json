@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-angular-051",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9211) applicant name (9211)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ang-name-9211",
+        "name": "ang-name-9211",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email (9211) personal email (9211)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ang-email-9211",
+        "name": "ang-email-9211",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9211) contact number (9211)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ang-phone-9211",
+        "name": "ang-phone-9211",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "tell us about yourself (9211) tell us about yourself (9211)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself-9211-",
+        "name": "tell-us-about-yourself-9211-",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9211) office preference (9211)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "London",
+        "Manchester",
+        "Dublin",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "office-preference-9211-9211",
+        "name": "office-preference-9211-9211",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

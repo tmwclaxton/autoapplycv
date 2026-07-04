@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-angular-054",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9214) applicant name (9214)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ang-name-9214",
+        "name": "ang-name-9214",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address (9214) email address (9214)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ang-email-9214",
+        "name": "ang-email-9214",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "telephone (9214) telephone (9214)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ang-phone-9214",
+        "name": "ang-phone-9214",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "motivation statement (9214) motivation statement (9214)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement-9214-92",
+        "name": "motivation-statement-9214-92",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9214) office preference (9214)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "London",
+        "Remote",
+        "Manchester",
+        "Berlin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "office-preference-9214-9214",
+        "name": "office-preference-9214-9214",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

@@ -1,0 +1,55 @@
+{
+  "id": "syn-ix-fw-002",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "full name full name ix-name-28 ix-name-28",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "email address email address ix-email-28 ix-email-28",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "phone number phone number ix-phone-28 ix-phone-28",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "work location work location modal-location-29 modal-location-29",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "additional notes additional notes modal-notes-29 modal-notes-29",
+      "field_type": "textarea",
+      "max_chars": 300,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "preferred location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Office",
+        "Remote",
+        "Hybrid"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

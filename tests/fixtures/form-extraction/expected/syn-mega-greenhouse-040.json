@@ -1,0 +1,90 @@
+{
+  "id": "syn-mega-greenhouse-040",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "full name (9430) full name (9430) full name (9430)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "gh-name-9430",
+        "name": "gh-name-9430",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application email (9430) application email (9430) application email (9430)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "gh-email-9430",
+        "name": "gh-email-9430",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number (9430) phone number (9430) phone number (9430)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "gh-phone-9430",
+        "name": "gh-phone-9430",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "motivation statement (9430) motivation statement (9430) phone number (9430)",
+      "field_type": "textarea",
+      "max_chars": 600,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement-9430-94",
+        "name": "motivation-statement-9430-94",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "discovery channel (9430) discovery channel (9430) phone number (9430)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "LinkedIn",
+        "Referral",
+        "Company site",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "discovery-channel-9430-9430",
+        "name": "discovery-channel-9430-9430",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,75 @@
+{
+  "id": "syn-mega-intl-002",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "preferred name (9942) preferred name (9942)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "intl-name-9942",
+        "name": "intl-name-9942",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email (9942) personal email (9942)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "intl-email-9942",
+        "name": "intl-email-9942",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9942) mobile number (9942)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "intl-phone-9942",
+        "name": "intl-phone-9942",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "where are you based? (9942) where are you based? (9942)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Berlin",
+        "Manchester",
+        "Hybrid",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "where-are-you-based-9942-994",
+        "name": "where-are-you-based-9942-994",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

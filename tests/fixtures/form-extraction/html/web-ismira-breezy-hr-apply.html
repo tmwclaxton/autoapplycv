@@ -1,0 +1,278 @@
+<!DOCTYPE html><html ng-app="PortalApp" prefix="og: http://ogp.me/ns#" lang="en" xml:lang="en"><head><base href="/"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=0, minimal-ui"><link rel="icon" sizes="192x192" href="//assets-cdn.breezy.hr/favicon_192.png"><link rel="icon" sizes="128x128" href="//assets-cdn.breezy.hr/favicon_128.png"><link rel="apple-touch-icon" sizes="128x128" href="//assets-cdn.breezy.hr/favicon_128.png"><link rel="apple-touch-icon-precomposed" sizes="128x128" href="//assets-cdn.breezy.hr/favicon_128.png"><link rel="shortcut icon" type="image/x-icon" href="//assets-cdn.breezy.hr/favicon.ico"><script type="text/javascript" src="https://assets-cdn.breezy.hr/breezy-portal/javascripts/v3/polyglot.min.js?v=2bq-1us5ftb"></script><script id="translateScript" type="text/javascript" src="https://assets-cdn.breezy.hr/breezy-portal/javascripts/v3/translate.breezy.js?v=8s9t-1qxcqwm"></script><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Nunito:300,400,600,700,800"><link rel="stylesheet" href="https://assets-cdn.breezy.hr/breezy-hr/dependencies/fontawesome/v6.4.2-pro/css/all.css"><link rel="stylesheet" href="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/bootstrap.css"><link rel="stylesheet" href="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/animate.css"><link rel="stylesheet" href="https://assets-cdn.breezy.hr/breezy-portal/stylesheets/v3/index.css?v=2f1f-10uheg7"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Kameron"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Droid+Sans"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora"><script src="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/jquery-1.11.1.min.js"></script><script>var heroBackgroundImage;
+
+$(function() {
+	heroBackgroundImage = $('#heroBackgroundImage');
+	if (heroBackgroundImage) {
+		$(window).scroll(onScroll);
+	}
+});
+
+function onScroll() {
+	if (document.body.scrollTop > 50) {
+		heroBackgroundImage.addClass('frosted');
+	} else {
+		heroBackgroundImage.removeClass('frosted');
+	}
+};</script><script src="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/async.js"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/angular-1.2.19.js"></script><script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.2.js"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/marked.js"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/angular-route-1.2.20.js"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/angular-sanitize-1.2.20.js"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/angular-animate-1.2.20.js"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/angular-cookies-1.2.20.js"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/angularjs-placeholder.js"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/angularjs-fileupload-html-shim-1.4.0.js"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/angularjs-fileupload-1.4.0.js"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/angularjs-marked-0.0.12.min.js"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/ngStorage.min.js"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/javascripts/portal.js?v=33kj-12u1lqn"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/javascripts/services/new/portal_rest_client.js?v=5k3-1cdg2qb"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/javascripts/services/portal.js?v=2n5-y25iq5"></script><link rel="stylesheet" href="https://assets-cdn.breezy.hr/breezy-portal/vue/css/chunk-vendors.css?v=uwu-1hp381f"><link rel="stylesheet" href="https://assets-cdn.breezy.hr/breezy-portal/vue/css/app.css?v=4fxu-nrb62a"><link rel="stylesheet" href="https://assets-cdn.breezy.hr/breezy-portal/vue/css/about.css?v=8c-qpgqky"><script src="https://assets-cdn.breezy.hr/breezy-portal/vue/js/chunk-vendors.js?v=2yqu7-y62hn6"></script><script src="https://assets-cdn.breezy.hr/breezy-portal/vue/js/app.js?v=41iqi-14aar89"></script><script src="//d2wy8f7a9ursnm.cloudfront.net/v5/bugsnag.min.js"></script><script>window.bugsnagClient = bugsnag('99292fb1000f243cb5699a59b65a1f37')</script><script src="https://assets-cdn.breezy.hr/breezy-portal/dependencies/20170112/tooltip.js"></script><script>$(function () {
+	$('[data-toggle="tooltip"]').tooltip()
+})</script><script src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;sensor=false&amp;key=AIzaSyBjwqyBTVwGAjK-JBjxUilSmVIix87N51o&amp;callback=Function.prototype"></script><style>.bzyLinkColor, .bzyLinkColor:hover {
+	color:  rgb(90, 160, 214)!important;
+}
+.bzyLinkContainer a, .bzyLinkContainer a:hover {
+	color:  rgb(90, 160, 214)!important;
+}
+.application-form a.bzyLinkColor, .application-form a.bzyLinkColor:hover {
+	color:  rgb(90, 160, 214)!important;
+}
+.description a, .description a:hover {
+	color:  rgb(90, 160, 214)!important;
+}
+.breadcrumbs li a, .breadcrumbs li a:hover {
+	color:  rgb(90, 160, 214)!important;
+}
+</style><style>.video-response .inner-container .btn-primary {
+	background-color:  rgb(79, 145, 189)!important;
+}
+.positions .position:hover .bzyButtonColor {
+	background-color:  rgb(79, 145, 189)!important;
+}
+.positions .position .bzyBtnHover:hover {
+	background-color:  rgb(79, 145, 189)!important;
+}
+.positions .position .bzyButtonColor {
+	background-color:  rgb(79, 145, 189)!important;
+}
+.bzyButtonColor:hover {
+	background-color:  rgb(79, 145, 189)!important;
+}
+.landing .application-form .question-body a {
+	color:  rgb(90, 160, 214)!important;
+}
+</style><style>.landing .application-form ziggeo .ba-videorecorder-chooser-button-0:hover, .landing .application-form ziggeo .ba-videorecorder-button-primary:hover {
+	background-color: rgb(79, 145, 189)!important;
+	border-color: rgb(79, 145, 189)!important;
+}
+.landing .application-form ziggeo .ba-videorecorder-chooser-icon-container:hover, .landing .application-form ziggeo .recorder-loader-label-container:hover {
+	color: rgb(79, 145, 189)!important;
+}
+.landing .application-form ziggeo ba-videoplayer-noie8 .ba-player-playbutton-container:hover {
+	border-color: rgb(79, 145, 189)!important;
+}
+.landing .application-form ziggeo .ba-videoplayer-noie8 .ba-player-playbutton-button::after {
+	color: #fff;
+}
+.landing .application-form ziggeo .ba-player-elevate-theme-progressbar-button, .landing .application-form ziggeo .ba-player-elevate-theme-progressbar-position, .landing .application-form ziggeo .ba-player-elevate-theme-rerecord-button, .landing .application-form ziggeo .ba-player-elevate-theme-stream-label-container .ba-player-elevate-theme-stream-label, .landing .application-form ziggeo .ba-player-elevate-theme-volumebar-position {
+	background-color:  rgb(79, 145, 189)!important;
+}
+.landing .application-form ziggeo .ba-videorecorder-chooser-button-0, .landing .application-form ziggeo .ba-videorecorder-imagegallery-leftbutton, .landing .application-form ziggeo .ba-videorecorder-imagegallery-rightbutton {
+	background-color:  rgb(79, 145, 189)!important;
+}
+.landing .application-form ziggeo .ba-player-playbutton-container {
+	border-color: #fff;
+}
+.landing .application-form ziggeo .ba-recorder-loader-label {
+	color: #fff;
+}
+.landing .application-form ziggeo .ba-videorecorder-imagegallery-image:hover {
+	border-color: rgb(79, 145, 189)!important;
+}
+.landing .application-form ziggeo .ba-player-elevate-theme-button-inner i, .landing .application-form ziggeo .ba-player-elevate-theme-dashboard .ba-player-cc-inactive .ba-commoncss-icon-subtitle {
+	color: #444;
+}
+.landing .application-form ziggeo .ba-player-red-color .ba-player-settings-visible {
+	background-color: #444;
+}
+.landing .application-form ziggeo .ba-settings-overlay-inner {
+	color: #fff;
+}
+</style><style>.landing .container.positions .position:hover {
+    background-color: #f9fafa;
+    border-radius: 14px;
+    border: 1px solid #eee;
+    box-shadow: 1px 1px 21px 1px #00000026;
+}
+
+
+
+.header a.brand img {
+    max-height: 55px;
+    max-width: 300px;
+    margin-top: 14px;
+}
+
+.button {
+    padding: 13px 50px;
+    display: inline-block;
+    font-weight: 200;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    color: #ffffff;
+    text-decoration: none;
+    border: none;
+    outline: 0;
+    border-radius: 4px;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+    background-color: #00c2ff;
+    cursor: pointer !important;
+    border-radius: 50px;
+   background-image: linear-gradient(to right, #f8c300 0%, #ff8d00 100%);
+}
+.hero .banner .cta {
+    padding: 16px 44px;
+    background-color: #e15257;
+    border: 2px solid #fff;
+    background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+}
+
+.landing .container.positions .position h2 {
+    font-size: 19px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    color: #000000;
+    font-weight: 700;
+}
+
+.hero .banner h1 {
+    font-family: "Nunito", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial;
+    font-weight: 300;
+    font-size: 34px;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    -webkit-animation: fadein 0.6s 0.5s 1 forwards ease-in;
+    -moz-animation: fadein 0.6s 0.5s 1 forwards ease-in;
+    -ms-animation: fadein 0.6s 0.5s 1 forwards ease-in;
+    -o-animation: fadein 0.6s 0.5s 1 forwards ease-in;
+    animation: fadein 0.6s 0.5s 1 forwards ease-in;
+}
+
+.hero .banner {
+    z-index: 2;
+    color: #000000;
+    text-align: right;
+    margin: 0 auto;
+    max-width: 450px;
+    float: right;
+    margin-right: 200px;
+}
+
+.banner .meta { display:none; }
+
+.landing .header .links .link.company a {
+    padding: 8px 21px;
+    border: none;
+    border-radius: 4px;
+    background: #90e000;
+    border-radius: 60px;
+    color: #fff !important;
+    background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+}
+
+@media only screen and (max-width: 768px) {
+.hero .banner h1 {font-size:30px;}
+.hero .banner {
+   
+    max-width: 100%;
+    margin-right: 50px;
+}
+#heroBackgroundImage {
+background-position: -400px 0px;
+}
+}
+
+</style><title>Marella Cruises - Asst. Waiter</title><meta name="description" content="
+ISMIRA Agency actively recruiting for position ASSISTANT WAITER for MARELLA CRUISES!
+The Assistant Waiter assists the Waiter in providing guests with courteous and professional service, creates a pleasant dining atmosphere, and enhances the overall dining experience by anticipating guest needs.
+Conditions: 
+Contract based permanent jobFree meals and accommodation on boardMedical insurance provided by employerWork with international team membersCouples are welcome to applyProfessional growth opportunitiesSHIPS SAILING AROUND THE WORLD
+Responsibilities: 
+Clean, organize, and maintain designated service stationPrepare mise-en-place to ensure that station is ready when required.Provide attentive and personalized service to ensure that guest requests are fulfilled promptly.Replenish water, bread, butter and other items as anticipated or required.Deliver food from the galley to restaurant stations.Maintain clean and orderly tables and station if assigned to food buffet areas.Assist guests with beverage orders.Minimize breakage and loss of all equipment.Use only authorized chemicals in approved manner.Respect fellow colleagues.Respect and cooperate with all management decisions.Attend ship and departmental meetings as required.
+
+Requirements: 
+Good EnglishMust be able to communicate effectively with the senior management.Ability to lead and make decisions.Good administrative skills.Work with international team members.Minimum of two years experience in a hotel, restaurant, or cruise ship.Age starting 18 years oldTattoos are allowed (except offensive and facial)
+Nationalities that we process: 🇱🇹 🇱🇻 🇪🇪 🇵🇱 🇷🇺 🇧🇾 🇺🇦 🇲🇩 🇰🇿 🇰🇬 🇺🇿 🇦🇲 🇦🇿 🇹🇯 🇹🇲 🇬🇪
+Last updated: October 12, 2023
+You can submit your Resume here by pushing APPLY TO POSITION button below 
+If you are not sure what position to apply for, you may instead submit a general application here and we will advise you: 
+https://ismira.breezy.hr/p/c3fb653b09b501-general-application-for-hospitality-positions
+
+
+
+
+"><meta name="og:image" content="https://gallery-cdn.breezy.hr/9a92709c-d69f-4185-9b85-70aa5d275456/ISMIRAlogorussia 1.jpg"><meta name="twitter:card" content="
+ISMIRA Agency actively recruiting for position ASSISTANT WAITER for MARELLA CRUISES!
+The Assistant Waiter assists the Waiter in providing guests with courteous and professional service, creates a pleasant dining atmosphere, and enhances the overall dining experience by anticipating guest needs.
+Conditions: 
+Contract based permanent jobFree meals and accommodation on boardMedical insurance provided by employerWork with international team membersCouples are welcome to applyProfessional growth opportunitiesSHIPS SAILING AROUND THE WORLD
+Responsibilities: 
+Clean, organize, and maintain designated service stationPrepare mise-en-place to ensure that station is ready when required.Provide attentive and personalized service to ensure that guest requests are fulfilled promptly.Replenish water, bread, butter and other items as anticipated or required.Deliver food from the galley to restaurant stations.Maintain clean and orderly tables and station if assigned to food buffet areas.Assist guests with beverage orders.Minimize breakage and loss of all equipment.Use only authorized chemicals in approved manner.Respect fellow colleagues.Respect and cooperate with all management decisions.Attend ship and departmental meetings as required.
+
+Requirements: 
+Good EnglishMust be able to communicate effectively with the senior management.Ability to lead and make decisions.Good administrative skills.Work with international team members.Minimum of two years experience in a hotel, restaurant, or cruise ship.Age starting 18 years oldTattoos are allowed (except offensive and facial)
+Nationalities that we process: 🇱🇹 🇱🇻 🇪🇪 🇵🇱 🇷🇺 🇧🇾 🇺🇦 🇲🇩 🇰🇿 🇰🇬 🇺🇿 🇦🇲 🇦🇿 🇹🇯 🇹🇲 🇬🇪
+Last updated: October 12, 2023
+You can submit your Resume here by pushing APPLY TO POSITION button below 
+If you are not sure what position to apply for, you may instead submit a general application here and we will advise you: 
+https://ismira.breezy.hr/p/c3fb653b09b501-general-application-for-hospitality-positions
+
+
+
+
+"><meta property="og:url" content="https://ismira.breezy.hr/p/c3639f6d80c801-marella-cruises-asst-waiter"><meta name="twitter:site" content="@Breezy_HR"><meta name="twitter:creator" content="@Breezy_HR"><link rel="stylesheet" href="https://assets-cdn.ziggeo.com/v1-r42/ziggeo.css"><script src="https://assets-cdn.ziggeo.com/v1-r42/ziggeo.js"></script><script>var ziggeoApp = new ZiggeoApi.V2.Application({
+	token:"037484c4dfff0ad949a9dd76d6564a3c",
+	webrtc_streaming_if_necessary: true,
+	webrtc_on_mobile: true,
+	debug: true
+});
+
+// V1 stuff
+//ZiggeoApi.token = "037484c4dfff0ad949a9dd76d6564a3c";
+//ZiggeoApi.Config.webrtc = true
+//ZiggeoApi.Config.webrtc_streaming_if_necessary = true
+//ZiggeoApi.Config.webrtc_on_mobile = true
+
+//-ZiggeoApi.Config.webrtc_streaming = true</script><script>// INDEED OAUTH FLOW
+var popup;
+var breezyUrl="https://app.breezy.hr"
+var positionId="c3639f6d80c801"
+
+function popupParams () {
+	var height = 600;
+	var width = 500;
+	var left = (window.screen.width / 2) - ((width / 2) + 10);
+	var top = (window.screen.height / 2) - ((height / 2) + 50);
+
+	var params = 'status=no,height=' + height + ',width=' + width + ',resizable=yes,left=' + left + ',top=' + top + ',screenX=' + left + ',screenY=' + top + ',toolbar=no,menubar=no,scrollbars=no,location=no,directories=no';
+
+	return params;
+}
+function oAuthListener (msg) {
+	if (msg.data.token) {
+		window.location.href = window.location.href + '?token=' + msg.data.token;
+		popup.close()
+	} else {
+		popup.close()
+	}
+	window.removeEventListener('message', oAuthListener)
+}
+function openPopup (e) {
+	e.preventDefault();
+
+	window.addEventListener('message', oAuthListener)
+
+	var params = popupParams();
+	popup = window.open(
+		breezyUrl + '/api/apply/indeed?position_id=' + positionId,
+		'IndeedPopup',
+		params
+	);
+}
+</script></head><body class="breezy-portal-bold"><div class="cap"></div><div ng-controller="PositionApplyViewCtrl" data-friendly-id="ismira" data-referrer="null" data-location="{&quot;country&quot;:{&quot;id&quot;:&quot;worldwide&quot;,&quot;name&quot;:&quot;Worldwide&quot;},&quot;name&quot;:&quot;MARELLA CRUISES, worldwide&quot;,&quot;city&quot;:&quot;MARELLA CRUISES&quot;,&quot;is_remote&quot;:true,&quot;primary&quot;:true,&quot;id&quot;:&quot;319eb2045e44&quot;,&quot;remote_details&quot;:{&quot;value&quot;:&quot;remote&quot;,&quot;label&quot;:&quot;Fully remote, no location restrictions&quot;}}" data-position="{&quot;_id&quot;:&quot;c3639f6d80c801&quot;,&quot;name&quot;:&quot;Marella Cruises - Asst. Waiter&quot;,&quot;friendly_id&quot;:&quot;c3639f6d80c801-marella-cruises-asst-waiter&quot;,&quot;state&quot;:&quot;published&quot;,&quot;type&quot;:{&quot;id&quot;:&quot;contract&quot;,&quot;name&quot;:&quot;Contract&quot;},&quot;location&quot;:{&quot;country&quot;:{&quot;id&quot;:&quot;worldwide&quot;,&quot;name&quot;:&quot;Worldwide&quot;},&quot;name&quot;:&quot;MARELLA CRUISES, worldwide&quot;,&quot;city&quot;:&quot;MARELLA CRUISES&quot;,&quot;is_remote&quot;:true,&quot;primary&quot;:true,&quot;id&quot;:&quot;319eb2045e44&quot;,&quot;remote_details&quot;:{&quot;value&quot;:&quot;remote&quot;,&quot;label&quot;:&quot;Fully remote, no location restrictions&quot;}},&quot;locations&quot;:[{&quot;country&quot;:{&quot;id&quot;:&quot;worldwide&quot;,&quot;name&quot;:&quot;Worldwide&quot;},&quot;name&quot;:&quot;MARELLA CRUISES, worldwide&quot;,&quot;city&quot;:&quot;MARELLA CRUISES&quot;,&quot;is_remote&quot;:true,&quot;primary&quot;:true,&quot;id&quot;:&quot;319eb2045e44&quot;,&quot;remote_details&quot;:{&quot;value&quot;:&quot;remote&quot;,&quot;label&quot;:&quot;Fully remote, no location restrictions&quot;}}],&quot;department&quot;:&quot;RESTAURANT&quot;,&quot;category&quot;:null,&quot;description&quot;:&quot;&lt;figure&gt;&lt;img src=\&quot;https://gallery-cdn.breezy.hr/1c810/REST.jpg\&quot;&gt;&lt;/figure&gt;\n&lt;h2&gt;&lt;strong&gt;ISMIRA Agency&lt;/strong&gt; actively recruiting for position&lt;strong&gt; ASSISTANT WAITER for MARELLA CRUISES!&lt;/strong&gt;&lt;br&gt;&lt;/h2&gt;\n&lt;p&gt;&lt;strong&gt;The Assistant Waiter&lt;/strong&gt; assists the Waiter in providing guests with courteous and professional service, creates a pleasant dining atmosphere, and enhances the overall dining experience by anticipating guest needs.&lt;br&gt;&lt;/p&gt;\n&lt;h2&gt;&lt;strong&gt;Conditions: &lt;/strong&gt;&lt;/h2&gt;\n&lt;ul&gt;&lt;li&gt;Contract based permanent job&lt;/li&gt;&lt;li&gt;Free meals and accommodation on board&lt;/li&gt;&lt;li&gt;Medical insurance provided by employer&lt;/li&gt;&lt;li&gt;Work with international team members&lt;/li&gt;&lt;li&gt;Couples are welcome to apply&lt;/li&gt;&lt;li&gt;Professional growth opportunities&lt;/li&gt;&lt;li&gt;SHIPS SAILING AROUND THE WORLD&lt;/li&gt;&lt;/ul&gt;\n&lt;h2&gt;&lt;strong&gt;Responsibilities: &lt;/strong&gt;&lt;/h2&gt;\n&lt;ul&gt;&lt;li&gt;&lt;strong&gt;&lt;/strong&gt;Clean, organize, and maintain designated service station&lt;/li&gt;&lt;li&gt;Prepare mise-en-place to ensure that station is ready when required.&lt;/li&gt;&lt;li&gt;Provide attentive and personalized service to ensure that guest requests are fulfilled promptly.&lt;/li&gt;&lt;li&gt;Replenish water, bread, butter and other items as anticipated or required.&lt;/li&gt;&lt;li&gt;Deliver food from the galley to restaurant stations.&lt;/li&gt;&lt;li&gt;Maintain clean and orderly tables and station if assigned to food buffet areas.&lt;/li&gt;&lt;li&gt;Assist guests with beverage orders.&lt;/li&gt;&lt;li&gt;Minimize breakage and loss of all equipment.&lt;/li&gt;&lt;li&gt;Use only authorized chemicals in approved manner.&lt;/li&gt;&lt;li&gt;Respect fellow colleagues.&lt;/li&gt;&lt;li&gt;Respect and cooperate with all management decisions.&lt;/li&gt;&lt;li&gt;Attend ship and departmental meetings as required.&lt;/li&gt;&lt;/ul&gt;\n&lt;ul&gt;&lt;/ul&gt;\n&lt;h2&gt;&lt;strong&gt;Requirements: &lt;/strong&gt;&lt;/h2&gt;\n&lt;ul&gt;&lt;li&gt;Good English&lt;/li&gt;&lt;li&gt;Must be able to communicate effectively with the senior management.&lt;/li&gt;&lt;li&gt;Ability to lead and make decisions.&lt;/li&gt;&lt;li&gt;Good administrative skills.&lt;/li&gt;&lt;li&gt;Work with international team members.&lt;/li&gt;&lt;li&gt;Minimum of two years experience in a hotel, restaurant, or cruise ship.&lt;/li&gt;&lt;li&gt;Age starting 18 years old&lt;/li&gt;&lt;li&gt;Tattoos are allowed (except offensive and facial)&lt;/li&gt;&lt;/ul&gt;\n&lt;p&gt;&lt;strong&gt;Nationalities that we process: &lt;/strong&gt;&lt;strong&gt;🇱🇹&lt;/strong&gt; &lt;strong&gt;🇱🇻&lt;/strong&gt; &lt;strong&gt;🇪🇪&lt;/strong&gt; &lt;strong&gt;🇵🇱&lt;/strong&gt; &lt;strong&gt;🇷🇺&lt;/strong&gt; &lt;strong&gt;🇧🇾&lt;/strong&gt; &lt;strong&gt;🇺🇦&lt;/strong&gt; &lt;strong&gt;🇲🇩&lt;/strong&gt; &lt;strong&gt;🇰🇿&lt;/strong&gt; &lt;strong&gt;🇰🇬&lt;/strong&gt; &lt;strong&gt;🇺🇿&lt;/strong&gt; &lt;strong&gt;🇦🇲&lt;/strong&gt; &lt;strong&gt;🇦🇿&lt;/strong&gt; &lt;strong&gt;🇹🇯&lt;/strong&gt; &lt;strong&gt;🇹🇲&lt;/strong&gt; &lt;strong&gt;🇬🇪&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;Last updated: October 12, 2023&lt;/p&gt;\n&lt;p&gt;You can submit your Resume here by pushing APPLY TO POSITION button below &lt;br&gt;&lt;br&gt;&lt;/p&gt;\n&lt;p&gt;If you are not sure what position to apply for, you may instead submit a general application here and we will advise you: &lt;/p&gt;\n&lt;p&gt;&lt;a href=\&quot;https://ismira.breezy.hr/p/c3fb653b09b501-general-application-for-hospitality-positions\&quot;&gt;https://ismira.breezy.hr/p/c3fb653b09b501-general-application-for-hospitality-positions&lt;/a&gt;&lt;/p&gt;\n&lt;ul&gt;&lt;/ul&gt;\n&lt;p&gt;&lt;/p&gt;\n&lt;p&gt;&lt;/p&gt;\n&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;\n&lt;ul&gt;&lt;/ul&gt;&quot;,&quot;salary_range&quot;:{&quot;currency&quot;:{&quot;name&quot;:&quot;US Dollar&quot;,&quot;symbol&quot;:&quot;$&quot;,&quot;symbolNative&quot;:&quot;$&quot;,&quot;decimalDigits&quot;:2,&quot;rounding&quot;:0,&quot;code&quot;:&quot;USD&quot;,&quot;namePlural&quot;:&quot;US dollars&quot;},&quot;period&quot;:{&quot;id&quot;:&quot;yearly&quot;,&quot;name&quot;:&quot;Yearly&quot;},&quot;display&quot;:&quot;&quot;},&quot;candidate_type&quot;:&quot;all&quot;,&quot;experience&quot;:null,&quot;application_form&quot;:{&quot;name&quot;:&quot;required&quot;,&quot;headline&quot;:&quot;optional&quot;,&quot;summary&quot;:&quot;hidden&quot;,&quot;profile_photo&quot;:&quot;optional&quot;,&quot;address&quot;:&quot;optional&quot;,&quot;email_address&quot;:&quot;required&quot;,&quot;phone_number&quot;:&quot;required&quot;,&quot;resume&quot;:&quot;required&quot;,&quot;work_history&quot;:&quot;hidden&quot;,&quot;education&quot;:&quot;hidden&quot;,&quot;cover_letter&quot;:&quot;hidden&quot;,&quot;questionnaire_in_experience&quot;:true,&quot;gdpr&quot;:&quot;required&quot;,&quot;salary&quot;:&quot;hidden&quot;,&quot;preferred_location&quot;:&quot;hidden&quot;},&quot;first_publish_date&quot;:&quot;2022-05-18T04:39:19.213Z&quot;,&quot;last_publish_date&quot;:&quot;2022-05-18T04:39:19.213Z&quot;,&quot;company&quot;:{&quot;name&quot;:&quot;ISMIRA RECRUITMENT AGENCY&quot;,&quot;friendly_id&quot;:&quot;ismira&quot;,&quot;description&quot;:null,&quot;logo_url&quot;:null,&quot;url&quot;:&quot;http://ismira.lt&quot;,&quot;isMultipleLocationsEnabled&quot;:false,&quot;initial&quot;:&quot;IR&quot;,&quot;features&quot;:{&quot;multiple_locations&quot;:true},&quot;salary_terms&quot;:[{&quot;id&quot;:&quot;yearly&quot;,&quot;name&quot;:&quot;Yearly&quot;},{&quot;id&quot;:&quot;monthly&quot;,&quot;name&quot;:&quot;Monthly&quot;},{&quot;id&quot;:&quot;biweekly&quot;,&quot;name&quot;:&quot;Biweekly&quot;},{&quot;id&quot;:&quot;weekly&quot;,&quot;name&quot;:&quot;Weekly&quot;},{&quot;id&quot;:&quot;daily&quot;,&quot;name&quot;:&quot;Daily&quot;},{&quot;id&quot;:&quot;hourly&quot;,&quot;name&quot;:&quot;Hourly&quot;}]}}" data-company="{&quot;name&quot;:&quot;ISMIRA RECRUITMENT AGENCY&quot;,&quot;friendly_id&quot;:&quot;ismira&quot;,&quot;description&quot;:null,&quot;logo_url&quot;:null,&quot;url&quot;:&quot;http://ismira.lt&quot;,&quot;isMultipleLocationsEnabled&quot;:false,&quot;initial&quot;:&quot;IR&quot;,&quot;features&quot;:{&quot;multiple_locations&quot;:true},&quot;salary_terms&quot;:[{&quot;id&quot;:&quot;yearly&quot;,&quot;name&quot;:&quot;Yearly&quot;},{&quot;id&quot;:&quot;monthly&quot;,&quot;name&quot;:&quot;Monthly&quot;},{&quot;id&quot;:&quot;biweekly&quot;,&quot;name&quot;:&quot;Biweekly&quot;},{&quot;id&quot;:&quot;weekly&quot;,&quot;name&quot;:&quot;Weekly&quot;},{&quot;id&quot;:&quot;daily&quot;,&quot;name&quot;:&quot;Daily&quot;},{&quot;id&quot;:&quot;hourly&quot;,&quot;name&quot;:&quot;Hourly&quot;}]}" data-show-sms-consent="false" class="body-wrapper landing position "><div class="header headerStyle"><div class="container-wrapper"><ul class="links"><li class="link"></li></ul><a href="/" class="brand"><img src="https://gallery-cdn.breezy.hr/9a92709c-d69f-4185-9b85-70aa5d275456/ISMIRAlogorussia 1.jpg" alt="ISMIRA RECRUITMENT AGENCY"></a></div></div><div ng-show="applied" class="confirmation-container ng-hide"><div class="application-confirmed"><i class="fa fa-check"></i><h1 class="polygot">%HEADER_APPLICATION_SUBMITTED%</h1><p class="polygot">%SUBHEADER_APPLICATION_SUBMITTED%</p></div></div><div ng-show="!applied" class="hero"><div id="heroBackgroundImage" style="background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)), url(&quot;https://gallery-cdn.breezy.hr/202d61e5-3bde-4b75-9c71-9e5053e59251/brbg2.png&quot;)" class="hero-background-image"></div><div id="heroBackgroundColor" class="hero-background-color"><div class="banner"><h1>Marella Cruises - Asst. Waiter</h1><ul class="meta"><li class="location"><i class="fa fa-map-marker"></i><span ng-if="!isMultipleLocationEnabled() || !position.all_locations">MARELLA CRUISES, worldwide</span><span ng-if="isMultipleLocationEnabled() &amp;&amp; position.all_locations">{{position.all_locations}}</span><span class="spacer"> - </span><i class="fa fa-wifi"></i><span class="polygot">%LABEL_POSITION_TYPE_REMOTE_ANY%</span></li><li class="type"><i class="fa fa-building"></i><span class="polygot">%LABEL_POSITION_TYPE_CONTRACT%</span></li><li class="department"><i class="fa fa-building"></i><span>RESTAURANT</span></li></ul></div></div></div><div ng-show="!applied" class="content-container polygot-parent"><div class="container application-form"><div class="container-wrapper"><ul class="breadcrumbs"><li><a href="/"><span class="polygot">%BREADCRUMB_JOB_OPENINGS%</span></a><i class="fa fa-chevron-right"></i></li><li><a href="/p/c3639f6d80c801-marella-cruises-asst-waiter">Marella Cruises - Asst. Waiter</a><i class="fa fa-chevron-right"></i></li><li class="current"><span class="polygot">%BUTTON_APPLY%</span></li></ul><div class="application-container"><form name="form" ng-submit="apply()" ng-class="formSubmitted ? &quot;formSubmitted&quot; : &quot;&quot;" novalidate><div class="apply-container"><ul class="apply-buttons "><li class="apply-button"><div class="file-input-container type"><a href="#" ng-class="candidate &amp;&amp; candidate.resume.file_name ? &quot;gray&quot; : &quot;blue&quot;" ng-click="$event.preventDefault(); showFileSelector();" ng-disabled="uploadingResume" class="polygot-parent button resume btn-flex-center"><div ng-if="!uploadingResume &amp;&amp; !candidate.resume.file_name" class="app-resume-btn"><i class="fas fa-upload"></i><span> </span><span class="polygot">%LINK_UPLOAD_RESUME%</span><span ng-show="resumeRequired" title="Required" class="required">*</span></div><div ng-if="uploadingResume"><i class="fas fa-refresh fa-spin"></i><span> </span><span>Uploading Resume</span></div><div ng-if="!uploadingResume &amp;&amp; candidate.resume.file_name"><i class="fas fa-regular fa-cloud-check"></i><span> </span><span class="polygot">%FORM_FILE_ATTACHED%</span></div></a><div ng-if="uploadingResume" class="progress-bar-container"><div class="progress-bar"></div></div></div></li></ul></div><div class="section-header"><input type="hidden" id="resume_required" value="required"><div class="file-input-container type"><a href="" ng-if="candidate.resume.file_name" class="bzyLinkColor"><span class="fa fa-paperclip"></span><span> </span><span>{{candidate.resume.file_name}}</span></a><input id="main-attachment" name="cResume" style="display:none;" type="file" ng-model="candidate.resume" ng-file-select="onFileSelect($files)" required accept=".pdf, .doc, .docx, .txt, .rtd, .pages" class="attachment"><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="resumeRequired &amp;&amp; !candidate.resume.file_name" class="error polygot">%ERROR_INVALID_FORM_RESUME%</span></div><div ng-show="candidate.resume.error" class="error-container ng-hide"><span class="error polygot">%ERROR_INVALID_FORM_FILE_SIZE%</span></div><div class="form-divider"></div></div></div><div class="section"><div class="section-header"><h2 class="polygot">%HEADER_PERSONAL_DETAILS%</h2></div><h3><span class="polygot">%PLACEHOLDER_FULL_NAME%</span><span title="Required" class="required">*</span></h3><input name="cName" ng-model="candidate.name" type="text" placeholder="%PLACEHOLDER_FULL_NAME%" required class="polygot"><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="form.cName.$error.required" class="error polygot">%ERROR_INVALID_FORM_FULL_NAME%</span></div><div class="form-divider"></div><h3><span class="polygot">%PLACEHOLDER_EMAIL_ADDRESS%</span><span title="Required" class="required">*</span></h3><input name="cEmail" ng-model="candidate.email_address" type="email" placeholder="%PLACEHOLDER_EMAIL_ADDRESS%" required class="email-address polygot"><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="form.cEmail.$error.required" class="error polygot">%ERROR_INVALID_FORM_EMAIL_ADDRESS%</span><span ng-show="form.cEmail.$error.email" class="error polygot">%ERROR_INVALID_FORM_EMAIL_ADDRESS%</span></div><div class="form-divider"></div><h3><span class="polygot">%PLACEHOLDER_PHONE_NUMBER%</span><span title="Required" class="required">*</span></h3><input name="cPhoneNumber" ng-model="candidate.phone_number" type="text" placeholder="%PLACEHOLDER_PHONE_NUMBER%" required class="phone-number polygot"><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="form.cPhoneNumber.$error.required" class="error polygot">%ERROR_INVALID_FORM_PHONE_NUMBER%</span></div><div class="form-divider"></div><h3><span class="polygot">%PLACEHOLDER_ADDRESS%</span></h3><input id="fullAddress" name="cAddress" ng-model="candidate.address" type="text" placeholder="%PLACEHOLDER_ADDRESS%" class="address polygot"><p ng-model="gPlace"></p><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="form.cAddress.$error.required" class="error polygot">%ERROR_INVALID_FORM_ADDRESS%</span></div><div class="form-divider"></div></div><div aria-hidden="true" style="position:absolute;left:-9999px;height:0;overflow:hidden;opacity:0" class="apply-field-extra"><label for="hp_7f2b"></label><input id="hp_7f2b" type="text" name="hp_7f2b" ng-model="candidate.hp_7f2b" tabindex="-1" autocomplete="hp-4f3c9a"><input id="form_token" type="hidden" value="1783158264101.3666b6a4b4a28a2fe70a31c34587f71d5cf87f58ae03b47e54e51f3d340c7168"></div><input type="hidden" id="questions" value="[{&quot;text&quot;:&quot;Other desired positions&quot;,&quot;body&quot;:&quot;&lt;p&gt;Please, apply only once! If you would like to try your chances for several positions, list HERE other positions you would like to apply and we will consider this information. Thanks for understanding!&amp;nbsp;&lt;/p&gt;&quot;,&quot;required&quot;:true,&quot;type&quot;:{&quot;id&quot;:&quot;paragraph&quot;,&quot;name&quot;:&quot;Paragraph&quot;},&quot;_id&quot;:&quot;15f0a03a8def01&quot;,&quot;questionnaire_id&quot;:&quot;b1172632472a01&quot;},{&quot;body&quot;:&quot;&lt;p&gt;We take a responsible look at the protection of personal data, therefore, in the policy we provide you with information about the processing of your personal data in our Company.&lt;/p&gt;&lt;p&gt;Who we are?&lt;/p&gt;&lt;p&gt;UAB “ISMIRA”, company number: 141848899&lt;/p&gt;&lt;p&gt;Address: Klaipeda, Turgaus str. 29&lt;/p&gt;&lt;p&gt;Phone No.: +370 46 345009&lt;/p&gt;&lt;p&gt;What data do we collect and process and for what purposes?&lt;/p&gt;&lt;p&gt;The organization of the selection of employees and the conclusion of an employment contract: CVs, personal telephone number and e-mail address, work experience, spoken language etc., as well as other data provided by the Data Subject on its own initiative&lt;/p&gt;&lt;p&gt;Organization of workforce selection: Names of jobseekers, surnames, date of birth, addresses of residence, CVs, contact details, health data (as required by the Convention), as well as passport data and the following documents (copies thereof): safety certificates, recommendations, assessments, copies of visas (if required). The Company may also collect additional data, if required by statutory requirements or accepted by all parties to the contract. It also indicates that the jobseekers are not suing (if legally required by the employer from a third state)&lt;/p&gt;&lt;p&gt;The initiation or execution of contracts and other agreements (for example, concluded in oral form), i.e. our services: &lt;/p&gt;&lt;p&gt;Before ordering services: name, contact phone number and / or email address&lt;/p&gt;&lt;p&gt;For the conclusion of a contract, if you are a representative of a legal entity: name, surname, position, workplace, direct telephone number and e-mail address of the representative&lt;/p&gt;&lt;p&gt;For the conclusion of a contract, if you are a natural person: first name, last name, place of residence, bank account number, personal telephone number and e-mail address&lt;/p&gt;&lt;p&gt;Direct Marketing: Name, contact phone number and / or email address&lt;/p&gt;&lt;p&gt;Can you not provide your data?&lt;/p&gt;&lt;p&gt;Yes, but only in certain cases, i.e. when personal data is collected based on consent (for example, for participation in selective purposes, for representation purposes) or in cases of direct marketing. However, if you want to order our services or we have agreed to purchase your goods / services, you must submit your data. We collect only the data necessary for the provision of services or the purchase of goods / services related to the abovementioned purposes for the collection of personal data, therefore you do not agree to submit the data. You will not be able to purchase our services or we will not be able to purchase your goods / services.&lt;/p&gt;&lt;p&gt;How long do we keep your data?&lt;/p&gt;&lt;p&gt;To the extent that we are obliged to protect the law (for example, invoices are kept for 10 years, contracts are kept for 10 months from their execution / termination, etc.)&lt;/p&gt;&lt;p&gt;Data received during the execution of an order (in the provision of services) are stored together with the contract / transaction on the basis of which they were received: in order to prove the services rendered, their volume, the documents prepared, etc.&lt;/p&gt;&lt;p&gt;When the term law does not specify, we keep your data: only during the selection period, or for 3 years (eg correspondence, offers made, draft contracts, etc.).&lt;/p&gt;&lt;p&gt;Whom can we transfer your data to?&lt;/p&gt;&lt;p&gt;To the employer: For the performance of the Company’s contracts (provision of direct services)&lt;/p&gt;&lt;p&gt;To state institutions, law enforcement agencies, Lithuanian Naval Administration: To comply with the requirements of the legislation&lt;/p&gt;&lt;p&gt;To court, notary, bailiff, debt collection agencies, auditors to the labour dispute commission, labour inspectorate, state data protection inspection, lawyers, law enforcement agencies, IT specialists: To ensure the Company’s legitimate interests: to protect rights, to recover debts, to secure data protection or to execute contracts&lt;/p&gt;&lt;p&gt;To postage / courier services, insurance companies, other data controllers using the right to transfer data: At the request of the data subject&lt;/p&gt;&lt;p&gt;To flights, passenger transport companies, port agents for consular departments (for booking / obtaining visas): To perform contract with the Jobseeker / Employer&lt;/p&gt;&lt;p&gt;What are your rights?&lt;/p&gt;&lt;p&gt;The right to receive information / additional information&lt;/p&gt;&lt;p&gt;Access to your data, obtaining copies of them&lt;/p&gt;&lt;p&gt;The right to request deletion, modification, addition or transfer of data or to restrict their processing&lt;/p&gt;&lt;p&gt;The right to revoke a given consent or to refuse consent&lt;/p&gt;&lt;p&gt;The right to apply for violation of your processing (complaining of our actions)&lt;/p&gt;&lt;p&gt; How can you exercise your rights?&lt;/p&gt;&lt;p&gt;If you wish to exercise any of the above rights, you must submit a reasoned request with your name, contact information, indicate how you would like to receive a reply (by post, e-mail) and arrange your request.&lt;/p&gt;&lt;p&gt;You can submit your request:&lt;/p&gt;&lt;p&gt;Directly at our main office Turgaus str. 29, Klaipeda, Lithuania presenting your original identity document, or&lt;/p&gt;&lt;p&gt;By e-mail info@ismira.lt if the request is confirmed by your electronic signature, or&lt;/p&gt;&lt;p&gt;By mail. You must attach a notarized copy of the identity document to the request.&lt;/p&gt;&lt;p&gt;Requests which, at the time of submission, are not capable of identifying the person who submitted it, are not examined and the sender / tenderer is informed of the reasons for the decision.&lt;/p&gt;&lt;p&gt;We will provide our response within 30 calendar days, having the right to extend the time limit for processing such an application for objective reasons.&lt;/p&gt;&lt;p&gt;We use cookies on our website.&lt;/p&gt;&lt;p&gt;ISMIRA company Privacy Policy: dated 9 August 2018.&lt;/p&gt;&quot;,&quot;text&quot;:&quot;Privacy Policy&quot;,&quot;type&quot;:{&quot;id&quot;:&quot;checkboxes&quot;,&quot;name&quot;:&quot;Checkboxes&quot;},&quot;required&quot;:true,&quot;_id&quot;:&quot;e3c7cca171d801&quot;,&quot;options&quot;:[{&quot;text&quot;:&quot;I have read and agree to the Privacy Policy stated above.&quot;}],&quot;questionnaire_id&quot;:&quot;b1172632472a01&quot;}]"><input type="hidden" id="questionnaireVersion" value="1"><div ng-if="questionnaire.questions" class="section questions"><ul><li ng-repeat="question in questionnaire.questions" ng-init="$questionIndex = $index" class="question"><div ng-if="question.type.id == &quot;text&quot; || !question.type"><h3><span>{{ question.text }}</span><span title="Required" ng-show="question.required" class="ng-hide required">*</span></h3><div marked="question.body" ng-if="question.body &amp;&amp; question.body.length &gt; 0" class="question-body"></div><input name="section_{{section._id}}_question_{{$index}}" ng-model="question.response" type="text" placeholder="" ng-required="{{question.required}}"><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="question.required &amp;&amp; !question.response" class="error polygot">%ERROR_INVALID_FORM_RESPONSE%</span></div></div><div ng-if="question.type.id == &quot;paragraph&quot;"><h3><span>{{ question.text }}</span><span title="Required" ng-show="question.required" class="ng-hide required">*</span></h3><div marked="question.body" ng-if="question.body &amp;&amp; question.body.length &gt; 0" class="question-body"></div><textarea name="section_{{section._id}}_question_{{$questionIndex}}" ng-model="question.response" placeholder="" ng-required="{{question.required}}" class="description full"></textarea><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="question.required &amp;&amp; !question.response" class="error polygot">%ERROR_INVALID_FORM_RESPONSE%</span></div></div><div ng-if="question.type.id == &quot;file&quot;"><h3><span>{{ question.text }}</span><span title="Required" ng-show="question.required" class="ng-hide required">*</span></h3><div marked="question.body" ng-if="question.body &amp;&amp; question.body.length &gt; 0" class="question-body"></div><input type="hidden" id="resume_required" value="required"><div class="file-input-container type"><a href="" ng-click="showQuestionnaireFileSelector(&quot;#questionnaire-file-&quot; + section._id + $index)" ng-if="question.response.url" class="bzyLinkColor"><span class="fa fa-paperclip"></span><span> </span><span>{{question.response.file_name}}</span></a><a href="" ng-click="showQuestionnaireFileSelector(&quot;#questionnaire-file-&quot; + section._id + $index)" ng-if="!question.response.url" class="placeholder bzyLinkColor"><span class="polygot">%LINK_UPLOAD_FILE%</span><span> </span><i ng-if="question.fileUploading" class="fa fa-refresh fa-spin"></i></a><input id="questionnaire-file-{{section._id}}{{$index}}" name="section_{{section._id}}_question_{{$questionIndex}}" ng-model="question.response" style="display:none;" type="file" ng-file-select="onQuestionnaireFileSelect($files, question)" ng-required="{{question.required}}" accept=".abw, .djvu, .doc, .docm, .docx, .html, .lwp, .md, .mp3,.mp4, .odt, .pages, .zip, .rar, .pdf, .rst, .rtf, .sdw, .tex, .txt, .wpd, .wps, .zabw, .png, .jpg, .gif, .jpeg, .xls, .xlsx, .ppt, .pptx, .sldx" class="attachment"><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="question.required &amp;&amp; !question.response.url" class="error polygot">%ERROR_INVALID_FORM_FILE%</span></div><div ng-show="question.response.error" class="error-container ng-hide"><span class="error polygot">%ERROR_INVALID_FORM_FILE_SIZE%</span></div></div></div><div ng-if="question.type.id == &quot;date&quot;"><h3><span>{{ question.text }}</span><span title="Required" ng-show="question.required" class="ng-hide required">*</span></h3><div marked="question.body" ng-if="question.body &amp;&amp; question.body.length &gt; 0" class="question-body"></div><input name="section_{{section._id}}_question_{{$index}}" ng-model="question.response" type="date" ng-required="{{question.required}}"><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="question.required &amp;&amp; !question.response" class="error polygot">%ERROR_INVALID_FORM_RESPONSE%</span></div></div><div ng-if="question.type.id == &quot;referencecheck&quot;" class="referencecheck"><h3><span>{{ question.text }}</span><span title="Required" ng-show="question.required" class="ng-hide required">*</span></h3><div marked="question.body" ng-if="question.body &amp;&amp; question.body.length &gt; 0" class="question-body"></div><ul class="references"><li ng-repeat="reference in question.responses" class="reference"><h3 ng-if="question.reference_count &gt; 1"><span class="polygot">%HEADER_REFERENCE%</span><span> {{$index + 1}}</span></h3><input ng-model="reference.name" type="text" placeholder="%PLACEHOLDER_FULL_NAME%" ng-required="{{question.required}}" name="section_{{section._id}}_question_{{$questionIndex}}" class="reference-name polygot"><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="question.required &amp;&amp; !reference.name" class="error polygot">%ERROR_INVALID_FORM_RESPONSE%</span></div><div class="form-divider"></div><input ng-model="reference.email_address" type="email" placeholder="%PLACEHOLDER_EMAIL_ADDRESS%" ng-required="{{question.required}}" class="reference-email polygot"><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="question.required &amp;&amp; !reference.email_address" class="error polygot">%ERROR_INVALID_FORM_RESPONSE%</span></div><div class="form-divider"></div><input ng-model="reference.phone_number" type="tel" placeholder="%PLACEHOLDER_PHONE_NUMBER%" ng-required="{{question.required}}" class="reference-number polygot"><div class="form-divider"></div><h4 class="polygot">%HEADER_RELATIONSHIP%</h4><ul><li><input type="radio" name="reference.type_{{question._id}}_{{section._id}}_{{$index + 1}}" ng-model="reference.type" value="professional"><strong> </strong><strong class="polygot">%LABEL_REFERENCE_TYPE_PROFESSIONAL%</strong></li><li><input type="radio" name="reference.type_{{question._id}}_{{section._id}}_{{$index + 1}}" ng-model="reference.type" value="personal"><strong> </strong><strong class="polygot">%LABEL_REFERENCE_TYPE_PERSONAL%</strong></li></ul><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="question.required &amp;&amp; !reference.type" class="error polygot">%ERROR_INVALID_FORM_RESPONSE%</span></div></li></ul></div><div ng-if="question.type.id == &quot;dropdown&quot;" class="dropdown"><h3><span>{{ question.text }}</span><span title="Required" ng-show="question.required" class="ng-hide required">*</span></h3><div marked="question.body" ng-if="question.body &amp;&amp; question.body.length &gt; 0" class="question-body"></div><div class="dropdown-container"><div class="select-wrapper"><select name="section_{{section._id}}_question_{{$questionIndex}}" ng-model="question.response" ng-required="{{question.required &amp;&amp; !question.response}}" class="options-dropdown"><option value="{{opt.text}}" ng-repeat="opt in question.options">{{opt.text}}</option></select></div></div><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="question.required &amp;&amp; !question.response" class="error polygot">%ERROR_INVALID_FORM_RESPONSE%</span></div></div><div ng-if="question.type.id == &quot;multiplechoice&quot;" class="multiplechoice"><h3><span>{{ question.text }}</span><span title="Required" ng-show="question.required" class="ng-hide required">*</span></h3><div marked="question.body" ng-if="question.body &amp;&amp; question.body.length &gt; 0" class="question-body"></div><ul class="options"><li ng-repeat="opt in question.options" class="option"><label><input type="radio" ng-model="question.response" value="{{opt.text}}" ng-required="{{question.required &amp;&amp; !question.response}}" name="section_{{section._id}}_question_{{$questionIndex}}"><span>{{ opt.text }}</span></label></li></ul><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="question.required &amp;&amp; !question.response" class="error polygot">%ERROR_INVALID_FORM_RESPONSE%</span></div></div><div ng-if="question.type.id == &quot;checkboxes&quot;" class="multiplechoice"><h3>{{ question.text }}<span title="Required" ng-show="question.required" class="ng-hide required">*</span></h3><div marked="question.body" ng-if="question.body &amp;&amp; question.body.length &gt; 0" class="question-body"></div><ul class="options"><li ng-repeat="opt in question.options" class="option"><input type="checkbox" ng-model="question.responses[$index]" ng-change="checkCheckboxResponses(question)" ng-required="question.required &amp;&amp; question.responses.length == 0" name="section_{{section._id}}_question_{{$questionIndex}}"><span>{{ opt.text }}</span></li></ul><div ng-show="formSubmitted || sectionSubmitted" class="error-container"><span ng-show="question.required &amp;&amp; question.responses.length == 0" class="error polygot">%ERROR_INVALID_FORM_RESPONSE%</span></div></div><div ng-if="question.type.id == &quot;video&quot;" ng-class="checkVideoOkay(question, $index) ? &quot;good&quot; : &quot;bad&quot;" class="video-response"><h3>{{ question.text }}<span title="Required" ng-show="question.required" class="ng-hide required">*</span></h3><div marked="question.body" ng-if="question.body &amp;&amp; question.body.length &gt; 0" class="question-body"></div><ziggeo ziggeo-theme="elevate" ziggeo-timeminlimit="10" ziggeo-mintimelimit="10" ziggeo-minlimit="10" ziggeo-width="400" ziggeo-height="300" ziggeo-id="{{section._id}}:{{$index}}" ziggeo-limit="{{question.video_length}}" ziggeo-expiration-days="30"></ziggeo><div ng-show="formSubmitted || sectionSubmitted" class="error-container"><span ng-show="question.required &amp;&amp; !question.response.thumbnail_url" class="error polygot">%ERROR_INVALID_FORM_RESPONSE%</span></div></div><div ng-if="question.type.id == &quot;verification_code&quot;" class="verification-code"><h3><span>{{ question.text }}</span><span title="Required" ng-show="question.required" class="ng-hide required">*</span></h3><div marked="question.body" ng-if="question.body &amp;&amp; question.body.length &gt; 0" class="question-body"></div><input name="section_{{section._id}}_question_{{$index}}" ng-model="question.response" type="text" maxlength="4" placeholder="0000" ng-required="{{question.required}}" inputmode="numeric" pattern="[0-9]*" ng-change="verificationError = null" style="letter-spacing: 0.3em; text-align: center; width: 150px;"><div ng-show="formSubmitted || sectionSubmitted" class="error-container ng-hide"><span ng-show="question.required &amp;&amp; !question.response" class="error polygot">Please enter your verification code</span></div><div ng-show="verificationError" class="error-container"><span class="error">{{ verificationError }}</span></div></div></li></ul></div><div class="gdpr-agreement"><hr><div class="section"><div class="gdpr-accept"><h3><span>PERSONAL DATA HANDLING CONSENT</span><span title="Required" class="required">*</span></h3><label><input type="checkbox" name="gdprAgreement" ng-required="true" ng-model="candidate.gdpr.consent" value="true"><div><p>I have read the PERSONAL DATA HANDLING CONSENT as outlined in the document following the Privacy Notice link below and consent the processing of my personal data as part of my job application.</p>
+</div></label><br><br><a href="https://ismira.breezy.hr/privacy-notice" target="_blank" class="blue bzyLinkColor"><i class="fa fa-external-link"></i><span> </span><span class="polygot">%LABEL_VIEW_PRIVACY_NOTICE%</span></a><div ng-show="formSubmitted &amp;&amp; !candidate.gdpr.consent" class="ng-hide error-container"><span class="error polygot">%ERROR_CONSENT_REQUIRED%</span></div></div></div><div ng-show="gdpr.display_notice" class="section ng-hide"><div class="section-header"><h3>PERSONAL DATA HANDLING CONSENT</h3></div><div class="section"><div class="message"><p>I have read the PERSONAL DATA HANDLING CONSENT as outlined in the document following the Privacy Notice link below and consent the processing of my personal data as part of my job application.</p>
+</div></div></div></div><div class="apply-container"><ul class="navigation-buttons"><li class="apply-button"><button type="submit" ng-disabled="isSubmitting" ng-class="submitting === true ? &quot;submitting&quot; : &quot;&quot;" class="button green large bzyButtonColor"><i class="fa fa-refresh fa-spin"></i><span class="polygot">%BUTTON_SUBMIT_APPLICATION%</span></button></li></ul></div></form><div ng-show="formSubmitted &amp;&amp; form.$invalid || sectionSubmitted" class="ng-hide error-container"><span class="error polygot">%ERROR_INVALID_FORM%</span></div><div ng-if="errorMessage" class="error-container"><span class="error">{{ errorMessage }}</span></div></div></div></div></div></div><div ng-show="!applied" class="container footer"><div class="container-wrapper light bzy-footer"><p><a href="https://breezy.hr/m/portal?utm_source=Portal&amp;utm_medium=Referral&amp;utm_campaign=Portal"><span class="polygot label">%FOOTER_POWERED_BY%</span><span class="brand">breezy</span></a></p></div></div><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-176681-19', 'auto');
+ga('send', 'pageview');</script></body></html>

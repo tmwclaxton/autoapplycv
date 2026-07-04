@@ -1,0 +1,358 @@
+{
+  "id": "web-career8-successfactors-com-careers-3",
+  "min_fields": 19,
+  "exact_field_count": 19,
+  "fields": [
+    {
+      "question": "search by keyword",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "q",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search by location",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "locationsearch",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address: email address:",
+      "field_type": "text",
+      "max_chars": 99,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "fbclc_userName",
+        "name": "fbclc_userName",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "retype email address: retype email address:",
+      "field_type": "text",
+      "max_chars": 99,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "fbclc_emailConf",
+        "name": "fbclc_emailConf",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "choose password: choose password:",
+      "field_type": "password",
+      "max_chars": 99,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "fbclc_pwd",
+        "name": "fbclc_pwd",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "retype password: retype password:",
+      "field_type": "password",
+      "max_chars": 99,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "fbclc_pwdConf",
+        "name": "fbclc_pwdConf",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "first name: first name:",
+      "field_type": "text",
+      "max_chars": 40,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "fbclc_fName",
+        "name": "fbclc_fName",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "last name: last name:",
+      "field_type": "text",
+      "max_chars": 40,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "fbclc_lName",
+        "name": "fbclc_lName",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "country/region code: country/region code:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "- Select -",
+        "Argentina (+54)",
+        "Australia (+61)",
+        "Austria (+43)",
+        "Bahamas (+1)",
+        "Belgium (+32)",
+        "Bermuda (+1)",
+        "Brazil (+55)",
+        "Canada (+1)",
+        "Chile (+56)",
+        "China (+86)",
+        "Colombia (+57)",
+        "Costa Rica (+506)",
+        "Croatia (+385)",
+        "Cyprus (+357)",
+        "Czech Republic (+420)",
+        "Denmark (+45)",
+        "Dominican Republic (+1)",
+        "Ecuador (+593)",
+        "Egypt (+20)",
+        "Finland (+358)",
+        "France (+33)",
+        "Germany (+49)",
+        "Honduras (+504)",
+        "Hong Kong (+852)",
+        "Hungary (+36)",
+        "India (+91)",
+        "Indonesia (+62)",
+        "Ireland (+353)",
+        "Israel (+972)"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "fbclc_ituCode",
+        "name": "fbclc_ituCode",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number: phone number:",
+      "field_type": "text",
+      "max_chars": 99,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "fbclc_phoneNumber",
+        "name": "fbclc_phoneNumber",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "home phone: home phone: home phone:",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "tor__fhomePhone",
+        "name": "tor__fhomePhone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "address line 1: address line 1: address line 1:",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "tor__faddress",
+        "name": "tor__faddress",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "address line 2: address line 2: address line 2:",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "tor__fcaddress2",
+        "name": "tor__fcaddress2",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "city: city: city:",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "tor__fcity",
+        "name": "tor__fcity",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "zip/postal code: zip/postal code: zip/postal code:",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "tor__fzip",
+        "name": "tor__fzip",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "please specify your specific source/referral name: please specify your specific source/referral name: please specify your specific source/referral name:",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "tor__fcandidateSource2",
+        "name": "tor__fcandidateSource2",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "if referral selected (employee or non employee), how do you know this person? if referral selected (employee or non employee), how do you know this person? if referral selected (employee or non employee), how do you know this person?",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "tor__fcandidateSource3",
+        "name": "tor__fcandidateSource3",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "to the terms and conditions above, \"i agree\" to the terms and conditions above, \"i agree\" to the terms and conditions above, \"i agree\"",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "To the terms and conditions above, \"I Agree\""
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "tor__fcAgreement",
+        "name": "tor__fcAgreement",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "country/region of residence: country/region of residence: country/region of residence",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "- Select -",
+        "Argentina",
+        "Australia",
+        "Austria",
+        "Bahamas",
+        "Belgium",
+        "Bermuda",
+        "Brazil",
+        "Canada",
+        "Chile",
+        "China",
+        "Colombia",
+        "Costa Rica",
+        "Croatia",
+        "Cyprus",
+        "Czech Republic",
+        "Denmark",
+        "Dominican Republic",
+        "Ecuador",
+        "Egypt",
+        "Finland",
+        "France",
+        "Germany",
+        "Honduras",
+        "Hong Kong",
+        "Hungary",
+        "India",
+        "Indonesia",
+        "Ireland",
+        "Israel"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "fbclc_country",
+        "name": "fbclc_country",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

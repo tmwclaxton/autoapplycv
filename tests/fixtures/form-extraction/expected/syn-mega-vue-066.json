@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-vue-066",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "your name (9066) your name (9066)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vue-name-9066",
+        "name": "vue-name-9066",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9066) work email (9066)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "vue-email-9066",
+        "name": "vue-email-9066",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9066) cell phone (9066)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "vue-phone-9066",
+        "name": "vue-phone-9066",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "motivation statement (9066) motivation statement (9066)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement-9066-90",
+        "name": "motivation-statement-9066-90",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred location (9066) preferred location (9066)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Manchester",
+        "Dublin",
+        "Hybrid",
+        "London"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-location-9066-9066",
+        "name": "preferred-location-9066-9066",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save and continue"
+    }
+  ],
+  "vet_notes": []
+}

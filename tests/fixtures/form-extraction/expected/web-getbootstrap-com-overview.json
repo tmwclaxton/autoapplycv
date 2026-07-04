@@ -4,34 +4,66 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "email address email address exampleinputemail1",
+      "question": "email address email address",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "exampleInputEmail1",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "password password exampleinputpassword1",
+      "question": "password password",
       "field_type": "password",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "exampleInputPassword1",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "check me out check me out examplecheck1",
+      "question": "check me out check me out",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Check me out"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "exampleCheck1",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "disabled fieldset example",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "disabledTextInput",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

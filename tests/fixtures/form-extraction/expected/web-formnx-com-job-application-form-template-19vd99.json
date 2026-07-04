@@ -4,77 +4,157 @@
   "exact_field_count": 22,
   "fields": [
     {
-      "question": "full name full name enter your full name field_1 field_1 full name",
+      "question": "full name full name enter your full name full name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field_1",
+        "name": "field_1",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email email your email address field_16 field_16 email",
+      "question": "email email your email address email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "field_16",
+        "name": "field_16",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "search search phone number",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "phone number phone number +1 201-555-0123 phone_number_field_52_format phone_number_field_52 phone number",
+      "question": "phone number phone number +1 201-555-0123 phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone_number_field_52",
+        "name": "phone_number_field_52_format",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "address address your address, address line 1, address line 2, city, state, country field_18 field_18 address",
+      "question": "address address your address, address line 1, address line 2, city, state, country address",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "field_18",
+        "name": "field_18",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "linkedin profile linkedin profile linkedin profile url field_19 field_19 linkedin profile",
+      "question": "linkedin profile linkedin profile linkedin profile url linkedin profile",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field_19",
+        "name": "field_19",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "portfolio website (if applicable) portfolio website (if applicable) website link field_20 field_20 portfolio website (if applicable)",
+      "question": "portfolio website (if applicable) portfolio website (if applicable) website link portfolio website (if applicable)",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field_20",
+        "name": "field_20",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "current or most recent employer current or most recent employer name of employer field_25 field_25 current or most recent employer",
+      "question": "current or most recent employer current or most recent employer name of employer current or most recent employer",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field_25",
+        "name": "field_25",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "job title job title field_26 field_26 job title",
+      "question": "job title job title job title",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field_26",
+        "name": "field_26",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "brief description of responsibilities brief description of responsibilities type here... field_53 field_53 brief description of responsibilities",
+      "question": "brief description of responsibilities brief description of responsibilities type here... brief description of responsibilities",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "field_53",
+        "name": "field_53",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "highest education level highest education level field_31 field_31 highest education level",
+      "question": "highest education level highest education level highest education level",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -84,41 +164,81 @@
         "Ph.D.",
         "Other"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field_31",
+        "name": "field_31",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "school/university name school/university name field_32 field_32 school/university name",
+      "question": "school/university name school/university name school/university name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "field_32",
+        "name": "field_32",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "graduation year graduation year field_33 field_33 graduation year",
+      "question": "graduation year graduation year graduation year",
       "field_type": "number",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "field_33",
+        "name": "field_33",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "list your skills and qualifications list your skills and qualifications list your skills, qualifications, and relevant certifications. field_35 field_35 list your skills and qualifications",
+      "question": "list your skills and qualifications list your skills and qualifications list your skills, qualifications, and relevant certifications. list your skills and qualifications",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "field_35",
+        "name": "field_35",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "yes yes field_36 field_36_yes yes can you legally work in [country]?",
+      "question": "yes yes yes can you legally work in [country]?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
         "Yes",
         "No"
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "field_36_yes",
+        "name": "field_36",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "how did you hear about this job opportunity? how did you hear about this job opportunity? field_38 field_38 how did you hear about this job opportunity?",
+      "question": "how did you hear about this job opportunity? how did you hear about this job opportunity? how did you hear about this job opportunity?",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -127,54 +247,110 @@
         "Referral",
         "Other"
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field_38",
+        "name": "field_38",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "are you willing to relocate for this job? are you willing to relocate for this job? field_39 field_39 are you willing to relocate for this job?",
+      "question": "are you willing to relocate for this job? are you willing to relocate for this job? are you willing to relocate for this job?",
       "field_type": "select",
       "max_chars": null,
       "options": [
         "Yes",
         "No"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "field_39",
+        "name": "field_39",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "any reference (1) any reference (1) field_40 field_40 any reference (1)",
+      "question": "any reference (1) any reference (1) any reference (1)",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "field_40",
+        "name": "field_40",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "any reference (2) any reference (2) field_41 field_41 any reference (2)",
+      "question": "any reference (2) any reference (2) any reference (2)",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "field_41",
+        "name": "field_41",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "i agree to the terms and conditions i agree to the terms and conditions field_43 field_43",
+      "question": "i agree to the terms and conditions i agree to the terms and conditions",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "I agree to the Terms and Conditions *"
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "field_43",
+        "name": "field_43",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "extra_ref",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "extra_ref",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "year",
       "field_type": "number",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

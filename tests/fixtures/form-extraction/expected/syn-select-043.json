@@ -4,21 +4,37 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "applicant name applicant name applicant-name applicant-name applicant name",
+      "question": "applicant name applicant name applicant name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "applicant-name",
+        "name": "applicant-name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "work email work email work-email work-email work email",
+      "question": "work email work email work email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "work-email",
+        "name": "work-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "country of residence country of residence country-of-residence country-of-residence country of residence",
+      "question": "country of residence country of residence country of residence",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -29,10 +45,18 @@
         "Germany",
         "France"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "country-of-residence",
+        "name": "country-of-residence",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "how did you hear about us? how did you hear about us? how-did-you-hear-about-u how-did-you-hear-about-u how did you hear about us?",
+      "question": "how did you hear about us? how did you hear about us? how did you hear about us?",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -43,7 +67,15 @@
         "Job board",
         "Other"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "how-did-you-hear-about-u",
+        "name": "how-did-you-hear-about-u",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

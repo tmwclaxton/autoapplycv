@@ -1,0 +1,51 @@
+{
+  "id": "web-forms-gle-p1t8dujpgceb7vdk9",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "what is your semester of graduation?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Fall 2026",
+        "Spring 2027",
+        "Fall 2027",
+        "Spring 2028",
+        "Summer 2028",
+        "Spring 2029",
+        "Fall 2029",
+        "Spring 2030"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "i20",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
+    },
+    {
+      "question": "are you a macaulay honors college student?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "i212",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

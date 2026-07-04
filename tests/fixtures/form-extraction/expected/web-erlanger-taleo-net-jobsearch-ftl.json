@@ -1,0 +1,73 @@
+{
+  "id": "web-erlanger-taleo-net-jobsearch-ftl",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "jobs available in: jobs available in:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "languageSelectInterface.languageSelect",
+        "name": "languageSelect",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search query name search query name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "saveSearchInterface.SaveNameInput",
+        "name": "nameValue",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job number job number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "basicSearchInterface.jobNumberInput",
+        "name": "jobNumberSearch",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "keywords keywords",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "basicSearchInterface.keywordInput",
+        "name": "keyword",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save"
+    }
+  ],
+  "vet_notes": []
+}

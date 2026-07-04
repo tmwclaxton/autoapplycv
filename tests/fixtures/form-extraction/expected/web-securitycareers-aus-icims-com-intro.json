@@ -1,0 +1,61 @@
+{
+  "id": "web-securitycareers-aus-icims-com-intro",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "search job title/keyword search job title/keyword enter keyword",
+      "field_type": "search",
+      "max_chars": 150,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "search-keyword-4598cf502f",
+        "name": "k",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "location location enter location",
+      "field_type": "text",
+      "max_chars": 150,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-location-4598cf502f",
+        "name": "l",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "radius radius",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select miles",
+        "5 miles",
+        "15 miles",
+        "25 miles",
+        "35 miles",
+        "50 miles"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "search-radius-4598cf502f",
+        "name": "r",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-vue-015",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "legal name (9015) legal name (9015)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vue-name-9015",
+        "name": "vue-name-9015",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9015) primary email (9015)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "vue-email-9015",
+        "name": "vue-email-9015",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9015) contact number (9015)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "vue-phone-9015",
+        "name": "vue-phone-9015",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "motivation statement (9015) motivation statement (9015)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement-9015-90",
+        "name": "motivation-statement-9015-90",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work location (9015) work location (9015)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Berlin",
+        "Manchester",
+        "Hybrid",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "work-location-9015-9015",
+        "name": "work-location-9015-9015",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save and continue"
+    }
+  ],
+  "vet_notes": []
+}

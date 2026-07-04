@@ -1,0 +1,89 @@
+{
+  "id": "syn-mega-mixed-007",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9987) applicant name (9987)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "mix-name-9987",
+        "name": "mix-name-9987",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "application email (9987) application email (9987)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "mix-email-9987",
+        "name": "mix-email-9987",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number (9987) phone number (9987)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "mix-phone-9987",
+        "name": "mix-phone-9987",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "github profile (9987) github profile (9987)",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "modal-loc-9987",
+        "name": "modal-loc-9987",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred location (9987)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Remote",
+        "Manchester",
+        "Berlin",
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-9987",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

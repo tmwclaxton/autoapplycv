@@ -8,28 +8,60 @@
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "input-q_name-as-on-cv",
+        "data_testid": "input-q_name-as-on-cv-input",
+        "role": null
+      }
     },
     {
       "question": "input-q_personal-email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "input-q_personal-email",
+        "data_testid": "input-q_personal-email-input",
+        "role": null
+      }
     },
     {
       "question": "input-q_cover-letter",
       "field_type": "textarea",
       "max_chars": 500,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "input-q_cover-letter",
+        "data_testid": "input-q_cover-letter-input",
+        "role": null
+      }
     },
     {
       "question": "input-q_total-years-of-p",
       "field_type": "number",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": null,
+        "name": "input-q_total-years-of-p",
+        "data_testid": "input-q_total-years-of-p-input",
+        "role": null
+      }
     }
   ],
   "controls": [

@@ -4,25 +4,49 @@
   "exact_field_count": 3,
   "fields": [
     {
-      "question": "contact email contact email contact-email contact-email contact email",
+      "question": "contact email contact email contact email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "contact-email",
+        "name": "contact-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "telephone telephone telephone telephone telephone",
+      "question": "telephone telephone telephone",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "telephone",
+        "name": "telephone",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "motivation statement motivation statement motivation-statement motivation-statement motivation statement",
+      "question": "motivation statement motivation statement motivation statement",
       "field_type": "textarea",
       "max_chars": 400,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement",
+        "name": "motivation-statement",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

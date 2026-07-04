@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-vue-001",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "your name (9001) your name (9001)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vue-name-9001",
+        "name": "vue-name-9001",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact email (9001) contact email (9001)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "vue-email-9001",
+        "name": "vue-email-9001",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9001) contact number (9001)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "vue-phone-9001",
+        "name": "vue-phone-9001",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "motivation statement (9001) motivation statement (9001)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement-9001-90",
+        "name": "motivation-statement-9001-90",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9001) office preference (9001)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Berlin",
+        "Manchester",
+        "London",
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "office-preference-9001-9001",
+        "name": "office-preference-9001-9001",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save and continue"
+    }
+  ],
+  "vet_notes": []
+}

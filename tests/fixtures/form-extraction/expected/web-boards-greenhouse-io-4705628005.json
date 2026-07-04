@@ -4,95 +4,199 @@
   "exact_field_count": 13,
   "fields": [
     {
-      "question": "first name first name first name first_name first name",
+      "question": "first name first name first name first name",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "first_name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "last name last name last name last_name last name",
+      "question": "last name last name last name last name",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "last_name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "preferred first name preferred first name preferred first name preferred_name preferred first name",
+      "question": "preferred first name preferred first name preferred first name preferred first name",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "preferred_name",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email email email email email",
+      "question": "email email email email",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "email",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "phone",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "country",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "what is your current working location? (city, state) what is your current working location? (city, state) what is your current working location? (city, state) question_8816613005 what is your current working location? (city, state)",
+      "question": "what is your current working location? (city, state) what is your current working location? (city, state) what is your current working location? (city, state) what is your current working location? (city, state)",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8816613005",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "are you able to come into the detroit office 5 days per week? are you able to come into the detroit office 5 days per week? question_8816614005 what is your current working location? (city, state)",
+      "question": "are you able to come into the detroit office 5 days per week? are you able to come into the detroit office 5 days per week? what is your current working location? (city, state)",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8816614005",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
       "question": "what is your current working location? (city, state)",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "are you able to work until at least 5:00pm monday-friday? are you able to work until at least 5:00pm monday-friday? question_8816615005 what is your current working location? (city, state)",
+      "question": "are you able to work until at least 5:00pm monday-friday? are you able to work until at least 5:00pm monday-friday? what is your current working location? (city, state)",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8816615005",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "are you legally authorized to work in the united states without the need for visa sponsorship now or in the future? are you legally authorized to work in the united states without the need for visa sponsorship now or in the future? question_8816616005 what is your current working location? (city, state)",
+      "question": "are you legally authorized to work in the united states without the need for visa sponsorship now or in the future? are you legally authorized to work in the united states without the need for visa sponsorship now or in the future? what is your current working location? (city, state)",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8816616005",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "do your compensation expectations align with the stated pay range in the job description? do your compensation expectations align with the stated pay range in the job description? question_8816617005 what is your current working location? (city, state)",
+      "question": "do your compensation expectations align with the stated pay range in the job description? do your compensation expectations align with the stated pay range in the job description? what is your current working location? (city, state)",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8816617005",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
     },
     {
-      "question": "which employee, if any, referred you to this position? which employee, if any, referred you to this position? which employee, if any, referred you to this position? question_8816618005 which employee, if any, referred you to this position?",
+      "question": "which employee, if any, referred you to this position? which employee, if any, referred you to this position? which employee, if any, referred you to this position? which employee, if any, referred you to this position?",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8816618005",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "linkedin profile linkedin profile linkedin profile question_8808051005 linkedin profile",
+      "question": "linkedin profile linkedin profile linkedin profile linkedin profile",
       "field_type": "text",
       "max_chars": 255,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_8808051005",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

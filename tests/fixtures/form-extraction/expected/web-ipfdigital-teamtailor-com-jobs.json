@@ -1,0 +1,57 @@
+{
+  "id": "web-ipfdigital-teamtailor-com-jobs",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "search search search",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "query",
+        "name": "query",
+        "data_testid": null,
+        "role": "search"
+      }
+    },
+    {
+      "question": "job filters",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "All",
+        "Back Office",
+        "Collection",
+        "Corporate Affairs",
+        "Credit & Risk",
+        "Customer Care",
+        "Customer Excellence",
+        "Finance",
+        "Global Strategic Partnerships",
+        "Human Resources",
+        "IPF Group",
+        "IT",
+        "Legal & Compliance",
+        "Marketing - CRM",
+        "Marketing - Digital Marketing",
+        "Marketing - Product Innovation",
+        "Tax"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "department-select",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

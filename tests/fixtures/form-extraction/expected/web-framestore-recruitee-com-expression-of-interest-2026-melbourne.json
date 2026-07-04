@@ -1,0 +1,135 @@
+{
+  "id": "web-framestore-recruitee-com-expression-of-interest-2026-melbourne",
+  "min_fields": 7,
+  "exact_field_count": 7,
+  "fields": [
+    {
+      "question": "my information",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-undefined",
+        "name": "candidate.name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "questions",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.openQuestionAnswers.6577765.content-undefined",
+        "name": "candidate.openQuestionAnswers.6577765.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "how many years of relevant industry experience do you have?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Less than 1 year",
+        "1-2 years",
+        "2-5 years",
+        "5+ years"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6577767.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.6577767.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "how would you describe your current level of seniority?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Entry-level",
+        "Junior",
+        "Mid",
+        "Senior",
+        "Lead",
+        "Supervisor"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6577768.content-undefined-0",
+        "name": "candidate.openQuestionAnswers.6577768.content",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "if you're currently living outside of australia, are you open to relocating to melbourne, australia for work purposes?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "I'm in Australia",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-candidate.openQuestionAnswers.7235171.multiContent-undefined-0",
+        "name": "candidate.openQuestionAnswers.7235171.multiContent",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "have you worked for framestore at any of the global locations?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.6577776.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.6577776.flag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "legal agreements",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "false"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "candidate.agreements.0.consent",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

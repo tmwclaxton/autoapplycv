@@ -1,0 +1,58 @@
+{
+  "id": "web-boards-greenhouse-io-5128109007",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "search by job title or job location",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "searchInput",
+        "name": "search-job",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "department departments",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "All Departments"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "departments",
+        "name": "department",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "location locations",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "All Locations"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "locations",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,282 @@
+{
+  "id": "web-vekst-teamtailor-com-new",
+  "min_fields": 16,
+  "exact_field_count": 16,
+  "fields": [
+    {
+      "question": "analytics analytics",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Analytics"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "analytics",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "marketing marketing",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Marketing"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "marketing",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "in short, what is your main interest in vekst and this role?required in short, what is your main interest in vekst and this role?required in short, what is your main interest in vekst and this role?required",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_0_text",
+        "name": "candidate[answers_attributes][0][text]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "which systems, tools and platforms have you worked with for digital content creation? which systems, tools and platforms have you worked with for digital content creation? which systems, tools and platforms have you worked with for digital content creation?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_1_text",
+        "name": "candidate[answers_attributes][1][text]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "have you created graphic assets for different digital channels?required",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "id_6887872",
+        "name": "candidate[answers_attributes][2][boolean]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "which tool, systems and platforms have you worked with for social media management?required which tool, systems and platforms have you worked with for social media management?required which tool, systems and platforms have you worked with for social media management?required",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_3_text",
+        "name": "candidate[answers_attributes][3][text]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "have you been working with content production at an agency and/or at a b2b company?required",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I have worked at an agency with mainly B2B clients.",
+        "I have worked at an agency mainly B2C clients.",
+        "I have worked inhouse at at B2B company.",
+        "I have worked inhouse at a B2C company.",
+        "I have no experience working with content production."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "id_6887888",
+        "name": "candidate[answers_attributes][4][choices][]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "can you communicate at a professional level in english?required",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "id_6887904",
+        "name": "candidate[answers_attributes][5][boolean]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "can you communicate at a professional level in swedish?required",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "id_6887920",
+        "name": "candidate[answers_attributes][6][boolean]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "the role is based at our office in gothenburg. do you currently live in the area, or are you willing to relocate so you can work from our office?required of course, there is flexibility and the option to work from home one day a week.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "id_6887936",
+        "name": "candidate[answers_attributes][7][boolean]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "first namerequired first namerequired",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate_first_name",
+        "name": "candidate[first_name]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "last namerequired last namerequired",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate_last_name",
+        "name": "candidate[last_name]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "emailrequired emailrequired",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "candidate_email",
+        "name": "candidate[email]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phonerequired phonerequired phone number with country code",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "candidate_phone",
+        "name": "candidate[phone]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "required.by submitting this application, i agree that i have read the privacy policy and confirm that vekst store my personal details to be able to process my job application. required.by submitting this application, i agree that i have read the privacy policy and confirm that vekst store my personal details to be able to process my job application.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Required.By submitting this application, I agree that I have read the Privacy Policy and confirm that Vekst store my personal details to be able to process my job application.*"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "candidate_consent_given",
+        "name": "candidate[consent_given]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "yes, vekst can contact me directly about specific future job opportunities. yes, vekst can contact me directly about specific future job opportunities.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes, Vekst can contact me directly about specific future job opportunities."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "candidate_consent_given_future_jobs",
+        "name": "candidate[consent_given_future_jobs]",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Preview summary."
+    },
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

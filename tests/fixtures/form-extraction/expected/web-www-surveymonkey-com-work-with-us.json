@@ -1,0 +1,637 @@
+{
+  "id": "web-www-surveymonkey-com-work-with-us",
+  "min_fields": 32,
+  "exact_field_count": 32,
+  "fields": [
+    {
+      "question": "first name + last name first name + last name first name + last name",
+      "field_type": "text",
+      "max_chars": 20000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "71121738_562483664",
+        "name": "71121738_562483664",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "date of birth date of birth first name + last name",
+      "field_type": "text",
+      "max_chars": 20000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "71121738_562483665",
+        "name": "71121738_562483665",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "age age first name + last name",
+      "field_type": "text",
+      "max_chars": 20000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "71121738_562483666",
+        "name": "71121738_562483666",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "where do you live? where do you live? first name + last name",
+      "field_type": "text",
+      "max_chars": 20000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "71121738_562483667",
+        "name": "71121738_562483667",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address email address first name + last name",
+      "field_type": "email",
+      "max_chars": 20000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "71121738_562483674",
+        "name": "71121738_562483674",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number phone number first name + last name",
+      "field_type": "tel",
+      "max_chars": 20000,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "71121738_562483676",
+        "name": "71121738_562483676",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "pick/modify date, use shift up or down to move a month, ctrl shift up or down to move a year dd/mm/yyyy",
+      "field_type": "text",
+      "max_chars": 10,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "71122694_562489746_DMY",
+        "name": "71122694_562489746_DMY",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "3. have you already emailed your cv? a cv will help your application - please email joinus@undergroundskate.co.nz",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "71121057_562479118",
+        "name": "71121057",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "4. how did you hear out about this position?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Trademe",
+        "Facebook",
+        "Instagram",
+        "Linked In",
+        "Store Website",
+        "Company Email",
+        "Friend",
+        "Instore",
+        "Seek",
+        "School - Kingsway",
+        "School - Orewa",
+        "School - Wentworth",
+        "School - Whangaparaoa",
+        "Massey Uni",
+        "AUT Uni"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "70980850",
+        "name": "70980850",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "5. position applying for?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Retail Supervisor/ Weekdays Part-time (Must have atleast 5+ years experiance in Retail)",
+        "Sales Shop Assistant/Full-time (minimum of 1 year of retail experience)",
+        "Sales Shop Assistant/Casual or Part-time (minimum of 1 year of retail experience)",
+        "Junior Trainee - Shop Assistant (16-17 years old - just starting in Retail)",
+        "Merchandiser (One shift per week outside of opening hours, 10+ years of experiance in Retail or Merchandising)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "70980598",
+        "name": "70980598",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "6. are you a current nz resident or citizen?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70981061_561629838",
+        "name": "70981061",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "7. do you require a visa to work in nz? (only yes if you are not a nz resident / citizen)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70981137_561630308",
+        "name": "70981137",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "8. where are you based?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Orewa Local",
+        "From the Coast",
+        "Wider Auckland Area"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "775653786_5137759925",
+        "name": "775653786",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "9. if offered a role when would you be able to start based at our retail store?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Within 7 Days",
+        "7-14 Days",
+        "14-21 Days",
+        "21-30 Days",
+        "30-40 Days",
+        "More than 40 Days"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70981365_561631570",
+        "name": "70981365",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "10. have you ever shopped with our company?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70981430_561631901",
+        "name": "70981430",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "11. do you have a completed tertiary degree or diploma?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70981600_561633111",
+        "name": "70981600",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "12. how many years relevant job experience do you have?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Less than 1 Year.",
+        "1-2 Years",
+        "2-3 Years",
+        "3-5 Years",
+        "6-10 Years",
+        "11 Years +"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70982943_561640062",
+        "name": "70982943",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "13. are you currently in paid employment?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70983631_561644425",
+        "name": "70983631",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "14. are you comfortable working a rotating roster that will include weekend and public holiday work?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70983881_561645971",
+        "name": "70983881",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "15. do you have any holidays of 4 or more days planned within the next 6 months?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70983988_561646532",
+        "name": "70983988",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "16. how engaged in the surf culture are you?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Extremely interested",
+        "Very interested",
+        "Somewhat interested",
+        "Not so interested",
+        "Not at all interested"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70984199_561648000",
+        "name": "70984199",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "17. how engaged in skate culture are you?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Extremely interested",
+        "Very interested",
+        "Somewhat interested",
+        "Not so interested",
+        "Not at all interested"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70984263_561648345",
+        "name": "70984263",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "18. how engaged in streetwear fashion are you?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Extremely interested",
+        "Very interested",
+        "Somewhat interested",
+        "Not so interested",
+        "Not at all interested"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70984292_561648535",
+        "name": "70984292",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "19. overall if asked about surf products what could you tell us?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "A great deal",
+        "A lot",
+        "A moderate amount",
+        "A little",
+        "None at all"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70984486_561649952",
+        "name": "70984486",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "20. overall if asked about skate products what could you tell us?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "A great deal",
+        "A lot",
+        "A moderate amount",
+        "A little",
+        "None at all"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70984580_561650498",
+        "name": "70984580",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "21. how often do you use social media?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "A great deal",
+        "A lot",
+        "A moderate amount",
+        "A little",
+        "None at all"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70984914_561652492",
+        "name": "70984914",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "22. mark the computer programs / actions you are comfortable with being given a practical test on?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "General Internet Google Search",
+        "Advanced Internet Google Search",
+        "ERP Based program use",
+        "General Sales Point Of Sale Program use",
+        "General Stock Entering procedure Program use.",
+        "MS Excel",
+        "MS Word",
+        "Adobe Illustrator",
+        "Adobe Lightroom",
+        "Adobe Photoshop",
+        "Adobe Acrobat",
+        "Video Editing Programs",
+        "Canva"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "70985479_561656019",
+        "name": "70985479[]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "23. list the retail skills you are confident in and ok to be tested on.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Merchandising",
+        "Pricing stock",
+        "Security Tagging Stock",
+        "Hanging stock",
+        "Retail sales skills",
+        "Advanced high sale retail skils",
+        "Selling on Finance",
+        "Selling over the phone",
+        "Handling Phone enquiries",
+        "Basic % discount & addition in your head maths",
+        "Security Knowledge"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "70986247_561660533",
+        "name": "70986247[]",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "24. do you hold a current drivers license? click the type held.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Full",
+        "Restricted",
+        "Learner",
+        "None at present"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70986736_561663404",
+        "name": "70986736",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "25. do you have your own vehicle to be able to get to work?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "70986907_561664460",
+        "name": "70986907",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "26. what is your expected hourly rate range?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Starting Out Employee Wage",
+        "Minimum Wage",
+        "$24.00 - $26.00 / hr",
+        "$27.00 - $29.00 / hr",
+        "$30.00 - $35.00 / hr",
+        "$35.50+ / hr"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "71117523_562456736",
+        "name": "71117523",
+        "data_testid": null,
+        "role": "radio"
+      }
+    },
+    {
+      "question": "27. declaration: i confirm that the above information is complete and correct and that any false or misleading information will give my employer the right to terminate my employment without notice.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Agree",
+        "Disagree"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "71123393_562494131",
+        "name": "71123393",
+        "data_testid": null,
+        "role": "radio"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "NEXT"
+    }
+  ],
+  "vet_notes": []
+}

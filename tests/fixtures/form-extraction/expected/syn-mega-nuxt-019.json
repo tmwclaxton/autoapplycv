@@ -1,0 +1,95 @@
+{
+  "id": "syn-mega-nuxt-019",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "complete name (9279) complete name (9279)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "nuxt-name-9279",
+        "name": "nuxt-name-9279",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal email (9279) personal email (9279)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "nuxt-email-9279",
+        "name": "nuxt-email-9279",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9279) cell phone (9279)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "nuxt-phone-9279",
+        "name": "nuxt-phone-9279",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred location (9279) preferred location (9279)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Hybrid",
+        "Berlin",
+        "Dublin",
+        "London"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-location-9279-9279",
+        "name": "preferred-location-9279-9279",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "technical skills (9279)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "TypeScript",
+        "JavaScript",
+        "Go",
+        "Rust"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "technical-skills-9279-92",
+        "name": null,
+        "data_testid": null,
+        "role": "group"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

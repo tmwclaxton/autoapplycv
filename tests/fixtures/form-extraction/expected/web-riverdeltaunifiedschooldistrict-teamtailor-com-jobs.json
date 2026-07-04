@@ -1,0 +1,88 @@
+{
+  "id": "web-riverdeltaunifiedschooldistrict-teamtailor-com-jobs",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "analytics analytics",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Analytics"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "analytics",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "marketing marketing",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Marketing"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "marketing",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "job filters",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "All",
+        "Business Office",
+        "Educational Services Department",
+        "First Five Program",
+        "Food Services Department",
+        "HR Department - Certificated Staff",
+        "HR Department Classified Staff",
+        "Maintenance and Operations Department",
+        "No Department",
+        "School Site Staff",
+        "Special Education & Health Services Department",
+        "State Preschool",
+        "Superintendent's Office",
+        "Transportation Department"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "department-select",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address without domain",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "full_email",
+        "name": "full_email",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

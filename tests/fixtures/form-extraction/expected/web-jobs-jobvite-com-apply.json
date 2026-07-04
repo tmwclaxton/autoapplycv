@@ -1,0 +1,87 @@
+{
+  "id": "web-jobs-jobvite-com-apply",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "search jobs",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "jv-search-keyword",
+        "name": "q",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "region: region:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select a Region",
+        "Asia Pacific",
+        "Europe",
+        "Latin America"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jv-search-region",
+        "name": "r",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "location: location:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select a Location",
+        "Brazil, Recife",
+        "Germany, Frankfurt",
+        "India, Bangalore",
+        "Japan, Tokyo",
+        "Spain, Madrid"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jv-search-location",
+        "name": "l",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "category: category:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select a Category",
+        "Company Operations",
+        "Marketing",
+        "Operations",
+        "Sales"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jv-search-category",
+        "name": "c",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

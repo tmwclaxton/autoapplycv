@@ -1,0 +1,71 @@
+{
+  "id": "web-www-template-net-ai-employment-application-form-generator",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "enter text or voice to generate an editable template",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "chat-box-input",
+        "name": "prompt",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search for templates...",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "global-search",
+        "name": "global-search",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "navigation-toggle navigation-toggle",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "on"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "navigation-toggle",
+        "name": "navigation-toggle",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "search tools what are you creating?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-recent-template-input",
+        "name": "search-template",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

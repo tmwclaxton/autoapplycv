@@ -1,0 +1,105 @@
+{
+  "id": "web-github-com-forms-amp-html",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "search search",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "query-builder-test",
+        "name": "query-builder-test",
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "feedback feedback",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "feedback",
+        "name": "feedback",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "include my email address so i can be contacted include my email address so i can be contacted include my email address so i can be contacted",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Include my email address so I can be contacted"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "include_email",
+        "name": "include_email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "name name github-ruby name",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "custom_scope_name",
+        "name": "custom_scope_name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "query query (repo:mona/a or repo:mona/b) and lang:python query",
+      "field_type": "text",
+      "max_chars": 500,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "custom_scope_query",
+        "name": "custom_scope_query",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "go to file go to file",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Create saved search"
+    }
+  ],
+  "vet_notes": []
+}

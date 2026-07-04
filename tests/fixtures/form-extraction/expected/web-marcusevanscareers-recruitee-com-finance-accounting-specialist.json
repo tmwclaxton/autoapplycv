@@ -1,0 +1,76 @@
+{
+  "id": "web-marcusevanscareers-recruitee-com-finance-accounting-specialist",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "my information",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-candidate.name-undefined",
+        "name": "candidate.name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "i consent to be contacted via text messages for this and any other job within marcus evans. i consent to be contacted via text messages for this and any other job within marcus evans.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I consent to be contacted via text messages for this and any other job within Marcus Evans."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "candidateTextingConsent",
+        "name": "candidate.textingConsent",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "are you eligible to work in the country in which this position is located?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "input-candidate.openQuestionAnswers.7259025.flag-undefined-0",
+        "name": "candidate.openQuestionAnswers.7259025.flag",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "legal agreements",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "false"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "candidate.agreements.0.consent",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

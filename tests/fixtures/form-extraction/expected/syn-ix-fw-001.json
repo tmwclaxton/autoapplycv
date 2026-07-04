@@ -1,0 +1,48 @@
+{
+  "id": "syn-ix-fw-001",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "your name your name ix-name-27 ix-name-27",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "personal email personal email ix-email-27 ix-email-27",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "telephone telephone ix-phone-27 ix-phone-27",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "tell us about a recent project tell us about a recent project answer-27 answer-27",
+      "field_type": "textarea",
+      "max_chars": 600,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "where are you based?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "London",
+        "Remote",
+        "Hybrid"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

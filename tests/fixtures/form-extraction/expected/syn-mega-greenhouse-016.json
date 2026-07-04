@@ -1,0 +1,90 @@
+{
+  "id": "syn-mega-greenhouse-016",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9406) applicant name (9406) applicant name (9406)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "gh-name-9406",
+        "name": "gh-name-9406",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address (9406) email address (9406) email address (9406)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "gh-email-9406",
+        "name": "gh-email-9406",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9406) mobile number (9406) mobile number (9406)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "gh-phone-9406",
+        "name": "gh-phone-9406",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9406) why this role? (9406) mobile number (9406)",
+      "field_type": "textarea",
+      "max_chars": 600,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9406-9406",
+        "name": "why-this-role-9406-9406",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "referral source (9406) referral source (9406) mobile number (9406)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "LinkedIn",
+        "Referral",
+        "Company site",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "referral-source-9406-9406",
+        "name": "referral-source-9406-9406",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -4,18 +4,34 @@
   "exact_field_count": 2,
   "fields": [
     {
-      "question": "first name first name your name.. firstname fname",
+      "question": "first name first name your name..",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "fname",
+        "name": "firstname",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "last name last name your last name.. lastname lname",
+      "question": "last name last name your last name..",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "lname",
+        "name": "lastname",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

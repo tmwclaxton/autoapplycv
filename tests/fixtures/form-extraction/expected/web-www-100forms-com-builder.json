@@ -1,0 +1,133 @@
+{
+  "id": "web-www-100forms-com-builder",
+  "min_fields": 8,
+  "exact_field_count": 8,
+  "fields": [
+    {
+      "question": "{{e.name}}",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "{{e.name}}",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "{{e.name}} {{e.name}}",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "{{e.name}}",
+        "name": "{{e.name}}",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "{{item.name}}",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "{{item.name}}",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "{{row.name}}",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "{{row.name}}",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "{{rowitem.name}}",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "{{rowItem.name}}",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email emailforsave",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "emailForSave",
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "edit-dialog-{{prop}}",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "edit-dialog-{{prop}}",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "edit-dialog-{{prop}}-$index",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "edit-dialog-{{prop}}-$index",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save"
+    }
+  ],
+  "vet_notes": []
+}

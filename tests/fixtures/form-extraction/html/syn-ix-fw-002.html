@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>React interactive mix</title></head>
+<body>
+<main><h1>React interactive mix</h1><form action="/apply" method="post">
+<label for="ix-name-28">Full name</label>
+<input type="text" id="ix-name-28" name="ix-name-28">
+<label for="ix-email-28">Email address</label>
+<input type="email" id="ix-email-28" name="ix-email-28">
+<label for="ix-phone-28">Phone number</label>
+<input type="tel" id="ix-phone-28" name="ix-phone-28">
+<div data-reactroot class="ApplicationForm">
+<div class="MuiAutocomplete-root">
+<label id="react-listbox-28-lbl">Preferred location</label>
+<div role="combobox" aria-expanded="false" aria-controls="react-listbox-28" aria-labelledby="react-listbox-28-lbl" class="custom-dropdown-trigger" tabindex="0" data-reveal="#react-listbox-28">Preferred location</div>
+<div role="listbox" id="react-listbox-28" aria-labelledby="react-listbox-28-lbl" hidden style="display:none">
+<div role="option">Office</div>
+<div role="option">Remote</div>
+<div role="option">Hybrid</div>
+</div>
+</div>
+</div>
+<button type="button" data-open-modal="" aria-haspopup="dialog" aria-controls="modal-29" data-reveal="#modal-29">Add details</button>
+<div id="modal-29" role="dialog" hidden style="display:none" aria-label="Additional details">
+<label for="modal-location-29">Work location</label>
+<input type="text" id="modal-location-29" name="modal-location-29">
+<label for="modal-notes-29">Additional notes</label>
+<textarea id="modal-notes-29" name="modal-notes-29" rows="3" maxlength="300"></textarea>
+</div></form></main>
+</body>
+</html>

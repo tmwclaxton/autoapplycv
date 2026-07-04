@@ -4,21 +4,37 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "your name your name your-name your-name your name",
+      "question": "your name your name your name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "your-name",
+        "name": "your-name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "contact email contact email contact-email contact-email contact email",
+      "question": "contact email contact email contact email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "contact-email",
+        "name": "contact-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "country of residence country of residence country-of-residence country-of-residence country of residence",
+      "question": "country of residence country of residence country of residence",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -29,10 +45,18 @@
         "Germany",
         "France"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "country-of-residence",
+        "name": "country-of-residence",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "where did you find this job? where did you find this job? where-did-you-find-this- where-did-you-find-this- where did you find this job?",
+      "question": "where did you find this job? where did you find this job? where did you find this job?",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -43,7 +67,15 @@
         "Job board",
         "Other"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "where-did-you-find-this-",
+        "name": "where-did-you-find-this-",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

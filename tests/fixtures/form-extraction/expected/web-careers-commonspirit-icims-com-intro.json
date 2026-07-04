@@ -1,0 +1,119 @@
+{
+  "id": "web-careers-commonspirit-icims-com-intro",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "keyword search keyword search enter a keyword or skill to search",
+      "field_type": "search",
+      "max_chars": 150,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "search-keyword-e79fca2a82",
+        "name": "k",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "location location city, state, or zip",
+      "field_type": "text",
+      "max_chars": 150,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-location-e79fca2a82",
+        "name": "l",
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "email address email address",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "form-field-90ae9a9586",
+        "name": "EmailAddress",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "interested in",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select a Job Category",
+        "Accounting and Finance",
+        "Administrative and Clerical",
+        "Allied Health",
+        "Billing and Scheduling",
+        "Business Development",
+        "Case Management and Social Work",
+        "Cath Lab Nursing",
+        "Chaplain",
+        "Clinical Engineering",
+        "Clinical Informatics",
+        "Dietary",
+        "Education and Training",
+        "Emergency Nursing",
+        "Engineering",
+        "Executive",
+        "Facilities",
+        "Home Health and Hospice",
+        "Housekeeping",
+        "Human Resources",
+        "ICU Nurse",
+        "Information Technology",
+        "Intern and Extern",
+        "Labor and Delivery Nursing",
+        "Laboratory",
+        "LVN and LPN",
+        "Managed Care",
+        "Management",
+        "Marketing and Communications",
+        "Materials Management"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "form-field-8d56cbdcf8-category",
+        "name": "Category",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "confirm email confirm email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "form-field-2",
+        "name": "EmailConfirm",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next"
+    }
+  ],
+  "vet_notes": []
+}

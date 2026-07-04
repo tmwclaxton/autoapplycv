@@ -4,74 +4,154 @@
   "exact_field_count": 12,
   "fields": [
     {
-      "question": "type to filter the list... sidebar-search",
+      "question": "type to filter the list...",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sidebar-search",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "sq_4i",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sq_4i",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "sq_7i",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sq_7i",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "sq_10i",
       "field_type": "date",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "date",
+        "id": "sq_10i",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "sq_16i",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sq_16i",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "sq_19i",
       "field_type": "number",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "sq_19i",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "sq_23i",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sq_23i",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "mail@example.com sq_26i",
+      "question": "mail@example.com",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "sq_26i",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "sq_29i",
       "field_type": "number",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "sq_29i",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "sq_38i",
       "field_type": "date",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "date",
+        "id": "sq_38i",
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "light dark light dark",
@@ -80,7 +160,15 @@
       "options": [
         "Light Dark"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "default without panels default without panels",
@@ -89,7 +177,15 @@
       "options": [
         "Default Without Panels"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

@@ -1,0 +1,41 @@
+{
+  "id": "web-bswhealth-taleo-net-jobdetail-ftl",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "search job title or location search job title or location search job title or location search job title or location",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "typehead",
+        "name": "typehead",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "sign me up for company updates sign me up for company updates sign me up for company updates",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Sign me up for company updates"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

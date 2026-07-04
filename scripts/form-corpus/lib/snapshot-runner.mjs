@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import { JSDOM } from 'jsdom';
+import { applyInteractionSteps } from './interaction-runner.mjs';
 import { FIELD_INVENTORY_PATH, FORM_HEURISTICS_PATH } from './paths.mjs';
 
 /** Strip stylesheets so JSDOM does not spend minutes parsing scraped CSS. */
@@ -43,7 +44,7 @@ const VISIBILITY_PATCH = `
         });
     }
 
-    document.querySelectorAll('input, textarea, select, button, [role="button"], [role="radio"], [role="radiogroup"]').forEach(patchElement);
+    document.querySelectorAll('input, textarea, select, button, [role="button"], [role="radio"], [role="radiogroup"], [role="checkbox"], [role="listbox"], [role="option"], [role="combobox"]').forEach(patchElement);
 })();
 `;
 
@@ -74,11 +75,12 @@ function loadExtensionScripts(window, context) {
 }
 
 /**
- * @param {{ html: string, pageUrl?: string, pageTitle?: string }} options
+ * @param {{ html: string, pageUrl?: string, pageTitle?: string, interactionSteps?: Array<{ action: string, selector?: string, text?: string }> }} options
  */
 export function buildSnapshotFromHtml(options) {
     const pageUrl = options.pageUrl || 'https://example.test/apply';
     const pageTitle = options.pageTitle || 'Job Application';
+    const interactionSteps = options.interactionSteps || [];
 
     const dom = new JSDOM(stripStylesheets(options.html), {
         url: pageUrl,
@@ -95,6 +97,7 @@ export function buildSnapshotFromHtml(options) {
     }
 
     loadExtensionScripts(window, context);
+    applyInteractionSteps(window, interactionSteps);
     vm.runInContext(VISIBILITY_PATCH, context);
 
     const snapshot = window.AutoCVApplyFieldInventory.buildSnapshot(
@@ -114,6 +117,7 @@ export function buildSnapshotFromHtml(options) {
             options: element.options ?? null,
             required: element.required ?? false,
             context: element.context ?? null,
+            dom: element.dom ?? null,
         })),
         controls: (snapshot.controls || []).map((control) => ({
             name: control.name,
@@ -122,8 +126,8 @@ export function buildSnapshotFromHtml(options) {
     };
 }
 
-export function buildSnapshotFromFile(htmlPath, pageUrl, pageTitle) {
+export function buildSnapshotFromFile(htmlPath, pageUrl, pageTitle, interactionSteps = []) {
     const html = readFileSync(htmlPath, 'utf8');
 
-    return buildSnapshotFromHtml({ html, pageUrl, pageTitle });
+    return buildSnapshotFromHtml({ html, pageUrl, pageTitle, interactionSteps });
 }

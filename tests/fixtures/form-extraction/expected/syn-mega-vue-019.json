@@ -1,0 +1,74 @@
+{
+  "id": "syn-mega-vue-019",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "applicant name (9019) applicant name (9019)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vue-name-9019",
+        "name": "vue-name-9019",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact email (9019) contact email (9019)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "vue-email-9019",
+        "name": "vue-email-9019",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9019) contact number (9019)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "vue-phone-9019",
+        "name": "vue-phone-9019",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "where are you based? (9019)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Berlin",
+        "London",
+        "Remote",
+        "Hybrid"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "listbox-9019",
+        "name": null,
+        "data_testid": null,
+        "role": "listbox"
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-angular-006",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "complete name (9166) complete name (9166)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ang-name-9166",
+        "name": "ang-name-9166",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9166) primary email (9166)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ang-email-9166",
+        "name": "ang-email-9166",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "contact number (9166) contact number (9166)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ang-phone-9166",
+        "name": "ang-phone-9166",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cover letter (9166) cover letter (9166)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter-9166-9166",
+        "name": "cover-letter-9166-9166",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "office preference (9166) office preference (9166)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Berlin",
+        "Dublin",
+        "London",
+        "Manchester"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "office-preference-9166-9166",
+        "name": "office-preference-9166-9166",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

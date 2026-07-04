@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Apply to join the Government of San Andreas. Official hiring portal for Los Santos public servants." />
+  <title>Government Employment Application</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gradient-to-b from-gray-800 to-gray-100">
+    <div class="w-full max-w-3xl bg-white shadow-2xl rounded-lg p-8 relative border-t-8 border-yellow-500">
+
+      <!-- Government Logo -->
+      <div class="flex justify-center mb-4">
+        <img src="https://static.wikia.nocookie.net/gtawiki/images/b/be/LosSantosSeal-GTAV.png" alt="Los Santos Seal" class="h-24 w-auto">
+      </div>
+
+      <!-- Header -->
+      <h1 class="text-4xl text-center font-bold text-gray-800 mb-2 uppercase tracking-wide">San Andreas Government</h1>
+      <p class="text-center text-gray-600 mb-1">Official Employment Application Form</p>
+      <p class="text-center text-sm text-gray-500 mb-8 italic">Under the authority of the Governor's Office</p>
+
+      <!-- ✅ Success Message -->
+      <div id="successMessage" class="hidden mt-6 text-green-700 bg-green-100 border border-green-400 px-4 py-3 rounded text-center">
+        ✅ Application submitted successfully!
+      </div>
+
+      <!-- ✅ Form Start -->
+      <form class='space-y-6' id='govForm' method='POST' name='gov-application'>
+        <input type="hidden" name="form-name" value="gov-application" />
+        <p class="hidden">
+          <label>Don’t fill this out: <input name="bot-field" /></label>
+        </p>
+
+        <div>
+          <label for="icName" class="block text-sm font-medium text-gray-700">IC Name</label>
+          <input type="text" id="icName" name="icName" required class="mt-1 block w-full rounded-md border border-gray-500 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+        </div>
+
+        <div>
+          <label for="passport" class="block text-sm font-medium text-gray-700">Passport Number (ID)</label>
+          <input type="text" id="passport" name="passport" required pattern="\d+" class="mt-1 block w-full rounded-md border border-gray-500 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+        </div>
+
+        <div>
+          <label for="discordId" class="block text-sm font-medium text-gray-700">Discord ID</label>
+          <input type="text" id="discordId" name="discordId" required class="mt-1 block w-full rounded-md border border-gray-500 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+          <p class="text-xs text-gray-500 mt-1">Need help? <a href="https://support.discord.com/hc/en-us/articles/206346498" class="text-blue-600 underline" target="_blank">Find your Discord ID</a></p>
+        </div>
+
+        <div>
+          <label for="yearsInCity" class="block text-sm font-medium text-gray-700">Are you older than 5 years in the city?</label>
+          <select id="yearsInCity" name="yearsInCity" required class="mt-1 block w-full rounded-md border border-gray-500 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No (I Don’t have prior experience)</option>
+            <option value="No">No (I have prior experience)</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="priorExperience" class="block text-sm font-medium text-gray-700">Prior experience in other organizations?</label>
+          <textarea id="priorExperience" name="priorExperience" rows="3" required class="mt-1 block w-full rounded-md border border-gray-500 shadow-sm focus:border-yellow-500 focus:ring-yellow-500"></textarea>
+        </div>
+
+        <div>
+          <label for="metagaming" class="block text-sm font-medium text-gray-700">Example of Metagaming</label>
+          <textarea id="metagaming" name="metagaming" rows="2" required class="mt-1 block w-full rounded-md border border-gray-500 shadow-sm focus:border-yellow-500 focus:ring-yellow-500"></textarea>
+        </div>
+
+        <div>
+          <label for="powergaming" class="block text-sm font-medium text-gray-700">Example of Powergaming</label>
+          <textarea id="powergaming" name="powergaming" rows="2" required class="mt-1 block w-full rounded-md border border-gray-500 shadow-sm focus:border-yellow-500 focus:ring-yellow-500"></textarea>
+        </div>
+
+        <div>
+          <label for="mixing" class="block text-sm font-medium text-gray-700">Example of Mixing</label>
+          <textarea id="mixing" name="mixing" rows="2" required class="mt-1 block w-full rounded-md border border-gray-500 shadow-sm focus:border-yellow-500 focus:ring-yellow-500"></textarea>
+        </div>
+
+        <div>
+          <label for="ghettoAlone" class="block text-sm font-medium text-gray-700">Can you enter the ghetto alone?</label>
+          <select id="ghettoAlone" name="ghettoAlone" required class="mt-1 block w-full rounded-md border border-gray-500 shadow-sm focus:border-yellow-500 focus:ring-yellow-500">
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="bodycam" class="block text-sm font-medium text-gray-700">Do you need to keep the bodycam for each event? If yes, for how long?</label>
+          <textarea id="bodycam" name="bodycam" rows="2" required class="mt-1 block w-full rounded-md border border-gray-500 shadow-sm focus:border-yellow-500 focus:ring-yellow-500"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center pt-4">
+          <button type="submit" class="bg-yellow-600 text-white px-6 py-3 rounded-md shadow hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 uppercase font-semibold tracking-wider">
+            Submit Application
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ✅ Success Script -->
+ <div id="popupModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-lg shadow-lg p-6 max-w-md text-center">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">🚫 Term Ended</h2>
+    <p class="text-gray-600 mb-6">Dear citizen. My term as the governor has ended please check with new governor for new Application form or Contact HR at Capitols.</p>
+    <button onclick="closePopup()" class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded font-semibold">
+      OK
+    </button>
+  </div>
+</div>
+
+<script>
+  const popup = document.getElementById('popupModal');
+  const formFields = document.querySelectorAll('input, textarea, select');
+
+  function showPopup() {
+    popup.classList.remove('hidden');
+  }
+
+  function closePopup() {
+    popup.classList.add('hidden');
+  }
+
+  formFields.forEach(field => {
+    field.addEventListener('focus', function (e) {
+      e.preventDefault();
+      this.blur(); // Remove focus
+      showPopup();
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,18 +1,28 @@
 #!/usr/bin/env node
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { loadManifest, saveManifest } from './lib/manifest.mjs';
+import { loadManifest } from './lib/manifest.mjs';
 import { normalizeQuestion, normalizeOptions } from './lib/normalize.mjs';
 import { buildSnapshotFromFile } from './lib/snapshot-runner.mjs';
 import { EXPECTED_DIR, HTML_DIR } from './lib/paths.mjs';
 
 const force = process.argv.includes('--force');
+const idArg = process.argv.find((arg) => arg.startsWith('--id='))?.split('=')[1];
+const idPrefixArg = process.argv.find((arg) => arg.startsWith('--id-prefix='))?.split('=')[1];
 mkdirSync(EXPECTED_DIR, { recursive: true });
 
 const manifest = loadManifest();
 let written = 0;
 
 for (const scenario of manifest.scenarios) {
+    if (idArg && scenario.id !== idArg) {
+        continue;
+    }
+
+    if (idPrefixArg && !scenario.id.startsWith(idPrefixArg)) {
+        continue;
+    }
+
     const expectedPath = join(EXPECTED_DIR, `${scenario.id}.json`);
 
     if (!force && existsSync(expectedPath)) {
@@ -30,6 +40,7 @@ for (const scenario of manifest.scenarios) {
         htmlPath,
         scenario.page_url || `https://example.test/forms/${scenario.id}`,
         scenario.page_title || 'Job Application',
+        scenario.interaction_steps || [],
     );
 
     const expected = {
@@ -42,6 +53,7 @@ for (const scenario of manifest.scenarios) {
             max_chars: element.max_chars,
             options: normalizeOptions(element.options),
             required: element.required ?? false,
+            dom: element.dom ?? null,
         })),
         controls: snapshot.controls.map((control) => ({
             name: control.name,
@@ -53,5 +65,4 @@ for (const scenario of manifest.scenarios) {
     written += 1;
 }
 
-saveManifest(manifest);
 console.log(`Proposed expectations for ${written} scenarios in ${EXPECTED_DIR}`);

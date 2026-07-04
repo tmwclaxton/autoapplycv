@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Svelte apply 2</title></head>
+<body>
+<main><h1>Svelte apply 2</h1><form action="/apply" method="post">
+<div class="svelte-0017 application">
+<div class="field svelte-0017"><label class="svelte-0017" for="sv-name">Legal name</label><input class="svelte-0017" id="sv-name" name="sv-name" type="text" bind:value={name}></div>
+<div class="field svelte-0017"><label class="svelte-0017" for="sv-email">Work email</label><input class="svelte-0017" id="sv-email" name="sv-email" type="email" bind:value={email}></div>
+<div class="field svelte-0017"><label class="svelte-0017" for="sv-phone">Mobile number</label><input class="svelte-0017" id="sv-phone" name="sv-phone" type="tel" bind:value={phone}></div>
+<div class="field-row"><label for="why-this-role">Why this role?</label><textarea id="why-this-role" name="why-this-role" rows="4" maxlength="350" class="svelte-0017"></textarea></div>
+<div class="field-row"><label for="preferred-location">Preferred location</label><select id="preferred-location" name="preferred-location" ><option value="">Choose one…</option><option value="london">London</option><option value="berlin">Berlin</option><option value="remote">Remote</option></select></div>
+</div></form></main>
+</body>
+</html>

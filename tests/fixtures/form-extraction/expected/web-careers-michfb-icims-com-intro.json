@@ -1,0 +1,113 @@
+{
+  "id": "web-careers-michfb-icims-com-intro",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "start your job search here start your job search here start your job search here",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jsb_f_keywords_i",
+        "name": "searchKeyword",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "category category",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "Accounting/Finance",
+        "Actuarial",
+        "Administrative/Clerical",
+        "Agriculture",
+        "Business",
+        "Claims",
+        "Customer Service/Support",
+        "Data Analytics",
+        "Education",
+        "Facilities",
+        "Human Resources",
+        "Information Technology",
+        "Intern",
+        "Internal Audit",
+        "Legal",
+        "Management",
+        "Marketing",
+        "Other",
+        "Print Production",
+        "Public Relations",
+        "Purchasing",
+        "Risk",
+        "Sales",
+        "Temporary Pool",
+        "Temporary Pool (Call Center, Customer Support)",
+        "Training",
+        "Underwriting",
+        "Underwriting (Commercial)"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_position_s",
+        "name": "searchCategory",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "location location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "(All)",
+        "(Current Location)",
+        "Birch Run-MI",
+        "Gaylord-MI",
+        "Grand Rapids-MI",
+        "Lansing-MI",
+        "Marshall-MI",
+        "Novi-MI",
+        "Paw Paw-MI",
+        "Remote-Work From Home-MI",
+        "Traverse City-MI",
+        "Wixom-MI",
+        "Cincinnati-OH"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jsb_f_location_s",
+        "name": "searchLocation",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "zip code zip code",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jsb_f_zipcode_i",
+        "name": "searchZip",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

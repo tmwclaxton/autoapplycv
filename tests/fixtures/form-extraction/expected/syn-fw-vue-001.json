@@ -1,0 +1,73 @@
+{
+  "id": "syn-fw-vue-001",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "full name full name full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "vue-name",
+        "name": "vue-name",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "email address email address email address",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "vue-email",
+        "name": "vue-email",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number phone number phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "vue-phone",
+        "name": "vue-phone",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cover letter cover letter",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter",
+        "name": "cover-letter",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Save and continue"
+    }
+  ],
+  "vet_notes": []
+}

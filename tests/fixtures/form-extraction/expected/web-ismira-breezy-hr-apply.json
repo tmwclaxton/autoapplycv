@@ -1,0 +1,193 @@
+{
+  "id": "web-ismira-breezy-hr-apply",
+  "min_fields": 12,
+  "exact_field_count": 12,
+  "fields": [
+    {
+      "question": "%placeholder_full_name%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cName",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "%placeholder_email_address%",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "cEmail",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "%placeholder_phone_number%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cPhoneNumber",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "%placeholder_address%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "fullAddress",
+        "name": "cAddress",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "hp_7f2b",
+        "name": "hp_7f2b",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "{{ question.text }}",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_{{section._id}}_question_{{$index}}",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "%placeholder_full_name% {{ question.text }}",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_{{section._id}}_question_{{$questionIndex}}",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "%placeholder_email_address% {{ question.text }}",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "%placeholder_phone_number% {{ question.text }}",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "{{ opt.text }} {{ opt.text }} {{ question.text }}",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "{{ opt.text }}"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "section_{{section._id}}_question_{{$questionIndex}}",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "0000 {{ question.text }}",
+      "field_type": "text",
+      "max_chars": 4,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "section_{{section._id}}_question_{{$index}}",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "i have read the personal data handling consent as outlined in the document following the privacy notice link below and consent the processing of my personal data as part of my job application. i have read the personal data handling consent as outlined in the document following the privacy notice link below and consent the processing of my personal data as part of my job application.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I have read the PERSONAL DATA HANDLING CONSENT as outlined in the document following the Privacy Notice link below and consent the processing of my personal data as part of my job application."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "gdprAgreement",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

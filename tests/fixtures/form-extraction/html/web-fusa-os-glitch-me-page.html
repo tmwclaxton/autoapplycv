@@ -1,0 +1,1621 @@
+ <elevenlabs-convai agent-id="agent_6201k7szbzk4ecba8q74j4ky78h4"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+ <div id="noiseProvider"></div>
+
+<style>
+    #noiseProvider {
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        right: -50%;
+        bottom: -50%;
+        width: 200%;
+        height: 200%;
+        
+        /* THE KEY: Pointer events none lets you click through */
+        pointer-events: none;
+        z-index: 999999;
+        
+        /* Performance: Use a static noise image generated via JS */
+        background-repeat: repeat;
+        
+        /* The effect: Invisible on #000 */
+        mix-blend-mode: overlay;
+        opacity: 0.5; /* Adjust for intensity */
+        
+        /* Hardware acceleration */
+        will-change: transform;
+        visibility: visible;
+    }
+
+    /* Animation that jitters the background to look like live noise */
+    @keyframes liveNoise {
+        0% { transform: translate(0, 0); }
+        10% { transform: translate(-1%, -1%); }
+        20% { transform: translate(-2%, 1%); }
+        30% { transform: translate(1%, -2%); }
+        40% { transform: translate(-1%, 3%); }
+        50% { transform: translate(-2%, 1%); }
+        60% { transform: translate(3%, 2%); }
+        70% { transform: translate(2%, 1%); }
+        80% { transform: translate(-1%, -1%); }
+        90% { transform: translate(2%, -3%); }
+        100% { transform: translate(1%, 2%); }
+    }
+
+    .noise-active {
+        animation: liveNoise 0.2s steps(2) infinite;
+    }
+</style>
+
+<script>
+    (function() {
+        const container = document.getElementById('noiseProvider');
+        const size = 256; // The size of the noise tile
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        
+        const idata = ctx.createImageData(size, size);
+        const u32 = new Uint32Array(idata.data.buffer);
+        
+        // Create a single grain pattern
+        for (let i = 0; i < u32.length; i++) {
+            const val = Math.random() * 255 | 0;
+            // Add some variation in transparency for a "finer" feel
+            const alpha = (Math.random() * 255) | 0; 
+            u32[i] = (alpha << 24) | (val << 16) | (val << 8) | val;
+        }
+        
+        ctx.putImageData(idata, 0, 0);
+        
+        // Set the canvas as a background image
+        container.style.backgroundImage = `url(${canvas.toDataURL()})`;
+        // Start the jitter
+        container.classList.add('noise-active');
+    })();
+</script>
+
+
+
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="google-site-verification" content="p2E75h_8i5wDc9b0Ub3rpWJb8sy0cqq12HJL_mclgnQ" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" type="image/png" href="https://i.imgur.com/HaU2tiL.png">
+
+    <!-- Enhanced Meta Description -->
+    <meta name="description" content="Fusa OS: An innovative HTML operating system environment designed to give new life to older devices with a lightweight, efficient, and interactive digital experience.">
+
+    <!-- Favicon Link - Corrected to your provided PNG URL -->
+    <!-- IMPORTANT: For best results, host this image on YOUR server and update the URL! -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/vCV8YCTg/Fusa-Favicon.png" />
+    <!-- Apple Touch Icon for iOS devices -->
+    <link rel="apple-touch-icon" href="https://i.ibb.co/vCV8YCTg/Fusa-Favicon.png">
+
+    <!-- Enhanced Title -->
+    <title>Fusa OS</title>
+
+    <!-- Open Graph Meta Tags (for social media sharing and rich snippets) -->
+    <meta property="og:title" content="Explore Fusa OS,lightweight operating system environment">
+    <meta property="og:description" content="Explore Fusa OS,lightweight operating system environment.">
+    <!-- IMPORTANT: Replace with your website's canonical URL and self-hosted image if possible! -->
+    <meta property="og:image" content="https://i.ibb.co/3y3s5Qpj/Screenshot-2025-09-30-at-6-18-52-PM-copy.png">
+    <meta property="og:url" content="https://www.yourwebsite.com/"> <!-- **REPLACE THIS with your actual website URL** -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Fusa OS">
+
+    <!-- Twitter Card Data (for Twitter sharing) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fusa OS: Interactive HTML OS - Revitalize Your Device">
+    <meta name="twitter:description" content="Explore Fusa OS,lightweight operating system environment">
+    <!-- IMPORTANT: Use your self-hosted image URL if possible! -->
+    <meta name="twitter:image" content="https://i.ibb.co/3y3s5Qpj/Screenshot-2025-09-30-at-6-18-52-PM-copy.png">
+    <!-- <meta name="twitter:site" content="@yourtwitterhandle"> --> <!-- Optional: your Twitter handle -->
+
+    <style>
+        /* CSS Variables - Apple-inspired Design System */
+      /* CSS Variables - For easy header adjustment */
+:root {
+    --header-padding-vertical: 24px; /* Controls vertical space around the header container */
+    --header-container-padding-vertical: 10px; /* Controls vertical space inside the header container */
+    --header-container-padding-horizontal: 58px; /* Controls horizontal space inside the header container */
+    --header-item-gap: 12px; /* Space between navigation items */
+    --header-link-font-size: 19px; /* Font size for main header links */
+    --header-link-padding-vertical: 12px; /* Vertical padding for header links */
+    --header-link-padding-horizontal: 20px; /* Horizontal padding for header links */
+    --header-link-border-radius: 25px; /* Rounded corners for header links */
+    --dropdown-item-font-size: 14px; /* Font size for dropdown items */
+    --dropdown-item-padding-vertical: 12px; /* Vertical padding for dropdown items */
+    --dropdown-item-padding-horizontal: 18px; /* Horizontal padding for dropdown items */
+    --header-container-border-radius: 55px; /* Overall border radius of the header container */
+
+    /* Existing variables - keep as is */
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.01);
+    --inner-shadow-color: rgba(0, 0, 0, 0.6);
+    --shadow-light: rgba(0, 0, 0, 0.09);
+    --glass-blur: blur(25px);
+    --glass-saturate: saturate(180%);
+    --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --apple-blue: #007aff;
+    --apple-blue-hover: #0051d5;
+}
+
+/* Modern Apple Animations */
+/* ... (keep your existing animations) ... */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(60px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+@keyframes heroGradient {
+    0% { transform: scale(1) translateY(0); opacity: 0.5; }
+    50% { transform: scale(1.1) translateY(-20px); opacity: 0.8; }
+    100% { transform: scale(1) translateY(0); opacity: 0.5; }
+}
+@keyframes blueGlow {
+    0%, 100% { transform: scale(0.8) translateY(0); opacity: 0.6; filter: blur(80px) brightness(1.5); }
+    50% { transform: scale(1.2) translateY(-30px); opacity: 0.9; filter: blur(100px) brightness(2); }
+}
+
+/* Reset & Base Styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif; background: #000; color: #f5f5f7; line-height: 1.47059; font-weight: 400; letter-spacing: -0.022em; overflow-x: hidden; }
+
+/* Apple-style Glass Navigation */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    padding: var(--header-padding-vertical) 0; /* Using the new variable */
+    pointer-events: none;
+}
+
+.header-container {
+    backdrop-filter: blur(5px) saturate(130%); /* Keeping your specific backdrop-filter */
+    -webkit-backdrop-filter: blur(5px) saturate(130%);
+    border-radius: var(--header-container-border-radius); /* Using the new variable */
+    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.1),
+                inset 0 0 20px rgba(0, 0, 0, 0.4),
+                0 15px 30px -10px rgba(0, 0, 0, 0.1); /* Keeping your specific box-shadow */
+    padding: var(--header-container-padding-vertical) var(--header-container-padding-horizontal); /* Using new variables */
+    display: flex;
+    align-items: center;
+    gap: var(--header-item-gap); /* Using the new variable */
+    pointer-events: auto;
+    transition: all 0.3s var(--transition-smooth);
+}
+
+.header-container:hover {
+     backdrop-filter: blur(8px) saturate(180%);
+    -webkit-backdrop-filter: blur(8px) saturate(180%);
+    border-radius: var(--header-container-border-radius); /* Using the new variable */
+    box-shadow:
+        inset 0 2px 2px rgba(255, 255, 255, 0.1), /* Top inner highlight */
+        inset 0 0 20px 5px rgba(255, 255, 255, 0.2), /* NEW: White inner glow */
+        0 15px 30px -10px rgba(0, 0, 0, 0.1); /* Outer shadow */
+}
+
+/* Styles for main header links and dropdown toggles */
+.header-link,
+.dropdown-toggle {
+    color: rgba(255, 255, 255, 0.92);
+    text-decoration: none;
+    font-size: var(--header-link-font-size); /* Using the new variable */
+    letter-spacing: -0.01em;
+    padding: var(--header-link-padding-vertical) var(--header-link-padding-horizontal); /* Using new variables */
+    border-radius: var(--header-link-border-radius); /* Using the new variable */
+    transition: all 0.2s var(--transition-smooth);
+    white-space: nowrap;
+    font-weight: 600; /* Keeping your font-weight */
+}
+
+.header-link:hover,
+.header-link.active {
+    color: #fff;
+     backdrop-filter: blur(5px) saturate(130%); /* Keeping your specific backdrop-filter */
+    -webkit-backdrop-filter: blur(5px) saturate(130%);
+    border-radius: var(--header-container-border-radius); /* Using the new variable */
+    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.1),
+                inset 0 0 20px rgba(0, 0, 0, 0.4),
+                0 15px 30px -10px rgba(0, 0, 0, 0.1); /* Keeping your specific box-shadow */
+    font-weight: 700; /* Slightly bolder for hover */
+}
+
+/* Styles for dropdown menu items */
+.dropdown-menu a {
+    font-size: var(--dropdown-item-font-size); /* Using the new variable */
+    padding: var(--dropdown-item-padding-vertical) var(--dropdown-item-padding-horizontal); /* Using new variables */
+}
+
+/* Specific adjustments for the "AnyDrop" dropdown if it has unique requirements */
+.dropdown-container:last-child .dropdown-toggle {
+    /* No specific adjustments needed here if you're applying to all toggles */
+}
+        /* Dropdown Styling */
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 12px;
+            font-weight: 400;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s var(--transition-smooth);
+            white-space: nowrap;
+             font-size: var(--dropdown-item-font-size); /* Using the new variable */
+    padding: var(--dropdown-item-padding-vertical) var(--dropdown-item-padding-horizontal); /* Using new variables */
+        }
+
+        .dropdown-toggle:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+             backdrop-filter: blur(5px) saturate(130%); /* Keeping your specific backdrop-filter */
+    -webkit-backdrop-filter: blur(5px) saturate(130%);
+  
+    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.1),
+                inset 0 0 20px rgba(0, 0, 0, 0.4),
+                0 15px 30px -10px rgba(0, 0, 0, 0.1); /* Keeping your specific box-shadow */
+            border-radius: 18px;
+           
+            min-width: 200px;
+            padding: 8px;
+            display: none;
+            opacity: 0;
+             z-index: 9999;
+            transform: translateX(-50%) translateY(-8px);
+            transition: all 0.2s var(--transition-smooth);
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            color: rgba(255, 255, 255, 0.92);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 400;
+            padding: 10px 16px;
+            border-radius: 10px;
+            transition: all 0.15s var(--transition-smooth);
+             font-size: var(--dropdown-item-font-size); /* Using the new variable */
+    padding: var(--dropdown-item-padding-vertical) var(--dropdown-item-padding-horizontal); /* Using new variables */
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+/* Define Custom Properties for easier management */
+:root {
+    --black-bg: #000000;
+    --primary-blue: #007bff; /* A vibrant blue for glow */
+    --secondary-blue: #003366; /* A darker, deeper blue for contrast */
+    --deep-purple: #4b0082; /* For a nebula-like feel */
+    --magenta: #ff00ff; /* For pops of nebula color */
+    --white-text: #ffffff;
+    --subtle-white-text: rgba(245, 245, 247, 0.64);
+    --glass-blur: blur(10px);
+    --glass-saturate: saturate(100%);
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --inner-shadow-color: rgba(0, 0, 0, 0.3);
+    --shadow-light: rgba(0, 122, 255, 0.15);
+    --apple-blue-hover: #0056b3;
+    --transition-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Hero Section - Nebula Glow Theme */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 120px 20px 80px;
+    background: var(--black-bg);
+    overflow: hidden;
+    color: var(--white-text); /* Default text color for hero */
+}
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%; 
+    height: 150%;
+    /* Updated to match the vibrant Cyan, Royal Blue, and Purple from the image */
+    background: radial-gradient(circle,
+        rgba(0, 230, 255, 0) 0%,       /* Transparent Cyan center */
+        rgba(0, 160, 255, 0.4) 25%,    /* Bright Royal Blue */
+        rgba(135, 80, 165, 0.35) 50%,  /* The Deep Purple/Magenta swoosh */
+        rgba(0, 230, 255, 0.2) 75%,    /* Outer Cyan glow */
+        rgba(0, 0, 0, 0) 100%
+    );
+    transform: translate(-50%, -50%) scale(0.8);
+    
+    /* FASTER ANIMATIONS */
+    animation: nebulaPulse 8s ease-in-out infinite, 
+               nebulaDrift 12s linear infinite alternate;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* Transitioning from the Royal Blue haze into the Purple haze */
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 160, 255, 0.2) 0%,    /* Royal Blue haze at top */
+        rgba(135, 80, 165, 0.15) 40%, /* Deep Purple haze mid-way */
+        rgba(0, 0, 0, 0.8) 70%,       /* Fast fade to black */
+        var(--black-bg) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.9;
+}
+.hero-content {
+    position: relative;
+    z-index: 2; /* Ensure content is above the background effects */
+    max-width: 980px;
+    width: 100%;
+    /* Removed opacity: 0; and animation from here */
+    /* Animation will now be applied to individual elements for better control */
+    display: flex; /* Use flexbox for centering content */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px; /* Add some horizontal padding */
+}
+
+.welcome-text {
+    font-size: 20px; /* Slightly larger for better visibility */
+    line-height: 1.5;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: rgba(245, 245, 247, 0.75); /* Slightly brighter */
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeIn 1s var(--transition-smooth) 0.5s forwards; /* Adjusted timing */
+}
+
+.hero-logo {
+    max-width: min(600px, 70%);
+    height: auto;
+    margin: 0 auto 40px; /* KEEPING margin: 0 auto for centering */
+    opacity: 0;
+    animation: scaleUp 0.8s var(--transition-smooth) 0.7s forwards; /* FASTER + Adjusted timing */
+}
+
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 36px; /* Slightly larger padding */
+    border-radius: 100px; /* More rounded */
+    font-size: 20px; /* Slightly larger font */
+    line-height: 1.2;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.4s var(--transition-smooth);
+    opacity: 0;
+    animation: fadeIn 0.8s var(--transition-smooth) 0.9s forwards; /* FASTER + Adjusted timing */
+    position: relative;
+    overflow: hidden;
+    border: none; /* Remove default border */
+    cursor: pointer; /* Explicitly set cursor */
+}
+
+.cta-primary {
+    backdrop-filter: blur(10px) saturate(180%); /* Keeping your specific hover backdrop-filter */
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border-radius: var(--header-container-border-radius); /* Using the new variable */
+    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.1),
+                inset 0 0 20px rgba(0, 0, 0, 0.4),
+                0 15px 30px -10px rgba(0, 0, 0, 0.1); /* Keeping your specific hover box-shadow */
+    color: var(--white-text);
+   
+}
+
+.cta-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+     backdrop-filter: blur(5px) saturate(130%); /* Keeping your specific hover backdrop-filter */
+    -webkit-backdrop-filter: blur(5px) saturate(130%);
+    border-radius: var(--header-container-border-radius); /* Using the new variable */
+    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.1),
+                inset 0 0 20px rgba(0, 0, 0, 0.4),
+                0 15px 30px -10px rgba(0, 0, 0, 0.1); /* Keeping your specific hover box-shadow */
+    opacity: 0;
+    transition: opacity 0.4s var(--transition-smooth);
+}
+
+.cta-primary:hover {
+     backdrop-filter: blur(10px) saturate(180%); /* Keeping your specific hover backdrop-filter */
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border-radius: var(--header-container-border-radius); /* Using the new variable */
+    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.1),
+                inset 0 0 20px rgba(0, 0, 0, 0.4),
+                0 15px 30px -10px rgba(0, 0, 0, 0.1); /* Keeping your specific hover box-shadow */
+    transform: translateY(-3px) scale(1.03); /* Slight lift and scale */
+   
+}
+
+.cta-primary:hover::before {
+    opacity: 1;
+}
+
+/* Keyframe Animations for Nebula Glow */
+@keyframes nebulaPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.4;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.8;
+    }
+}
+
+@keyframes nebulaDrift {
+    0% {
+        background-position: 0% 0%;
+        filter: hue-rotate(0deg);
+    }
+    50% {
+        background-position: 100% 100%;
+        filter: hue-rotate(90deg);
+    }
+    100% {
+        background-position: 0% 0%;
+        filter: hue-rotate(180deg);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleUp {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* --- Other Sections (Keep as is or adjust as needed) --- */
+
+/* Section Styling - Apple Minimalism */
+.section {
+    padding: 120px 20px;
+    position: relative;
+    background: var(--black-bg); /* Ensure consistency */
+    overflow: hidden;
+}
+
+.section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(
+        circle,
+        rgba(0, 122, 255, 0.08) 0%,
+        transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 1s var(--transition-smooth);
+    pointer-events: none;
+}
+
+.section:hover::before {
+    opacity: 1;
+}
+
+.section-content {
+    max-width: 980px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 56px;
+    line-height: 1.07143;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    color: var(--white-text); /* Consistent with hero */
+    margin-bottom: 24px;
+}
+
+.section-description {
+    font-size: 21px;
+    line-height: 1.381;
+    font-weight: 400;
+    letter-spacing: 0.011em;
+    color: rgba(245, 245, 247, 0.86);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Features Grid - Apple Card Style */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 64px;
+}
+
+.feature-card {
+    backdrop-filter: blur(10px) saturate(180%); /* Keeping your specific hover backdrop-filter */
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border-radius: var(--header-container-border-radius); /* Using the new variable */
+    box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.1),
+                inset 0 0 20px rgba(0, 0, 0, 0.4),
+                0 15px 30px -10px rgba(0, 0, 0, 0.1); /* Keeping your specific hover box-shadow */
+    border-radius: 28px;
+    padding: 40px 28px;
+    transition: all 0.4s var(--transition-smooth);
+   
+}
+
+.feature-card:hover {
+     backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border-radius: 40px; /* Using the new variable */
+    box-shadow:
+        inset 0 2px 2px rgba(255, 255, 255, 0.1), /* Top inner highlight */
+        inset 0 0 20px 5px rgba(255, 255, 255, 0.2), /* NEW: White inner glow */
+        0 15px 30px -10px rgba(0, 0, 0, 0.1); /* Outer shadow */
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.05);
+    transform: translateY(-8px);
+    
+}
+
+.feature-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px rgba(0, 113, 227, 0.3));
+}
+
+.feature-title {
+    font-size: 24px;
+    line-height: 1.16667;
+    font-weight: 600;
+    letter-spacing: 0.009em;
+    color: var(--white-text); /* Consistent */
+    margin-bottom: 12px;
+}
+
+.feature-description {
+    font-size: 17px;
+    line-height: 1.47059;
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    color: rgba(245, 245, 247, 0.72);
+}
+
+/* Documentation Section */
+.documentation-content {
+ backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border-radius: var(--header-container-border-radius); /* Using the new variable */
+    box-shadow:
+        inset 0 2px 2px rgba(255, 255, 255, 0.1), /* Top inner highlight */
+        inset 0 0 20px 5px rgba(255, 255, 255, 0.2), /* NEW: White inner glow */
+        0 15px 30px -10px rgba(0, 0, 0, 0.1); /* Outer shadow */
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 60px 48px;
+    margin-top: 64px;
+    text-align: center;
+ 
+}
+
+.documentation-content h3 {
+    font-size: 28px;
+    line-height: 1.14286;
+    font-weight: 600;
+    letter-spacing: 0.007em;
+    color: var(--white-text); /* Consistent */
+    margin-top: 40px;
+    margin-bottom: 16px;
+}
+
+.documentation-content h3:first-child {
+    margin-top: 0;
+}
+
+.documentation-content p,
+.documentation-content ul {
+    font-size: 17px;
+    line-height: 1.47059;
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    color: rgba(245, 245, 247, 0.72);
+    margin-bottom: 16px;
+}
+
+.documentation-content ul {
+    list-style-position: inside;
+    padding-left: 20px;
+}
+
+.documentation-content li {
+    margin-bottom: 8px;
+}
+
+.documentation-content strong {
+    color: var(--white-text); /* Consistent */
+    font-weight: 600;
+}
+
+/* Support Section */
+.support-content {
+    max-width: 900px;
+    margin: 64px auto 0;
+    text-align: left;
+}
+
+.device-search {
+     backdrop-filter: blur(10px) saturate(180%); /* Keeping your specific hover backdrop-filter */
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border-radius: var(--header-container-border-radius); /* Using the new variable */
+    box-shadow:
+        inset 0 2px 2px rgba(255, 255, 255, 0.1), /* Top inner highlight */
+        inset 0 0 20px 5px rgba(255, 255, 255, 0.2), /* NEW: White inner glow */
+        0 15px 30px -10px rgba(0, 0, 0, 0.1); /* Outer shadow */
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    border-radius: 200px;
+    padding: 14px 24px;
+    font-size: 17px;
+    color: var(--white-text); /* Consistent */
+    width: 100%;
+    max-width: 600px;
+    margin: 32px auto;
+    display: block;
+ 
+    transition: all 0.3s var(--transition-smooth);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.device-search::placeholder {
+    color: rgba(245, 245, 247, 0.5);
+}
+
+.device-search:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--primary-blue);
+    box-shadow:
+        inset 0 2px 2px rgba(255, 255, 255, 0.15),
+        inset 0 0 15px var(--inner-shadow-color),
+        0 0 0 4px rgba(0, 122, 255, 0.15);
+}
+
+.device-list {
+   backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border-radius: var(--header-container-border-radius); /* Using the new variable */
+    box-shadow:
+        inset 0 2px 2px rgba(255, 255, 255, 0.1), /* Top inner highlight */
+        inset 0 0 20px 5px rgba(255, 255, 255, 0.2), /* NEW: White inner glow */
+        0 15px 30px -10px rgba(0, 0, 0, 0.1); /* Outer shadow */
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px;
+   
+}
+
+.support-content p {
+    font-size: 14px;
+    line-height: 1.71429;
+    font-weight: 400;
+    letter-spacing: -0.016em;
+    color: rgba(245, 245, 247, 0.64);
+    white-space: pre-wrap;
+}
+
+.support-content strong {
+    font-size: 19px;
+    line-height: 1.4211;
+    font-weight: 600;
+    letter-spacing: 0.012em;
+    color: var(--white-text); /* Consistent */
+    display: block;
+    margin-top: 32px;
+    margin-bottom: 12px;
+}
+
+/* Footer - Apple Style */
+.footer {
+    padding: 80px 20px;
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border-radius: var(--header-container-border-radius); /* Using the new variable */
+    box-shadow:
+        inset 0 2px 2px rgba(255, 255, 255, 0.1), /* Top inner highlight */
+        inset 0 0 20px 5px rgba(255, 255, 255, 0.2), /* NEW: White inner glow */
+        0 15px 30px -10px rgba(0, 0, 0, 0.1); /* Outer shadow */
+    
+}
+
+.footer-content {
+    max-width: 980px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin-bottom: 32px;
+}
+
+.footer-link {
+    color: rgba(245, 245, 247, 0.64);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    transition: color 0.2s var(--transition-smooth);
+}
+
+.footer-link:hover {
+    color: var(--white-text); /* Consistent */
+}
+
+.legal-text {
+    font-size: 12px;
+    line-height: 1.33337;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: rgba(245, 245, 247, 0.48);
+    max-width: 700px;
+    margin: 16px auto 0;
+}
+
+/* Scroll Reveal Animation */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s var(--transition-smooth);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 1068px) {
+    .section-title {
+        font-size: 48px;
+        line-height: 1.08349;
+    }
+
+    .section-description {
+        font-size: 19px;
+        line-height: 1.4211;
+    }
+
+    .documentation-content {
+        padding: 48px 36px;
+    }
+}
+
+@media (max-width: 734px) {
+    .header-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 6px 16px;
+        gap: 4px;
+    }
+
+    .header-link,
+    .dropdown-toggle {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+
+    .section {
+        padding: 60px 16px;
+    }
+
+    .section-title {
+        font-size: 32px;
+        line-height: 1.125;
+    }
+
+    .section-description {
+        font-size: 17px;
+        line-height: 1.47059;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-top: 48px;
+    }
+
+    .feature-card {
+        padding: 32px 24px;
+    }
+
+    .documentation-content {
+        padding: 36px 24px;
+        margin-top: 48px;
+    }
+
+    .documentation-content h3 {
+        font-size: 24px;
+        margin-top: 32px;
+    }
+
+    .footer {
+        padding: 60px 16px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 16px;
+    }
+}
+
+/* ADDED FORM STYLES - MAINTAINING EXISTING GLASS THEME */
+.subscribe-form-container {
+    max-width: 500px;
+    margin: 40px auto;
+    text-align: left;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+}
+.glass-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 14px 20px;
+    color: white;
+    width: 100%;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+.glass-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary-blue);
+}
+.glass-button {
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;
+    font-size: 17px;
+}
+.glass-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 122, 255, 0.4);
+}
+.status-msg {
+    margin-top: 15px;
+    font-size: 14px;
+    display: none;
+    padding: 10px;
+    border-radius: 10px;
+}
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#about" class="header-link">About</a>
+            <a href="#features" class="header-link">Features</a>
+            <a href="#documentation" class="header-link">Documentation</a>
+            <a href="#subscribe" class="header-link">Subscribe</a> <!-- ADDED -->
+            <a href="https://discord.gg/SrB5GHT7" class="header-link">Community</a>
+            <a href="https://fusaoshome.neocities.org/Subscribe" class="header-link">Contact us</a>
+             <a href="https://fusaos.neocities.org/Selector.html" class="header-link">Docs</a>
+            <div class="dropdown-container">
+                <span class="dropdown-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-caret-up-square" viewBox="0 0 16 16">
+  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+  <path d="M3.544 10.705A.5.5 0 0 0 4 11h8a.5.5 0 0 0 .374-.832l-4-4.5a.5.5 0 0 0-.748 0l-4 4.5a.5.5 0 0 0-.082.537"/>
+</svg></span>
+                <div class="dropdown-menu" id="moreLinksDropdown">
+                    <a href="https://minifos.glitch.me">Mini FUSA OS</a>
+                    <a href="https://watchfos.glitch.me">Watch FUSA OS</a>
+                    <a href="https://tv-fusa-os.glitch.me">TV FUSA OS</a>
+                    <a href="https://fusa-html.glitch.me">FUSA HTML</a>
+                    <a href="https://fusa-os-help.glitch.me">Help Center</a>
+                    <a href="https://fusaoshome.neocities.org/Subscribe">Contact</a>
+                    <a href="https://fusa-ai-help.glitch.me/">AI Help</a>
+                    <a href="https://fusaoshome.neocities.org/Subscribe">Get Notifications</a>
+                    <a href="#unsubscribe">Unsubscribe</a> <!-- ADDED -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="welcome-text">Welcome to</div>
+            <img src="https://i.imgur.com/RsFnS8T.png"" alt="Fusa OS Logo" class="hero-logo">
+            <a href="https://fusaos.neocities.org/Selector.html" class="cta-button cta-primary">Try Fusa OS</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="section-content reveal">
+            <h2 class="section-title">Experience the Difference</h2>
+            <p class="section-description">
+                Fusa OS is designed to breathe new life into older hardware. Experience a fluid, modern interface and powerful features that make your devices feel new again. It's the perfect solution for sustainability, affordability, and a delightful user experience.
+            </p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="section-content">
+            <h2 class="section-title reveal">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="currentColor" class="bi bi-lightning-charge-fill" viewBox="0 0 16 16">
+  <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+</svg></div>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-description">Designed for performance, Fusa OS runs smoothly even on resource-limited devices, offering unparalleled responsiveness.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="currentColor" class="bi bi-palette-fill" viewBox="0 0 16 16">
+  <path d="M12.433 10.07C14.133 10.585 16 11.15 16 8a8 8 0 1 0-8 8c1.996 0 1.826-1.504 1.649-3.08-.124-1.101-.252-2.237.351-2.92.465-.527 1.42-.237 2.433.07M8 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m4.5 3a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3M5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m.5 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+</svg></div>
+                    <h3 class="feature-title">Elegant Design</h3>
+                    <p class="feature-description">A clean, intuitive, and visually appealing interface that enhances usability and enjoyment.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="currentColor" class="bi bi-marker-tip" viewBox="0 0 16 16">
+  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5 6.064-1.281-4.696A.5.5 0 0 0 9.736 9H6.264a.5.5 0 0 0-.483.368l-1.28 4.696A6.97 6.97 0 0 0 8 15c1.275 0 2.47-.34 3.5-.936m.873-.598a7 7 0 1 0-8.746 0l1.19-4.36a1.5 1.5 0 0 1 1.31-1.1l1.155-3.851c.213-.713 1.223-.713 1.436 0l1.156 3.851a1.5 1.5 0 0 1 1.31 1.1z"/>
+</svg>️</div>
+                    <h3 class="feature-title">Customizable</h3>
+                    <p class="feature-description">Tailor your Fusa OS experience with a wide range of personalization options to suit your workflow.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" fill="currentColor" class="bi bi-recycle" viewBox="0 0 16 16">
+  <path d="M9.302 1.256a1.5 1.5 0 0 0-2.604 0l-1.704 2.98a.5.5 0 0 0 .869.497l1.703-2.981a.5.5 0 0 1 .868 0l2.54 4.444-1.256-.337a.5.5 0 1 0-.26.966l2.415.647a.5.5 0 0 0 .613-.353l.647-2.415a.5.5 0 1 0-.966-.259l-.333 1.242zM2.973 7.773l-1.255.337a.5.5 0 1 1-.26-.966l2.416-.647a.5.5 0 0 1 .612.353l.647 2.415a.5.5 0 0 1-.966.259l-.333-1.242-2.545 4.454a.5.5 0 0 0 .434.748H5a.5.5 0 0 1 0 1H1.723A1.5 1.5 0 0 1 .421 12.24zm10.89 1.463a.5.5 0 1 0-.868.496l1.716 3.004a.5.5 0 0 1-.434.748h-5.57l.647-.646a.5.5 0 1 0-.708-.707l-1.5 1.5a.5.5 0 0 0 0 .707l1.5 1.5a.5.5 0 1 0 .708-.707l-.647-.647h5.57a1.5 1.5 0 0 0 1.302-2.244z"/>
+</svg></div>
+                    <h3 class="feature-title">Sustainable Choice</h3>
+                    <p class="feature-description">Reduce e-waste and give older devices a purposeful second life, contributing to a greener planet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ <!-- Documentation Section -->
+<section class="section" id="documentation">
+    <div class="section-content">
+
+        <h2 class="section-title reveal">In-depth Documentation</h2>
+
+        <div class="documentation-content reveal">
+
+            <!-- ===================== FUSA OS ===================== -->
+
+            <div class="doc-product-header">
+                <img src="https://img.itch.zone/aW1nLzI3MTQ1NzM2LnBuZw==/315x250%23c/xKumgb.png" 
+                     alt="Fusa OS Icon"
+                     class="doc-product-icon">
+
+                <div>
+                    <h3>Welcome to Fusa OS: Your Digital Home</h3>
+                    <p>Beautiful. Simple. Yours.</p>
+                </div>
+            </div>
+
+            <p>Fusa OS is a modern web-based operating system environment designed to feel natural, expressive, and deeply personal. Built entirely inside the browser, it transforms everyday web experiences into a smooth desktop-like ecosystem focused on creativity, productivity, entertainment, and exploration.</p>
+
+            <h3>A More Human Way to Use the Web</h3>
+
+            <p>Fusa OS introduces the Glass-Clay design language — an interface style that feels as clear as glass and as soft as clay. Every interaction is designed with fluid movement, depth, bounce, and responsiveness to make digital tasks feel alive and enjoyable.</p>
+
+            <p>Whether opening apps, moving windows, or navigating the interface, every animation and transition is carefully crafted to create a more emotional and immersive computing experience.</p>
+
+            <h3>Daily Essentials</h3>
+
+            <p><strong>Files:</strong> A clean and minimal file browser for viewing and organizing digital content.</p>
+            <p><strong>Settings:</strong> Customize themes, colors, interface behaviors, and visual styles.</p>
+            <p><strong>Notes:</strong> A lightweight space for reminders, brainstorming, and quick writing.</p>
+            <p><strong>Calculator:</strong> A visually immersive 3D-style calculator for basic and advanced equations.</p>
+            <p><strong>Mail:</strong> A distraction-free email experience designed around simplicity.</p>
+            <p><strong>Clock:</strong> A minimalist clock application integrated naturally into the desktop.</p>
+
+            <h3>Knowledge & Exploration</h3>
+
+            <p><strong>FusaWeb:</strong> A fast native web browser built specifically for the Fusa OS ecosystem.</p>
+            <p><strong>Wikipedia:</strong> Instantly search and explore information in a clean readable layout.</p>
+            <p><strong>Maps:</strong> Navigate locations and discover destinations directly from the desktop.</p>
+            <p><strong>Archive:</strong> Access millions of public-domain books, movies, and digital artifacts.</p>
+            <p><strong>Weather:</strong> A visually rich “Liquid Glass” weather experience.</p>
+            <p><strong>Stocks:</strong> Monitor financial markets and favorite companies with ease.</p>
+
+            <h3>Entertainment & Social</h3>
+
+            <p><strong>YouTube:</strong> Watch creators and videos inside a premium theater-style environment.</p>
+            <p><strong>Music:</strong> An immersive music player designed for album exploration.</p>
+            <p><strong>TV:</strong> A fullscreen entertainment hub for movies and streaming experiences.</p>
+            <p><strong>Radio:</strong> Explore live radio stations from countries around the world.</p>
+            <p><strong>Messages:</strong> A simple messaging experience focused on connection.</p>
+            <p><strong>Photos:</strong> A bright gallery designed to make images stand out beautifully.</p>
+
+            <h3>Creativity & Intelligence</h3>
+
+            <p><strong>F-AI (Assistant):</strong> An integrated AI assistant for writing, brainstorming, and conversation.</p>
+            <p><strong>Draw:</strong> A digital canvas for sketching and creative experimentation.</p>
+            <p><strong>Edit / Camera:</strong> Capture photos and enhance them with professional filters.</p>
+            <p><strong>Journal:</strong> A private writing space for reflection and long-form thoughts.</p>
+            <p><strong>Quotes:</strong> A curated collection of motivational and thoughtful quotes.</p>
+
+            <h3>Play & Advanced Tools</h3>
+
+            <p><strong>TETR.IO:</strong> A fast-paced modern block-stacking game.</p>
+            <p><strong>2048:</strong> The classic puzzle game reimagined inside Fusa OS.</p>
+            <p><strong>App Store:</strong> Discover and install new apps and experiences.</p>
+            <p><strong>Terminal:</strong> An advanced utility for exploring deeper system functionality.</p>
+            <p><strong>Orb:</strong> The startup engine responsible for powering the Fusa OS experience.</p>
+
+            <h3>Technical Information</h3>
+
+            <p>Fusa OS is built entirely using HTML, CSS, and JavaScript, allowing it to run directly within modern web browsers while remaining lightweight, fluid, and highly customizable.</p>
+
+            <ul>
+                <li><strong>Published:</strong> Dec 30, 2024</li>
+                <li><strong>Status:</strong> Released</li>
+                <li><strong>Platform:</strong> HTML5</li>
+                <li><strong>Author:</strong> Luca Musa</li>
+            </ul>
+
+            <!-- ===================== DIVIDER ===================== -->
+
+            <div class="doc-divider"></div>
+
+            <!-- ===================== FUSA POCKET ===================== -->
+
+            <div class="doc-product-header">
+                <img src="https://img.itch.zone/aW1nLzI3MTUxNTg2LnBuZw==/315x250%23c/6G%2BFx0.png" 
+                     alt="Fusa Pocket Icon"
+                     class="doc-product-icon">
+
+                <div>
+                    <h3>Welcome to Fusa Pocket: Your World, Anywhere.</h3>
+                    <p>Beautiful. Simple. Yours.</p>
+                </div>
+            </div>
+
+            <p>Fusa Pocket is the mobile companion to the desktop experience you love. Designed specifically for phones and smaller screens, it transforms your device into a smooth, immersive, and highly personalized mobile operating environment.</p>
+
+            <h3>A Mobile Experience Designed Around You</h3>
+
+            <p>Fusa Pocket uses the Glass-Clay design language — a soft, fluid visual style that combines transparent layers, smooth depth, and responsive animations to make every tap and swipe feel natural.</p>
+
+            <p>Every interaction is optimized for mobile comfort, speed, and fluidity, helping daily tasks feel effortless and visually immersive while on the move.</p>
+
+            <h3>Daily Essentials</h3>
+
+            <p><strong>Files:</strong> Browse and organize your documents easily from anywhere.</p>
+            <p><strong>Settings:</strong> Customize themes, colors, and your overall mobile experience.</p>
+            <p><strong>Notes:</strong> Quickly write ideas, reminders, and lists on the go.</p>
+            <p><strong>Calculator:</strong> A friendly and intuitive tool for quick calculations.</p>
+            <p><strong>Mail:</strong> Access your inbox in a clean distraction-free environment.</p>
+            <p><strong>Clock:</strong> A sleek time experience optimized for mobile displays.</p>
+
+            <h3>Knowledge & Exploration</h3>
+
+            <p><strong>FusaWeb:</strong> A mobile-first browser focused on speed and smooth navigation.</p>
+            <p><strong>Wikipedia:</strong> Instantly access information in a clean mobile layout.</p>
+            <p><strong>Maps:</strong> Navigate the world and discover destinations with ease.</p>
+            <p><strong>Archive:</strong> Carry millions of books and movies in your pocket.</p>
+            <p><strong>Weather:</strong> A beautiful Liquid Glass weather interface with immersive visuals.</p>
+            <p><strong>Stocks:</strong> Track favorite companies and financial markets anywhere.</p>
+
+            <h3>Entertainment & Social</h3>
+
+            <p><strong>YouTube:</strong> Enjoy creators and videos in a premium theater-style experience.</p>
+            <p><strong>Music:</strong> A vivid mobile music player built around immersive listening.</p>
+            <p><strong>TV:</strong> A fullscreen movie and streaming experience optimized for phones.</p>
+            <p><strong>Radio:</strong> Listen to live radio stations from across the globe.</p>
+            <p><strong>Messages:</strong> Stay connected through a simple and friendly messaging interface.</p>
+            <p><strong>Photos:</strong> A bright mobile gallery that enhances your memories beautifully.</p>
+
+            <h3>Creativity & Intelligence</h3>
+
+            <p><strong>F-AI (Assistant):</strong> Your mobile AI companion for writing, learning, and planning.</p>
+            <p><strong>Draw:</strong> A mobile digital canvas for sketching and brainstorming.</p>
+            <p><strong>Edit / Camera:</strong> Capture photos and enhance them using easy professional filters.</p>
+            <p><strong>Journal:</strong> A private writing space for thoughts, memories, and travel logs.</p>
+            <p><strong>Quotes:</strong> Daily inspiration and motivational wisdom.</p>
+
+            <h3>Play & Advanced Tools</h3>
+
+            <p><strong>TETR.IO:</strong> Fast-paced gaming perfect for quick moments of downtime.</p>
+            <p><strong>2048:</strong> A relaxing and addictive puzzle game for mobile play.</p>
+            <p><strong>App Store:</strong> Quickly discover and install apps for your mobile home screen.</p>
+            <p><strong>Terminal:</strong> A powerful utility for users curious about the system.</p>
+            <p><strong>Orb:</strong> The intelligent engine powering the Fusa Pocket experience.</p>
+
+            <h3>Technical Information</h3>
+
+            <p>Fusa Pocket is built using HTML, CSS, and JavaScript with responsive layouts and mobile-first interactions designed specifically for touch devices and modern browsers.</p>
+
+            <h3>Fusa Pocket</h3>
+
+            <p>Beautiful. Simple. Yours.</p>
+
+        </div>
+    </div>
+</section>
+
+    <!-- Support Section -->
+    <section class="section" id="support-list">
+        <div class="section-content">
+            <h2 class="section-title reveal">Device Support</h2>
+            <input type="text" id="deviceSearch" class="device-search reveal" placeholder="Search for your device...">
+            <div class="device-list reveal" id="deviceList">
+                <div class="support-content">
+                    <p><strong>Apple</strong>
+iPhone 4 (iOS 7): yes
+iPhone 5 (iOS 8): yes
+iPhone 6 (iOS 10): yes
+iPhone 7 (iOS 10): yes
+iPhone 8 (iOS 12): yes
+iPhone X (iOS 13): yes
+iPhone 11 (iOS 14): yes
+iPhone 12 (iOS 14+): yes
+iPhone 13 (iOS 15): yes
+iPhone 14 (iOS 16): yes
+iPhone 15 (iOS 17): yes
+iPad 2 (iOS 9): no
+iPad 3 (iOS 9): no
+iPad Mini 1 (iOS 9): no
+iPad Mini 2 (iOS 9): yes
+iPad Mini 3 (iOS 9): yes
+iPad Mini 4 (iOS 9+): yes
+iPad 5th Gen (iOS 10+): yes
+iPad Air (iOS 9): yes
+iPad Air 2 (iOS 10+): yes
+iPad Pro 9.7-inch (iOS 9+): yes
+iPad Pro 12.9-inch (iOS 9+): yes
+iPad Pro (2017+): yes
+iPad Pro (2020+): yes
+iPad Pro (2022+): yes
+Apple Vision Pro: yes
+
+<strong>Mac Devices</strong>
+MacBook Air (2008-2011): no
+MacBook Air (2012-2017): yes
+MacBook Air (2018+): yes
+MacBook Pro (2008-2012): no
+MacBook Pro (2013-2015): yes
+MacBook Pro (2016+): yes
+MacBook Pro M1/M2: yes
+MacBook (2006-2011): no
+MacBook (2015+): yes
+iMac G4 (2003): no
+iMac (2009-2012): no
+iMac (2013+): yes
+iMac Pro (2017+): yes
+Mac Mini (2009-2011): no
+Mac Mini (2012+): yes
+Mac Pro (2008-2013): no
+Mac Pro (2013-2022): yes
+Mac Pro (2023+): yes
+
+<strong>Google</strong>
+Google Pixel (Pixel 1-6): yes
+Google Pixel 7 & Pixel 8: yes
+Google Pixel 7a/8a: yes
+Google Pixel 2 (Android 8): yes
+Google Pixel 3 (Android 9): yes
+Google Pixel 4 (Android 10): yes
+Google Pixel 5 (Android 10+): yes
+Google Pixel 6 (Android 12+): yes
+Google Pixel 7 (Android 13+): yes
+Google Nexus 5: yes
+Google Nexus 6P: yes
+Google Nexus 9: yes
+Google Nexus 10: yes
+Google Pixel Slate: yes
+
+<strong>Motorola</strong>
+Motorola Moto G (3rd Gen): yes
+Motorola Moto G (4th Gen): yes
+Motorola Moto G (5th Gen): yes
+Motorola Moto Z (Android 7): yes
+Motorola Moto X (2nd Gen): yes
+
+<strong>Samsung</strong>
+Samsung Galaxy S4: yes
+Samsung Galaxy S5 (Android 5): yes
+Samsung Galaxy S6 (Android 6): yes
+Samsung Galaxy S7 (Android 7): yes
+Samsung Galaxy S8 (Android 8): yes
+Samsung Galaxy S9 (Android 9): yes
+Samsung Galaxy S10 (Android 10): yes
+Samsung Galaxy S20 (Android 10+): yes
+Samsung Galaxy S21 (Android 11+): yes
+Samsung Galaxy S22 (Android 12+): yes
+Samsung Galaxy S23 (Android 13): yes
+Samsung Galaxy Note 4: yes
+Samsung Galaxy Note 5: yes
+Samsung Galaxy Note 9: yes
+Samsung Galaxy Note 10: yes
+Samsung Galaxy Note 20: yes
+Samsung Galaxy Tab A (2015+): yes
+Samsung Galaxy Tab S5e: yes
+Samsung Galaxy Tab S6/S7/S8: yes
+
+<strong>Google Nexus</strong>
+Google Nexus 7 (2012): yes
+Google Nexus 9 (2014): yes
+
+<strong>Amazon</strong>
+Amazon Fire HD 8 (2016+): yes
+Amazon Fire HD 10 (2020+): yes
+Fire TV Stick (4K/4K Max): yes
+Amazon Fire TV Cube: yes
+
+<strong>Sony</strong>
+Sony Xperia XZ (Android 6): yes
+Sony Xperia XZ1 (Android 8): yes
+Sony Xperia 10 (Android 9): yes
+Sony Xperia 1 II/III (Android 10+): yes
+Sony Xperia 5 II/III (Android 10+): yes
+Sony Xperia 1 IV (Android 12+): yes
+Sony Xperia 10 IV (Android 11+): yes
+Sony PlayStation 4: yes
+Sony PlayStation 5: yes
+Sony PlayStation Vita: no
+
+<strong>Microsoft</strong>
+Xbox 360: no
+Xbox One (All models): yes
+Xbox Series X: yes
+Xbox Series S: yes
+
+<strong>Nintendo</strong>
+Nintendo Switch: yes
+Nintendo Switch Lite: yes
+
+<strong>Virtual Reality Devices</strong>
+Oculus Quest 2/Pro (VR): yes
+Meta Quest (Any Version): yes
+Pico Neo 3: yes
+HTC Vive (VR): yes
+Oculus Rift (VR): yes
+
+<strong>Raspberry Pi</strong>
+Raspberry Pi 3: yes
+Raspberry Pi 4: yes
+Raspberry Pi Zero W: yes
+Raspberry Pi 400: yes
+
+<strong>Others</strong>
+PinePhone: yes
+PineTab: yes
+Dell XPS 13 (2013+): yes
+Dell Latitude (2008): no
+Lenovo ThinkPad (2010+): yes
+HP Spectre x360 (2015+): yes
+Acer Chromebook Spin: yes
+Acer Aspire One: no
+Asus Chromebook Flip: yes
+Microsoft Surface Pro (Any version): yes
+Surface Duo (Android): yes
+Surface Go (Any version): yes
+LG G5: yes
+LG V30 (Android 8): yes
+LG Stylo 6: yes
+OnePlus One (Android 4.4): yes
+OnePlus 5 (Android 8): yes
+OnePlus 6T (Android 9): yes
+OnePlus 7/7T/8 (Android 10+): yes
+OnePlus 9/10 (Android 12/13): yes
+ZTE Axon 7: yes
+ZTE Blade V10 (Android 9): yes
+Xiaomi Mi 6 (Android 7): yes
+Xiaomi Mi 11 (Android 10+): yes
+Xiaomi Mi 12 (Android 11+): yes
+Xiaomi Mi A2 (Android 8): yes
+Nokia 6 (Android 7): yes
+Nokia 7.1 (Android 9): yes
+Nokia 8.3 (Android 10): yes
+
+<strong>Note:</strong> This support list is estimated based on browser versions and HTML rendering capabilities. Some devices may exhibit limited functionality.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUBSCRIBE SECTION - ADDED -->
+    <section class="section" id="subscribe">
+        <div class="section-content reveal">
+            <h2 class="section-title">Subscribe</h2>
+            <p class="section-description">Get the latest news and updates from Fusa OS.</p>
+            <div class="subscribe-form-container">
+                <form id="subscribeForm">
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="subEmail" class="glass-input" required placeholder="you@example.com">
+                    </div>
+                    <button type="submit" id="subBtn" class="glass-button">Sign Up</button>
+                    <div id="subStatus" class="status-msg"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- UNSUBSCRIBE SECTION - ADDED -->
+    <section class="section" id="unsubscribe">
+        <div class="section-content reveal">
+            <h2 class="section-title">Unsubscribe</h2>
+            <p class="section-description">We're sorry to see you go. Please confirm your email below.</p>
+            <div class="subscribe-form-container">
+                <form id="unsubscribeForm">
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="unsubEmail" class="glass-input" required placeholder="you@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Reason (Optional)</label>
+                        <textarea id="unsubReason" class="glass-input" style="min-height:100px;" placeholder="Share your feedback..."></textarea>
+                    </div>
+                    <button type="submit" id="unsubBtn" class="glass-button">Unsubscribe</button>
+                    <div id="unsubStatus" class="status-msg"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#about" class="footer-link">About Fusa OS</a>
+                <a href="#features" class="footer-link">Features</a>
+                <a href="#documentation" class="footer-link">Documentation</a>
+                <a href="https://discord.gg/SrB5GHT7" class="footer-link">Community</a>
+                <a href="https://fusa-os-help.glitch.me" class="footer-link">Support</a>
+            </div>
+            <p class="legal-text">
+                FUSA OS is a personal project and is not a company. It is an open-source, community-driven initiative created for educational purposes and to foster learning and collaboration. This project is provided as-is, without any warranties or guarantees of any kind.
+            </p>
+            <p class="legal-text">
+                This project is conceptual and not a commercial product. FUSA OS is not affiliated with, endorsed by, or licensed by any other company. Trademarks and logos are used for informational purposes only.
+            </p>
+            <p class="legal-text">
+                By using FUSA OS, you agree to release the creators and contributors from any liability related to your use of the project.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Dropdown Toggle
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownMenu = document.getElementById('moreLinksDropdown');
+
+        dropdownToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!dropdownMenu.contains(e.target) && !dropdownToggle.contains(e.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+
+        // Scroll Reveal Animation with Stagger
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // Stagger animation for feature cards
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach((card, index) => {
+            card.style.transitionDelay = `${index * 0.1}s`;
+        });
+
+        // Active Navigation State
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.header-link');
+
+        function updateActiveNav() {
+            const scrollPosition = window.scrollY + 200;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                const sectionId = section.getAttribute('id');
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveNav);
+        updateActiveNav();
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const offsetTop = target.offsetTop - 100;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Device Search Functionality
+        const deviceSearch = document.getElementById('deviceSearch');
+        const deviceList = document.getElementById('deviceList');
+        const deviceContent = deviceList.querySelector('.support-content p');
+
+        if (deviceSearch && deviceContent) {
+            const originalContent = deviceContent.innerHTML;
+
+            deviceSearch.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase().trim();
+
+                if (searchTerm === '') {
+                    deviceContent.innerHTML = originalContent;
+                    return;
+                }
+
+                const lines = originalContent.split('\n');
+                const filteredLines = lines.filter(line => {
+                    const cleanLine = line.replace(/<[^>]*>/g, '');
+                    return cleanLine.toLowerCase().includes(searchTerm);
+                });
+
+                if (filteredLines.length > 0) {
+                    deviceContent.innerHTML = filteredLines.join('\n');
+                } else {
+                    deviceContent.innerHTML = '<strong>No devices found</strong>\nTry searching with different keywords like "iPhone", "Samsung", "Pixel", etc.';
+                }
+            });
+        }
+
+        // ADDED FORM HANDLING LOGIC
+        async function submitForm(e, statusId, btnId, type) {
+            e.preventDefault();
+            const status = document.getElementById(statusId);
+            const btn = document.getElementById(btnId);
+            const email = e.target.querySelector('input[type="email"]').value;
+            const reason = e.target.querySelector('textarea')?.value || "N/A";
+
+            btn.disabled = true;
+            btn.textContent = "Processing...";
+            status.style.display = "none";
+
+            try {
+                const response = await fetch('https://formspree.io/f/xvgkgpwb', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, reason, type: type })
+                });
+
+                if (response.ok) {
+                    status.style.display = "block";
+                    status.style.background = "rgba(0, 255, 0, 0.1)";
+                    status.style.color = "#00ff00";
+                    status.textContent = type === 'subscribe' ? "Thanks for subscribing!" : "Successfully unsubscribed.";
+                    e.target.reset();
+                } else {
+                    throw new Error();
+                }
+            } catch (err) {
+                status.style.display = "block";
+                status.style.background = "rgba(255, 0, 0, 0.1)";
+                status.style.color = "#ff0000";
+                status.textContent = "Error. Please try again.";
+            } finally {
+                btn.disabled = false;
+                btn.textContent = type === 'subscribe' ? "Sign Up" : "Unsubscribe";
+            }
+        }
+
+        document.getElementById('subscribeForm').addEventListener('submit', (e) => submitForm(e, 'subStatus', 'subBtn', 'subscribe'));
+        document.getElementById('unsubscribeForm').addEventListener('submit', (e) => submitForm(e, 'unsubStatus', 'unsubBtn', 'unsubscribe'));
+
+
+    
+    </script>
+    
+
+</body>
+</html>

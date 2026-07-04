@@ -4,32 +4,64 @@
   "exact_field_count": 4,
   "fields": [
     {
-      "question": "your name your name your-name your-name your name",
+      "question": "your name your name your name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "your-name",
+        "name": "your-name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "contact email contact email contact-email contact-email contact email",
+      "question": "contact email contact email contact email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "contact-email",
+        "name": "contact-email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "tell us about yourself tell us about yourself tell-us-about-yourself tell-us-about-yourself tell us about yourself",
+      "question": "tell us about yourself tell us about yourself tell us about yourself",
       "field_type": "textarea",
       "max_chars": 350,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself",
+        "name": "tell-us-about-yourself",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "describe a challenging project you led describe a challenging project you led describe-a-challenging-p describe-a-challenging-p describe a challenging project you led",
+      "question": "describe a challenging project you led describe a challenging project you led describe a challenging project you led",
       "field_type": "textarea",
       "max_chars": 800,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "describe-a-challenging-p",
+        "name": "describe-a-challenging-p",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [],

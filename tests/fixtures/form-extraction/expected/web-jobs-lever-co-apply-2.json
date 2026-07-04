@@ -1,7 +1,7 @@
 {
   "id": "web-jobs-lever-co-apply-2",
-  "min_fields": 22,
-  "exact_field_count": 22,
+  "min_fields": 21,
+  "exact_field_count": 21,
   "fields": [
     {
       "question": "opportunitylocationid",
@@ -14,56 +14,120 @@
         "Corpus Christi, TX 78405",
         "Brownsville, TX 78521"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "opportunityLocationId",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "full name✱ name full name✱ full name✱",
+      "question": "full name✱ full name✱ full name✱",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "email✱ email email✱ email✱",
+      "question": "email✱ email✱ email✱",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "phone phone phone phone",
+      "question": "phone phone phone",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "current location no location found. try entering a different locationloading location location-input current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading",
+      "question": "current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading",
       "field_type": "text",
       "max_chars": 100,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "current company org current company current company",
+      "question": "current company current company current company",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "linkedin url urls[linkedin] linkedin url linkedin url",
+      "question": "linkedin url linkedin url linkedin url",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "other website urls[other url or website] other website other website",
+      "question": "other website other website other website",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Other URL or Website]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field0]",
@@ -74,7 +138,15 @@
         "Yes",
         "No"
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field0]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field1]",
@@ -85,7 +157,15 @@
         "Yes",
         "No"
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field1]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field2]",
@@ -96,14 +176,30 @@
         "Yes",
         "No"
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field2]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "type your response cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field3]",
+      "question": "type your response",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field3]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
       "question": "cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field4]",
@@ -114,35 +210,52 @@
         "Yes",
         "No"
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field4]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "type your response cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field5]",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null,
-      "required": false
-    },
-    {
-      "question": "yes, i provide my express written consent to receive informational text messages regarding this job opportunity or job opportunities in the future from sunsource or an affiliate company. i am aware that message frequency will vary and that msg & data rates may apply. i confirm i understand that i can respond “stop” or “unsubscribe” at any time to cancel. cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field6] yes, i provide my express written consent to receive informational text messages regarding this job opportunity or job opportunities in the future from sunsource or an affiliate company. i am aware that message frequency will vary and that msg & data rates may apply. i confirm i understand that i can respond “stop” or “unsubscribe” at any time to cancel. yes, i provide my express written consent to receive informational text messages regarding this job opportunity or job opportunities in the future from sunsource or an affiliate company. i am aware that message frequency will vary and that msg & data rates may apply. i confirm i understand that i can respond “stop” or “unsubscribe” at any time to cancel.",
+      "question": "yes, i provide my express written consent to receive informational text messages regarding this job opportunity or job opportunities in the future from sunsource or an affiliate company. i am aware that message frequency will vary and that msg & data rates may apply. i confirm i understand that i can respond “stop” or “unsubscribe” at any time to cancel. yes, i provide my express written consent to receive informational text messages regarding this job opportunity or job opportunities in the future from sunsource or an affiliate company. i am aware that message frequency will vary and that msg & data rates may apply. i confirm i understand that i can respond “stop” or “unsubscribe” at any time to cancel. yes, i provide my express written consent to receive informational text messages regarding this job opportunity or job opportunities in the future from sunsource or an affiliate company. i am aware that message frequency will vary and that msg & data rates may apply. i confirm i understand that i can respond “stop” or “unsubscribe” at any time to cancel.",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Yes, I provide my express written consent to receive informational TEXT MESSAGES regarding this job opportunity or job opportunities in the future from SunSource or an affiliate company. I am aware that message frequency will vary and that msg & data rates may apply. I confirm I understand that I can respond “STOP” or “UNSUBSCRIBE” at any time to cancel."
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field6]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "yes, i have read and understand this applicant statement cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field7] yes, i have read and understand this applicant statement yes, i have read and understand this applicant statement",
+      "question": "yes, i have read and understand this applicant statement yes, i have read and understand this applicant statement yes, i have read and understand this applicant statement",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
         "Yes, I have read and understand this APPLICANT STATEMENT"
       ],
-      "required": true
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[65f61001-ae05-4216-aa98-68bb34d1ffaa][field7]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "genderselect ...malefemaledecline to self-identify eeo[gender] genderselect ...malefemaledecline to self-identify genderselect ...malefemaledecline to self-identify",
+      "question": "genderselect ...malefemaledecline to self-identify genderselect ...malefemaledecline to self-identify genderselect ...malefemaledecline to self-identify",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -151,10 +264,18 @@
         "Female",
         "Decline to self-identify"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "eeo[gender]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "raceselect ...hispanic or latinowhite (not hispanic or latino)black or african american (not hispanic or latino)native hawaiian or other pacific islander (not hispanic or latino)asian (not hispanic or latino)american indian or alaska native (not hispanic or latino)two or more races (not hispanic or latino)decline to self-identifyhispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races. eeo[race] raceselect ...hispanic or latinowhite (not hispanic or latino)black or african american (not hispanic or latino)native hawaiian or other pacific islander (not hispanic or latino)asian (not hispanic or latino)american indian or alaska native (not hispanic or latino)two or more races (not hispanic or latino)decline to self-identifyhispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races. raceselect ...hispanic or latinowhite (not hispanic or latino)black or african american (not hispanic or latino)native hawaiian or other pacific islander (not hispanic or latino)asian (not hispanic or latino)american indian or alaska native (not hispanic or latino)two or more races (not hispanic or latino)decline to self-identifyhispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races.",
+      "question": "raceselect ...hispanic or latinowhite (not hispanic or latino)black or african american (not hispanic or latino)native hawaiian or other pacific islander (not hispanic or latino)asian (not hispanic or latino)american indian or alaska native (not hispanic or latino)two or more races (not hispanic or latino)decline to self-identifyhispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races. raceselect ...hispanic or latinowhite (not hispanic or latino)black or african american (not hispanic or latino)native hawaiian or other pacific islander (not hispanic or latino)asian (not hispanic or latino)american indian or alaska native (not hispanic or latino)two or more races (not hispanic or latino)decline to self-identifyhispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races. raceselect ...hispanic or latinowhite (not hispanic or latino)black or african american (not hispanic or latino)native hawaiian or other pacific islander (not hispanic or latino)asian (not hispanic or latino)american indian or alaska native (not hispanic or latino)two or more races (not hispanic or latino)decline to self-identifyhispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races.",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -168,10 +289,18 @@
         "Two or More Races (Not Hispanic or Latino)",
         "Decline to self-identify"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "eeo[race]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "veteran statusselect ...i identify as one or more of the classifications of protected veteran listed abovei am not a protected veterani decline to self-identify for protected veteran status eeo[veteran] veteran statusselect ...i identify as one or more of the classifications of protected veteran listed abovei am not a protected veterani decline to self-identify for protected veteran status veteran statusselect ...i identify as one or more of the classifications of protected veteran listed abovei am not a protected veterani decline to self-identify for protected veteran status",
+      "question": "veteran statusselect ...i identify as one or more of the classifications of protected veteran listed abovei am not a protected veterani decline to self-identify for protected veteran status veteran statusselect ...i identify as one or more of the classifications of protected veteran listed abovei am not a protected veterani decline to self-identify for protected veteran status veteran statusselect ...i identify as one or more of the classifications of protected veteran listed abovei am not a protected veterani decline to self-identify for protected veteran status",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -180,10 +309,18 @@
         "I am not a protected veteran",
         "I decline to self-identify for protected veteran status"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "eeo[veteran]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "disability statusselect ...yes, i have a disability, or have had one in the pastno, i do not have a disability and have not had one in the pasti do not want to answer eeo[disability] disabilityselectelement disability statusselect ...yes, i have a disability, or have had one in the pastno, i do not have a disability and have not had one in the pasti do not want to answer disability statusselect ...yes, i have a disability, or have had one in the pastno, i do not have a disability and have not had one in the pasti do not want to answer",
+      "question": "disability statusselect ...yes, i have a disability, or have had one in the pastno, i do not have a disability and have not had one in the pasti do not want to answer disability statusselect ...yes, i have a disability, or have had one in the pastno, i do not have a disability and have not had one in the pasti do not want to answer disability statusselect ...yes, i have a disability, or have had one in the pastno, i do not have a disability and have not had one in the pasti do not want to answer",
       "field_type": "select",
       "max_chars": null,
       "options": [
@@ -192,21 +329,45 @@
         "No, I do not have a disability and have not had one in the past",
         "I do not want to answer"
       ],
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "disabilitySelectElement",
+        "name": "eeo[disability]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "name enter your full name eeo[disabilitysignature] name name",
+      "question": "name enter your full name name name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "eeo[disabilitySignature]",
+        "data_testid": null,
+        "role": null
+      }
     },
     {
-      "question": "date mm/dd/yyyy eeo[disabilitysignaturedate] date date",
+      "question": "date mm/dd/yyyy date date",
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "eeo[disabilitySignatureDate]",
+        "data_testid": null,
+        "role": null
+      }
     }
   ],
   "controls": [

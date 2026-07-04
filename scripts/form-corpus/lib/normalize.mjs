@@ -35,6 +35,33 @@ export function normalizeOptions(options) {
     return normalized.length > 0 ? normalized : null;
 }
 
+export function domReferenceKey(dom, fieldType = '') {
+    if (!dom || !dom.tag) {
+        return null;
+    }
+
+    const tag = String(dom.tag);
+    const preferName = fieldType === 'radio' || fieldType === 'checkbox';
+
+    if (preferName && dom.name) {
+        return `${tag}[name=${dom.name}]`;
+    }
+
+    if (dom.id) {
+        return `${tag}#${dom.id}`;
+    }
+
+    if (dom.data_testid) {
+        return `${tag}[data-testid=${dom.data_testid}]`;
+    }
+
+    if (dom.name) {
+        return `${tag}[name=${dom.name}]`;
+    }
+
+    return null;
+}
+
 export function slugify(value) {
     return String(value)
         .toLowerCase()

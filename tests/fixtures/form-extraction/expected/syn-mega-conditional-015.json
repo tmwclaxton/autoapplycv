@@ -1,0 +1,105 @@
+{
+  "id": "syn-mega-conditional-015",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "applicant name (9635) applicant name (9635)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "cond-name-9635",
+        "name": "cond-name-9635",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9635) primary email (9635)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "cond-email-9635",
+        "name": "cond-email-9635",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "phone number (9635) phone number (9635)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "cond-phone-9635",
+        "name": "cond-phone-9635",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "github profile (9635) github profile (9635)",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "github-profile-9635-9635",
+        "name": "github-profile-9635-9635",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal statement (9635) personal statement (9635)",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "personal-statement-9635-9635",
+        "name": "personal-statement-9635-9635",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work location (9635) work location (9635)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Hybrid",
+        "Dublin",
+        "Remote",
+        "London"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "work-location-9635-9635",
+        "name": "work-location-9635-9635",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

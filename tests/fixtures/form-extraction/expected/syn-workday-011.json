@@ -8,28 +8,60 @@
       "field_type": "text",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "input-q_full-name",
+        "data_testid": "input-q_full-name-input",
+        "role": null
+      }
     },
     {
       "question": "input-q_email-address",
       "field_type": "email",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "input-q_email-address",
+        "data_testid": "input-q_email-address-input",
+        "role": null
+      }
     },
     {
       "question": "input-q_why-do-you-want-",
       "field_type": "textarea",
       "max_chars": 500,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "input-q_why-do-you-want-",
+        "data_testid": "input-q_why-do-you-want--input",
+        "role": null
+      }
     },
     {
       "question": "input-q_years-in-this-fi",
       "field_type": "number",
       "max_chars": null,
       "options": null,
-      "required": false
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": null,
+        "name": "input-q_years-in-this-fi",
+        "data_testid": "input-q_years-in-this-fi-input",
+        "role": null
+      }
     }
   ],
   "controls": [

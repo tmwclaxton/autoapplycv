@@ -1,0 +1,91 @@
+{
+  "id": "syn-mega-react-066",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "full name (9136) full name (9136)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "react-name-9136",
+        "name": "react-name-9136",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9136) primary email (9136)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "react-email-9136",
+        "name": "react-email-9136",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9136) cell phone (9136)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "react-phone-9136",
+        "name": "react-phone-9136",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cover letter (9136) cover letter (9136)",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter-9136-9136",
+        "name": "cover-letter-9136-9136",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "visa sponsorship needed? (9136)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "visa-sponsorship-needed-",
+        "name": null,
+        "data_testid": null,
+        "role": "radiogroup"
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

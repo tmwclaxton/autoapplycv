@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-angular-042",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "your name (9202) your name (9202)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ang-name-9202",
+        "name": "ang-name-9202",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "primary email (9202) primary email (9202)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ang-email-9202",
+        "name": "ang-email-9202",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "cell phone (9202) cell phone (9202)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ang-phone-9202",
+        "name": "ang-phone-9202",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "why this role? (9202) why this role? (9202)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-9202-9202",
+        "name": "why-this-role-9202-9202",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "preferred location (9202) preferred location (9202)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "London",
+        "Dublin",
+        "Remote",
+        "Manchester"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-location-9202-9202",
+        "name": "preferred-location-9202-9202",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

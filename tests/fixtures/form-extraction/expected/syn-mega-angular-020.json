@@ -1,0 +1,94 @@
+{
+  "id": "syn-mega-angular-020",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "applicant name (9180) applicant name (9180)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ang-name-9180",
+        "name": "ang-name-9180",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "work email (9180) work email (9180)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ang-email-9180",
+        "name": "ang-email-9180",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "mobile number (9180) mobile number (9180)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ang-phone-9180",
+        "name": "ang-phone-9180",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "personal statement (9180) personal statement (9180)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "personal-statement-9180-9180",
+        "name": "personal-statement-9180-9180",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "where are you based? (9180) where are you based? (9180)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Hybrid",
+        "Remote",
+        "Dublin",
+        "Berlin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "where-are-you-based-9180-918",
+        "name": "where-are-you-based-9180-918",
+        "data_testid": null,
+        "role": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}
