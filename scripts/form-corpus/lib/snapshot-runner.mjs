@@ -3,6 +3,14 @@ import vm from 'node:vm';
 import { JSDOM } from 'jsdom';
 import { FIELD_INVENTORY_PATH, FORM_HEURISTICS_PATH } from './paths.mjs';
 
+/** Strip stylesheets so JSDOM does not spend minutes parsing scraped CSS. */
+function stripStylesheets(html) {
+    return html
+        .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '')
+        .replace(/<link\b[^>]*\brel=["']?stylesheet["']?[^>]*>/gi, '')
+        .replace(/<link\b[^>]*\bas=["']?style["']?[^>]*>/gi, '');
+}
+
 const VISIBILITY_PATCH = `
 (function () {
     function patchElement(el) {
@@ -39,11 +47,22 @@ const VISIBILITY_PATCH = `
 })();
 `;
 
+let cachedHeuristicsScript;
+let cachedInventoryScript;
+
+function extensionScripts() {
+    if (! cachedHeuristicsScript) {
+        cachedHeuristicsScript = readFileSync(FORM_HEURISTICS_PATH, 'utf8')
+            .replace('const AutoCVApplyFormHeuristics =', 'globalThis.AutoCVApplyFormHeuristics =');
+        cachedInventoryScript = readFileSync(FIELD_INVENTORY_PATH, 'utf8')
+            .replace('const AutoCVApplyFieldInventory =', 'globalThis.AutoCVApplyFieldInventory =');
+    }
+
+    return { heuristics: cachedHeuristicsScript, inventory: cachedInventoryScript };
+}
+
 function loadExtensionScripts(window, context) {
-    const heuristics = readFileSync(FORM_HEURISTICS_PATH, 'utf8')
-        .replace('const AutoCVApplyFormHeuristics =', 'globalThis.AutoCVApplyFormHeuristics =');
-    const inventory = readFileSync(FIELD_INVENTORY_PATH, 'utf8')
-        .replace('const AutoCVApplyFieldInventory =', 'globalThis.AutoCVApplyFieldInventory =');
+    const { heuristics, inventory } = extensionScripts();
 
     vm.runInContext(VISIBILITY_PATCH, context);
     vm.runInContext(heuristics, context);
@@ -61,7 +80,7 @@ export function buildSnapshotFromHtml(options) {
     const pageUrl = options.pageUrl || 'https://example.test/apply';
     const pageTitle = options.pageTitle || 'Job Application';
 
-    const dom = new JSDOM(options.html, {
+    const dom = new JSDOM(stripStylesheets(options.html), {
         url: pageUrl,
         contentType: 'text/html',
         includeNodeLocations: false,
