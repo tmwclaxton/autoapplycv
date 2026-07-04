@@ -32,8 +32,23 @@ function normalizeText(text) {
     return String(text || '').replace(/\s+/g, ' ').trim();
 }
 
+function getVisibleBodyText(document) {
+    const body = document.body;
+
+    if (!body) {
+        return '';
+    }
+
+    const clone = body.cloneNode(true);
+    clone.querySelectorAll('script, style, noscript, template').forEach((element) => {
+        element.remove();
+    });
+
+    return normalizeText(clone.textContent || '');
+}
+
 function scanTextErrors(document) {
-    const bodyText = normalizeText(document.body?.textContent || '');
+    const bodyText = getVisibleBodyText(document);
     const matches = [];
 
     for (const pattern of TEXT_ERROR_PATTERNS) {
@@ -142,8 +157,23 @@ export async function detectFormErrorsInPage(page) {
             return !(style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0');
         }
 
+        function getVisibleBodyText() {
+            const body = document.body;
+
+            if (!body) {
+                return '';
+            }
+
+            const clone = body.cloneNode(true);
+            clone.querySelectorAll('script, style, noscript, template').forEach((element) => {
+                element.remove();
+            });
+
+            return normalizeText(clone.textContent || '');
+        }
+
         const matches = [];
-        const bodyText = normalizeText(document.body?.textContent || '');
+        const bodyText = getVisibleBodyText();
 
         for (const pattern of TEXT_ERROR_PATTERNS) {
             const match = bodyText.match(pattern);

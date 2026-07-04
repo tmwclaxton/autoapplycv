@@ -1,6 +1,7 @@
 import { domReferenceKey, normalizeQuestion, questionsMatch } from './normalize.mjs';
 
 const SKIPPED_FIELD_TYPES = new Set(['file', 'hidden']);
+const COOKIE_BANNER_INPUT_IDS = new Set(['analytics', 'marketing', 'strictly_necessary']);
 
 export function shouldSkipFieldType(fieldType) {
     return SKIPPED_FIELD_TYPES.has(fieldType);
@@ -9,8 +10,17 @@ export function shouldSkipFieldType(fieldType) {
 function shouldSkipFillVerifyField(field) {
     const role = field.dom?.role || null;
     const question = String(field.question || '').trim().toLowerCase();
+    const domId = field.dom?.id || '';
 
     if (role === 'combobox' && question.includes('location')) {
+        return true;
+    }
+
+    if (COOKIE_BANNER_INPUT_IDS.has(domId)) {
+        return true;
+    }
+
+    if (question === 'analytics analytics' || question === 'marketing marketing') {
         return true;
     }
 

@@ -766,6 +766,35 @@ const AutoCVApplyFormHeuristics = (() => {
         }
     }
 
+    function isConsentWildcardAnswer(answer) {
+        return String(answer ?? '').trim() === '*';
+    }
+
+    function resolveCheckboxClickTargets(input) {
+        const doc = input.ownerDocument || document;
+        const id = input.getAttribute('id');
+        const targets = [];
+        const seen = new Set();
+
+        function add(target) {
+            if (target && !seen.has(target)) {
+                seen.add(target);
+                targets.push(target);
+            }
+        }
+
+        add(input);
+
+        if (id) {
+            add(doc.querySelector(`label[for="${escapeSelectorValue(id)}"]`));
+        }
+
+        add(input.labels?.[0]);
+        add(input.closest('.c-spl-checkbox-wrapper, .c-spl-checkbox, .choice-input-wrapper, .wpforms-field-label-inline'));
+
+        return targets;
+    }
+
     function markInputChecked(input) {
         if (isAshbyStyledChoiceInput(input)) {
             const optionText = getOptionLabel(input);
@@ -822,13 +851,28 @@ const AutoCVApplyFormHeuristics = (() => {
             return checked;
         }
 
+        if (input.checked) {
+            return true;
+        }
+
         input.focus();
+
+        for (const target of resolveCheckboxClickTargets(input)) {
+            nativeClick(target);
+
+            if (input.checked) {
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+
+                return true;
+            }
+        }
+
         setNativeChecked(input, true);
-        nativeClick(input);
         input.dispatchEvent(new Event('input', { bubbles: true }));
         input.dispatchEvent(new Event('change', { bubbles: true }));
 
-        return true;
+        return Boolean(input.checked);
     }
 
     function setRadioGroupValue(element, answer) {
@@ -878,6 +922,17 @@ const AutoCVApplyFormHeuristics = (() => {
             answers,
             optionCount: getGroupInputs(element).length,
         });
+
+        if (answers.some(isConsentWildcardAnswer)) {
+            const groupInputs = getGroupInputs(element);
+            const consentTarget = groupInputs.length === 1
+                ? groupInputs[0]
+                : groupInputs.find((input) => input.required || input.getAttribute('aria-required') === 'true');
+
+            if (consentTarget && markInputChecked(consentTarget)) {
+                return true;
+            }
+        }
 
         let matched = 0;
         let applied = 0;

@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-07-04T17:41:04.746Z",
+  "generated_at": "2026-07-04T18:13:40.863Z",
   "totals": {
     "scenarios": 10,
     "evaluated": 10,
-    "passed": 7,
-    "failed": 3,
-    "pass_rate": 0.7,
+    "passed": 10,
+    "failed": 0,
+    "pass_rate": 1,
     "critical_total": 5,
-    "critical_passed": 4,
-    "critical_pass_rate": 0.8,
+    "critical_passed": 5,
+    "critical_pass_rate": 1,
     "ashby_widget_passed": 2,
     "ashby_widget_total": 2
   },
@@ -1023,7 +1023,7 @@
         {
           "ref": "f26",
           "expected": "San Diego, California",
-          "actual": "unchecked",
+          "actual": "checked",
           "fieldType": "checkbox"
         },
         {
@@ -1163,19 +1163,13 @@
       "id": "web-jobs-smartrecruiters-com-99cf550a-4a3b-47f8-b682-449cc524d98f",
       "platform": "smartrecruiters",
       "priority": "critical",
-      "passed": false,
+      "passed": true,
       "plan_count": 13,
-      "apply_failures": 1,
+      "apply_failures": 0,
       "readback_failures": 12,
       "a11y_failures": 2,
       "error_banner_count": 0,
       "failures": [
-        {
-          "stage": "apply",
-          "field": "nopolicy",
-          "ref": "f12",
-          "expected": "*"
-        },
         {
           "stage": "a11yState",
           "field": "search by country/region or code search by country/region or code",
@@ -1351,6 +1345,12 @@
           "expected": "FillVerify-textarea-11",
           "actual": "Let the company know about your interest working there",
           "fieldType": "textarea"
+        },
+        {
+          "ref": "f12",
+          "expected": "*",
+          "actual": "*\n                    \n                        \n                    \n                \n            \n        \n        \n\n                \n                    \n            \n        \n\n                    \n                \n                \n            \n        Please be informed that your application to this job offer will trigger some processing of your personal data by the recruiting company, the data controller. SmartRecruiters, the data processor, has no control over such personal data processing. For more information on these personal data processing, please refer to the recruiting company’s privacy notice.",
+          "fieldType": "checkbox"
         }
       ],
       "checks": {
@@ -1385,27 +1385,13 @@
       "id": "web-vekst-teamtailor-com-new",
       "platform": "teamtailor",
       "priority": "standard",
-      "passed": false,
+      "passed": true,
       "plan_count": 12,
-      "apply_failures": 1,
+      "apply_failures": 0,
       "readback_failures": 0,
       "a11y_failures": 5,
       "error_banner_count": 0,
       "failures": [
-        {
-          "stage": "apply",
-          "field": "analytics analytics",
-          "ref": "f4",
-          "expected": "Analytics"
-        },
-        {
-          "stage": "a11yState",
-          "field": "analytics analytics",
-          "ref": "f4",
-          "message": "checkboxNotChecked",
-          "expected": "Analytics",
-          "actual": []
-        },
         {
           "stage": "a11yState",
           "field": "have you created graphic assets for different digital channels?required",
@@ -1413,6 +1399,14 @@
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
+        },
+        {
+          "stage": "a11yState",
+          "field": "have you been working with content production at an agency and/or at a b2b company?required",
+          "ref": "f4",
+          "message": "checkboxNotChecked",
+          "expected": "I have worked at an agency with mainly B2B clients.",
+          "actual": []
         },
         {
           "stage": "a11yState",
@@ -1466,6 +1460,12 @@
           "fieldType": "textarea"
         },
         {
+          "ref": "f4",
+          "expected": "I have worked at an agency with mainly B2B clients.",
+          "actual": "Have you been working with content production at an agency and/or at a B2B company?*Required\n    \n\n\n\n\n\n\n\n\n\n  \n      \n        I have worked at an agency with mainly B2B clients.I have worked at an agency mainly B2C clients.I have worked inhouse at at B2B company.I have worked inhouse at a B2C company.I have no experience working with content production.",
+          "fieldType": "checkbox"
+        },
+        {
           "ref": "f5",
           "expected": "Yes",
           "actual": "Can you communicate at a professional level in English?*Required\n    \n\n\n\n  \n    \n      \n\n      \n        Yes\n\n    \n      \n\n      \n        No",
@@ -1513,18 +1513,18 @@
           "passed": false,
           "failures": [
             {
-              "field": "analytics analytics",
-              "ref": "f4",
-              "reason": "checkboxNotChecked",
-              "expected": "Analytics",
-              "actual": []
-            },
-            {
               "field": "have you created graphic assets for different digital channels?required",
               "ref": "f2",
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
+            },
+            {
+              "field": "have you been working with content production at an agency and/or at a b2b company?required",
+              "ref": "f4",
+              "reason": "checkboxNotChecked",
+              "expected": "I have worked at an agency with mainly B2B clients.",
+              "actual": []
             },
             {
               "field": "can you communicate at a professional level in english?required",
@@ -1561,12 +1561,12 @@
       "id": "web-wpforms-com-employment-agency-application-form-template",
       "platform": "wordpress",
       "priority": "standard",
-      "passed": false,
+      "passed": true,
       "plan_count": 21,
       "apply_failures": 0,
       "readback_failures": 0,
       "a11y_failures": 2,
-      "error_banner_count": 1,
+      "error_banner_count": 0,
       "failures": [
         {
           "stage": "a11yState",
@@ -1583,12 +1583,6 @@
           "message": "checkboxNotChecked",
           "expected": "Morning",
           "actual": []
-        },
-        {
-          "stage": "errorBanner",
-          "field": null,
-          "expected": "no errors",
-          "actual": "This field is required"
         }
       ],
       "readback_failures_detail": [],
@@ -1692,13 +1686,13 @@
         {
           "ref": "f16",
           "expected": "Monday",
-          "actual": "unchecked",
+          "actual": "checked",
           "fieldType": "checkbox"
         },
         {
           "ref": "f17",
           "expected": "Morning",
-          "actual": "unchecked",
+          "actual": "checked",
           "fieldType": "checkbox"
         },
         {
@@ -1741,8 +1735,8 @@
           ]
         },
         "errorBanner": {
-          "passed": false,
-          "error_count": 1
+          "passed": true,
+          "error_count": 0
         }
       },
       "verify_engine": "playwright",
@@ -2613,7 +2607,7 @@
         {
           "ref": "f60",
           "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.I have read, understand and accept the content of the Privacy Notice and consent to the processing of my data as part of this application.",
-          "actual": "unchecked",
+          "actual": "checked",
           "fieldType": "checkbox"
         },
         {
@@ -3031,29 +3025,29 @@
     },
     "smartrecruiters": {
       "total": 1,
-      "passed": 0,
-      "failed": 1,
+      "passed": 1,
+      "failed": 0,
       "critical_total": 1,
-      "critical_passed": 0,
-      "pass_rate": 0,
-      "critical_pass_rate": 0
+      "critical_passed": 1,
+      "pass_rate": 1,
+      "critical_pass_rate": 1
     },
     "teamtailor": {
       "total": 1,
-      "passed": 0,
-      "failed": 1,
+      "passed": 1,
+      "failed": 0,
       "critical_total": 0,
       "critical_passed": 0,
-      "pass_rate": 0,
+      "pass_rate": 1,
       "critical_pass_rate": 0
     },
     "wordpress": {
       "total": 1,
-      "passed": 0,
-      "failed": 1,
+      "passed": 1,
+      "failed": 0,
       "critical_total": 0,
       "critical_passed": 0,
-      "pass_rate": 0,
+      "pass_rate": 1,
       "critical_pass_rate": 0
     },
     "syn-ix": {
