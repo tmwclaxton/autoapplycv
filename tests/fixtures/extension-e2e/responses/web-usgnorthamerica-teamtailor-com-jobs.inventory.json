@@ -1,0 +1,66 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "analytics analytics",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Analytics"
+      ]
+    },
+    {
+      "ref": "f1",
+      "question": "marketing marketing",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Marketing"
+      ]
+    },
+    {
+      "ref": "f2",
+      "question": "search search search",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f3",
+      "question": "job filters",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "All",
+        "Accounting & Finance",
+        "Administrative/Coordinator",
+        "Communications",
+        "Construction",
+        "Corporate Planning & Strategy",
+        "Customer Service",
+        "Engineering",
+        "EPMO",
+        "Human Resources",
+        "IT",
+        "Legal",
+        "Logistics & Supply Chain",
+        "Manufacturing",
+        "Marketing",
+        "Operational Excellence",
+        "Operations",
+        "Research & Development",
+        "Safety & Environmental",
+        "Sales & Sales Operations"
+      ]
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}

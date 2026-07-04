@@ -1,0 +1,42 @@
+{
+  "scenario_id": "web-job-boards-greenhouse-io-6239197003",
+  "plan_count": 36,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "first_name",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "last_name",
+      "ref": "f1",
+      "answer": "FillVerify-1"
+    },
+    {
+      "kind": "id",
+      "selector": "email",
+      "ref": "f2",
+      "answer": "FillVerify-2"
+    },
+    {
+      "kind": "id",
+      "selector": "country",
+      "ref": "f3",
+      "answer": "FillVerify-3"
+    },
+    {
+      "kind": "label_contains",
+      "selector": "first",
+      "ref": "f5",
+      "answer": "FillVerify-5"
+    },
+    {
+      "kind": "id",
+      "selector": "question_18472698003",
+      "ref": "f6",
+      "answer": "FillVerify-6"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "scenario_id": "web-boards-greenhouse-io-7728444003",
+  "plan_count": 32,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "first_name",
+      "ref": "f1",
+      "answer": "FillVerify-1"
+    },
+    {
+      "kind": "id",
+      "selector": "last_name",
+      "ref": "f2",
+      "answer": "FillVerify-2"
+    },
+    {
+      "kind": "id",
+      "selector": "email",
+      "ref": "f3",
+      "answer": "FillVerify-3"
+    },
+    {
+      "kind": "id",
+      "selector": "country",
+      "ref": "f4",
+      "answer": "FillVerify-4"
+    },
+    {
+      "kind": "label_contains",
+      "selector": "first",
+      "ref": "f6",
+      "answer": "FillVerify-6"
+    }
+  ]
+}

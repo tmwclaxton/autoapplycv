@@ -1,0 +1,36 @@
+{
+  "scenario_id": "syn-mega-grid-001",
+  "plan_count": 5,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "grid-name-9901",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "grid-email-9901",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "grid-phone-9901",
+      "ref": "f2",
+      "answer": "+15550000002"
+    },
+    {
+      "kind": "id",
+      "selector": "tell-us-about-yourself-9901-",
+      "ref": "f3",
+      "answer": "FillVerify-textarea-3"
+    },
+    {
+      "kind": "id",
+      "selector": "relocation-preference-99-0",
+      "ref": "f4",
+      "answer": "Yes"
+    }
+  ]
+}

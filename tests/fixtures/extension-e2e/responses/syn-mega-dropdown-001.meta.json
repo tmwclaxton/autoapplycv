@@ -1,0 +1,30 @@
+{
+  "scenario_id": "syn-mega-dropdown-001",
+  "plan_count": 4,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "dd-name-9801",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "dd-email-9801",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "dd-phone-9801",
+      "ref": "f2",
+      "answer": "+15550000002"
+    },
+    {
+      "kind": "id",
+      "selector": "listbox-h-9801",
+      "ref": "f3",
+      "answer": "Manchester"
+    }
+  ]
+}

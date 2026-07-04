@@ -1,0 +1,30 @@
+{
+  "scenario_id": "syn-mega-date-001",
+  "plan_count": 4,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "dt-name-9831",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "dt-email-9831",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "dt-phone-9831",
+      "ref": "f2",
+      "answer": "+15550000002"
+    },
+    {
+      "kind": "id",
+      "selector": "date-input-9831",
+      "ref": "f3",
+      "answer": "2026-07-04"
+    }
+  ]
+}

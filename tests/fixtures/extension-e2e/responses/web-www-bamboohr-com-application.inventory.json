@@ -1,0 +1,41 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "search search search search search",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null
+    },
+    {
+      "ref": "f1",
+      "question": "department department",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f2",
+      "question": "office office",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f3",
+      "question": "select language select language",
+      "field_type": "select",
+      "max_chars": null,
+      "options": []
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}

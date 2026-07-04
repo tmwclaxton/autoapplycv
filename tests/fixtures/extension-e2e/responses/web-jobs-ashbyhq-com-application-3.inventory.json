@@ -1,0 +1,229 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "are you willing to undergo a background check, in accordance with local laws/regulations?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f1",
+      "question": "are you willing to work at the time zone/shifts mentioned in the job posting?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f2",
+      "question": "were you referred to this career opportunity by someone at real?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f3",
+      "question": "portfolio link",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f4",
+      "question": "preferred name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f5",
+      "question": "legal first name (as per aadhaar card)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f6",
+      "question": "legal last name (as per aadhaar card)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f7",
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f8",
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f9",
+      "question": "address",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f10",
+      "question": "location",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f11",
+      "question": "zip / postal code",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f12",
+      "question": "are you currently an indian citizen or otherwise legally authorized to work in india?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I am a citizen of India",
+        "I am an OCI/PIO (Overseas Citizen of India) card holder",
+        "I am on a valid work visa",
+        "I am not currently authorized to work in India and would require appropriate authorization to obtain employment"
+      ]
+    },
+    {
+      "ref": "f13",
+      "question": "what is your current fixed salary?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f14",
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f15",
+      "question": "what is your official notice period?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Immediately Available",
+        "30 Days",
+        "45 Days",
+        "60 Days",
+        "90 Days",
+        "Currently Serving Notice"
+      ]
+    },
+    {
+      "ref": "f16",
+      "question": "are you currently serving the notice? if yes, how soon can you join?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f17",
+      "question": "total years of experience",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f18",
+      "question": "years of experience in figma",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f19",
+      "question": "years of experience in interaction design",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f20",
+      "question": "do you have experience in after effects?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Would love to learn"
+      ]
+    },
+    {
+      "ref": "f21",
+      "question": "which ai tools have you used so far for research, architecture, prototyping, and design workflows? (select all that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Claude",
+        "Gemini",
+        "ChatGPT",
+        "Midjourney",
+        "Adobe Firefly",
+        "Figma AI",
+        "Runway",
+        "None of the above"
+      ]
+    },
+    {
+      "ref": "f22",
+      "question": "do you now or have you ever worked for real or any of our other companies?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f23",
+      "question": "are you related to a current real employee?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f24",
+      "question": "if you answered yes to the question above, tell us the name of the employee at real who referred you.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f25",
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}

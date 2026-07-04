@@ -1,0 +1,30 @@
+{
+  "scenario_id": "syn-ix-combobox-001",
+  "plan_count": 4,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "ix-name-5",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "ix-email-5",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "ix-phone-5",
+      "ref": "f2",
+      "answer": "+15550000002"
+    },
+    {
+      "kind": "id",
+      "selector": "listbox-hidden-5",
+      "ref": "f3",
+      "answer": "London"
+    }
+  ]
+}

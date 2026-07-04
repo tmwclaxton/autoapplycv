@@ -1,0 +1,42 @@
+{
+  "scenario_id": "web-www-reed-co-uk-application-jobs-in-manchester",
+  "plan_count": 53,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "perm",
+      "ref": "f0",
+      "answer": "Permanent(1,437)"
+    },
+    {
+      "kind": "id",
+      "selector": "temp",
+      "ref": "f1",
+      "answer": "Temporary(237)"
+    },
+    {
+      "kind": "id",
+      "selector": "contract",
+      "ref": "f2",
+      "answer": "Contract(123)"
+    },
+    {
+      "kind": "id",
+      "selector": "fullTime",
+      "ref": "f3",
+      "answer": "Full-time(1,741)"
+    },
+    {
+      "kind": "id",
+      "selector": "partTime",
+      "ref": "f4",
+      "answer": "Part-time(125)"
+    },
+    {
+      "kind": "id",
+      "selector": "remoteWorkingOption",
+      "ref": "f5",
+      "answer": "Work from home(87)"
+    }
+  ]
+}

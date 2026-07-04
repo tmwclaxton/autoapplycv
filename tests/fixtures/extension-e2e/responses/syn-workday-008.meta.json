@@ -1,0 +1,30 @@
+{
+  "scenario_id": "syn-workday-008",
+  "plan_count": 4,
+  "field_assertions": [
+    {
+      "kind": "name",
+      "selector": "input-q_your-name",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "name",
+      "selector": "input-q_contact-email",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "name",
+      "selector": "input-q_tell-us-about-yo",
+      "ref": "f2",
+      "answer": "FillVerify-textarea-2"
+    },
+    {
+      "kind": "name",
+      "selector": "input-q_years-in-this-fi",
+      "ref": "f3",
+      "answer": "1003"
+    }
+  ]
+}

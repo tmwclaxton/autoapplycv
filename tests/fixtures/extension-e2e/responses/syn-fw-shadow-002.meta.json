@@ -1,0 +1,36 @@
+{
+  "scenario_id": "syn-fw-shadow-002",
+  "plan_count": 5,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "wc-name-1",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "wc-email-1",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "wc-phone-1",
+      "ref": "f2",
+      "answer": "+15550000002"
+    },
+    {
+      "kind": "id",
+      "selector": "willing-to-relocate-0",
+      "ref": "f3",
+      "answer": "Yes"
+    },
+    {
+      "kind": "id",
+      "selector": "referral-source",
+      "ref": "f4",
+      "answer": "Choose one…"
+    }
+  ]
+}

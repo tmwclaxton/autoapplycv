@@ -1,0 +1,30 @@
+{
+  "scenario_id": "syn-fw-dom-001",
+  "plan_count": 4,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "dom-name",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "dom-email",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "open-to-relocation-0",
+      "ref": "f2",
+      "answer": "Yes"
+    },
+    {
+      "kind": "id",
+      "selector": "cover-letter",
+      "ref": "f3",
+      "answer": "FillVerify-textarea-3"
+    }
+  ]
+}

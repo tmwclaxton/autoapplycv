@@ -1,0 +1,42 @@
+{
+  "scenario_id": "web-www-reed-co-uk-applications-jobs",
+  "plan_count": 55,
+  "field_assertions": [
+    {
+      "kind": "name",
+      "selector": "location",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "name",
+      "selector": "location",
+      "ref": "f1",
+      "answer": "FillVerify-1"
+    },
+    {
+      "kind": "id",
+      "selector": "perm",
+      "ref": "f2",
+      "answer": "Permanent(24,535)"
+    },
+    {
+      "kind": "id",
+      "selector": "temp",
+      "ref": "f3",
+      "answer": "Temporary(3,239)"
+    },
+    {
+      "kind": "id",
+      "selector": "contract",
+      "ref": "f4",
+      "answer": "Contract(3,106)"
+    },
+    {
+      "kind": "id",
+      "selector": "fullTime",
+      "ref": "f5",
+      "answer": "Full-time(29,306)"
+    }
+  ]
+}

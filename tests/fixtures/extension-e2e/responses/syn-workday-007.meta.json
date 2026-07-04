@@ -1,0 +1,30 @@
+{
+  "scenario_id": "syn-workday-007",
+  "plan_count": 4,
+  "field_assertions": [
+    {
+      "kind": "name",
+      "selector": "input-q_legal-name",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "name",
+      "selector": "input-q_email",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "name",
+      "selector": "input-q_why-do-you-want-",
+      "ref": "f2",
+      "answer": "FillVerify-textarea-2"
+    },
+    {
+      "kind": "name",
+      "selector": "input-q_total-years-of-p",
+      "ref": "f3",
+      "answer": "1003"
+    }
+  ]
+}

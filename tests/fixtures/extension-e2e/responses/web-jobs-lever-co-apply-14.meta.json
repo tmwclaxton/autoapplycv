@@ -1,0 +1,42 @@
+{
+  "scenario_id": "web-jobs-lever-co-apply-14",
+  "plan_count": 26,
+  "field_assertions": [
+    {
+      "kind": "name",
+      "selector": "opportunityLocationId",
+      "ref": "f0",
+      "answer": "Select..."
+    },
+    {
+      "kind": "name",
+      "selector": "name",
+      "ref": "f1",
+      "answer": "FillVerify-1"
+    },
+    {
+      "kind": "name",
+      "selector": "pronouns",
+      "ref": "f2",
+      "answer": "He/him"
+    },
+    {
+      "kind": "id",
+      "selector": "customPronounsOption",
+      "ref": "f3",
+      "answer": "Custom"
+    },
+    {
+      "kind": "name",
+      "selector": "email",
+      "ref": "f4",
+      "answer": "fillverify4@test.example"
+    },
+    {
+      "kind": "name",
+      "selector": "phone",
+      "ref": "f5",
+      "answer": "FillVerify-5"
+    }
+  ]
+}

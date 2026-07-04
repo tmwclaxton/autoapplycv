@@ -2,6 +2,11 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+    listE2eScenarios,
+    loadE2eManifest,
+    resolveE2eScenarios,
+} from './lib/e2e-scenarios.mjs';
 import { loadManifest } from './lib/manifest.mjs';
 import { buildFillPlan } from './lib/mock-answers.mjs';
 import { buildFormDomContext } from './lib/snapshot-runner.mjs';
@@ -10,7 +15,7 @@ import { EXPECTED_DIR, HTML_DIR } from './lib/paths.mjs';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const OUTPUT_DIR = join(ROOT, 'tests/fixtures/extension-e2e/responses');
 
-const E2E_SCENARIOS = [
+const LEGACY_SCENARIOS = [
     'web-ashby-notion-bdm-f603aedb',
     'web-boards-greenhouse-io-8614025002',
     'web-jobs-lever-co-apply-11',
@@ -21,6 +26,20 @@ const MOCK_SUBSCRIPTION = {
     autofills_remaining: 999,
     autofills_limit: 1000,
 };
+
+function parseArgs() {
+    const useManifest = process.argv.includes('--manifest')
+        || process.argv.includes('--all-e2e')
+        || process.argv.some((arg) => arg.startsWith('--manifest='));
+    const idArg = process.argv.find((arg) => arg.startsWith('--id='))?.split('=')[1];
+    const limitArg = process.argv.find((arg) => arg.startsWith('--limit='))?.split('=')[1];
+
+    return {
+        useManifest,
+        id: idArg || null,
+        limit: limitArg ? Number.parseInt(limitArg, 10) : null,
+    };
+}
 
 function loadExpected(id) {
     return JSON.parse(readFileSync(join(EXPECTED_DIR, `${id}.json`), 'utf8'));
@@ -33,17 +52,6 @@ function inventoryFieldsFromSnapshot(snapshot) {
         field_type: element.field_type || 'text',
         max_chars: element.max_chars ?? null,
         options: element.options ?? null,
-    }));
-}
-
-function draftFieldsFromPlan(plan) {
-    return plan.map((item, index) => ({
-        id: index,
-        ref: item.ref,
-        label: item.field?.question || item.ref,
-        field_type: item.field?.field_type || 'text',
-        max_chars: item.field?.max_chars ?? null,
-        options: item.field?.options ?? null,
     }));
 }
 
@@ -66,6 +74,32 @@ function buildDraftAllNdjson(plan) {
     ];
 
     return `${lines.map((line) => JSON.stringify(line)).join('\n')}\n`;
+}
+
+function buildFieldAssertions(scenarioId, plan) {
+    const assertions = [];
+
+    for (const item of plan.slice(0, 6)) {
+        const dom = item.dom || item.field?.dom || {};
+        const label = (item.field?.question || item.ref).toLowerCase();
+
+        if (dom.id) {
+            assertions.push({ kind: 'id', selector: dom.id, ref: item.ref, answer: item.answer });
+        } else if (dom.name) {
+            assertions.push({ kind: 'name', selector: dom.name, ref: item.ref, answer: item.answer });
+        } else if (label.includes('full name') || label.includes('first name')) {
+            assertions.push({ kind: 'label_contains', selector: label.split(' ')[0], ref: item.ref, answer: item.answer });
+        }
+    }
+
+    if (scenarioId.includes('ashby-notion')) {
+        assertions.push(
+            { kind: 'id', selector: '_systemfield_name', answer: plan.find((item) => item.ref === 'f2')?.answer },
+            { kind: 'id', selector: '_systemfield_email', answer: plan.find((item) => item.ref === 'f3')?.answer },
+        );
+    }
+
+    return assertions.filter((assertion) => assertion.answer);
 }
 
 function generateMocksForScenario(scenario) {
@@ -144,53 +178,74 @@ function generateMocksForScenario(scenario) {
     };
 }
 
-function buildFieldAssertions(scenarioId, plan) {
-    const assertions = [];
-
-    for (const item of plan.slice(0, 6)) {
-        const dom = item.dom || item.field?.dom || {};
-        const label = (item.field?.question || item.ref).toLowerCase();
-
-        if (dom.id) {
-            assertions.push({ kind: 'id', selector: dom.id, ref: item.ref, answer: item.answer });
-        } else if (dom.name) {
-            assertions.push({ kind: 'name', selector: dom.name, ref: item.ref, answer: item.answer });
-        } else if (label.includes('full name') || label.includes('first name')) {
-            assertions.push({ kind: 'label_contains', selector: label.split(' ')[0], ref: item.ref, answer: item.answer });
-        }
-    }
-
-    if (scenarioId.includes('ashby-notion')) {
-        assertions.push(
-            { kind: 'id', selector: '_systemfield_name', answer: plan.find((item) => item.ref === 'f2')?.answer },
-            { kind: 'id', selector: '_systemfield_email', answer: plan.find((item) => item.ref === 'f3')?.answer },
-        );
-    }
-
-    return assertions.filter((assertion) => assertion.answer);
-}
-
-const manifest = loadManifest();
-
-mkdirSync(OUTPUT_DIR, { recursive: true });
-
-for (const id of E2E_SCENARIOS) {
-    const scenario = manifest.scenarios.find((entry) => entry.id === id);
-
-    if (!scenario) {
-        console.error(`Scenario not found: ${id}`);
-        process.exit(1);
-    }
-
-    const mocks = generateMocksForScenario(scenario);
-
+function writeMocksForScenario(id, mocks) {
     writeFileSync(join(OUTPUT_DIR, `${id}.job-context.json`), `${JSON.stringify(mocks['job-context'], null, 2)}\n`);
     writeFileSync(join(OUTPUT_DIR, `${id}.inventory.json`), `${JSON.stringify(mocks.inventory, null, 2)}\n`);
     writeFileSync(join(OUTPUT_DIR, `${id}.draft-all.ndjson`), mocks['draft-all']);
     writeFileSync(join(OUTPUT_DIR, `${id}.profile.json`), `${JSON.stringify(mocks.profile, null, 2)}\n`);
     writeFileSync(join(OUTPUT_DIR, `${id}.meta.json`), `${JSON.stringify(mocks.meta, null, 2)}\n`);
-
-    console.log(`Generated E2E mocks for ${id} (${mocks.meta.plan_count} fields)`);
 }
 
-console.log(`\nWrote mocks → ${OUTPUT_DIR}`);
+function resolveScenarioIds({ useManifest, id, limit }) {
+    if (id) {
+        return [id];
+    }
+
+    if (useManifest) {
+        const e2eManifest = loadE2eManifest();
+        const entries = listE2eScenarios(e2eManifest, { limit });
+
+        return entries.map((entry) => entry.id);
+    }
+
+    return LEGACY_SCENARIOS;
+}
+
+const { useManifest, id, limit } = parseArgs();
+const manifest = loadManifest();
+const scenarioIds = resolveScenarioIds({ useManifest, id, limit });
+
+mkdirSync(OUTPUT_DIR, { recursive: true });
+
+let generated = 0;
+let failed = 0;
+
+for (const scenarioId of scenarioIds) {
+    let scenario;
+
+    if (useManifest) {
+        const resolved = resolveE2eScenarios({
+            scenarios: [{ id: scenarioId }],
+        }).find(({ entry }) => entry.id === scenarioId);
+        scenario = resolved?.scenario;
+    } else {
+        scenario = manifest.scenarios.find((entry) => entry.id === scenarioId);
+    }
+
+    if (!scenario) {
+        console.error(`Scenario not found: ${scenarioId}`);
+        failed += 1;
+        continue;
+    }
+
+    try {
+        const mocks = generateMocksForScenario(scenario);
+        writeMocksForScenario(scenarioId, mocks);
+        generated += 1;
+        console.log(`Generated E2E mocks for ${scenarioId} (${mocks.meta.plan_count} fields)`);
+    } catch (error) {
+        failed += 1;
+        console.error(`Failed to generate mocks for ${scenarioId}: ${error.message}`);
+    }
+}
+
+console.log(`\nWrote ${generated} mock sets → ${OUTPUT_DIR}${failed > 0 ? ` (${failed} failed)` : ''}`);
+
+if (generated === 0) {
+    console.error(`No mocks generated. Build manifest first: node scripts/form-corpus/build-e2e-scenarios.mjs`);
+    process.exit(1);
+}
+
+if (failed > 0) {
+    process.exit(1);
+}

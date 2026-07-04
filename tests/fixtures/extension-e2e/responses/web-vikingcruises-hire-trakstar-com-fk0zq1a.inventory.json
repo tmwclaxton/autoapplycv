@@ -1,0 +1,172 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "first name  first name  first name",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null
+    },
+    {
+      "ref": "f1",
+      "question": "last name  last name  last name",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null
+    },
+    {
+      "ref": "f2",
+      "question": "email  email  email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f3",
+      "question": "phone  phone  phone",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null
+    },
+    {
+      "ref": "f4",
+      "question": "our contact center hours are 7 days a week, 5am - 7pm pst. do you have flexible availability to be scheduled for an 8-hour shift (4 weekdays and 1 weekend day) every week?  our contact center hours are 7 days a week, 5am - 7pm pst. do you have flexible availability to be scheduled for an 8-hour shift (4 weekdays and 1 weekend day) every week?  our contact center hours are 7 days a week, 5am - 7pm pst. do you have flexible availability to be scheduled for an 8-hour shift (4 weekdays and 1 weekend day) every week?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f5",
+      "question": "monday, 07/13 - i do not require 2-week notice. monday, 07/13 - i do not require 2-week notice. monday, 07/13 - i do not require 2-week notice. our start dates are 07/13 and 07/27. please select which date(s) you are available to start. please keep in mind based on your interview date we may not be able to offer a two-week notice.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Monday, 07/13 - I do not require 2-week notice.",
+        "Monday, 07/27 - I do not require 2-week notice.",
+        "I require a 2-week notice for any start date."
+      ]
+    },
+    {
+      "ref": "f6",
+      "question": "what is your state of residence/what state will you be working from?  what is your state of residence/what state will you be working from?  what is your state of residence/what state will you be working from?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV"
+      ]
+    },
+    {
+      "ref": "f7",
+      "question": "have you previously worked for viking?  have you previously worked for viking?  have you previously worked for viking?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f8",
+      "question": "do you have high speed internet access?  do you have high speed internet access?  do you have high speed internet access?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f9",
+      "question": "do you have the ability to ‘plug in’ your equipment to your modem/router?  do you have the ability to ‘plug in’ your equipment to your modem/router?  do you have the ability to ‘plug in’ your equipment to your modem/router?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f10",
+      "question": "were you referred by a viking employee?  were you referred by a viking employee?  were you referred by a viking employee?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f11",
+      "question": "if you were referred by a current viking employee, please share their name if you were referred by a current viking employee, please share their name if you were referred by a current viking employee, please share their name",
+      "field_type": "text",
+      "max_chars": 200,
+      "options": null
+    },
+    {
+      "ref": "f12",
+      "question": "will you now or in the future require sponsorship for employment visa status (e.g., h-1b visa status)?  will you now or in the future require sponsorship for employment visa status (e.g., h-1b visa status)?  will you now or in the future require sponsorship for employment visa status (e.g., h-1b visa status)?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "--Select--",
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f13",
+      "question": "yes yes yes i certify i have reviewed viking's job applicant privacy notice: https://docs.vikingcruises.com/pdf/us_corp_policy-privacynotice-jobapplicant.pdf",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes"
+      ]
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}

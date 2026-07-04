@@ -1,0 +1,51 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "your name (9901) your name (9901)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f1",
+      "question": "work email (9901) work email (9901)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f2",
+      "question": "mobile number (9901) mobile number (9901)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f3",
+      "question": "tell us about yourself (9901) tell us about yourself (9901)",
+      "field_type": "textarea",
+      "max_chars": 450,
+      "options": null
+    },
+    {
+      "ref": "f4",
+      "question": "relocation preference (9901)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}

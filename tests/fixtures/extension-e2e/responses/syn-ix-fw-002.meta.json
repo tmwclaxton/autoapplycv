@@ -1,0 +1,42 @@
+{
+  "scenario_id": "syn-ix-fw-002",
+  "plan_count": 6,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "ix-name-28",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "ix-email-28",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "ix-phone-28",
+      "ref": "f2",
+      "answer": "+15550000002"
+    },
+    {
+      "kind": "id",
+      "selector": "modal-location-29",
+      "ref": "f3",
+      "answer": "FillVerify-3"
+    },
+    {
+      "kind": "id",
+      "selector": "modal-notes-29",
+      "ref": "f4",
+      "answer": "FillVerify-textarea-4"
+    },
+    {
+      "kind": "id",
+      "selector": "react-listbox-28",
+      "ref": "f5",
+      "answer": "Office"
+    }
+  ]
+}

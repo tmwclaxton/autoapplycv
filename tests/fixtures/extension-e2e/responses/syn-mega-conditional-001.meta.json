@@ -1,0 +1,42 @@
+{
+  "scenario_id": "syn-mega-conditional-001",
+  "plan_count": 6,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "cond-name-9621",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "cond-email-9621",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "cond-phone-9621",
+      "ref": "f2",
+      "answer": "+15550000002"
+    },
+    {
+      "kind": "id",
+      "selector": "work-samples-link-9621-9621",
+      "ref": "f3",
+      "answer": "https://fillverify3.example.com"
+    },
+    {
+      "kind": "id",
+      "selector": "why-this-role-9621-9621",
+      "ref": "f4",
+      "answer": "FillVerify-textarea-4"
+    },
+    {
+      "kind": "id",
+      "selector": "office-preference-9621-9621",
+      "ref": "f5",
+      "answer": "Choose one…"
+    }
+  ]
+}

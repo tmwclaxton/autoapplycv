@@ -1,3 +1,7 @@
+function normalizeText(text) {
+    return String(text || '').replace(/\s+/g, ' ').trim();
+}
+
 const TEXT_ERROR_PATTERNS = [
     /your form needs corrections/i,
     /missing entry for required field/i,
@@ -28,8 +32,20 @@ function isVisible(element) {
     return true;
 }
 
-function normalizeText(text) {
-    return String(text || '').replace(/\s+/g, ' ').trim();
+function looksLikeValidationError(text) {
+    const normalized = normalizeText(text);
+
+    if (!normalized) {
+        return false;
+    }
+
+    for (const pattern of TEXT_ERROR_PATTERNS) {
+        if (pattern.test(normalized)) {
+            return true;
+        }
+    }
+
+    return /error|required|invalid|correction|missing|please fix|complete all/i.test(normalized);
 }
 
 function getVisibleBodyText(document) {
@@ -80,6 +96,10 @@ function scanSelectorErrors(document) {
             const text = normalizeText(element.textContent || element.getAttribute('aria-label') || '');
 
             if (requireVisibleText && text.length === 0) {
+                continue;
+            }
+
+            if (selector === '[role="alert"]' && !looksLikeValidationError(text)) {
                 continue;
             }
 
@@ -192,6 +212,10 @@ export async function detectFormErrorsInPage(page) {
                 const text = normalizeText(element.textContent || element.getAttribute('aria-label') || '');
 
                 if (requireVisibleText && text.length === 0) {
+                    continue;
+                }
+
+                if (selector === '[role="alert"]' && !/error|required|invalid|correction|missing|please fix|complete all|your form needs corrections/i.test(text)) {
                     continue;
                 }
 

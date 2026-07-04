@@ -1,0 +1,42 @@
+{
+  "scenario_id": "web-employment-application-netlify-app-page",
+  "plan_count": 42,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "fname",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "mname",
+      "ref": "f1",
+      "answer": "FillVerify-1"
+    },
+    {
+      "kind": "id",
+      "selector": "lname",
+      "ref": "f2",
+      "answer": "FillVerify-2"
+    },
+    {
+      "kind": "id",
+      "selector": "phone",
+      "ref": "f3",
+      "answer": "+15550000003"
+    },
+    {
+      "kind": "id",
+      "selector": "email",
+      "ref": "f4",
+      "answer": "fillverify4@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "address",
+      "ref": "f5",
+      "answer": "FillVerify-5"
+    }
+  ]
+}

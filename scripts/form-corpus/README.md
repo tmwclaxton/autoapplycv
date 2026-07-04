@@ -47,12 +47,21 @@ npm run form-corpus:visual-regression
 # Update visual baselines after intentional UI changes
 UPDATE_BASELINES=1 npm run form-corpus:visual-regression
 
-# Generate extension E2E API mocks
+# Generate extension E2E API mocks (all ~100 manifest scenarios)
 npm run form-corpus:generate-e2e-mocks
 
-# Extension E2E (requires build:extension)
+# Regenerate E2E scenario manifest
+npm run form-corpus:build-e2e-scenarios
+
+# Extension E2E CI subset (~10 critical scenarios)
 npm run build:extension
 npm run form-corpus:extension-e2e
+
+# Full extension E2E batch (~100 scenarios, nightly/manual)
+EXTENSION_E2E=1 EXTENSION_E2E_FULL=1 npm run form-corpus:extension-e2e:batch
+
+# Generate mocks + run full batch
+npm run form-corpus:extension-e2e:generate-and-run
 
 # Debug log analysis
 npm run form-corpus:analyze-debug-log -- --input=path/to/export.json --golden=path/to/summary.json
@@ -70,8 +79,11 @@ php artisan test --compact --exclude-group=extension-e2e,playwright
 # Playwright smoke + visual regression
 FORM_CORPUS_PLAYWRIGHT=1 php artisan test --compact --group=playwright
 
-# Extension E2E (headed Chromium, builds extension)
+# Extension E2E CI subset (headed Chromium, builds extension)
 EXTENSION_E2E=1 php artisan test --compact --group=extension-e2e
+
+# Full ~100 scenario extension E2E (nightly/manual, 30–60+ min)
+EXTENSION_E2E=1 EXTENSION_E2E_FULL=1 php artisan test --compact --group=extension-e2e
 
 # Individual suites
 php artisan test --compact tests/Unit/Extension/FormFillCuratedTest.php
@@ -95,6 +107,8 @@ php artisan test --compact tests/Unit/Extension/FormFillExtensionE2eTest.php
 | `fill-curated-playwright-report.json` | Playwright priority tier |
 | `fill-visual-regression-report.json` | Screenshot baseline compare |
 | `fill-verify-smoke.json` | Smoke scenario manifest (auto-generated) |
+| `tests/fixtures/extension-e2e/e2e-scenarios.json` | ~100 scenario E2E manifest |
+| `tests/fixtures/extension-e2e/extension-e2e-report.json` | Latest batch E2E report |
 | `tests/fixtures/extension-e2e/responses/` | Mock job-context, inventory, draft-all NDJSON |
 | `tests/fixtures/form-fill-logs/` | Debug log export + golden summaries |
 | `tests/fixtures/form-fill-baselines/{id}/after.png` | Visual regression baselines |

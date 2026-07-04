@@ -1,0 +1,30 @@
+{
+  "scenario_id": "syn-ix-date-001",
+  "plan_count": 4,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "ix-name-10",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "ix-email-10",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "ix-phone-10",
+      "ref": "f2",
+      "answer": "+15550000002"
+    },
+    {
+      "kind": "id",
+      "selector": "date-input-10",
+      "ref": "f3",
+      "answer": "2026-07-04"
+    }
+  ]
+}

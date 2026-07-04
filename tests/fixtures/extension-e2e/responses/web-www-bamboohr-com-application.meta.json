@@ -1,0 +1,30 @@
+{
+  "scenario_id": "web-www-bamboohr-com-application",
+  "plan_count": 4,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "keyword-filter",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "department-filter",
+      "ref": "f1",
+      "answer": "FillVerify-1"
+    },
+    {
+      "kind": "id",
+      "selector": "office-filter",
+      "ref": "f2",
+      "answer": "FillVerify-2"
+    },
+    {
+      "kind": "id",
+      "selector": "trustarc-lang-select",
+      "ref": "f3",
+      "answer": "Yes"
+    }
+  ]
+}

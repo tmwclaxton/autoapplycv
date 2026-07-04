@@ -7,8 +7,9 @@ import http from 'node:http';
  *   draftAll: string,
  *   profile: Record<string, unknown>,
  * }>} mocksByScenario
+ * @param {Record<string, string>} [htmlByScenario]
  */
-export function startE2eMockServer(mocksByScenario) {
+export function startE2eMockServer(mocksByScenario, htmlByScenario = {}) {
     const activeScenario = { id: null };
 
     const server = http.createServer((request, response) => {
@@ -34,6 +35,27 @@ export function startE2eMockServer(mocksByScenario) {
             });
             response.end(JSON.stringify(body));
         };
+
+        const fixtureMatch = url.pathname.match(/^\/fixture\/([^/]+)$/);
+
+        if (fixtureMatch && request.method === 'GET') {
+            const fixtureId = decodeURIComponent(fixtureMatch[1]);
+            const html = htmlByScenario[fixtureId];
+
+            if (!html) {
+                sendJson(404, { error: `Missing fixture HTML for ${fixtureId}.` });
+
+                return;
+            }
+
+            response.writeHead(200, {
+                'Content-Type': 'text/html; charset=utf-8',
+                'Access-Control-Allow-Origin': '*',
+            });
+            response.end(html);
+
+            return;
+        }
 
         if (!mocks) {
             sendJson(404, { error: 'No active E2E scenario mock.' });
@@ -88,8 +110,13 @@ export function startE2eMockServer(mocksByScenario) {
                 return;
             }
 
+            const apiBase = `http://127.0.0.1:${address.port}`;
+
             resolve({
-                apiBase: `http://127.0.0.1:${address.port}`,
+                apiBase,
+                fixtureUrl(id) {
+                    return `${apiBase}/fixture/${encodeURIComponent(id)}`;
+                },
                 setScenario(id) {
                     activeScenario.id = id;
                 },
@@ -99,4 +126,10 @@ export function startE2eMockServer(mocksByScenario) {
             });
         });
     });
+}
+
+export function usesLocalFixtureUrl(scenario) {
+    const pageUrl = scenario.page_url || '';
+
+    return pageUrl.includes('example.test') || scenario.id.startsWith('syn-');
 }

@@ -1,0 +1,30 @@
+{
+  "scenario_id": "syn-fw-react-001",
+  "plan_count": 4,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "r-name",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "r-email",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "r-phone",
+      "ref": "f2",
+      "answer": "+15550000002"
+    },
+    {
+      "kind": "id",
+      "selector": "cover-letter",
+      "ref": "f3",
+      "answer": "FillVerify-textarea-3"
+    }
+  ]
+}

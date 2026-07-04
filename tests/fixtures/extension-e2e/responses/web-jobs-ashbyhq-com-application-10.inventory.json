@@ -1,0 +1,301 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "optional: after submitting your application, you may complete this exercise if you’d like us to assess your skills in advance. please ensure you register for the exercise using the same email address you used in your application. if you choose to complete it, select “yes.” to opt out, select “no.”",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f1",
+      "question": "first and last name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f2",
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f3",
+      "question": "tick all options relevant for the role that apply to you regarding the main location of your work contract:",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I will be based in the US and do not need visa support",
+        "I will be based in the US and need visa support"
+      ]
+    },
+    {
+      "ref": "f4",
+      "question": "what would be your preferred main location for your contract?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f5",
+      "question": "what is your expected yearly salary for the role?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f6",
+      "question": "which u.s. state will you be physically working from if hired?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "California",
+        "Massachusetts",
+        "Virginia",
+        "New York",
+        "New Jersey",
+        "Florida",
+        "Texas",
+        "Other / not listed"
+      ]
+    },
+    {
+      "ref": "f7",
+      "question": "what about n8n or the role caught your attention and made you apply?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f8",
+      "question": "how many years of experience in startups/scale-ups do you have?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "None",
+        "Less than 2 years",
+        "2 to 4 years",
+        "4 to 6 years",
+        "6+ years"
+      ]
+    },
+    {
+      "ref": "f9",
+      "question": "how many years of experience do you have working in technical support?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "None",
+        "Less than 2 years",
+        "2 to 4 years",
+        "4+ years"
+      ]
+    },
+    {
+      "ref": "f10",
+      "question": "tick the boxes that best describe your expertise in javascript/typescript:",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Comfortable writing scripts",
+        "Understanding of promises, error handling, and callbacks",
+        "Can debug effectively",
+        "Deep understanding of async patterns, closures, prototypes",
+        "Comfortable with Node.js runtime behavior",
+        "I write clean, optimized code"
+      ]
+    },
+    {
+      "ref": "f11",
+      "question": "tick the boxes that best describe your expertise with docker:",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Can troubleshoot container logs, networking, and environment variables",
+        "Understanding of multi‑stage builds",
+        "Understanding of Docker Compose and multi‑container setups",
+        "I can debug container crashes, memory limits, and health checks",
+        "Deep understanding of container internals, networking, and performance tuning",
+        "Troubleshoots complex build/runtime issues"
+      ]
+    },
+    {
+      "ref": "f12",
+      "question": "tick the boxes that best describe your expertise with kubernetes:",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Understanding of ConfigMaps, Secrets, and basic scaling",
+        "Understanding of probes, resource limits, and rolling updates",
+        "Can use logs and events to troubleshoot pods",
+        "I design multi‑service deployments with Ingress, autoscaling, and persistent storage",
+        "Understanding of networking, DNS, and service basics",
+        "Deep understanding of Kubernetes internal"
+      ]
+    },
+    {
+      "ref": "f13",
+      "question": "tick the boxes that best describe your expertise with rest api familiarity & troubleshooting:",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Can debug failed API calls (auth, payloads, rate limits)",
+        "Understanding of JSON schemas and pagination",
+        "Familiar with authentication (API keys, OAuth2, JWT)",
+        "I can troubleshoot complex integrations",
+        "Deep understanding of HTTP protocol",
+        "I work confidently with distributed systems and webhooks"
+      ]
+    },
+    {
+      "ref": "f14",
+      "question": "tick the boxes that best describe your ability to query databases with sql:",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Can write complex multi‑table queries",
+        "Understanding of query plans and performance basics",
+        "Can debug slow queries and performance basics",
+        "I design schemas and optimizes indexes",
+        "Understanding of transactions, locking, and isolation levels",
+        "I troubleshoots production SQL issues"
+      ]
+    },
+    {
+      "ref": "f15",
+      "question": "tick the boxes that best describe your familiarity with ai technologies:",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Comfortable integrating AI models into applications or workflows",
+        "Understanding of concepts like tokens, embeddings, vector stores",
+        "Can evaluate model outputs and adjust prompts for better results",
+        "I can design scalable AI systems, including orchestration, caching, and evaluation frameworks",
+        "I troubleshoots complex issues like hallucinations or context overflow",
+        "Deep understanding of modern AI architectures and how LLMs work internally"
+      ]
+    },
+    {
+      "ref": "f16",
+      "question": "what knowledge/experience do you have with n8n?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "None",
+        "I've tried n8n briefly before applying",
+        "I've used other automation tools in current or previous roles",
+        "I've been building workflows with n8n for 1-3 months",
+        "I've been building workflows with n8n for 3-6 months",
+        "I've been building workflows with n8n for 6-12 months",
+        "I've been building workflows with n8n for over a year"
+      ]
+    },
+    {
+      "ref": "f17",
+      "question": "what is your current age?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Under 30",
+        "30-39",
+        "40-49",
+        "50-59",
+        "60 or older",
+        "I prefer not to answer"
+      ]
+    },
+    {
+      "ref": "f18",
+      "question": "what is your gender identity?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Man",
+        "Woman",
+        "Non-Binary",
+        "Another Gender Identity",
+        "I prefer not to answer"
+      ]
+    },
+    {
+      "ref": "f19",
+      "question": "do you identify as transgender?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "I prefer not to answer"
+      ]
+    },
+    {
+      "ref": "f20",
+      "question": "how do you identify your sexual orientation? please select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Bisexual",
+        "Lesbian",
+        "Gay",
+        "Queer",
+        "Heterosexual / straight",
+        "Other",
+        "I prefer not to answer"
+      ]
+    },
+    {
+      "ref": "f21",
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Asian or Asian American",
+        "Black or African American",
+        "Hispanic or Latine",
+        "Indigenous or Native American",
+        "Native Hawaiian or Other Pacific Islander",
+        "White",
+        "Other",
+        "I prefer not to answer"
+      ]
+    },
+    {
+      "ref": "f22",
+      "question": "which of the following communities do you belong to? please select all that apply.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Person with disability",
+        "Neurodiverse",
+        "Veteran",
+        "Parent",
+        "Refugee or immigrant",
+        "None of the above",
+        "I prefer not to answer"
+      ]
+    },
+    {
+      "ref": "f23",
+      "question": "i agree i agree",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree"
+      ]
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}
