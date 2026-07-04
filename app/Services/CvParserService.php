@@ -217,23 +217,76 @@ class CvParserService
             return '';
         }
 
-        $phpWord = IOFactory::load($path);
+        try {
+            $phpWord = IOFactory::load($path);
+        } catch (\Throwable $exception) {
+            Log::debug('CvParserService: Word document extraction failed.', [
+                'path' => $path,
+                'message' => $exception->getMessage(),
+            ]);
+
+            return '';
+        }
+
         $text = '';
 
         foreach ($phpWord->getSections() as $section) {
-            foreach ($section->getElements() as $element) {
-                if (method_exists($element, 'getText')) {
-                    $text .= $element->getText()."\n";
-                } elseif (method_exists($element, 'getElements')) {
-                    foreach ($element->getElements() as $child) {
-                        if (method_exists($child, 'getText')) {
-                            $text .= $child->getText()."\n";
-                        }
-                    }
-                }
-            }
+            $text .= $this->extractTextFromWordElements($section->getElements());
         }
 
         return trim($text);
+    }
+
+    /**
+     * @param  iterable<mixed>  $elements
+     */
+    private function extractTextFromWordElements(iterable $elements): string
+    {
+        $text = '';
+
+        foreach ($elements as $element) {
+            $chunk = $this->extractTextFromWordElement($element);
+
+            if ($chunk === '') {
+                continue;
+            }
+
+            $text .= $chunk."\n";
+        }
+
+        return $text;
+    }
+
+    private function extractTextFromWordElement(mixed $element): string
+    {
+        if (is_string($element)) {
+            return $element;
+        }
+
+        if (! is_object($element)) {
+            return '';
+        }
+
+        if (method_exists($element, 'getText')) {
+            $value = $element->getText();
+
+            if (is_string($value)) {
+                return $value;
+            }
+
+            if (is_object($value) && method_exists($value, 'getElements')) {
+                return trim($this->extractTextFromWordElements($value->getElements()));
+            }
+
+            if (is_array($value)) {
+                return trim($this->extractTextFromWordElements($value));
+            }
+        }
+
+        if (method_exists($element, 'getElements')) {
+            return trim($this->extractTextFromWordElements($element->getElements()));
+        }
+
+        return '';
     }
 }

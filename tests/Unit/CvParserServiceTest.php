@@ -6,6 +6,8 @@ use App\Services\CvParserService;
 use App\Services\NanoGptService;
 use App\Services\TesseractOcrService;
 use Illuminate\Http\UploadedFile;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -68,5 +70,34 @@ class CvParserServiceTest extends TestCase
         $text = app(CvParserService::class)->extractText($file);
 
         $this->assertSame('Vision OCR fallback text', $text);
+    }
+
+    #[Test]
+    public function test_word_document_extracts_text_from_title_and_paragraph_elements(): void
+    {
+        $this->mock(TesseractOcrService::class);
+        $this->mock(NanoGptService::class);
+
+        $path = tempnam(sys_get_temp_dir(), 'cv-docx-');
+        $this->assertNotFalse($path);
+
+        $phpWord = new PhpWord;
+        $section = $phpWord->addSection();
+        $section->addTitle('Jane Developer', 1);
+        $section->addText('Senior Laravel Engineer with eight years of experience.');
+        $section->addTextBreak();
+        $section->addText('Skills: PHP, Laravel, Vue');
+
+        IOFactory::createWriter($phpWord, 'Word2007')->save($path);
+
+        $file = new UploadedFile($path, 'jane-cv.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', null, true);
+
+        $text = app(CvParserService::class)->extractText($file);
+
+        @unlink($path);
+
+        $this->assertStringContainsString('Jane Developer', $text);
+        $this->assertStringContainsString('Senior Laravel Engineer', $text);
+        $this->assertStringContainsString('Skills: PHP, Laravel, Vue', $text);
     }
 }
