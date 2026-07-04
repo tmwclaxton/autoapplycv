@@ -1,10 +1,10 @@
 {
   "id": "web-jobs-ashbyhq-com-application-30",
-  "min_fields": 14,
-  "exact_field_count": 14,
+  "min_fields": 9,
+  "exact_field_count": 9,
   "fields": [
     {
-      "question": "name name type here...",
+      "question": "name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +19,7 @@
       }
     },
     {
-      "question": "phone number phone number 1-415-555-1234...",
+      "question": "phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -34,7 +34,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -49,7 +49,7 @@
       }
     },
     {
-      "question": "linkedin linkedin type here...",
+      "question": "linkedin",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -64,7 +64,7 @@
       }
     },
     {
-      "question": "nmls# nmls# type here...",
+      "question": "nmls#",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -79,11 +79,16 @@
       }
     },
     {
-      "question": "ca ca",
+      "question": "nmls license – list all states where you’re licensed:",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "CA"
+        "CA",
+        "FL",
+        "AZ",
+        "MO",
+        "NV",
+        "Other"
       ],
       "required": false,
       "dom": {
@@ -96,92 +101,7 @@
       }
     },
     {
-      "question": "fl fl",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "FL"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "4f1fa3c9-1fc9-45da-9275-a4bc672c6672_2d2264a9-dd4d-4326-b205-652db620aaad-labeled-checkbox-1",
-        "name": "FL",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "az az",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "AZ"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "4f1fa3c9-1fc9-45da-9275-a4bc672c6672_2d2264a9-dd4d-4326-b205-652db620aaad-labeled-checkbox-2",
-        "name": "AZ",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "mo mo",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "MO"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "4f1fa3c9-1fc9-45da-9275-a4bc672c6672_2d2264a9-dd4d-4326-b205-652db620aaad-labeled-checkbox-3",
-        "name": "MO",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "nv nv",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "NV"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "4f1fa3c9-1fc9-45da-9275-a4bc672c6672_2d2264a9-dd4d-4326-b205-652db620aaad-labeled-checkbox-4",
-        "name": "NV ",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "other other",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Other"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "4f1fa3c9-1fc9-45da-9275-a4bc672c6672_2d2264a9-dd4d-4326-b205-652db620aaad-labeled-checkbox-5",
-        "name": "Other",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "how many loans are you typically closing each month? how many loans are you typically closing each month? type here...",
+      "question": "how many loans are you typically closing each month?",
       "field_type": "number",
       "max_chars": null,
       "options": null,
@@ -196,7 +116,7 @@
       }
     },
     {
-      "question": "how would you convince a customer to choose us when they have a better offer elsewhere, in 100 words or less? how would you convince a customer to choose us when they have a better offer elsewhere, in 100 words or less? type here...",
+      "question": "how would you convince a customer to choose us when they have a better offer elsewhere, in 100 words or less?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -211,7 +131,7 @@
       }
     },
     {
-      "question": "if you were referred, please list the referrer’s name and email. if you were referred, please list the referrer’s name and email. type here...",
+      "question": "if you were referred, please list the referrer’s name and email.",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -226,10 +146,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

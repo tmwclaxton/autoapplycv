@@ -1,10 +1,10 @@
 {
   "id": "web-jobs-ashbyhq-com-application-21",
-  "min_fields": 8,
-  "exact_field_count": 8,
+  "min_fields": 7,
+  "exact_field_count": 7,
   "fields": [
     {
-      "question": "name name type here...",
+      "question": "name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +19,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -34,7 +34,7 @@
       }
     },
     {
-      "question": "phone number phone number 1-415-555-1234...",
+      "question": "phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -49,25 +49,7 @@
       }
     },
     {
-      "question": "yes - i consent to receiving text messages yes - i consent to receiving text messages",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "Yes - I consent to receiving text messages",
-        "No - I do not consent to receiving text messages"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "radio",
-        "id": null,
-        "name": "communicationConsent",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "linkedin profile linkedin profile type here...",
+      "question": "linkedin profile",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -82,7 +64,7 @@
       }
     },
     {
-      "question": "did anyone refer you to our open roles? if so, please add their contact information below (name, email, phone number if possible). did anyone refer you to our open roles? if so, please add their contact information below (name, email, phone number if possible). type here...",
+      "question": "did anyone refer you to our open roles? if so, please add their contact information below (name, email, phone number if possible).",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -97,7 +79,7 @@
       }
     },
     {
-      "question": "do you have experience selling saas? if yes, please describe. do you have experience selling saas? if yes, please describe. type here...",
+      "question": "do you have experience selling saas? if yes, please describe.",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -112,7 +94,7 @@
       }
     },
     {
-      "question": "where are you located (city, state)? where are you located (city, state)? type here...",
+      "question": "where are you located (city, state)?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -127,10 +109,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

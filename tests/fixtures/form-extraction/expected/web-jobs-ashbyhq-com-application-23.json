@@ -1,10 +1,46 @@
 {
   "id": "web-jobs-ashbyhq-com-application-23",
-  "min_fields": 12,
-  "exact_field_count": 12,
+  "min_fields": 13,
+  "exact_field_count": 13,
   "fields": [
     {
-      "question": "legal full name legal full name type here...",
+      "question": "are you authorized to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you now or will you in the future require sponsorship or employment authorization to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "legal full name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +55,7 @@
       }
     },
     {
-      "question": "preferred first name preferred first name type here...",
+      "question": "preferred first name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -34,7 +70,7 @@
       }
     },
     {
-      "question": "email address email address hello@example.com...",
+      "question": "email address",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -49,7 +85,7 @@
       }
     },
     {
-      "question": "phone number phone number 1-415-555-1234...",
+      "question": "phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -64,7 +100,7 @@
       }
     },
     {
-      "question": "start typing...",
+      "question": "where are you located?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -79,41 +115,7 @@
       }
     },
     {
-      "question": "0f767694-a323-4264-8b00-9435f47afd4b",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "0f767694-a323-4264-8b00-9435f47afd4b",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "fe88dd24-3ea5-42ec-a8aa-1988193a4499",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "fe88dd24-3ea5-42ec-a8aa-1988193a4499",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "what are your yearly salary expectations? what are your yearly salary expectations? type here...",
+      "question": "what are your yearly salary expectations?",
       "field_type": "number",
       "max_chars": null,
       "options": null,
@@ -128,7 +130,7 @@
       }
     },
     {
-      "question": "linkedin profile linkedin profile type here...",
+      "question": "linkedin profile",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -143,7 +145,22 @@
       }
     },
     {
-      "question": "has a shiftkey employee referred you for this position? if so, please provide their full name. has a shiftkey employee referred you for this position? if so, please provide their full name. type here...",
+      "question": "how did you hear about this job? where did you find our job ad?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "has a shiftkey employee referred you for this position? if so, please provide their full name.",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -158,7 +175,7 @@
       }
     },
     {
-      "question": "what is your notice period? what is your notice period? type here...",
+      "question": "what is your notice period?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -190,10 +207,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

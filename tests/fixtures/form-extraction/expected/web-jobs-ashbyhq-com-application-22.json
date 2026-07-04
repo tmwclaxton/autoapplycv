@@ -1,10 +1,10 @@
 {
   "id": "web-jobs-ashbyhq-com-application-22",
-  "min_fields": 15,
-  "exact_field_count": 15,
+  "min_fields": 16,
+  "exact_field_count": 16,
   "fields": [
     {
-      "question": "full legal name full legal name type here...",
+      "question": "full legal name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +19,7 @@
       }
     },
     {
-      "question": "preferred name preferred name type here...",
+      "question": "preferred name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -34,7 +34,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -49,7 +49,7 @@
       }
     },
     {
-      "question": "phone number phone number 1-415-555-1234...",
+      "question": "phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -64,7 +64,7 @@
       }
     },
     {
-      "question": "linkedin linkedin https://example.com...",
+      "question": "linkedin",
       "field_type": "url",
       "max_chars": null,
       "options": null,
@@ -79,7 +79,7 @@
       }
     },
     {
-      "question": "github github https://example.com...",
+      "question": "github",
       "field_type": "url",
       "max_chars": null,
       "options": null,
@@ -94,7 +94,7 @@
       }
     },
     {
-      "question": "portfolio portfolio https://example.com...",
+      "question": "portfolio",
       "field_type": "url",
       "max_chars": null,
       "options": null,
@@ -109,7 +109,7 @@
       }
     },
     {
-      "question": "publications publications https://example.com...",
+      "question": "publications",
       "field_type": "url",
       "max_chars": null,
       "options": null,
@@ -124,7 +124,7 @@
       }
     },
     {
-      "question": "briefly describe the intersection of disciplines you operate in, or the type of problems you are most passionate about solving at oxman. briefly describe the intersection of disciplines you operate in, or the type of problems you are most passionate about solving at oxman. type here...",
+      "question": "briefly describe the intersection of disciplines you operate in, or the type of problems you are most passionate about solving at oxman.",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -139,7 +139,7 @@
       }
     },
     {
-      "question": "yes yes",
+      "question": "are you authorized to work in the united states?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -157,7 +157,7 @@
       }
     },
     {
-      "question": "yes - i currently require sponsorship yes - i currently require sponsorship",
+      "question": "will you now or in the future require visa sponsorship for employment authorization?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -176,7 +176,7 @@
       }
     },
     {
-      "question": "yes - i currently live in the nyc area and understand i will need to commute into the office daily yes - i currently live in the nyc area and understand i will need to commute into the office daily",
+      "question": "this position is 100% on-site in new york city with no remote or hybrid options. can you reliably commute to our nyc office?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -195,7 +195,7 @@
       }
     },
     {
-      "question": "high school diploma/ged high school diploma/ged",
+      "question": "what is the highest level of education you have completed?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -217,7 +217,7 @@
       }
     },
     {
-      "question": "what were your fields of study? what were your fields of study? type here...",
+      "question": "what were your fields of study?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -227,6 +227,24 @@
         "type": "textarea",
         "id": "1dc6f7eb-f7fc-4338-91a3-22c4b60f1361",
         "name": "1dc6f7eb-f7fc-4338-91a3-22c4b60f1361",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "i acknowledge i have read and agree to the applicant privacy notice.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "da3a6f28-b1a5-48d6-b958-3e571b21efc8_0c7d812a-58d5-461f-9717-b68d9b4707cf-labeled-radio-0",
+        "name": "da3a6f28-b1a5-48d6-b958-3e571b21efc8_0c7d812a-58d5-461f-9717-b68d9b4707cf",
         "data_testid": null,
         "role": null
       }
@@ -249,10 +267,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

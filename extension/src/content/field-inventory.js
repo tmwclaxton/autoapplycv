@@ -2,6 +2,18 @@
  * Stagehand-style field inventory: stable refs, page snapshots, ref-based fill.
  */
 const AutoCVApplyFieldInventory = (() => {
+    function inventoryLog(level, phase, message, data) {
+        if (typeof AutoCVApplyDebugLog === 'undefined') {
+            return;
+        }
+
+        const logger = AutoCVApplyDebugLog[`log${level.charAt(0).toUpperCase()}${level.slice(1)}`];
+
+        if (typeof logger === 'function') {
+            logger('content', phase, message, data);
+        }
+    }
+
     const refRegistry = new Map();
     const controlRegistry = new Map();
 
@@ -10,12 +22,17 @@ const AutoCVApplyFieldInventory = (() => {
         controlRegistry.clear();
     }
 
-    function registerTarget(target) {
+    function registerTarget(target, roleRadios) {
         const ref = `f${refRegistry.size}`;
+        const dom = buildDomMetadata(target, roleRadios);
         let fieldType;
 
         if (Array.isArray(target)) {
-            fieldType = target[0]?.getAttribute?.('role') === 'checkbox' ? 'checkbox' : 'radio';
+            if (target[0]?.tagName?.toLowerCase() === 'button') {
+                fieldType = 'radio';
+            } else {
+                fieldType = target[0]?.getAttribute?.('role') === 'checkbox' ? 'checkbox' : 'radio';
+            }
         } else if (target?.getAttribute?.('role') === 'listbox') {
             fieldType = 'select';
         } else {
@@ -27,6 +44,7 @@ const AutoCVApplyFieldInventory = (() => {
         refRegistry.set(ref, {
             target,
             field_type: fieldType,
+            data_field_path: dom.data_field_path,
         });
 
         return ref;
@@ -36,7 +54,12 @@ const AutoCVApplyFieldInventory = (() => {
         let rep = roleRadios?.[0] || target;
         let scope = rep;
 
-        if (roleRadios?.length) {
+        if (Array.isArray(target) && target[0]?.tagName?.toLowerCase() === 'button') {
+            scope = target[0].closest('[data-field-path], .ashby-application-form-field-entry')
+                || target[0].closest('[class*="_yesno_"]')
+                || target[0];
+            rep = target[0];
+        } else if (roleRadios?.length) {
             const repRole = roleRadios[0]?.getAttribute?.('role');
 
             if (repRole === 'radio') {
@@ -48,7 +71,7 @@ const AutoCVApplyFieldInventory = (() => {
             scope = target;
             rep = target.querySelector('[role="option"]') || target;
         } else if (target?.type === 'radio' || target?.type === 'checkbox') {
-            scope = target.closest('fieldset, [role="radiogroup"], [role="group"]') || target;
+            scope = target.closest('fieldset, [role="radiogroup"], [role="group"], [data-field-path], .ashby-application-form-field-entry') || target;
         }
 
         const tag = (rep?.tagName || '').toLowerCase() || null;
@@ -62,6 +85,7 @@ const AutoCVApplyFieldInventory = (() => {
             name: rep?.name || rep?.getAttribute?.('name') || scope?.getAttribute?.('name') || null,
             data_testid: scope?.getAttribute?.('data-testid') || rep?.getAttribute?.('data-testid') || null,
             role: scope?.getAttribute?.('role') || rep?.getAttribute?.('role') || null,
+            data_field_path: scope?.getAttribute?.('data-field-path') || null,
         };
     }
 
@@ -87,6 +111,18 @@ const AutoCVApplyFieldInventory = (() => {
         return text.length > 8 && text.length < 500 ? text : null;
     }
 
+    function isFinalSubmitLabel(name) {
+        return /\b(submit\s+(?:application|app)|apply\s+now|send\s+(?:application|app))\b/i.test(name);
+    }
+
+    function isStepNavigationLabel(name) {
+        if (isFinalSubmitLabel(name)) {
+            return false;
+        }
+
+        return /\b(continue|next(?:\s+step)?|save(?:\s+and|\s*&)\s*continue|proceed|review(?:\s+(?:application|and\s+submit))?)\b/i.test(name);
+    }
+
     function collectNavigationControls(root) {
         const controls = [];
         const candidates = root.querySelectorAll(
@@ -94,8 +130,11 @@ const AutoCVApplyFieldInventory = (() => {
         );
 
         for (const element of candidates) {
-            if (!AutoCVApplyFormHeuristics.frameHasApplicationForm
-                && !element.closest('form, [role="form"]')) {
+            const inFormScope = element.closest(
+                'form, [role="form"], .ashby-application-form-container, [class*="application-form"], [class*="jobPostingForm"]',
+            );
+
+            if (!AutoCVApplyFormHeuristics.frameHasApplicationForm(root) && !inFormScope) {
                 continue;
             }
 
@@ -110,7 +149,7 @@ const AutoCVApplyFieldInventory = (() => {
                 continue;
             }
 
-            if (!/(continue|next|save|proceed|submit application|review)/i.test(name)) {
+            if (!isStepNavigationLabel(name)) {
                 continue;
             }
 
@@ -136,7 +175,7 @@ const AutoCVApplyFieldInventory = (() => {
     function appendSnapshotFromRoot(root, profile, settings, memo, merged) {
         AutoCVApplyFormHeuristics.eachDraftableField(root, profile, settings, memo, (field, target, roleRadios) => {
             const anchor = roleRadios?.[0] || target;
-            const ref = registerTarget(roleRadios || target);
+            const ref = registerTarget(target, roleRadios);
 
             merged.elements.push({
                 ref,
@@ -182,32 +221,76 @@ const AutoCVApplyFieldInventory = (() => {
             appendSnapshotFromRoot(doc, profile, settings, memo, merged);
         });
 
+        inventoryLog('info', 'snapshot.build', 'buildSnapshotAllFrames complete', {
+            elementCount: merged.elements.length,
+            controlCount: merged.controls.length,
+        });
+
         return merged;
     }
 
-    function applyAnswerByRef(root, ref, answer) {
+    async function applyAnswerByRef(root, ref, answer) {
         const entry = refRegistry.get(ref);
 
         if (!entry || !answer) {
+            inventoryLog('warn', 'apply.ref', 'applyAnswerByRef — ref not in registry', {
+                ref,
+                hasEntry: Boolean(entry),
+            });
+
             return false;
         }
+
+        inventoryLog('debug', 'apply.ref', 'applyAnswerByRef', {
+            ref,
+            field_type: entry.field_type,
+            answerPreview: String(answer).slice(0, 80),
+        });
 
         return AutoCVApplyFormHeuristics.applyAnswerForTarget(
             root,
             entry.target,
             entry.field_type,
             answer,
+            { data_field_path: entry.data_field_path },
         );
     }
 
-    function applyAnswerByRefAllFrames(root, ref, answer) {
+    async function applyAnswerByRefAllFrames(root, ref, answer) {
+        const documents = [];
         let applied = false;
+        const entry = refRegistry.get(ref);
 
         AutoCVApplyFormHeuristics.forEachIframeDocument((doc) => {
-            if (applyAnswerByRef(doc, ref, answer)) {
+            documents.push(doc);
+        });
+
+        for (const doc of documents) {
+            if (!entry || !answer) {
+                continue;
+            }
+
+            inventoryLog('debug', 'apply.ref', 'applyAnswerByRefAllFrames trying document', {
+                ref,
+                field_type: entry.field_type,
+                data_field_path: entry.data_field_path,
+            });
+
+            if (await AutoCVApplyFormHeuristics.applyAnswerForTarget(
+                doc,
+                entry.target,
+                entry.field_type,
+                answer,
+                { data_field_path: entry.data_field_path },
+            )) {
+                inventoryLog('info', 'apply.ref', 'applyAnswerByRefAllFrames succeeded', { ref });
                 applied = true;
             }
-        });
+        }
+
+        if (!applied) {
+            inventoryLog('warn', 'apply.ref', 'applyAnswerByRefAllFrames failed across frames', { ref });
+        }
 
         return applied;
     }

@@ -4,7 +4,61 @@
   "exact_field_count": 10,
   "fields": [
     {
-      "question": "name name type here...",
+      "question": "are you legally authorised to work in the country you wish to work in without the need for visa sponsorship?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you require ongoing employer support to maintain your right to work (e.g., visa renewals or work permit sponsorship)?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you have webflow experience?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +73,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -34,7 +88,7 @@
       }
     },
     {
-      "question": "linkedin profile linkedin profile https://example.com...",
+      "question": "linkedin profile",
       "field_type": "url",
       "max_chars": null,
       "options": null,
@@ -49,7 +103,7 @@
       }
     },
     {
-      "question": "start typing...",
+      "question": "location",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -64,58 +118,7 @@
       }
     },
     {
-      "question": "9ae1f982-8625-4cb2-b1b2-b8738409c731",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "9ae1f982-8625-4cb2-b1b2-b8738409c731",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "a649b226-971a-41de-a56e-af98597ca5e4",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "a649b226-971a-41de-a56e-af98597ca5e4",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "52829224-c832-4923-87b4-b3a19b0321df",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "52829224-c832-4923-87b4-b3a19b0321df",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "please share 1–3 websites you’ve worked on (webflow or otherwise), and briefly describe what you personally owned or built on each. please share 1–3 websites you’ve worked on (webflow or otherwise), and briefly describe what you personally owned or built on each. type here...",
+      "question": "please share 1–3 websites you’ve worked on (webflow or otherwise), and briefly describe what you personally owned or built on each.",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -130,7 +133,7 @@
       }
     },
     {
-      "question": "have you implemented custom javascript or integrations on a marketing website? if yes, what kind (e.g. apis, forms, experiments, performance work)? have you implemented custom javascript or integrations on a marketing website? if yes, what kind (e.g. apis, forms, experiments, performance work)? type here...",
+      "question": "have you implemented custom javascript or integrations on a marketing website? if yes, what kind (e.g. apis, forms, experiments, performance work)?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -145,7 +148,7 @@
       }
     },
     {
-      "question": "have you worked with apis or simple backend services (e.g. rest apis, serverless functions, cms integrations)? briefly describe. have you worked with apis or simple backend services (e.g. rest apis, serverless functions, cms integrations)? briefly describe. type here...",
+      "question": "have you worked with apis or simple backend services (e.g. rest apis, serverless functions, cms integrations)? briefly describe.",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -160,10 +163,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

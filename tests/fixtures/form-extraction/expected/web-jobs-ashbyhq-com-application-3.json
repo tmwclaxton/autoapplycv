@@ -1,10 +1,64 @@
 {
   "id": "web-jobs-ashbyhq-com-application-3",
-  "min_fields": 34,
-  "exact_field_count": 34,
+  "min_fields": 26,
+  "exact_field_count": 26,
   "fields": [
     {
-      "question": "portfolio link portfolio link https://example.com...",
+      "question": "are you willing to undergo a background check, in accordance with local laws/regulations?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "are you willing to work at the time zone/shifts mentioned in the job posting?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "were you referred to this career opportunity by someone at real?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "portfolio link",
       "field_type": "url",
       "max_chars": null,
       "options": null,
@@ -19,7 +73,7 @@
       }
     },
     {
-      "question": "preferred name preferred name type here...",
+      "question": "preferred name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -34,7 +88,7 @@
       }
     },
     {
-      "question": "legal first name (as per aadhaar card) legal first name (as per aadhaar card) type here...",
+      "question": "legal first name (as per aadhaar card)",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -49,7 +103,7 @@
       }
     },
     {
-      "question": "legal last name (as per aadhaar card) legal last name (as per aadhaar card) type here...",
+      "question": "legal last name (as per aadhaar card)",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -64,7 +118,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -79,7 +133,7 @@
       }
     },
     {
-      "question": "phone phone 1-415-555-1234...",
+      "question": "phone",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -94,25 +148,7 @@
       }
     },
     {
-      "question": "yes - i consent to receiving text messages yes - i consent to receiving text messages",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "Yes - I consent to receiving text messages",
-        "No - I do not consent to receiving text messages"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "radio",
-        "id": null,
-        "name": "communicationConsent",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "address address type here...",
+      "question": "address",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -127,7 +163,7 @@
       }
     },
     {
-      "question": "start typing...",
+      "question": "location",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -142,7 +178,7 @@
       }
     },
     {
-      "question": "zip / postal code zip / postal code type here...",
+      "question": "zip / postal code",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -157,24 +193,7 @@
       }
     },
     {
-      "question": "19e1e18f-570e-4824-976c-0de6c9dfd52c",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "19e1e18f-570e-4824-976c-0de6c9dfd52c",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "yes, i am a citizen of india yes, i am a citizen of india",
+      "question": "are you currently an indian citizen or otherwise legally authorized to work in india?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -194,7 +213,7 @@
       }
     },
     {
-      "question": "what is your current fixed salary? what is your current fixed salary? type here...",
+      "question": "what is your current fixed salary?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -209,7 +228,7 @@
       }
     },
     {
-      "question": "what are your salary expectations? what are your salary expectations? type here...",
+      "question": "what are your salary expectations?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -224,7 +243,7 @@
       }
     },
     {
-      "question": "immediately available immediately available",
+      "question": "what is your official notice period?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -246,7 +265,7 @@
       }
     },
     {
-      "question": "are you currently serving the notice? if yes, how soon can you join? are you currently serving the notice? if yes, how soon can you join? type here...",
+      "question": "are you currently serving the notice? if yes, how soon can you join?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -261,24 +280,7 @@
       }
     },
     {
-      "question": "abb9a178-8649-4198-a813-5580a225bd60",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "abb9a178-8649-4198-a813-5580a225bd60",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "total years of experience total years of experience type here...",
+      "question": "total years of experience",
       "field_type": "number",
       "max_chars": null,
       "options": null,
@@ -293,7 +295,7 @@
       }
     },
     {
-      "question": "years of experience in figma years of experience in figma type here...",
+      "question": "years of experience in figma",
       "field_type": "number",
       "max_chars": null,
       "options": null,
@@ -308,7 +310,7 @@
       }
     },
     {
-      "question": "years of experience in interaction design years of experience in interaction design type here...",
+      "question": "years of experience in interaction design",
       "field_type": "number",
       "max_chars": null,
       "options": null,
@@ -323,7 +325,7 @@
       }
     },
     {
-      "question": "yes yes",
+      "question": "do you have experience in after effects?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -342,11 +344,18 @@
       }
     },
     {
-      "question": "claude claude",
+      "question": "which ai tools have you used so far for research, architecture, prototyping, and design workflows? (select all that apply)",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Claude"
+        "Claude",
+        "Gemini",
+        "ChatGPT",
+        "Midjourney",
+        "Adobe Firefly",
+        "Figma AI",
+        "Runway",
+        "None of the above"
       ],
       "required": false,
       "dom": {
@@ -359,126 +368,7 @@
       }
     },
     {
-      "question": "gemini gemini",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Gemini"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "71e87b47-3f78-4d22-8112-72d07e41de2b_5ed958be-73dd-45a8-9eb8-bcdf1941a5b2-labeled-checkbox-1",
-        "name": "Gemini",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "chatgpt chatgpt",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "ChatGPT"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "71e87b47-3f78-4d22-8112-72d07e41de2b_5ed958be-73dd-45a8-9eb8-bcdf1941a5b2-labeled-checkbox-2",
-        "name": "ChatGPT",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "midjourney midjourney",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Midjourney"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "71e87b47-3f78-4d22-8112-72d07e41de2b_5ed958be-73dd-45a8-9eb8-bcdf1941a5b2-labeled-checkbox-3",
-        "name": "Midjourney",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "adobe firefly adobe firefly",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Adobe Firefly"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "71e87b47-3f78-4d22-8112-72d07e41de2b_5ed958be-73dd-45a8-9eb8-bcdf1941a5b2-labeled-checkbox-4",
-        "name": "Adobe Firefly",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "figma ai figma ai",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Figma AI"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "71e87b47-3f78-4d22-8112-72d07e41de2b_5ed958be-73dd-45a8-9eb8-bcdf1941a5b2-labeled-checkbox-5",
-        "name": "Figma AI",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "runway runway",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Runway"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "71e87b47-3f78-4d22-8112-72d07e41de2b_5ed958be-73dd-45a8-9eb8-bcdf1941a5b2-labeled-checkbox-6",
-        "name": "Runway",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "none of the above none of the above",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "None of the above"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "71e87b47-3f78-4d22-8112-72d07e41de2b_5ed958be-73dd-45a8-9eb8-bcdf1941a5b2-labeled-checkbox-7",
-        "name": "None of the above",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "do you now or have you ever worked for real or any of our other companies? do you now or have you ever worked for real or any of our other companies? type here...",
+      "question": "do you now or have you ever worked for real or any of our other companies?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -493,7 +383,7 @@
       }
     },
     {
-      "question": "are you related to a current real employee? are you related to a current real employee? type here...",
+      "question": "are you related to a current real employee?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -508,24 +398,7 @@
       }
     },
     {
-      "question": "970eceb4-87f7-455d-8daf-5cdcc5da6b68",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "970eceb4-87f7-455d-8daf-5cdcc5da6b68",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "if you answered yes to the question above, tell us the name of the employee at real who referred you. if you answered yes to the question above, tell us the name of the employee at real who referred you. type here...",
+      "question": "if you answered yes to the question above, tell us the name of the employee at real who referred you.",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -540,7 +413,7 @@
       }
     },
     {
-      "question": "linkedin profile linkedin profile type here...",
+      "question": "linkedin profile",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -555,10 +428,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

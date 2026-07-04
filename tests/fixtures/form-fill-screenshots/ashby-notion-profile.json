@@ -1,0 +1,26 @@
+{
+  "id": "web-ashby-notion-bdm-f603aedb",
+  "page_url": "https://jobs.ashbyhq.com/notion/f603aedb-1454-4a75-b2f0-a3afb2a8f973/application",
+  "profile": {
+    "full_name": "TestUser AshbyFill",
+    "email": "ashbyfill.test@example.com",
+    "phone": "+1 555 OCR-FILL",
+    "linkedin": "https://linkedin.com/in/ashbyfill-test",
+    "anchor_days": "Yes",
+    "visa_sponsorship": "No",
+    "pronouns": "They/Them",
+    "hear_about": "LinkedIn",
+    "location": "San Francisco, CA"
+  },
+  "ocr_must_appear_after_fill": [
+    "TestUser AshbyFill",
+    "ashbyfill.test",
+    "OCR-FILL",
+    "linkedin.com/in"
+  ],
+  "ocr_notes": [
+    "Yes/No labels are visible before fill; boolean selection is verified via DOM, not OCR.",
+    "Location autocomplete may not resolve without network; OCR may miss location.",
+    "File upload fields are not visible in OCR text."
+  ]
+}

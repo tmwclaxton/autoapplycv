@@ -1,10 +1,28 @@
 {
   "id": "web-jobs-ashbyhq-com-application-29",
-  "min_fields": 9,
-  "exact_field_count": 9,
+  "min_fields": 8,
+  "exact_field_count": 8,
   "fields": [
     {
-      "question": "full name full name type here...",
+      "question": "have you spoken with your manager about applying to this role",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "full name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +37,7 @@
       }
     },
     {
-      "question": "[optional] preferred name [optional] preferred name type here...",
+      "question": "[optional] preferred name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -34,7 +52,7 @@
       }
     },
     {
-      "question": "[optional] what are your pronouns? [optional] what are your pronouns? type here...",
+      "question": "[optional] what are your pronouns?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -49,7 +67,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -64,7 +82,7 @@
       }
     },
     {
-      "question": "phone number phone number 1-415-555-1234...",
+      "question": "phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -79,25 +97,7 @@
       }
     },
     {
-      "question": "yes - i consent to receiving text messages yes - i consent to receiving text messages",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "Yes - I consent to receiving text messages",
-        "No - I do not consent to receiving text messages"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "radio",
-        "id": null,
-        "name": "communicationConsent",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "linkedin profile link linkedin profile link type here...",
+      "question": "linkedin profile link",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -112,7 +112,7 @@
       }
     },
     {
-      "question": "yes, and i am already located in san francisco yes, and i am already located in san francisco",
+      "question": "if this is a hybrid role, are you able to work in-person at least 3 days a week from the office hub?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -131,29 +131,8 @@
         "data_testid": null,
         "role": null
       }
-    },
-    {
-      "question": "b7680e36-9f3b-4324-b14a-59a98434e46d",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "b7680e36-9f3b-4324-b14a-59a98434e46d",
-        "data_testid": null,
-        "role": null
-      }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

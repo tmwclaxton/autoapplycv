@@ -6,6 +6,23 @@ import {
     saveConnection,
     saveLoginEndpoint,
 } from './connection.js';
+import {
+    clearLogs,
+    getAllLogs,
+    initDebugLog,
+    ingestDebugEntry,
+    logDebug,
+    logError,
+    logInfo,
+    logWarn,
+} from './debug-log.js';
+import {
+    compactFieldsForDraft,
+    compactSnapshotForInventory,
+    shouldForceInventoryComplete,
+    snapshotFingerprint,
+    tryInferJobContextFromPage,
+} from './draft-all-optimizations.js';
 import { requestDraftAllStream, requestDraftField, requestAssistChatStream, requestFieldInventory, requestJobContext } from './draft-all-stream.js';
 import { arrayBufferToBase64, base64ToBlob } from './file-transfer.js';
 import {
@@ -13,13 +30,25 @@ import {
     applyDraftBatchToTab,
     clickInventoryRefOnTab,
     collectSnapshotFromTab,
+    fetchPagePayloadForJobContext,
+    findBestFormFrameId,
+    invalidateTabFrameCache,
+    sendTabMessage,
 } from './form-frame-messaging.js';
+import { createPerfTimer } from './perf-timer.js';
+
+void initDebugLog();
 
 let cachedProfile = null;
 let cacheTimestamp = 0;
 const CACHE_TTL_MS = 15 * 60 * 1000;
 const INVENTORY_MAX_ROUNDS = 8;
-const INVENTORY_STEP_DELAY_MS = 900;
+const INVENTORY_STEP_DELAY_MS = 600;
+const JOB_CONTEXT_CACHE_TTL_MS = 30 * 60 * 1000;
+const JOB_CONTEXT_PREFETCH_DEBOUNCE_MS = 5000;
+const jobContextCache = new Map();
+const jobContextPrefetchInFlight = new Set();
+const jobContextPrefetchLastAt = new Map();
 
 function invalidateProfileCache() {
     cachedProfile = null;
@@ -204,6 +233,12 @@ chrome.runtime.onStartup.addListener(() => {
     configureSidePanel();
 });
 
+chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+    if (changeInfo.url) {
+        invalidateTabFrameCache(tabId);
+    }
+});
+
 chrome.runtime.onConnect.addListener((port) => {
     if (port.name === 'sidepanel-presence') {
         recordSidePanelHeartbeat().catch(() => {});
@@ -300,6 +335,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
             }
 
             notifyTabOverlayVisibility(tabId);
+            void prefetchJobContextForTab(tabId, tab);
         })
         .catch(() => {});
 });
@@ -309,6 +345,13 @@ chrome.tabs.onActivated.addListener(({ tabId }) => {
 });
 
 function broadcastDraftEvent(type, payload = {}) {
+    if (type === 'DRAFT_ALL_PROGRESS' || type === 'DRAFT_ALL_DONE') {
+        logInfo('background', 'draft-all.progress', payload.message || type, {
+            eventType: type,
+            ...payload,
+        });
+    }
+
     chrome.runtime.sendMessage({ type, ...payload }).catch(() => {});
 
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -318,6 +361,15 @@ function broadcastDraftEvent(type, payload = {}) {
             chrome.tabs.sendMessage(tabId, { type, ...payload }).catch(() => {});
         }
     });
+}
+
+function logDraftError(phase, message, error, tabId, data = {}) {
+    logError('background', phase, message, {
+        ...data,
+        error: error instanceof Error
+            ? { name: error.name, message: error.message, stack: error.stack }
+            : error,
+    }, tabId);
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -451,7 +503,33 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         resolveActiveTabId(sender.tab?.id)
             .then((tabId) => runDraftAll(tabId))
             .then(sendResponse)
-            .catch((err) => sendResponse({ error: err.message }));
+            .catch((err) => {
+                logDraftError('draft-all.start', 'Draft All failed to start', err, sender.tab?.id);
+                sendResponse({ error: err.message });
+            });
+
+        return true;
+    }
+
+    if (message.type === 'DEBUG_LOG') {
+        if (message.entry) {
+            ingestDebugEntry(message.entry);
+            chrome.runtime.sendMessage({ type: 'DEBUG_LOG_APPENDED' }).catch(() => {});
+        }
+
+        sendResponse({ success: true });
+
+        return false;
+    }
+
+    if (message.type === 'GET_DEBUG_LOGS') {
+        getAllLogs().then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'CLEAR_DEBUG_LOGS') {
+        clearLogs().then(() => sendResponse({ success: true })).catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -628,30 +706,230 @@ function inventoryFieldsToDraftShape(inventoryFields) {
     }));
 }
 
+function isFinalSubmitControlName(name) {
+    return /\b(submit\s+(?:application|app)|apply\s+now|send\s+(?:application|app))\b/i.test(String(name || '').trim());
+}
+
+function controlNameByRef(snapshot, ref) {
+    return (snapshot?.controls || []).find((control) => control.ref === ref)?.name || '';
+}
+
+function jobContextCacheKey(pageUrl) {
+    return `jobContext:${pageUrl}`;
+}
+
+async function getCachedJobContext(pageUrl) {
+    if (!pageUrl) {
+        return null;
+    }
+
+    const memoryEntry = jobContextCache.get(pageUrl);
+
+    if (memoryEntry && Date.now() - memoryEntry.cachedAt < JOB_CONTEXT_CACHE_TTL_MS) {
+        return memoryEntry.job;
+    }
+
+    const stored = await chrome.storage.session.get([jobContextCacheKey(pageUrl)]);
+    const sessionEntry = stored[jobContextCacheKey(pageUrl)];
+
+    if (sessionEntry?.job && Date.now() - sessionEntry.cachedAt < JOB_CONTEXT_CACHE_TTL_MS) {
+        jobContextCache.set(pageUrl, sessionEntry);
+
+        return sessionEntry.job;
+    }
+
+    return null;
+}
+
+async function setCachedJobContext(pageUrl, job) {
+    if (!pageUrl || !job) {
+        return;
+    }
+
+    const entry = {
+        job,
+        cachedAt: Date.now(),
+    };
+
+    jobContextCache.set(pageUrl, entry);
+    await chrome.storage.session.set({
+        [jobContextCacheKey(pageUrl)]: entry,
+    });
+}
+
+async function prefetchJobContextForTab(tabId, tab) {
+    const pageUrl = tab.url?.split('?')[0] || tab.url || '';
+
+    if (!pageUrl) {
+        return;
+    }
+
+    if (await getCachedJobContext(pageUrl)) {
+        return;
+    }
+
+    const lastPrefetchAt = jobContextPrefetchLastAt.get(pageUrl) || 0;
+
+    if (Date.now() - lastPrefetchAt < JOB_CONTEXT_PREFETCH_DEBOUNCE_MS) {
+        return;
+    }
+
+    if (jobContextPrefetchInFlight.has(pageUrl)) {
+        return;
+    }
+
+    jobContextPrefetchLastAt.set(pageUrl, Date.now());
+    jobContextPrefetchInFlight.add(pageUrl);
+
+    try {
+        const page = await fetchPagePayloadForJobContext(tabId, tab);
+        const inferred = tryInferJobContextFromPage(page, tab.title);
+
+        if (inferred) {
+            await setCachedJobContext(pageUrl, inferred);
+            logDebug('background', 'job-context.prefetch', 'Prefetched job context from page metadata', {
+                pageUrl,
+                title: inferred.title,
+                company: inferred.company,
+            }, tabId);
+
+            return;
+        }
+
+        if ((page.page_text || '').length < 200) {
+            return;
+        }
+
+        const result = await requestJobContext(page);
+
+        if (result.ok && result.job) {
+            await setCachedJobContext(pageUrl, result.job);
+            logDebug('background', 'job-context.prefetch', 'Prefetched job context from API', {
+                pageUrl,
+                title: result.job.title,
+                company: result.job.company,
+            }, tabId);
+        }
+    } catch (error) {
+        logDebug('background', 'job-context.prefetch', 'Job context prefetch failed', {
+            pageUrl,
+            error: error instanceof Error ? error.message : error,
+        }, tabId);
+    } finally {
+        jobContextPrefetchInFlight.delete(pageUrl);
+    }
+}
+
+async function resolveJobContextForDraft(tabId, tab, perf = null) {
+    const pageUrl = tab.url?.split('?')[0] || tab.url || '';
+
+    logDebug('background', 'job-context.fetch', 'Resolving job context', { pageUrl }, tabId);
+    perf?.start('job-context');
+
+    const cachedJob = await getCachedJobContext(pageUrl);
+
+    if (cachedJob) {
+        perf?.end('job-context');
+        logInfo('background', 'job-context.cache', 'Job context cache hit', {
+            title: cachedJob.title,
+            company: cachedJob.company,
+        }, tabId);
+
+        return { ok: true, job: cachedJob, cached: true };
+    }
+
+    logDebug('background', 'job-context.fetch', 'Cache miss — fetching page payload', { pageUrl }, tabId);
+
+    const page = await fetchPagePayloadForJobContext(tabId, tab);
+    const inferred = tryInferJobContextFromPage(page, tab.title);
+
+    if (inferred) {
+        await setCachedJobContext(pageUrl, inferred);
+        perf?.end('job-context');
+        logInfo('background', 'job-context.inferred', 'Job context inferred from page metadata', {
+            title: inferred.title,
+            company: inferred.company,
+            source: inferred.source,
+            descriptionLength: inferred.job_description?.length || 0,
+        }, tabId);
+
+        return { ok: true, job: inferred, cached: false, inferred: true };
+    }
+
+    const result = await requestJobContext(page);
+    perf?.end('job-context');
+
+    if (result.ok && result.job) {
+        await setCachedJobContext(pageUrl, result.job);
+        logInfo('background', 'job-context.result', 'Job context resolved', {
+            title: result.job.title,
+            company: result.job.company,
+            descriptionLength: result.job.job_description?.length || 0,
+        }, tabId);
+    } else {
+        logWarn('background', 'job-context.result', 'Job context failed', {
+            message: result.message,
+            ok: result.ok,
+        }, tabId);
+    }
+
+    return result;
+}
+
 function sleep(ms) {
     return new Promise((resolve) => {
         setTimeout(resolve, ms);
     });
 }
 
-async function resolveDraftFieldsViaInventory(tabId, tab, settings) {
-    const initialCollect = await collectSnapshotFromTab(tabId);
-
-    if (!initialCollect?.success) {
-        return { error: initialCollect?.error || 'Could not scan this page for fields.' };
-    }
-
+async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null) {
     broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
-        message: 'Extracting job details…',
+        message: 'Scanning form and extracting job details…',
     });
 
-    const page = initialCollect.page || {
-        page_title: tab.title || '',
-        page_url: tab.url?.split('?')[0] || tab.url || '',
-        page_text: '',
-    };
+    logDebug('background', 'frame.discovery', 'Finding best form frame', { url: tab.url }, tabId);
+    perf?.start('frame.discovery');
+    let formFrameId = await findBestFormFrameId(tabId);
+    perf?.end('frame.discovery');
 
-    const jobContext = await requestJobContext(page);
+    logInfo('background', 'frame.discovery', 'Form frame selected', { formFrameId }, tabId);
+
+    perf?.start('snapshot.collect');
+    const snapshotStartedAt = Date.now();
+    const [initialCollect, jobContext] = await Promise.all([
+        collectSnapshotFromTab(tabId, formFrameId),
+        resolveJobContextForDraft(tabId, tab, perf),
+    ]);
+    perf?.end('snapshot.collect');
+
+    logInfo('background', 'snapshot.collect', 'Initial snapshot collected', {
+        formFrameId,
+        durationMs: Date.now() - snapshotStartedAt,
+        success: initialCollect?.success === true,
+        fieldCount: initialCollect?.snapshot?.elements?.length || 0,
+        controlCount: initialCollect?.snapshot?.controls?.length || 0,
+        error: initialCollect?.error,
+    }, tabId);
+
+    if (initialCollect?.snapshot?.elements?.length) {
+        logDebug('background', 'snapshot.fields', 'Snapshot field summary', {
+            fields: initialCollect.snapshot.elements.map((element) => ({
+                ref: element.ref,
+                question: element.question,
+                field_type: element.field_type,
+                required: element.required,
+                optionCount: element.options?.length || 0,
+            })),
+        }, tabId);
+    }
+
+    if (!initialCollect?.success) {
+        logWarn('background', 'snapshot.collect', 'Initial snapshot failed', {
+            error: initialCollect?.error,
+        }, tabId);
+
+        return { error: initialCollect?.error || 'Could not scan this page for fields.' };
+    }
 
     if (!jobContext.ok) {
         if (jobContext.subscription && cachedProfile) {
@@ -667,17 +945,44 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings) {
 
     let job = jobContext.job;
     let lastFields = [];
+    let bestFields = [];
+    let lastSnapshotFingerprint = snapshotFingerprint(initialCollect.snapshot);
 
     for (let round = 0; round < INVENTORY_MAX_ROUNDS; round += 1) {
-        const collectResponse = round === 0 ? initialCollect : await collectSnapshotFromTab(tabId);
+        let collectResponse;
+
+        if (round === 0) {
+            collectResponse = initialCollect;
+        } else {
+            formFrameId = await findBestFormFrameId(tabId, { force: true });
+            collectResponse = await collectSnapshotFromTab(tabId, formFrameId);
+        }
 
         if (!collectResponse?.success) {
             return { error: collectResponse?.error || 'Could not scan this page for fields.' };
         }
 
+        const currentFingerprint = snapshotFingerprint(collectResponse.snapshot);
+
+        if (round > 0 && currentFingerprint === lastSnapshotFingerprint) {
+            logDebug('background', 'snapshot.collect', 'Snapshot unchanged — skipping inventory round', {
+                round: round + 1,
+            }, tabId);
+
+            if (lastFields.length > 0) {
+                return { fields: lastFields, job, formFrameId };
+            }
+
+            if (bestFields.length > 0) {
+                return { fields: bestFields, job, formFrameId };
+            }
+        }
+
+        lastSnapshotFingerprint = currentFingerprint;
+
         if (!collectResponse.snapshot?.elements?.length) {
             if (lastFields.length > 0) {
-                return { fields: lastFields, job };
+                return { fields: lastFields, job, formFrameId };
             }
 
             return { error: 'No empty fields found to draft.' };
@@ -689,12 +994,40 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings) {
                 : `Rescanning form fields (step ${round + 1})…`,
         });
 
-        const inventory = await requestFieldInventory({
+        const inventoryPayload = {
             job,
-            snapshot: collectResponse.snapshot,
+            snapshot: compactSnapshotForInventory(collectResponse.snapshot),
             settings,
             page_title: tab.title,
-        });
+        };
+
+        const inventoryPhase = `inventory.round-${round + 1}`;
+        perf?.start(inventoryPhase);
+
+        logDebug('background', 'inventory.request', `Inventory round ${round + 1} request`, {
+            round: round + 1,
+            elementCount: inventoryPayload.snapshot?.elements?.length || 0,
+            settingsKeys: Object.keys(settings || {}),
+        }, tabId);
+
+        const inventoryStartedAt = Date.now();
+        const inventory = await requestFieldInventory(inventoryPayload);
+        perf?.end(inventoryPhase);
+
+        logInfo('background', 'inventory.response', `Inventory round ${round + 1} response`, {
+            round: round + 1,
+            durationMs: Date.now() - inventoryStartedAt,
+            ok: inventory.ok,
+            complete: inventory.complete,
+            fieldCount: inventory.fields?.length || 0,
+            nextActionCount: inventory.next_actions?.length || 0,
+            message: inventory.message,
+            fields: (inventory.fields || []).map((field) => ({
+                ref: field.ref,
+                question: field.question || field.label,
+                field_type: field.field_type,
+            })),
+        }, tabId);
 
         if (!inventory.ok) {
             if (inventory.subscription && cachedProfile) {
@@ -710,31 +1043,76 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings) {
 
         lastFields = inventoryFieldsToDraftShape(inventory.fields);
 
-        if (inventory.complete || !inventory.next_actions?.length) {
+        if (lastFields.length > bestFields.length) {
+            bestFields = lastFields;
+        }
+
+        if (inventory.complete || !inventory.next_actions?.length || shouldForceInventoryComplete(collectResponse.snapshot, inventory)) {
+            if (lastFields.length === 0 && bestFields.length > 0) {
+                return { fields: bestFields, job, formFrameId };
+            }
+
             if (lastFields.length === 0) {
                 return { error: 'No empty fields found to draft.' };
             }
 
-            return { fields: lastFields, job };
+            return { fields: lastFields.length >= bestFields.length ? lastFields : bestFields, job, formFrameId };
         }
 
         broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
             message: 'Opening the next section of the form…',
         });
 
+        let clickedNavigation = false;
+
         for (const action of inventory.next_actions) {
             if (!action?.ref) {
                 continue;
             }
 
-            await clickInventoryRefOnTab(tabId, action.ref);
+            const controlName = controlNameByRef(collectResponse.snapshot, action.ref);
+
+            if (isFinalSubmitControlName(controlName)) {
+                logWarn('background', 'inventory.click', 'Skipping final submit control during inventory', {
+                    ref: action.ref,
+                    controlName,
+                    round: round + 1,
+                }, tabId);
+
+                continue;
+            }
+
+            logDebug('background', 'inventory.click', 'Clicking inventory navigation ref', {
+                ref: action.ref,
+                round: round + 1,
+            }, tabId);
+
+            await clickInventoryRefOnTab(tabId, action.ref, formFrameId);
+            clickedNavigation = true;
         }
 
+        if (!clickedNavigation) {
+            if (bestFields.length > 0) {
+                return { fields: bestFields, job, formFrameId };
+            }
+
+            if (lastFields.length === 0) {
+                return { error: 'No empty fields found to draft.' };
+            }
+
+            return { fields: lastFields, job, formFrameId };
+        }
+
+        invalidateTabFrameCache(tabId);
         await sleep(INVENTORY_STEP_DELAY_MS);
     }
 
+    if (bestFields.length > 0) {
+        return { fields: bestFields, job, formFrameId };
+    }
+
     if (lastFields.length > 0) {
-        return { fields: lastFields, job };
+        return { fields: lastFields, job, formFrameId };
     }
 
     return { error: 'No empty fields found to draft.' };
@@ -742,42 +1120,119 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings) {
 
 async function runDraftAll(tabId) {
     if (draftAllRunning) {
+        logWarn('background', 'draft-all.start', 'Draft All already running', {}, tabId);
+
         return { error: 'Draft-all is already running on this tab.' };
     }
 
     draftAllRunning = true;
+    const perf = createPerfTimer({ logInfo, logDebug, tabId });
+    perf.start('draft-all.total');
 
     try {
-        const tab = await chrome.tabs.get(tabId);
-        const settings = await buildAutofillSettings();
-        const resolved = await resolveDraftFieldsViaInventory(tabId, tab, settings);
+        const [tab, settings] = await Promise.all([
+            chrome.tabs.get(tabId),
+            buildAutofillSettings(),
+        ]);
+
+        logInfo('background', 'draft-all.start', 'Draft All started', {
+            tabId,
+            url: tab.url,
+            title: tab.title,
+            settings,
+        }, tabId);
+
+        const resolved = await resolveDraftFieldsViaInventory(tabId, tab, settings, perf);
 
         if (resolved.error) {
+            logWarn('background', 'draft-all.resolve', 'Field resolution failed', {
+                error: resolved.error,
+            }, tabId);
+
             return { error: resolved.error };
         }
 
-        const { fields, job } = resolved;
+        const { fields, job, formFrameId } = resolved;
+        const draftFields = compactFieldsForDraft(fields);
+
+        logInfo('background', 'draft-all.stream', 'Starting draft-all stream', {
+            fieldCount: fields.length,
+            compactFieldCount: draftFields.length,
+            formFrameId,
+            jobTitle: job?.title,
+        }, tabId);
 
         broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
             message: `Drafting ${fields.length} field(s)…`,
         });
 
+        let batchIndex = 0;
+        const applyPromises = [];
+        perf.start('draft.batch-1');
         const result = await requestDraftAllStream({
             job,
-            fields,
+            fields: draftFields,
             settings,
             page_title: tab.title,
         }, async (event) => {
             if (event.type === 'batch' && Array.isArray(event.answers)) {
-                await applyDraftBatchToTab(tabId, event.answers);
-                await saveLocalMemo(event.answers);
+                const batchNumber = event.batch_index + 1;
+                const draftPhase = `draft.batch-${batchNumber}`;
+                const applyPhase = `apply.batch-${batchNumber}`;
+
+                perf.end(draftPhase);
+                perf.start(applyPhase);
+                perf.start(`draft.batch-${batchNumber + 1}`);
+
+                logDebug('background', 'draft-all.batch', `Applying batch ${batchNumber}`, {
+                    batchIndex: event.batch_index,
+                    answerCount: event.answers.length,
+                    answers: event.answers.map((answer) => ({
+                        ref: answer.ref,
+                        label: answer.label,
+                        field_type: answer.field_type,
+                        answerPreview: typeof answer.answer === 'string'
+                            ? answer.answer.slice(0, 80)
+                            : answer.answer,
+                    })),
+                }, tabId);
+
+                const applyPromise = applyDraftBatchToTab(tabId, event.answers, formFrameId)
+                    .then((applyResult) => {
+                        logInfo('background', 'draft-all.apply', `Batch ${batchNumber} apply result`, {
+                            batchIndex: event.batch_index,
+                            success: applyResult?.success,
+                            applied: applyResult?.applied,
+                        }, tabId);
+
+                        return applyResult;
+                    })
+                    .catch((error) => {
+                        logDraftError('draft-all.apply', 'Batch apply threw', error, tabId, {
+                            batchIndex: event.batch_index,
+                        });
+
+                        throw error;
+                    })
+                    .finally(() => {
+                        perf.end(applyPhase);
+                    });
+
+                applyPromises.push(applyPromise);
+                void saveLocalMemo(event.answers);
+                batchIndex = batchNumber;
 
                 broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
-                    message: `Applied batch ${event.batch_index + 1}…`,
+                    message: `Applied batch ${batchNumber}…`,
                 });
             }
 
             if (event.type === 'batch_error') {
+                logWarn('background', 'draft-all.batch', 'Batch error from stream', {
+                    batchIndex: event.batch_index,
+                    message: event.message,
+                }, tabId);
+
                 broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
                     message: event.message || 'A batch failed.',
                 });
@@ -789,6 +1244,10 @@ async function runDraftAll(tabId) {
         });
 
         if (!result.ok) {
+            logWarn('background', 'draft-all.complete', 'Draft-all stream failed', {
+                message: result.message,
+            }, tabId);
+
             if (result.subscription && cachedProfile) {
                 cachedProfile.subscription = result.subscription;
             }
@@ -796,10 +1255,46 @@ async function runDraftAll(tabId) {
             return { error: result.message || 'Draft-all failed.' };
         }
 
+        await Promise.all(applyPromises);
+
+        if (batchIndex === 0) {
+            perf.end('draft.batch-1');
+        } else {
+            perf.end(`draft.batch-${batchIndex + 1}`);
+        }
+
         const message = `Fill complete (${fields.length} field(s) drafted).`;
+        logInfo('background', 'draft-all.complete', 'Draft All finished', {
+            fieldCount: fields.length,
+            batchesApplied: batchIndex,
+        }, tabId);
+
         broadcastDraftEvent('DRAFT_ALL_DONE', { message });
 
+        try {
+            perf.start('resume.fill');
+            logDebug('background', 'fill.resume', 'Sending FILL_RESUME to tab', { formFrameId }, tabId);
+            const resumeResult = await sendTabMessage(tabId, { type: 'FILL_RESUME' }, formFrameId);
+            perf.end('resume.fill');
+            logInfo('background', 'fill.resume', 'FILL_RESUME result', resumeResult || {}, tabId);
+        } catch (error) {
+            perf.end('resume.fill');
+            logWarn('background', 'fill.resume', 'FILL_RESUME failed (best-effort)', {
+                error: error instanceof Error ? error.message : error,
+            }, tabId);
+        }
+
+        perf.summary({
+            fieldCount: fields.length,
+            batchesApplied: batchIndex,
+            url: tab.url,
+        });
+
         return { success: true, message };
+    } catch (error) {
+        logDraftError('draft-all.error', 'Draft All unhandled error', error, tabId);
+
+        return { error: error instanceof Error ? error.message : 'Draft-all failed.' };
     } finally {
         draftAllRunning = false;
     }

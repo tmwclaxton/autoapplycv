@@ -490,7 +490,23 @@ body {
 
 .footer {
     padding: 10px 16px 14px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.footer-debug-link {
+    all: unset;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--postbox-grey-mid);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.footer-debug-link:hover {
+    color: var(--postbox-navy);
 }
 
 .shell-assist-panel {

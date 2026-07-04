@@ -77,7 +77,7 @@ function loadExtensionScripts(window, context) {
 /**
  * @param {{ html: string, pageUrl?: string, pageTitle?: string, interactionSteps?: Array<{ action: string, selector?: string, text?: string }> }} options
  */
-export function buildSnapshotFromHtml(options) {
+export function buildFormDomContext(options) {
     const pageUrl = options.pageUrl || 'https://example.test/apply';
     const pageTitle = options.pageTitle || 'Job Application';
     const interactionSteps = options.interactionSteps || [];
@@ -107,10 +107,15 @@ export function buildSnapshotFromHtml(options) {
         {},
     );
 
+    return { window, snapshot };
+}
+
+function publicSnapshot(snapshot) {
     return {
         page_url: snapshot.page_url,
         page_title: snapshot.page_title,
         elements: (snapshot.elements || []).map((element) => ({
+            ref: element.ref,
             question: element.question,
             field_type: element.field_type,
             max_chars: element.max_chars ?? null,
@@ -123,6 +128,21 @@ export function buildSnapshotFromHtml(options) {
             name: control.name,
             role: control.role ?? 'button',
         })),
+    };
+}
+
+/**
+ * @param {{ html: string, pageUrl?: string, pageTitle?: string, interactionSteps?: Array<{ action: string, selector?: string, text?: string }> }} options
+ */
+export function buildSnapshotFromHtml(options) {
+    const { snapshot } = buildFormDomContext(options);
+    const mapped = publicSnapshot(snapshot);
+
+    return {
+        page_url: mapped.page_url,
+        page_title: mapped.page_title,
+        elements: mapped.elements.map(({ ref, ...element }) => element),
+        controls: mapped.controls,
     };
 }
 

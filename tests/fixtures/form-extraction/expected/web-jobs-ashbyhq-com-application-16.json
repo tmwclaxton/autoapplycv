@@ -1,10 +1,28 @@
 {
   "id": "web-jobs-ashbyhq-com-application-16",
-  "min_fields": 59,
-  "exact_field_count": 59,
+  "min_fields": 27,
+  "exact_field_count": 27,
   "fields": [
     {
-      "question": "legal first name legal first name type here...",
+      "question": "are you legally authorized to work in that country without employer-based sponsorship?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "legal first name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +37,7 @@
       }
     },
     {
-      "question": "legal last name legal last name type here...",
+      "question": "legal last name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -34,7 +52,7 @@
       }
     },
     {
-      "question": "preferred first name preferred first name type here...",
+      "question": "preferred first name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -49,7 +67,7 @@
       }
     },
     {
-      "question": "preferred last name preferred last name type here...",
+      "question": "preferred last name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -64,7 +82,7 @@
       }
     },
     {
-      "question": "how do you pronounce your name? how do you pronounce your name? type here...",
+      "question": "how do you pronounce your name?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -79,7 +97,7 @@
       }
     },
     {
-      "question": "pronouns pronouns type here...",
+      "question": "pronouns",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -94,7 +112,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -109,7 +127,7 @@
       }
     },
     {
-      "question": "phone phone 1-415-555-1234...",
+      "question": "phone",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -124,7 +142,7 @@
       }
     },
     {
-      "question": "linkedin profile linkedin profile type here...",
+      "question": "linkedin profile",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -139,7 +157,7 @@
       }
     },
     {
-      "question": "what do you want us to know about your experiences? we'd love to hear more about what you've done so we can see how those experiences would help round out our team! what do you want us to know about your experiences? we'd love to hear more about what you've done so we can see how those experiences would help round out our team! type here...",
+      "question": "what do you want us to know about your experiences? we'd love to hear more about what you've done so we can see how those experiences would help round out our team!",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -154,7 +172,7 @@
       }
     },
     {
-      "question": "what are you looking for in your next role? tell us about your dream job - how would you spend your time? what kind of work and projects would you be working on? what are you looking for in your next role? tell us about your dream job - how would you spend your time? what kind of work and projects would you be working on? type here...",
+      "question": "what are you looking for in your next role? tell us about your dream job - how would you spend your time? what kind of work and projects would you be working on?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -169,7 +187,7 @@
       }
     },
     {
-      "question": "how many years of experience do you have? how many years of experience do you have? type here...",
+      "question": "how many years of experience do you have?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -184,11 +202,21 @@
       }
     },
     {
-      "question": "business operations jobs business operations jobs",
+      "question": "which areas are you interested in?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Business Operations jobs"
+        "Business Operations jobs",
+        "Data jobs",
+        "Engineering jobs",
+        "Executive jobs",
+        "Finance jobs",
+        "Legal jobs",
+        "Marketing jobs",
+        "People jobs",
+        "Product jobs",
+        "Sales & Success jobs",
+        "Support jobs"
       ],
       "required": false,
       "dom": {
@@ -201,177 +229,7 @@
       }
     },
     {
-      "question": "data jobs data jobs",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Data jobs"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "67f6c0b0-9d26-42a0-a35f-90efb8c1a08d_292e5399-5b03-48ee-a1c6-530c7ad1dd85-labeled-checkbox-1",
-        "name": "Data jobs",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "engineering jobs engineering jobs",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Engineering jobs"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "67f6c0b0-9d26-42a0-a35f-90efb8c1a08d_292e5399-5b03-48ee-a1c6-530c7ad1dd85-labeled-checkbox-2",
-        "name": "Engineering jobs",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "executive jobs executive jobs",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Executive jobs"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "67f6c0b0-9d26-42a0-a35f-90efb8c1a08d_292e5399-5b03-48ee-a1c6-530c7ad1dd85-labeled-checkbox-3",
-        "name": "Executive jobs",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "finance jobs finance jobs",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Finance jobs"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "67f6c0b0-9d26-42a0-a35f-90efb8c1a08d_292e5399-5b03-48ee-a1c6-530c7ad1dd85-labeled-checkbox-4",
-        "name": "Finance jobs",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "legal jobs legal jobs",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Legal jobs"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "67f6c0b0-9d26-42a0-a35f-90efb8c1a08d_292e5399-5b03-48ee-a1c6-530c7ad1dd85-labeled-checkbox-5",
-        "name": "Legal jobs",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "marketing jobs marketing jobs",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Marketing jobs"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "67f6c0b0-9d26-42a0-a35f-90efb8c1a08d_292e5399-5b03-48ee-a1c6-530c7ad1dd85-labeled-checkbox-6",
-        "name": "Marketing jobs",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "people jobs people jobs",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "People jobs"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "67f6c0b0-9d26-42a0-a35f-90efb8c1a08d_292e5399-5b03-48ee-a1c6-530c7ad1dd85-labeled-checkbox-7",
-        "name": "People jobs",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "product jobs product jobs",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Product jobs"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "67f6c0b0-9d26-42a0-a35f-90efb8c1a08d_292e5399-5b03-48ee-a1c6-530c7ad1dd85-labeled-checkbox-8",
-        "name": "Product jobs",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "sales & success jobs sales & success jobs",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Sales & Success jobs"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "67f6c0b0-9d26-42a0-a35f-90efb8c1a08d_292e5399-5b03-48ee-a1c6-530c7ad1dd85-labeled-checkbox-9",
-        "name": "Sales & Success jobs",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "support jobs support jobs",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Support jobs"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "67f6c0b0-9d26-42a0-a35f-90efb8c1a08d_292e5399-5b03-48ee-a1c6-530c7ad1dd85-labeled-checkbox-10",
-        "name": "Support jobs",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "what type of role are you interested in? what type of role are you interested in? type here...",
+      "question": "what type of role are you interested in?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -386,7 +244,7 @@
       }
     },
     {
-      "question": "actively searching for my next role actively searching for my next role",
+      "question": "when are you looking to make a move?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -407,7 +265,7 @@
       }
     },
     {
-      "question": "start typing...",
+      "question": "what city/country will you work from?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -422,24 +280,7 @@
       }
     },
     {
-      "question": "82dcf497-5a3a-4853-9f66-06a1bfec6dfb",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "82dcf497-5a3a-4853-9f66-06a1bfec6dfb",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "zapier website zapier website",
+      "question": "how’d you hear about zapier?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -459,7 +300,7 @@
       }
     },
     {
-      "question": "please share specific information on how you heard about this role (for example: what’s the zapier employee’s first & last name, what job board did you use, where was the job ad posted, etc.). please share specific information on how you heard about this role (for example: what’s the zapier employee’s first & last name, what job board did you use, where was the job ad posted, etc.). type here...",
+      "question": "please share specific information on how you heard about this role (for example: what’s the zapier employee’s first & last name, what job board did you use, where was the job ad posted, etc.).",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -474,11 +315,12 @@
       }
     },
     {
-      "question": "yes yes",
+      "question": "are you an ai automation engineer?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Yes"
+        "Yes",
+        "No"
       ],
       "required": false,
       "dom": {
@@ -491,24 +333,7 @@
       }
     },
     {
-      "question": "no no",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "No"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "67f6c0b0-9d26-42a0-a35f-90efb8c1a08d_9b91bf6c-1df7-4d72-a182-a9e947f97f65-labeled-checkbox-1",
-        "name": "No",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "what’s one way you’ve expanded your impact at work with ai — what problem were you trying to solve, why did you approach it that way, and how has your approach evolved over time? what’s one way you’ve expanded your impact at work with ai — what problem were you trying to solve, why did you approach it that way, and how has your approach evolved over time? type here...",
+      "question": "what’s one way you’ve expanded your impact at work with ai — what problem were you trying to solve, why did you approach it that way, and how has your approach evolved over time?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -523,7 +348,7 @@
       }
     },
     {
-      "question": "share a specific example where ai changed quality or stakeholder experience — not just speed — and explain what you did to get there. share a specific example where ai changed quality or stakeholder experience — not just speed — and explain what you did to get there. type here...",
+      "question": "share a specific example where ai changed quality or stakeholder experience — not just speed — and explain what you did to get there.",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -538,11 +363,18 @@
       }
     },
     {
-      "question": "american indian or alaska native american indian or alaska native",
+      "question": "what is your racial/ethnic identity?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "American Indian or Alaska Native"
+        "American Indian or Alaska Native",
+        "Asian",
+        "Black or African American",
+        "Hispanic or Latino",
+        "Native Hawaiian or Other Pacific Islander",
+        "Two or More Races",
+        "White",
+        "Not Listed"
       ],
       "required": false,
       "dom": {
@@ -555,130 +387,16 @@
       }
     },
     {
-      "question": "asian asian",
+      "question": "what is your gender identity (expanded)?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Asian"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001594002-labeled-checkbox-1",
-        "name": "Asian",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "black or african american black or african american",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Black or African American"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001594002-labeled-checkbox-2",
-        "name": "Black or African American",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "hispanic or latino hispanic or latino",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Hispanic or Latino"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001594002-labeled-checkbox-3",
-        "name": "Hispanic or Latino",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "native hawaiian or other pacific islander native hawaiian or other pacific islander",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Native Hawaiian or Other Pacific Islander"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001594002-labeled-checkbox-4",
-        "name": "Native Hawaiian or Other Pacific Islander",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "two or more races two or more races",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Two or More Races"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001594002-labeled-checkbox-5",
-        "name": "Two or More Races",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "white white",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "White"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001594002-labeled-checkbox-6",
-        "name": "White",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "not listed not listed",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Not Listed"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001594002-labeled-checkbox-7",
-        "name": "Not Listed",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "non-binary/gender non-conforming non-binary/gender non-conforming",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Non-Binary/Gender Non-Conforming"
+        "Non-Binary/Gender Non-Conforming",
+        "Man",
+        "Woman",
+        "Trans",
+        "Prefer not to disclose",
+        "Not listed"
       ],
       "required": false,
       "dom": {
@@ -691,75 +409,7 @@
       }
     },
     {
-      "question": "man man",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Man"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001595002-labeled-checkbox-1",
-        "name": "Man",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "woman woman",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Woman"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001595002-labeled-checkbox-2",
-        "name": "Woman",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "trans trans",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Trans"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001595002-labeled-checkbox-3",
-        "name": "Trans",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "prefer not to disclose prefer not to disclose",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Prefer not to disclose"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001595002-labeled-checkbox-4",
-        "name": "Prefer not to disclose",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "lgbtqia+ lgbtqia+",
+      "question": "what is your sexual orientation?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -778,11 +428,16 @@
       }
     },
     {
-      "question": "active duty wartime or campaign badge veteran active duty wartime or campaign badge veteran",
+      "question": "what is your veteran status?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Active Duty Wartime or Campaign Badge Veteran"
+        "Active Duty Wartime or Campaign Badge Veteran",
+        "Armed Forces Service Medal Veteran",
+        "Disabled Veteran",
+        "Recently Separated Veteran",
+        "Prefer not to disclose",
+        "I do not identify as a veteran"
       ],
       "required": false,
       "dom": {
@@ -795,79 +450,19 @@
       }
     },
     {
-      "question": "armed forces service medal veteran armed forces service medal veteran",
+      "question": "do you identify as disabled or as a person with a disability?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Armed Forces Service Medal Veteran"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001597002-labeled-checkbox-1",
-        "name": "Armed Forces Service Medal Veteran",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "disabled veteran disabled veteran",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Disabled Veteran"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001597002-labeled-checkbox-2",
-        "name": "Disabled Veteran",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "recently separated veteran recently separated veteran",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Recently Separated Veteran"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001597002-labeled-checkbox-3",
-        "name": "Recently Separated Veteran",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "i do not identify as a veteran i do not identify as a veteran",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "I do not identify as a veteran"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001597002-labeled-checkbox-5",
-        "name": "I do not identify as a veteran",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "cognitive cognitive",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Cognitive"
+        "Cognitive",
+        "Emotional",
+        "Mental",
+        "Physical",
+        "Hearing",
+        "Visual",
+        "Not listed",
+        "Prefer not to disclose",
+        "I do not identify as a person with a disability"
       ],
       "required": false,
       "dom": {
@@ -878,114 +473,8 @@
         "data_testid": null,
         "role": null
       }
-    },
-    {
-      "question": "emotional emotional",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Emotional"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001598002-labeled-checkbox-1",
-        "name": "Emotional",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "mental mental",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Mental"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001598002-labeled-checkbox-2",
-        "name": "Mental",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "physical physical",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Physical"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001598002-labeled-checkbox-3",
-        "name": "Physical",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "hearing hearing",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Hearing"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001598002-labeled-checkbox-4",
-        "name": "Hearing",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "visual visual",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Visual"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001598002-labeled-checkbox-5",
-        "name": "Visual",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "i do not identify as a person with a disability i do not identify as a person with a disability",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "I do not identify as a person with a disability"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5212bc93-ec4b-42d8-ad4a-c7bcd1d00dbc_gh_quest_4001598002-labeled-checkbox-8",
-        "name": "I do not identify as a person with a disability",
-        "data_testid": null,
-        "role": null
-      }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

@@ -4,7 +4,25 @@
   "exact_field_count": 13,
   "fields": [
     {
-      "question": "first & last name first & last name type here...",
+      "question": "are you legally eligible to work in canada?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "first & last name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +37,7 @@
       }
     },
     {
-      "question": "preferred name and pronunciation preferred name and pronunciation type here...",
+      "question": "preferred name and pronunciation",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -34,7 +52,7 @@
       }
     },
     {
-      "question": "preferred pronouns preferred pronouns type here...",
+      "question": "preferred pronouns",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -49,7 +67,7 @@
       }
     },
     {
-      "question": "email address email address hello@example.com...",
+      "question": "email address",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -64,7 +82,7 @@
       }
     },
     {
-      "question": "phone number phone number 1-415-555-1234...",
+      "question": "phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -79,7 +97,7 @@
       }
     },
     {
-      "question": "start typing...",
+      "question": "city, province/state, country",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -94,7 +112,7 @@
       }
     },
     {
-      "question": "linkedin profile url linkedin profile url type here...",
+      "question": "linkedin profile url",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -109,7 +127,7 @@
       }
     },
     {
-      "question": "desired salary desired salary type here...",
+      "question": "desired salary",
       "field_type": "number",
       "max_chars": null,
       "options": null,
@@ -124,7 +142,7 @@
       }
     },
     {
-      "question": "pick date...",
+      "question": "what is your availability to start?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -139,24 +157,7 @@
       }
     },
     {
-      "question": "f2fe19a0-9002-4916-80a1-6cfc1202962d",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "f2fe19a0-9002-4916-80a1-6cfc1202962d",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "why should we hire you? why should we hire you? type here...",
+      "question": "why should we hire you?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -171,7 +172,7 @@
       }
     },
     {
-      "question": "additional links (github, website, blog, or portfolio) additional links (github, website, blog, or portfolio) type here...",
+      "question": "additional links (github, website, blog, or portfolio)",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -186,7 +187,7 @@
       }
     },
     {
-      "question": "who referred you for this position? who referred you for this position? type here...",
+      "question": "who referred you for this position?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -201,10 +202,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

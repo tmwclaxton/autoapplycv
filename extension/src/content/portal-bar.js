@@ -125,6 +125,12 @@ const AutoCVApplyPortalBar = (() => {
                 return;
             }
 
+            if (typeof AutoCVApplyDebugLog !== 'undefined') {
+                AutoCVApplyDebugLog.logInfo('content', 'draft-all.start', 'Draft All button clicked', {
+                    url: window.location.href.split('?')[0],
+                });
+            }
+
             fillRunning = true;
             fillButton.disabled = true;
             setStatus('Filling from profile…');

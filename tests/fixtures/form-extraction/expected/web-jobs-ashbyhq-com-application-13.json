@@ -1,10 +1,46 @@
 {
   "id": "web-jobs-ashbyhq-com-application-13",
-  "min_fields": 15,
-  "exact_field_count": 15,
+  "min_fields": 10,
+  "exact_field_count": 10,
   "fields": [
     {
-      "question": "name name type here...",
+      "question": "are you legally authorised to work in the country you wish to work in without the need for visa sponsorship?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you require ongoing employer support to maintain your right to work (e.g., visa renewals or work permit sponsorship)?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +55,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -34,7 +70,7 @@
       }
     },
     {
-      "question": "linkedin profile linkedin profile https://example.com...",
+      "question": "linkedin profile",
       "field_type": "url",
       "max_chars": null,
       "options": null,
@@ -49,7 +85,7 @@
       }
     },
     {
-      "question": "start typing...",
+      "question": "location",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -64,41 +100,7 @@
       }
     },
     {
-      "question": "22388599-7734-4d49-9a52-4967ee9c21ce",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "22388599-7734-4d49-9a52-4967ee9c21ce",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "5bce763d-ebe1-426e-80de-1ed1f94893cd",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "5bce763d-ebe1-426e-80de-1ed1f94893cd",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "portfolio link portfolio link type here...",
+      "question": "portfolio link",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -113,7 +115,7 @@
       }
     },
     {
-      "question": "yes yes",
+      "question": "do you have professional experience designing and executing experiential projects such as conferences, trade shows, brand activations, or physical installations?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -131,11 +133,17 @@
       }
     },
     {
-      "question": "conferences or large-scale events conferences or large-scale events",
+      "question": "which types of experiential or environmental design work have you contributed to? (select all that apply)",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Conferences or large-scale events"
+        "Conferences or large-scale events",
+        "Trade shows or booths",
+        "Brand Activations",
+        "Office or environmental design",
+        "Installations or physical spaces",
+        "Virtual events / digtial experiences",
+        "None of the above"
       ],
       "required": false,
       "dom": {
@@ -148,112 +156,25 @@
       }
     },
     {
-      "question": "trade shows or booths trade shows or booths",
-      "field_type": "checkbox",
+      "question": "have you provided art direction or creative guidance to external agencies, vendors, or contractors?",
+      "field_type": "radio",
       "max_chars": null,
       "options": [
-        "Trade shows or booths"
+        "Yes",
+        "No",
+        "Occasionally"
       ],
       "required": false,
       "dom": {
         "tag": "input",
-        "type": "checkbox",
-        "id": "5edd8a72-bd6a-4006-824d-995597d4bfb7_e6b5d079-1bb3-4699-9d1c-09d0bc7adb04-labeled-checkbox-1",
-        "name": "Trade shows or booths ",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "brand activations brand activations",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Brand Activations"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5edd8a72-bd6a-4006-824d-995597d4bfb7_e6b5d079-1bb3-4699-9d1c-09d0bc7adb04-labeled-checkbox-2",
-        "name": "Brand Activations ",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "office or environmental design office or environmental design",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Office or environmental design"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5edd8a72-bd6a-4006-824d-995597d4bfb7_e6b5d079-1bb3-4699-9d1c-09d0bc7adb04-labeled-checkbox-3",
-        "name": "Office or environmental design",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "installations or physical spaces installations or physical spaces",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Installations or physical spaces"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5edd8a72-bd6a-4006-824d-995597d4bfb7_e6b5d079-1bb3-4699-9d1c-09d0bc7adb04-labeled-checkbox-4",
-        "name": "Installations or physical spaces ",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "virtual events / digtial experiences virtual events / digtial experiences",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Virtual events / digtial experiences"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5edd8a72-bd6a-4006-824d-995597d4bfb7_e6b5d079-1bb3-4699-9d1c-09d0bc7adb04-labeled-checkbox-5",
-        "name": "Virtual events / digtial experiences ",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "none of the above none of the above",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "None of the above"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "5edd8a72-bd6a-4006-824d-995597d4bfb7_e6b5d079-1bb3-4699-9d1c-09d0bc7adb04-labeled-checkbox-6",
-        "name": "None of the above ",
+        "type": "radio",
+        "id": "5edd8a72-bd6a-4006-824d-995597d4bfb7_f3da3fa2-ec79-48aa-bcc8-c5846060a88e-labeled-radio-0",
+        "name": "5edd8a72-bd6a-4006-824d-995597d4bfb7_f3da3fa2-ec79-48aa-bcc8-c5846060a88e",
         "data_testid": null,
         "role": null
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

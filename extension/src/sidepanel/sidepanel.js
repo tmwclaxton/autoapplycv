@@ -3,6 +3,7 @@ import {
     normalizeLoginEndpoint,
     parseConnectionInput,
 } from './connection.js';
+import { createRemoteLogger } from './debug-log.js';
 import { initAssistChat } from './assist.js';
 import { initDocumentsPanel } from './documents.js';
 
@@ -24,6 +25,7 @@ const aiTabs = new Set(['ats', 'cover']);
 let documentsPanel = null;
 let assistChat = null;
 let connectedApiBase = null;
+const sidepanelLog = createRemoteLogger('sidepanel');
 
 function configureExtensionIcons() {
     const iconUrl = (name) => chrome.runtime.getURL(`icons/${name}`);
@@ -384,6 +386,11 @@ document.getElementById('open-dashboard-btn').addEventListener('click', async ()
     }
 });
 
+document.getElementById('open-debug-logs-btn').addEventListener('click', () => {
+    chrome.tabs.create({ url: chrome.runtime.getURL('debug.html') });
+    sidepanelLog.logInfo('debug.open', 'Opened debug logs page', {});
+});
+
 document.getElementById('logout-btn').addEventListener('click', () => {
     chrome.runtime.sendMessage({ type: 'LOGOUT' }, async () => {
         showMessage('Signed out.');
@@ -394,6 +401,18 @@ document.getElementById('logout-btn').addEventListener('click', () => {
 chrome.runtime.onMessage.addListener((message) => {
     if (message.type === 'AUTH_STATE_CHANGED') {
         void init();
+    }
+
+    if (message.type === 'DRAFT_ALL_PROGRESS') {
+        sidepanelLog.logInfo('draft-all.progress', message.message || 'Draft All progress', {
+            message: message.message,
+        });
+    }
+
+    if (message.type === 'DRAFT_ALL_DONE') {
+        sidepanelLog.logInfo('draft-all.complete', message.message || 'Draft All done', {
+            message: message.message,
+        });
     }
 });
 

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AutoCVApply Debug Logs</title>
+    <link rel="icon" type="image/png" href="/icons/icon32.png" />
+    <style>
+        :root {
+            color-scheme: light dark;
+            --bg: #f4f6f8;
+            --panel: #ffffff;
+            --border: #d8dee6;
+            --text: #1b365d;
+            --muted: #64748b;
+            --debug: #64748b;
+            --info: #2563eb;
+            --warn: #d97706;
+            --error: #dc2626;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f172a;
+                --panel: #1e293b;
+                --border: #334155;
+                --text: #e2e8f0;
+                --muted: #94a3b8;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 12px;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--panel);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 16px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 16px;
+            font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .toolbar input,
+        .toolbar select,
+        .toolbar button {
+            font: inherit;
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: var(--panel);
+            color: var(--text);
+        }
+
+        .toolbar button {
+            cursor: pointer;
+            font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+            font-weight: 600;
+        }
+
+        .toolbar button:hover {
+            filter: brightness(0.96);
+        }
+
+        .toolbar label {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--muted);
+            font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+        }
+
+        #search {
+            min-width: 180px;
+            flex: 1;
+        }
+
+        #stats {
+            margin-top: 8px;
+            color: var(--muted);
+            font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+            font-size: 11px;
+        }
+
+        #log-list {
+            padding: 8px 12px 24px;
+        }
+
+        .entry {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 6px;
+            overflow: hidden;
+        }
+
+        .entry-head {
+            display: grid;
+            grid-template-columns: auto auto auto 1fr auto;
+            gap: 8px;
+            align-items: baseline;
+            padding: 8px 10px;
+            cursor: pointer;
+        }
+
+        .entry-head:hover {
+            background: rgb(100 116 139 / 8%);
+        }
+
+        .level {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.04em;
+        }
+
+        .level-debug { color: var(--debug); }
+        .level-info { color: var(--info); }
+        .level-warn { color: var(--warn); }
+        .level-error { color: var(--error); }
+
+        .time {
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .source,
+        .phase {
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .message {
+            word-break: break-word;
+        }
+
+        .entry-data {
+            display: none;
+            border-top: 1px solid var(--border);
+            padding: 8px 10px;
+            background: rgb(100 116 139 / 6%);
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 320px;
+            overflow: auto;
+        }
+
+        .entry.expanded .entry-data {
+            display: block;
+        }
+
+        .empty {
+            padding: 32px;
+            text-align: center;
+            color: var(--muted);
+            font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AutoCVApply Debug Logs</h1>
+        <div class="toolbar">
+            <select id="level-filter">
+                <option value="">All levels</option>
+                <option value="debug">Debug</option>
+                <option value="info">Info</option>
+                <option value="warn">Warn</option>
+                <option value="error">Error</option>
+            </select>
+            <select id="source-filter">
+                <option value="">All sources</option>
+                <option value="background">Background</option>
+                <option value="content">Content</option>
+                <option value="sidepanel">Sidepanel</option>
+            </select>
+            <input id="phase-filter" type="text" placeholder="Phase filter…" />
+            <input id="search" type="search" placeholder="Search message or data…" />
+            <label><input type="checkbox" id="auto-scroll" checked /> Auto-scroll</label>
+            <button type="button" id="clear-btn">Clear</button>
+            <button type="button" id="export-btn">Export JSON</button>
+            <button type="button" id="refresh-btn">Refresh</button>
+        </div>
+        <div id="stats">Loading…</div>
+    </header>
+    <main id="log-list"></main>
+    <script type="module" src="debug.js"></script>
+</body>
+</html>

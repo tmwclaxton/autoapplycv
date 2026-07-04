@@ -1,10 +1,28 @@
 {
   "id": "web-jobs-ashbyhq-com-application-7",
-  "min_fields": 35,
-  "exact_field_count": 35,
+  "min_fields": 19,
+  "exact_field_count": 19,
   "fields": [
     {
-      "question": "full name (legal) full name (legal) type here...",
+      "question": "will you now or in the future require kindred to sponsor an immigration case in order to employ you?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "full name (legal)",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +37,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -34,7 +52,7 @@
       }
     },
     {
-      "question": "phone phone 1-415-555-1234...",
+      "question": "phone",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -49,7 +67,7 @@
       }
     },
     {
-      "question": "start typing...",
+      "question": "current location",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -64,7 +82,7 @@
       }
     },
     {
-      "question": "current company current company type here...",
+      "question": "current company",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -79,24 +97,7 @@
       }
     },
     {
-      "question": "c8a255ef-176e-42d3-8b57-47a0738ba3ea",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "c8a255ef-176e-42d3-8b57-47a0738ba3ea",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "prefer not to say prefer not to say",
+      "question": "what are the pronouns that you would like our team to use when addressing you?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -119,7 +120,7 @@
       }
     },
     {
-      "question": "linkedin url linkedin url type here...",
+      "question": "linkedin url",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -134,7 +135,7 @@
       }
     },
     {
-      "question": "twitter url twitter url type here...",
+      "question": "twitter url",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -149,7 +150,7 @@
       }
     },
     {
-      "question": "github url github url type here...",
+      "question": "github url",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -164,7 +165,7 @@
       }
     },
     {
-      "question": "portfolio url portfolio url type here...",
+      "question": "portfolio url",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -179,7 +180,7 @@
       }
     },
     {
-      "question": "other website other website type here...",
+      "question": "other website",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -194,7 +195,7 @@
       }
     },
     {
-      "question": "what attracts you to this opportunity at kindred? what attracts you to this opportunity at kindred? type here...",
+      "question": "what attracts you to this opportunity at kindred?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -209,7 +210,7 @@
       }
     },
     {
-      "question": "under 30 under 30",
+      "question": "what is your current age?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -231,7 +232,7 @@
       }
     },
     {
-      "question": "man man",
+      "question": "what is your gender identity?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -252,7 +253,7 @@
       }
     },
     {
-      "question": "yes yes",
+      "question": "do you identify as transgender?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -271,11 +272,17 @@
       }
     },
     {
-      "question": "bisexual bisexual",
+      "question": "how do you identify your sexual orientation? please select all that apply.",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Bisexual"
+        "Bisexual",
+        "Lesbian",
+        "Gay",
+        "Queer",
+        "Heterosexual / straight",
+        "Other",
+        "I prefer not to answer"
       ],
       "required": false,
       "dom": {
@@ -288,113 +295,18 @@
       }
     },
     {
-      "question": "lesbian lesbian",
+      "question": "which ethnicity(ies) do you identify with? please select all that apply.",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Lesbian"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_a63b6f87-d090-40f0-a462-bf5bb03f5e45-labeled-checkbox-1",
-        "name": "Lesbian",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "gay gay",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Gay"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_a63b6f87-d090-40f0-a462-bf5bb03f5e45-labeled-checkbox-2",
-        "name": "Gay",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "queer queer",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Queer"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_a63b6f87-d090-40f0-a462-bf5bb03f5e45-labeled-checkbox-3",
-        "name": "Queer",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "heterosexual / straight heterosexual / straight",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Heterosexual / straight"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_a63b6f87-d090-40f0-a462-bf5bb03f5e45-labeled-checkbox-4",
-        "name": "Heterosexual / straight",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "other other",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Other"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_a63b6f87-d090-40f0-a462-bf5bb03f5e45-labeled-checkbox-5",
-        "name": "Other",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "i prefer not to answer i prefer not to answer",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
+        "Asian or Asian American",
+        "Black or African American",
+        "Hispanic or Latine",
+        "Indigenous or Native American",
+        "Native Hawaiian or Other Pacific Islander",
+        "White",
+        "Other",
         "I prefer not to answer"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_a63b6f87-d090-40f0-a462-bf5bb03f5e45-labeled-checkbox-6",
-        "name": "I prefer not to answer",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "asian or asian american asian or asian american",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Asian or Asian American"
       ],
       "required": false,
       "dom": {
@@ -407,96 +319,17 @@
       }
     },
     {
-      "question": "black or african american black or african american",
+      "question": "which of the following communities do you belong to? please select all that apply.",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Black or African American"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_1e21d43f-548e-481a-aa5f-f048c73f3de3-labeled-checkbox-1",
-        "name": "Black or African American",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "hispanic or latine hispanic or latine",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Hispanic or Latine"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_1e21d43f-548e-481a-aa5f-f048c73f3de3-labeled-checkbox-2",
-        "name": "Hispanic or Latine",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "indigenous or native american indigenous or native american",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Indigenous or Native American"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_1e21d43f-548e-481a-aa5f-f048c73f3de3-labeled-checkbox-3",
-        "name": "Indigenous or Native American",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "native hawaiian or other pacific islander native hawaiian or other pacific islander",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Native Hawaiian or Other Pacific Islander"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_1e21d43f-548e-481a-aa5f-f048c73f3de3-labeled-checkbox-4",
-        "name": "Native Hawaiian or Other Pacific Islander",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "white white",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "White"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_1e21d43f-548e-481a-aa5f-f048c73f3de3-labeled-checkbox-5",
-        "name": "White",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "person with disability person with disability",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Person with disability"
+        "Person with disability",
+        "Neurodiverse",
+        "Veteran",
+        "Parent",
+        "Refugee or immigrant",
+        "None of the above",
+        "I prefer not to answer"
       ],
       "required": false,
       "dom": {
@@ -507,97 +340,8 @@
         "data_testid": null,
         "role": null
       }
-    },
-    {
-      "question": "neurodiverse neurodiverse",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Neurodiverse"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_a76e67f9-eeb8-4d06-a9a5-b1596a9726e7-labeled-checkbox-1",
-        "name": "Neurodiverse",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "veteran veteran",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Veteran"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_a76e67f9-eeb8-4d06-a9a5-b1596a9726e7-labeled-checkbox-2",
-        "name": "Veteran",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "parent parent",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Parent"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_a76e67f9-eeb8-4d06-a9a5-b1596a9726e7-labeled-checkbox-3",
-        "name": "Parent",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "refugee or immigrant refugee or immigrant",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Refugee or immigrant"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_a76e67f9-eeb8-4d06-a9a5-b1596a9726e7-labeled-checkbox-4",
-        "name": "Refugee or immigrant",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "none of the above none of the above",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "None of the above"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "9e975f46-02ec-43f7-87dc-a07663be5aa2_a76e67f9-eeb8-4d06-a9a5-b1596a9726e7-labeled-checkbox-5",
-        "name": "None of the above",
-        "data_testid": null,
-        "role": null
-      }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

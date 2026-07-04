@@ -4,7 +4,43 @@
   "exact_field_count": 8,
   "fields": [
     {
-      "question": "name name type here...",
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "will you now or in the future require bretton ai to sponsor an immigration case in order to employ you?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +55,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -34,7 +70,7 @@
       }
     },
     {
-      "question": "what is the best phone number for you? what is the best phone number for you? 1-415-555-1234...",
+      "question": "what is the best phone number for you?",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -49,7 +85,7 @@
       }
     },
     {
-      "question": "linkedin url linkedin url type here...",
+      "question": "linkedin url",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -64,41 +100,7 @@
       }
     },
     {
-      "question": "f4e41a35-bb4e-42c3-ae39-14ae1c0114a4",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "f4e41a35-bb4e-42c3-ae39-14ae1c0114a4",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "25b8dfef-6505-45d6-bb9d-53d07a8bff8a",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "25b8dfef-6505-45d6-bb9d-53d07a8bff8a",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "github or portfolio link github or portfolio link type here...",
+      "question": "github or portfolio link",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -113,7 +115,7 @@
       }
     },
     {
-      "question": "what excites you about working at bretton ai? what excites you about working at bretton ai? type here...",
+      "question": "what excites you about working at bretton ai?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -128,10 +130,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

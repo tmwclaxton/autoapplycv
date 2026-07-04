@@ -9,6 +9,22 @@ let overlayRefreshInFlight = false;
 let cachedAuthenticated = false;
 let lastMutationRefreshAt = 0;
 
+function contentLog(level, phase, message, data) {
+    if (typeof AutoCVApplyDebugLog === 'undefined') {
+        return;
+    }
+
+    const logger = AutoCVApplyDebugLog[`log${level.charAt(0).toUpperCase()}${level.slice(1)}`];
+
+    if (typeof logger === 'function') {
+        logger('content', phase, message, {
+            ...data,
+            frameUrl: window.location.href.split('?')[0],
+            isTopFrame: window === window.top,
+        });
+    }
+}
+
 function extractJobDescriptionFromPage() {
     const selectors = [
         '#job-details',
@@ -82,17 +98,43 @@ function isRestrictedPage() {
         || protocol === 'moz-extension:';
 }
 
-async function loadAutofillContext() {
-    const profileResponse = await new Promise((resolve) => {
-        chrome.runtime.sendMessage({ type: 'GET_PROFILE' }, resolve);
-    });
+function getAutofillSettings() {
+    return mapApplicationSettingsForAssist(profile?.application_settings);
+}
+
+async function ensureProfileLoaded() {
+    if (!profile) {
+        await loadProfile();
+    }
+
+    return profile?.profile ? profile : null;
+}
+
+async function countDraftableFieldsInDocument() {
+    const profileData = await ensureProfileLoaded();
+
+    if (!profileData?.profile) {
+        return { success: false, count: 0, isFormHost: false };
+    }
+
+    const settings = getAutofillSettings();
+    const count = AutoCVApplyFormHeuristics.countDraftableFields(
+        document,
+        profileData.profile,
+        settings,
+        {},
+    );
 
     return {
-        settings: mapApplicationSettingsForAssist(profileResponse?.application_settings),
+        success: true,
+        count,
+        isFormHost: AutoCVApplyFormHeuristics.frameHasApplicationForm(document) || count > 0,
     };
 }
 
 async function fillResumeFileInput() {
+    contentLog('debug', 'fill.resume', 'Attempting resume file attach', {});
+
     let fileInput = null;
 
     AutoCVApplyFormHeuristics.forEachIframeDocument((doc) => {
@@ -100,10 +142,30 @@ async function fillResumeFileInput() {
             return;
         }
 
+        for (const entry of doc.querySelectorAll('[data-field-path*="resume"], [data-field-path*="Resume"], .ashby-application-form-field-entry')) {
+            if (!/resume|cv/i.test(entry.textContent || '')) {
+                continue;
+            }
+
+            const candidate = entry.querySelector('input[type="file"]:not([disabled])');
+
+            if (candidate) {
+                fileInput = candidate;
+
+                return;
+            }
+        }
+
         fileInput = doc.querySelector('input[type="file"]:not([disabled])');
     });
 
     if (!fileInput || fileInput.files?.length > 0 || fileInput.value) {
+        contentLog('info', 'fill.resume', 'Resume input skipped', {
+            foundInput: Boolean(fileInput),
+            hasFiles: fileInput?.files?.length > 0,
+            hasValue: Boolean(fileInput?.value),
+        });
+
         return false;
     }
 
@@ -127,12 +189,31 @@ async function fillResumeFileInput() {
         });
         const dataTransfer = new DataTransfer();
         dataTransfer.items.add(file);
-        fileInput.files = dataTransfer.files;
+
+        const view = fileInput.ownerDocument?.defaultView || window;
+        const prototype = view.HTMLInputElement?.prototype;
+        const descriptor = prototype ? Object.getOwnPropertyDescriptor(prototype, 'files') : null;
+
+        if (descriptor?.set) {
+            descriptor.set.call(fileInput, dataTransfer.files);
+        } else {
+            fileInput.files = dataTransfer.files;
+        }
+
         fileInput.dispatchEvent(new Event('input', { bubbles: true }));
         fileInput.dispatchEvent(new Event('change', { bubbles: true }));
 
+        contentLog('info', 'fill.resume', 'Resume file attached', {
+            fileName: result.fileName,
+            mimeType: result.mimeType,
+        });
+
         return true;
-    } catch {
+    } catch (error) {
+        contentLog('warn', 'fill.resume', 'Resume attach failed', {
+            error: error instanceof Error ? error.message : error,
+        });
+
         return false;
     }
 }
@@ -164,6 +245,8 @@ function removeLegacyFillOverlay() {
 }
 
 async function runFullFill() {
+    contentLog('info', 'draft-all.start', 'Draft All triggered from content script', {});
+
     if (!profile) {
         await loadProfile();
     }
@@ -175,6 +258,8 @@ async function runFullFill() {
     const remaining = profile.subscription?.autofills_remaining ?? 0;
 
     if (remaining <= 0 || profile.subscription?.can_autofill === false) {
+        contentLog('warn', 'draft-all.start', 'Autofill limit reached', { remaining });
+
         return { ok: false, message: '⚠ Monthly limit reached' };
     }
 
@@ -183,8 +268,14 @@ async function runFullFill() {
     });
 
     if (draftResult?.error) {
+        contentLog('error', 'draft-all.complete', 'Draft All returned error', { error: draftResult.error });
+
         return { ok: false, message: draftResult.error };
     }
+
+    contentLog('info', 'draft-all.complete', 'Draft All background finished', {
+        message: draftResult?.message,
+    });
 
     await fillResumeFileInput();
 
@@ -331,21 +422,27 @@ async function runOverlayRefresh() {
 }
 
 async function collectDraftContext() {
-    if (!profile) {
-        await loadProfile();
-    }
+    const profileData = await ensureProfileLoaded();
 
-    if (!profile?.profile) {
+    if (!profileData?.profile) {
+        contentLog('warn', 'snapshot.collect', 'Profile not loaded for snapshot', {});
+
         return { success: false, error: 'Connect AutoCVApply first.' };
     }
 
-    const { settings } = await loadAutofillContext();
+    const settings = getAutofillSettings();
     const snapshot = typeof AutoCVApplyFieldInventory !== 'undefined'
-        ? AutoCVApplyFieldInventory.buildSnapshotAllFrames(document, profile.profile, settings, {})
+        ? AutoCVApplyFieldInventory.buildSnapshotAllFrames(document, profileData.profile, settings, {})
         : null;
     const fields = typeof AutoCVApplyFieldInventory !== 'undefined' && snapshot
         ? AutoCVApplyFieldInventory.fieldsFromInventory(snapshot.elements)
         : [];
+
+    contentLog('info', 'snapshot.collect', 'Built field snapshot', {
+        elementCount: snapshot?.elements?.length || 0,
+        controlCount: snapshot?.controls?.length || 0,
+        fieldCount: fields.length,
+    });
 
     return {
         success: true,
@@ -359,13 +456,16 @@ async function collectDraftContext() {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     (async () => {
+        contentLog('debug', 'message.received', `Handler: ${message.type}`, {
+            type: message.type,
+            ref: message.ref,
+            label: message.label,
+            answerPreview: typeof message.answer === 'string' ? message.answer.slice(0, 80) : message.answer,
+            batchSize: message.answers?.length,
+        });
+
         if (message.type === 'COUNT_DRAFTABLE_FIELDS') {
-            const context = await collectDraftContext();
-            sendResponse({
-                success: context.success !== false,
-                count: context.count || 0,
-                isFormHost: context.isFormHost === true,
-            });
+            sendResponse(await countDraftableFieldsInDocument());
 
             return;
         }
@@ -383,17 +483,66 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
 
         if (message.type === 'APPLY_DRAFT_BATCH') {
+            const answers = message.answers || [];
             let applied = 0;
 
-            for (const answer of message.answers || []) {
-                const filled = answer.ref && typeof AutoCVApplyFieldInventory !== 'undefined'
-                    ? AutoCVApplyFieldInventory.applyAnswerByRefAllFrames(document, answer.ref, answer.answer)
-                    : AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(document, answer.label, answer.answer);
+            async function applySingleAnswer(answer) {
+                let filled = false;
+                let method = null;
 
-                if (filled) {
-                    applied += 1;
+                if (answer.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {
+                    filled = await AutoCVApplyFieldInventory.applyAnswerByRefAllFrames(document, answer.ref, answer.answer);
+                    method = 'ref';
+                }
+
+                if (!filled && answer.label) {
+                    filled = await AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(document, answer.label, answer.answer);
+                    method = method ? `${method}+label` : 'label';
+                }
+
+                contentLog(filled ? 'info' : 'warn', 'apply.batch', filled ? 'Field applied' : 'Field apply failed', {
+                    ref: answer.ref,
+                    label: answer.label,
+                    method,
+                    field_type: answer.field_type,
+                    answerPreview: typeof answer.answer === 'string' ? answer.answer.slice(0, 80) : answer.answer,
+                    filled,
+                });
+
+                return filled ? 1 : 0;
+            }
+
+            const textLike = [];
+            const sequential = [];
+
+            for (const answer of answers) {
+                const fieldType = answer.field_type || 'text';
+                const isTextLike = !fieldType
+                    || fieldType === 'text'
+                    || ['email', 'tel', 'url', 'number', 'textarea'].includes(fieldType);
+
+                if (isTextLike) {
+                    textLike.push(answer);
+                } else {
+                    sequential.push(answer);
                 }
             }
+
+            if (textLike.length > 0) {
+                const parallelResults = await Promise.all(textLike.map((answer) => applySingleAnswer(answer)));
+                applied += parallelResults.reduce((sum, count) => sum + count, 0);
+            }
+
+            for (const answer of sequential) {
+                applied += await applySingleAnswer(answer);
+            }
+
+            contentLog('info', 'apply.batch', 'Batch apply complete', {
+                requested: answers.length,
+                applied,
+                parallelTextFields: textLike.length,
+                sequentialFields: sequential.length,
+            });
 
             sendResponse({ success: true, applied });
 
@@ -411,11 +560,33 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
 
         if (message.type === 'APPLY_DRAFT_ANSWER') {
-            const filled = message.ref && typeof AutoCVApplyFieldInventory !== 'undefined'
-                ? AutoCVApplyFieldInventory.applyAnswerByRefAllFrames(document, message.ref, message.answer)
-                : AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(document, message.label, message.answer);
+            let filled = false;
+            let method = null;
+
+            if (message.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {
+                filled = await AutoCVApplyFieldInventory.applyAnswerByRefAllFrames(document, message.ref, message.answer);
+                method = 'ref';
+            }
+
+            if (!filled && message.label) {
+                filled = await AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(document, message.label, message.answer);
+                method = method ? `${method}+label` : 'label';
+            }
+
+            contentLog(filled ? 'info' : 'warn', 'apply.answer', filled ? 'Single answer applied' : 'Single answer failed', {
+                ref: message.ref,
+                label: message.label,
+                method,
+                filled,
+            });
 
             sendResponse({ success: filled });
+
+            return;
+        }
+
+        if (message.type === 'FILL_RESUME') {
+            sendResponse({ success: await fillResumeFileInput() });
 
             return;
         }

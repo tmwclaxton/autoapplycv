@@ -1,10 +1,28 @@
 {
   "id": "web-jobs-ashbyhq-com-application-17",
-  "min_fields": 24,
-  "exact_field_count": 24,
+  "min_fields": 14,
+  "exact_field_count": 14,
   "fields": [
     {
-      "question": "name name type here...",
+      "question": "are you available to work 5 days a week from the city posted on the job description?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +37,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -34,7 +52,7 @@
       }
     },
     {
-      "question": "phone number phone number 1-415-555-1234...",
+      "question": "phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -49,25 +67,7 @@
       }
     },
     {
-      "question": "yes - i consent to receiving text messages yes - i consent to receiving text messages",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "Yes - I consent to receiving text messages",
-        "No - I do not consent to receiving text messages"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "radio",
-        "id": null,
-        "name": "communicationConsent",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "start typing...",
+      "question": "current location",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -82,7 +82,7 @@
       }
     },
     {
-      "question": "in 1-3 short sentences, please tell us why you're a good fit for this position. in 1-3 short sentences, please tell us why you're a good fit for this position. type here...",
+      "question": "in 1-3 short sentences, please tell us why you're a good fit for this position.",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -97,24 +97,7 @@
       }
     },
     {
-      "question": "8f46dc11-b8f9-45cd-960d-250359375cac",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "8f46dc11-b8f9-45cd-960d-250359375cac",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "pick date...",
+      "question": "what is your earliest available start date?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -129,11 +112,34 @@
       }
     },
     {
-      "question": "base power company website base power company website",
+      "question": "are you legally authorized to work in the u.s.?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "how did you hear about base power company?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Base Power Company website"
+        "Base Power Company website",
+        "LinkedIn",
+        "Job Board (e.g., Indeed, Built In, AngelList, Handshake, 12Twenty, etc.)",
+        "Base employee or recruiter",
+        "Referral (friend, peer, professor, etc.)",
+        "Career fair or on-campus event",
+        "Social media (e.g., Instagram, Twitter, TikTok)",
+        "News article, podcast, or media mention",
+        "Other"
       ],
       "required": false,
       "dom": {
@@ -146,143 +152,7 @@
       }
     },
     {
-      "question": "linkedin linkedin",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "LinkedIn"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "697698b7-c701-4f2b-9e02-a04e22baa8ff_e400a620-405a-416a-8c74-0c3709e9e98c-labeled-checkbox-1",
-        "name": "LinkedIn",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "job board (e.g., indeed, built in, angellist, handshake, 12twenty, etc.) job board (e.g., indeed, built in, angellist, handshake, 12twenty, etc.)",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Job Board (e.g., Indeed, Built In, AngelList, Handshake, 12Twenty, etc.)"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "697698b7-c701-4f2b-9e02-a04e22baa8ff_e400a620-405a-416a-8c74-0c3709e9e98c-labeled-checkbox-2",
-        "name": "Job Board (e.g., Indeed, Built In, AngelList, Handshake, 12Twenty, etc.)",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "base employee or recruiter base employee or recruiter",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Base employee or recruiter"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "697698b7-c701-4f2b-9e02-a04e22baa8ff_e400a620-405a-416a-8c74-0c3709e9e98c-labeled-checkbox-3",
-        "name": "Base employee or recruiter",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "referral (friend, peer, professor, etc.) referral (friend, peer, professor, etc.)",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Referral (friend, peer, professor, etc.)"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "697698b7-c701-4f2b-9e02-a04e22baa8ff_e400a620-405a-416a-8c74-0c3709e9e98c-labeled-checkbox-4",
-        "name": "Referral (friend, peer, professor, etc.)",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "career fair or on-campus event career fair or on-campus event",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Career fair or on-campus event"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "697698b7-c701-4f2b-9e02-a04e22baa8ff_e400a620-405a-416a-8c74-0c3709e9e98c-labeled-checkbox-5",
-        "name": "Career fair or on-campus event",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "social media (e.g., instagram, twitter, tiktok) social media (e.g., instagram, twitter, tiktok)",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Social media (e.g., Instagram, Twitter, TikTok)"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "697698b7-c701-4f2b-9e02-a04e22baa8ff_e400a620-405a-416a-8c74-0c3709e9e98c-labeled-checkbox-6",
-        "name": "Social media (e.g., Instagram, Twitter, TikTok)",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "news article, podcast, or media mention news article, podcast, or media mention",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "News article, podcast, or media mention"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "697698b7-c701-4f2b-9e02-a04e22baa8ff_e400a620-405a-416a-8c74-0c3709e9e98c-labeled-checkbox-7",
-        "name": "News article, podcast, or media mention",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "other other",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Other"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "697698b7-c701-4f2b-9e02-a04e22baa8ff_e400a620-405a-416a-8c74-0c3709e9e98c-labeled-checkbox-8",
-        "name": "Other",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "if you were referred to base, please share the name of your referrer. if you were referred to base, please share the name of your referrer. type here...",
+      "question": "if you were referred to base, please share the name of your referrer.",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -297,11 +167,13 @@
       }
     },
     {
-      "question": "austin, tx austin, tx",
+      "question": "which locations would you be comfortable working from?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Austin, TX"
+        "Austin, TX",
+        "Dallas-Fort Worth, TX",
+        "Houston, TX"
       ],
       "required": false,
       "dom": {
@@ -314,41 +186,7 @@
       }
     },
     {
-      "question": "dallas-fort worth, tx dallas-fort worth, tx",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Dallas-Fort Worth, TX"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "697698b7-c701-4f2b-9e02-a04e22baa8ff_af9155e8-0c1a-4136-80fa-c6810cdaf02f-labeled-checkbox-1",
-        "name": "Dallas-Fort Worth, TX",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "houston, tx houston, tx",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Houston, TX"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "697698b7-c701-4f2b-9e02-a04e22baa8ff_af9155e8-0c1a-4136-80fa-c6810cdaf02f-labeled-checkbox-2",
-        "name": "Houston, TX",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "male male",
+      "question": "gender",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -367,7 +205,7 @@
       }
     },
     {
-      "question": "hispanic or latino hispanic or latino",
+      "question": "race",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -391,7 +229,7 @@
       }
     },
     {
-      "question": "i identify as one or more of the classifications of protected veteran listed above i identify as one or more of the classifications of protected veteran listed above",
+      "question": "veteran status",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -410,10 +248,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

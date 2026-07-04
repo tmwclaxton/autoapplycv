@@ -4,7 +4,43 @@
   "exact_field_count": 13,
   "fields": [
     {
-      "question": "myself – i’d love to join the team myself – i’d love to join the team",
+      "question": "are you located in the czech republic or in the eu/uk?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you now or in the future require visa sponsorships?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "who are you introducing to us today?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -22,7 +58,7 @@
       }
     },
     {
-      "question": "full name full name type here...",
+      "question": "full name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -37,7 +73,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -52,7 +88,7 @@
       }
     },
     {
-      "question": "phone phone 1-415-555-1234...",
+      "question": "phone",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -67,7 +103,7 @@
       }
     },
     {
-      "question": "why do you – or the person you’re recommending – believe this would be a great match? why do you – or the person you’re recommending – believe this would be a great match? type here...",
+      "question": "why do you – or the person you’re recommending – believe this would be a great match?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -82,7 +118,7 @@
       }
     },
     {
-      "question": "linkedin linkedin type here...",
+      "question": "linkedin",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -97,7 +133,7 @@
       }
     },
     {
-      "question": "personal web personal web type here...",
+      "question": "personal web",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -112,7 +148,7 @@
       }
     },
     {
-      "question": "github github type here...",
+      "question": "github",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -127,41 +163,7 @@
       }
     },
     {
-      "question": "4c7d65c0-17a4-4e4e-a986-98bf3021066e",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "4c7d65c0-17a4-4e4e-a986-98bf3021066e",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "7c60894c-4265-4e4c-8e82-e828113010df",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "7c60894c-4265-4e4c-8e82-e828113010df",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "salary expectations salary expectations type here...",
+      "question": "salary expectations",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -176,7 +178,7 @@
       }
     },
     {
-      "question": "search engine search engine",
+      "question": "where did you first hear about us?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -199,7 +201,7 @@
       }
     },
     {
-      "question": "if you are recommending someone, please provide your contact details (full name, phone, email) so we can reach out if needed: if you are recommending someone, please provide your contact details (full name, phone, email) so we can reach out if needed: type here...",
+      "question": "if you are recommending someone, please provide your contact details (full name, phone, email) so we can reach out if needed:",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -214,10 +216,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

@@ -4,7 +4,61 @@
   "exact_field_count": 7,
   "fields": [
     {
-      "question": "name name type here...",
+      "question": "do you need visa sponsorship for the role's location?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you speak french ?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you speak english",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +73,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -34,7 +88,7 @@
       }
     },
     {
-      "question": "start typing...",
+      "question": "location",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -49,7 +103,7 @@
       }
     },
     {
-      "question": "why are you interested in joining capi ? why are you interested in joining capi ? type here...",
+      "question": "why are you interested in joining capi ?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -62,63 +116,8 @@
         "data_testid": null,
         "role": null
       }
-    },
-    {
-      "question": "8a467d50-4865-46b5-94f0-e2f1e78d4326",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "8a467d50-4865-46b5-94f0-e2f1e78d4326",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "0b0a1c09-069c-4805-a86d-7169a5c33a85",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "0b0a1c09-069c-4805-a86d-7169a5c33a85",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "3c46179f-5d33-49e8-8dad-7d424d7d5523",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "3c46179f-5d33-49e8-8dad-7d424d7d5523",
-        "data_testid": null,
-        "role": null
-      }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

@@ -4,7 +4,7 @@
   "exact_field_count": 7,
   "fields": [
     {
-      "question": "name name type here...",
+      "question": "name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +19,7 @@
       }
     },
     {
-      "question": "personal email personal email hello@example.com...",
+      "question": "personal email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -34,7 +34,7 @@
       }
     },
     {
-      "question": "phone number phone number 1-415-555-1234...",
+      "question": "phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -49,7 +49,7 @@
       }
     },
     {
-      "question": "linkedin profile linkedin profile https://example.com...",
+      "question": "linkedin profile",
       "field_type": "url",
       "max_chars": null,
       "options": null,
@@ -64,7 +64,7 @@
       }
     },
     {
-      "question": "other links to work other links to work type here...",
+      "question": "other links to work",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -79,7 +79,7 @@
       }
     },
     {
-      "question": "yes, i am legally entitled to work in canada at the time of this application. yes, i am legally entitled to work in canada at the time of this application.",
+      "question": "are you currently legally entitled to work in canada?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -98,7 +98,7 @@
       }
     },
     {
-      "question": "have you been referred by an employee at spellbook? if so, please share their name below. have you been referred by an employee at spellbook? if so, please share their name below. type here...",
+      "question": "have you been referred by an employee at spellbook? if so, please share their name below.",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -113,10 +113,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

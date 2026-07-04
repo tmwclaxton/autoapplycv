@@ -1,10 +1,10 @@
 {
   "id": "web-jobs-ashbyhq-com-application-9",
-  "min_fields": 86,
-  "exact_field_count": 86,
+  "min_fields": 30,
+  "exact_field_count": 30,
   "fields": [
     {
-      "question": "i accept the retention of my information during a maximum of 2 years i accept the retention of my information during a maximum of 2 years",
+      "question": "en: i accept that paradox group stores my personal data for 2 years in order to reach out for new opportunities.",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -22,7 +22,7 @@
       }
     },
     {
-      "question": "what's your first name? what's your first name? type here...",
+      "question": "what's your first name?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -37,7 +37,7 @@
       }
     },
     {
-      "question": "and your last name? and your last name? type here...",
+      "question": "and your last name?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -52,7 +52,7 @@
       }
     },
     {
-      "question": "leave us your main personal email, so we know where to reply to your application. leave us your main personal email, so we know where to reply to your application. hello@example.com...",
+      "question": "leave us your main personal email, so we know where to reply to your application.",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -67,11 +67,17 @@
       }
     },
     {
-      "question": "internship internship",
+      "question": "what type of contract are you open to?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Internship"
+        "Internship",
+        "Apprenticeship",
+        "Part-time freelancing",
+        "Full-time permanent contract",
+        "Part-time permanent contract",
+        "Full-time limited-term contract",
+        "Part-time limited-term contract"
       ],
       "required": false,
       "dom": {
@@ -84,109 +90,7 @@
       }
     },
     {
-      "question": "apprenticeship apprenticeship",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Apprenticeship"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_849b526c-0593-4c18-ba13-96869ca4caf9-labeled-checkbox-1",
-        "name": "Apprenticeship",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "part-time freelancing part-time freelancing",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Part-time freelancing"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_849b526c-0593-4c18-ba13-96869ca4caf9-labeled-checkbox-2",
-        "name": "Part-time freelancing",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "full-time permanent contract full-time permanent contract",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Full-time permanent contract"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_849b526c-0593-4c18-ba13-96869ca4caf9-labeled-checkbox-3",
-        "name": "Full-time permanent contract",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "part-time permanent contract part-time permanent contract",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Part-time permanent contract"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_849b526c-0593-4c18-ba13-96869ca4caf9-labeled-checkbox-4",
-        "name": "Part-time permanent contract",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "full-time limited-term contract full-time limited-term contract",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Full-time limited-term contract"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_849b526c-0593-4c18-ba13-96869ca4caf9-labeled-checkbox-5",
-        "name": "Full-time limited-term contract",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "part-time limited-term contract part-time limited-term contract",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Part-time limited-term contract"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_849b526c-0593-4c18-ba13-96869ca4caf9-labeled-checkbox-6",
-        "name": "Part-time limited-term contract",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "start typing...",
+      "question": "what is your nationality?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -201,11 +105,30 @@
       }
     },
     {
-      "question": "full-time at the office full-time at the office",
+      "question": "currently, what is your main country of residence?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox"
+      }
+    },
+    {
+      "question": "what are your preferred ways of working?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Full-time at the office"
+        "Full-time at the office",
+        "Full remote, and I won’t/can’t come to any of the offices",
+        "Remote first, but I can be here for some events or team buildings",
+        "Weekly hybrid (a few days a week in the office, a few days home office)",
+        "Yearly hybrid (a few weeks/months a year in the office, a few weeks/months a year remote)"
       ],
       "required": false,
       "dom": {
@@ -218,75 +141,7 @@
       }
     },
     {
-      "question": "full remote, and i won’t/can’t come to any of the offices full remote, and i won’t/can’t come to any of the offices",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Full remote, and I won’t/can’t come to any of the offices"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_26b9b658-2e4a-4b10-ae86-a79bbc10438a-labeled-checkbox-1",
-        "name": "Full remote, and I won’t/can’t come to any of the offices",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "remote first, but i can be here for some events or team buildings remote first, but i can be here for some events or team buildings",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Remote first, but I can be here for some events or team buildings"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_26b9b658-2e4a-4b10-ae86-a79bbc10438a-labeled-checkbox-2",
-        "name": "Remote first, but I can be here for some events or team buildings",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "weekly hybrid (a few days a week in the office, a few days home office) weekly hybrid (a few days a week in the office, a few days home office)",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Weekly hybrid (a few days a week in the office, a few days home office)"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_26b9b658-2e4a-4b10-ae86-a79bbc10438a-labeled-checkbox-3",
-        "name": "Weekly hybrid (a few days a week in the office, a few days home office)",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "yearly hybrid (a few weeks/months a year in the office, a few weeks/months a year remote) yearly hybrid (a few weeks/months a year in the office, a few weeks/months a year remote)",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Yearly hybrid (a few weeks/months a year in the office, a few weeks/months a year remote)"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_26b9b658-2e4a-4b10-ae86-a79bbc10438a-labeled-checkbox-4",
-        "name": "Yearly hybrid (a few weeks/months a year in the office, a few weeks/months a year remote)",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "i might be open to relocating i might be open to relocating",
+      "question": "are you open to relocating?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -306,11 +161,17 @@
       }
     },
     {
-      "question": "united arab emirates united arab emirates",
+      "question": "which countries would you be open to relocating to in the following list?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "United Arab Emirates"
+        "United Arab Emirates",
+        "Spain",
+        "Portugal",
+        "Italy",
+        "Greece",
+        "None of the above",
+        "France"
       ],
       "required": false,
       "dom": {
@@ -323,124 +184,7 @@
       }
     },
     {
-      "question": "spain spain",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Spain"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_dbb0dcab-e8df-4780-8071-a08d5d76db5c-labeled-checkbox-1",
-        "name": "Spain",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "portugal portugal",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Portugal"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_dbb0dcab-e8df-4780-8071-a08d5d76db5c-labeled-checkbox-2",
-        "name": "Portugal",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "italy italy",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Italy"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_dbb0dcab-e8df-4780-8071-a08d5d76db5c-labeled-checkbox-3",
-        "name": "Italy",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "greece greece",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Greece"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_dbb0dcab-e8df-4780-8071-a08d5d76db5c-labeled-checkbox-4",
-        "name": "Greece",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "none of the above none of the above",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "None of the above"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_dbb0dcab-e8df-4780-8071-a08d5d76db5c-labeled-checkbox-5",
-        "name": "None of the above",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "france france",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "France"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_dbb0dcab-e8df-4780-8071-a08d5d76db5c-labeled-checkbox-6",
-        "name": "France",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_dbb0dcab-e8df-4780-8071-a08d5d76db5c-labeled-checkbox-7",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": null,
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_dbb0dcab-e8df-4780-8071-a08d5d76db5c-labeled-checkbox-7",
-        "name": null,
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "what other countries would you be open to relocating to? what other countries would you be open to relocating to? type here...",
+      "question": "what other countries would you be open to relocating to?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -455,11 +199,16 @@
       }
     },
     {
-      "question": "i will never relocate i will never relocate",
+      "question": "when could you consider relocating?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "I will never relocate"
+        "I will never relocate",
+        "Under 3 months",
+        "Between 3 to 6 months",
+        "Between 6 months and 1 year",
+        "Between 1 year and 2 years",
+        "After more than 2 years"
       ],
       "required": false,
       "dom": {
@@ -472,92 +221,7 @@
       }
     },
     {
-      "question": "under 3 months under 3 months",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Under 3 months"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_b8a814c1-08a4-4bb2-beeb-c5a7e8e24def-labeled-checkbox-1",
-        "name": "Under 3 months",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "between 3 to 6 months between 3 to 6 months",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Between 3 to 6 months"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_b8a814c1-08a4-4bb2-beeb-c5a7e8e24def-labeled-checkbox-2",
-        "name": "Between 3 to 6 months",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "between 6 months and 1 year between 6 months and 1 year",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Between 6 months and 1 year"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_b8a814c1-08a4-4bb2-beeb-c5a7e8e24def-labeled-checkbox-3",
-        "name": "Between 6 months and 1 year",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "between 1 year and 2 years between 1 year and 2 years",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Between 1 year and 2 years"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_b8a814c1-08a4-4bb2-beeb-c5a7e8e24def-labeled-checkbox-4",
-        "name": "Between 1 year and 2 years",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "after more than 2 years after more than 2 years",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "After more than 2 years"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_b8a814c1-08a4-4bb2-beeb-c5a7e8e24def-labeled-checkbox-5",
-        "name": "After more than 2 years",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "i have heard of david laroche or paradox before seeing the offer i have heard of david laroche or paradox before seeing the offer",
+      "question": "did you know about us before you saw the job offer?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -575,7 +239,7 @@
       }
     },
     {
-      "question": "why do you want to join paradox, and why are you applying for this position? why do you want to join paradox, and why are you applying for this position? type here...",
+      "question": "why do you want to join paradox, and why are you applying for this position?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -590,7 +254,7 @@
       }
     },
     {
-      "question": "0 to 1 year 0 to 1 year",
+      "question": "how many years of professional experience do you have in the field of the position you're applying for?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -610,7 +274,7 @@
       }
     },
     {
-      "question": "yes, definitely! yes, definitely!",
+      "question": "if we reach the end of the hiring process, are you ok with us conducting 3 reference calls with your former managers, peers and/or clients (depending on the context)?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -630,7 +294,7 @@
       }
     },
     {
-      "question": "what top 3 elements would make your approach to your work in this particular position stand out from other candidates? what top 3 elements would make your approach to your work in this particular position stand out from other candidates? type here...",
+      "question": "what top 3 elements would make your approach to your work in this particular position stand out from other candidates?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -645,7 +309,7 @@
       }
     },
     {
-      "question": "0 0",
+      "question": "how many books related to the field of the position or to personal / professional development have you read?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -666,7 +330,7 @@
       }
     },
     {
-      "question": "how do you usually grow your professional knowledge and skills? how do you usually grow your professional knowledge and skills? type here...",
+      "question": "how do you usually grow your professional knowledge and skills?",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -681,7 +345,7 @@
       }
     },
     {
-      "question": "0 - novice: i am not familiar with digital tools and need significant guidance and training to use them effectively. 0 - novice: i am not familiar with digital tools and need significant guidance and training to use them effectively.",
+      "question": "how comfortable are you with digital tools?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -702,11 +366,24 @@
       }
     },
     {
-      "question": "airtable airtable",
+      "question": "what type of digital tools are you already comfortable using?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Airtable"
+        "Airtable",
+        "Notion",
+        "Project Management: Asana, ClickUp, etc.",
+        "CRM: Hubspot, Salesforce, Pipedrive, etc.",
+        "Automation: Make, Zapier, etc.",
+        "Funnel/mailing: Click Funnel, Active Campaign, Customer.io, etc.",
+        "Sheets: Excel, Google Sheet, etc.",
+        "Data/BI: Google Data Studio, PowerBI, etc.",
+        "Sales Enablement: Modjo, Aircall, etc.",
+        "Web builders: Wordpress, Webflow, etc.",
+        "Form builders: Tally, Typeform, etc.",
+        "Ads: Facebook ads, Google Ads, Linkedin Ads, etc.",
+        "ChatGPT",
+        "I don't know how to use any of the above tools"
       ],
       "required": false,
       "dom": {
@@ -719,232 +396,17 @@
       }
     },
     {
-      "question": "notion notion",
+      "question": "which tech skills have you demonstrated in the past and are comfortable with?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Notion"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_cd9b040e-6183-4846-8429-383a1e1c85fb-labeled-checkbox-1",
-        "name": "Notion",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "project management: asana, clickup, etc. project management: asana, clickup, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Project Management: Asana, ClickUp, etc."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_cd9b040e-6183-4846-8429-383a1e1c85fb-labeled-checkbox-2",
-        "name": "Project Management: Asana, ClickUp, etc.",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "crm: hubspot, salesforce, pipedrive, etc. crm: hubspot, salesforce, pipedrive, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "CRM: Hubspot, Salesforce, Pipedrive, etc."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_cd9b040e-6183-4846-8429-383a1e1c85fb-labeled-checkbox-3",
-        "name": "CRM: Hubspot, Salesforce, Pipedrive, etc.",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "automation: make, zapier, etc. automation: make, zapier, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Automation: Make, Zapier, etc."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_cd9b040e-6183-4846-8429-383a1e1c85fb-labeled-checkbox-4",
-        "name": "Automation: Make, Zapier, etc.",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "funnel/mailing: click funnel, active campaign, customer.io, etc. funnel/mailing: click funnel, active campaign, customer.io, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Funnel/mailing: Click Funnel, Active Campaign, Customer.io, etc."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_cd9b040e-6183-4846-8429-383a1e1c85fb-labeled-checkbox-5",
-        "name": "Funnel/mailing: Click Funnel, Active Campaign, Customer.io, etc.",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "sheets: excel, google sheet, etc. sheets: excel, google sheet, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Sheets: Excel, Google Sheet, etc."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_cd9b040e-6183-4846-8429-383a1e1c85fb-labeled-checkbox-6",
-        "name": "Sheets: Excel, Google Sheet, etc.",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "data/bi: google data studio, powerbi, etc. data/bi: google data studio, powerbi, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Data/BI: Google Data Studio, PowerBI, etc."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_cd9b040e-6183-4846-8429-383a1e1c85fb-labeled-checkbox-7",
-        "name": "Data/BI: Google Data Studio, PowerBI, etc.",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "sales enablement: modjo, aircall, etc. sales enablement: modjo, aircall, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Sales Enablement: Modjo, Aircall, etc."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_cd9b040e-6183-4846-8429-383a1e1c85fb-labeled-checkbox-8",
-        "name": "Sales Enablement: Modjo, Aircall, etc.",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "web builders: wordpress, webflow, etc. web builders: wordpress, webflow, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Web builders: Wordpress, Webflow, etc."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_cd9b040e-6183-4846-8429-383a1e1c85fb-labeled-checkbox-9",
-        "name": "Web builders: Wordpress, Webflow, etc.",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "form builders: tally, typeform, etc. form builders: tally, typeform, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Form builders: Tally, Typeform, etc."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_cd9b040e-6183-4846-8429-383a1e1c85fb-labeled-checkbox-10",
-        "name": "Form builders: Tally, Typeform, etc.",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "ads: facebook ads, google ads, linkedin ads, etc. ads: facebook ads, google ads, linkedin ads, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Ads: Facebook ads, Google Ads, Linkedin Ads, etc."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_cd9b040e-6183-4846-8429-383a1e1c85fb-labeled-checkbox-11",
-        "name": "Ads: Facebook ads, Google Ads, Linkedin Ads, etc.",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "chatgpt chatgpt",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "ChatGPT"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_cd9b040e-6183-4846-8429-383a1e1c85fb-labeled-checkbox-12",
-        "name": "ChatGPT",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "i don't know how to use any of the above tools i don't know how to use any of the above tools",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "I don't know how to use any of the above tools"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_cd9b040e-6183-4846-8429-383a1e1c85fb-labeled-checkbox-13",
-        "name": "I don't know how to use any of the above tools",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "back-end: node.js, laravel, etc. back-end: node.js, laravel, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Back-end: Node.js, Laravel, etc."
+        "Back-end: Node.js, Laravel, etc.",
+        "Front-end: Vue.js, React.js, etc.",
+        "DevOps: AWS, GCP, etc.",
+        "Data: Fivetran, DBT, Snowflake, etc.",
+        "CI/CD: Jenkins, Github, etc.",
+        "System Architecture",
+        "I don't have any of the above tech skills"
       ],
       "required": false,
       "dom": {
@@ -957,109 +419,7 @@
       }
     },
     {
-      "question": "front-end: vue.js, react.js, etc. front-end: vue.js, react.js, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Front-end: Vue.js, React.js, etc."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_3d9013e0-4d66-484d-995a-a019bdaeb429-labeled-checkbox-1",
-        "name": "Front-end: Vue.js, React.js, etc.",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "devops: aws, gcp, etc. devops: aws, gcp, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "DevOps: AWS, GCP, etc."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_3d9013e0-4d66-484d-995a-a019bdaeb429-labeled-checkbox-2",
-        "name": "DevOps: AWS, GCP, etc.",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "data: fivetran, dbt, snowflake, etc. data: fivetran, dbt, snowflake, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Data: Fivetran, DBT, Snowflake, etc."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_3d9013e0-4d66-484d-995a-a019bdaeb429-labeled-checkbox-3",
-        "name": "Data: Fivetran, DBT, Snowflake, etc.",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "ci/cd: jenkins, github, etc. ci/cd: jenkins, github, etc.",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "CI/CD: Jenkins, Github, etc."
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_3d9013e0-4d66-484d-995a-a019bdaeb429-labeled-checkbox-4",
-        "name": "CI/CD: Jenkins, Github, etc.",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "system architecture system architecture",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "System Architecture"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_3d9013e0-4d66-484d-995a-a019bdaeb429-labeled-checkbox-5",
-        "name": "System Architecture",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "i don't have any of the above tech skills i don't have any of the above tech skills",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "I don't have any of the above tech skills"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_3d9013e0-4d66-484d-995a-a019bdaeb429-labeled-checkbox-6",
-        "name": "I don't have any of the above tech skills",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "0 - novice: i am not familiar with ai tools and need significant guidance and training to use them effectively. 0 - novice: i am not familiar with ai tools and need significant guidance and training to use them effectively.",
+      "question": "how comfortable are you with using ai in your work?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -1080,11 +440,28 @@
       }
     },
     {
-      "question": "critical thinking critical thinking",
+      "question": "amongst that list, what are your top 3 power skills?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Critical thinking"
+        "Critical thinking",
+        "Leadership",
+        "Time management",
+        "Work ethic",
+        "Attention to detail",
+        "Teamwork",
+        "Adaptability",
+        "Autonomy",
+        "Learning ability",
+        "Problem-solving",
+        "Assertiveness",
+        "Planning",
+        "Negotiation",
+        "Decision making",
+        "Active listening",
+        "Public speaking",
+        "Stress management",
+        "Influence"
       ],
       "required": false,
       "dom": {
@@ -1097,296 +474,41 @@
       }
     },
     {
-      "question": "leadership leadership",
+      "question": "amongst that list, what are your 3 least developed power skills?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Leadership"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-1",
-        "name": "Leadership",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "time management time management",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Time management"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-2",
-        "name": "Time management",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "work ethic work ethic",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Work ethic"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-3",
-        "name": "Work ethic",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "attention to detail attention to detail",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Attention to detail"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-4",
-        "name": "Attention to detail",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "teamwork teamwork",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Teamwork"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-5",
-        "name": "Teamwork",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "adaptability adaptability",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Adaptability"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-6",
-        "name": "Adaptability",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "autonomy autonomy",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Autonomy"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-7",
-        "name": "Autonomy",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "learning ability learning ability",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Learning ability"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-8",
-        "name": "Learning ability",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "problem-solving problem-solving",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Problem-solving"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-9",
-        "name": "Problem-solving",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "assertiveness assertiveness",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Assertiveness"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-10",
-        "name": "Assertiveness",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "planning planning",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Planning"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-11",
-        "name": "Planning",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "negotiation negotiation",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Negotiation"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-12",
-        "name": "Negotiation",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "decision making decision making",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Decision making"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-13",
-        "name": "Decision making",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "active listening active listening",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Active listening"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-14",
-        "name": "Active listening",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "public speaking public speaking",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Public speaking"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-15",
-        "name": "Public speaking",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "stress management stress management",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Stress management"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-16",
-        "name": "Stress management",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "influence influence",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
+        "Critical thinking",
+        "Leadership",
+        "Time management",
+        "Work ethic",
+        "Attention to detail",
+        "Teamwork",
+        "Adaptability",
+        "Autonomy",
+        "Learning ability",
+        "Problem-solving",
+        "Assertiveness",
+        "Planning",
+        "Negotiation",
+        "Decision making",
+        "Active listening",
+        "Public speaking",
+        "Stress management",
         "Influence"
       ],
       "required": false,
       "dom": {
         "tag": "input",
         "type": "checkbox",
-        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-17",
-        "name": "Influence",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_e055a5eb-1b21-4972-bb3b-599dc76d6b8d-labeled-checkbox-0",
+        "name": "Critical thinking",
         "data_testid": null,
         "role": null
       }
     },
     {
-      "question": "0 - no english 0 - no english",
+      "question": "what is your level of english?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -1408,7 +530,7 @@
       }
     },
     {
-      "question": "0 - no french 0 - no french",
+      "question": "what is your level of french?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -1430,7 +552,7 @@
       }
     },
     {
-      "question": "what is your linkedin url? what is your linkedin url? type here...",
+      "question": "what is your linkedin url?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -1445,7 +567,7 @@
       }
     },
     {
-      "question": "do you have any relevant resource to share, besides your resume, that could add more value to your application? upload the link right here.👇 do you have any relevant resource to share, besides your resume, that could add more value to your application? upload the link right here.👇 type here...",
+      "question": "do you have any relevant resource to share, besides your resume, that could add more value to your application? upload the link right here.👇",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -1460,7 +582,7 @@
       }
     },
     {
-      "question": "last but not list, what is your phone number? last but not list, what is your phone number? 1-415-555-1234...",
+      "question": "last but not list, what is your phone number?",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -1475,10 +597,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

@@ -154,12 +154,72 @@ class ApplicationAssistantService
         $options = $question['options'] ?? null;
 
         if (! is_array($options) || $options === []) {
-            return $answer;
+            return $this->extractBooleanAnswer($answer) ?? $answer;
+        }
+
+        if ($this->isYesNoOptions($options)) {
+            $booleanToken = $this->extractBooleanAnswer($answer);
+
+            if ($booleanToken !== null) {
+                $matched = $this->matchAnswerToOption($booleanToken, $options);
+
+                if ($matched !== null) {
+                    return $matched;
+                }
+            }
         }
 
         $matchedOption = $this->matchAnswerToOption($answer, $options);
 
         return $matchedOption ?? $answer;
+    }
+
+    /**
+     * @param  array<int, string>  $options
+     */
+    private function isYesNoOptions(array $options): bool
+    {
+        if (count($options) !== 2) {
+            return false;
+        }
+
+        $normalized = array_map(
+            fn (string $option): string => $this->normalizeQuestionLabel($option),
+            $options,
+        );
+
+        sort($normalized);
+
+        return $normalized === ['no', 'yes'];
+    }
+
+    private function extractBooleanAnswer(string $answer): ?string
+    {
+        $normalized = $this->normalizeQuestionLabel($answer);
+
+        if ($normalized === '') {
+            return null;
+        }
+
+        if (preg_match('/^(yes|y|true)\b/u', $normalized) === 1) {
+            return 'yes';
+        }
+
+        if (preg_match('/^(no|n|false)\b/u', $normalized) === 1) {
+            return 'no';
+        }
+
+        if (preg_match('/\b(yes|yeah|yep|true)\b/u', $normalized, $yesMatch) === 1
+            && preg_match('/\b(no|nope|false)\b/u', $normalized) !== 1) {
+            return 'yes';
+        }
+
+        if (preg_match('/\b(no|nope|false)\b/u', $normalized, $noMatch) === 1
+            && preg_match('/\b(yes|yeah|yep|true)\b/u', $normalized) !== 1) {
+            return 'no';
+        }
+
+        return null;
     }
 
     /**

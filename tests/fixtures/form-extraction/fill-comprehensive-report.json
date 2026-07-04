@@ -1,0 +1,1608 @@
+{
+  "generated_at": "2026-07-04T17:01:21.422Z",
+  "verify_options": {
+    "validationCheck": true,
+    "a11yCheck": true,
+    "errorCheck": true
+  },
+  "totals": {
+    "scenarios": 106,
+    "evaluated": 106,
+    "passed": 106,
+    "failed": 0,
+    "pass_rate": 1
+  },
+  "by_stack": {
+    "basic": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "angular": {
+      "total": 12,
+      "passed": 12,
+      "failed": 0
+    },
+    "ashby": {
+      "total": 9,
+      "passed": 9,
+      "failed": 0
+    },
+    "dom": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0
+    },
+    "iframe": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "react": {
+      "total": 12,
+      "passed": 12,
+      "failed": 0
+    },
+    "shadow": {
+      "total": 10,
+      "passed": 10,
+      "failed": 0
+    },
+    "svelte": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    "vue": {
+      "total": 12,
+      "passed": 12,
+      "failed": 0
+    },
+    "wizard": {
+      "total": 10,
+      "passed": 10,
+      "failed": 0
+    },
+    "workday": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "lever": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    }
+  },
+  "by_check": {
+    "domReadback": {
+      "evaluated": 106,
+      "passed": 106,
+      "failed": 0,
+      "pass_rate": 1
+    },
+    "html5Validity": {
+      "evaluated": 106,
+      "passed": 106,
+      "failed": 0,
+      "pass_rate": 1
+    },
+    "a11yState": {
+      "evaluated": 106,
+      "passed": 106,
+      "failed": 0,
+      "pass_rate": 1
+    },
+    "errorBanner": {
+      "evaluated": 106,
+      "passed": 106,
+      "failed": 0,
+      "pass_rate": 1
+    }
+  },
+  "screenshot_diff": {
+    "fixtureId": "web-ashby-notion-bdm-f603aedb",
+    "passed": true,
+    "pixelDiff": {
+      "passed": true,
+      "diffPercent": 0.004096,
+      "mismatchedPixels": 2107,
+      "totalPixels": 514448,
+      "width": 1264,
+      "height": 407,
+      "threshold": 0.003
+    },
+    "errorBanner": {
+      "passed": true,
+      "errors": [],
+      "error_count": 0
+    }
+  },
+  "results": [
+    {
+      "id": "syn-basic-001",
+      "stack": "basic",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-angular-004",
+      "stack": "angular",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-angular-012",
+      "stack": "angular",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-ashby-008",
+      "stack": "ashby",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-dom-008",
+      "stack": "dom",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-iframe-003",
+      "stack": "iframe",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-react-001",
+      "stack": "react",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-react-009",
+      "stack": "react",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-shadow-005",
+      "stack": "shadow",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-svelte-003",
+      "stack": "svelte",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-vue-003",
+      "stack": "vue",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-vue-011",
+      "stack": "vue",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wizard-002",
+      "stack": "wizard",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wizard-010",
+      "stack": "wizard",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-basic-002",
+      "stack": "basic",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-angular-005",
+      "stack": "angular",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-ashby-001",
+      "stack": "ashby",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-dom-001",
+      "stack": "dom",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-dom-009",
+      "stack": "dom",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-iframe-004",
+      "stack": "iframe",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-react-002",
+      "stack": "react",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-react-010",
+      "stack": "react",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-shadow-006",
+      "stack": "shadow",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-svelte-004",
+      "stack": "svelte",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-vue-004",
+      "stack": "vue",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-vue-012",
+      "stack": "vue",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wizard-003",
+      "stack": "wizard",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-basic-003",
+      "stack": "basic",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-angular-006",
+      "stack": "angular",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-ashby-002",
+      "stack": "ashby",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-dom-002",
+      "stack": "dom",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-dom-010",
+      "stack": "dom",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-iframe-005",
+      "stack": "iframe",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-react-003",
+      "stack": "react",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-react-011",
+      "stack": "react",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-shadow-007",
+      "stack": "shadow",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-svelte-005",
+      "stack": "svelte",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-vue-005",
+      "stack": "vue",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wd-001",
+      "stack": "workday",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wizard-004",
+      "stack": "wizard",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-basic-004",
+      "stack": "basic",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-angular-007",
+      "stack": "angular",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-ashby-003",
+      "stack": "ashby",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-dom-003",
+      "stack": "dom",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-dom-011",
+      "stack": "dom",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-lever-001",
+      "stack": "lever",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-react-004",
+      "stack": "react",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-react-012",
+      "stack": "react",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-shadow-008",
+      "stack": "shadow",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-svelte-006",
+      "stack": "svelte",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-vue-006",
+      "stack": "vue",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wd-002",
+      "stack": "workday",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wizard-005",
+      "stack": "wizard",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-basic-005",
+      "stack": "basic",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-angular-008",
+      "stack": "angular",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-ashby-004",
+      "stack": "ashby",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-dom-004",
+      "stack": "dom",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-dom-012",
+      "stack": "dom",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-lever-002",
+      "stack": "lever",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-react-005",
+      "stack": "react",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-shadow-001",
+      "stack": "shadow",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-shadow-009",
+      "stack": "shadow",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-svelte-007",
+      "stack": "svelte",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-vue-007",
+      "stack": "vue",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wd-003",
+      "stack": "workday",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wizard-006",
+      "stack": "wizard",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-angular-001",
+      "stack": "angular",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-angular-009",
+      "stack": "angular",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-ashby-005",
+      "stack": "ashby",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-dom-005",
+      "stack": "dom",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-dom-013",
+      "stack": "dom",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-lever-003",
+      "stack": "lever",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-react-006",
+      "stack": "react",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-shadow-002",
+      "stack": "shadow",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-shadow-010",
+      "stack": "shadow",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-svelte-008",
+      "stack": "svelte",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-vue-008",
+      "stack": "vue",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wd-004",
+      "stack": "workday",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wizard-007",
+      "stack": "wizard",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-angular-002",
+      "stack": "angular",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-angular-010",
+      "stack": "angular",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-ashby-006",
+      "stack": "ashby",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-dom-006",
+      "stack": "dom",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-iframe-001",
+      "stack": "iframe",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-lever-004",
+      "stack": "lever",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-react-007",
+      "stack": "react",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-shadow-003",
+      "stack": "shadow",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-svelte-001",
+      "stack": "svelte",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-vue-001",
+      "stack": "vue",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-vue-009",
+      "stack": "vue",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wd-005",
+      "stack": "workday",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wizard-008",
+      "stack": "wizard",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-angular-003",
+      "stack": "angular",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-angular-011",
+      "stack": "angular",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-ashby-007",
+      "stack": "ashby",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-dom-007",
+      "stack": "dom",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-iframe-002",
+      "stack": "iframe",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-lever-005",
+      "stack": "lever",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-react-008",
+      "stack": "react",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-shadow-004",
+      "stack": "shadow",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-svelte-002",
+      "stack": "svelte",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-vue-002",
+      "stack": "vue",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-vue-010",
+      "stack": "vue",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wizard-001",
+      "stack": "wizard",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "syn-fw-wizard-009",
+      "stack": "wizard",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null
+      },
+      "failures": []
+    },
+    {
+      "id": "web-ashby-notion-bdm-f603aedb",
+      "stack": "ashby",
+      "passed": true,
+      "skipped": false,
+      "verification": {
+        "domReadback": true,
+        "html5Validity": true,
+        "a11yState": true,
+        "errorBanner": true,
+        "ocr": null,
+        "pixelDiff": true
+      },
+      "failures": []
+    }
+  ]
+}

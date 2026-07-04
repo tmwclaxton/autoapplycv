@@ -4,7 +4,25 @@
   "exact_field_count": 12,
   "fields": [
     {
-      "question": "full name full name type here...",
+      "question": "do you speak dutch natively? (optional)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "full name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +37,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -34,7 +52,7 @@
       }
     },
     {
-      "question": "phone phone 1-415-555-1234...",
+      "question": "phone",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -49,7 +67,7 @@
       }
     },
     {
-      "question": "linkedin linkedin https://example.com...",
+      "question": "linkedin",
       "field_type": "url",
       "max_chars": null,
       "options": null,
@@ -64,7 +82,7 @@
       }
     },
     {
-      "question": "what's the largest annual revenue account/brand you've managed? what's the largest annual revenue account/brand you've managed? type here...",
+      "question": "what's the largest annual revenue account/brand you've managed?",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -79,7 +97,7 @@
       }
     },
     {
-      "question": "how many accounts/brands have you managed? how many accounts/brands have you managed? type here...",
+      "question": "how many accounts/brands have you managed?",
       "field_type": "number",
       "max_chars": null,
       "options": null,
@@ -94,7 +112,7 @@
       }
     },
     {
-      "question": "from 1-10, how good are you at klaviyo? from 1-10, how good are you at klaviyo? type here...",
+      "question": "from 1-10, how good are you at klaviyo?",
       "field_type": "number",
       "max_chars": null,
       "options": null,
@@ -109,7 +127,7 @@
       }
     },
     {
-      "question": "from 1-10, how good are you at copywriting? from 1-10, how good are you at copywriting? type here...",
+      "question": "from 1-10, how good are you at copywriting?",
       "field_type": "number",
       "max_chars": null,
       "options": null,
@@ -124,7 +142,7 @@
       }
     },
     {
-      "question": "from 1-10, how good are you at reading data? from 1-10, how good are you at reading data? type here...",
+      "question": "from 1-10, how good are you at reading data?",
       "field_type": "number",
       "max_chars": null,
       "options": null,
@@ -139,7 +157,7 @@
       }
     },
     {
-      "question": "from 1-10, how good are you at stakeholder management? from 1-10, how good are you at stakeholder management? type here...",
+      "question": "from 1-10, how good are you at stakeholder management?",
       "field_type": "number",
       "max_chars": null,
       "options": null,
@@ -154,24 +172,7 @@
       }
     },
     {
-      "question": "a31f4fec-5ac9-44da-8c4f-bb1c5f959745",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "a31f4fec-5ac9-44da-8c4f-bb1c5f959745",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "please share your salary expectations (monthly, gross, eur) please share your salary expectations (monthly, gross, eur) type here...",
+      "question": "please share your salary expectations (monthly, gross, eur)",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -186,10 +187,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

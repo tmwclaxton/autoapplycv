@@ -1,10 +1,28 @@
 {
   "id": "web-jobs-ashbyhq-com-application-15",
-  "min_fields": 31,
-  "exact_field_count": 31,
+  "min_fields": 19,
+  "exact_field_count": 19,
   "fields": [
     {
-      "question": "legal first and last name legal first and last name type here...",
+      "question": "are you able to work onsite from the listed work location?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "legal first and last name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +37,7 @@
       }
     },
     {
-      "question": "preferred first name preferred first name type here...",
+      "question": "preferred first name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -34,11 +52,15 @@
       }
     },
     {
-      "question": "he / him he / him",
+      "question": "pronouns",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "He / him"
+        "He / him",
+        "She / her",
+        "They / them",
+        "Other",
+        "Use name only"
       ],
       "required": false,
       "dom": {
@@ -51,75 +73,7 @@
       }
     },
     {
-      "question": "she / her she / her",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "She / her"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "030eba34-1f0a-49cb-902f-106b12560cbd_fdfd5986-2e7c-47ac-bc1e-5c4f726a0fb3-labeled-checkbox-1",
-        "name": "She / her",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "they / them they / them",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "They / them"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "030eba34-1f0a-49cb-902f-106b12560cbd_fdfd5986-2e7c-47ac-bc1e-5c4f726a0fb3-labeled-checkbox-2",
-        "name": "They / them",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "other other",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Other"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "030eba34-1f0a-49cb-902f-106b12560cbd_fdfd5986-2e7c-47ac-bc1e-5c4f726a0fb3-labeled-checkbox-3",
-        "name": "Other",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "use name only use name only",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Use name only"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "030eba34-1f0a-49cb-902f-106b12560cbd_fdfd5986-2e7c-47ac-bc1e-5c4f726a0fb3-labeled-checkbox-4",
-        "name": "Use name only",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -134,7 +88,7 @@
       }
     },
     {
-      "question": "phone number phone number 1-415-555-1234...",
+      "question": "phone number",
       "field_type": "tel",
       "max_chars": null,
       "options": null,
@@ -149,25 +103,7 @@
       }
     },
     {
-      "question": "yes - i consent to receiving text messages yes - i consent to receiving text messages",
-      "field_type": "radio",
-      "max_chars": null,
-      "options": [
-        "Yes - I consent to receiving text messages",
-        "No - I do not consent to receiving text messages"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "radio",
-        "id": null,
-        "name": "communicationConsent",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "start typing...",
+      "question": "location",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -182,7 +118,7 @@
       }
     },
     {
-      "question": "current employee current employee",
+      "question": "are you a current employee , contractor, or temporary employee at form energy?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -201,24 +137,7 @@
       }
     },
     {
-      "question": "7b3aa6d0-c994-4cb1-936d-8fd3caf2dffc",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "7b3aa6d0-c994-4cb1-936d-8fd3caf2dffc",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "linkedin url linkedin url type here...",
+      "question": "linkedin url",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -233,7 +152,7 @@
       }
     },
     {
-      "question": "github url github url type here...",
+      "question": "github url",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -248,7 +167,7 @@
       }
     },
     {
-      "question": "other website other website type here...",
+      "question": "other website",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -263,7 +182,7 @@
       }
     },
     {
-      "question": "yes yes",
+      "question": "are you legally eligible to work in the united states?",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -281,11 +200,38 @@
       }
     },
     {
-      "question": "job board (e.g., indeed, diversityjobs.com, investor job board) job board (e.g., indeed, diversityjobs.com, investor job board)",
+      "question": "will you now or in the future need visa sponsorship?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "030eba34-1f0a-49cb-902f-106b12560cbd_597a8f81-3104-408b-9d85-9a5bb0a50768-labeled-radio-0",
+        "name": "030eba34-1f0a-49cb-902f-106b12560cbd_597a8f81-3104-408b-9d85-9a5bb0a50768",
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "how did you hear about form energy?",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
-        "Job board (e.g., Indeed, DiversityJobs.com, investor job board)"
+        "Job board (e.g., Indeed, DiversityJobs.com, investor job board)",
+        "LinkedIn",
+        "Facebook",
+        "Referral/know someone who works there",
+        "News article, press release, or podcast",
+        "Conference/career event",
+        "Word of mouth",
+        "Review site (e.g., Glassdoor)",
+        "Online search (e.g., Google)",
+        "Other"
       ],
       "required": false,
       "dom": {
@@ -298,143 +244,7 @@
       }
     },
     {
-      "question": "linkedin linkedin",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "LinkedIn"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "030eba34-1f0a-49cb-902f-106b12560cbd_67c0396c-fb06-4ff5-9c8f-1afe15d9be9a-labeled-checkbox-1",
-        "name": "LinkedIn",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "facebook facebook",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Facebook"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "030eba34-1f0a-49cb-902f-106b12560cbd_67c0396c-fb06-4ff5-9c8f-1afe15d9be9a-labeled-checkbox-2",
-        "name": "Facebook",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "referral/know someone who works there referral/know someone who works there",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Referral/know someone who works there"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "030eba34-1f0a-49cb-902f-106b12560cbd_67c0396c-fb06-4ff5-9c8f-1afe15d9be9a-labeled-checkbox-3",
-        "name": "Referral/know someone who works there",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "news article, press release, or podcast news article, press release, or podcast",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "News article, press release, or podcast"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "030eba34-1f0a-49cb-902f-106b12560cbd_67c0396c-fb06-4ff5-9c8f-1afe15d9be9a-labeled-checkbox-4",
-        "name": "News article, press release, or podcast",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "conference/career event conference/career event",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Conference/career event"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "030eba34-1f0a-49cb-902f-106b12560cbd_67c0396c-fb06-4ff5-9c8f-1afe15d9be9a-labeled-checkbox-5",
-        "name": "Conference/career event",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "word of mouth word of mouth",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Word of mouth"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "030eba34-1f0a-49cb-902f-106b12560cbd_67c0396c-fb06-4ff5-9c8f-1afe15d9be9a-labeled-checkbox-6",
-        "name": "Word of mouth",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "review site (e.g., glassdoor) review site (e.g., glassdoor)",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Review site (e.g., Glassdoor)"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "030eba34-1f0a-49cb-902f-106b12560cbd_67c0396c-fb06-4ff5-9c8f-1afe15d9be9a-labeled-checkbox-7",
-        "name": "Review site (e.g., Glassdoor)",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "online search (e.g., google) online search (e.g., google)",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "Online search (e.g., Google)"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": "030eba34-1f0a-49cb-902f-106b12560cbd_67c0396c-fb06-4ff5-9c8f-1afe15d9be9a-labeled-checkbox-8",
-        "name": "Online search (e.g., Google)",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "(optional) add a cover letter or anything else you would like to share (optional) add a cover letter or anything else you would like to share type here...",
+      "question": "(optional) add a cover letter or anything else you would like to share",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -449,7 +259,7 @@
       }
     },
     {
-      "question": "i have acknowledged i have acknowledged",
+      "question": "form energy is committed to ensuring a fair and equitable hiring process. solving the world's toughest energy challenges requires genuine collaboration and creative thinking. our interviews are designed to assess how you tackle these problems in real time. to ensure we’re getting to know your unique perspective and problem-solving style, we ask that you engage with us directly rather than using ai-generated responses. to maintain the integrity of our interviews and candidate evaluations, we require that all applicants adhere to the following policy:",
       "field_type": "checkbox",
       "max_chars": null,
       "options": [
@@ -466,7 +276,7 @@
       }
     },
     {
-      "question": "male male",
+      "question": "gender",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -485,7 +295,7 @@
       }
     },
     {
-      "question": "hispanic or latino hispanic or latino",
+      "question": "race",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -509,7 +319,7 @@
       }
     },
     {
-      "question": "i identify as one or more of the classifications of protected veteran listed above i identify as one or more of the classifications of protected veteran listed above",
+      "question": "veteran status",
       "field_type": "radio",
       "max_chars": null,
       "options": [
@@ -528,10 +338,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

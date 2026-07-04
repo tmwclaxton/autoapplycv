@@ -4,7 +4,43 @@
   "exact_field_count": 9,
   "fields": [
     {
-      "question": "name name type here...",
+      "question": "are you legally authorised to work in the country you wish to work in without the need for visa sponsorship?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "do you require ongoing employer support to maintain your right to work (e.g., visa renewals or work permit sponsorship)?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null
+      }
+    },
+    {
+      "question": "name",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -19,7 +55,7 @@
       }
     },
     {
-      "question": "email email hello@example.com...",
+      "question": "email",
       "field_type": "email",
       "max_chars": null,
       "options": null,
@@ -34,7 +70,7 @@
       }
     },
     {
-      "question": "linkedin profile linkedin profile https://example.com...",
+      "question": "linkedin profile",
       "field_type": "url",
       "max_chars": null,
       "options": null,
@@ -49,7 +85,7 @@
       }
     },
     {
-      "question": "website or portfolio link website or portfolio link https://example.com...",
+      "question": "website or portfolio link",
       "field_type": "url",
       "max_chars": null,
       "options": null,
@@ -64,7 +100,7 @@
       }
     },
     {
-      "question": "portfolio password portfolio password type here...",
+      "question": "portfolio password",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -79,7 +115,7 @@
       }
     },
     {
-      "question": "start typing...",
+      "question": "location",
       "field_type": "text",
       "max_chars": null,
       "options": null,
@@ -94,41 +130,7 @@
       }
     },
     {
-      "question": "0c295b7f-ba01-454f-8dba-a8d09f6d3eed",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "0c295b7f-ba01-454f-8dba-a8d09f6d3eed",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "636c9f92-7ae8-4b5b-95f5-5b6576c24f75",
-      "field_type": "checkbox",
-      "max_chars": null,
-      "options": [
-        "on"
-      ],
-      "required": false,
-      "dom": {
-        "tag": "input",
-        "type": "checkbox",
-        "id": null,
-        "name": "636c9f92-7ae8-4b5b-95f5-5b6576c24f75",
-        "data_testid": null,
-        "role": null
-      }
-    },
-    {
-      "question": "tell us about a time you disagreed with a product problem, not just the solution. tell us about a time you disagreed with a product problem, not just the solution. type here...",
+      "question": "tell us about a time you disagreed with a product problem, not just the solution.",
       "field_type": "textarea",
       "max_chars": null,
       "options": null,
@@ -143,10 +145,6 @@
       }
     }
   ],
-  "controls": [
-    {
-      "name": "Submit Application"
-    }
-  ],
+  "controls": [],
   "vet_notes": []
 }

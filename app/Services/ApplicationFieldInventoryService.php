@@ -32,7 +32,27 @@ class ApplicationFieldInventoryService
             ];
         }
 
-        $controls = $this->normalizeControls($snapshot['controls'] ?? []);
+        $controls = $this->filterNavigationControls($this->normalizeControls($snapshot['controls'] ?? []));
+        $userPayload = [
+            'job' => $job,
+            'page_title' => $snapshot['page_title'] ?? null,
+            'page_url' => $snapshot['page_url'] ?? null,
+            'elements' => $elements,
+            'instructions' => 'Return JSON: {"fields":[{"ref":"exact ref","question":"string","field_type":"text|textarea|radio|checkbox|select","max_chars":number|null,"options":["..."]|null}],"complete":boolean,"next_actions":[{"ref":"control ref","reason":"string"}]}. '
+                .'Include every element that is an unanswered application question the candidate still needs to answer. '
+                .'Use the exact ref from elements or controls — never invent refs. '
+                .'Improve question text when context helps, but keep the same ref. '
+                .'Merge duplicate questions only if they truly refer to the same control ref. '
+                .'Set complete to false when controls suggest hidden steps (Continue, Next, Save and continue) and required questions may still be off-screen. '
+                .'Never put final submit buttons (Submit Application, Apply now) in next_actions. '
+                .'Put up to 2 control refs in next_actions when complete is false. '
+                .'Omit file upload fields. For radio/select/checkbox, preserve options exactly from the snapshot.',
+        ];
+
+        if ($controls !== []) {
+            $userPayload['controls'] = $controls;
+        }
+
         $payload = $this->nanoGpt->chatJson([
             [
                 'role' => 'system',
@@ -40,21 +60,7 @@ class ApplicationFieldInventoryService
             ],
             [
                 'role' => 'user',
-                'content' => json_encode([
-                    'job' => $job,
-                    'page_title' => $snapshot['page_title'] ?? null,
-                    'page_url' => $snapshot['page_url'] ?? null,
-                    'elements' => $elements,
-                    'controls' => $controls,
-                    'instructions' => 'Return JSON: {"fields":[{"ref":"exact ref","question":"string","field_type":"text|textarea|radio|checkbox|select","max_chars":number|null,"options":["..."]|null}],"complete":boolean,"next_actions":[{"ref":"control ref","reason":"string"}]}. '
-                        .'Include every element that is an unanswered application question the candidate still needs to answer. '
-                        .'Use the exact ref from elements or controls — never invent refs. '
-                        .'Improve question text when context helps, but keep the same ref. '
-                        .'Merge duplicate questions only if they truly refer to the same control ref. '
-                        .'Set complete to false when controls suggest hidden steps (Continue, Next, Save and continue) and required questions may still be off-screen. '
-                        .'Put up to 2 control refs in next_actions when complete is false. '
-                        .'Omit file upload fields. For radio/select/checkbox, preserve options exactly from the snapshot.',
-                ], JSON_THROW_ON_ERROR),
+                'content' => json_encode($userPayload, JSON_THROW_ON_ERROR),
             ],
         ], [
             'model' => config('cv.extraction_model'),
@@ -132,6 +138,26 @@ class ApplicationFieldInventoryService
         }
 
         return $controls;
+    }
+
+    /**
+     * @param  array<int, array{ref: string, name: string, role?: string|null}>  $controls
+     * @return array<int, array{ref: string, name: string, role?: string|null}>
+     */
+    private function filterNavigationControls(array $controls): array
+    {
+        return array_values(array_filter(
+            $controls,
+            fn (array $control): bool => ! $this->isFinalSubmitControl($control['name']),
+        ));
+    }
+
+    private function isFinalSubmitControl(string $name): bool
+    {
+        return (bool) preg_match(
+            '/\b(submit\s+(?:application|app)|apply\s+now|send\s+(?:application|app))\b/i',
+            trim($name),
+        );
     }
 
     /**

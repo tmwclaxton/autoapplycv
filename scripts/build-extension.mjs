@@ -120,6 +120,12 @@ copyFileSync(join(SRC, 'shared/application-settings.js'), join(DIST, 'applicatio
 copyFileSync(join(SRC, 'shared/postbox-theme.css'), join(DIST, 'postbox-theme.css'));
 copyFileSync(join(SRC, 'shared/form-frame-messaging.js'), join(DIST, 'form-frame-messaging.js'));
 copyFileSync(join(SRC, 'shared/file-transfer.js'), join(DIST, 'file-transfer.js'));
+copyFileSync(join(SRC, 'shared/debug-log.js'), join(DIST, 'debug-log.js'));
+copyFileSync(join(SRC, 'shared/debug-log-client.js'), join(DIST, 'debug-log-client.js'));
+copyFileSync(join(SRC, 'shared/perf-timer.js'), join(DIST, 'perf-timer.js'));
+copyFileSync(join(SRC, 'shared/draft-all-optimizations.js'), join(DIST, 'draft-all-optimizations.js'));
+copyFileSync(join(SRC, 'debug/debug.html'), join(DIST, 'debug.html'));
+copyFileSync(join(SRC, 'debug/debug.js'), join(DIST, 'debug.js'));
 copyFileSync(join(SRC, 'background/index.js'), join(DIST, 'background.js'));
 copyFileSync(join(SRC, 'content/form-heuristics.js'), join(DIST, 'form-heuristics.js'));
 copyFileSync(join(SRC, 'content/field-inventory.js'), join(DIST, 'field-inventory.js'));
