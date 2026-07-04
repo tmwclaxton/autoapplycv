@@ -1,0 +1,42 @@
+{
+  "scenario_id": "web-apply-workable-com-apply-5",
+  "plan_count": 30,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "firstname",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "lastname",
+      "ref": "f1",
+      "answer": "FillVerify-1"
+    },
+    {
+      "kind": "id",
+      "selector": "email",
+      "ref": "f2",
+      "answer": "fillverify2@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "headline",
+      "ref": "f3",
+      "answer": "FillVerify-3"
+    },
+    {
+      "kind": "name",
+      "selector": "phone",
+      "ref": "f4",
+      "answer": "+15550000004"
+    },
+    {
+      "kind": "id",
+      "selector": "summary",
+      "ref": "f5",
+      "answer": "FillVerify-textarea-5"
+    }
+  ]
+}

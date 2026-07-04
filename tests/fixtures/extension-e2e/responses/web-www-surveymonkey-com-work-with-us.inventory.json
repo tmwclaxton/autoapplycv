@@ -1,0 +1,381 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "first name + last name first name + last name first name + last name",
+      "field_type": "text",
+      "max_chars": 20000,
+      "options": null
+    },
+    {
+      "ref": "f1",
+      "question": "date of birth date of birth first name + last name",
+      "field_type": "text",
+      "max_chars": 20000,
+      "options": null
+    },
+    {
+      "ref": "f2",
+      "question": "age age first name + last name",
+      "field_type": "text",
+      "max_chars": 20000,
+      "options": null
+    },
+    {
+      "ref": "f3",
+      "question": "where do you live? where do you live? first name + last name",
+      "field_type": "text",
+      "max_chars": 20000,
+      "options": null
+    },
+    {
+      "ref": "f4",
+      "question": "email address email address first name + last name",
+      "field_type": "email",
+      "max_chars": 20000,
+      "options": null
+    },
+    {
+      "ref": "f5",
+      "question": "phone number phone number first name + last name",
+      "field_type": "tel",
+      "max_chars": 20000,
+      "options": null
+    },
+    {
+      "ref": "f6",
+      "question": "pick/modify date, use shift up or down to move a month, ctrl shift up or down to move a year dd/mm/yyyy",
+      "field_type": "text",
+      "max_chars": 10,
+      "options": null
+    },
+    {
+      "ref": "f7",
+      "question": "3. have you already emailed your cv? a cv will help your application - please email joinus@undergroundskate.co.nz",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f8",
+      "question": "4. how did you hear out about this position?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Trademe",
+        "Facebook",
+        "Instagram",
+        "Linked In",
+        "Store Website",
+        "Company Email",
+        "Friend",
+        "Instore",
+        "Seek",
+        "School - Kingsway",
+        "School - Orewa",
+        "School - Wentworth",
+        "School - Whangaparaoa",
+        "Massey Uni",
+        "AUT Uni"
+      ]
+    },
+    {
+      "ref": "f9",
+      "question": "5. position applying for?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Retail Supervisor/ Weekdays Part-time (Must have atleast 5+ years experiance in Retail)",
+        "Sales Shop Assistant/Full-time (minimum of 1 year of retail experience)",
+        "Sales Shop Assistant/Casual or Part-time (minimum of 1 year of retail experience)",
+        "Junior Trainee - Shop Assistant (16-17 years old - just starting in Retail)",
+        "Merchandiser (One shift per week outside of opening hours, 10+ years of experiance in Retail or Merchandising)"
+      ]
+    },
+    {
+      "ref": "f10",
+      "question": "6. are you a current nz resident or citizen?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f11",
+      "question": "7. do you require a visa to work in nz? (only yes if you are not a nz resident / citizen)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f12",
+      "question": "8. where are you based?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Orewa Local",
+        "From the Coast",
+        "Wider Auckland Area"
+      ]
+    },
+    {
+      "ref": "f13",
+      "question": "9. if offered a role when would you be able to start based at our retail store?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Within 7 Days",
+        "7-14 Days",
+        "14-21 Days",
+        "21-30 Days",
+        "30-40 Days",
+        "More than 40 Days"
+      ]
+    },
+    {
+      "ref": "f14",
+      "question": "10. have you ever shopped with our company?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f15",
+      "question": "11. do you have a completed tertiary degree or diploma?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f16",
+      "question": "12. how many years relevant job experience do you have?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Less than 1 Year.",
+        "1-2 Years",
+        "2-3 Years",
+        "3-5 Years",
+        "6-10 Years",
+        "11 Years +"
+      ]
+    },
+    {
+      "ref": "f17",
+      "question": "13. are you currently in paid employment?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f18",
+      "question": "14. are you comfortable working a rotating roster that will include weekend and public holiday work?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f19",
+      "question": "15. do you have any holidays of 4 or more days planned within the next 6 months?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f20",
+      "question": "16. how engaged in the surf culture are you?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Extremely interested",
+        "Very interested",
+        "Somewhat interested",
+        "Not so interested",
+        "Not at all interested"
+      ]
+    },
+    {
+      "ref": "f21",
+      "question": "17. how engaged in skate culture are you?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Extremely interested",
+        "Very interested",
+        "Somewhat interested",
+        "Not so interested",
+        "Not at all interested"
+      ]
+    },
+    {
+      "ref": "f22",
+      "question": "18. how engaged in streetwear fashion are you?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Extremely interested",
+        "Very interested",
+        "Somewhat interested",
+        "Not so interested",
+        "Not at all interested"
+      ]
+    },
+    {
+      "ref": "f23",
+      "question": "19. overall if asked about surf products what could you tell us?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "A great deal",
+        "A lot",
+        "A moderate amount",
+        "A little",
+        "None at all"
+      ]
+    },
+    {
+      "ref": "f24",
+      "question": "20. overall if asked about skate products what could you tell us?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "A great deal",
+        "A lot",
+        "A moderate amount",
+        "A little",
+        "None at all"
+      ]
+    },
+    {
+      "ref": "f25",
+      "question": "21. how often do you use social media?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "A great deal",
+        "A lot",
+        "A moderate amount",
+        "A little",
+        "None at all"
+      ]
+    },
+    {
+      "ref": "f26",
+      "question": "22. mark the computer programs / actions you are comfortable with being given a practical test on?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "General Internet Google Search",
+        "Advanced Internet Google Search",
+        "ERP Based program use",
+        "General Sales Point Of Sale Program use",
+        "General Stock Entering procedure Program use.",
+        "MS Excel",
+        "MS Word",
+        "Adobe Illustrator",
+        "Adobe Lightroom",
+        "Adobe Photoshop",
+        "Adobe Acrobat",
+        "Video Editing Programs",
+        "Canva"
+      ]
+    },
+    {
+      "ref": "f27",
+      "question": "23. list the retail skills you are confident in and ok to be tested on.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Merchandising",
+        "Pricing stock",
+        "Security Tagging Stock",
+        "Hanging stock",
+        "Retail sales skills",
+        "Advanced high sale retail skils",
+        "Selling on Finance",
+        "Selling over the phone",
+        "Handling Phone enquiries",
+        "Basic % discount & addition in your head maths",
+        "Security Knowledge"
+      ]
+    },
+    {
+      "ref": "f28",
+      "question": "24. do you hold a current drivers license? click the type held.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Full",
+        "Restricted",
+        "Learner",
+        "None at present"
+      ]
+    },
+    {
+      "ref": "f29",
+      "question": "25. do you have your own vehicle to be able to get to work?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "ref": "f30",
+      "question": "26. what is your expected hourly rate range?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Starting Out Employee Wage",
+        "Minimum Wage",
+        "$24.00 - $26.00 / hr",
+        "$27.00 - $29.00 / hr",
+        "$30.00 - $35.00 / hr",
+        "$35.50+ / hr"
+      ]
+    },
+    {
+      "ref": "f31",
+      "question": "27. declaration: i confirm that the above information is complete and correct and that any false or misleading information will give my employer the right to terminate my employment without notice.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Agree",
+        "Disagree"
+      ]
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}

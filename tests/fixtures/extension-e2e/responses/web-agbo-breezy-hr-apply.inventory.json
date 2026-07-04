@@ -1,0 +1,191 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "%placeholder_full_name%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f1",
+      "question": "%placeholder_email_address%",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f2",
+      "question": "%placeholder_phone_number%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f3",
+      "question": "smsconsent",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "on"
+      ]
+    },
+    {
+      "ref": "f4",
+      "question": "%placeholder_address%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f5",
+      "question": "salarycurrency",
+      "field_type": "select",
+      "max_chars": null,
+      "options": []
+    },
+    {
+      "ref": "f6",
+      "question": "%placeholder_salary%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f7",
+      "question": "%placeholder_company%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f8",
+      "question": "%placeholder_title%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f9",
+      "question": "%placeholder_summary%",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f10",
+      "question": "%placeholder_school%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f11",
+      "question": "%placeholder_field_of_study%",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f12",
+      "question": "csummary",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f13",
+      "question": "ccoverletter",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f14",
+      "question": "hp_7f2b hp_7f2b",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f15",
+      "question": "{{ question.text }}",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f16",
+      "question": "%placeholder_full_name% {{ question.text }}",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f17",
+      "question": "%placeholder_email_address% {{ question.text }}",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f18",
+      "question": "%placeholder_phone_number% {{ question.text }}",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f19",
+      "question": "{{ opt.text }} {{ opt.text }} {{ question.text }}",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "{{ opt.text }}"
+      ]
+    },
+    {
+      "ref": "f20",
+      "question": "0000 {{ question.text }}",
+      "field_type": "text",
+      "max_chars": 4,
+      "options": null
+    },
+    {
+      "ref": "f21",
+      "question": "%eeoc_race_ethnicity_white% %eeoc_race_ethnicity_white% %eeoc_race_ethnicity_header%",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "%EEOC_RACE_ETHNICITY_WHITE%",
+        "%EEOC_RACE_ETHNICITY_BLACK%",
+        "%EEOC_RACE_ETHNICITY_ASIAN%",
+        "%EEOC_RACE_ETHNICITY_INDIAN%",
+        "%EEOC_RACE_ETHNICITY_HAWAIIAN%",
+        "%EEOC_RACE_ETHNICITY_TWO%",
+        "%EEOC_RACE_ETHNICITY_HISPANIC%",
+        "%EEOC_NO_ANSWER%"
+      ]
+    },
+    {
+      "ref": "f22",
+      "question": "%eeoc_gender_male% %eeoc_gender_male% %eeoc_gender_header%",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "%EEOC_GENDER_MALE%",
+        "%EEOC_GENDER_FEMALE%",
+        "%EEOC_NO_ANSWER%"
+      ]
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}

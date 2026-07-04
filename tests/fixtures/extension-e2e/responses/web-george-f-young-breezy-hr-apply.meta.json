@@ -1,0 +1,42 @@
+{
+  "scenario_id": "web-george-f-young-breezy-hr-apply",
+  "plan_count": 26,
+  "field_assertions": [
+    {
+      "kind": "name",
+      "selector": "cName",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "name",
+      "selector": "cEmail",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "name",
+      "selector": "cPhoneNumber",
+      "ref": "f2",
+      "answer": "FillVerify-2"
+    },
+    {
+      "kind": "name",
+      "selector": "smsConsent",
+      "ref": "f3",
+      "answer": "on"
+    },
+    {
+      "kind": "id",
+      "selector": "fullAddress",
+      "ref": "f4",
+      "answer": "FillVerify-4"
+    },
+    {
+      "kind": "name",
+      "selector": "salaryCurrency",
+      "ref": "f5",
+      "answer": "Yes"
+    }
+  ]
+}
