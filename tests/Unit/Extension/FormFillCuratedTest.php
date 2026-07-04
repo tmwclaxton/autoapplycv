@@ -19,8 +19,8 @@ class FormFillCuratedTest extends TestCase
         $this->assertSame('jsdom', $report['verify_engine'] ?? null);
 
         $thresholds = $report['thresholds'] ?? [];
-        $criticalThreshold = (float) ($thresholds['critical_pass_rate'] ?? 0.9);
-        $overallThreshold = (float) ($thresholds['overall_pass_rate'] ?? 0.8);
+        $criticalThreshold = (float) ($thresholds['critical_pass_rate'] ?? 1);
+        $overallThreshold = (float) ($thresholds['overall_pass_rate'] ?? 1);
 
         $this->assertGreaterThanOrEqual(
             $criticalThreshold,
@@ -38,9 +38,9 @@ class FormFillCuratedTest extends TestCase
             $passRate = (float) ($report['by_check'][$layer]['pass_rate'] ?? 0);
 
             $this->assertGreaterThanOrEqual(
-                0.9,
+                1,
                 $passRate,
-                "Curated JSDOM {$layer} pass rate below 90%.",
+                "Curated JSDOM {$layer} pass rate below 100%.",
             );
         }
     }
@@ -59,8 +59,8 @@ class FormFillCuratedTest extends TestCase
         $this->assertSame('playwright', $report['verify_engine'] ?? null);
 
         $thresholds = $report['thresholds'] ?? [];
-        $criticalThreshold = (float) ($thresholds['critical_pass_rate'] ?? 0.5);
-        $overallThreshold = (float) ($thresholds['overall_pass_rate'] ?? 0.45);
+        $criticalThreshold = (float) ($thresholds['critical_pass_rate'] ?? 1);
+        $overallThreshold = (float) ($thresholds['overall_pass_rate'] ?? 1);
 
         $this->assertGreaterThanOrEqual(
             $criticalThreshold,
@@ -101,8 +101,8 @@ class FormFillCuratedTest extends TestCase
         $report = json_decode((string) file_get_contents($reportPath), true);
 
         $thresholds = $report['thresholds'] ?? [];
-        $criticalThreshold = (float) ($thresholds['critical_pass_rate'] ?? 0.5);
-        $overallThreshold = (float) ($thresholds['overall_pass_rate'] ?? 0.45);
+        $criticalThreshold = (float) ($thresholds['critical_pass_rate'] ?? 1);
+        $overallThreshold = (float) ($thresholds['overall_pass_rate'] ?? 1);
 
         $this->assertGreaterThanOrEqual(
             $criticalThreshold,

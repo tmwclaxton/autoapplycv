@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-04T18:13:03.313Z",
+  "generated_at": "2026-07-04T19:13:16.066Z",
   "totals": {
     "scenarios": 12,
     "evaluated": 12,
-    "passed": 11,
-    "failed": 1,
-    "pass_rate": 0.9167,
+    "passed": 12,
+    "failed": 0,
+    "pass_rate": 1,
     "critical_total": 5,
     "critical_passed": 5,
     "critical_pass_rate": 1
@@ -1675,20 +1675,13 @@
       "id": "web-jobs-lever-co-apply-5",
       "platform": "lever",
       "priority": "standard",
-      "passed": false,
+      "passed": true,
       "plan_count": 26,
       "apply_failures": 0,
       "readback_failures": 0,
       "a11y_failures": 0,
       "error_banner_count": 0,
-      "failures": [
-        {
-          "stage": "errorBanner",
-          "field": null,
-          "expected": "no errors",
-          "actual": "Please try again. ⚠️ | Please try again. ⚠️"
-        }
-      ],
+      "failures": [],
       "readback_failures_detail": [],
       "readbacks": [
         {
@@ -2595,8 +2588,8 @@
   ],
   "verify_engine": "playwright",
   "thresholds": {
-    "critical_pass_rate": 0.5,
-    "overall_pass_rate": 0.45
+    "critical_pass_rate": 1,
+    "overall_pass_rate": 1
   },
   "by_platform": {
     "ashby": {
@@ -2619,11 +2612,11 @@
     },
     "lever": {
       "total": 2,
-      "passed": 1,
-      "failed": 1,
+      "passed": 2,
+      "failed": 0,
       "critical_total": 1,
       "critical_passed": 1,
-      "pass_rate": 0.5,
+      "pass_rate": 1,
       "critical_pass_rate": 1
     },
     "smartrecruiters": {

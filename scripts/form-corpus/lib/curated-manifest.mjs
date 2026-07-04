@@ -427,12 +427,12 @@ export function buildCuratedManifest() {
         description: 'Curated fill verification tier prioritizing platform diversity and verification depth over corpus quantity.',
         thresholds: {
             jsdom: {
-                critical_pass_rate: 0.9,
-                overall_pass_rate: 0.8,
+                critical_pass_rate: 1,
+                overall_pass_rate: 1,
             },
             playwright: {
-                critical_pass_rate: 0.5,
-                overall_pass_rate: 0.45,
+                critical_pass_rate: 1,
+                overall_pass_rate: 1,
             },
             min_platforms: 12,
         },
@@ -504,8 +504,8 @@ export function buildSmokeManifest(curatedManifest) {
         generated_at: new Date().toISOString(),
         description: 'Per-platform Playwright smoke tier — one critical scenario per ATS/platform.',
         thresholds: {
-            critical_pass_rate: 0.5,
-            overall_pass_rate: 0.45,
+            critical_pass_rate: 1,
+            overall_pass_rate: 1,
         },
         scenarios,
     };

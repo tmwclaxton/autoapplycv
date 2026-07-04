@@ -136,9 +136,9 @@ The curated tier (`fill-verify-curated.json`) selects ~90 scenarios for **accura
 
 | Tier | Critical | Overall |
 | --- | --- | --- |
-| JSDOM | ≥ 90% | ≥ 80% |
-| Playwright (priority) | ≥ 50% | ≥ 45% |
-| Smoke | ≥ 50% | ≥ 45% |
+| JSDOM | 100% | 100% |
+| Playwright (priority) | 100% | 100% |
+| Smoke | 100% | 100% |
 
 ## Library modules
 

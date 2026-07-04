@@ -187,8 +187,8 @@ if (!jsonOnly) {
 }
 
 const thresholds = curatedManifest.thresholds?.jsdom ?? curatedManifest.thresholds ?? {};
-const criticalThreshold = thresholds.critical_pass_rate ?? 0.9;
-const overallThreshold = thresholds.overall_pass_rate ?? 0.8;
+const criticalThreshold = thresholds.critical_pass_rate ?? 1;
+const overallThreshold = thresholds.overall_pass_rate ?? 1;
 
 if (report.totals.critical_pass_rate < criticalThreshold || report.totals.pass_rate < overallThreshold) {
     process.exit(1);

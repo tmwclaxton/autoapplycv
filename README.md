@@ -196,10 +196,10 @@ Additional tiers add **OCR readback** (Playwright + Tesseract on Ashby fixtures)
 
 | Tier | Critical | Overall |
 |------|----------|---------|
-| JSDOM curated | ≥ 90% | ≥ 80% |
-| Playwright priority | ≥ 50% | ≥ 45% |
-| Platform smoke | ≥ 50% | ≥ 45% |
-| Extension E2E (CI subset) | 100% critical | — |
+| JSDOM curated | 100% | 100% |
+| Playwright priority | 100% | 100% |
+| Platform smoke | 100% | 100% |
+| Extension E2E | 100% | 100% |
 
 ### CI pipeline
 

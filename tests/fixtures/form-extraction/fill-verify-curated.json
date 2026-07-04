@@ -1,15 +1,15 @@
 {
   "version": 1,
-  "generated_at": "2026-07-04T17:39:44.925Z",
+  "generated_at": "2026-07-04T18:52:24.827Z",
   "description": "Curated fill verification tier prioritizing platform diversity and verification depth over corpus quantity.",
   "thresholds": {
     "jsdom": {
-      "critical_pass_rate": 0.9,
-      "overall_pass_rate": 0.8
+      "critical_pass_rate": 1,
+      "overall_pass_rate": 1
     },
     "playwright": {
-      "critical_pass_rate": 0.5,
-      "overall_pass_rate": 0.45
+      "critical_pass_rate": 1,
+      "overall_pass_rate": 1
     },
     "min_platforms": 12
   },

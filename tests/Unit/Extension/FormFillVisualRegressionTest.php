@@ -33,9 +33,9 @@ class FormFillVisualRegressionTest extends TestCase
         $report = json_decode((string) file_get_contents($reportPath), true);
 
         $this->assertGreaterThanOrEqual(
-            0.6,
+            1,
             (float) ($report['totals']['pass_rate'] ?? 0),
-            'Visual regression pass rate below 60%.',
+            'Visual regression pass rate below 100%.',
         );
     }
 }

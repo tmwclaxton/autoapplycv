@@ -79,8 +79,8 @@ async function main() {
     console.log(JSON.stringify(enriched, null, 2));
 
     const thresholds = e2eManifest.thresholds || {};
-    const overallOk = report.totals.pass_rate >= (thresholds.overall_pass_rate ?? 0.95);
-    const criticalOk = summary.critical_pass_rate >= (thresholds.critical_pass_rate ?? 0.95);
+    const overallOk = report.totals.pass_rate >= (thresholds.overall_pass_rate ?? 1);
+    const criticalOk = summary.critical_pass_rate >= (thresholds.critical_pass_rate ?? 1);
     const ciOk = !ciOnly || summary.ci_pass_rate >= (thresholds.ci_critical_pass_rate ?? 1);
 
     if (!overallOk || !criticalOk || !ciOk) {

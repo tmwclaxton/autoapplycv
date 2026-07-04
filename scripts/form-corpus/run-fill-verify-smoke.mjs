@@ -92,8 +92,8 @@ if (!jsonOnly) {
 }
 
 const ashbyExtrasFailed = ashbyExtras.some((extra) => !extra.passed);
-const criticalThreshold = thresholds.critical_pass_rate ?? 0.7;
-const overallThreshold = thresholds.overall_pass_rate ?? 0.65;
+const criticalThreshold = thresholds.critical_pass_rate ?? 1;
+const overallThreshold = thresholds.overall_pass_rate ?? 1;
 
 if (
     ashbyExtrasFailed

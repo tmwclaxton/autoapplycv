@@ -263,8 +263,8 @@ export function buildE2eManifest() {
         description: 'Extension E2E scenario manifest — Playwright with real extension and mocked assist API.',
         target_count: TARGET_SCENARIO_COUNT,
         thresholds: {
-            critical_pass_rate: 0.95,
-            overall_pass_rate: 0.95,
+            critical_pass_rate: 1,
+            overall_pass_rate: 1,
             ci_critical_pass_rate: 1,
         },
         scenarios,

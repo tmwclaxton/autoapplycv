@@ -70,8 +70,8 @@ if (!jsonOnly) {
     console.log(`\nWrote report → ${REPORT_PATH}`);
 }
 
-const criticalThreshold = thresholds.critical_pass_rate ?? 0.7;
-const overallThreshold = thresholds.overall_pass_rate ?? 0.55;
+const criticalThreshold = thresholds.critical_pass_rate ?? 1;
+const overallThreshold = thresholds.overall_pass_rate ?? 1;
 
 if (report.totals.critical_pass_rate < criticalThreshold || report.totals.pass_rate < overallThreshold) {
     process.exit(1);

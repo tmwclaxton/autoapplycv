@@ -18,14 +18,26 @@ const SELECTOR_PATTERNS = [
     { selector: '.ashby-application-form-error, .ashby-application-form-errors', requireVisibleText: true },
 ];
 
+function isHiddenFromAssistiveTech(element) {
+    if (element.getAttribute('aria-hidden') === 'true') {
+        return true;
+    }
+
+    return Boolean(element.closest('[aria-hidden="true"]'));
+}
+
 function isVisible(element) {
     if (!element || element.nodeType !== 1) {
         return false;
     }
 
+    if (isHiddenFromAssistiveTech(element)) {
+        return false;
+    }
+
     const style = element.ownerDocument?.defaultView?.getComputedStyle?.(element);
 
-    if (style && (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0')) {
+    if (style && (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0)) {
         return false;
     }
 
@@ -171,10 +183,22 @@ export async function detectFormErrorsInPage(page) {
             return String(text || '').replace(/\s+/g, ' ').trim();
         }
 
+        function isHiddenFromAssistiveTech(element) {
+            if (element.getAttribute('aria-hidden') === 'true') {
+                return true;
+            }
+
+            return Boolean(element.closest('[aria-hidden="true"]'));
+        }
+
         function isVisible(element) {
+            if (isHiddenFromAssistiveTech(element)) {
+                return false;
+            }
+
             const style = window.getComputedStyle(element);
 
-            return !(style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0');
+            return !(style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0);
         }
 
         function getVisibleBodyText() {

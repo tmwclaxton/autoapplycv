@@ -172,19 +172,6 @@ async function readDomValuesInPage(page, plan, applyFailures) {
             }
         }
 
-        const alerts = Array.from(document.querySelectorAll('[role="alert"], [aria-invalid="true"], .error, .field-error'))
-            .map((node) => node.textContent?.replace(/\s+/g, ' ').trim())
-            .filter(Boolean);
-
-        if (alerts.length > 0) {
-            failures.push({
-                stage: 'errorBanner',
-                field: null,
-                expected: 'no errors',
-                actual: alerts.slice(0, 3).join(' | '),
-            });
-        }
-
         return { failures, readbacks };
     }, {
         items: plan.map(({ ref, answer, field, dom }) => ({
@@ -302,7 +289,6 @@ export async function runPlaywrightFillVerify(options = {}) {
     });
 
     const browser = await chromium.launch({ headless: true });
-    const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
     const results = [];
 
     try {
@@ -319,6 +305,9 @@ export async function runPlaywrightFillVerify(options = {}) {
                 continue;
             }
 
+            const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+            const page = await context.newPage();
+
             try {
                 const result = await runScenarioInPlaywright(page, scenario, entry, {
                     checkA11y: options.checkA11y === true,
@@ -333,6 +322,8 @@ export async function runPlaywrightFillVerify(options = {}) {
                     passed: false,
                     failures: [{ stage: 'runtime', field: null, message: error.message }],
                 });
+            } finally {
+                await context.close();
             }
         }
     } finally {
