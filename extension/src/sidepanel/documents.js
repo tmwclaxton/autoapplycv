@@ -1,10 +1,10 @@
-import { readFilePayload, triggerBrowserDownload } from './file-transfer.js';
 import {
     cvAcceptAttribute,
     documentAcceptAttribute,
     validateCvUpload,
     validateDocumentUpload,
-} from '../shared/upload-validation.js';
+} from './upload-validation.js';
+import { readFilePayload, triggerBrowserDownload } from './file-transfer.js';
 
 export function initDocumentsPanel({
     showMessage,

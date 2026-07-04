@@ -1,3 +1,4 @@
+import { validateCvUpload, validateDocumentUpload } from './upload-validation.js';
 import { mapApplicationSettingsForAssist } from './application-settings.js';
 import {
     clearConnection,
@@ -26,7 +27,6 @@ import {
 } from './draft-all-optimizations.js';
 import { requestDraftAllStream, requestDraftField, requestAssistChatStream, requestFieldInventory, requestJobContext } from './draft-all-stream.js';
 import { arrayBufferToBase64, base64ToBlob } from './file-transfer.js';
-import { validateCvUpload, validateDocumentUpload } from '../shared/upload-validation.js';
 import {
     applyDraftAnswerToTab,
     applyDraftBatchToTab,
@@ -94,6 +94,7 @@ async function uploadCv(filePayload) {
     if (!response.ok) {
         if (response.status === 401) {
             await clearConnection();
+
             throw new Error('Session expired. Please log in again.');
         }
 
@@ -151,6 +152,7 @@ async function uploadProfileDocument(message) {
     if (!response.ok) {
         if (response.status === 401) {
             await clearConnection();
+
             throw new Error('Session expired. Please log in again.');
         }
 
@@ -183,6 +185,7 @@ async function deleteProfileDocument(documentId) {
     if (!response.ok) {
         if (response.status === 401) {
             await clearConnection();
+
             throw new Error('Session expired. Please log in again.');
         }
 
@@ -1600,6 +1603,7 @@ async function applyProfileUpdate(update) {
     if (!response.ok) {
         if (response.status === 401) {
             await clearConnection();
+
             throw new Error('Session expired. Please log in again.');
         }
 

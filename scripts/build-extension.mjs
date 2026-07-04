@@ -8,6 +8,7 @@ import {
     cpSync,
     existsSync,
     mkdirSync,
+    readdirSync,
     readFileSync,
     rmSync,
     writeFileSync,
@@ -73,6 +74,28 @@ function hostPermissionForApiBase(apiBase) {
     return `${url.origin}/*`;
 }
 
+function verifyDistImports() {
+    const jsFiles = readdirSync(DIST).filter((file) => file.endsWith('.js'));
+
+    for (const file of jsFiles) {
+        const content = readFileSync(join(DIST, file), 'utf8');
+
+        if (/\.\.\/shared\//.test(content)) {
+            throw new Error(
+                `${file} imports from ../shared/. Copy shared modules to dist root and use ./ paths.`,
+            );
+        }
+
+        for (const match of content.matchAll(/from ['"](\.\/[^'"]+)['"]/g)) {
+            const importedPath = join(DIST, match[1]);
+
+            if (!existsSync(importedPath)) {
+                throw new Error(`${file} imports missing dist file: ${match[1]}`);
+            }
+        }
+    }
+}
+
 function patchManifest(apiBase) {
     const manifestPath = join(DIST, 'manifest.json');
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
@@ -124,6 +147,7 @@ copyFileSync(join(SRC, 'shared/debug-log.js'), join(DIST, 'debug-log.js'));
 copyFileSync(join(SRC, 'shared/debug-log-client.js'), join(DIST, 'debug-log-client.js'));
 copyFileSync(join(SRC, 'shared/perf-timer.js'), join(DIST, 'perf-timer.js'));
 copyFileSync(join(SRC, 'shared/draft-all-optimizations.js'), join(DIST, 'draft-all-optimizations.js'));
+copyFileSync(join(SRC, 'shared/upload-validation.js'), join(DIST, 'upload-validation.js'));
 copyFileSync(join(SRC, 'debug/debug.html'), join(DIST, 'debug.html'));
 copyFileSync(join(SRC, 'debug/debug.js'), join(DIST, 'debug.js'));
 copyFileSync(join(SRC, 'background/index.js'), join(DIST, 'background.js'));
@@ -139,6 +163,7 @@ copyFileSync(join(SRC, 'sidepanel/assist.js'), join(DIST, 'assist.js'));
 copyFileSync(join(SRC, 'sidepanel/documents.js'), join(DIST, 'documents.js'));
 
 patchManifest(apiBase);
+verifyDistImports();
 
 const iconsDir = join(ROOT, 'extension/icons');
 const distIconsDir = join(DIST, 'icons');
