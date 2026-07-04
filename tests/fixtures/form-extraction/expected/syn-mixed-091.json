@@ -1,0 +1,57 @@
+{
+  "id": "syn-mixed-091",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "input-q_legal-name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "email email question_email question_email email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "city city city city city",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select…",
+        "London",
+        "Manchester",
+        "Remote",
+        "Hybrid"
+      ],
+      "required": false
+    },
+    {
+      "question": "visa sponsorship required?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false
+    },
+    {
+      "question": "why do you want this role? why do you want this role? why-do-you-want-this-rol why-do-you-want-this-rol why do you want this role?",
+      "field_type": "textarea",
+      "max_chars": 600,
+      "options": null,
+      "required": false
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

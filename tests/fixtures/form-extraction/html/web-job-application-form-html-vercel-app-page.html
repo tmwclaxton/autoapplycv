@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="apply_box">
+            <h1>Job Application Form</h1>
+
+            <form action="mailto:nationalshrestha@gmail.com" method="post">
+                <div class="form_container">
+                    <div class="form_control">
+                        <label for="first_name">First Name:</label>
+                        <input type="text" id="first_name" name="first_name" placeholder="Enter your first name."
+                            required>
+                    </div>
+                    <div class="form_control">
+                        <label for="middle_name">Middle Name:</label>
+                        <input type="text" id="middle_name" name="middle_name" placeholder="Enter your middle name.">
+                    </div>
+                    <div class="form_control">
+                        <label for="last_name">Last Name:</label>
+                        <input type="text" id="last_name" name="last_name" placeholder="Enter your last name." required>
+                    </div>
+
+                    <div class="form_control">
+                        <p class="gender">Gender:</p>
+                        <input type="radio" name="gender" id="male" >
+                        <label for="male" class="gender">Male:</label>
+                        <input type="radio" name="gender" id="female" >
+                        <label for="female" class="gender">Female:</label>
+                        <input type="radio" name="gender" id="other" >
+                        <label for="other" class="gender">Other:</label>
+                    </div>
+
+                    <!-- <div>
+                        <p class="gender">Gender: </p>
+                        <label for="male" class="myGender">Male </label>
+                        <input type="radio" name="myGender" id="male"> <br>
+                        <label for="female" class="myGender">Female </label>
+                        <input type="radio" name="myGender" id="female">
+                    </div> -->
+
+                    <div class="form_control">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" placeholder="abc@example.com" required>
+                    </div>
+                    <div class="form_control">
+                        <label for="contact_details">Contact Number:</label>
+                        <input type="tel" id="contact_details" name="contact_details" minlength="10" maxlength="10"
+                            required>
+                    </div>
+                    <label for="job_role">Job Qualification: </label>
+                    <select id="job_role" name="job_role">
+                        <option value="">Select your job role</option>
+                        <option value="frontend">Front-end Developer</option>
+                        <option value="backend">Back-end Developer</option>
+                        <option value="fullstack">Full Stack Developer</option>
+                        <option value="ui_ux">UI/UX Designer</option>
+                        <option value="graphics">Graphics Designer</option>
+                    </select>
+
+                    <label for="cars">Choose a car:</label>
+                    <select name="cars" id="cars">
+                        <option value="">Select a car:</option>
+                        <optgroup label="Swedish Cars">
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                        </optgroup>
+                        <optgroup label="German Cars">
+                            <option value="mercedes">Mercedes</option>
+                            <option value="audi">Audi</option>
+                        </optgroup>
+                        <optgroup label="Nepal Cars">
+                            <option value="yatri">Yatri</option>
+                            <option value="bmw">BMW</option>
+                        </optgroup>
+                    </select>
+
+                    <div class="form_control">
+                        <label for="address">Address: </label>
+                        <textarea name="address" id="address" cols="30" rows="3" placeholder="Enter your address."
+                            required></textarea>
+                    </div>
+                    <div class="form_control">
+                        <label for="postal_code">Postal Code: </label>
+                        <input type="number" id="postal_code" name="postal_code">
+                    </div>
+                    <div class="form_control">
+                        <label for="date">Date: </label>
+                        <input type="date" id="date" name="date">
+                    </div>
+                    <div class="form_control">
+                        <label for="upload_cv">Upload your CV: </label>
+                        <input type="file" id="upload_cv" name="upload_cv">
+                    </div>
+                </div>
+                <div class="btn_control">
+                    <input type="reset" value="Reset">
+                    <input type="submit" value="Apply Now">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

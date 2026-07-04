@@ -1,0 +1,44 @@
+{
+  "id": "syn-aria-radio-070",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "full name full name full-name full-name full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "email address email address email-address email-address email address",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "are you willing to relocate?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Maybe later"
+      ],
+      "required": false
+    },
+    {
+      "question": "are you legally authorized to work?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

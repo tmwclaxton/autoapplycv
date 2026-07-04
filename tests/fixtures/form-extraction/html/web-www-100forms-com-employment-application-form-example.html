@@ -1,0 +1,75 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Employment Application Form Example</title>
+
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="pragma" content="no-cache" /> 
+
+</head>
+<body>
+
+<h1>Employment Application Form Example</h1>
+
+
+<form action="//submit.form" id="EmploymentApplication100" method="post" onsubmit="return ValidateForm(this);">
+<script type="text/javascript">
+    function ValidateForm(frm) {
+        if (frm.First_Name.value == "") { alert('First name is required.'); frm.First_Name.focus(); return false; }
+        if (frm.Last_Name.value == "") { alert('Last name is required.'); frm.Last_Name.focus(); return false; }
+        if (frm.Email_Address.value == "") { alert('Email address is required.'); frm.Email_Address.focus(); return false; }
+        if (frm.Email_Address.value.indexOf("@") < 1 || frm.Email_Address.value.indexOf(".") < 1) { alert('Please enter a valid email address.'); frm.Email_Address.focus(); return false; }
+        if (frm.Position.value == "") { alert('Position is required.'); frm.Position.focus(); return false; }
+        if (frm.Phone.value == "") { alert('Phone is required.'); frm.Phone.focus(); return false; }
+        return true;
+    }
+</script>
+<table border="0" cellpadding="5" cellspacing="0">
+<tr> <td style="width: 50%">
+<label for="First_Name"><span class="bold-text">First name *</span></label><br />
+<input name="First_Name" id="First_Name" type="text" maxlength="50" style="max-width:260px;width:100%" />
+</td> <td style="width: 50%">
+<label for="Last_Name"><span class="bold-text">Last name *</span></label><br />
+<input name="Last_Name" id="Last_Name" type="text" maxlength="50" style="max-width:260px;width:100%" />
+</td> </tr> <tr> <td colspan="2">
+<label for="Email_Address"><span class="bold-text">Email *</span></label><br />
+<input name="Email_Address" id="Email_Address" type="text" maxlength="100" style="max-width:535px;width:100%" />
+</td> </tr> <tr> <td colspan="2">
+<label for="Portfolio"><span class="bold-text">Portfolio website</span></label><br />
+<input name="Portfolio" id="Portfolio" type="text" maxlength="255" value="http://" style="max-width:535px;width:100%" />
+</td> </tr> <tr> <td colspan="2">
+<label for="Position"><span class="bold-text">Position you are applying for *</span></label><br />
+<input name="Position" id="Position" type="text" maxlength="100" style="max-width:535px;width:100%" />
+</td> </tr> <tr> <td>
+<label for="Salary"><span class="bold-text">Salary requirements</span></label><br /> <input name="Salary" id="Salary" type="text" maxlength="50" style="max-width:260px;width:100%" /> </td> <td>
+<label for="StartDate"><span class="bold-text">When can you start?</span></label><br />
+<input name="StartDate" id="StartDate" type="text" maxlength="50" style="max-width:260px;width:100%" />
+</td> </tr> <tr> <td>
+<label for="Phone"><span class="bold-text">Phone *</span></label><br />
+<input name="Phone" id="Phone" type="text" maxlength="50" style="max-width:260px;width:100%" />
+</td> <td>
+<label for="Fax"><span class="bold-text">Fax</span></label><br />
+<input name="Fax" id="Fax" type="text" maxlength="50" style="max-width:260px;width:100%" />
+</td> </tr> <tr> <td colspan="2">
+<label for="Relocate"><span class="bold-text">Are you willing to relocate?</span></label><br />
+<input name="Relocate" id="Relocate" type="radio" value="Yes" checked="checked" /> Yes
+<input name="Relocate" type="radio" value="No" /> No      
+<input name="Relocate" type="radio" value="NotSure" /> Not sure
+</td> </tr> <tr> <td colspan="2">
+<label for="Organization"><span class="bold-text">Last company you worked for</span></label><br />
+<input name="Organization" id="Organization" type="text" maxlength="100" style="max-width:535px;width:100%" />
+</td> </tr> <tr> <td colspan="2">
+<label for="Reference"><span class="bold-text">Reference / Comments / Questions</span></label><br />
+<textarea name="Reference" id="Reference" rows="7" cols="40" style="max-width:535px;width:100%"></textarea>
+</td> </tr> <tr> <td colspan="2" style="text-align: center;">
+<div style="float: right"> <a href="https://www.100forms.com" id="lnk100" title="web forms">forms</a></div>
+<script src="https://www.100forms.com/js/FORMKEY:TWPG3F4TGEK6" type="text/javascript"></script>
+<input name="skip_submit" type="submit" value="Send Application" />
+</td> </tr>
+</table>
+</form>
+
+</body>
+</html>

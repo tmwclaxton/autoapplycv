@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>ARIA Application 6</title></head>
+<body>
+<main>
+<h1>ARIA Application 6</h1>
+<form action="/apply" method="post">
+<div class="form-group"><label for="full-name">Full name</label><input type="text" id="full-name" name="full-name" ></div>
+<div class="form-group"><label for="email-address">Email address</label><input type="email" id="email-address" name="email-address" ></div>
+<div role="radiogroup" aria-labelledby="willing-to-relocate-for--label" id="willing-to-relocate-for-">
+<p id="willing-to-relocate-for--label">Willing to relocate for this role?</p>
+<div role="radio" aria-checked="false" tabindex="0" data-value="yes">Yes</div><div role="radio" aria-checked="false" tabindex="-1" data-value="no">No</div><div role="radio" aria-checked="false" tabindex="-1" data-value="maybe-later">Maybe later</div>
+</div>
+<div role="radiogroup" aria-labelledby="eligible-to-work-in-this-label" id="eligible-to-work-in-this">
+<p id="eligible-to-work-in-this-label">Eligible to work in this country?</p>
+<div role="radio" aria-checked="false" tabindex="0" data-value="yes">Yes</div><div role="radio" aria-checked="false" tabindex="-1" data-value="no">No</div>
+</div>
+
+</form>
+</main>
+</body>
+</html>

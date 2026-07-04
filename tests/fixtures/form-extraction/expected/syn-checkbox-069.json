@@ -1,0 +1,48 @@
+{
+  "id": "syn-checkbox-069",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "name as on cv name as on cv name-as-on-cv name-as-on-cv name as on cv",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "personal email personal email personal-email personal-email personal email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "which skills apply to you?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "JavaScript",
+        "PHP",
+        "Python",
+        "SQL",
+        "AWS"
+      ],
+      "required": false
+    },
+    {
+      "question": "which languages do you speak?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "English",
+        "French",
+        "Spanish",
+        "German"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><title>Create a Registration Form with an Auto Response | Formspree</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="theme-color" content="#e5122e" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e232d" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Learn how to create a registration form with HTML to collect information about event participants. Add an auto response to confirm registrations.">
+<meta property="og:image" content="https://formspree.io/img/formspree-og.jpg" />
+<meta property="twitter:image" content="https://formspree.io/img/formspree-og.jpg" />
+<meta name="twitter:site" content="@formspree" />
+
+
+
+<link rel="canonical" href="https://formspree.io/blog/registration-form/" />   
+<meta property="og:title" content="Create a Registration Form with an Auto Response" />
+<meta property="og:description" content="Learn how to create a registration form with HTML to collect information about event participants. Add an auto response to confirm registrations." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://formspree.io/blog/registration-form/" /><meta property="og:image" content="https://formspree.io/blog/registration-form/Seltz%20blog%20landing%20page.png" /><meta property="og:image" content="https://formspree.io/blog/registration-form/Form%20Template%20Library.png" /><meta property="og:image" content="https://formspree.io/blog/registration-form/Seltz%20webinar%20registration%20page.png" /><meta property="og:image" content="https://formspree.io/blog/registration-form/select%20plugin_highlighted.png" /><meta property="og:image" content="https://formspree.io/blog/registration-form/set%20up%20registration%20form%20auto%20response%20email%20plugin.png" /><meta property="og:image" content="https://formspree.io/blog/registration-form/registration%20form%20auto%20response%20confirmation%20email.png" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2020-07-15T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-07-15T00:00:00+00:00" />
+<meta property="og:see_also" content="https://formspree.io/blog/lead-generation-form/" /><meta property="og:see_also" content="https://formspree.io/blog/creative-form-design/" /><meta property="og:see_also" content="https://formspree.io/blog/accessible-forms/" /><meta property="og:see_also" content="https://formspree.io/blog/feedback-form/" /><meta property="og:see_also" content="https://formspree.io/blog/file-upload-form/" /><meta property="og:see_also" content="https://formspree.io/blog/client-intake-form/" />
+
+
+<meta itemprop="name" content="Create a Registration Form with an Auto Response">
+<meta itemprop="description" content="Learn how to create a registration form with HTML to collect information about event participants. Add an auto response to confirm registrations."><meta itemprop="datePublished" content="2020-07-15T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-07-15T00:00:00+00:00" />
+<meta itemprop="wordCount" content="807"><meta itemprop="image" content="https://formspree.io/blog/registration-form/Seltz%20blog%20landing%20page.png"><meta itemprop="image" content="https://formspree.io/blog/registration-form/Form%20Template%20Library.png"><meta itemprop="image" content="https://formspree.io/blog/registration-form/Seltz%20webinar%20registration%20page.png"><meta itemprop="image" content="https://formspree.io/blog/registration-form/select%20plugin_highlighted.png"><meta itemprop="image" content="https://formspree.io/blog/registration-form/set%20up%20registration%20form%20auto%20response%20email%20plugin.png"><meta itemprop="image" content="https://formspree.io/blog/registration-form/registration%20form%20auto%20response%20confirmation%20email.png">
+<meta itemprop="keywords" content="HTML,Auto Response,Plugins," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://formspree.io/blog/registration-form/Seltz%20blog%20landing%20page.png"/>
+
+<meta name="twitter:title" content="Create a Registration Form with an Auto Response"/>
+<meta name="twitter:description" content="Learn how to create a registration form with HTML to collect information about event participants. Add an auto response to confirm registrations."/>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'GTM-KCSJ8DK', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<meta name="twitter:card" content="summary_large_image" />
+
+<!--[if IE]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="icon" type="image/x-icon" href="/img/favicon.ico"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"  media="screen">
+<link rel="preload" href="https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7W0Q5nw.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/main-old.css" media="screen">
+
+
+
+
+
+
+
+
+
+<style id="form-css-minified-raw">/* reset */
+#fs-frm input,
+#fs-frm select,
+#fs-frm textarea,
+#fs-frm fieldset,
+#fs-frm optgroup,
+#fs-frm label,
+#fs-frm #card-element:disabled {
+  font-family: inherit;
+  font-size: 100%;
+  color: inherit;
+  border: none;
+  border-radius: 0;
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+#fs-frm label,
+#fs-frm legend,
+#fs-frm ::placeholder {
+  font-size: .825rem;
+  margin-bottom: .5rem;
+  padding-top: .2rem;
+  display: flex;
+  align-items: baseline;
+}
+
+/* border, padding, margin, width */
+#fs-frm input,
+#fs-frm select,
+#fs-frm textarea,
+#fs-frm #card-element {
+  border: 1px solid rgba(0,0,0,0.2);
+  background-color: rgba(255,255,255,0.9);
+  padding: .75em 1rem;
+  margin-bottom: 1.5rem;
+}
+#fs-frm input:focus,
+#fs-frm select:focus,
+#fs-frm textarea:focus {
+  background-color: white;
+  outline-style: solid;
+  outline-width: thin;
+  outline-color: gray;
+  outline-offset: -1px;
+}
+#fs-frm [type="text"],
+#fs-frm [type="email"] {
+  width: 100%;
+}
+#fs-frm [type="button"],
+#fs-frm [type="submit"],
+#fs-frm [type="reset"] {
+  width: auto;
+  cursor: pointer;
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+}
+#fs-frm [type="button"]:focus,
+#fs-frm [type="submit"]:focus,
+#fs-frm [type="reset"]:focus {
+  outline: none;
+}
+#fs-frm [type="submit"],
+#fs-frm [type="reset"] {
+  margin-bottom: 0;
+}
+#fs-frm select {
+  text-transform: none;
+}
+
+#fs-frm [type="checkbox"] {
+  -webkit-appearance: checkbox;
+  -moz-appearance: checkbox;
+  appearance: checkbox;
+  display: inline-block;
+  width: auto;
+  margin: 0 .5em 0 0 !important;
+}
+
+#fs-frm [type="radio"] {
+  -webkit-appearance: radio;
+  -moz-appearance: radio;
+  appearance: radio;
+}
+
+/* address, locale */
+#fs-frm fieldset.locale input[name="city"],
+#fs-frm fieldset.locale select[name="state"],
+#fs-frm fieldset.locale input[name="postal-code"] {
+  display: inline;
+}
+#fs-frm fieldset.locale input[name="city"] {
+  width: 52%;
+}
+#fs-frm fieldset.locale select[name="state"],
+#fs-frm fieldset.locale input[name="postal-code"] {
+  width: 20%;
+}
+#fs-frm fieldset.locale input[name="city"],
+#fs-frm fieldset.locale select[name="state"] {
+  margin-right: 3%;
+}
+</style>
+
+<style type="text/css">
+   
+  @media only screen and (min-width:1367px) {
+
+    .site-frame,
+    .site-section {
+      padding: 88px;
+      max-width: 1680px;
+      margin: auto;
+    }
+
+    .blog-headline h1 {
+      font-size: 74px;
+    }
+  }
+
+   
+  @media only screen and (min-width:1281px) and (max-width:1366px) {
+
+    .site-frame,
+    .site-section {
+      padding: 66px;
+    }
+  }
+
+   
+  @media only screen and (min-width:769px) and (max-width:1280px) {
+
+    .site-frame,
+    .site-section {
+      padding: 66px 44px;
+    }
+
+    .site-section.page-intro {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+
+  @media only screen and (max-width:1024px) {
+
+     
+    .grid {
+      flex-direction: column;
+    }
+
+    .grid>.grid-cell {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .grid-cell+.grid-cell {
+      margin-left: 0;
+      margin-top: 44px;
+    }
+
+    aside {
+      display: none;
+    }
+
+    .blog-headline h1 {
+      font-size: 44px;
+    }
+
+    .blog-headline .sticky,
+    .post .sticky {
+      position: static;
+      top: auto;
+    }
+
+
+  }
+
+   
+  @media only screen and (min-width:768px) and (max-width:860px) {
+  .get-started {
+    display: none;
+  }
+
+  @media only screen and (min-width:769px) {
+
+    .site-nav .menu-icon,
+    .site-nav .close-icon {
+      display: none;
+    }
+  }
+
+   
+  @media only screen and (max-width:768px) {
+    .site-nav .main-nav {
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      transition: width 0s linear;
+    }
+
+    .site-nav .account-nav .text-link {
+      display: none;
+    }
+
+    #main-nav.expanded {
+      display: block;
+      width: 175px;
+      height: auto;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: var(--isabelline);
+      white-space: nowrap;
+      padding-bottom: 44px;
+      transition: all 0.14s linear;
+    }
+
+    #main-nav.expanded .site-link:not(.close-icon) a {
+      padding-top: 11px;
+      padding-bottom: 11px;
+    }
+
+    .grid>.grid-cell {
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+    }
+
+    .grid>.grid-cell {
+      padding: 0;
+    }
+
+    .grid>.grid-cell.no-image {
+      padding: 22px 0;
+    }
+
+    .site-frame,
+    .site-section {
+      padding: 44px;
+    }
+
+    .site-section.page-intro {
+      padding-right: 0;
+      padding-left: 0;
+    }
+
+    .site-section.examples .grid>.grid-cell {
+      padding: 22px;
+      padding-top: 33px;
+    }
+
+     
+    .site-section.examples hr {
+      margin-top: 0;
+    }
+
+    .trusted-by-logos .logo-strip {
+      max-width: 100%;
+    }
+
+    .form-container.design {
+      margin-bottom: 3rem;
+    }
+  }
+
+   
+  @media only screen and (max-width: 640px) {
+    .grid>.grid-cell {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      padding-top: 0 !important;
+    }
+
+    .library-grid {
+      flex-direction: column;
+    }
+
+    .library-list-cell {
+      max-width: 100%;
+      min-width: 100%;
+      width: 100%;
+      padding-right: 0;
+      padding-left: 0;
+    }
+
+    .page-intro h1 {
+      font-size: 2.5rem;
+    }
+  }
+
+   
+  @media only screen and (max-width:425px) {
+
+     
+    .site-frame,
+    .site-section,
+    .page-section {
+      padding: 22px;
+    }
+  }
+</style>
+
+
+<!-- Amplitude -->
+<script type="text/javascript">
+  (function(e,t){var n=e.amplitude||{_q:[],_iq:{}};var r=t.createElement("script")
+  ;r.type="text/javascript";r.async=true
+  ;r.src="https://cdn.amplitude.com/libs/amplitude-4.4.0-min.gz.js"
+  ;r.onload=function(){if(e.amplitude.runQueuedFunctions){
+  e.amplitude.runQueuedFunctions()}else{
+  console.log("[Amplitude] Error: could not load SDK")}}
+  ;var i=t.getElementsByTagName("script")[0];i.parentNode.insertBefore(r,i)
+  ;function s(e,t){e.prototype[t]=function(){
+  this._q.push([t].concat(Array.prototype.slice.call(arguments,0)));return this}}
+  var o=function(){this._q=[];return this}
+  ;var a=["add","append","clearAll","prepend","set","setOnce","unset"]
+  ;for(var u=0;u<a.length;u++){s(o,a[u])}n.Identify=o;var c=function(){this._q=[]
+  ;return this}
+  ;var l=["setProductId","setQuantity","setPrice","setRevenueType","setEventProperties"]
+  ;for(var p=0;p<l.length;p++){s(c,l[p])}n.Revenue=c
+  ;var d=["init","logEvent","logRevenue","setUserId","setUserProperties","setOptOut","setVersionName","setDomain","setDeviceId","setGlobalUserProperties","identify","clearUserProperties","setGroup","logRevenueV2","regenerateDeviceId","logEventWithTimestamp","logEventWithGroups","setSessionId","resetSessionId"]
+  ;function v(e){function t(t){e[t]=function(){
+  e._q.push([t].concat(Array.prototype.slice.call(arguments,0)))}}
+  for(var n=0;n<d.length;n++){t(d[n])}}v(n);n.getInstance=function(e){
+  e=(!e||e.length===0?"$default_instance":e).toLowerCase()
+  ;if(!n._iq.hasOwnProperty(e)){n._iq[e]={_q:[]};v(n._iq[e])}return n._iq[e]}
+  ;e.amplitude=n})(window,document);
+
+  amplitude.getInstance().init("afce35c666c571e82893eb3f7c5075f4", null, {
+    // Configuration options. Do not change without consulting legal.
+    includeReferrer: true,
+    includeUtm: true,
+    saveParamsReferrerOncePerSession: false,    
+    trackingOptions: {
+      carrier: true, 
+      city: false,
+      country: true,
+      device_model: true,
+      dma: false,
+      ip_address: false,
+      language: true,
+      os_name: true,
+      os_version: true,
+      platform: true,
+      region: false,
+      version_name: true
+    } 
+  });
+  var path = window.location.href.replace('https://formspree.io','');
+  var eventProperties = {
+    'variant':  'main',
+    'path': path
+  };
+  if (path === '/') {
+    amplitude.getInstance().logEvent('Viewed Home Page', eventProperties);
+  } else {
+    amplitude.getInstance().logEvent('Viewed Page', eventProperties);
+  }
+</script><script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ie Ts Ms Ee Es Rs capture Ge calculateEventProperties Os register register_once register_for_session unregister unregister_for_session js getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Ds Fs createPersonProfile Ls Ps opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing Cs debug I As getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_UflWuJ8nEXNrqM7oJAhd1N6RUQzGTmHcBdzVvHuxP4d', {
+        api_host: 'https://us.i.posthog.com',
+        defaults: '2025-05-24',
+        person_profiles: 'always', // or 'identified_only'
+    })
+</script></head>
+
+
+
+<body class="site" id="site-body">
+  <div class="site-container">
+
+<header class="-legacy">
+  <a class="logo" href="/">
+    <img src="/img/formspree-new.svg" alt="Formspree Logo" width="163" height="36"/>
+  </a>
+  <div class="menu-container">
+    <svg class="menu-open" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 13a2 2 0 110 4 2 2 0 010-4zM9 7a2 2 0 110 4 2 2 0 010-4zM9 1a2 2 0 110 4 2 2 0 010-4z"
+        fill="#000"/>
+    </svg>
+  </div>
+  <nav class="hidden">
+    <div class="menu-close">
+      <img src="/img/close.svg" alt="Close menu"/>
+    </div>
+    <ul class="main-nav">
+      <li>
+        <a href="/plans">
+          Plans
+        </a>
+      </li>
+      <li aria-expanded="false" class="dropdown-root">
+        <button type="button" data-dropdown-element="trigger">
+          Resources
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.37966 0.43976L0.509763 4.31006C0.169923 4.6499 0.169923 5.21006 0.509763 5.54986C0.849603 5.8897 1.40976 5.8897 1.74956 5.54986L4.99956 2.31006L8.24956 5.56006C8.5894 5.8999 9.14956 5.8999 9.48936 5.56006C9.65928 5.39014 9.74952 5.16006 9.74952 4.94014C9.74952 4.71006 9.65968 4.49014 9.48936 4.32022L5.61946 0.45032C5.27962 0.0999298 4.71946 0.0999298 4.37966 0.439773V0.43976Z" fill="#28373E"/>
+          </svg>
+        </button>
+        
+        <div class="dropdown-menu" data-layout="2-cols">
+          <ul>
+            <li>
+              <a href="/library">
+                <svg width="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="40" height="40" rx="8" fill="#E5122E"/>
+                  <path d="M20 12.0483C17.8021 10.0817 14.9525 8.99595 12 9.00001C10.5973 9.00001 9.25067 9.2394 8 9.68095V28.6327C9.28483 28.1805 10.6376 27.9503 12 27.9518C15.0733 27.9518 17.8773 29.1048 20 31M20 12.0483C22.1978 10.0816 25.0474 8.99582 28 9.00001C29.4027 9.00001 30.7493 9.2394 32 9.68095V28.6327C30.7152 28.1805 29.3624 27.9503 28 27.9518C25.0475 27.9477 22.1979 29.0335 20 31M20 12.0483V31" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div>
+                  Library
+                  <p>
+                    A collection of example HTML forms with code that you can edit and download or copy/paste.
+                  </p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="/guides">
+                <svg width="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="40" height="40" rx="8" fill="#E5122E"/>
+                  <path d="M19 19L19.0547 18.9733C19.2256 18.8879 19.4175 18.8533 19.6076 18.8735C19.7976 18.8938 19.9779 18.9681 20.127 19.0876C20.2761 19.2071 20.3879 19.3669 20.449 19.548C20.5102 19.7291 20.5181 19.9239 20.472 20.1093L19.528 23.8907C19.4815 24.0762 19.4893 24.2712 19.5503 24.4525C19.6113 24.6338 19.723 24.7938 19.8722 24.9136C20.0214 25.0333 20.2018 25.1077 20.392 25.128C20.5822 25.1483 20.7742 25.1136 20.9453 25.028L21 25M32 20C32 21.5759 31.6896 23.1363 31.0866 24.5922C30.4835 26.0481 29.5996 27.371 28.4853 28.4853C27.371 29.5996 26.0481 30.4835 24.5922 31.0866C23.1363 31.6896 21.5759 32 20 32C18.4241 32 16.8637 31.6896 15.4078 31.0866C13.9519 30.4835 12.629 29.5996 11.5147 28.4853C10.4004 27.371 9.5165 26.0481 8.91345 24.5922C8.31039 23.1363 8 21.5759 8 20C8 16.8174 9.26428 13.7652 11.5147 11.5147C13.7652 9.26428 16.8174 8 20 8C23.1826 8 26.2348 9.26428 28.4853 11.5147C30.7357 13.7652 32 16.8174 32 20ZM20 15H20.0107V15.0107H20V15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>                    
+                <div>
+                  Guides
+                  <p>
+                    Contact forms that work out of the box with top website platforms.
+                  </p>
+                </div>
+              </a>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <a href="/changelog">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="40" height="40" rx="8" fill="#E5122E"/>
+                  <path d="M20 14V20.6667L24 24.6667" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8 18.3104C8.41269 15.1754 9.95866 12.2976 12.3485 10.2157C14.7384 8.13382 17.8083 6.9906 20.9837 7.00006C24.159 7.00951 27.222 8.17098 29.5993 10.2671C31.9766 12.3631 33.5053 15.2501 33.8992 18.3875C34.293 21.525 33.525 24.6978 31.739 27.3121C29.953 29.9264 27.2713 31.8029 24.1961 32.5904C21.1208 33.3778 17.8627 33.0223 15.0317 31.5902C12.2007 30.1582 9.99094 27.7479 8.81596 24.8104M8 32.9354V24.8104H16.1596" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>                                    
+                <div>
+                  Changelog
+                  <p>
+                    Keep up-to-date with changes and improvements to Formspree. A weekly log of Formspree updates.
+                  </p>
+                </div>
+              </a>
+            </li>
+            <li class="hover:bg-gray-100 m-4 rounded-md">
+                <a href="/customers" class="px-4 md:py-2 text-black text-left flex items-start">
+                  <svg class="hidden md:block flex-shrink-0" width="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect width="40" height="40" rx="8" fill="#E5122E"/>
+                    <polygon fill="white" points="20,6 24.5,15.5 34.5,16.5 27.5,23 29.5,33 20,27.5 10.5,33 12.5,23 5.5,16.5 15.5,15.5"/>
+                  </svg>
+                  <div class="pl-3 text-lg">
+                    Customer Stories
+                    <p class="text-sm font-light text-gray-600 py-1">Real-world success stories from companies using our product.</p>
+                  </div>
+                </a>
+              </li>
+          </ul>
+        </div>
+      </li>
+      <li aria-expanded="false" class="dropdown-root">
+        <button type="button" data-dropdown-element="trigger">
+          Solutions
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.37966 0.43976L0.509763 4.31006C0.169923 4.6499 0.169923 5.21006 0.509763 5.54986C0.849603 5.8897 1.40976 5.8897 1.74956 5.54986L4.99956 2.31006L8.24956 5.56006C8.5894 5.8999 9.14956 5.8999 9.48936 5.56006C9.65928 5.39014 9.74952 5.16006 9.74952 4.94014C9.74952 4.71006 9.65968 4.49014 9.48936 4.32022L5.61946 0.45032C5.27962 0.0999298 4.71946 0.0999298 4.37966 0.439773V0.43976Z" fill="#28373E"/>
+          </svg>
+        </button>
+        
+        <div class="dropdown-menu">
+          <ul>
+            <li>
+              <a href="/javascript">
+                <div>
+                  JavaScript Forms
+                  <p>
+                    Build dynamic forms with our JavaScript library
+                  </p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href='/html/'>
+                <div>
+                  HTML Forms
+                  <p>
+                    Simple forms integration with just HTML.
+                  </p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="/formbutton">
+                <div>
+                  Formbutton
+                  <p>
+                    Easy popup forms for any website.
+                  </p>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="/blog">
+          Blog
+        </a>
+      </li>
+      <li>
+        <a href="https://help.formspree.io/">
+          Help
+        </a>
+      </li>
+    </ul>
+    <ul class="secondary-nav">
+      <li>
+        <a href="/register" class="get-started">
+          Get started
+        </a>
+      </li>
+      <li>
+        <a href="/forms">
+          Sign in
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+<div class="site-frame" id="site-main">
+      
+  <article class="post">
+    <div class="post-wrapper grid">
+      <header class="grid-cell narrow">
+        <div class="sticky">
+          <div class="post-meta">
+            <a class="subtle" href='https://formspree.io/blog/registration-form/'><time pubdate="pubdate" class="post-date date">Wed, Jul 15, 2020</time></a><span class="post-author author">Meredith Grace Kucherov</span>
+          </div>
+          <h1 class="post-title title">Create a Registration Form with an Auto Response</h1>
+          
+          
+          
+            <h6 class="post-series"><div class="series-text">Part of the
+            
+              <a href="https://formspree.io/series/getting-started-with-formspree">Getting Started with Formspree</a>
+             Series</div>
+            </h6>
+          
+          <div class="post-links">
+            
+              <span class="post-tags">Tagged:
+              
+                <a class='post-tag' href='https://formspree.io/tags/html/'>HTML</a>
+              
+                <a href="https://formspree.io/tags/auto-response" class="post-tag">Auto Response</a>
+              
+                <a href="https://formspree.io/tags/plugins" class="post-tag">Plugins</a>
+              
+              </span>
+            
+            
+              <span class="post-categories">in
+              
+                <a href="https://formspree.io/categories/tutorials" class="post-category">Tutorials</a>
+              
+              </span>
+            
+          </div>    
+        </div>
+      </header>
+      <div class="post-body grid-cell wide no-image">
+        <p>If you’re hosting an event, you need to collect information about the participants—names, emails, mailing addresses, food allergies, you name it. How do you do it? The registration form.</p>
+<p>But what you won’t get out of most codeless form tools (like Google Forms) is the ability to connect your form responses to different applications. Need a <a href="https://help.formspree.io/hc/en-us/articles/360045648933-Send-Slack-notifications">Slack notification</a>? Want to add registrants to a <a href="https://help.formspree.io/hc/en-us/articles/360036061994-Use-Mailchimp-to-collect-email-addresses">Mailchimp</a> or ConvertKit list? With just a bit of HTML-savvy, Formspree can help you supercharge your registration form.</p>
+<p>The very first tool to improve your registration form should be the auto response. An auto response lets participants know that their registration is confirmed, while you pass on any important information, like the web conference details or how to print tickets.</p>
+<p>In this blog post, we’ll walk you through how to create an HTML registration form for a webinar hosted by our favorite fictional business, Seltz. Seltz makes sparkling water with personalized levels of carbonation. They’re collecting information for a webinar, “Everything You Need to Know about Home Carbonation.”</p>
+<p><img src="Seltz%20blog%20landing%20page.png" alt="Seltz blog landing page"></p>
+<h2 id="code-the-registration-form">Code the registration form</h2>
+<p>HTML lets you customize your registration form exactly to your needs, without relying on templates that may or may not fit the bill. Get a baseline for your form from our <a href="https://formspree.io/library">form library</a>, and edit the code directly in the text editor.</p>
+<p><img src="Form%20Template%20Library.png" alt="Form Template Library"></p>
+<h3 id="choose-the-fields">Choose the fields</h3>
+<p>The fields of your registration form should depend on what specific information you need to know for your event—don’t go overboard asking for superfluous information.</p>
+<p>Since Seltz’s event takes place online, we don’t need to collect people’s mailing addresses. We decided to go with name, company, email address, and an optional question. While the company name isn’t strictly necessary, it can tell you a lot about the kind of registrants you’re attracting.</p>
+<p>Here’s the edited code:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">form</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;fs-frm&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;registration-form&#34;</span> <span class="na">accept-charset</span><span class="o">=</span><span class="s">&#34;utf-8&#34;</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;https://formspree.io/YOUR_FORM_ID&#34;</span> <span class="na">method</span><span class="o">=</span><span class="s">&#34;post&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">fieldset</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;fs-frm-inputs&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;full-name&#34;</span><span class="p">&gt;</span>Full Name<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;name&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;full-name&#34;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;Sally Soda&#34;</span> <span class="na">required</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;company&#34;</span><span class="p">&gt;</span>Company<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;company&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;company&#34;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;Seltz&#34;</span> <span class="na">required</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;email-address&#34;</span><span class="p">&gt;</span>Email Address<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;email&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;_replyto&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;email-address&#34;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;email@domain.tld&#34;</span> <span class="na">required</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;message&#34;</span><span class="p">&gt;</span>Questions for our panelists? (Optional)<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">textarea</span> <span class="na">rows</span><span class="o">=</span><span class="s">&#34;5&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;message&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;message&#34;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;Send questions in advance and we will cover them in the Q&amp;A&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">textarea</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;hidden&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;_subject&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;email-subject&#34;</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;Registration Form Submission&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">fieldset</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;submit&#34;</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;Register&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>Let’s go over a few details:</p>
+<ul>
+<li>We placed an endpoint in the <code>action</code> attribute. This is the URL where all the form data is sent. Formspree generates a unique and secure endpoint for your form when you create it in your account.</li>
+<li>For an auto response to work, the form has to include a field named <code>email</code> or <code>_replyto</code>.</li>
+<li>We used the <code>placeholder</code> text to reflect the Seltz persona and to explain what the message field is for (questions for the panelists).</li>
+<li>We removed the <code>required</code> tag from the message field to make it optional.</li>
+</ul>
+<p>If you want to learn how to break down the form code even further, check out our post on <a href="https://formspree.io/blog/html-contact-form/">simple contact forms</a>.</p>
+<h3 id="add-the-form-to-your-website">Add the form to your website</h3>
+<p>It doesn’t matter whether you’re working in GitHub, an HTML template, or a <a href="https://formspree.io/blog/html-contact-form/">CMS like WordPress</a>—you can still use an HTML form with Formspree. If you are using an HTML template or have a static website, drop the form code on any page where you want it to appear. If your site is built using Webflow,  Wordpress, or Shopify, just make an HTML code block and put the code there.</p>
+<p>This is what it looks like on Seltz’s blog:</p>
+<p><img src="Seltz%20webinar%20registration%20page.png" alt="Seltz webinar registration page"></p>
+<h2 id="set-up-the-auto-response">Set up the auto response</h2>
+<p>An auto response saves you manual work by automatically sending event participants a confirmation of their registration and any important details about the event you want to share with them. Here’s how you set it up in Formspree.</p>
+<p>Go to the Plugins page in your Formspree account and select “auto response.”</p>
+<p><img src="select%20plugin_highlighted.png" alt="select plugin_highlighted"></p>
+<p>Fill out what you want the auto response to say—who it’s from, the subject line, and message. We noted the Zoom video conference link and password.</p>
+<p><img src="set%20up%20registration%20form%20auto%20response%20email%20plugin.png" alt="set up registration form auto response email plugin"></p>
+<h2 id="test-it-out">Test it out</h2>
+<p>Make sure everything’s working by sending some test emails.</p>
+<p>This is what the confirmation email will look like.  If you want to customize this email, we offer custom email templates in the <a href="https://formspree.io/plans">Platinum plan</a>.</p>
+<p><img src="registration%20form%20auto%20response%20confirmation%20email.png" alt="registration form auto response confirmation email"></p>
+<p>And this is how form submissions will appear in your account:</p>
+<p><img src="registration%20form%20submissions.png" alt="registration form submissions.png"></p>
+<p>Click “export” if you want to download the submissions.</p>
+<h2 id="registration-form-complete-but-your-event-is-just-getting-started">Registration form: complete. But your event is just getting started.</h2>
+<p>An auto response is just the beginning of what you can do with your registration form to make your event run smoothly. <a href="https://formspree.io/blog/html-contact-form/">Track registrations in Google Sheets</a> or <a href="https://help.formspree.io/hc/en-us/articles/360043997954-Use-Airtable-to-create-powerful-spreadsheets">use Airtable</a> to link registrants with a badge for a live event. Use ConvertKit to start participants on an email drip to send them information leading up to your event and then to continue marketing to them. Or add people to a custom <a href="https://help.formspree.io/hc/en-us/articles/360034260534-Use-Trello-to-create-cards">CRM in Trello</a> to track follow-up engagement. All of these integrations and more are available with Formspree’s <a href="https://formspree.io/plans">monthly plans</a>.</p>
+        
+        <hr>
+        <a id="feedback-form"></a>
+<h2>Got Feedback?</h2>
+<form id="fs-frm" action="https://formspree.io/mlerqwny" method="POST">
+  <fieldset id="fs-frm-inputs">
+    <div class="row last">
+      <div class="col span-1-2">
+        <label for="name-input">Name</label>
+        <input type="text" name="name" id="name-input">
+      </div>
+      <div class="col span-1-2 last">
+        <label for="email-input">Email</label>
+        <input type="email" name="_replyto" id="email-input" required>
+      </div>
+    </div>
+    <label for="message-input">Message</label>
+    <textarea name="message" id="message-input" required></textarea>
+    <button class="button-link light button">Send</button>
+    <input type="hidden" name="_subject" value="New feedback for Create a Registration Form with an Auto Response">
+  </fieldset>
+</form>
+      </div>
+    </div>
+    <footer class="post-footer">
+      <div class="post-pagination">
+        
+          <a class="prev subtle" href="https://formspree.io/blog/html-contact-form/">Create a Simple HTML Contact Form with Google Sheets &#43; Formspree</a>
+        
+        
+          <a class="next subtle" href="https://formspree.io/blog/client-intake-form/">How to Create a Client Intake Form that Improves Onboarding with Formspree &#43; Airtable</a>
+        
+      </div>
+    </footer>
+  </article>
+
+          
+        </div><footer class="-legacy">
+  <section class="main-footer">
+    <div class="company-info">
+      <a href="/">
+        <img class="logo-full" src="/img/formspree-new.svg" alt="Formspree Logo" width="163" height="36"/>
+        <img class="logo-minimal" src="/img/formspree-logo-no-text.svg" alt="Formspree Logo" height="36"/>
+      </a>
+      
+      <p>The form solution <br> for any developer</p>
+      <ul>
+        <li><a href="https://facebook.com/formspree" aria-label="Link to our Facebook page." target="_blank"><svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_530_16998)"><path d="M24.5 11.9999C24.5 5.37252 19.1274 -6.10352e-05 12.5 -6.10352e-05C5.87258 -6.10352e-05 0.5 5.37252 0.5 11.9999C0.5 17.9894 4.8882 22.9539 10.625 23.8542V15.4687H7.57812V11.9999H10.625V9.35619C10.625 6.34869 12.4166 4.68744 15.1576 4.68744C16.4701 4.68744 17.8438 4.92181 17.8438 4.92181V7.87494H16.3306C14.84 7.87494 14.375 8.80002 14.375 9.74994V11.9999H17.7031L17.1711 15.4687H14.375V23.8542C20.1118 22.9539 24.5 17.9894 24.5 11.9999Z" fill="#8D9396"/></g><defs><clipPath id="clip0_530_16998"><rect width="24" height="24" fill="white" transform="translate(0.5 -6.10352e-05)"/></clipPath></defs></svg></a></li>
+        <li><a href="https://twitter.com/formspree" aria-label="Link to our Twitter page." target="_blank"><svg width="25" height="20" viewBox="0 0 25 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.05016 19.75C17.1045 19.75 22.0583 12.2467 22.0583 5.74186C22.0583 5.53092 22.0536 5.3153 22.0442 5.10436C23.0079 4.40746 23.8395 3.54425 24.5 2.5553C23.6025 2.9546 22.6496 3.21538 21.6739 3.32874C22.7013 2.71291 23.4705 1.74547 23.8391 0.605767C22.8726 1.17856 21.8156 1.58261 20.7134 1.80061C19.9708 1.01156 18.989 0.489116 17.9197 0.314051C16.8504 0.138986 15.7532 0.32105 14.7977 0.832096C13.8423 1.34314 13.0818 2.15471 12.6338 3.14131C12.1859 4.12792 12.0754 5.23462 12.3195 6.2903C10.3625 6.19209 8.44794 5.6837 6.69998 4.7981C4.95203 3.91249 3.40969 2.66944 2.17297 1.14952C1.5444 2.23324 1.35206 3.51565 1.63503 4.73609C1.918 5.95654 2.65506 7.02345 3.69641 7.71999C2.91463 7.69517 2.14998 7.48468 1.46563 7.10592V7.16686C1.46492 8.30415 1.8581 9.40659 2.57831 10.2868C3.29852 11.167 4.30132 11.7706 5.41625 11.995C4.69206 12.1931 3.93198 12.222 3.19484 12.0794C3.50945 13.0574 4.12157 13.9129 4.94577 14.5263C5.76997 15.1398 6.76512 15.4806 7.79234 15.5012C6.04842 16.8711 3.89417 17.6141 1.67656 17.6106C1.28329 17.61 0.890399 17.5859 0.5 17.5384C2.75286 18.9837 5.37353 19.7514 8.05016 19.75Z" fill="#8D9396"/></svg></a></li>
+        <li><a href="https://github.com/formspree" aria-label="Link to our Github page." target="_blank"><svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_530_17002)"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.5 -6.10352e-05C5.8724 -6.10352e-05 0.5 5.38074 0.5 12.0203C0.5 17.3303 3.938 21.8363 8.7068 23.4251C9.3068 23.5355 9.5252 23.1647 9.5252 22.8455C9.5252 22.5611 9.5156 21.8039 9.5096 20.8019C6.1712 21.5279 5.4668 19.1903 5.4668 19.1903C4.922 17.8007 4.1348 17.4311 4.1348 17.4311C3.0452 16.6871 4.2176 16.7015 4.2176 16.7015C5.4212 16.7855 6.0548 17.9399 6.0548 17.9399C7.1252 19.7759 8.864 19.2455 9.5468 18.9383C9.6572 18.1619 9.9668 17.6327 10.31 17.3327C7.646 17.0291 4.844 15.9971 4.844 11.3915C4.844 10.0799 5.312 9.00594 6.0788 8.16594C5.9552 7.86234 5.5436 6.63954 6.1964 4.98594C6.1964 4.98594 7.2044 4.66194 9.4964 6.21714C10.4753 5.95016 11.4853 5.81417 12.5 5.81274C13.52 5.81754 14.546 5.95074 15.5048 6.21714C17.7956 4.66194 18.8012 4.98474 18.8012 4.98474C19.4564 6.63954 19.0436 7.86234 18.9212 8.16594C19.6892 9.00594 20.1548 10.0799 20.1548 11.3915C20.1548 16.0091 17.348 17.0255 14.6756 17.3231C15.1064 17.6939 15.4892 18.4271 15.4892 19.5491C15.4892 21.1547 15.4748 22.4519 15.4748 22.8455C15.4748 23.1671 15.6908 23.5415 16.3004 23.4239C18.69 22.6225 20.7672 21.0903 22.2386 19.044C23.7099 16.9977 24.501 14.5407 24.5 12.0203C24.5 5.38074 19.1264 -6.10352e-05 12.5 -6.10352e-05Z" fill="#8D9396"/></g><defs><clipPath id="clip0_530_17002"><rect width="24" height="24" fill="white" transform="translate(0.5 -6.10352e-05)"/></clipPath></defs></svg></a></li>
+      </ul>
+    </div>
+
+    <div class="links">
+      <nav class="main">
+        <h2>Company</h2>
+        <a href="/plans">Plans</a>
+        <a href="/blog">Blog</a>
+        <a href="/changelog">Changelog</a>
+        <a href="categories/announcements">Announcements</a>
+        <a href="https://status.formspree.io/">API Status</a>
+      </nav>
+
+      <nav class="main">
+        <h2>Resources</h2>
+        <a href="/library">Library</a>
+        <a href="/guides">Guides</a>
+        <a href='/html/'>HTML Forms</a>
+        <a href="/javascript">React Forms</a>
+        <a href="/formbutton">Formbutton</a>
+        <a href="/categories/tutorials">Tutorials</a>
+        <a href="https://help.formspree.io/">Help</a>
+      </nav>
+
+      <div class="logos-desktop">
+        <img src="/img/logos/aicpa.svg" alt="AICPA Logo" height="75"/>
+        <img src="/img/logos/ccpa.svg" alt="CCPA Logo" height="75"/>
+        <img src="/img/logos/gdpr.svg" alt="GDPR Logo" height="75"/>
+      </div>
+
+      <nav class="legal-mobile">
+        <h2>Legal</h2>
+        <a href="/legal/terms-of-service">Terms of Service</a>
+        <a href="/legal/privacy-policy">Privacy Policy</a>
+        <a href="/security">Security</a>
+      </nav>
+
+      <nav class="social-mobile">
+        <h2>Social</h2>
+        <ul>
+          <li><a href="https://facebook.com/formspree" aria-label="Link to our Facebook page." target="_blank"><svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_530_16998)"><path d="M24.5 11.9999C24.5 5.37252 19.1274 -6.10352e-05 12.5 -6.10352e-05C5.87258 -6.10352e-05 0.5 5.37252 0.5 11.9999C0.5 17.9894 4.8882 22.9539 10.625 23.8542V15.4687H7.57812V11.9999H10.625V9.35619C10.625 6.34869 12.4166 4.68744 15.1576 4.68744C16.4701 4.68744 17.8438 4.92181 17.8438 4.92181V7.87494H16.3306C14.84 7.87494 14.375 8.80002 14.375 9.74994V11.9999H17.7031L17.1711 15.4687H14.375V23.8542C20.1118 22.9539 24.5 17.9894 24.5 11.9999Z" fill="#8D9396"/></g><defs><clipPath id="clip0_530_16998"><rect width="24" height="24" fill="white" transform="translate(0.5 -6.10352e-05)"/></clipPath></defs></svg></a></li>
+          <li><a href="https://twitter.com/formspree" aria-label="Link to our Twitter page." target="_blank"><svg width="25" height="20" viewBox="0 0 25 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.05016 19.75C17.1045 19.75 22.0583 12.2467 22.0583 5.74186C22.0583 5.53092 22.0536 5.3153 22.0442 5.10436C23.0079 4.40746 23.8395 3.54425 24.5 2.5553C23.6025 2.9546 22.6496 3.21538 21.6739 3.32874C22.7013 2.71291 23.4705 1.74547 23.8391 0.605767C22.8726 1.17856 21.8156 1.58261 20.7134 1.80061C19.9708 1.01156 18.989 0.489116 17.9197 0.314051C16.8504 0.138986 15.7532 0.32105 14.7977 0.832096C13.8423 1.34314 13.0818 2.15471 12.6338 3.14131C12.1859 4.12792 12.0754 5.23462 12.3195 6.2903C10.3625 6.19209 8.44794 5.6837 6.69998 4.7981C4.95203 3.91249 3.40969 2.66944 2.17297 1.14952C1.5444 2.23324 1.35206 3.51565 1.63503 4.73609C1.918 5.95654 2.65506 7.02345 3.69641 7.71999C2.91463 7.69517 2.14998 7.48468 1.46563 7.10592V7.16686C1.46492 8.30415 1.8581 9.40659 2.57831 10.2868C3.29852 11.167 4.30132 11.7706 5.41625 11.995C4.69206 12.1931 3.93198 12.222 3.19484 12.0794C3.50945 13.0574 4.12157 13.9129 4.94577 14.5263C5.76997 15.1398 6.76512 15.4806 7.79234 15.5012C6.04842 16.8711 3.89417 17.6141 1.67656 17.6106C1.28329 17.61 0.890399 17.5859 0.5 17.5384C2.75286 18.9837 5.37353 19.7514 8.05016 19.75Z" fill="#8D9396"/></svg></a></li>
+          <li><a href="https://github.com/formspree" aria-label="Link to our Github page." target="_blank"><svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_530_17002)"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.5 -6.10352e-05C5.8724 -6.10352e-05 0.5 5.38074 0.5 12.0203C0.5 17.3303 3.938 21.8363 8.7068 23.4251C9.3068 23.5355 9.5252 23.1647 9.5252 22.8455C9.5252 22.5611 9.5156 21.8039 9.5096 20.8019C6.1712 21.5279 5.4668 19.1903 5.4668 19.1903C4.922 17.8007 4.1348 17.4311 4.1348 17.4311C3.0452 16.6871 4.2176 16.7015 4.2176 16.7015C5.4212 16.7855 6.0548 17.9399 6.0548 17.9399C7.1252 19.7759 8.864 19.2455 9.5468 18.9383C9.6572 18.1619 9.9668 17.6327 10.31 17.3327C7.646 17.0291 4.844 15.9971 4.844 11.3915C4.844 10.0799 5.312 9.00594 6.0788 8.16594C5.9552 7.86234 5.5436 6.63954 6.1964 4.98594C6.1964 4.98594 7.2044 4.66194 9.4964 6.21714C10.4753 5.95016 11.4853 5.81417 12.5 5.81274C13.52 5.81754 14.546 5.95074 15.5048 6.21714C17.7956 4.66194 18.8012 4.98474 18.8012 4.98474C19.4564 6.63954 19.0436 7.86234 18.9212 8.16594C19.6892 9.00594 20.1548 10.0799 20.1548 11.3915C20.1548 16.0091 17.348 17.0255 14.6756 17.3231C15.1064 17.6939 15.4892 18.4271 15.4892 19.5491C15.4892 21.1547 15.4748 22.4519 15.4748 22.8455C15.4748 23.1671 15.6908 23.5415 16.3004 23.4239C18.69 22.6225 20.7672 21.0903 22.2386 19.044C23.7099 16.9977 24.501 14.5407 24.5 12.0203C24.5 5.38074 19.1264 -6.10352e-05 12.5 -6.10352e-05Z" fill="#8D9396"/></g><defs><clipPath id="clip0_530_17002"><rect width="24" height="24" fill="white" transform="translate(0.5 -6.10352e-05)"/></clipPath></defs></svg></a></li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="secondary-footer">
+    <div>
+      <nav class="logos-mobile">
+        <img src="/img/logos/aicpa.svg" alt="AICPA Logo" height="50"/>
+        <img src="/img/logos/ccpa.svg" alt="CCPA Logo" height="50"/>
+        <img src="/img/logos/gdpr.svg" alt="GDPR Logo" height="50" class="-ml-4"/>
+      </nav>
+
+      <span>&copy;2026 Formspree, Inc.</span>
+
+      <nav class="legal-desktop">
+        <a href="/legal/terms-of-service">Terms of Service</a>
+        <a href="/legal/privacy-policy">Privacy Policy</a>
+        <a href="/security">Security</a>
+      </nav>
+    </div>
+  </section>
+
+</footer>
+        
+    </div>
+    
+    <script async src="/js/index.js"></script>
+    <script src="/js/banner.js" defer></script>
+    
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3WBFEH3YMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('set', 'allow_ad_personalization_signals', false);
+  gtag('set', 'allow_google_signals', false );
+  gtag('js', new Date());
+  gtag('set', {'dimension1':  'main'});
+  gtag('config', 'G-3WBFEH3YMK');
+</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"d5bfdc7c3a144cc7a9593f95108ad835","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+
+</html>

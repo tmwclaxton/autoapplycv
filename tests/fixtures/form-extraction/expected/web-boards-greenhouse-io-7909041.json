@@ -1,0 +1,79 @@
+{
+  "id": "web-boards-greenhouse-io-7909041",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "search-form search... s",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "enter keywords... keyword",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "department hierarchical-department-6a48340ee9fc6",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "All Teams",
+        "Commercial",
+        "Customer Operations",
+        "Engineering & Technology",
+        "Cyber Security",
+        "Data Analytics",
+        "Data Analytics/Data Science",
+        "Data Engineering",
+        "Platform Engineering",
+        "Software Engineering",
+        "Tech Operations",
+        "Finance",
+        "Executive",
+        "Human Resources",
+        "Legal",
+        "Marketing",
+        "Product",
+        "Risk & Trading",
+        "Strategy & Operations",
+        "Marketing"
+      ],
+      "required": false
+    },
+    {
+      "question": "meta_location_only hierarchical-meta_location_only-6a48340eea087",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "All Locations",
+        "All United States",
+        "Atlanta",
+        "Atlanta, Georgia, United States",
+        "Atlanta, Georgia, United States; New York City",
+        "Illinois, USA",
+        "Jersey City",
+        "Los Angeles",
+        "Los Angeles, California, United States",
+        "New Jersey, United States",
+        "New Jersey, United States; New York City",
+        "New York City",
+        "All Canada",
+        "Calgary, Alberta, Canada",
+        "Edmonton, Alberta, Canada",
+        "Toronto, Ontario, Canada",
+        "All United Kingdom",
+        "Edinburgh / Hybrid",
+        "Edinburgh, Scotland, United Kingdom",
+        "UK Remote"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

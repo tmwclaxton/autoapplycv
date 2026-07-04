@@ -1,33 +1,7 @@
 /**
- * Universal job application form heuristics.
- * Inspired by AutoApplyMax field matching, common-intern apply scripts,
- * and Auto-Job-Form-Filler-Agent question/answer flow.
+ * Mechanical DOM helpers for job application forms: label discovery, ref-based fill, iframe traversal.
  */
 const AutoCVApplyFormHeuristics = (() => {
-    const FIELD_PATTERNS = {
-        firstName: [/first[\s_-]?name/i, /given[\s_-]?name/i, /pr[eé]nom/i, /vorname/i],
-        lastName: [/last[\s_-]?name/i, /family[\s_-]?name/i, /surname/i, /nom(?!bre)/i, /nachname/i],
-        fullName: [/^name$/i, /full[\s_-]?name/i, /your[\s_-]?name/i, /applicant[\s_-]?name/i],
-        email: [/e[\s-]?mail/i, /correo/i, /courriel/i],
-        phone: [/phone/i, /mobile/i, /telephone/i, /tel[eé]phone/i, /\btel\b/i],
-        city: [/\bcity\b/i, /\btown\b/i, /location/i, /ville/i, /where are you.*based/i, /currently based/i],
-        postcode: [/post[\s-]?code/i, /zip[\s-]?code/i, /postal/i],
-        country: [/\bcountry\b/i, /nation/i],
-        linkedin: [/linkedin/i],
-        website: [/website/i, /portfolio/i, /github/i, /personal[\s_-]?site/i],
-        coverLetter: [/cover[\s_-]?letter/i, /motivation letter/i],
-        headline: [/headline/i, /job title/i, /current title/i],
-        salary: [/salary/i, /compensation/i, /expected pay/i, /pay rate/i, /minimum compensation/i],
-        yearsExperience: [/years? (of )?experience/i, /experience \(years/i],
-        visa: [/visa/i, /sponsorship/i, /work permit/i],
-        authorized: [/legally authorized/i, /eligible to work/i, /right to work/i, /work authorization/i],
-        relocate: [/willing to relocate/i, /relocation/i, /open to relocation/i],
-        driversLicense: [/driver.*licen/i, /driving licence/i],
-        startDate: [/when will you.*join/i, /start date/i, /available to start/i, /notice period/i],
-        employmentType: [/types of employment/i, /employment type/i, /full.?time or part.?time/i],
-        officePreference: [/office/i, /hybrid/i, /remote/i, /days per week/i, /coming to our office/i],
-    };
-
     function normalize(text) {
         return (text || '').replace(/\s+/g, ' ').replace(/\*/g, '').trim().toLowerCase();
     }
@@ -325,18 +299,6 @@ const AutoCVApplyFormHeuristics = (() => {
         return false;
     }
 
-    function tryResolveStructuredAnswer(label, profile, settings) {
-        const fieldType = detectFieldType(label);
-
-        if (!fieldType) {
-            return null;
-        }
-
-        const values = buildProfileValues(profile);
-
-        return resolveAnswer(fieldType, values, settings) || null;
-    }
-
     function getFieldLabel(element) {
         const parts = [];
         const doc = element.ownerDocument || document;
@@ -366,48 +328,6 @@ const AutoCVApplyFormHeuristics = (() => {
         );
 
         return normalize(parts.filter(Boolean).join(' '));
-    }
-
-    function detectFieldType(labelText) {
-        for (const [fieldKey, patterns] of Object.entries(FIELD_PATTERNS)) {
-            if (patterns.some((pattern) => pattern.test(labelText))) {
-                return fieldKey;
-            }
-        }
-
-        return null;
-    }
-
-    function splitFullName(fullName) {
-        if (!fullName) {
-            return { firstName: '', lastName: '' };
-        }
-
-        const parts = fullName.trim().split(/\s+/);
-
-        return {
-            firstName: parts[0] || '',
-            lastName: parts.slice(1).join(' ') || '',
-        };
-    }
-
-    function buildProfileValues(profile) {
-        const { firstName, lastName } = splitFullName(profile.full_name);
-
-        return {
-            firstName,
-            lastName,
-            fullName: profile.full_name || `${firstName} ${lastName}`.trim(),
-            email: profile.email || '',
-            phone: profile.phone || '',
-            city: profile.city || profile.location?.split(',')[0]?.trim() || '',
-            postcode: profile.postcode || '',
-            country: profile.country || '',
-            linkedin: profile.linkedin_url || '',
-            website: profile.website_url || '',
-            headline: profile.headline || '',
-            coverLetter: profile.summary || profile.formatted_cv_text?.slice(0, 2500) || profile.extra_context?.slice(0, 2500) || '',
-        };
     }
 
     function elementDefaultView(element) {
@@ -504,215 +424,8 @@ const AutoCVApplyFormHeuristics = (() => {
         return true;
     }
 
-    function resolveAnswer(fieldType, values, settings) {
-        switch (fieldType) {
-            case 'firstName':
-                return values.firstName;
-            case 'lastName':
-                return values.lastName;
-            case 'fullName':
-                return values.fullName;
-            case 'email':
-                return values.email;
-            case 'phone':
-                return values.phone;
-            case 'city':
-                return values.city;
-            case 'postcode':
-                return values.postcode;
-            case 'country':
-                return values.country;
-            case 'linkedin':
-                return values.linkedin;
-            case 'website':
-                return values.website;
-            case 'headline':
-                return values.headline;
-            case 'coverLetter':
-                return values.coverLetter;
-            case 'salary':
-                return settings.expectedSalary || '';
-            case 'yearsExperience':
-                return settings.yearsOfExperience || '2';
-            case 'visa':
-                if (settings.visaSponsorship === 'yes') {
-                    return 'I have right to work for now, but would require sponsorship at a later time';
-                }
-
-                return 'Yes';
-            case 'authorized':
-                if (settings.visaSponsorship === 'yes') {
-                    return 'I have right to work for now, but would require sponsorship at a later time';
-                }
-
-                return settings.legallyAuthorized === 'no' ? 'No' : 'Yes';
-            case 'relocate':
-                if (settings.willingToRelocate === 'no') {
-                    return 'No, I am not open to relocation';
-                }
-
-                return 'Yes, I am open to relocation';
-            case 'driversLicense':
-                return settings.driversLicense === 'no' ? 'No' : 'Yes';
-            case 'startDate':
-                return 'I can start in less than 1 month';
-            case 'employmentType':
-                return 'Employee, full-time';
-            case 'officePreference':
-                return 'I am happy with a few times a week';
-            default:
-                return '';
-        }
-    }
-
     function collectFillableElements(root) {
         return Array.from(root.querySelectorAll('input, textarea, select')).filter(isVisible);
-    }
-
-    function collectOpenQuestions(root, memo = {}) {
-        const questions = [];
-
-        for (const element of collectFillableElements(root)) {
-            if (element.value?.trim()) {
-                continue;
-            }
-
-            if (element.type === 'file' || element.type === 'checkbox' || element.type === 'radio') {
-                continue;
-            }
-
-            const label = getQuestionLabel(element);
-            const fieldType = detectFieldType(label);
-
-            if (fieldType) {
-                continue;
-            }
-
-            if (label.length < 4) {
-                continue;
-            }
-
-            if (memo[label]) {
-                setFieldValue(element, memo[label]);
-
-                continue;
-            }
-
-            questions.push({
-                label,
-                field_type: element.tagName.toLowerCase() === 'textarea' ? 'textarea' : 'text',
-                max_chars: element.maxLength > 0 ? element.maxLength : undefined,
-                element,
-            });
-        }
-
-        return questions;
-    }
-
-    function fillContainer(root, profile, settings, maxFields, memo = {}) {
-        const values = buildProfileValues(profile);
-        let filled = 0;
-        const processedGroups = new Set();
-
-        for (const element of collectFillableElements(root)) {
-            if (filled >= maxFields) {
-                break;
-            }
-
-            if (element.type === 'file') {
-                continue;
-            }
-
-            if (element.type === 'radio' || element.type === 'checkbox') {
-                const groupName = getGroupName(element);
-
-                if (processedGroups.has(groupName)) {
-                    continue;
-                }
-
-                processedGroups.add(groupName);
-
-                if (isGroupAnswered(element)) {
-                    continue;
-                }
-
-                const label = getQuestionLabel(element);
-
-                if (memo[label]) {
-                    if (setGroupValue(element, memo[label])) {
-                        filled += 1;
-                    }
-
-                    continue;
-                }
-
-                const fieldType = detectFieldType(label);
-
-                if (!fieldType) {
-                    continue;
-                }
-
-                const answer = resolveAnswer(fieldType, values, settings);
-
-                if (answer && setGroupValue(element, answer)) {
-                    filled += 1;
-                }
-
-                continue;
-            }
-
-            if (element.value?.trim()) {
-                continue;
-            }
-
-            const label = getQuestionLabel(element);
-
-            if (memo[label]) {
-                if (setFieldValue(element, memo[label])) {
-                    filled += 1;
-                }
-
-                continue;
-            }
-
-            const fieldType = detectFieldType(label);
-
-            if (!fieldType) {
-                continue;
-            }
-
-            const answer = resolveAnswer(fieldType, values, settings);
-
-            if (answer && setFieldValue(element, answer)) {
-                filled += 1;
-            }
-        }
-
-        for (const { group, radios, label } of collectRoleRadioGroups(root)) {
-            if (filled >= maxFields) {
-                break;
-            }
-
-            if (isRoleGroupAnswered(radios) || label.length < 3) {
-                continue;
-            }
-
-            if (memo[label]) {
-                if (setRoleRadioGroupValue(radios, memo[label])) {
-                    filled += 1;
-                }
-
-                continue;
-            }
-
-            const answer = tryResolveStructuredAnswer(label, profile, settings);
-
-            if (answer && setRoleRadioGroupValue(radios, answer)) {
-                filled += 1;
-            }
-        }
-
-        return filled;
     }
 
     function forEachIframeDocument(callback) {
@@ -816,7 +529,7 @@ const AutoCVApplyFormHeuristics = (() => {
             .slice(0, 30);
     }
 
-    function elementNeedsDraft(element, profile, settings, memo) {
+    function elementNeedsDraft(element) {
         if (!isVisible(element) || element.type === 'file') {
             return false;
         }
@@ -826,60 +539,14 @@ const AutoCVApplyFormHeuristics = (() => {
                 return false;
             }
 
-            const label = getQuestionLabel(element);
-
-            if (label.length < 3) {
-                return false;
-            }
-
-            if (memo[label]) {
-                setGroupValue(element, memo[label]);
-
-                return false;
-            }
-
-            const fieldType = detectFieldType(label);
-
-            if (fieldType) {
-                const values = buildProfileValues(profile);
-                const answer = resolveAnswer(fieldType, values, settings);
-
-                if (answer && setGroupValue(element, answer)) {
-                    return false;
-                }
-            }
-
-            return true;
+            return getQuestionLabel(element).length >= 3;
         }
 
         if (element.value?.trim()) {
             return false;
         }
 
-        const label = getQuestionLabel(element);
-
-        if (label.length < 3) {
-            return false;
-        }
-
-        if (memo[label]) {
-            setFieldValue(element, memo[label]);
-
-            return false;
-        }
-
-        const fieldType = detectFieldType(label);
-
-        if (fieldType) {
-            const values = buildProfileValues(profile);
-            const answer = resolveAnswer(fieldType, values, settings);
-
-            if (answer && setFieldValue(element, answer)) {
-                return false;
-            }
-        }
-
-        return true;
+        return getQuestionLabel(element).length >= 3;
     }
 
     function eachDraftableField(root, profile, settings, memo, callback) {
@@ -951,18 +618,6 @@ const AutoCVApplyFormHeuristics = (() => {
             }
 
             if (isRoleGroupAnswered(radios)) {
-                continue;
-            }
-
-            if (memo[label]) {
-                setRoleRadioGroupValue(radios, memo[label]);
-
-                continue;
-            }
-
-            const answer = tryResolveStructuredAnswer(label, profile, settings);
-
-            if (answer && setRoleRadioGroupValue(radios, answer)) {
                 continue;
             }
 
@@ -1098,14 +753,10 @@ const AutoCVApplyFormHeuristics = (() => {
         applyAnswerByLabel,
         applyAnswerByLabelAllFrames,
         applyAnswerForTarget,
-        buildProfileValues,
         collectAllDraftableFields,
         collectDraftableFields,
-        collectOpenQuestions,
         countDraftableFields,
-        detectFieldType,
         eachDraftableField,
-        fillContainer,
         forEachIframeDocument,
         frameHasApplicationForm,
         getFieldLabel,

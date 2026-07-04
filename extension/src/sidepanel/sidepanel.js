@@ -234,8 +234,22 @@ async function showOnboardingIfNeeded() {
 }
 
 function startSidePanelHeartbeat() {
-    const ping = () => {
+    const markOpen = () => {
         chrome.runtime.sendMessage({ type: 'SIDE_PANEL_HEARTBEAT' }).catch(() => {});
+    };
+
+    const markClosed = () => {
+        chrome.runtime.sendMessage({ type: 'SIDE_PANEL_CLOSED' }).catch(() => {});
+    };
+
+    const syncVisibility = () => {
+        if (document.visibilityState === 'hidden') {
+            markClosed();
+
+            return;
+        }
+
+        markOpen();
     };
 
     try {
@@ -244,8 +258,15 @@ function startSidePanelHeartbeat() {
         // Extension context may be invalid during reload.
     }
 
-    ping();
-    window.setInterval(ping, 2000);
+    syncVisibility();
+    document.addEventListener('visibilitychange', syncVisibility);
+    window.addEventListener('pagehide', markClosed);
+
+    window.setInterval(() => {
+        if (document.visibilityState === 'visible') {
+            markOpen();
+        }
+    }, 2000);
 }
 
 document.getElementById('ai-ats-btn').addEventListener('click', async () => {

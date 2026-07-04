@@ -1,0 +1,186 @@
+{
+  "id": "web-formnx-com-job-application-form-template-19vd99",
+  "min_fields": 22,
+  "exact_field_count": 22,
+  "fields": [
+    {
+      "question": "full name full name enter your full name field_1 field_1 full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "email email your email address field_16 field_16 email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "search search phone number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "phone number phone number +1 201-555-0123 phone_number_field_52_format phone_number_field_52 phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "address address your address, address line 1, address line 2, city, state, country field_18 field_18 address",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "linkedin profile linkedin profile linkedin profile url field_19 field_19 linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "portfolio website (if applicable) portfolio website (if applicable) website link field_20 field_20 portfolio website (if applicable)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "current or most recent employer current or most recent employer name of employer field_25 field_25 current or most recent employer",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "job title job title field_26 field_26 job title",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "brief description of responsibilities brief description of responsibilities type here... field_53 field_53 brief description of responsibilities",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "highest education level highest education level field_31 field_31 highest education level",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "High School Diploma",
+        "Bachelor's Degree",
+        "Master's Degree",
+        "Ph.D.",
+        "Other"
+      ],
+      "required": false
+    },
+    {
+      "question": "school/university name school/university name field_32 field_32 school/university name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "graduation year graduation year field_33 field_33 graduation year",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "list your skills and qualifications list your skills and qualifications list your skills, qualifications, and relevant certifications. field_35 field_35 list your skills and qualifications",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "yes yes field_36 field_36_yes yes can you legally work in [country]?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true
+    },
+    {
+      "question": "how did you hear about this job opportunity? how did you hear about this job opportunity? field_38 field_38 how did you hear about this job opportunity?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Company Website",
+        "Job Board",
+        "Referral",
+        "Other"
+      ],
+      "required": true
+    },
+    {
+      "question": "are you willing to relocate for this job? are you willing to relocate for this job? field_39 field_39 are you willing to relocate for this job?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false
+    },
+    {
+      "question": "any reference (1) any reference (1) field_40 field_40 any reference (1)",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "any reference (2) any reference (2) field_41 field_41 any reference (2)",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "i agree to the terms and conditions i agree to the terms and conditions field_43 field_43",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree to the Terms and Conditions *"
+      ],
+      "required": true
+    },
+    {
+      "question": "extra_ref",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "year",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next"
+    }
+  ],
+  "vet_notes": []
+}

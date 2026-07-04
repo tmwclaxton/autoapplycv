@@ -7,6 +7,7 @@ use App\Http\Requests\AssistApplicationQuestionsRequest;
 use App\Http\Requests\AssistChatRequest;
 use App\Http\Requests\DraftAllApplicationRequest;
 use App\Http\Requests\DraftFieldRequest;
+use App\Http\Requests\ExtractJobContextRequest;
 use App\Http\Requests\GenerateCoverLetterRequest;
 use App\Http\Requests\GenerateTailoredResumeRequest;
 use App\Http\Requests\InventoryApplicationRequest;
@@ -15,6 +16,7 @@ use App\Services\AiTokenService;
 use App\Services\ApplicationAssistantService;
 use App\Services\ApplicationDraftOrchestratorService;
 use App\Services\ApplicationFieldInventoryService;
+use App\Services\ApplicationJobContextService;
 use App\Services\AutofillAnalyticsService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -25,6 +27,7 @@ class ApplicationAssistantController extends Controller
         private readonly ApplicationAssistantService $assistant,
         private readonly ApplicationDraftOrchestratorService $draftOrchestrator,
         private readonly ApplicationFieldInventoryService $inventory,
+        private readonly ApplicationJobContextService $jobContext,
         private readonly AiTokenService $usage,
         private readonly AutofillAnalyticsService $analytics,
     ) {}
@@ -117,6 +120,58 @@ class ApplicationAssistantController extends Controller
             'fields' => $result['fields'],
             'complete' => $result['complete'],
             'next_actions' => $result['next_actions'],
+            'autofill_cost' => $cost,
+            'subscription' => $this->usage->summary($user),
+        ]);
+    }
+
+    public function jobContext(ExtractJobContextRequest $request): JsonResponse
+    {
+        $user = $request->user();
+        $profile = $user->cvProfile;
+
+        if (! $profile) {
+            return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
+        }
+
+        $cost = (int) config('cv.ai_assist.job_context_cost', 1);
+
+        if (! $this->usage->canAutofill($user, $cost)) {
+            return response()->json([
+                'success' => false,
+                'error' => 'You do not have enough autofills remaining for job context extraction.',
+                'subscription' => $this->usage->summary($user),
+            ], 402);
+        }
+
+        $validated = $request->validated();
+        $extracted = $this->jobContext->extractFromPage(
+            (string) ($validated['page_title'] ?? ''),
+            (string) ($validated['page_url'] ?? ''),
+            (string) ($validated['page_text'] ?? ''),
+        );
+
+        if ($extracted === null) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Could not extract job context from this page. Try again shortly.',
+            ], 502);
+        }
+
+        $this->usage->recordAutofill($user, $cost);
+
+        $pageUrl = filled($validated['page_url'] ?? null) ? (string) $validated['page_url'] : null;
+
+        return response()->json([
+            'success' => true,
+            'job' => [
+                'title' => $extracted['title'] ?? 'Job application',
+                'company' => $extracted['company'] ?? 'Unknown company',
+                'link' => $pageUrl,
+                'location' => $extracted['location'],
+                'job_description' => $extracted['job_description'],
+                'source' => $extracted['source'],
+            ],
             'autofill_cost' => $cost,
             'subscription' => $this->usage->summary($user),
         ]);

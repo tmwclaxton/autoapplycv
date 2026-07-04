@@ -1,0 +1,45 @@
+{
+  "id": "web-surveyjs-io-reactjs-2",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "type to filter the list... sidebar-search",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "sellocales",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "light dark light dark",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Light Dark"
+      ],
+      "required": false
+    },
+    {
+      "question": "default without panels default without panels",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Default Without Panels"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next"
+    }
+  ],
+  "vet_notes": []
+}

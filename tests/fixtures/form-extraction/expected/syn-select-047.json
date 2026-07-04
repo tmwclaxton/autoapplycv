@@ -1,0 +1,51 @@
+{
+  "id": "syn-select-047",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "your name your name your-name your-name your name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "contact email contact email contact-email contact-email contact email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "country of residence country of residence country-of-residence country-of-residence country of residence",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select…",
+        "United Kingdom",
+        "Ireland",
+        "United States",
+        "Germany",
+        "France"
+      ],
+      "required": false
+    },
+    {
+      "question": "referral source referral source referral-source referral-source referral source",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select…",
+        "LinkedIn",
+        "Company website",
+        "Referral",
+        "Job board",
+        "Other"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

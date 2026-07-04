@@ -1,0 +1,37 @@
+{
+  "id": "syn-multistep-087",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "your name your name your-name your-name your name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "contact email contact email contact-email contact-email contact email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "telephone telephone telephone telephone telephone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    },
+    {
+      "name": "Next step"
+    }
+  ],
+  "vet_notes": []
+}

@@ -103,4 +103,34 @@ class ApplicationFieldInventoryTest extends TestCase
             ->assertStatus(402)
             ->assertJsonPath('success', false);
     }
+
+    public function test_inventory_returns_error_when_ai_fails(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create();
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')->once()->andReturn(null);
+        });
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/inventory', [
+                'job' => [
+                    'title' => 'Laravel Developer',
+                    'company' => 'Example Ltd',
+                ],
+                'snapshot' => [
+                    'elements' => [
+                        [
+                            'ref' => 'f0',
+                            'question' => 'Why do you want this role?',
+                            'field_type' => 'textarea',
+                        ],
+                    ],
+                ],
+            ])
+            ->assertStatus(502)
+            ->assertJsonPath('success', false);
+    }
 }

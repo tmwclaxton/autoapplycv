@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>ARIA Application 2</title></head>
+<body>
+<main>
+<h1>ARIA Application 2</h1>
+<form action="/apply" method="post">
+<div class="form-group"><label for="legal-name">Legal name</label><input type="text" id="legal-name" name="legal-name" ></div>
+<div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" ></div>
+<div role="radiogroup" aria-labelledby="open-to-relocation-label" id="open-to-relocation">
+<p id="open-to-relocation-label">Open to relocation?</p>
+<div role="radio" aria-checked="false" tabindex="0" data-value="yes">Yes</div><div role="radio" aria-checked="false" tabindex="-1" data-value="no">No</div><div role="radio" aria-checked="false" tabindex="-1" data-value="maybe-later">Maybe later</div>
+</div>
+<div role="radiogroup" aria-labelledby="work-authorization-label" id="work-authorization">
+<p id="work-authorization-label">Work authorization</p>
+<div role="radio" aria-checked="false" tabindex="0" data-value="yes">Yes</div><div role="radio" aria-checked="false" tabindex="-1" data-value="no">No</div>
+</div>
+
+</form>
+</main>
+</body>
+</html>

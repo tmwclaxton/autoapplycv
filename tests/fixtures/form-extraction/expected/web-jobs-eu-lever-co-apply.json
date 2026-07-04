@@ -1,0 +1,161 @@
+{
+  "id": "web-jobs-eu-lever-co-apply",
+  "min_fields": 17,
+  "exact_field_count": 17,
+  "fields": [
+    {
+      "question": "opportunitylocationid",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select...",
+        "Poland",
+        "Cyprus"
+      ],
+      "required": false
+    },
+    {
+      "question": "full name✱ name full name✱ full name✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "email✱ email email✱ email✱",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "phone phone phone phone",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "current location ✱no location found. try entering a different locationloading location location-input current location ✱no location found. try entering a different locationloading current location ✱no location found. try entering a different locationloading",
+      "field_type": "text",
+      "max_chars": 100,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "current company org current company current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "linkedin url✱ urls[linkedin] linkedin url✱ linkedin url✱",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "type your response cards[6a7b54fc-740b-4f88-b3f5-9d8e495382cf][field0]",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "cards[a422a510-cd8d-4dc9-8fb0-25b8f0847775][field0]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "cards[056f4442-9f18-411a-a1a7-c5f235fa2d15][field0]",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select...",
+        "C2 / Native or Bilingual (Total fluency, can lead complex strategic discussions with ease)",
+        "C1 / Advanced (Professional fluency, can handle ambiguity and technical jargon)",
+        "B2 / Upper Intermediate (Effective operational proficiency, can lead squad-level tasks)",
+        "B1 / Intermediate (Basic professional communication)",
+        "A1 - A2 / Beginner or Elementary (Basic greetings/short phrases)"
+      ],
+      "required": true
+    },
+    {
+      "question": "yes cards[7fa9b20c-1e10-42ca-85f1-9ceb04ef2b58][field0] yes yes",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true
+    },
+    {
+      "question": "italian cards[7fa9b20c-1e10-42ca-85f1-9ceb04ef2b58][field1] italian italian",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Italian",
+        "French",
+        "German",
+        "Dutch"
+      ],
+      "required": true
+    },
+    {
+      "question": "yes cards[7fa9b20c-1e10-42ca-85f1-9ceb04ef2b58][field2] yes yes",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true
+    },
+    {
+      "question": "cards[7fa9b20c-1e10-42ca-85f1-9ceb04ef2b58][field3]",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "yes cards[7fa9b20c-1e10-42ca-85f1-9ceb04ef2b58][field4] yes yes",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true
+    },
+    {
+      "question": "finom has my consent to retain my data for the purpose of considering me for employment and for up to 1 year thereafter. i understand i may withdraw my consent at any time. consent[store] finom has my consent to retain my data for the purpose of considering me for employment and for up to 1 year thereafter. i understand i may withdraw my consent at any time. finom has my consent to retain my data for the purpose of considering me for employment and for up to 1 year thereafter. i understand i may withdraw my consent at any time.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Finom has my consent to retain my data for the purpose of considering me for employment and for up to 1 year thereafter. I understand I may withdraw my consent at any time."
+      ],
+      "required": true
+    },
+    {
+      "question": "finom has my consent to contact me about future job opportunities. consent[marketing] finom has my consent to contact me about future job opportunities. finom has my consent to retain my data for the purpose of considering me for employment and for up to 1 year thereafter. i understand i may withdraw my consent at any time.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Finom has my consent to contact me about future job opportunities."
+      ],
+      "required": false
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

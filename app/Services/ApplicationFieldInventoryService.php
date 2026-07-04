@@ -62,7 +62,7 @@ class ApplicationFieldInventoryService
         ]);
 
         if ($payload === null) {
-            return $this->mechanicalFallback($elements, $controls);
+            return null;
         }
 
         return $this->normalizeInventoryPayload($payload, $elements, $controls);
@@ -178,7 +178,7 @@ class ApplicationFieldInventoryService
         }
 
         if ($fields === []) {
-            return $this->mechanicalFallback($elements, $controls);
+            return null;
         }
 
         $nextActions = [];
@@ -206,37 +206,6 @@ class ApplicationFieldInventoryService
             'fields' => array_values($fields),
             'complete' => (bool) ($payload['complete'] ?? true),
             'next_actions' => array_slice($nextActions, 0, 2),
-        ];
-    }
-
-    /**
-     * @param  array<int, array{ref: string, question: string, field_type: string, max_chars?: int|null, options?: array<int, string>|null, required?: bool, context?: string|null}>  $elements
-     * @param  array<int, array{ref: string, name: string, role?: string|null}>  $controls
-     * @return array{
-     *     fields: array<int, array{ref: string, question: string, field_type: string, max_chars?: int|null, options?: array<int, string>|null}>,
-     *     complete: bool,
-     *     next_actions: array<int, array{ref: string, reason: string}>,
-     * }
-     */
-    private function mechanicalFallback(array $elements, array $controls): array
-    {
-        $fields = array_map(static fn (array $element): array => [
-            'ref' => $element['ref'],
-            'question' => $element['question'],
-            'field_type' => $element['field_type'],
-            'max_chars' => $element['max_chars'],
-            'options' => $element['options'],
-        ], $elements);
-
-        $nextActions = array_map(static fn (array $control): array => [
-            'ref' => $control['ref'],
-            'reason' => 'Continue to the next section of the application form.',
-        ], array_slice($controls, 0, 2));
-
-        return [
-            'fields' => $fields,
-            'complete' => $nextActions === [],
-            'next_actions' => $nextActions,
         ];
     }
 

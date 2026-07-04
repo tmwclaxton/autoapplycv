@@ -1,0 +1,30 @@
+{
+  "id": "web-mdn-github-io-first-form-html",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "name: name: user_name name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "e-mail: e-mail: user_mail mail",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "message: message: user_message msg",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

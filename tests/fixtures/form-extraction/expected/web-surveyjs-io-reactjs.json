@@ -1,0 +1,101 @@
+{
+  "id": "web-surveyjs-io-reactjs",
+  "min_fields": 12,
+  "exact_field_count": 12,
+  "fields": [
+    {
+      "question": "type to filter the list... sidebar-search",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "sq_4i",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "sq_7i",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "sq_10i",
+      "field_type": "date",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "sq_16i",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "sq_19i",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "sq_23i",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "mail@example.com sq_26i",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "sq_29i",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "sq_38i",
+      "field_type": "date",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "light dark light dark",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Light Dark"
+      ],
+      "required": false
+    },
+    {
+      "question": "default without panels default without panels",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Default Without Panels"
+      ],
+      "required": false
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next"
+    }
+  ],
+  "vet_notes": []
+}

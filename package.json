@@ -11,7 +11,14 @@
         "format:check": "prettier --check resources/",
         "lint": "eslint . --fix",
         "lint:check": "eslint .",
-        "types:check": "vue-tsc --noEmit"
+        "types:check": "vue-tsc --noEmit",
+        "form-corpus:generate": "node scripts/form-corpus/generate-synthetic.mjs",
+        "form-corpus:discover": "node scripts/form-corpus/discover.mjs",
+        "form-corpus:scrape": "node scripts/form-corpus/scrape.mjs",
+        "form-corpus:propose": "node scripts/form-corpus/propose-expectations.mjs",
+        "form-corpus:vet": "node scripts/form-corpus/vet-corpus.mjs",
+        "form-corpus:snapshot": "node scripts/form-corpus/run-snapshot.mjs --all",
+        "form-corpus:build": "npm run form-corpus:generate && npm run form-corpus:propose && npm run form-corpus:vet"
     },
     "devDependencies": {
         "@eslint/js": "^9.19.0",
@@ -27,6 +34,7 @@
         "eslint-import-resolver-typescript": "^4.4.4",
         "eslint-plugin-import": "^2.32.0",
         "eslint-plugin-vue": "^9.32.0",
+        "jsdom": "^29.1.1",
         "prettier": "^3.4.2",
         "prettier-plugin-tailwindcss": "^0.6.11",
         "typescript": "^5.2.2",

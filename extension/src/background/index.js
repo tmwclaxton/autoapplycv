@@ -6,20 +6,19 @@ import {
     saveConnection,
     saveLoginEndpoint,
 } from './connection.js';
-import { requestDraftAllStream, requestDraftField, requestAssistChatStream, requestFieldInventory } from './draft-all-stream.js';
+import { requestDraftAllStream, requestDraftField, requestAssistChatStream, requestFieldInventory, requestJobContext } from './draft-all-stream.js';
 import { arrayBufferToBase64, base64ToBlob } from './file-transfer.js';
 import {
     applyDraftAnswerToTab,
     applyDraftBatchToTab,
     clickInventoryRefOnTab,
-    collectFieldsFromTab,
     collectSnapshotFromTab,
 } from './form-frame-messaging.js';
 
 let cachedProfile = null;
 let cacheTimestamp = 0;
 const CACHE_TTL_MS = 15 * 60 * 1000;
-const INVENTORY_MAX_ROUNDS = 3;
+const INVENTORY_MAX_ROUNDS = 8;
 const INVENTORY_STEP_DELAY_MS = 900;
 
 function invalidateProfileCache() {
@@ -181,6 +180,14 @@ function configureSidePanel() {
     }
 
     chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch(() => {});
+
+    chrome.sidePanel.onOpened?.addListener(() => {
+        recordSidePanelHeartbeat().catch(() => {});
+    });
+
+    chrome.sidePanel.onClosed?.addListener(() => {
+        markSidePanelClosed().catch(() => {});
+    });
 }
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -243,6 +250,20 @@ function isSidePanelOpenFromStorage(lastHeartbeatAt) {
     return typeof lastHeartbeatAt === 'number'
         && lastHeartbeatAt > 0
         && Date.now() - lastHeartbeatAt < SIDE_PANEL_HEARTBEAT_TTL_MS;
+}
+
+function resolveSidePanelOpen({ sidePanelOpen, sidePanelLastHeartbeatAt } = {}) {
+    if (sidePanelOpen === false) {
+        return false;
+    }
+
+    const heartbeatFresh = isSidePanelOpenFromStorage(sidePanelLastHeartbeatAt);
+
+    if (sidePanelOpen === true) {
+        return heartbeatFresh;
+    }
+
+    return heartbeatFresh;
 }
 
 function isInjectableTabUrl(url) {
@@ -318,12 +339,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'RECORD_AUTOFILL') {
         recordAutofill(message.count).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
-
-        return true;
-    }
-
-    if (message.type === 'ASSIST_QUESTIONS') {
-        assistQuestions(message).then(sendResponse).catch((err) => sendResponse({ error: err.message, success: false }));
 
         return true;
     }
@@ -442,9 +457,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'GET_SIDE_PANEL_STATE') {
-        chrome.storage.session.get(['sidePanelLastHeartbeatAt'], (result) => {
+        chrome.storage.session.get(['sidePanelOpen', 'sidePanelLastHeartbeatAt'], (result) => {
             sendResponse({
-                sidePanelOpen: isSidePanelOpenFromStorage(result.sidePanelLastHeartbeatAt),
+                sidePanelOpen: resolveSidePanelOpen(result),
             });
         });
 
@@ -620,27 +635,49 @@ function sleep(ms) {
 }
 
 async function resolveDraftFieldsViaInventory(tabId, tab, settings) {
-    let job = {
-        title: tab.title || 'Job application',
-        company: 'Unknown company',
-        link: tab.url?.split('?')[0] || tab.url,
+    const initialCollect = await collectSnapshotFromTab(tabId);
+
+    if (!initialCollect?.success) {
+        return { error: initialCollect?.error || 'Could not scan this page for fields.' };
+    }
+
+    broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+        message: 'Extracting job details…',
+    });
+
+    const page = initialCollect.page || {
+        page_title: tab.title || '',
+        page_url: tab.url?.split('?')[0] || tab.url || '',
+        page_text: '',
     };
+
+    const jobContext = await requestJobContext(page);
+
+    if (!jobContext.ok) {
+        if (jobContext.subscription && cachedProfile) {
+            cachedProfile.subscription = jobContext.subscription;
+        }
+
+        return { error: jobContext.message || 'Could not extract job context from this page.' };
+    }
+
+    if (jobContext.subscription && cachedProfile) {
+        cachedProfile.subscription = jobContext.subscription;
+    }
+
+    let job = jobContext.job;
     let lastFields = [];
 
     for (let round = 0; round < INVENTORY_MAX_ROUNDS; round += 1) {
-        const collectResponse = await collectSnapshotFromTab(tabId);
+        const collectResponse = round === 0 ? initialCollect : await collectSnapshotFromTab(tabId);
 
         if (!collectResponse?.success) {
             return { error: collectResponse?.error || 'Could not scan this page for fields.' };
         }
 
-        if (collectResponse.job) {
-            job = collectResponse.job;
-        }
-
         if (!collectResponse.snapshot?.elements?.length) {
-            if (collectResponse.fields?.length) {
-                return { fields: collectResponse.fields, job };
+            if (lastFields.length > 0) {
+                return { fields: lastFields, job };
             }
 
             return { error: 'No empty fields found to draft.' };
@@ -674,10 +711,6 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings) {
         lastFields = inventoryFieldsToDraftShape(inventory.fields);
 
         if (inventory.complete || !inventory.next_actions?.length) {
-            if (lastFields.length === 0 && collectResponse.fields?.length) {
-                return { fields: collectResponse.fields, job };
-            }
-
             if (lastFields.length === 0) {
                 return { error: 'No empty fields found to draft.' };
             }
@@ -702,12 +735,6 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings) {
 
     if (lastFields.length > 0) {
         return { fields: lastFields, job };
-    }
-
-    const fallback = await collectFieldsFromTab(tabId);
-
-    if (fallback?.fields?.length) {
-        return { fields: fallback.fields, job: fallback.job || job };
     }
 
     return { error: 'No empty fields found to draft.' };
@@ -873,45 +900,6 @@ async function getCvDocument() {
         fileName: payload.fileName,
         mimeType: payload.mimeType,
     };
-}
-
-async function assistQuestions(payload) {
-    const apiToken = await getApiToken();
-    const apiBase = await getStoredApiBase();
-
-    const response = await fetch(`${apiBase}/api/applications/assist/questions`, {
-        method: 'POST',
-        headers: {
-            Authorization: `Bearer ${apiToken}`,
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            job: payload.job,
-            questions: payload.questions,
-            settings: payload.settings || {},
-        }),
-    });
-
-    const data = await response.json();
-
-    if (response.status === 402) {
-        if (cachedProfile) {
-            cachedProfile.subscription = data.subscription;
-        }
-
-        throw new Error(data.error || 'Autofill limit reached');
-    }
-
-    if (!response.ok) {
-        throw new Error(data.error || data.message || 'Failed to get AI answers');
-    }
-
-    if (cachedProfile && data.subscription) {
-        cachedProfile.subscription = data.subscription;
-    }
-
-    return data;
 }
 
 async function assistCoverLetter(message) {

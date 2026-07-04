@@ -1,0 +1,57 @@
+{
+  "id": "web-form-taxi-application-form-html-template",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "personal data",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "i agree to the processing of my entries. data processing confirmed agree i agree to the processing of my entries.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree to the processing of my entries."
+      ],
+      "required": true
+    },
+    {
+      "question": "_gotcha",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "name & company name & company name msg-name",
+      "field_type": "text",
+      "max_chars": 50,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "your email address your email address email msg-email",
+      "field_type": "email",
+      "max_chars": 250,
+      "options": null,
+      "required": true
+    },
+    {
+      "question": "your message your message nachricht msg-text",
+      "field_type": "textarea",
+      "max_chars": 1000,
+      "options": null,
+      "required": true
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

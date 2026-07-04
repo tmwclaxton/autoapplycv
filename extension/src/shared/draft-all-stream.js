@@ -96,6 +96,51 @@ export async function requestDraftAllStream(body, onEvent) {
     return { ok: true, complete };
 }
 
+export async function requestJobContext(body) {
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
+
+    let response;
+
+    try {
+        response = await fetch(`${apiBase}/api/applications/assist/job-context`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${apiToken}`,
+            },
+            body: JSON.stringify(body),
+        });
+    } catch {
+        return { ok: false, message: 'Cannot reach AutoCVApply.' };
+    }
+
+    const data = await response.json().catch(() => ({}));
+
+    if (response.status === 402) {
+        return {
+            ok: false,
+            message: data.error || 'Autofill limit reached.',
+            subscription: data.subscription,
+        };
+    }
+
+    if (!response.ok || !data.success) {
+        return {
+            ok: false,
+            message: data.error || data.message || 'Job context extraction failed.',
+            subscription: data.subscription,
+        };
+    }
+
+    return {
+        ok: true,
+        job: data.job || {},
+        subscription: data.subscription,
+    };
+}
+
 export async function requestFieldInventory(body) {
     const apiToken = await getApiToken();
     const apiBase = await getStoredApiBase();

@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><title>A Mini Guide to HTML Form Action | Formspree</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="theme-color" content="#e5122e" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e232d" media="(prefers-color-scheme: dark)">
+<meta name="description" content="In this article, you will discover how the HTML form action attribute works and how to use it effectively to control form submissions, send data to the right destination, and improve user interactions. You will learn best practices for setting up action URLs, handling GET and POST requests, and ensuring seamless form processing on your website.">
+<meta property="og:image" content="https://formspree.io/img/formspree-og.jpg" />
+<meta property="twitter:image" content="https://formspree.io/img/formspree-og.jpg" />
+<meta name="twitter:site" content="@formspree" />
+
+
+
+<link rel="canonical" href="https://formspree.io/blog/html-form-action/" />   
+<meta property="og:title" content="A Mini Guide to HTML Form Action" />
+<meta property="og:description" content="In this article, you will discover how the HTML form action attribute works and how to use it effectively to control form submissions, send data to the right destination, and improve user interactions. You will learn best practices for setting up action URLs, handling GET and POST requests, and ensuring seamless form processing on your website." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://formspree.io/blog/html-form-action/" /><meta property="og:image" content="https://formspree.io/blog/html-form-action/html-form-action-header.png" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2025-02-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2025-02-27T00:00:00+00:00" />
+
+
+<meta itemprop="name" content="A Mini Guide to HTML Form Action">
+<meta itemprop="description" content="In this article, you will discover how the HTML form action attribute works and how to use it effectively to control form submissions, send data to the right destination, and improve user interactions. You will learn best practices for setting up action URLs, handling GET and POST requests, and ensuring seamless form processing on your website."><meta itemprop="datePublished" content="2025-02-27T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2025-02-27T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1072"><meta itemprop="image" content="https://formspree.io/blog/html-form-action/html-form-action-header.png">
+<meta itemprop="keywords" content="Forms,HTML," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://formspree.io/blog/html-form-action/html-form-action-header.png"/>
+
+<meta name="twitter:title" content="A Mini Guide to HTML Form Action"/>
+<meta name="twitter:description" content="In this article, you will discover how the HTML form action attribute works and how to use it effectively to control form submissions, send data to the right destination, and improve user interactions. You will learn best practices for setting up action URLs, handling GET and POST requests, and ensuring seamless form processing on your website."/>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'GTM-KCSJ8DK', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<meta name="twitter:card" content="summary_large_image" />
+
+<!--[if IE]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<link rel="icon" type="image/x-icon" href="/img/favicon.ico"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"  media="screen">
+<link rel="preload" href="https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7W0Q5nw.woff2" as="font" type="font/woff2" crossorigin>
+
+
+  <link rel="stylesheet" href="/css/main-old.css" media="screen">
+
+
+
+
+
+
+
+
+
+<style id="form-css-minified-raw">/* reset */
+#fs-frm input,
+#fs-frm select,
+#fs-frm textarea,
+#fs-frm fieldset,
+#fs-frm optgroup,
+#fs-frm label,
+#fs-frm #card-element:disabled {
+  font-family: inherit;
+  font-size: 100%;
+  color: inherit;
+  border: none;
+  border-radius: 0;
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+#fs-frm label,
+#fs-frm legend,
+#fs-frm ::placeholder {
+  font-size: .825rem;
+  margin-bottom: .5rem;
+  padding-top: .2rem;
+  display: flex;
+  align-items: baseline;
+}
+
+/* border, padding, margin, width */
+#fs-frm input,
+#fs-frm select,
+#fs-frm textarea,
+#fs-frm #card-element {
+  border: 1px solid rgba(0,0,0,0.2);
+  background-color: rgba(255,255,255,0.9);
+  padding: .75em 1rem;
+  margin-bottom: 1.5rem;
+}
+#fs-frm input:focus,
+#fs-frm select:focus,
+#fs-frm textarea:focus {
+  background-color: white;
+  outline-style: solid;
+  outline-width: thin;
+  outline-color: gray;
+  outline-offset: -1px;
+}
+#fs-frm [type="text"],
+#fs-frm [type="email"] {
+  width: 100%;
+}
+#fs-frm [type="button"],
+#fs-frm [type="submit"],
+#fs-frm [type="reset"] {
+  width: auto;
+  cursor: pointer;
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+}
+#fs-frm [type="button"]:focus,
+#fs-frm [type="submit"]:focus,
+#fs-frm [type="reset"]:focus {
+  outline: none;
+}
+#fs-frm [type="submit"],
+#fs-frm [type="reset"] {
+  margin-bottom: 0;
+}
+#fs-frm select {
+  text-transform: none;
+}
+
+#fs-frm [type="checkbox"] {
+  -webkit-appearance: checkbox;
+  -moz-appearance: checkbox;
+  appearance: checkbox;
+  display: inline-block;
+  width: auto;
+  margin: 0 .5em 0 0 !important;
+}
+
+#fs-frm [type="radio"] {
+  -webkit-appearance: radio;
+  -moz-appearance: radio;
+  appearance: radio;
+}
+
+/* address, locale */
+#fs-frm fieldset.locale input[name="city"],
+#fs-frm fieldset.locale select[name="state"],
+#fs-frm fieldset.locale input[name="postal-code"] {
+  display: inline;
+}
+#fs-frm fieldset.locale input[name="city"] {
+  width: 52%;
+}
+#fs-frm fieldset.locale select[name="state"],
+#fs-frm fieldset.locale input[name="postal-code"] {
+  width: 20%;
+}
+#fs-frm fieldset.locale input[name="city"],
+#fs-frm fieldset.locale select[name="state"] {
+  margin-right: 3%;
+}
+</style>
+
+<style type="text/css">
+   
+  @media only screen and (min-width:1367px) {
+
+    .site-frame,
+    .site-section {
+      padding: 88px;
+      max-width: 1680px;
+      margin: auto;
+    }
+
+    .blog-headline h1 {
+      font-size: 74px;
+    }
+  }
+
+   
+  @media only screen and (min-width:1281px) and (max-width:1366px) {
+
+    .site-frame,
+    .site-section {
+      padding: 66px;
+    }
+  }
+
+   
+  @media only screen and (min-width:769px) and (max-width:1280px) {
+
+    .site-frame,
+    .site-section {
+      padding: 66px 44px;
+    }
+
+    .site-section.page-intro {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+
+  @media only screen and (max-width:1024px) {
+
+     
+    .grid {
+      flex-direction: column;
+    }
+
+    .grid>.grid-cell {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .grid-cell+.grid-cell {
+      margin-left: 0;
+      margin-top: 44px;
+    }
+
+    aside {
+      display: none;
+    }
+
+    .blog-headline h1 {
+      font-size: 44px;
+    }
+
+    .blog-headline .sticky,
+    .post .sticky {
+      position: static;
+      top: auto;
+    }
+
+
+  }
+
+   
+  @media only screen and (min-width:768px) and (max-width:860px) {
+  .get-started {
+    display: none;
+  }
+
+  @media only screen and (min-width:769px) {
+
+    .site-nav .menu-icon,
+    .site-nav .close-icon {
+      display: none;
+    }
+  }
+
+   
+  @media only screen and (max-width:768px) {
+    .site-nav .main-nav {
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      transition: width 0s linear;
+    }
+
+    .site-nav .account-nav .text-link {
+      display: none;
+    }
+
+    #main-nav.expanded {
+      display: block;
+      width: 175px;
+      height: auto;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: var(--isabelline);
+      white-space: nowrap;
+      padding-bottom: 44px;
+      transition: all 0.14s linear;
+    }
+
+    #main-nav.expanded .site-link:not(.close-icon) a {
+      padding-top: 11px;
+      padding-bottom: 11px;
+    }
+
+    .grid>.grid-cell {
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+    }
+
+    .grid>.grid-cell {
+      padding: 0;
+    }
+
+    .grid>.grid-cell.no-image {
+      padding: 22px 0;
+    }
+
+    .site-frame,
+    .site-section {
+      padding: 44px;
+    }
+
+    .site-section.page-intro {
+      padding-right: 0;
+      padding-left: 0;
+    }
+
+    .site-section.examples .grid>.grid-cell {
+      padding: 22px;
+      padding-top: 33px;
+    }
+
+     
+    .site-section.examples hr {
+      margin-top: 0;
+    }
+
+    .trusted-by-logos .logo-strip {
+      max-width: 100%;
+    }
+
+    .form-container.design {
+      margin-bottom: 3rem;
+    }
+  }
+
+   
+  @media only screen and (max-width: 640px) {
+    .grid>.grid-cell {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      padding-top: 0 !important;
+    }
+
+    .library-grid {
+      flex-direction: column;
+    }
+
+    .library-list-cell {
+      max-width: 100%;
+      min-width: 100%;
+      width: 100%;
+      padding-right: 0;
+      padding-left: 0;
+    }
+
+    .page-intro h1 {
+      font-size: 2.5rem;
+    }
+  }
+
+   
+  @media only screen and (max-width:425px) {
+
+     
+    .site-frame,
+    .site-section,
+    .page-section {
+      padding: 22px;
+    }
+  }
+</style>
+
+
+<!-- Amplitude -->
+<script type="text/javascript">
+  (function(e,t){var n=e.amplitude||{_q:[],_iq:{}};var r=t.createElement("script")
+  ;r.type="text/javascript";r.async=true
+  ;r.src="https://cdn.amplitude.com/libs/amplitude-4.4.0-min.gz.js"
+  ;r.onload=function(){if(e.amplitude.runQueuedFunctions){
+  e.amplitude.runQueuedFunctions()}else{
+  console.log("[Amplitude] Error: could not load SDK")}}
+  ;var i=t.getElementsByTagName("script")[0];i.parentNode.insertBefore(r,i)
+  ;function s(e,t){e.prototype[t]=function(){
+  this._q.push([t].concat(Array.prototype.slice.call(arguments,0)));return this}}
+  var o=function(){this._q=[];return this}
+  ;var a=["add","append","clearAll","prepend","set","setOnce","unset"]
+  ;for(var u=0;u<a.length;u++){s(o,a[u])}n.Identify=o;var c=function(){this._q=[]
+  ;return this}
+  ;var l=["setProductId","setQuantity","setPrice","setRevenueType","setEventProperties"]
+  ;for(var p=0;p<l.length;p++){s(c,l[p])}n.Revenue=c
+  ;var d=["init","logEvent","logRevenue","setUserId","setUserProperties","setOptOut","setVersionName","setDomain","setDeviceId","setGlobalUserProperties","identify","clearUserProperties","setGroup","logRevenueV2","regenerateDeviceId","logEventWithTimestamp","logEventWithGroups","setSessionId","resetSessionId"]
+  ;function v(e){function t(t){e[t]=function(){
+  e._q.push([t].concat(Array.prototype.slice.call(arguments,0)))}}
+  for(var n=0;n<d.length;n++){t(d[n])}}v(n);n.getInstance=function(e){
+  e=(!e||e.length===0?"$default_instance":e).toLowerCase()
+  ;if(!n._iq.hasOwnProperty(e)){n._iq[e]={_q:[]};v(n._iq[e])}return n._iq[e]}
+  ;e.amplitude=n})(window,document);
+
+  amplitude.getInstance().init("afce35c666c571e82893eb3f7c5075f4", null, {
+    // Configuration options. Do not change without consulting legal.
+    includeReferrer: true,
+    includeUtm: true,
+    saveParamsReferrerOncePerSession: false,    
+    trackingOptions: {
+      carrier: true, 
+      city: false,
+      country: true,
+      device_model: true,
+      dma: false,
+      ip_address: false,
+      language: true,
+      os_name: true,
+      os_version: true,
+      platform: true,
+      region: false,
+      version_name: true
+    } 
+  });
+  var path = window.location.href.replace('https://formspree.io','');
+  var eventProperties = {
+    'variant':  'main',
+    'path': path
+  };
+  if (path === '/') {
+    amplitude.getInstance().logEvent('Viewed Home Page', eventProperties);
+  } else {
+    amplitude.getInstance().logEvent('Viewed Page', eventProperties);
+  }
+</script><script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ie Ts Ms Ee Es Rs capture Ge calculateEventProperties Os register register_once register_for_session unregister unregister_for_session js getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Ds Fs createPersonProfile Ls Ps opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing Cs debug I As getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_UflWuJ8nEXNrqM7oJAhd1N6RUQzGTmHcBdzVvHuxP4d', {
+        api_host: 'https://us.i.posthog.com',
+        defaults: '2025-05-24',
+        person_profiles: 'always', // or 'identified_only'
+    })
+</script></head>
+
+
+
+<body class="site" id="site-body">
+  <div class="site-container">
+
+<header class="-legacy">
+  <a class="logo" href="/">
+    <img src="/img/formspree-new.svg" alt="Formspree Logo" width="163" height="36"/>
+  </a>
+  <div class="menu-container">
+    <svg class="menu-open" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 13a2 2 0 110 4 2 2 0 010-4zM9 7a2 2 0 110 4 2 2 0 010-4zM9 1a2 2 0 110 4 2 2 0 010-4z"
+        fill="#000"/>
+    </svg>
+  </div>
+  <nav class="hidden">
+    <div class="menu-close">
+      <img src="/img/close.svg" alt="Close menu"/>
+    </div>
+    <ul class="main-nav">
+      <li>
+        <a href="/plans">
+          Plans
+        </a>
+      </li>
+      <li aria-expanded="false" class="dropdown-root">
+        <button type="button" data-dropdown-element="trigger">
+          Resources
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.37966 0.43976L0.509763 4.31006C0.169923 4.6499 0.169923 5.21006 0.509763 5.54986C0.849603 5.8897 1.40976 5.8897 1.74956 5.54986L4.99956 2.31006L8.24956 5.56006C8.5894 5.8999 9.14956 5.8999 9.48936 5.56006C9.65928 5.39014 9.74952 5.16006 9.74952 4.94014C9.74952 4.71006 9.65968 4.49014 9.48936 4.32022L5.61946 0.45032C5.27962 0.0999298 4.71946 0.0999298 4.37966 0.439773V0.43976Z" fill="#28373E"/>
+          </svg>
+        </button>
+        
+        <div class="dropdown-menu" data-layout="2-cols">
+          <ul>
+            <li>
+              <a href="/library">
+                <svg width="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="40" height="40" rx="8" fill="#E5122E"/>
+                  <path d="M20 12.0483C17.8021 10.0817 14.9525 8.99595 12 9.00001C10.5973 9.00001 9.25067 9.2394 8 9.68095V28.6327C9.28483 28.1805 10.6376 27.9503 12 27.9518C15.0733 27.9518 17.8773 29.1048 20 31M20 12.0483C22.1978 10.0816 25.0474 8.99582 28 9.00001C29.4027 9.00001 30.7493 9.2394 32 9.68095V28.6327C30.7152 28.1805 29.3624 27.9503 28 27.9518C25.0475 27.9477 22.1979 29.0335 20 31M20 12.0483V31" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div>
+                  Library
+                  <p>
+                    A collection of example HTML forms with code that you can edit and download or copy/paste.
+                  </p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="/guides">
+                <svg width="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="40" height="40" rx="8" fill="#E5122E"/>
+                  <path d="M19 19L19.0547 18.9733C19.2256 18.8879 19.4175 18.8533 19.6076 18.8735C19.7976 18.8938 19.9779 18.9681 20.127 19.0876C20.2761 19.2071 20.3879 19.3669 20.449 19.548C20.5102 19.7291 20.5181 19.9239 20.472 20.1093L19.528 23.8907C19.4815 24.0762 19.4893 24.2712 19.5503 24.4525C19.6113 24.6338 19.723 24.7938 19.8722 24.9136C20.0214 25.0333 20.2018 25.1077 20.392 25.128C20.5822 25.1483 20.7742 25.1136 20.9453 25.028L21 25M32 20C32 21.5759 31.6896 23.1363 31.0866 24.5922C30.4835 26.0481 29.5996 27.371 28.4853 28.4853C27.371 29.5996 26.0481 30.4835 24.5922 31.0866C23.1363 31.6896 21.5759 32 20 32C18.4241 32 16.8637 31.6896 15.4078 31.0866C13.9519 30.4835 12.629 29.5996 11.5147 28.4853C10.4004 27.371 9.5165 26.0481 8.91345 24.5922C8.31039 23.1363 8 21.5759 8 20C8 16.8174 9.26428 13.7652 11.5147 11.5147C13.7652 9.26428 16.8174 8 20 8C23.1826 8 26.2348 9.26428 28.4853 11.5147C30.7357 13.7652 32 16.8174 32 20ZM20 15H20.0107V15.0107H20V15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>                    
+                <div>
+                  Guides
+                  <p>
+                    Contact forms that work out of the box with top website platforms.
+                  </p>
+                </div>
+              </a>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <a href="/changelog">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="40" height="40" rx="8" fill="#E5122E"/>
+                  <path d="M20 14V20.6667L24 24.6667" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8 18.3104C8.41269 15.1754 9.95866 12.2976 12.3485 10.2157C14.7384 8.13382 17.8083 6.9906 20.9837 7.00006C24.159 7.00951 27.222 8.17098 29.5993 10.2671C31.9766 12.3631 33.5053 15.2501 33.8992 18.3875C34.293 21.525 33.525 24.6978 31.739 27.3121C29.953 29.9264 27.2713 31.8029 24.1961 32.5904C21.1208 33.3778 17.8627 33.0223 15.0317 31.5902C12.2007 30.1582 9.99094 27.7479 8.81596 24.8104M8 32.9354V24.8104H16.1596" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>                                    
+                <div>
+                  Changelog
+                  <p>
+                    Keep up-to-date with changes and improvements to Formspree. A weekly log of Formspree updates.
+                  </p>
+                </div>
+              </a>
+            </li>
+            <li class="hover:bg-gray-100 m-4 rounded-md">
+                <a href="/customers" class="px-4 md:py-2 text-black text-left flex items-start">
+                  <svg class="hidden md:block flex-shrink-0" width="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect width="40" height="40" rx="8" fill="#E5122E"/>
+                    <polygon fill="white" points="20,6 24.5,15.5 34.5,16.5 27.5,23 29.5,33 20,27.5 10.5,33 12.5,23 5.5,16.5 15.5,15.5"/>
+                  </svg>
+                  <div class="pl-3 text-lg">
+                    Customer Stories
+                    <p class="text-sm font-light text-gray-600 py-1">Real-world success stories from companies using our product.</p>
+                  </div>
+                </a>
+              </li>
+          </ul>
+        </div>
+      </li>
+      <li aria-expanded="false" class="dropdown-root">
+        <button type="button" data-dropdown-element="trigger">
+          Solutions
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.37966 0.43976L0.509763 4.31006C0.169923 4.6499 0.169923 5.21006 0.509763 5.54986C0.849603 5.8897 1.40976 5.8897 1.74956 5.54986L4.99956 2.31006L8.24956 5.56006C8.5894 5.8999 9.14956 5.8999 9.48936 5.56006C9.65928 5.39014 9.74952 5.16006 9.74952 4.94014C9.74952 4.71006 9.65968 4.49014 9.48936 4.32022L5.61946 0.45032C5.27962 0.0999298 4.71946 0.0999298 4.37966 0.439773V0.43976Z" fill="#28373E"/>
+          </svg>
+        </button>
+        
+        <div class="dropdown-menu">
+          <ul>
+            <li>
+              <a href="/javascript">
+                <div>
+                  JavaScript Forms
+                  <p>
+                    Build dynamic forms with our JavaScript library
+                  </p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href='/html/'>
+                <div>
+                  HTML Forms
+                  <p>
+                    Simple forms integration with just HTML.
+                  </p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="/formbutton">
+                <div>
+                  Formbutton
+                  <p>
+                    Easy popup forms for any website.
+                  </p>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a href="/blog">
+          Blog
+        </a>
+      </li>
+      <li>
+        <a href="https://help.formspree.io/">
+          Help
+        </a>
+      </li>
+    </ul>
+    <ul class="secondary-nav">
+      <li>
+        <a href="/register" class="get-started">
+          Get started
+        </a>
+      </li>
+      <li>
+        <a href="/forms">
+          Sign in
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+<div class="site-frame" id="site-main">
+      
+  <article class="post">
+    <div class="post-wrapper grid">
+      <header class="grid-cell narrow">
+        <div class="sticky">
+          <div class="post-meta">
+            <a class="subtle" href='https://formspree.io/blog/html-form-action/'><time pubdate="pubdate" class="post-date date">Thu, Feb 27, 2025</time></a><span class="post-author author">Kumar Harsh</span>
+          </div>
+          <h1 class="post-title title">A Mini Guide to HTML Form Action</h1>
+          <h2 class="post-subtitle">Learn how to use the HTML form action attribute to control form submission and enhance user interactions on your website.</h2>
+          
+          
+          <div class="post-links">
+            
+              <span class="post-tags">Tagged:
+              
+                <a href="https://formspree.io/tags/forms" class="post-tag">Forms</a>
+              
+                <a class='post-tag' href='https://formspree.io/tags/html/'>HTML</a>
+              
+              </span>
+            
+            
+              <span class="post-categories">in
+              
+                <a href="https://formspree.io/categories/guide" class="post-category">Guide</a>
+              
+              </span>
+            
+          </div>    
+        </div>
+      </header>
+      <div class="post-body grid-cell wide">
+        <div class="post-masthead">
+          
+          <img src="/blog/html-form-action/html-form-action-header.png"/>
+          
+        </div>
+        <p>Forms are a cornerstone of the web, powering everything from contact pages to user registrations and checkout flows. In HTML, the <code>&lt;form&gt;</code> element is the foundation for creating interactive forms. One of its most important attributes is <code>action</code>, which determines where the form data is sent when a user submits it. Without properly understanding the action attribute, developers risk broken form submissions or unexpected behavior. This guide dives into the action attribute, explaining its syntax, use cases, and best practices to help you build functional and secure web forms.</p>
+<h2 id="what-is-the-action-attribute">What is the action Attribute?</h2>
+<p>The action attribute in an <code>HTML &lt;form&gt; element</code> specifies the endpoint where form data should be sent upon submission. Its syntax is:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;https://formspree.io/f/myzkjveq&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>Here, the URL represents the target location, such as a server-side script or an API endpoint (or a forms backend, like Formspree). When a user submits the form, the browser packages the input data and sends it to the specified URL.</p>
+<p>The main purpose of the action attribute is to define the destination for processing form submissions. For instance, a contact form might send data to a server script for sending an email, while a login form might route credentials to an authentication API.</p>
+<h2 id="types-of-urls-for-the-action-attribute">Types of URLs for the action Attribute</h2>
+<p>The action attribute in HTML forms can accept two types of URLs: absolute and relative, each serving distinct purposes in web development.</p>
+<p>Absolute URLs are complete URLs that specify the protocol, domain, and path. They are typically used to send form data to external servers or APIs. You might also need to use them if your site operates across multiple domains or subdomains, or if you are using a staging environment with different domains. Here’s how you use an absolute URL:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;https://example.com/submit&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>This URL ensures the form data is sent to a remote server, regardless of the current webpage’s location.</p>
+<p>Relative URLs are relative to the current page or application’s domain and are commonly used within the same web application. For instance:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;/submit&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>This URL submits the form data to the <code>/submit</code> route of the current domain.</p>
+<p>You should use relative URLs when the forms backend is hosted on the same API as the frontend. They simplify maintenance and work well for internal routes. You should use absolute URLs when sending form data to external servers or APIs (e.g., <a href="https://formspree.io/f/myzkjveq)">https://formspree.io/f/myzkjveq)</a>. They are necessary for cross-domain submissions or integrations with third-party services.</p>
+<h2 id="best-practices-for-setting-the-action-attribute">Best Practices for Setting the action Attribute</h2>
+<p>When working with the form action attribute, following best practices ensures secure and efficient form submissions:</p>
+<ul>
+<li><strong>Use Secure URLs</strong>: Always use HTTPS to protect data transmission to the web server. Whether it&rsquo;s an absolute URL or a relative URL, prioritize security to avoid interception.</li>
+<li><strong>Ensure Endpoint Compatibility</strong>: Verify that the target PHP file or web page can handle the input field data format (e.g., <code>application/x-www-form-urlencoded</code>).</li>
+<li><strong>Use Descriptive Form Elements</strong>: Include clear labels like <code>&lt;label for=&quot;lname&quot;&gt;Last Name:&lt;/label&gt;</code> to enhance usability. Combine them with the appropriate input elements, such as <code>&lt;input type=&quot;text&quot;&gt;</code>, to ensure users can provide data seamlessly.</li>
+<li><strong>Test Form Action URLs</strong>: Ensure that the absolute URL or relative URL specified in the form action is valid and functional. Broken endpoints can disrupt user interactions.</li>
+<li><strong>Error Handling</strong>: Set up error handling in your web server or PHP file to provide helpful feedback if submissions fail. For instance, confirm that the submit button (e.g., <code>&lt;input type=&quot;submit&quot;&gt;</code> or <code>&lt;button type=&quot;submit&quot;&gt;</code>) triggers a valid HTTP request.</li>
+</ul>
+<h2 id="the-relationship-between-action-and-method">The Relationship Between action and method</h2>
+<p>The action and method attributes work together to determine how form elements interact with a web server.</p>
+<h3 id="get-method">GET Method</h3>
+<p>When the method attribute is set to GET, the form sends data as a query string appended to the form action URL. This is useful for non-sensitive input elements like search forms. Example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;/action_page.php&#34;</span> <span class="na">method</span><span class="o">=</span><span class="s">&#34;GET&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;lname&#34;</span><span class="p">&gt;</span>Last Name:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;lname&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;submit&#34;</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;Search&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="post-method">POST Method</h3>
+<p>With the post method, the input field data is sent in the HTTP request body. This is ideal for contact forms or when submitting sensitive information.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;/action_page.php&#34;</span> <span class="na">method</span><span class="o">=</span><span class="s">&#34;POST&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;lname&#34;</span><span class="p">&gt;</span>Last Name:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;lname&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;submit&#34;</span><span class="p">&gt;</span>Submit<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span></span></code></pre></div><blockquote>
+<p>Tip: Always test browser support for your form action URL and attribute values. Avoid using GET for sensitive data, and match the method attribute with the form’s purpose for optimal results.</p>
+</blockquote>
+<h2 id="omitting-the-action-attribute">Omitting the action Attribute</h2>
+<p>When the form action attribute is omitted in an HTML form, the browser defaults to submitting the form data to the same URL as the current web page. This behavior is often used in self-contained applications where the server processes and responds to the submitted data directly.</p>
+<p>For example,</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">form</span> <span class="na">method</span><span class="o">=</span><span class="s">&#34;POST&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&#34;name&#34;</span><span class="p">&gt;</span>Name:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;name&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;name&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;submit&#34;</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;Submit&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>In this case, the form elements like the text input will submit data using the specified HTTP method to the current page. While this can simplify form handling, it may cause issues if the page lacks the backend logic to handle the request. Always ensure the default value aligns with your application&rsquo;s requirements.</p>
+<h2 id="dynamic-actions">Dynamic Actions</h2>
+<p>In some scenarios, you may need to set or modify the form action dynamically based on user input or conditions. This can be achieved using JavaScript, allowing your HTML form to handle multiple submission endpoints.</p>
+<p>For example,</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">form</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;dynamicForm&#34;</span> <span class="na">method</span><span class="o">=</span><span class="s">&#34;POST&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;name&#34;</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;name&#34;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;Enter your name&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;submit&#34;</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;Submit&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">form</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;dynamicForm&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">form</span><span class="p">.</span><span class="nx">onsubmit</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">form</span><span class="p">.</span><span class="nx">action</span> <span class="o">=</span> <span class="nx">form</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="s1">&#39;/admin&#39;</span> <span class="o">:</span> <span class="s1">&#39;/user&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>Setting the action value dynamically lets you adjust attribute values in real-time, enabling more flexible and responsive forms.</p>
+<h2 id="debugging-common-issues">Debugging Common Issues</h2>
+<p>When an HTML form fails to work as expected, common problems include:</p>
+<ul>
+<li><strong>Broken form action URL</strong>: Verify that the URL specified is correct and reachable.</li>
+<li><strong>Incorrect HTTP method</strong>: Ensure the method (GET or POST) matches the server’s expectations.</li>
+<li><strong>Invalid attribute values</strong>: Check for typos or unsupported settings for form elements.</li>
+<li><strong>Browser Support</strong>: Ensure all input elements and methods are compatible with your target browsers.</li>
+</ul>
+<p>Using developer tools, inspect the form’s submission behavior to troubleshoot issues effectively.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The form action attribute is an important part of HTML forms, defining where form data is sent and ensuring smooth interaction between users and web servers. By understanding its syntax, possible values, and best practices, you can create secure and functional forms tailored to your application’s needs. And whether you&rsquo;re using static or dynamic actions, always test and validate your form elements to handle different scenarios and ensure compatibility across browsers.</p>
+
+        
+        <hr>
+        <a id="feedback-form"></a>
+<h2>Got Feedback?</h2>
+<form id="fs-frm" action="https://formspree.io/mlerqwny" method="POST">
+  <fieldset id="fs-frm-inputs">
+    <div class="row last">
+      <div class="col span-1-2">
+        <label for="name-input">Name</label>
+        <input type="text" name="name" id="name-input">
+      </div>
+      <div class="col span-1-2 last">
+        <label for="email-input">Email</label>
+        <input type="email" name="_replyto" id="email-input" required>
+      </div>
+    </div>
+    <label for="message-input">Message</label>
+    <textarea name="message" id="message-input" required></textarea>
+    <button class="button-link light button">Send</button>
+    <input type="hidden" name="_subject" value="New feedback for A Mini Guide to HTML Form Action">
+  </fieldset>
+</form>
+    </div>
+    </div>
+    <footer class="post-footer">
+      <div class="post-pagination">
+        
+          <a class="prev subtle" href="https://formspree.io/blog/announce-more-plugins-in-2025/">Moving into 2025: More Plugins, More Control</a>
+        
+        
+          <a class="next subtle" href="https://formspree.io/blog/asana-integrations/">5 Top Asana Integrations You Need</a>
+        
+      </div>
+    </footer>
+  </article>
+
+          
+        </div><footer class="-legacy">
+  <section class="main-footer">
+    <div class="company-info">
+      <a href="/">
+        <img class="logo-full" src="/img/formspree-new.svg" alt="Formspree Logo" width="163" height="36"/>
+        <img class="logo-minimal" src="/img/formspree-logo-no-text.svg" alt="Formspree Logo" height="36"/>
+      </a>
+      
+      <p>The form solution <br> for any developer</p>
+      <ul>
+        <li><a href="https://facebook.com/formspree" aria-label="Link to our Facebook page." target="_blank"><svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_530_16998)"><path d="M24.5 11.9999C24.5 5.37252 19.1274 -6.10352e-05 12.5 -6.10352e-05C5.87258 -6.10352e-05 0.5 5.37252 0.5 11.9999C0.5 17.9894 4.8882 22.9539 10.625 23.8542V15.4687H7.57812V11.9999H10.625V9.35619C10.625 6.34869 12.4166 4.68744 15.1576 4.68744C16.4701 4.68744 17.8438 4.92181 17.8438 4.92181V7.87494H16.3306C14.84 7.87494 14.375 8.80002 14.375 9.74994V11.9999H17.7031L17.1711 15.4687H14.375V23.8542C20.1118 22.9539 24.5 17.9894 24.5 11.9999Z" fill="#8D9396"/></g><defs><clipPath id="clip0_530_16998"><rect width="24" height="24" fill="white" transform="translate(0.5 -6.10352e-05)"/></clipPath></defs></svg></a></li>
+        <li><a href="https://twitter.com/formspree" aria-label="Link to our Twitter page." target="_blank"><svg width="25" height="20" viewBox="0 0 25 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.05016 19.75C17.1045 19.75 22.0583 12.2467 22.0583 5.74186C22.0583 5.53092 22.0536 5.3153 22.0442 5.10436C23.0079 4.40746 23.8395 3.54425 24.5 2.5553C23.6025 2.9546 22.6496 3.21538 21.6739 3.32874C22.7013 2.71291 23.4705 1.74547 23.8391 0.605767C22.8726 1.17856 21.8156 1.58261 20.7134 1.80061C19.9708 1.01156 18.989 0.489116 17.9197 0.314051C16.8504 0.138986 15.7532 0.32105 14.7977 0.832096C13.8423 1.34314 13.0818 2.15471 12.6338 3.14131C12.1859 4.12792 12.0754 5.23462 12.3195 6.2903C10.3625 6.19209 8.44794 5.6837 6.69998 4.7981C4.95203 3.91249 3.40969 2.66944 2.17297 1.14952C1.5444 2.23324 1.35206 3.51565 1.63503 4.73609C1.918 5.95654 2.65506 7.02345 3.69641 7.71999C2.91463 7.69517 2.14998 7.48468 1.46563 7.10592V7.16686C1.46492 8.30415 1.8581 9.40659 2.57831 10.2868C3.29852 11.167 4.30132 11.7706 5.41625 11.995C4.69206 12.1931 3.93198 12.222 3.19484 12.0794C3.50945 13.0574 4.12157 13.9129 4.94577 14.5263C5.76997 15.1398 6.76512 15.4806 7.79234 15.5012C6.04842 16.8711 3.89417 17.6141 1.67656 17.6106C1.28329 17.61 0.890399 17.5859 0.5 17.5384C2.75286 18.9837 5.37353 19.7514 8.05016 19.75Z" fill="#8D9396"/></svg></a></li>
+        <li><a href="https://github.com/formspree" aria-label="Link to our Github page." target="_blank"><svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_530_17002)"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.5 -6.10352e-05C5.8724 -6.10352e-05 0.5 5.38074 0.5 12.0203C0.5 17.3303 3.938 21.8363 8.7068 23.4251C9.3068 23.5355 9.5252 23.1647 9.5252 22.8455C9.5252 22.5611 9.5156 21.8039 9.5096 20.8019C6.1712 21.5279 5.4668 19.1903 5.4668 19.1903C4.922 17.8007 4.1348 17.4311 4.1348 17.4311C3.0452 16.6871 4.2176 16.7015 4.2176 16.7015C5.4212 16.7855 6.0548 17.9399 6.0548 17.9399C7.1252 19.7759 8.864 19.2455 9.5468 18.9383C9.6572 18.1619 9.9668 17.6327 10.31 17.3327C7.646 17.0291 4.844 15.9971 4.844 11.3915C4.844 10.0799 5.312 9.00594 6.0788 8.16594C5.9552 7.86234 5.5436 6.63954 6.1964 4.98594C6.1964 4.98594 7.2044 4.66194 9.4964 6.21714C10.4753 5.95016 11.4853 5.81417 12.5 5.81274C13.52 5.81754 14.546 5.95074 15.5048 6.21714C17.7956 4.66194 18.8012 4.98474 18.8012 4.98474C19.4564 6.63954 19.0436 7.86234 18.9212 8.16594C19.6892 9.00594 20.1548 10.0799 20.1548 11.3915C20.1548 16.0091 17.348 17.0255 14.6756 17.3231C15.1064 17.6939 15.4892 18.4271 15.4892 19.5491C15.4892 21.1547 15.4748 22.4519 15.4748 22.8455C15.4748 23.1671 15.6908 23.5415 16.3004 23.4239C18.69 22.6225 20.7672 21.0903 22.2386 19.044C23.7099 16.9977 24.501 14.5407 24.5 12.0203C24.5 5.38074 19.1264 -6.10352e-05 12.5 -6.10352e-05Z" fill="#8D9396"/></g><defs><clipPath id="clip0_530_17002"><rect width="24" height="24" fill="white" transform="translate(0.5 -6.10352e-05)"/></clipPath></defs></svg></a></li>
+      </ul>
+    </div>
+
+    <div class="links">
+      <nav class="main">
+        <h2>Company</h2>
+        <a href="/plans">Plans</a>
+        <a href="/blog">Blog</a>
+        <a href="/changelog">Changelog</a>
+        <a href="categories/announcements">Announcements</a>
+        <a href="https://status.formspree.io/">API Status</a>
+      </nav>
+
+      <nav class="main">
+        <h2>Resources</h2>
+        <a href="/library">Library</a>
+        <a href="/guides">Guides</a>
+        <a href='/html/'>HTML Forms</a>
+        <a href="/javascript">React Forms</a>
+        <a href="/formbutton">Formbutton</a>
+        <a href="/categories/tutorials">Tutorials</a>
+        <a href="https://help.formspree.io/">Help</a>
+      </nav>
+
+      <div class="logos-desktop">
+        <img src="/img/logos/aicpa.svg" alt="AICPA Logo" height="75"/>
+        <img src="/img/logos/ccpa.svg" alt="CCPA Logo" height="75"/>
+        <img src="/img/logos/gdpr.svg" alt="GDPR Logo" height="75"/>
+      </div>
+
+      <nav class="legal-mobile">
+        <h2>Legal</h2>
+        <a href="/legal/terms-of-service">Terms of Service</a>
+        <a href="/legal/privacy-policy">Privacy Policy</a>
+        <a href="/security">Security</a>
+      </nav>
+
+      <nav class="social-mobile">
+        <h2>Social</h2>
+        <ul>
+          <li><a href="https://facebook.com/formspree" aria-label="Link to our Facebook page." target="_blank"><svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_530_16998)"><path d="M24.5 11.9999C24.5 5.37252 19.1274 -6.10352e-05 12.5 -6.10352e-05C5.87258 -6.10352e-05 0.5 5.37252 0.5 11.9999C0.5 17.9894 4.8882 22.9539 10.625 23.8542V15.4687H7.57812V11.9999H10.625V9.35619C10.625 6.34869 12.4166 4.68744 15.1576 4.68744C16.4701 4.68744 17.8438 4.92181 17.8438 4.92181V7.87494H16.3306C14.84 7.87494 14.375 8.80002 14.375 9.74994V11.9999H17.7031L17.1711 15.4687H14.375V23.8542C20.1118 22.9539 24.5 17.9894 24.5 11.9999Z" fill="#8D9396"/></g><defs><clipPath id="clip0_530_16998"><rect width="24" height="24" fill="white" transform="translate(0.5 -6.10352e-05)"/></clipPath></defs></svg></a></li>
+          <li><a href="https://twitter.com/formspree" aria-label="Link to our Twitter page." target="_blank"><svg width="25" height="20" viewBox="0 0 25 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.05016 19.75C17.1045 19.75 22.0583 12.2467 22.0583 5.74186C22.0583 5.53092 22.0536 5.3153 22.0442 5.10436C23.0079 4.40746 23.8395 3.54425 24.5 2.5553C23.6025 2.9546 22.6496 3.21538 21.6739 3.32874C22.7013 2.71291 23.4705 1.74547 23.8391 0.605767C22.8726 1.17856 21.8156 1.58261 20.7134 1.80061C19.9708 1.01156 18.989 0.489116 17.9197 0.314051C16.8504 0.138986 15.7532 0.32105 14.7977 0.832096C13.8423 1.34314 13.0818 2.15471 12.6338 3.14131C12.1859 4.12792 12.0754 5.23462 12.3195 6.2903C10.3625 6.19209 8.44794 5.6837 6.69998 4.7981C4.95203 3.91249 3.40969 2.66944 2.17297 1.14952C1.5444 2.23324 1.35206 3.51565 1.63503 4.73609C1.918 5.95654 2.65506 7.02345 3.69641 7.71999C2.91463 7.69517 2.14998 7.48468 1.46563 7.10592V7.16686C1.46492 8.30415 1.8581 9.40659 2.57831 10.2868C3.29852 11.167 4.30132 11.7706 5.41625 11.995C4.69206 12.1931 3.93198 12.222 3.19484 12.0794C3.50945 13.0574 4.12157 13.9129 4.94577 14.5263C5.76997 15.1398 6.76512 15.4806 7.79234 15.5012C6.04842 16.8711 3.89417 17.6141 1.67656 17.6106C1.28329 17.61 0.890399 17.5859 0.5 17.5384C2.75286 18.9837 5.37353 19.7514 8.05016 19.75Z" fill="#8D9396"/></svg></a></li>
+          <li><a href="https://github.com/formspree" aria-label="Link to our Github page." target="_blank"><svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_530_17002)"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.5 -6.10352e-05C5.8724 -6.10352e-05 0.5 5.38074 0.5 12.0203C0.5 17.3303 3.938 21.8363 8.7068 23.4251C9.3068 23.5355 9.5252 23.1647 9.5252 22.8455C9.5252 22.5611 9.5156 21.8039 9.5096 20.8019C6.1712 21.5279 5.4668 19.1903 5.4668 19.1903C4.922 17.8007 4.1348 17.4311 4.1348 17.4311C3.0452 16.6871 4.2176 16.7015 4.2176 16.7015C5.4212 16.7855 6.0548 17.9399 6.0548 17.9399C7.1252 19.7759 8.864 19.2455 9.5468 18.9383C9.6572 18.1619 9.9668 17.6327 10.31 17.3327C7.646 17.0291 4.844 15.9971 4.844 11.3915C4.844 10.0799 5.312 9.00594 6.0788 8.16594C5.9552 7.86234 5.5436 6.63954 6.1964 4.98594C6.1964 4.98594 7.2044 4.66194 9.4964 6.21714C10.4753 5.95016 11.4853 5.81417 12.5 5.81274C13.52 5.81754 14.546 5.95074 15.5048 6.21714C17.7956 4.66194 18.8012 4.98474 18.8012 4.98474C19.4564 6.63954 19.0436 7.86234 18.9212 8.16594C19.6892 9.00594 20.1548 10.0799 20.1548 11.3915C20.1548 16.0091 17.348 17.0255 14.6756 17.3231C15.1064 17.6939 15.4892 18.4271 15.4892 19.5491C15.4892 21.1547 15.4748 22.4519 15.4748 22.8455C15.4748 23.1671 15.6908 23.5415 16.3004 23.4239C18.69 22.6225 20.7672 21.0903 22.2386 19.044C23.7099 16.9977 24.501 14.5407 24.5 12.0203C24.5 5.38074 19.1264 -6.10352e-05 12.5 -6.10352e-05Z" fill="#8D9396"/></g><defs><clipPath id="clip0_530_17002"><rect width="24" height="24" fill="white" transform="translate(0.5 -6.10352e-05)"/></clipPath></defs></svg></a></li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="secondary-footer">
+    <div>
+      <nav class="logos-mobile">
+        <img src="/img/logos/aicpa.svg" alt="AICPA Logo" height="50"/>
+        <img src="/img/logos/ccpa.svg" alt="CCPA Logo" height="50"/>
+        <img src="/img/logos/gdpr.svg" alt="GDPR Logo" height="50" class="-ml-4"/>
+      </nav>
+
+      <span>&copy;2026 Formspree, Inc.</span>
+
+      <nav class="legal-desktop">
+        <a href="/legal/terms-of-service">Terms of Service</a>
+        <a href="/legal/privacy-policy">Privacy Policy</a>
+        <a href="/security">Security</a>
+      </nav>
+    </div>
+  </section>
+
+</footer>
+        
+    </div>
+    
+    <script async src="/js/index.js"></script>
+    <script src="/js/banner.js" defer></script>
+    
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3WBFEH3YMK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('set', 'allow_ad_personalization_signals', false);
+  gtag('set', 'allow_google_signals', false );
+  gtag('js', new Date());
+  gtag('set', {'dimension1':  'main'});
+  gtag('config', 'G-3WBFEH3YMK');
+</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"d5bfdc7c3a144cc7a9593f95108ad835","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+
+</html>

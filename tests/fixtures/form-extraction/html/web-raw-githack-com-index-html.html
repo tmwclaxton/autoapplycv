@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>Job Application Form</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Elmar Chavez" />
+    <meta name="description"
+        content="This website showcases the authors abilities to design a simple job application form using HTML and CSS." />
+    <link rel="stylesheet" href="./styles.css" />
+    <meta property="og:title" content="Job Application Form" />
+    <meta property="og:type" content="website" />
+</head>
+
+<body>
+    <main>
+        <div class="container">
+            <h1>Job Application Form</h1>
+            <form action="https://httpbin.org/post" method="post" target="_blank">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" class="name" name="name" placeholder="John Doe" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" class="email" placeholder="johndoe@example.com" name="email" required>
+
+                <label for="position">Job Position:</label>
+                <select name="position" id="position" required>
+                    <option value="none" disabled>-Select a Position-</option>
+                    <option value="developer">Developer</option>
+                    <option value="designer">Designer</option>
+                    <option value="manager">Manager</option>
+                </select>
+
+                <fieldset class="radio-group">
+                    <legend>Availability:</legend>
+                    <input type="radio" id="full-time" name="availability" value="full-time" checked>
+                    <label for="full-time"><span class="nowrap">Full-Time</span></label>
+                    <input type="radio" id="part-time" name="availability" value="part-time">
+                    <label for="part-time"><span class="nowrap">Part-time</span></label>
+                </fieldset>
+
+                <label for="message">Why do you want this job?</label>
+                <textarea name="message" id="message" required placeholder="Type here..."></textarea>
+
+                <button type="submit">Submit Application</button>
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>

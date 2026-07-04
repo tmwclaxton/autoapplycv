@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Employment Application</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
+  <style>
+    /* === DESIGN TOKENS === */
+    :root, [data-theme="light"] {
+      --color-bg: #f5f5f3;
+      --color-surface: #ffffff;
+      --color-surface-2: #fafaf8;
+      --color-surface-offset: #f0eeea;
+      --color-divider: #e0ddd8;
+      --color-border: #d4d1ca;
+      --color-text: #1a1916;
+      --color-text-muted: #706f6b;
+      --color-text-faint: #b0aea8;
+      --color-primary: #01696f;
+      --color-primary-hover: #0c4e54;
+      --color-primary-active: #0f3638;
+      --color-primary-highlight: #cedcd8;
+      --color-error: #b33a3a;
+      --color-error-light: #fff0f0;
+      --color-success: #2e7d32;
+      --color-success-light: #f1f8f1;
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+      --radius-full: 9999px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+      --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem;
+      --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem;
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2rem);
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* === BASE === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body { min-height: 100dvh; font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-bg); line-height: 1.6; }
+    img { display: block; max-width: 100%; }
+    input, button, textarea, select { font: inherit; color: inherit; }
+    button { cursor: pointer; background: none; border: none; }
+    ::selection { background: rgba(1,105,111,0.15); }
+    :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: var(--radius-sm); }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+    /* === LAYOUT === */
+    .app-header {
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-divider);
+      padding: var(--space-4) var(--space-6);
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+    .header-inner {
+      max-width: 720px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+    }
+    .logo { display: flex; align-items: center; gap: var(--space-3); text-decoration: none; color: inherit; }
+    .logo svg { color: var(--color-primary); flex-shrink: 0; }
+    .logo-text { font-family: var(--font-display); font-size: var(--text-lg); line-height: 1.1; color: var(--color-text); }
+    .logo-sub { font-size: var(--text-xs); color: var(--color-text-muted); font-family: var(--font-body); font-weight: 400; }
+
+    .progress-bar-wrap { flex: 1; min-width: 80px; max-width: 200px; }
+    .progress-label { font-size: var(--text-xs); color: var(--color-text-muted); margin-bottom: var(--space-1); display: flex; justify-content: space-between; }
+    .progress-track { height: 6px; background: var(--color-surface-offset); border-radius: var(--radius-full); overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--color-primary); border-radius: var(--radius-full); transition: width 0.4s cubic-bezier(0.16,1,0.3,1); }
+
+    main { max-width: 720px; margin: 0 auto; padding: var(--space-6) var(--space-4) var(--space-12); }
+
+    /* === SECTIONS / STEPS === */
+    .step { display: none; animation: fadeIn 0.3s ease; }
+    .step.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .section-header { margin-bottom: var(--space-6); padding-bottom: var(--space-4); border-bottom: 1px solid var(--color-divider); }
+    .section-title { font-family: var(--font-display); font-size: var(--text-xl); color: var(--color-text); line-height: 1.2; margin-bottom: var(--space-1); }
+    .section-desc { font-size: var(--text-sm); color: var(--color-text-muted); }
+
+    /* === FORM CARDS === */
+    .form-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      margin-bottom: var(--space-4);
+      box-shadow: var(--shadow-sm);
+    }
+    .form-card-title {
+      font-size: var(--text-base); font-weight: 600; color: var(--color-text);
+      margin-bottom: var(--space-4); display: flex; align-items: center; gap: var(--space-2);
+    }
+    .form-card-title svg { color: var(--color-primary); }
+
+    /* === FORM FIELDS === */
+    .form-grid { display: grid; gap: var(--space-4); }
+    .form-grid-2 { grid-template-columns: 1fr 1fr; }
+    .form-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+    @media (max-width: 560px) { .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; } }
+
+    .field { display: flex; flex-direction: column; gap: var(--space-1); }
+    .field.span-2 { grid-column: span 2; }
+    .field.span-3 { grid-column: span 3; }
+    @media (max-width: 560px) { .field.span-2, .field.span-3 { grid-column: span 1; } }
+
+    label { font-size: var(--text-sm); font-weight: 500; color: var(--color-text); }
+    label .req { color: var(--color-error); margin-left: 2px; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-size: var(--text-base);
+      color: var(--color-text);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      appearance: none;
+    }
+    input::placeholder, textarea::placeholder { color: var(--color-text-faint); }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(1,105,111,0.12);
+    }
+    input.error, select.error, textarea.error { border-color: var(--color-error); }
+    .field-error { font-size: var(--text-xs); color: var(--color-error); display: none; }
+    .field-error.show { display: block; }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23706f6b' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right var(--space-3) center;
+      padding-right: var(--space-8);
+    }
+    textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+
+    /* === RADIO/CHECKBOX === */
+    .radio-group, .checkbox-group { display: flex; flex-direction: column; gap: var(--space-2); }
+    .radio-group.inline, .checkbox-group.inline { flex-direction: row; flex-wrap: wrap; gap: var(--space-3); }
+    .radio-option, .checkbox-option {
+      display: flex; align-items: center; gap: var(--space-2);
+      cursor: pointer; font-size: var(--text-sm);
+    }
+    .radio-option input[type="radio"],
+    .checkbox-option input[type="checkbox"] {
+      width: 18px; height: 18px; min-width: 18px; border-radius: var(--radius-sm);
+      border: 2px solid var(--color-border); background: var(--color-surface-2);
+      appearance: none; cursor: pointer; transition: all var(--transition);
+      display: flex; align-items: center; justify-content: center;
+      padding: 0;
+    }
+    .radio-option input[type="radio"] { border-radius: var(--radius-full); }
+    .radio-option input[type="radio"]:checked,
+    .checkbox-option input[type="checkbox"]:checked {
+      background: var(--color-primary); border-color: var(--color-primary);
+    }
+    .radio-option input[type="radio"]:checked::after {
+      content: ''; display: block; width: 6px; height: 6px;
+      background: white; border-radius: 50%; margin: auto;
+    }
+    .checkbox-option input[type="checkbox"]:checked::after {
+      content: '✓'; color: white; font-size: 11px; line-height: 1;
+      display: block; text-align: center;
+    }
+
+    /* === REPEATING BLOCKS === */
+    .repeat-block {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      margin-bottom: var(--space-3);
+      background: var(--color-surface-2);
+      position: relative;
+    }
+    .repeat-block-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: var(--space-3);
+    }
+    .repeat-block-title { font-size: var(--text-sm); font-weight: 600; color: var(--color-text-muted); }
+    .btn-remove {
+      font-size: var(--text-xs); color: var(--color-error);
+      display: flex; align-items: center; gap: var(--space-1);
+      padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm);
+      transition: background var(--transition);
+    }
+    .btn-remove:hover { background: var(--color-error-light); }
+    .btn-add {
+      display: flex; align-items: center; gap: var(--space-2);
+      font-size: var(--text-sm); font-weight: 500;
+      color: var(--color-primary); padding: var(--space-2) var(--space-3);
+      border: 1.5px dashed var(--color-primary-highlight);
+      border-radius: var(--radius-md); width: 100%;
+      justify-content: center; margin-top: var(--space-2);
+      background: transparent; transition: all var(--transition);
+    }
+    .btn-add:hover { background: var(--color-primary-highlight); border-color: var(--color-primary); }
+
+    /* === SIGNATURE PAD === */
+    .sig-wrapper {
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: #fff;
+      overflow: hidden; position: relative;
+    }
+    #sig-canvas { display: block; width: 100%; touch-action: none; cursor: crosshair; }
+    .sig-tools {
+      display: flex; justify-content: flex-end; gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      border-top: 1px solid var(--color-divider);
+      background: var(--color-surface-offset);
+    }
+    .btn-sig-clear {
+      font-size: var(--text-xs); color: var(--color-text-muted);
+      display: flex; align-items: center; gap: var(--space-1);
+      padding: var(--space-1) var(--space-3); border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border); background: var(--color-surface);
+      transition: all var(--transition);
+    }
+    .btn-sig-clear:hover { border-color: var(--color-error); color: var(--color-error); background: var(--color-error-light); }
+    .sig-placeholder {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      font-size: var(--text-sm); color: var(--color-text-faint);
+      pointer-events: none; user-select: none;
+      display: flex; align-items: center; gap: var(--space-2);
+      white-space: nowrap;
+    }
+
+    /* === NAVIGATION BUTTONS === */
+    .form-nav {
+      display: flex; gap: var(--space-3); margin-top: var(--space-8);
+      padding-top: var(--space-6); border-top: 1px solid var(--color-divider);
+    }
+    .btn-primary {
+      flex: 1; padding: var(--space-4) var(--space-6);
+      background: var(--color-primary); color: #fff; font-weight: 600;
+      font-size: var(--text-base); border-radius: var(--radius-lg);
+      border: none; transition: all var(--transition);
+      display: flex; align-items: center; justify-content: center; gap: var(--space-2);
+      box-shadow: var(--shadow-sm);
+      min-height: 52px;
+    }
+    .btn-primary:hover { background: var(--color-primary-hover); box-shadow: var(--shadow-md); }
+    .btn-primary:active { background: var(--color-primary-active); }
+    .btn-secondary {
+      padding: var(--space-4) var(--space-5);
+      background: var(--color-surface); color: var(--color-text-muted); font-weight: 500;
+      font-size: var(--text-base); border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border); transition: all var(--transition);
+      min-height: 52px;
+    }
+    .btn-secondary:hover { background: var(--color-surface-offset); color: var(--color-text); }
+
+    /* === STEP INDICATOR === */
+    .step-indicator {
+      display: flex; gap: var(--space-2); margin-bottom: var(--space-6);
+      justify-content: center;
+    }
+    .step-dot {
+      width: 8px; height: 8px; border-radius: var(--radius-full);
+      background: var(--color-border); transition: all 0.3s ease;
+    }
+    .step-dot.active { background: var(--color-primary); width: 24px; }
+    .step-dot.done { background: var(--color-primary-highlight); }
+
+    /* === REVIEW SECTION === */
+    .review-group { margin-bottom: var(--space-5); }
+    .review-group-title { font-size: var(--text-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-bottom: var(--space-3); }
+    .review-row { display: flex; gap: var(--space-4); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-divider); font-size: var(--text-sm); }
+    .review-row:last-child { border-bottom: none; }
+    .review-label { color: var(--color-text-muted); min-width: 140px; flex-shrink: 0; }
+    .review-value { color: var(--color-text); font-weight: 500; }
+
+    /* === SUBMIT SUCCESS === */
+    .success-screen { text-align: center; padding: var(--space-12) var(--space-6); }
+    .success-icon { width: 72px; height: 72px; background: var(--color-success-light); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-6); }
+    .success-icon svg { color: var(--color-success); }
+    .success-title { font-family: var(--font-display); font-size: var(--text-xl); margin-bottom: var(--space-3); }
+    .success-msg { color: var(--color-text-muted); max-width: 42ch; margin: 0 auto var(--space-8); }
+    .success-actions { display: flex; flex-direction: column; gap: var(--space-3); max-width: 320px; margin: 0 auto; }
+
+    /* === NOTICE === */
+    .notice {
+      background: #f0f9ff; border: 1px solid #bae6fd;
+      border-radius: var(--radius-md); padding: var(--space-3) var(--space-4);
+      font-size: var(--text-sm); color: #0369a1;
+      display: flex; gap: var(--space-2); align-items: flex-start;
+      margin-bottom: var(--space-4);
+    }
+    .notice svg { flex-shrink: 0; margin-top: 2px; }
+
+    /* === DISCLAIMER === */
+    .disclaimer {
+      background: var(--color-surface-offset); border-radius: var(--radius-md);
+      padding: var(--space-4); font-size: var(--text-xs); color: var(--color-text-muted);
+      line-height: 1.7; margin-top: var(--space-4);
+    }
+    .disclaimer strong { color: var(--color-text); }
+
+    /* === DOWNLOAD BTN === */
+    .btn-download {
+      display: flex; align-items: center; justify-content: center; gap: var(--space-2);
+      padding: var(--space-3) var(--space-6); background: var(--color-surface);
+      border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+      font-size: var(--text-sm); font-weight: 500; color: var(--color-text);
+      text-decoration: none; transition: all var(--transition);
+    }
+    .btn-download:hover { background: var(--color-surface-offset); }
+
+    /* MOBILE TWEAKS */
+    @media (max-width: 480px) {
+      main { padding: var(--space-4) var(--space-3) var(--space-12); }
+      .form-card { padding: var(--space-4); }
+      .form-nav { flex-direction: column-reverse; }
+      .btn-secondary { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="header-inner">
+    <div class="logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="Company logo">
+        <rect width="32" height="32" rx="8" fill="currentColor" opacity="0.12"/>
+        <path d="M10 22V12a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M7 22h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <rect x="13" y="16" width="2" height="6" rx="0.5" fill="currentColor"/>
+        <rect x="17" y="16" width="2" height="6" rx="0.5" fill="currentColor"/>
+        <path d="M13 12h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="logo-text">Employment Application</div>
+        <div class="logo-sub">Please complete all sections</div>
+      </div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-label"><span id="step-label">Step 1 of 5</span><span id="pct-label">20%</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:20%"></div></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- STEP DOTS -->
+  <div class="step-indicator" id="step-dots">
+    <div class="step-dot active" data-step="0"></div>
+    <div class="step-dot" data-step="1"></div>
+    <div class="step-dot" data-step="2"></div>
+    <div class="step-dot" data-step="3"></div>
+    <div class="step-dot" data-step="4"></div>
+  </div>
+
+  <!-- ===== STEP 1: PERSONAL INFO ===== -->
+  <div class="step active" id="step-0">
+    <div class="section-header">
+      <div class="section-title">Personal Information</div>
+      <div class="section-desc">Basic contact and identification details</div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        Full Name
+      </div>
+      <div class="form-grid form-grid-3">
+        <div class="field">
+          <label for="fname">First Name <span class="req">*</span></label>
+          <input type="text" id="fname" name="fname" required autocomplete="given-name" placeholder="John">
+          <span class="field-error">Required</span>
+        </div>
+        <div class="field">
+          <label for="mname">Middle Name</label>
+          <input type="text" id="mname" name="mname" autocomplete="additional-name" placeholder="Optional">
+        </div>
+        <div class="field">
+          <label for="lname">Last Name <span class="req">*</span></label>
+          <input type="text" id="lname" name="lname" required autocomplete="family-name" placeholder="Smith">
+          <span class="field-error">Required</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.89 12 19.79 19.79 0 0 1 1.81 3.5 2 2 0 0 1 3.8 1.3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.09a16 16 0 0 0 6 6l1.06-1.06a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.72 16.92z"/></svg>
+        Contact Information
+      </div>
+      <div class="form-grid form-grid-2">
+        <div class="field">
+          <label for="phone">Phone Number <span class="req">*</span></label>
+          <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="(555) 123-4567">
+          <span class="field-error">Required</span>
+        </div>
+        <div class="field">
+          <label for="email">Email Address <span class="req">*</span></label>
+          <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@email.com">
+          <span class="field-error">Valid email required</span>
+        </div>
+        <div class="field span-2">
+          <label for="address">Street Address <span class="req">*</span></label>
+          <input type="text" id="address" name="address" required autocomplete="street-address" placeholder="123 Main Street">
+          <span class="field-error">Required</span>
+        </div>
+        <div class="field">
+          <label for="city">City <span class="req">*</span></label>
+          <input type="text" id="city" name="city" required autocomplete="address-level2" placeholder="City">
+          <span class="field-error">Required</span>
+        </div>
+        <div class="field">
+          <label for="state">State / ZIP</label>
+          <input type="text" id="state" name="state" autocomplete="address-level1" placeholder="GA  31602">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Additional Details
+      </div>
+      <div class="form-grid form-grid-2">
+        <div class="field">
+          <label for="dob">Date of Birth</label>
+          <input type="date" id="dob" name="dob" autocomplete="bday">
+        </div>
+        <div class="field">
+          <label for="ssn_last4">SSN (Last 4 digits only)</label>
+          <input type="text" id="ssn_last4" name="ssn_last4" maxlength="4" pattern="\d{4}" placeholder="XXXX" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="work_auth">Authorized to Work in US? <span class="req">*</span></label>
+          <select id="work_auth" name="work_auth" required>
+            <option value="">Select…</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+          <span class="field-error">Required</span>
+        </div>
+        <div class="field">
+          <label for="over18">Are you 18 or older? <span class="req">*</span></label>
+          <select id="over18" name="over18" required>
+            <option value="">Select…</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+          <span class="field-error">Required</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-primary" onclick="nextStep(0)">
+        Continue
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 2: POSITION ===== -->
+  <div class="step" id="step-1">
+    <div class="section-header">
+      <div class="section-title">Position &amp; Availability</div>
+      <div class="section-desc">Tell us about the role you're applying for</div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+        Position Desired
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label for="position">Position Applying For <span class="req">*</span></label>
+          <input type="text" id="position" name="position" required placeholder="e.g. Property Caretaker, Maintenance Tech">
+          <span class="field-error">Required</span>
+        </div>
+        <div class="field">
+          <label>Employment Type Desired <span class="req">*</span></label>
+          <div class="radio-group inline" id="emp_type">
+            <label class="radio-option"><input type="radio" name="emp_type" value="Full-Time" required> Full-Time</label>
+            <label class="radio-option"><input type="radio" name="emp_type" value="Part-Time"> Part-Time</label>
+            <label class="radio-option"><input type="radio" name="emp_type" value="Seasonal"> Seasonal</label>
+            <label class="radio-option"><input type="radio" name="emp_type" value="Contract"> Contract</label>
+          </div>
+          <span class="field-error" id="emp_type_err">Please select one</span>
+        </div>
+        <div class="field">
+          <label for="start_date">Earliest Start Date <span class="req">*</span></label>
+          <input type="date" id="start_date" name="start_date" required>
+          <span class="field-error">Required</span>
+        </div>
+        <div class="field">
+          <label for="salary">Desired Salary / Wage</label>
+          <input type="text" id="salary" name="salary" placeholder="e.g. $18/hr or negotiable">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        Availability
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Days Available</label>
+          <div class="checkbox-group inline">
+            <label class="checkbox-option"><input type="checkbox" name="avail_days" value="Mon"> Mon</label>
+            <label class="checkbox-option"><input type="checkbox" name="avail_days" value="Tue"> Tue</label>
+            <label class="checkbox-option"><input type="checkbox" name="avail_days" value="Wed"> Wed</label>
+            <label class="checkbox-option"><input type="checkbox" name="avail_days" value="Thu"> Thu</label>
+            <label class="checkbox-option"><input type="checkbox" name="avail_days" value="Fri"> Fri</label>
+            <label class="checkbox-option"><input type="checkbox" name="avail_days" value="Sat"> Sat</label>
+            <label class="checkbox-option"><input type="checkbox" name="avail_days" value="Sun"> Sun</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Shift Preference</label>
+          <div class="radio-group inline">
+            <label class="radio-option"><input type="radio" name="shift" value="Days"> Days</label>
+            <label class="radio-option"><input type="radio" name="shift" value="Evenings"> Evenings</label>
+            <label class="radio-option"><input type="radio" name="shift" value="Nights"> Nights</label>
+            <label class="radio-option"><input type="radio" name="shift" value="Flexible"> Flexible</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-secondary" onclick="prevStep(1)">Back</button>
+      <button class="btn-primary" onclick="nextStep(1)">
+        Continue
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 3: EDUCATION & WORK HISTORY ===== -->
+  <div class="step" id="step-2">
+    <div class="section-header">
+      <div class="section-title">Education &amp; Work History</div>
+      <div class="section-desc">List most recent first</div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        Education
+      </div>
+      <div id="education-list">
+        <div class="repeat-block" data-edu="0">
+          <div class="repeat-block-header">
+            <span class="repeat-block-title">School / Institution #1</span>
+          </div>
+          <div class="form-grid form-grid-2">
+            <div class="field span-2">
+              <label>School Name</label>
+              <input type="text" name="edu_school[]" placeholder="High School / College / Trade School">
+            </div>
+            <div class="field">
+              <label>Degree / Certificate</label>
+              <input type="text" name="edu_degree[]" placeholder="e.g. High School Diploma, AS, BS">
+            </div>
+            <div class="field">
+              <label>Year Completed</label>
+              <input type="text" name="edu_year[]" placeholder="2019">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-add" onclick="addEducation()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Add Another School
+      </button>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+        Previous Employment
+      </div>
+      <div id="employment-list">
+        <div class="repeat-block" data-emp="0">
+          <div class="repeat-block-header">
+            <span class="repeat-block-title">Employer #1 (Most Recent)</span>
+          </div>
+          <div class="form-grid form-grid-2">
+            <div class="field span-2">
+              <label>Employer / Company Name</label>
+              <input type="text" name="emp_company[]" placeholder="Company Name">
+            </div>
+            <div class="field">
+              <label>Your Job Title</label>
+              <input type="text" name="emp_title[]" placeholder="e.g. Maintenance Tech">
+            </div>
+            <div class="field">
+              <label>Supervisor Name</label>
+              <input type="text" name="emp_supervisor[]" placeholder="Supervisor's name">
+            </div>
+            <div class="field">
+              <label>Phone Number</label>
+              <input type="tel" name="emp_phone[]" placeholder="(555) 000-0000">
+            </div>
+            <div class="field">
+              <label>Dates Employed (From – To)</label>
+              <input type="text" name="emp_dates[]" placeholder="Jan 2020 – Mar 2024">
+            </div>
+            <div class="field">
+              <label>Starting Pay</label>
+              <input type="text" name="emp_pay_start[]" placeholder="$12/hr">
+            </div>
+            <div class="field">
+              <label>Ending Pay</label>
+              <input type="text" name="emp_pay_end[]" placeholder="$18/hr">
+            </div>
+            <div class="field span-2">
+              <label>Reason for Leaving</label>
+              <input type="text" name="emp_reason[]" placeholder="Relocation, better opportunity, etc.">
+            </div>
+            <div class="field span-2">
+              <label>May we contact this employer?</label>
+              <div class="radio-group inline">
+                <label class="radio-option"><input type="radio" name="emp_contact_0" value="Yes"> Yes</label>
+                <label class="radio-option"><input type="radio" name="emp_contact_0" value="No"> No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-add" onclick="addEmployment()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Add Another Employer
+      </button>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-secondary" onclick="prevStep(2)">Back</button>
+      <button class="btn-primary" onclick="nextStep(2)">
+        Continue
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 4: REFERENCES + BACKGROUND ===== -->
+  <div class="step" id="step-3">
+    <div class="section-header">
+      <div class="section-title">References &amp; Background</div>
+      <div class="section-desc">Professional references and background disclosure</div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Professional References
+      </div>
+      <div id="references-list">
+        <div class="repeat-block">
+          <div class="repeat-block-header"><span class="repeat-block-title">Reference #1</span></div>
+          <div class="form-grid form-grid-2">
+            <div class="field"><label>Full Name</label><input type="text" name="ref_name[]" placeholder="Reference name"></div>
+            <div class="field"><label>Relationship</label><input type="text" name="ref_rel[]" placeholder="e.g. Former Manager"></div>
+            <div class="field"><label>Phone</label><input type="tel" name="ref_phone[]" placeholder="(555) 000-0000"></div>
+            <div class="field"><label>Company</label><input type="text" name="ref_company[]" placeholder="Company name"></div>
+          </div>
+        </div>
+        <div class="repeat-block">
+          <div class="repeat-block-header"><span class="repeat-block-title">Reference #2</span></div>
+          <div class="form-grid form-grid-2">
+            <div class="field"><label>Full Name</label><input type="text" name="ref_name[]" placeholder="Reference name"></div>
+            <div class="field"><label>Relationship</label><input type="text" name="ref_rel[]" placeholder="e.g. Coworker"></div>
+            <div class="field"><label>Phone</label><input type="tel" name="ref_phone[]" placeholder="(555) 000-0000"></div>
+            <div class="field"><label>Company</label><input type="text" name="ref_company[]" placeholder="Company name"></div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-add" onclick="addReference()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Add Another Reference
+      </button>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Background Disclosure
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Have you ever been convicted of a felony? <span class="req">*</span></label>
+          <div class="radio-group inline" id="felony_grp">
+            <label class="radio-option"><input type="radio" name="felony" value="Yes" required> Yes</label>
+            <label class="radio-option"><input type="radio" name="felony" value="No"> No</label>
+          </div>
+          <span class="field-error" id="felony_err">Required</span>
+        </div>
+        <div class="field" id="felony_explain_wrap" style="display:none">
+          <label for="felony_explain">If yes, please explain</label>
+          <textarea id="felony_explain" name="felony_explain" rows="3" placeholder="Date, nature of offense, and disposition…"></textarea>
+        </div>
+        <div class="field">
+          <label>Valid Driver's License? <span class="req">*</span></label>
+          <div class="radio-group inline">
+            <label class="radio-option"><input type="radio" name="drivers_license" value="Yes" required> Yes</label>
+            <label class="radio-option"><input type="radio" name="drivers_license" value="No"> No</label>
+          </div>
+          <span class="field-error" id="dl_err">Required</span>
+        </div>
+        <div class="field">
+          <label for="dl_number">Driver's License Number / State</label>
+          <input type="text" id="dl_number" name="dl_number" placeholder="GA12345678  •  Georgia">
+        </div>
+        <div class="field">
+          <label for="skills">Skills &amp; Certifications</label>
+          <textarea id="skills" name="skills" rows="3" placeholder="e.g. HVAC certified, forklift operator, CPR, bilingual…"></textarea>
+        </div>
+        <div class="field">
+          <label for="how_heard">How did you hear about this position?</label>
+          <input type="text" id="how_heard" name="how_heard" placeholder="Indeed, referral, sign, text, etc.">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-secondary" onclick="prevStep(3)">Back</button>
+      <button class="btn-primary" onclick="nextStep(3)">
+        Continue
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 5: SIGNATURE & REVIEW ===== -->
+  <div class="step" id="step-4">
+    <div class="section-header">
+      <div class="section-title">Signature &amp; Certification</div>
+      <div class="section-desc">Review your application and sign below</div>
+    </div>
+
+    <div class="notice">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      Please review your information before signing. Use your finger or stylus to sign in the box below.
+    </div>
+
+    <!-- REVIEW SUMMARY -->
+    <div class="form-card" id="review-card">
+      <div class="form-card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        Application Summary
+      </div>
+      <div id="review-content"><!-- filled by JS --></div>
+    </div>
+
+    <!-- SIGNATURE -->
+    <div class="form-card">
+      <div class="form-card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+        Applicant Signature <span style="color:var(--color-error);margin-left:2px">*</span>
+      </div>
+      <div class="sig-wrapper">
+        <canvas id="sig-canvas" width="680" height="180"></canvas>
+        <div class="sig-placeholder" id="sig-placeholder">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+          Sign here with your finger or stylus
+        </div>
+        <div class="sig-tools">
+          <button class="btn-sig-clear" onclick="clearSignature()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            Clear Signature
+          </button>
+        </div>
+      </div>
+      <span class="field-error" id="sig-error" style="margin-top:var(--space-2)">Please provide your signature</span>
+
+      <div class="field" style="margin-top:var(--space-4)">
+        <label for="sig_date">Date <span class="req">*</span></label>
+        <input type="date" id="sig_date" name="sig_date" required>
+        <span class="field-error">Required</span>
+      </div>
+
+      <div class="disclaimer">
+        <strong>Certification:</strong> I certify that the information provided in this application is true and complete to the best of my knowledge. I understand that falsification of any information may result in disqualification or termination of employment. I authorize investigation of all statements contained herein and the references listed above. I understand that this application is not a contract of employment.
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-secondary" onclick="prevStep(4)">Back</button>
+      <button class="btn-primary" onclick="submitApplication()" id="submit-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        Submit Application
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== SUCCESS ===== -->
+  <div class="step" id="step-success">
+    <div class="success-screen">
+      <div class="success-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+      </div>
+      <div class="success-title">Application Submitted!</div>
+      <p class="success-msg">Thank you for your interest. Your application has been received and we will be in touch soon.</p>
+      <div class="success-actions">
+        <button class="btn-primary" onclick="downloadPDF()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download My Copy (PDF)
+        </button>
+        <button class="btn-secondary" onclick="location.reload()" style="width:100%">Start New Application</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- jsPDF for PDF generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+// ========== STATE ==========
+let currentStep = 0;
+const totalSteps = 5;
+let sigPad;
+let appData = {};
+
+// ========== SIGNATURE PAD ==========
+window.addEventListener('load', () => {
+  const canvas = document.getElementById('sig-canvas');
+  sigPad = new SignaturePad(canvas, {
+    backgroundColor: 'rgb(255,255,255)',
+    penColor: 'rgb(15,54,56)',
+    minWidth: 1.5,
+    maxWidth: 3,
+  });
+  sigPad.addEventListener('beginStroke', () => {
+    document.getElementById('sig-placeholder').style.display = 'none';
+  });
+  resizeSigCanvas();
+  // Pre-fill today's date
+  document.getElementById('sig_date').valueAsDate = new Date();
+});
+
+function resizeSigCanvas() {
+  const canvas = document.getElementById('sig-canvas');
+  const wrapper = canvas.parentElement;
+  const ratio = Math.max(window.devicePixelRatio || 1, 1);
+  canvas.width = wrapper.clientWidth * ratio;
+  canvas.height = 180 * ratio;
+  canvas.style.width = wrapper.clientWidth + 'px';
+  canvas.style.height = '180px';
+  canvas.getContext('2d').scale(ratio, ratio);
+  if (sigPad) sigPad.clear();
+}
+window.addEventListener('resize', resizeSigCanvas);
+
+function clearSignature() {
+  sigPad.clear();
+  document.getElementById('sig-placeholder').style.display = 'flex';
+  document.getElementById('sig-error').classList.remove('show');
+}
+
+// ========== PROGRESS ==========
+function updateProgress(step) {
+  const pct = Math.round(((step + 1) / totalSteps) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('step-label').textContent = step < totalSteps ? `Step ${step+1} of ${totalSteps}` : 'Complete';
+  document.getElementById('pct-label').textContent = pct + '%';
+
+  document.querySelectorAll('.step-dot').forEach((dot, i) => {
+    dot.classList.remove('active','done');
+    if (i === step) dot.classList.add('active');
+    else if (i < step) dot.classList.add('done');
+  });
+}
+
+// ========== STEP NAVIGATION ==========
+function nextStep(from) {
+  if (!validateStep(from)) return;
+  if (from === 4) { submitApplication(); return; }
+  showStep(from + 1);
+}
+function prevStep(from) { showStep(from - 1); }
+
+function showStep(n) {
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  currentStep = n;
+  const el = document.getElementById('step-' + currentStep) || document.getElementById('step-success');
+  el.classList.add('active');
+  updateProgress(n);
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  if (n === 4) buildReview();
+}
+
+// ========== VALIDATION ==========
+function validateStep(step) {
+  let ok = true;
+  const stepEl = document.getElementById('step-' + step);
+  
+  // Clear previous errors
+  stepEl.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+  stepEl.querySelectorAll('.field-error.show').forEach(el => el.classList.remove('show'));
+
+  if (step === 0) {
+    ok = checkRequired(stepEl) && ok;
+    const email = document.getElementById('email');
+    if (email.value && !email.value.includes('@')) {
+      markError(email, stepEl.querySelector('[for="email"] ~ input, #email'));
+      email.nextElementSibling.textContent = 'Enter a valid email address';
+      email.nextElementSibling.classList.add('show');
+      ok = false;
+    }
+  } else if (step === 1) {
+    ok = checkRequired(stepEl) && ok;
+    const empType = document.querySelectorAll('input[name="emp_type"]:checked');
+    if (!empType.length) {
+      document.getElementById('emp_type_err').classList.add('show');
+      ok = false;
+    }
+  } else if (step === 3) {
+    const felony = document.querySelectorAll('input[name="felony"]:checked');
+    if (!felony.length) { document.getElementById('felony_err').classList.add('show'); ok = false; }
+    const dl = document.querySelectorAll('input[name="drivers_license"]:checked');
+    if (!dl.length) { document.getElementById('dl_err').classList.add('show'); ok = false; }
+  } else if (step === 4) {
+    ok = checkRequired(stepEl) && ok;
+    if (sigPad.isEmpty()) {
+      document.getElementById('sig-error').classList.add('show');
+      ok = false;
+    }
+  }
+
+  if (!ok) {
+    const firstError = stepEl.querySelector('.error, .field-error.show');
+    if (firstError) firstError.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+  return ok;
+}
+
+function checkRequired(container) {
+  let ok = true;
+  container.querySelectorAll('[required]').forEach(el => {
+    if (!el.value || el.value === '') {
+      el.classList.add('error');
+      const errSpan = el.parentElement.querySelector('.field-error');
+      if (errSpan) errSpan.classList.add('show');
+      ok = false;
+    }
+  });
+  return ok;
+}
+function markError(el) {
+  el.classList.add('error');
+}
+
+// Felony toggle
+document.querySelectorAll('input[name="felony"]').forEach(r => {
+  r.addEventListener('change', () => {
+    document.getElementById('felony_explain_wrap').style.display = r.value === 'Yes' ? 'block' : 'none';
+    document.getElementById('felony_err').classList.remove('show');
+  });
+});
+
+// ========== DYNAMIC BLOCKS ==========
+let eduCount = 1;
+function addEducation() {
+  eduCount++;
+  const list = document.getElementById('education-list');
+  const div = document.createElement('div');
+  div.className = 'repeat-block';
+  div.innerHTML = `
+    <div class="repeat-block-header">
+      <span class="repeat-block-title">School / Institution #${eduCount}</span>
+      <button class="btn-remove" onclick="this.closest('.repeat-block').remove()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg> Remove
+      </button>
+    </div>
+    <div class="form-grid form-grid-2">
+      <div class="field span-2"><label>School Name</label><input type="text" name="edu_school[]" placeholder="High School / College / Trade School"></div>
+      <div class="field"><label>Degree / Certificate</label><input type="text" name="edu_degree[]" placeholder="e.g. High School Diploma, AS, BS"></div>
+      <div class="field"><label>Year Completed</label><input type="text" name="edu_year[]" placeholder="2019"></div>
+    </div>`;
+  list.appendChild(div);
+}
+
+let empCount = 1;
+function addEmployment() {
+  empCount++;
+  const list = document.getElementById('employment-list');
+  const div = document.createElement('div');
+  div.className = 'repeat-block';
+  div.innerHTML = `
+    <div class="repeat-block-header">
+      <span class="repeat-block-title">Employer #${empCount}</span>
+      <button class="btn-remove" onclick="this.closest('.repeat-block').remove()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg> Remove
+      </button>
+    </div>
+    <div class="form-grid form-grid-2">
+      <div class="field span-2"><label>Employer / Company Name</label><input type="text" name="emp_company[]" placeholder="Company Name"></div>
+      <div class="field"><label>Your Job Title</label><input type="text" name="emp_title[]" placeholder="e.g. Maintenance Tech"></div>
+      <div class="field"><label>Supervisor Name</label><input type="text" name="emp_supervisor[]" placeholder="Supervisor's name"></div>
+      <div class="field"><label>Phone Number</label><input type="tel" name="emp_phone[]" placeholder="(555) 000-0000"></div>
+      <div class="field"><label>Dates Employed (From – To)</label><input type="text" name="emp_dates[]" placeholder="Jan 2020 – Mar 2024"></div>
+      <div class="field"><label>Starting Pay</label><input type="text" name="emp_pay_start[]" placeholder="$12/hr"></div>
+      <div class="field"><label>Ending Pay</label><input type="text" name="emp_pay_end[]" placeholder="$18/hr"></div>
+      <div class="field span-2"><label>Reason for Leaving</label><input type="text" name="emp_reason[]" placeholder="Relocation, better opportunity, etc."></div>
+      <div class="field span-2"><label>May we contact this employer?</label>
+        <div class="radio-group inline">
+          <label class="radio-option"><input type="radio" name="emp_contact_${empCount}" value="Yes"> Yes</label>
+          <label class="radio-option"><input type="radio" name="emp_contact_${empCount}" value="No"> No</label>
+        </div>
+      </div>
+    </div>`;
+  list.appendChild(div);
+}
+
+let refCount = 2;
+function addReference() {
+  refCount++;
+  const list = document.getElementById('references-list');
+  const div = document.createElement('div');
+  div.className = 'repeat-block';
+  div.innerHTML = `
+    <div class="repeat-block-header">
+      <span class="repeat-block-title">Reference #${refCount}</span>
+      <button class="btn-remove" onclick="this.closest('.repeat-block').remove()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg> Remove
+      </button>
+    </div>
+    <div class="form-grid form-grid-2">
+      <div class="field"><label>Full Name</label><input type="text" name="ref_name[]" placeholder="Reference name"></div>
+      <div class="field"><label>Relationship</label><input type="text" name="ref_rel[]" placeholder="e.g. Former Manager"></div>
+      <div class="field"><label>Phone</label><input type="tel" name="ref_phone[]" placeholder="(555) 000-0000"></div>
+      <div class="field"><label>Company</label><input type="text" name="ref_company[]" placeholder="Company name"></div>
+    </div>`;
+  list.appendChild(div);
+}
+
+// ========== BUILD REVIEW ==========
+function buildReview() {
+  const g = v => document.getElementById(v)?.value || '—';
+  const r = name => { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : '—'; };
+  const m = name => [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(e=>e.value).join(', ') || '—';
+
+  const html = `
+    <div class="review-group">
+      <div class="review-group-title">Personal Information</div>
+      <div class="review-row"><span class="review-label">Full Name</span><span class="review-value">${g('fname')} ${g('mname') !== '—' ? g('mname')+' ':''}${g('lname')}</span></div>
+      <div class="review-row"><span class="review-label">Phone</span><span class="review-value">${g('phone')}</span></div>
+      <div class="review-row"><span class="review-label">Email</span><span class="review-value">${g('email')}</span></div>
+      <div class="review-row"><span class="review-label">Address</span><span class="review-value">${g('address')}, ${g('city')} ${g('state')}</span></div>
+      <div class="review-row"><span class="review-label">Work Authorization</span><span class="review-value">${g('work_auth')}</span></div>
+    </div>
+    <div class="review-group">
+      <div class="review-group-title">Position & Availability</div>
+      <div class="review-row"><span class="review-label">Position</span><span class="review-value">${g('position')}</span></div>
+      <div class="review-row"><span class="review-label">Employment Type</span><span class="review-value">${r('emp_type')}</span></div>
+      <div class="review-row"><span class="review-label">Start Date</span><span class="review-value">${g('start_date')}</span></div>
+      <div class="review-row"><span class="review-label">Desired Salary</span><span class="review-value">${g('salary')}</span></div>
+      <div class="review-row"><span class="review-label">Days Available</span><span class="review-value">${m('avail_days')}</span></div>
+    </div>`;
+  document.getElementById('review-content').innerHTML = html;
+}
+
+// ========== COLLECT ALL DATA ==========
+function collectData() {
+  const f = id => document.getElementById(id)?.value || '';
+  const r = name => { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ''; };
+  const m = name => [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(e=>e.value).join(', ');
+  const a = name => [...document.querySelectorAll(`input[name="${name}"], textarea[name="${name}"]`)].map(e=>e.value);
+  const sel = id => document.getElementById(id)?.value || '';
+
+  return {
+    fname: f('fname'), mname: f('mname'), lname: f('lname'),
+    phone: f('phone'), email: f('email'),
+    address: f('address'), city: f('city'), state: f('state'),
+    dob: f('dob'), ssn_last4: f('ssn_last4'),
+    work_auth: sel('work_auth'), over18: sel('over18'),
+    position: f('position'), emp_type: r('emp_type'),
+    start_date: f('start_date'), salary: f('salary'),
+    avail_days: m('avail_days'), shift: r('shift'),
+    edu_school: a('edu_school[]'), edu_degree: a('edu_degree[]'), edu_year: a('edu_year[]'),
+    emp_company: a('emp_company[]'), emp_title: a('emp_title[]'),
+    emp_dates: a('emp_dates[]'), emp_reason: a('emp_reason[]'),
+    emp_pay_start: a('emp_pay_start[]'), emp_pay_end: a('emp_pay_end[]'),
+    emp_supervisor: a('emp_supervisor[]'), emp_phone: a('emp_phone[]'),
+    ref_name: a('ref_name[]'), ref_rel: a('ref_rel[]'),
+    ref_phone: a('ref_phone[]'), ref_company: a('ref_company[]'),
+    felony: r('felony'), felony_explain: f('felony_explain'),
+    drivers_license: r('drivers_license'), dl_number: f('dl_number'),
+    skills: f('skills'), how_heard: f('how_heard'),
+    sig_date: f('sig_date'),
+    sigDataUrl: sigPad.isEmpty() ? null : sigPad.toDataURL('image/png'),
+  };
+}
+
+// ========== PDF GENERATION ==========
+function generatePDF(data) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
+  const W = doc.internal.pageSize.getWidth();
+  const margin = 48;
+  let y = margin;
+
+  // Colors
+  const teal = [1,105,111];
+  const dark = [26,25,22];
+  const muted = [112,111,107];
+  const divider = [224,221,216];
+
+  // Header bar
+  doc.setFillColor(...teal);
+  doc.rect(0, 0, W, 56, 'F');
+  doc.setTextColor(255,255,255);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(20);
+  doc.text('Employment Application', margin, 36);
+  doc.setFontSize(9);
+  doc.setFont('helvetica','normal');
+  doc.text('Confidential — Please complete all sections', margin, 50);
+  y = 80;
+
+  function sectionHeader(title) {
+    if (y > 720) { doc.addPage(); y = 48; }
+    doc.setFillColor(...teal);
+    doc.rect(margin, y, W - margin*2, 20, 'F');
+    doc.setTextColor(255,255,255);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(10);
+    doc.text(title.toUpperCase(), margin + 8, y + 14);
+    y += 28;
+    doc.setTextColor(...dark);
+  }
+
+  function row(label, value, indent=0) {
+    if (y > 720) { doc.addPage(); y = 48; }
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(8);
+    doc.setTextColor(...muted);
+    doc.text(label, margin + indent, y);
+    doc.setFont('helvetica','normal');
+    doc.setTextColor(...dark);
+    doc.setFontSize(10);
+    const valX = margin + 150 + indent;
+    const lines = doc.splitTextToSize(value || '—', W - valX - margin);
+    doc.text(lines, valX, y);
+    y += Math.max(16, lines.length * 13);
+    doc.setDrawColor(...divider);
+    doc.setLineWidth(0.5);
+    doc.line(margin, y, W - margin, y);
+    y += 6;
+  }
+
+  function spacer(n=10) { y += n; }
+
+  // --- PERSONAL ---
+  sectionHeader('Personal Information');
+  const fullName = [data.fname, data.mname, data.lname].filter(Boolean).join(' ');
+  row('Full Name', fullName);
+  row('Phone', data.phone);
+  row('Email', data.email);
+  row('Address', [data.address, data.city, data.state].filter(Boolean).join(', '));
+  row('Date of Birth', data.dob);
+  row('SSN (last 4)', data.ssn_last4 ? '***-**-' + data.ssn_last4 : '');
+  row('Work Authorization', data.work_auth);
+  row('18 or Older', data.over18);
+  spacer();
+
+  // --- POSITION ---
+  sectionHeader('Position & Availability');
+  row('Position Applied For', data.position);
+  row('Employment Type', data.emp_type);
+  row('Desired Start Date', data.start_date);
+  row('Desired Salary/Wage', data.salary);
+  row('Days Available', data.avail_days);
+  row('Shift Preference', data.shift);
+  spacer();
+
+  // --- EDUCATION ---
+  sectionHeader('Education');
+  if (data.edu_school.length && data.edu_school[0]) {
+    data.edu_school.forEach((school, i) => {
+      if (!school) return;
+      row(`School ${i+1}`, school);
+      row('Degree/Cert', data.edu_degree[i] || '');
+      row('Year', data.edu_year[i] || '');
+      spacer(4);
+    });
+  } else {
+    doc.setTextColor(...muted); doc.setFontSize(10);
+    doc.text('None provided', margin + 8, y); y += 20;
+  }
+  spacer();
+
+  // --- EMPLOYMENT ---
+  sectionHeader('Previous Employment');
+  if (data.emp_company.length && data.emp_company[0]) {
+    data.emp_company.forEach((co, i) => {
+      if (!co) return;
+      row(`Employer ${i+1}`, co);
+      row('Job Title', data.emp_title[i] || '');
+      row('Supervisor', data.emp_supervisor[i] || '');
+      row('Employer Phone', data.emp_phone[i] || '');
+      row('Dates', data.emp_dates[i] || '');
+      row('Starting Pay', data.emp_pay_start[i] || '');
+      row('Ending Pay', data.emp_pay_end[i] || '');
+      row('Reason for Leaving', data.emp_reason[i] || '');
+      spacer(4);
+    });
+  } else {
+    doc.setTextColor(...muted); doc.setFontSize(10);
+    doc.text('None provided', margin + 8, y); y += 20;
+  }
+  spacer();
+
+  // --- REFERENCES ---
+  sectionHeader('Professional References');
+  if (data.ref_name.length && data.ref_name[0]) {
+    data.ref_name.forEach((name, i) => {
+      if (!name) return;
+      row(`Reference ${i+1}`, name);
+      row('Relationship', data.ref_rel[i] || '');
+      row('Phone', data.ref_phone[i] || '');
+      row('Company', data.ref_company[i] || '');
+      spacer(4);
+    });
+  }
+  spacer();
+
+  // --- BACKGROUND ---
+  sectionHeader('Background & Skills');
+  row('Felony Conviction', data.felony);
+  if (data.felony === 'Yes') row('Explanation', data.felony_explain);
+  row("Valid Driver's License", data.drivers_license);
+  row('License # / State', data.dl_number);
+  row('Skills & Certifications', data.skills);
+  row('How Heard About Position', data.how_heard);
+  spacer();
+
+  // --- SIGNATURE ---
+  sectionHeader('Signature & Certification');
+  // Disclaimer text
+  doc.setFontSize(8.5);
+  doc.setTextColor(...muted);
+  const disclaimer = 'I certify that the information provided in this application is true and complete to the best of my knowledge. I understand that falsification of any information may result in disqualification or termination of employment. I authorize investigation of all statements contained herein and the references listed above. I understand that this application is not a contract of employment.';
+  const dLines = doc.splitTextToSize(disclaimer, W - margin*2);
+  if (y + dLines.length * 12 + 100 > 750) { doc.addPage(); y = 48; }
+  doc.text(dLines, margin, y);
+  y += dLines.length * 12 + 16;
+
+  // Signature image
+  if (data.sigDataUrl) {
+    doc.addImage(data.sigDataUrl, 'PNG', margin, y, 220, 70);
+    doc.setDrawColor(...divider);
+    doc.setLineWidth(0.5);
+    doc.line(margin, y + 74, margin + 220, y + 74);
+    doc.setFontSize(8);
+    doc.setTextColor(...muted);
+    doc.text('Applicant Signature', margin, y + 84);
+  }
+
+  // Date
+  doc.setFontSize(10);
+  doc.setTextColor(...dark);
+  doc.text(`Date: ${data.sig_date}`, W - margin - 160, y + 40);
+  doc.setDrawColor(...divider);
+  doc.line(W - margin - 160, y + 44, W - margin, y + 44);
+  doc.setFontSize(8);
+  doc.setTextColor(...muted);
+  doc.text('Date', W - margin - 160, y + 54);
+
+  y += 100;
+
+  // Footer on each page
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let p = 1; p <= pageCount; p++) {
+    doc.setPage(p);
+    doc.setFontSize(8);
+    doc.setTextColor(...muted);
+    doc.text(`Page ${p} of ${pageCount}`, W/2, 780, {align:'center'});
+    doc.text(`${fullName} — ${data.email} — ${data.phone}`, W/2, 790, {align:'center'});
+  }
+
+  return doc;
+}
+
+// ========== SUBMIT ==========
+function submitApplication() {
+  if (!validateStep(4)) return;
+  appData = collectData();
+  // Show success
+  document.getElementById('step-4').classList.remove('active');
+  document.getElementById('step-success').classList.add('active');
+  document.getElementById('step-dots').style.display = 'none';
+  document.getElementById('progress-fill').style.width = '100%';
+  document.getElementById('pct-label').textContent = '100%';
+  document.getElementById('step-label').textContent = 'Complete!';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function downloadPDF() {
+  if (!appData.fname) { alert('No application data found.'); return; }
+  const doc = generatePDF(appData);
+  const name = (appData.lname + '_' + appData.fname).replace(/[^a-zA-Z0-9_]/g,'_');
+  doc.save(`Employment_Application_${name}.pdf`);
+}
+
+// Clear errors on input
+document.addEventListener('input', e => {
+  if (e.target.matches('input,select,textarea')) {
+    e.target.classList.remove('error');
+    const err = e.target.parentElement.querySelector('.field-error');
+    if (err) err.classList.remove('show');
+  }
+});
+document.addEventListener('change', e => {
+  if (e.target.matches('input[type="radio"],input[type="checkbox"]')) {
+    const group = e.target.closest('.field');
+    if (group) {
+      const err = group.querySelector('.field-error');
+      if (err) err.classList.remove('show');
+    }
+  }
+});
+</script>
+</body>
+</html>

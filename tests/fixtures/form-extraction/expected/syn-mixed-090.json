@@ -1,0 +1,57 @@
+{
+  "id": "syn-mixed-090",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "input-q_full-name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "email address email address question_email-address question_email-address email address",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false
+    },
+    {
+      "question": "current location current location current-location current-location current location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select…",
+        "London",
+        "Manchester",
+        "Remote",
+        "Hybrid"
+      ],
+      "required": false
+    },
+    {
+      "question": "do you require visa sponsorship?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false
+    },
+    {
+      "question": "cover letter cover letter cover-letter cover-letter cover letter",
+      "field_type": "textarea",
+      "max_chars": 600,
+      "options": null,
+      "required": false
+    }
+  ],
+  "controls": [
+    {
+      "name": "Submit application"
+    }
+  ],
+  "vet_notes": []
+}

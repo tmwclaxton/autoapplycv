@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Mixed Application 4</title></head>
+<body>
+<main>
+<h1>Mixed Application 4</h1>
+<form action="/apply" method="post">
+<div data-testid="input-q_applicant-name" class="ia-Questions-item">
+<div data-testid="input-q_applicant-name-label"><span data-testid="safe-markup">Applicant name</span></div>
+<input data-testid="input-q_applicant-name-input" type="text" name="input-q_applicant-name">
+</div>
+<div class="field"><label id="question_work-email-label" for="question_work-email">Work email</label><input type="email" id="question_work-email" name="question_work-email" aria-labelledby="question_work-email-label"></div>
+<div class="form-group"><label for="location">Location</label><select id="location" name="location"><option value="">Select…</option><option value="london">London</option><option value="manchester">Manchester</option><option value="remote">Remote</option><option value="hybrid">Hybrid</option></select></div>
+<fieldset><legend>Do you require visa sponsorship?</legend><label><input type="radio" name="do-you-require-visa-spon" id="do-you-require-visa-spon-0" value="yes"> Yes</label><label><input type="radio" name="do-you-require-visa-spon" id="do-you-require-visa-spon-1" value="no"> No</label></fieldset>
+<div class="form-group"><label for="motivation-statement">Motivation statement</label><textarea id="motivation-statement" name="motivation-statement" rows="4" maxlength="600"></textarea></div>
+<div class="form-group"><label for="upload-cv">Upload CV</label><input type="file" id="upload-cv" name="upload-cv" ></div>
+<button type="button">Submit application</button>
+
+</form>
+</main>
+</body>
+</html>
