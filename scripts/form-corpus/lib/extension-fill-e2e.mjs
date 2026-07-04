@@ -51,6 +51,7 @@ export async function createExtensionContext() {
     const context = await chromium.launchPersistentContext('', {
         channel: 'chromium',
         headless: false,
+        timeout: 120_000,
         args: [
             `--disable-extensions-except=${EXTENSION_DIR}`,
             `--load-extension=${EXTENSION_DIR}`,
