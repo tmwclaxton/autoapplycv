@@ -1,0 +1,70 @@
+name: Discord commit updates
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  post-to-updates:
+    runs-on: ubuntu-latest
+    if: >-
+      github.event.head_commit != null &&
+      secrets.DISCORD_BOT_TOKEN != ''
+    env:
+      DISCORD_UPDATES_CHANNEL_ID: '1523103313531240568'
+    steps:
+      - name: Post commit embed to #updates
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_CHANNEL_ID: ${{ env.DISCORD_UPDATES_CHANNEL_ID }}
+          COMMIT_SHA: ${{ github.sha }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          COMMIT_AUTHOR: ${{ github.event.head_commit.author.name }}
+          COMMIT_URL: ${{ github.event.head_commit.url }}
+          REPO: ${{ github.repository }}
+        run: |
+          node <<'NODE'
+          const token = process.env.DISCORD_BOT_TOKEN;
+          const channelId = process.env.DISCORD_CHANNEL_ID;
+          const sha = process.env.COMMIT_SHA.slice(0, 7);
+          const message = (process.env.COMMIT_MESSAGE || '').slice(0, 1800);
+          const author = process.env.COMMIT_AUTHOR || 'unknown';
+          const url = process.env.COMMIT_URL;
+          const repo = process.env.REPO;
+
+          const body = {
+            embeds: [
+              {
+                title: `New commit on main · ${sha}`,
+                url,
+                description: message || '_No commit message_',
+                color: 0xc8102e,
+                fields: [
+                  { name: 'Author', value: author, inline: true },
+                  { name: 'Repository', value: repo, inline: true },
+                ],
+                footer: { text: 'AutoCVApply · GitHub' },
+                timestamp: new Date().toISOString(),
+              },
+            ],
+          };
+
+          fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
+            method: 'POST',
+            headers: {
+              Authorization: `Bot ${token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+          })
+            .then(async (response) => {
+              if (!response.ok) {
+                const detail = await response.text();
+                throw new Error(`Discord API ${response.status}: ${detail}`);
+              }
+            })
+            .catch((error) => {
+              console.error(error.message);
+              process.exit(1);
+            });
+          NODE

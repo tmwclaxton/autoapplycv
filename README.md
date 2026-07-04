@@ -219,6 +219,7 @@ Practical advice for high-volume applications (no magic numbers — your mileage
 | **Privacy** | [autocvapply.com/privacy](https://autocvapply.com/privacy) |
 | **Contact** | [autocvapply.com/contact](https://autocvapply.com/contact) |
 | **GitHub** | [github.com/tmwclaxton/autoapplycv](https://github.com/tmwclaxton/autoapplycv) |
+| **Discord** | [discord.gg/DqqqTv3Spt](https://discord.gg/DqqqTv3Spt) — extension help & community |
 | **Chrome Web Store** | *Listing not published yet — use dashboard zip download* |
 | **Form corpus docs** | [`scripts/form-corpus/README.md`](scripts/form-corpus/README.md) |
 
@@ -566,7 +567,6 @@ These polish items couldn't be copied from competitors without your input:
 | **Screenshots / GIFs** | Hero images for README and autocvapply.com (extension sidebar, Draft All, dashboard) |
 | **Before/after time stats** | Only if you have real user data — we avoided inventing "50+ apps/day" claims |
 | **Testimonial quotes** | Social proof section (optional) |
-| **Discord / community link** | Support and contributor channel (optional) |
 | **Twitter/X or LinkedIn handle** | Links table and footer badges |
 | **Personal application tracker** | Backend model exists; UI not shipped — remove roadmap note once live |
 

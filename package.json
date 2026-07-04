@@ -45,7 +45,9 @@
         "test:fill-screenshot": "npm run form-corpus:fill-screenshot",
         "benchmark:draft-all": "node scripts/extension-benchmark/draft-all-benchmark.mjs",
         "benchmark:draft-all:mock": "node scripts/extension-benchmark/mock-draft-all-flow.mjs --mode=optimized --iterations=8",
-        "benchmark:draft-all:mock:baseline": "node scripts/extension-benchmark/mock-draft-all-flow.mjs --mode=baseline --iterations=8"
+        "benchmark:draft-all:mock:baseline": "node scripts/extension-benchmark/mock-draft-all-flow.mjs --mode=baseline --iterations=8",
+        "discord:invite": "node scripts/discord/setup-server.mjs",
+        "discord:setup": "node scripts/discord/setup-server.mjs"
     },
     "devDependencies": {
         "@eslint/js": "^9.19.0",

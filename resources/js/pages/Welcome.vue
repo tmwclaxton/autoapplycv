@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { ArrowRight, FileUp, Stamp } from 'lucide-vue-next';
+import { ArrowRight, FileUp, MessageCircle, Stamp } from 'lucide-vue-next';
 import PostboxCta from '@/components/postbox/PostboxCta.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPlatformBadges from '@/components/postbox/PostboxPlatformBadges.vue';
+import { DISCORD_INVITE_URL } from '@/lib/site';
 import { howTo, login } from '@/routes';
 
 defineProps<{
@@ -56,6 +57,15 @@ defineProps<{
                     How it works
                     <ArrowRight class="size-4" />
                 </Link>
+                <a
+                    :href="DISCORD_INVITE_URL"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="postbox-btn-outline w-full sm:w-auto"
+                >
+                    <MessageCircle class="size-5" />
+                    Join Discord
+                </a>
             </div>
         </section>
 

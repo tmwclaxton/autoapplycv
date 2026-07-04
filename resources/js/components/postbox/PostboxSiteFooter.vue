@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { FOOTER_LINKS, GITHUB_REPOSITORY_URL } from '@/lib/site';
+import { FOOTER_LINKS, DISCORD_INVITE_URL, GITHUB_REPOSITORY_URL } from '@/lib/site';
 import { about, analytics, contact, home, howTo, pricing, privacy, terms } from '@/routes';
 import { index as blog } from '@/routes/blog';
 
@@ -35,6 +35,15 @@ const routeMap = {
                 >
                     {{ item.label }}
                 </Link>
+                <span class="text-muted-foreground">·</span>
+                <a
+                    :href="DISCORD_INVITE_URL"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="postbox-link"
+                >
+                    Discord
+                </a>
             </nav>
             <p class="text-center text-sm text-muted-foreground">
                 Open source ·

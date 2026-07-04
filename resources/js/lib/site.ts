@@ -1,6 +1,8 @@
 export const GITHUB_REPOSITORY_URL =
     'https://github.com/tmwclaxton/autoapplycv';
 
+export const DISCORD_INVITE_URL = 'https://discord.gg/DqqqTv3Spt';
+
 export const CONTACT_EMAIL = 'hello@autocvapply.com';
 
 export const SUPPORTED_PLATFORMS = [
