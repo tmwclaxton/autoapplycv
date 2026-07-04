@@ -9,7 +9,7 @@ Multiple layers verify that extension autofill actually lands on the form fronte
 | **Unit** | JSDOM / Node | Propagation, mock answers, debug-log replay | `php-tests` |
 | **Curated JSDOM** | JSDOM | ~36 synthetic scenarios, 4-layer checks | `extension-fill` |
 | **Platform smoke** | Playwright | 1 scenario per ATS/platform + Ashby widget checks | `extension-fill` (`FORM_CORPUS_PLAYWRIGHT=1`) |
-| **Curated Playwright** | Playwright | Priority scraped ATS fixtures | manual / nightly |
+| **Curated Playwright** | Playwright | Priority scraped ATS fixtures | manual (`tests-heavy.yml`) |
 | **Extension E2E** | Playwright + extension | Full Draft All with mocked API | `extension-fill` optional (`EXTENSION_E2E=1`) |
 | **Visual regression** | Playwright screenshots | Baseline compare on smoke subset | `extension-fill` (`FORM_CORPUS_PLAYWRIGHT=1`) |
 
@@ -57,7 +57,7 @@ npm run form-corpus:build-e2e-scenarios
 npm run build:extension
 npm run form-corpus:extension-e2e
 
-# Full extension E2E batch (~100 scenarios, nightly/manual)
+# Full extension E2E batch (~100 scenarios, manual via tests-heavy.yml)
 EXTENSION_E2E=1 EXTENSION_E2E_FULL=1 npm run form-corpus:extension-e2e:batch
 
 # Generate mocks + run full batch
@@ -82,7 +82,7 @@ FORM_CORPUS_PLAYWRIGHT=1 php artisan test --compact --group=playwright
 # Extension E2E CI subset (headed Chromium, builds extension)
 EXTENSION_E2E=1 php artisan test --compact --group=extension-e2e
 
-# Full ~100 scenario extension E2E (nightly/manual, 30–60+ min)
+# Full ~100 scenario extension E2E (manual via tests-heavy.yml, 30–60+ min)
 EXTENSION_E2E=1 EXTENSION_E2E_FULL=1 php artisan test --compact --group=extension-e2e
 
 # Individual suites

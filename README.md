@@ -313,7 +313,7 @@ flowchart TB
 | **Form extraction eval** | JSDOM | All 1,846 vetted scenarios vs expected field inventory | `php-tests` |
 | **Curated JSDOM** | JSDOM | 36 synthetic scenarios, 4-layer checks | `extension-fill` |
 | **Platform smoke** | Playwright | 1 scenario per ATS/platform + Ashby yes/no + checkbox | `extension-fill` |
-| **Curated Playwright** | Playwright | 53 priority scraped ATS fixtures | manual / nightly |
+| **Curated Playwright** | Playwright | 53 priority scraped ATS fixtures | manual (`tests-heavy.yml`) |
 | **Visual regression** | Playwright + pixelmatch | Baseline compare on smoke subset | `extension-fill` |
 | **Extension E2E** | Playwright + unpacked MV3 | Full Draft All with mocked assist API | `extension-fill` (optional) |
 
@@ -358,7 +358,7 @@ npm run form-corpus:fill-verify:smoke
 FORM_CORPUS_PLAYWRIGHT=1 php artisan test --compact --filter=test_platform_smoke_playwright_passes
 ```
 
-See [`scripts/form-corpus/README.md`](scripts/form-corpus/README.md) for the full maintenance workflow, report paths, and nightly tiers.
+See [`scripts/form-corpus/README.md`](scripts/form-corpus/README.md) for the full maintenance workflow, report paths, and the manual heavy tier.
 
 ---
 
@@ -511,7 +511,7 @@ FORM_CORPUS_PLAYWRIGHT=1 php artisan test --compact --group=playwright
 # Extension E2E CI subset
 EXTENSION_E2E=1 php artisan test --compact --group=extension-e2e
 
-# Full ~101 scenario extension E2E (nightly/manual, 30–60+ min)
+# Full ~101 scenario extension E2E (manual via tests-heavy.yml, 30–60+ min)
 EXTENSION_E2E=1 EXTENSION_E2E_FULL=1 php artisan test --compact --group=extension-e2e
 ```
 

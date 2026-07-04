@@ -1,20 +1,10 @@
-# Nightly / manual form-corpus heavy tier — full extraction eval (~1800 scenarios),
+# Manual form-corpus heavy tier — full extraction eval (~1800 scenarios),
 # comprehensive fill verify, Playwright priority tier, visual regression, extension E2E.
-# Does NOT run on every push; see tests.yml for the fast smoke tier.
+# Trigger from GitHub Actions → Tests (heavy) → Run workflow. Does NOT run on push/schedule; see tests.yml.
 name: "Tests (heavy)"
 
 on:
-  schedule:
-    - cron: "0 3 * * *"
   workflow_dispatch:
-  push:
-    branches: [main, develop]
-    paths:
-      - "extension/**"
-      - "scripts/form-corpus/**"
-      - "tests/fixtures/form-extraction/**"
-      - "tests/Unit/Extension/**"
-      - ".github/workflows/tests-heavy.yml"
 
 jobs:
   form-corpus-heavy:
