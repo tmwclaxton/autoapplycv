@@ -44,10 +44,14 @@ function isVisible(element) {
     return true;
 }
 
+function isPromotionalAlert(text) {
+    return /job alerts|straight to your inbox|subscribe to|newsletter|cookie preferences|please try again/i.test(text);
+}
+
 function looksLikeValidationError(text) {
     const normalized = normalizeText(text);
 
-    if (!normalized) {
+    if (!normalized || isPromotionalAlert(normalized)) {
         return false;
     }
 
@@ -183,6 +187,10 @@ export async function detectFormErrorsInPage(page) {
             return String(text || '').replace(/\s+/g, ' ').trim();
         }
 
+        function isPromotionalAlert(text) {
+            return /job alerts|straight to your inbox|subscribe to|newsletter|cookie preferences|please try again/i.test(text);
+        }
+
         function isHiddenFromAssistiveTech(element) {
             if (element.getAttribute('aria-hidden') === 'true') {
                 return true;
@@ -239,7 +247,7 @@ export async function detectFormErrorsInPage(page) {
                     continue;
                 }
 
-                if (selector === '[role="alert"]' && !/error|required|invalid|correction|missing|please fix|complete all|your form needs corrections/i.test(text)) {
+                if (selector === '[role="alert"]' && (!/error|required|invalid|correction|missing|please fix|complete all|your form needs corrections/i.test(text) || isPromotionalAlert(text))) {
                     continue;
                 }
 

@@ -131,5 +131,5 @@ export function startE2eMockServer(mocksByScenario, htmlByScenario = {}) {
 export function usesLocalFixtureUrl(scenario) {
     const pageUrl = scenario.page_url || '';
 
-    return pageUrl.includes('example.test') || scenario.id.startsWith('syn-');
+    return pageUrl.includes('example.test') || scenario.id.startsWith('syn-') || scenario.id.startsWith('web-');
 }
