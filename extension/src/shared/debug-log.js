@@ -204,6 +204,63 @@ export function sendRemoteLog(source, level, phase, message, data, tabId) {
     }).catch(() => {});
 }
 
+/**
+ * Stable summary for test assertions (ignores timestamps and entry ids).
+ *
+ * @param {Array<Record<string, unknown>>} entries
+ */
+export function summarizeLogs(entries) {
+    const byLevel = {};
+    const bySource = {};
+    const byPhase = {};
+    const errors = [];
+
+    for (const entry of entries) {
+        const level = String(entry.level || 'unknown');
+        const source = String(entry.source || 'unknown');
+        const phase = String(entry.phase || 'unknown');
+
+        byLevel[level] = (byLevel[level] || 0) + 1;
+        bySource[source] = (bySource[source] || 0) + 1;
+        byPhase[phase] = (byPhase[phase] || 0) + 1;
+
+        if (level === 'error' || level === 'warn') {
+            errors.push({
+                level,
+                source,
+                phase,
+                message: entry.message || null,
+            });
+        }
+    }
+
+    const phases = Object.keys(byPhase).sort();
+
+    return {
+        total: entries.length,
+        by_level: byLevel,
+        by_source: bySource,
+        by_phase: byPhase,
+        phases,
+        error_count: errors.length,
+        errors: errors.slice(0, 20),
+    };
+}
+
+/**
+ * Export logs + summary for corpus / E2E test replay.
+ */
+export async function exportLogsForTest() {
+    const entries = await getAllLogs();
+
+    return {
+        exported_at: new Date().toISOString(),
+        entry_count: entries.length,
+        entries,
+        summary: summarizeLogs(entries),
+    };
+}
+
 export function createRemoteLogger(source, defaultTabId = null) {
     const log = (level, phase, message, data, tabId) => {
         sendRemoteLog(source, level, phase, message, data, tabId ?? defaultTabId);

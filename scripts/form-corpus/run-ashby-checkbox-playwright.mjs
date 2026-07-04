@@ -175,37 +175,42 @@ async function runReactLikeMiniPage(page) {
 }
 
 async function main() {
+    const report = await runAshbyCheckboxSmoke({ live: Boolean(process.env.EXTENSION_E2E_LIVE) });
+
+    console.log(JSON.stringify(report, null, 2));
+
+    if (!report.passed) {
+        process.exit(1);
+    }
+}
+
+export async function runAshbyCheckboxSmoke({ live = false } = {}) {
     const profile = loadAshbyNotionProfile();
     const fillCases = ashbyNotionFillCases();
-    const useLive = Boolean(process.env.EXTENSION_E2E_LIVE);
 
     const browser = await chromium.launch({ headless: true });
     const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
 
     try {
         const reactLike = await runReactLikeMiniPage(page);
-        const fixture = await runFillInPage(page, { useFixture: !useLive, profile, fillCases });
+        const fixture = await runFillInPage(page, { useFixture: !live, profile, fillCases });
 
-        const report = {
-            mode: useLive ? 'live' : 'fixture',
+        return {
+            mode: live ? 'live' : 'fixture',
             reactLike,
             fixture,
             passed: reactLike.applied
                 && (reactLike.checked === true || reactLike.dataSelected === 'true')
                 && fixture.failures.length === 0,
         };
-
-        console.log(JSON.stringify(report, null, 2));
-
-        if (!report.passed) {
-            process.exit(1);
-        }
     } finally {
         await browser.close();
     }
 }
 
-main().catch((error) => {
-    console.error(error);
-    process.exit(1);
-});
+if (fileURLToPath(import.meta.url) === process.argv[1]) {
+    main().catch((error) => {
+        console.error(error);
+        process.exit(1);
+    });
+}

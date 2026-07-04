@@ -1,0 +1,1487 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-04T17:39:44.925Z",
+  "description": "Curated fill verification tier prioritizing platform diversity and verification depth over corpus quantity.",
+  "thresholds": {
+    "jsdom": {
+      "critical_pass_rate": 0.9,
+      "overall_pass_rate": 0.8
+    },
+    "playwright": {
+      "critical_pass_rate": 0.5,
+      "overall_pass_rate": 0.45
+    },
+    "min_platforms": 12
+  },
+  "scenarios": [
+    {
+      "id": "web-ashby-notion-bdm-f603aedb",
+      "platform": "ashby",
+      "reason": "Representative ashby form (12 fields, radio+checkbox+combobox)",
+      "field_types": [
+        "radio",
+        "text",
+        "email",
+        "tel",
+        "checkbox"
+      ],
+      "field_count": 12,
+      "priority": "critical",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-boards-greenhouse-io-8614025002",
+      "platform": "greenhouse",
+      "reason": "Representative greenhouse form (44 fields, checkbox+combobox+multiStep)",
+      "field_types": [
+        "text",
+        "checkbox"
+      ],
+      "field_count": 44,
+      "priority": "critical",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-jobs-lever-co-apply-11",
+      "platform": "lever",
+      "reason": "Representative lever form (35 fields, radio+checkbox+select+textarea+multiStep)",
+      "field_types": [
+        "select",
+        "text",
+        "email",
+        "radio",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 35,
+      "priority": "critical",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-99cf550a-4a3b-47f8-b682-449cc524d98f",
+      "platform": "smartrecruiters",
+      "reason": "Representative smartrecruiters form (13 fields, checkbox+combobox+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 13,
+      "priority": "critical",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-9",
+      "platform": "ashby",
+      "reason": "Representative ashby form (30 fields, radio+checkbox+combobox+textarea)",
+      "field_types": [
+        "radio",
+        "text",
+        "email",
+        "checkbox",
+        "textarea",
+        "tel"
+      ],
+      "field_count": 30,
+      "priority": "critical",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "syn-fw-ashby-001",
+      "platform": "ashby",
+      "reason": "Representative ashby form (5 fields, radio+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "field_count": 5,
+      "priority": "critical",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-fw-wd-001",
+      "platform": "syn-fw",
+      "reason": "Representative syn-fw form (4 fields, textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "critical",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-fw-lever-001",
+      "platform": "lever",
+      "reason": "Representative lever form (5 fields, textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 5,
+      "priority": "critical",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-job-boards-greenhouse-io-5025215008",
+      "platform": "greenhouse",
+      "reason": "Representative greenhouse form (36 fields, checkbox+combobox+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 36,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-job-boards-greenhouse-io-6239197003",
+      "platform": "greenhouse",
+      "reason": "Representative greenhouse form (38 fields, checkbox+combobox+multiStep)",
+      "field_types": [
+        "text",
+        "checkbox"
+      ],
+      "field_count": 38,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-boards-greenhouse-io-7728444003",
+      "platform": "greenhouse",
+      "reason": "Representative greenhouse form (33 fields, combobox+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "number",
+        "textarea"
+      ],
+      "field_count": 33,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-boards-greenhouse-io-7779165003",
+      "platform": "greenhouse",
+      "reason": "Representative greenhouse form (31 fields, combobox+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "textarea"
+      ],
+      "field_count": 31,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-boards-greenhouse-io-8618466002",
+      "platform": "greenhouse",
+      "reason": "Representative greenhouse form (28 fields, checkbox+combobox+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "number",
+        "checkbox",
+        "textarea"
+      ],
+      "field_count": 28,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-job-boards-greenhouse-io-4706618005",
+      "platform": "greenhouse",
+      "reason": "Representative greenhouse form (34 fields, combobox+multiStep)",
+      "field_types": [
+        "text",
+        "number"
+      ],
+      "field_count": 34,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-boards-greenhouse-io-7887176",
+      "platform": "greenhouse",
+      "reason": "Representative greenhouse form (27 fields, checkbox+combobox+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 27,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-boards-greenhouse-io-8618184002",
+      "platform": "greenhouse",
+      "reason": "Representative greenhouse form (30 fields, combobox+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "textarea"
+      ],
+      "field_count": 30,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-job-boards-greenhouse-io-4053828006",
+      "platform": "greenhouse",
+      "reason": "Representative greenhouse form (26 fields, checkbox+combobox+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 26,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-16",
+      "platform": "ashby",
+      "reason": "Representative ashby form (27 fields, radio+checkbox+combobox+textarea)",
+      "field_types": [
+        "radio",
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 27,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-18",
+      "platform": "ashby",
+      "reason": "Representative ashby form (27 fields, radio+checkbox+combobox+textarea)",
+      "field_types": [
+        "radio",
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "number",
+        "checkbox"
+      ],
+      "field_count": 27,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-3",
+      "platform": "ashby",
+      "reason": "Representative ashby form (26 fields, radio+checkbox+combobox+textarea)",
+      "field_types": [
+        "radio",
+        "url",
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "number",
+        "checkbox"
+      ],
+      "field_count": 26,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-10",
+      "platform": "ashby",
+      "reason": "Representative ashby form (24 fields, radio+checkbox+combobox+textarea)",
+      "field_types": [
+        "radio",
+        "text",
+        "email",
+        "checkbox",
+        "textarea"
+      ],
+      "field_count": 24,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-5",
+      "platform": "ashby",
+      "reason": "Representative ashby form (23 fields, radio+combobox+textarea)",
+      "field_types": [
+        "radio",
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 23,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-7",
+      "platform": "ashby",
+      "reason": "Representative ashby form (19 fields, radio+checkbox+combobox+textarea)",
+      "field_types": [
+        "radio",
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 19,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-15",
+      "platform": "ashby",
+      "reason": "Representative ashby form (19 fields, radio+checkbox+combobox+textarea)",
+      "field_types": [
+        "radio",
+        "text",
+        "checkbox",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 19,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-17",
+      "platform": "ashby",
+      "reason": "Representative ashby form (14 fields, radio+checkbox+combobox+textarea)",
+      "field_types": [
+        "radio",
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 14,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-lever-co-apply-5",
+      "platform": "lever",
+      "reason": "Representative lever form (28 fields, radio+checkbox+select+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "checkbox",
+        "email",
+        "radio",
+        "textarea",
+        "select"
+      ],
+      "field_count": 28,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-jobs-lever-co-apply-14",
+      "platform": "lever",
+      "reason": "Representative lever form (26 fields, radio+checkbox+select+multiStep)",
+      "field_types": [
+        "select",
+        "text",
+        "checkbox",
+        "email",
+        "radio"
+      ],
+      "field_count": 26,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-lever-co-apply-10",
+      "platform": "lever",
+      "reason": "Representative lever form (25 fields, radio+checkbox+select+multiStep)",
+      "field_types": [
+        "text",
+        "checkbox",
+        "email",
+        "select",
+        "radio"
+      ],
+      "field_count": 25,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-lever-co-apply-15",
+      "platform": "lever",
+      "reason": "Representative lever form (22 fields, radio+checkbox+select+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "checkbox",
+        "email",
+        "radio",
+        "select",
+        "textarea"
+      ],
+      "field_count": 22,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-lever-co-apply-24",
+      "platform": "lever",
+      "reason": "Representative lever form (22 fields, radio+checkbox+select+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "radio",
+        "select",
+        "checkbox",
+        "textarea"
+      ],
+      "field_count": 22,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-lever-co-apply-23",
+      "platform": "lever",
+      "reason": "Representative lever form (21 fields, radio+checkbox+select+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "checkbox",
+        "email",
+        "select",
+        "radio",
+        "textarea"
+      ],
+      "field_count": 21,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-4",
+      "platform": "lever",
+      "reason": "Representative lever form (20 fields, radio+checkbox+select+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "checkbox",
+        "email",
+        "radio",
+        "textarea",
+        "select"
+      ],
+      "field_count": 20,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-87584664-application-packager",
+      "platform": "smartrecruiters",
+      "reason": "Representative smartrecruiters form (13 fields, checkbox+combobox+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 13,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-109629315-application-developer",
+      "platform": "smartrecruiters",
+      "reason": "Representative smartrecruiters form (13 fields, checkbox+combobox+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 13,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-ced768f4-e3b3-4d72-90a5-55824fa27bb2",
+      "platform": "smartrecruiters",
+      "reason": "Representative smartrecruiters form (13 fields, checkbox+combobox+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 13,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-00690739-17f9-4a31-8457-692f7b4bb37c",
+      "platform": "smartrecruiters",
+      "reason": "Representative smartrecruiters form (13 fields, checkbox+combobox+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 13,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-0a6dac3d-3758-4281-93f5-9fe4424227c8",
+      "platform": "smartrecruiters",
+      "reason": "Representative smartrecruiters form (13 fields, checkbox+combobox+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 13,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-workday-006",
+      "platform": "workday",
+      "reason": "Representative workday form (4 fields, textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea",
+        "number"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-workday-007",
+      "platform": "workday",
+      "reason": "Representative workday form (4 fields, textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea",
+        "number"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-workday-008",
+      "platform": "workday",
+      "reason": "Representative workday form (4 fields, textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea",
+        "number"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-workday-009",
+      "platform": "workday",
+      "reason": "Representative workday form (4 fields, textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea",
+        "number"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-workday-010",
+      "platform": "workday",
+      "reason": "Representative workday form (4 fields, textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea",
+        "number"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-vekst-teamtailor-com-new",
+      "platform": "teamtailor",
+      "reason": "Representative teamtailor form (16 fields, radio+checkbox+textarea+multiStep)",
+      "field_types": [
+        "checkbox",
+        "textarea",
+        "radio",
+        "text",
+        "email",
+        "tel"
+      ],
+      "field_count": 16,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-vekst-teamtailor-com-new-2",
+      "platform": "teamtailor",
+      "reason": "Representative teamtailor form (13 fields, radio+checkbox+textarea+multiStep)",
+      "field_types": [
+        "checkbox",
+        "textarea",
+        "radio",
+        "text",
+        "email",
+        "tel"
+      ],
+      "field_count": 13,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-vekst-teamtailor-com-new-3",
+      "platform": "teamtailor",
+      "reason": "Representative teamtailor form (13 fields, checkbox+textarea+multiStep)",
+      "field_types": [
+        "checkbox",
+        "textarea",
+        "text",
+        "email",
+        "tel"
+      ],
+      "field_count": 13,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-usgnorthamerica-teamtailor-com-jobs",
+      "platform": "teamtailor",
+      "reason": "Representative teamtailor form (4 fields, checkbox+select)",
+      "field_types": [
+        "checkbox",
+        "text",
+        "select"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-thealineagroup-1700147786-na-teamtailor-com-jobs",
+      "platform": "teamtailor",
+      "reason": "Representative teamtailor form (4 fields, checkbox+select)",
+      "field_types": [
+        "checkbox",
+        "text",
+        "select"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-wpforms-com-employment-agency-application-form-template",
+      "platform": "wordpress",
+      "reason": "Representative wordpress form (21 fields, checkbox+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 21,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-www-wpforms-com-job-application-form-template",
+      "platform": "wordpress",
+      "reason": "Representative wordpress form (17 fields, checkbox+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 17,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-wpforms-com-job-application-form-template",
+      "platform": "wordpress",
+      "reason": "Representative wordpress form (17 fields, checkbox+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 17,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-wpforms-com-pre-employment-application-form-template",
+      "platform": "wordpress",
+      "reason": "Representative wordpress form (14 fields, checkbox)",
+      "field_types": [
+        "email",
+        "tel",
+        "text",
+        "checkbox"
+      ],
+      "field_count": 14,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-careers-hackensackmeridianhealth-icims-com-page",
+      "platform": "generic-web",
+      "reason": "Generic web form with 273 fields",
+      "field_types": [
+        "search",
+        "text",
+        "checkbox"
+      ],
+      "field_count": 273,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-apply-workable-com-apply-7",
+      "platform": "generic-web",
+      "reason": "Generic web form with 76 fields",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio",
+        "checkbox"
+      ],
+      "field_count": 76,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-form-jotform-com-240665164082051",
+      "platform": "generic-web",
+      "reason": "Generic web form with 58 fields",
+      "field_types": [
+        "text",
+        "tel",
+        "email",
+        "select",
+        "radio",
+        "textarea"
+      ],
+      "field_count": 58,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-www-bamboohr-com-application",
+      "platform": "bamboohr",
+      "reason": "Representative bamboohr form (4 fields, select+combobox)",
+      "field_types": [
+        "text",
+        "select"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-www-bamboohr-com-careers",
+      "platform": "bamboohr",
+      "reason": "Representative bamboohr form (2 fields, select+multiStep)",
+      "field_types": [
+        "text",
+        "select"
+      ],
+      "field_count": 2,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-vikingcruises-hire-trakstar-com-fk0zq1a",
+      "platform": "trakstar",
+      "reason": "Representative trakstar form (14 fields, checkbox+select)",
+      "field_types": [
+        "text",
+        "select",
+        "checkbox"
+      ],
+      "field_count": 14,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-bionews-hire-trakstar-com-fk0pge3",
+      "platform": "trakstar",
+      "reason": "Representative trakstar form (13 fields, select+textarea)",
+      "field_types": [
+        "text",
+        "select",
+        "textarea"
+      ],
+      "field_count": 13,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-fw-angular-001",
+      "platform": "syn-fw",
+      "reason": "Angular reactive form with select + textarea",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-fw-react-001",
+      "platform": "syn-fw",
+      "reason": "React controlled inputs baseline",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-fw-vue-001",
+      "platform": "syn-fw",
+      "reason": "Vue v-model binding",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-fw-svelte-001",
+      "platform": "syn-fw",
+      "reason": "Svelte two-way bind",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-fw-dom-001",
+      "platform": "syn-fw",
+      "reason": "Vanilla DOM form",
+      "field_types": [
+        "text",
+        "email",
+        "radio",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-fw-shadow-002",
+      "platform": "syn-fw",
+      "reason": "Shadow DOM encapsulation",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "radio",
+        "select"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-fw-wizard-001",
+      "platform": "syn-fw",
+      "reason": "Multi-step wizard navigation",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ix-fw-001",
+      "platform": "syn-ix",
+      "reason": "Representative syn-ix form (5 fields, select+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ix-fw-002",
+      "platform": "syn-ix",
+      "reason": "Representative syn-ix form (6 fields, select+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "field_count": 6,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ix-dropdown-004",
+      "platform": "syn-ix",
+      "reason": "Representative syn-ix form (4 fields, select)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "select"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ix-combobox-001",
+      "platform": "syn-ix",
+      "reason": "Representative syn-ix form (4 fields, select)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "select"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ix-combobox-002",
+      "platform": "syn-ix",
+      "reason": "Representative syn-ix form (4 fields, select)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "select"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ix-modal-001",
+      "platform": "syn-ix",
+      "reason": "Representative syn-ix form (5 fields, textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ix-reveal-001",
+      "platform": "syn-ix",
+      "reason": "Representative syn-ix form (5 fields, textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ix-date-001",
+      "platform": "syn-ix",
+      "reason": "Representative syn-ix form (4 fields, text)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "date"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ix-date-002",
+      "platform": "syn-ix",
+      "reason": "Representative syn-ix form (4 fields, text)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "date"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ix-reveal-002",
+      "platform": "syn-ix",
+      "reason": "Representative syn-ix form (4 fields, textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-mega-combobox-001",
+      "platform": "syn-mega",
+      "reason": "syn-mega mega-combobox representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "select"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-mega-conditional-001",
+      "platform": "syn-mega",
+      "reason": "syn-mega mega-conditional representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "url",
+        "textarea",
+        "select"
+      ],
+      "field_count": 6,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-mega-wizard-001",
+      "platform": "syn-mega",
+      "reason": "syn-mega mega-wizard representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-mega-shadow-001",
+      "platform": "syn-mega",
+      "reason": "syn-mega mega-shadow representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "url"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-mega-vue-001",
+      "platform": "syn-mega",
+      "reason": "syn-mega mega-vue representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-mega-angular-001",
+      "platform": "syn-mega",
+      "reason": "syn-mega mega-angular representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-mega-date-001",
+      "platform": "syn-mega",
+      "reason": "syn-mega mega-date representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "date"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-mega-dropdown-001",
+      "platform": "syn-mega",
+      "reason": "syn-mega mega-dropdown representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "select"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-mega-next-001",
+      "platform": "syn-mega",
+      "reason": "syn-mega mega-next representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-mega-grid-001",
+      "platform": "syn-mega",
+      "reason": "syn-mega mega-grid representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-mega-svelte-001",
+      "platform": "syn-mega",
+      "reason": "syn-mega mega-svelte representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-careers-commonspirit-icims-com-intro",
+      "platform": "generic-web",
+      "reason": "Underrepresented ATS/pattern: icims",
+      "field_types": [
+        "search",
+        "text",
+        "email",
+        "select"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-apply-workable-com-apply-2",
+      "platform": "generic-web",
+      "reason": "Underrepresented ATS/pattern: workable",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio",
+        "checkbox"
+      ],
+      "field_count": 53,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-form-jotform-com-252378100909154",
+      "platform": "generic-web",
+      "reason": "Underrepresented ATS/pattern: jotform",
+      "field_types": [
+        "text",
+        "select",
+        "tel",
+        "email",
+        "checkbox",
+        "textarea"
+      ],
+      "field_count": 39,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    }
+  ]
+}

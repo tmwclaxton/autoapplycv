@@ -1,0 +1,180 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-04T17:39:44.927Z",
+  "description": "Per-platform Playwright smoke tier — one critical scenario per ATS/platform.",
+  "thresholds": {
+    "critical_pass_rate": 0.5,
+    "overall_pass_rate": 0.45
+  },
+  "scenarios": [
+    {
+      "id": "web-ashby-notion-bdm-f603aedb",
+      "platform": "ashby",
+      "reason": "Representative ashby form (12 fields, radio+checkbox+combobox)",
+      "field_types": [
+        "radio",
+        "text",
+        "email",
+        "tel",
+        "checkbox"
+      ],
+      "field_count": 12,
+      "priority": "critical",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-boards-greenhouse-io-8614025002",
+      "platform": "greenhouse",
+      "reason": "Representative greenhouse form (44 fields, checkbox+combobox+multiStep)",
+      "field_types": [
+        "text",
+        "checkbox"
+      ],
+      "field_count": 44,
+      "priority": "critical",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-jobs-lever-co-apply-11",
+      "platform": "lever",
+      "reason": "Representative lever form (35 fields, radio+checkbox+select+textarea+multiStep)",
+      "field_types": [
+        "select",
+        "text",
+        "email",
+        "radio",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 35,
+      "priority": "critical",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-99cf550a-4a3b-47f8-b682-449cc524d98f",
+      "platform": "smartrecruiters",
+      "reason": "Representative smartrecruiters form (13 fields, checkbox+combobox+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 13,
+      "priority": "critical",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-vekst-teamtailor-com-new",
+      "platform": "teamtailor",
+      "reason": "Representative teamtailor form (16 fields, radio+checkbox+textarea+multiStep)",
+      "field_types": [
+        "checkbox",
+        "textarea",
+        "radio",
+        "text",
+        "email",
+        "tel"
+      ],
+      "field_count": 16,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-wpforms-com-employment-agency-application-form-template",
+      "platform": "wordpress",
+      "reason": "Representative wordpress form (21 fields, checkbox+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "checkbox"
+      ],
+      "field_count": 21,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "syn-fw-ashby-001",
+      "platform": "ashby",
+      "reason": "Representative ashby form (5 fields, radio+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "field_count": 5,
+      "priority": "critical",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-ix-fw-001",
+      "platform": "syn-ix",
+      "reason": "Representative syn-ix form (5 fields, select+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-mega-combobox-001",
+      "platform": "syn-mega",
+      "reason": "syn-mega mega-combobox representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "select"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-apply-workable-com-apply-7",
+      "platform": "generic-web",
+      "reason": "Generic web form with 76 fields",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio",
+        "checkbox"
+      ],
+      "field_count": 76,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    }
+  ]
+}

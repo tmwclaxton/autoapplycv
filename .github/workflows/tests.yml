@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  tests:
+  php-tests:
     runs-on: ubuntu-latest
 
     services:
@@ -52,7 +52,7 @@ jobs:
       - name: Build frontend assets
         run: npm run build
 
-      - name: Run tests
+      - name: Run PHP tests (exclude extension-e2e and playwright groups)
         env:
           DB_CONNECTION: pgsql
           DB_HOST: 127.0.0.1
@@ -60,4 +60,52 @@ jobs:
           DB_DATABASE: testing
           DB_USERNAME: sail
           DB_PASSWORD: password
-        run: php artisan test --compact
+        run: php artisan test --compact --exclude-group=extension-e2e,playwright
+
+  extension-fill:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: pdo, pdo_pgsql, mbstring, xml, curl, zip, bcmath
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Copy env
+        run: cp .env.example .env && php artisan key:generate
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+
+      - name: Build extension
+        run: npm run build:extension
+
+      - name: Run curated JSDOM fill verify
+        run: npm run form-corpus:fill-verify:curated -- --json-only --workers=8
+
+      - name: Run platform smoke Playwright tests
+        env:
+          FORM_CORPUS_PLAYWRIGHT: 1
+        run: php artisan test --compact --group=playwright tests/Unit/Extension/FormFillCuratedTest.php tests/Unit/Extension/FormFillVisualRegressionTest.php
+
+      - name: Run extension E2E (optional)
+        env:
+          EXTENSION_E2E: 1
+          FORM_CORPUS_PLAYWRIGHT: 1
+        run: php artisan test --compact --group=extension-e2e
+        continue-on-error: true

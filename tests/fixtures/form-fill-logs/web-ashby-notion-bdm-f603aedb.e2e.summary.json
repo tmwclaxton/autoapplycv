@@ -1,0 +1,12 @@
+{
+  "max_errors": 30,
+  "required_phases": [
+    "draft-all.start",
+    "draft-all.stream",
+    "draft-all.complete"
+  ],
+  "min_by_source": {
+    "background": 5,
+    "content": 5
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "exported_at": "2026-07-04T12:00:00.000Z",
+  "entry_count": 8,
+  "entries": [
+    {
+      "id": 1,
+      "timestamp": "2026-07-04T12:00:01.000Z",
+      "level": "info",
+      "source": "background",
+      "phase": "draft-all.start",
+      "message": "Draft All started",
+      "tabId": 1
+    },
+    {
+      "id": 2,
+      "timestamp": "2026-07-04T12:00:02.000Z",
+      "level": "debug",
+      "source": "background",
+      "phase": "inventory.request",
+      "message": "Inventory round 1 request",
+      "tabId": 1
+    },
+    {
+      "id": 3,
+      "timestamp": "2026-07-04T12:00:03.000Z",
+      "level": "info",
+      "source": "background",
+      "phase": "inventory.response",
+      "message": "Inventory round 1 response",
+      "tabId": 1
+    },
+    {
+      "id": 4,
+      "timestamp": "2026-07-04T12:00:04.000Z",
+      "level": "debug",
+      "source": "background",
+      "phase": "draft-all.stream",
+      "message": "Starting draft-all stream",
+      "tabId": 1
+    },
+    {
+      "id": 5,
+      "timestamp": "2026-07-04T12:00:05.000Z",
+      "level": "debug",
+      "source": "background",
+      "phase": "draft-all.batch",
+      "message": "Applying batch 1",
+      "tabId": 1
+    },
+    {
+      "id": 6,
+      "timestamp": "2026-07-04T12:00:06.000Z",
+      "level": "info",
+      "source": "background",
+      "phase": "draft-all.apply",
+      "message": "Batch 1 apply result",
+      "tabId": 1
+    },
+    {
+      "id": 7,
+      "timestamp": "2026-07-04T12:00:07.000Z",
+      "level": "info",
+      "source": "background",
+      "phase": "draft-all.complete",
+      "message": "Draft All finished",
+      "tabId": 1
+    },
+    {
+      "id": 8,
+      "timestamp": "2026-07-04T12:00:08.000Z",
+      "level": "debug",
+      "source": "background",
+      "phase": "fill.resume",
+      "message": "FILL_RESUME result",
+      "tabId": 1
+    }
+  ],
+  "summary": {
+    "total": 8,
+    "by_level": {
+      "info": 4,
+      "debug": 4
+    },
+    "by_source": {
+      "background": 8
+    },
+    "by_phase": {
+      "draft-all.start": 1,
+      "inventory.request": 1,
+      "inventory.response": 1,
+      "draft-all.stream": 1,
+      "draft-all.batch": 1,
+      "draft-all.apply": 1,
+      "draft-all.complete": 1,
+      "fill.resume": 1
+    },
+    "phases": [
+      "draft-all.apply",
+      "draft-all.batch",
+      "draft-all.complete",
+      "draft-all.start",
+      "draft-all.stream",
+      "fill.resume",
+      "inventory.request",
+      "inventory.response"
+    ],
+    "error_count": 0,
+    "errors": []
+  }
+}

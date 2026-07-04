@@ -213,4 +213,18 @@ Use Wayfinder to generate TypeScript functions for Laravel routes. Import from `
 Vue components must have a single root element.
 - IMPORTANT: Activate `inertia-vue-development` when working with Inertia Vue client-side patterns.
 
+=== extension fill verification ===
+
+# Extension form fill
+
+After changing `extension/src/content/form-heuristics.js` or `field-inventory.js`, run the platform smoke tier before merging:
+
+```bash
+npm run form-corpus:fill-verify:smoke
+# or
+FORM_CORPUS_PLAYWRIGHT=1 php artisan test --compact --filter=test_platform_smoke_playwright_passes
+```
+
+See `scripts/form-corpus/README.md` for the full test pyramid and CI jobs.
+
 </laravel-boost-guidelines>

@@ -1,0 +1,126 @@
+{
+  "generated_at": "2026-07-04T18:01:55.903Z",
+  "update_baselines": false,
+  "totals": {
+    "scenarios": 4,
+    "passed": 4,
+    "failed": 0,
+    "pass_rate": 1
+  },
+  "results": [
+    {
+      "id": "web-ashby-notion-bdm-f603aedb",
+      "platform": "ashby",
+      "passed": true,
+      "pixelDiff": {
+        "passed": true,
+        "diffPercent": 0.004096,
+        "mismatchedPixels": 2107,
+        "totalPixels": 514448,
+        "width": 1264,
+        "height": 407,
+        "threshold": 0.003
+      },
+      "baselineCompare": {
+        "passed": true,
+        "diffPercent": 0,
+        "mismatchedPixels": 0,
+        "totalPixels": 514448,
+        "width": 1264,
+        "height": 407,
+        "threshold": 0.01
+      },
+      "fillFailures": [],
+      "errorBanner": {
+        "passed": true,
+        "errors": [],
+        "error_count": 0
+      }
+    },
+    {
+      "id": "web-boards-greenhouse-io-8614025002",
+      "platform": "greenhouse",
+      "passed": true,
+      "pixelDiff": {
+        "passed": true,
+        "diffPercent": 1,
+        "width": 1264,
+        "height": 3928,
+        "note": "dimension_mismatch_counts_as_change"
+      },
+      "baselineCompare": {
+        "passed": true,
+        "diffPercent": 0,
+        "mismatchedPixels": 0,
+        "totalPixels": 4964992,
+        "width": 1264,
+        "height": 3928,
+        "threshold": 0.01
+      },
+      "fillFailures": [],
+      "errorBanner": {
+        "passed": true,
+        "errors": [],
+        "error_count": 0
+      }
+    },
+    {
+      "id": "syn-fw-ashby-001",
+      "platform": "ashby",
+      "passed": true,
+      "pixelDiff": {
+        "passed": true,
+        "diffPercent": 0.005028,
+        "mismatchedPixels": 1341,
+        "totalPixels": 266704,
+        "width": 1264,
+        "height": 211,
+        "threshold": 0.003
+      },
+      "baselineCompare": {
+        "passed": true,
+        "diffPercent": 0,
+        "mismatchedPixels": 0,
+        "totalPixels": 266704,
+        "width": 1264,
+        "height": 211,
+        "threshold": 0.01
+      },
+      "fillFailures": [],
+      "errorBanner": {
+        "passed": true,
+        "errors": [],
+        "error_count": 0
+      }
+    },
+    {
+      "id": "syn-mega-combobox-001",
+      "platform": "syn-mega",
+      "passed": true,
+      "pixelDiff": {
+        "passed": true,
+        "diffPercent": 0.028849,
+        "mismatchedPixels": 1568,
+        "totalPixels": 54352,
+        "width": 1264,
+        "height": 43,
+        "threshold": 0.003
+      },
+      "baselineCompare": {
+        "passed": true,
+        "diffPercent": 0,
+        "mismatchedPixels": 0,
+        "totalPixels": 54352,
+        "width": 1264,
+        "height": 43,
+        "threshold": 0.01
+      },
+      "fillFailures": [],
+      "errorBanner": {
+        "passed": true,
+        "errors": [],
+        "error_count": 0
+      }
+    }
+  ]
+}

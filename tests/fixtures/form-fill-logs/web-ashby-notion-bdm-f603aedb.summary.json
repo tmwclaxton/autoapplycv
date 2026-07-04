@@ -1,0 +1,11 @@
+{
+  "max_errors": 0,
+  "required_phases": [
+    "draft-all.start",
+    "inventory.response",
+    "draft-all.complete"
+  ],
+  "min_by_source": {
+    "background": 5
+  }
+}

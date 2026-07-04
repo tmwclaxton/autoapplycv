@@ -8,6 +8,7 @@ import {
 } from './connection.js';
 import {
     clearLogs,
+    exportLogsForTest,
     getAllLogs,
     initDebugLog,
     ingestDebugEntry,
@@ -511,6 +512,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         return true;
     }
 
+    if (message.type === 'E2E_START_DRAFT_ALL' && message.tabId) {
+        runDraftAll(message.tabId)
+            .then(sendResponse)
+            .catch((err) => {
+                logDraftError('draft-all.start', 'E2E Draft All failed', err, message.tabId);
+                sendResponse({ error: err.message });
+            });
+
+        return true;
+    }
+
     if (message.type === 'DEBUG_LOG') {
         if (message.entry) {
             ingestDebugEntry(message.entry);
@@ -524,6 +536,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'GET_DEBUG_LOGS') {
         getAllLogs().then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'DEBUG_LOG_EXPORT') {
+        exportLogsForTest().then(sendResponse).catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -1118,7 +1136,7 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
     return { error: 'No empty fields found to draft.' };
 }
 
-async function runDraftAll(tabId) {
+async function runDraftAll(tabId, e2eOptions = null) {
     if (draftAllRunning) {
         logWarn('background', 'draft-all.start', 'Draft All already running', {}, tabId);
 
@@ -1140,9 +1158,20 @@ async function runDraftAll(tabId) {
             url: tab.url,
             title: tab.title,
             settings,
+            e2eMock: Boolean(e2eOptions?.fields?.length),
         }, tabId);
 
-        const resolved = await resolveDraftFieldsViaInventory(tabId, tab, settings, perf);
+        const resolved = e2eOptions?.fields?.length
+            ? {
+                fields: inventoryFieldsToDraftShape(e2eOptions.fields),
+                job: e2eOptions.job || {
+                    title: tab.title || 'Job application',
+                    company: 'E2E Mock Company',
+                    link: tab.url?.split('?')[0] || tab.url,
+                },
+                formFrameId: await findBestFormFrameId(tabId),
+            }
+            : await resolveDraftFieldsViaInventory(tabId, tab, settings, perf);
 
         if (resolved.error) {
             logWarn('background', 'draft-all.resolve', 'Field resolution failed', {
@@ -1617,3 +1646,13 @@ async function recordAutofill(count) {
 
     return data;
 }
+
+self.__autocvapplyE2e = {
+    runDraftAll,
+    exportLogsForTest,
+    setConnection: async ({ apiBase, apiToken }) => {
+        await saveConnection({ token: apiToken, apiBase });
+        invalidateProfileCache();
+    },
+    runDraftAllWithMocks: async (tabId, { job, fields }) => runDraftAll(tabId, { job, fields }),
+};
