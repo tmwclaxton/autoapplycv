@@ -169,12 +169,12 @@ onUnmounted(() => {
             </p>
         </div>
 
-        <div class="w-full">
+        <div class="mx-auto w-full max-w-sm sm:max-w-md">
             <div
-                class="overflow-hidden rounded-xl border border-[#d4d4d8] bg-[#ececec] shadow-[0_8px_30px_rgb(0_0_0_/_12%)]"
+                class="flex aspect-square flex-col overflow-hidden rounded-xl border border-[#d4d4d8] bg-[#ececec] shadow-[0_8px_30px_rgb(0_0_0_/_12%)]"
             >
                 <div
-                    class="flex items-center gap-2 border-b border-[#d4d4d8] px-3 py-1.5 sm:py-2"
+                    class="flex shrink-0 items-center gap-2 border-b border-[#d4d4d8] px-3 py-1.5 sm:py-2"
                 >
                     <div class="flex shrink-0 items-center gap-1.5">
                         <span
@@ -202,10 +202,10 @@ onUnmounted(() => {
                 </div>
 
                 <div
-                    class="flex h-60 flex-col overflow-hidden bg-[#fafafa] sm:h-64"
+                    class="flex min-h-0 flex-1 flex-col overflow-hidden bg-[#fafafa]"
                 >
                     <div
-                        class="shrink-0 border-b border-[#e4e4e7] bg-white px-3 py-1.5 sm:px-4 sm:py-2"
+                        class="shrink-0 border-b border-[#e4e4e7] bg-white px-3 py-1 sm:px-4 sm:py-1.5"
                     >
                         <p
                             class="text-[10px] font-semibold tracking-wide text-[#71717a] uppercase"
@@ -223,10 +223,10 @@ onUnmounted(() => {
                     </div>
 
                     <form
-                        class="min-h-0 flex-1 px-3 pt-2 sm:px-4"
+                        class="min-h-0 flex-1 overflow-y-auto px-3 pt-1.5 sm:px-4 sm:pt-2"
                         @submit.prevent
                     >
-                        <div class="grid shrink-0 gap-1.5 sm:grid-cols-2">
+                        <div class="grid gap-1 sm:grid-cols-2">
                             <template
                                 v-for="field in MOCK_FIELDS"
                                 :key="field.id"
@@ -329,7 +329,7 @@ onUnmounted(() => {
 
                     <div
                         v-if="isComplete"
-                        class="shrink-0 border-t border-[#e4e4e7] bg-[#f0fdf4] px-3 py-1.5"
+                        class="shrink-0 border-t border-[#e4e4e7] bg-[#f0fdf4] px-3 py-1 sm:py-1.5"
                     >
                         <div class="flex items-center justify-between gap-1">
                             <div class="flex min-w-0 items-center gap-1">
@@ -369,7 +369,7 @@ onUnmounted(() => {
 
                     <div
                         v-else
-                        class="shrink-0 border-t border-[#e4e4e7] bg-white px-3 py-2 sm:px-4"
+                        class="shrink-0 border-t border-[#e4e4e7] bg-white px-3 py-1.5 sm:px-4 sm:py-2"
                     >
                         <div
                             class="flex flex-wrap items-center gap-x-2 gap-y-1"
