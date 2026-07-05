@@ -277,7 +277,7 @@ async function saveProfile() {
         </p>
     </div>
 
-    <div v-else-if="step === 'review'">
+    <div v-else-if="step === 'review'" class="pb-24 sm:pb-28">
         <div class="flex flex-wrap items-start justify-between gap-4">
             <div>
                 <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
@@ -306,16 +306,24 @@ async function saveProfile() {
             @upload-cv="uploadCv"
         />
 
-        <div class="flex justify-end">
-            <button
-                type="button"
-                class="postbox-btn"
-                :disabled="isSaving"
-                @click="saveProfile"
+        <div
+            class="postbox-bar-bottom fixed inset-x-0 bottom-0 z-40 shadow-[0_-4px_12px_rgb(27_54_93_/_8%)]"
+            role="region"
+            aria-label="Review actions"
+        >
+            <div
+                class="mx-auto flex w-full max-w-4xl justify-end px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-5"
             >
-                <Loader2 v-if="isSaving" class="size-4 animate-spin" />
-                {{ isSaving ? 'Saving…' : 'Save & continue' }}
-            </button>
+                <button
+                    type="button"
+                    class="postbox-btn w-full sm:w-auto"
+                    :disabled="isSaving"
+                    @click="saveProfile"
+                >
+                    <Loader2 v-if="isSaving" class="size-4 animate-spin" />
+                    {{ isSaving ? 'Saving…' : 'Save & continue' }}
+                </button>
+            </div>
         </div>
     </div>
 

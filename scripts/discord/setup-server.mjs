@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { loadEnv } from './load-env.mjs';
 import { BOT_INVITE_URL, DISCORD_APPLICATION_ID, PORTAL } from './constants.mjs';
+import { loadEnv } from './load-env.mjs';
 
 loadEnv();
 
@@ -241,6 +241,7 @@ async function ensureRole(name, options) {
 
     if (existing) {
         console.log(`  role exists: @${name}`);
+
         return existing;
     }
 
@@ -262,6 +263,7 @@ async function ensureCategory(name, existingChannels) {
 
     if (found) {
         console.log(`  category exists: ${name}`);
+
         return found;
     }
 
@@ -281,6 +283,7 @@ async function ensureTextChannel(name, parentId, topic, existingChannels) {
 
     if (found) {
         console.log(`  channel exists: #${name}`);
+
         return found;
     }
 
@@ -363,6 +366,7 @@ async function pinMessage(channelId, channelName, message) {
 
     if (pins.some((pin) => pin.id === message.id)) {
         console.log(`  already pinned: #${channelName}`);
+
         return;
     }
 

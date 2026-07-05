@@ -1,0 +1,21 @@
+---
+description: Run format, lint, and Pint before committing
+alwaysApply: true
+---
+
+# Pre-commit quality checks
+
+Before creating a git commit — or before finishing a task that changed JS, Vue, or PHP — run these checks and fix failures:
+
+```bash
+npm run format:check    # if it fails: npm run format
+npm run lint:check      # if it fails: npm run lint
+```
+
+For PHP changes, also run:
+
+```bash
+vendor/bin/pint --dirty --format agent
+```
+
+Only commit when all applicable checks pass. If you auto-fixed issues, mention what was fixed in the commit message or summary.
