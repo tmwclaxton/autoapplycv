@@ -271,7 +271,7 @@ onUnmounted(() => {
 
                     <template v-else>
                         <form
-                            class="flex min-h-0 flex-1 flex-col px-3 pt-2 sm:px-4"
+                            class="min-h-0 flex-1 px-3 pt-2 sm:px-4"
                             @submit.prevent
                         >
                             <div class="grid shrink-0 gap-1.5 sm:grid-cols-2">
@@ -375,12 +375,6 @@ onUnmounted(() => {
                                     </div>
                                 </template>
                             </div>
-
-                            <p
-                                class="mt-auto pt-1.5 text-[9px] text-[#a1a1aa] sm:text-[10px]"
-                            >
-                                Demo only - nothing is submitted.
-                            </p>
                         </form>
 
                         <div
