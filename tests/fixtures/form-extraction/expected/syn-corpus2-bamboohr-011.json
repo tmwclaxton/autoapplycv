@@ -1,0 +1,95 @@
+{
+  "id": "syn-corpus2-bamboohr-011",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "your name (20039) your name (20039)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "bb-name-20039",
+        "name": "bb-name-20039",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "personal email (20039) personal email (20039)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "bb-email-20039",
+        "name": "bb-email-20039",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "contact number (20039) contact number (20039)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "bb-phone-20039",
+        "name": "bb-phone-20039",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "tell us about yourself (20039) tell us about yourself (20039)",
+      "field_type": "textarea",
+      "max_chars": 450,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself-20039",
+        "name": "tell-us-about-yourself-20039",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "application source (20039) application source (20039)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "LinkedIn",
+        "Referral",
+        "Company site",
+        "Job board"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "application-source-20039-200",
+        "name": "application-source-20039-200",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

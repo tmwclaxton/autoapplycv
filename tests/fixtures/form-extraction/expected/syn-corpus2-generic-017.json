@@ -1,0 +1,78 @@
+{
+  "id": "syn-corpus2-generic-017",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "your name (20253) your name (20253)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "gen-name-20253",
+        "name": "gen-name-20253",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "personal email (20253) personal email (20253)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "gen-email-20253",
+        "name": "gen-email-20253",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "mobile number (20253) mobile number (20253)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "gen-phone-20253",
+        "name": "gen-phone-20253",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "work location (20253) work location (20253)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Manchester",
+        "Hybrid",
+        "London"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "work-location-20253-20253",
+        "name": "work-location-20253-20253",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

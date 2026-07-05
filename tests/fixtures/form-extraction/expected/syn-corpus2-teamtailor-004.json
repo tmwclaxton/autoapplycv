@@ -1,0 +1,114 @@
+{
+  "id": "syn-corpus2-teamtailor-004",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "your name (20004) your name (20004)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "tt-name-20004",
+        "name": "tt-name-20004",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "email address (20004) email address (20004)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "tt-email-20004",
+        "name": "tt-email-20004",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "telephone (20004) telephone (20004)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "tt-phone-20004",
+        "name": "tt-phone-20004",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "motivation statement (20004) motivation statement (20004)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement-20004-2",
+        "name": "motivation-statement-20004-2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "office preference (20004) office preference (20004)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Manchester",
+        "Hybrid",
+        "London",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "office-preference-20004-2000",
+        "name": "office-preference-20004-2000",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "visa sponsorship needed? (20004)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "visa-sponsorship-needed--0",
+        "name": "visa-sponsorship-needed-",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

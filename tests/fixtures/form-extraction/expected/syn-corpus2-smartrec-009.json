@@ -1,0 +1,118 @@
+{
+  "id": "syn-corpus2-smartrec-009",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "your name (20489) your name (20489)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "sr-name-20489",
+        "name": "sr-name-20489",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "contact email (20489) contact email (20489)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "sr-email-20489",
+        "name": "sr-email-20489",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "telephone (20489) telephone (20489)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "sr-phone-20489",
+        "name": "sr-phone-20489",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "tell us about yourself (20489) tell us about yourself (20489)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself-20489",
+        "name": "tell-us-about-yourself-20489",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "work location (20489) work location (20489)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Dublin",
+        "Remote",
+        "London",
+        "Hybrid"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "work-location-20489-20489",
+        "name": "work-location-20489-20489",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "work authorization status (20489)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "work-authorization-statu-0",
+        "name": "work-authorization-statu",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue application"
+    }
+  ],
+  "vet_notes": []
+}

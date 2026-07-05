@@ -1,0 +1,94 @@
+{
+  "id": "syn-corpus2-icims-011",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "preferred name (20163) preferred name (20163)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "icims_preferred-na_20163",
+        "name": "icims_preferred-na_20163",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "work email (20163) work email (20163)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "icims_work-email-2_20163",
+        "name": "icims_work-email-2_20163",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "mobile number (20163) mobile number (20163)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "icims_mobile-numbe_20163",
+        "name": "icims_mobile-numbe_20163",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "why this role? (20163) why this role? (20163)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-20163-20163",
+        "name": "why-this-role-20163-20163",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "application source (20163) application source (20163)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "LinkedIn",
+        "Referral",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "application-source-20163-201",
+        "name": "application-source-20163-201",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,99 @@
+{
+  "id": "syn-corpus2-jobvite-009",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "full name (20089) full name (20089)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "jv-name-20089",
+        "name": "jv-name-20089",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "personal email (20089) personal email (20089)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "jv-email-20089",
+        "name": "jv-email-20089",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "contact number (20089) contact number (20089)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "jv-phone-20089",
+        "name": "jv-phone-20089",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "work location (20089) work location (20089)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Hybrid",
+        "London",
+        "Remote",
+        "Manchester"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "work-location-20089-20089",
+        "name": "work-location-20089-20089",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "motivation statement (20089) motivation statement (20089)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement-20089-2",
+        "name": "motivation-statement-20089-2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next"
+    }
+  ],
+  "vet_notes": []
+}

@@ -1,0 +1,114 @@
+{
+  "id": "syn-corpus2-teamtailor-007",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "full name (20007) full name (20007)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "tt-name-20007",
+        "name": "tt-name-20007",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "work email (20007) work email (20007)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "tt-email-20007",
+        "name": "tt-email-20007",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "mobile number (20007) mobile number (20007)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "tt-phone-20007",
+        "name": "tt-phone-20007",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "motivation statement (20007) motivation statement (20007)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "motivation-statement-20007-2",
+        "name": "motivation-statement-20007-2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "preferred location (20007) preferred location (20007)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Dublin",
+        "Remote",
+        "Berlin",
+        "Hybrid"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-location-20007-200",
+        "name": "preferred-location-20007-200",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "visa sponsorship needed? (20007)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "visa-sponsorship-needed--0",
+        "name": "visa-sponsorship-needed-",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

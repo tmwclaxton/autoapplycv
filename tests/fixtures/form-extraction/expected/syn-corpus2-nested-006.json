@@ -1,0 +1,63 @@
+{
+  "id": "syn-corpus2-nested-006",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "personal details",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ns-name-20346",
+        "name": "ns-name-20346",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "preferences",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Berlin",
+        "London",
+        "Dublin",
+        "Manchester"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "office-preference-20346-2034",
+        "name": "office-preference-20346-2034",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "additional",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "tell-us-about-yourself-20346",
+        "name": "tell-us-about-yourself-20346",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

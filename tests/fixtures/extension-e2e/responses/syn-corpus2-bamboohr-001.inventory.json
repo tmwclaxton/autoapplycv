@@ -1,0 +1,54 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "applicant name (20029) applicant name (20029)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f1",
+      "question": "email address (20029) email address (20029)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f2",
+      "question": "phone number (20029) phone number (20029)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f3",
+      "question": "tell us about yourself (20029) tell us about yourself (20029)",
+      "field_type": "textarea",
+      "max_chars": 450,
+      "options": null
+    },
+    {
+      "ref": "f4",
+      "question": "how did you hear about us? (20029) how did you hear about us? (20029)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "LinkedIn",
+        "Referral",
+        "Company site",
+        "Job board"
+      ]
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}

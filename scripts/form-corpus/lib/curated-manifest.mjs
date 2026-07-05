@@ -60,6 +60,30 @@ export function detectPlatform(scenario) {
         return 'syn-mega';
     }
 
+    if (id.startsWith('syn-corpus2-')) {
+        if (hay.includes('teamtailor')) {
+            return 'teamtailor';
+        }
+
+        if (hay.includes('bamboohr')) {
+            return 'bamboohr';
+        }
+
+        if (hay.includes('workable')) {
+            return 'workable';
+        }
+
+        if (hay.includes('icims')) {
+            return 'icims';
+        }
+
+        if (hay.includes('jotform')) {
+            return 'jotform';
+        }
+
+        return 'syn-corpus2';
+    }
+
     if (id.startsWith('syn-basic-')) {
         return 'syn-basic';
     }
@@ -385,6 +409,18 @@ export function buildCuratedManifest() {
 
     for (const pick of pickBest(byPlatform.bamboohr || [], 2, usedIds)) {
         addAnalysis(pick);
+    }
+
+    for (const pick of pickBest(byPlatform.workable || [], 2, usedIds)) {
+        addAnalysis(pick);
+    }
+
+    for (const pick of pickBest(byPlatform.icims || [], 2, usedIds)) {
+        addAnalysis(pick);
+    }
+
+    for (const pick of pickBest(byPlatform['syn-corpus2'] || [], 4, usedIds)) {
+        addAnalysis(pick, { reason: 'syn-corpus2 diverse layout representative' });
     }
 
     for (const pick of pickBest(byPlatform.trakstar || [], 2, usedIds)) {

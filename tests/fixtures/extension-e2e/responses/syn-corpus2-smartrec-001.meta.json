@@ -1,0 +1,42 @@
+{
+  "scenario_id": "syn-corpus2-smartrec-001",
+  "plan_count": 6,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "sr-name-20481",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "sr-email-20481",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "sr-phone-20481",
+      "ref": "f2",
+      "answer": "+15550000002"
+    },
+    {
+      "kind": "id",
+      "selector": "cover-letter-20481-20481",
+      "ref": "f3",
+      "answer": "FillVerify-textarea-3"
+    },
+    {
+      "kind": "id",
+      "selector": "preferred-location-20481-204",
+      "ref": "f4",
+      "answer": "Choose one…"
+    },
+    {
+      "kind": "id",
+      "selector": "visa-sponsorship-needed--0",
+      "ref": "f5",
+      "answer": "Yes"
+    }
+  ]
+}

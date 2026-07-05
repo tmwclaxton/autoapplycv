@@ -13,7 +13,7 @@ const vetScript = join(root, 'scripts/form-corpus/vet-corpus.mjs');
 const prefixes = process.argv.slice(2);
 
 if (prefixes.length === 0) {
-    prefixes.push('syn-mega', 'syn-fw', 'syn-ix', 'syn-', 'web-');
+    prefixes.push('syn-corpus2', 'syn-mega', 'syn-fw', 'syn-ix', 'syn-', 'web-');
 }
 
 const manifest = loadManifest();

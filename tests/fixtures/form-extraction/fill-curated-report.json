@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-04T19:41:02.013Z",
+  "generated_at": "2026-07-04T23:36:55.258Z",
   "verify_engine": "jsdom",
   "curated_manifest": "Curated fill verification tier prioritizing platform diversity and verification depth over corpus quantity.",
   "thresholds": {
@@ -7,9 +7,9 @@
     "overall_pass_rate": 1
   },
   "totals": {
-    "scenarios": 36,
-    "evaluated": 36,
-    "passed": 36,
+    "scenarios": 48,
+    "evaluated": 48,
+    "passed": 48,
     "failed": 0,
     "skipped": 0,
     "pass_rate": 1,
@@ -26,6 +26,24 @@
       "critical_passed": 1,
       "pass_rate": 1,
       "critical_pass_rate": 1
+    },
+    "teamtailor": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "critical_total": 0,
+      "critical_passed": 0,
+      "pass_rate": 1,
+      "critical_pass_rate": 0
+    },
+    "syn-corpus2": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "critical_total": 0,
+      "critical_passed": 0,
+      "pass_rate": 1,
+      "critical_pass_rate": 0
     },
     "syn-fw": {
       "total": 8,
@@ -63,9 +81,36 @@
       "pass_rate": 1,
       "critical_pass_rate": 1
     },
+    "bamboohr": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "critical_total": 0,
+      "critical_passed": 0,
+      "pass_rate": 1,
+      "critical_pass_rate": 0
+    },
     "workday": {
       "total": 5,
       "passed": 5,
+      "failed": 0,
+      "critical_total": 0,
+      "critical_passed": 0,
+      "pass_rate": 1,
+      "critical_pass_rate": 0
+    },
+    "workable": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "critical_total": 0,
+      "critical_passed": 0,
+      "pass_rate": 1,
+      "critical_pass_rate": 0
+    },
+    "icims": {
+      "total": 2,
+      "passed": 2,
       "failed": 0,
       "critical_total": 0,
       "critical_passed": 0,
@@ -75,26 +120,26 @@
   },
   "by_check": {
     "domReadback": {
-      "evaluated": 36,
-      "passed": 36,
+      "evaluated": 48,
+      "passed": 48,
       "failed": 0,
       "pass_rate": 1
     },
     "html5Validity": {
-      "evaluated": 36,
-      "passed": 36,
+      "evaluated": 48,
+      "passed": 48,
       "failed": 0,
       "pass_rate": 1
     },
     "a11yState": {
-      "evaluated": 36,
-      "passed": 36,
+      "evaluated": 48,
+      "passed": 48,
       "failed": 0,
       "pass_rate": 1
     },
     "errorBanner": {
-      "evaluated": 36,
-      "passed": 36,
+      "evaluated": 48,
+      "passed": 48,
       "failed": 0,
       "pass_rate": 1
     }
@@ -139,6 +184,1075 @@
       "platform": "ashby",
       "priority": "critical",
       "reason": "Representative ashby form (5 fields, radio+textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-teamtailor-001",
+      "passed": true,
+      "field_count": 6,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 6,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "corpus2-teamtailor",
+      "platform": "teamtailor",
+      "priority": "standard",
+      "reason": "Representative teamtailor form (6 fields, radio+select+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-smartrec-001",
+      "passed": true,
+      "field_count": 6,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 6,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "corpus2-smartrecruiters",
+      "platform": "syn-corpus2",
+      "priority": "standard",
+      "reason": "syn-corpus2 diverse layout representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-fw-dom-001",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "dom",
+      "platform": "syn-fw",
+      "priority": "standard",
+      "reason": "Vanilla DOM form",
+      "field_types": [
+        "text",
+        "email",
+        "radio",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-ix-modal-001",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "interactive",
+      "platform": "syn-ix",
+      "priority": "standard",
+      "reason": "Representative syn-ix form (5 fields, textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-shadow-001",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "reason": "syn-mega mega-shadow representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "url"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-fw-wd-001",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "workday",
+      "platform": "syn-fw",
+      "priority": "critical",
+      "reason": "Representative syn-fw form (4 fields, textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-teamtailor-002",
+      "passed": true,
+      "field_count": 6,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 6,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "corpus2-teamtailor",
+      "platform": "teamtailor",
+      "priority": "standard",
+      "reason": "Representative teamtailor form (6 fields, radio+select+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-smartrec-002",
+      "passed": true,
+      "field_count": 6,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 6,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "corpus2-smartrecruiters",
+      "platform": "syn-corpus2",
+      "priority": "standard",
+      "reason": "syn-corpus2 diverse layout representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-fw-shadow-002",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "shadow",
+      "platform": "syn-fw",
+      "priority": "standard",
+      "reason": "Shadow DOM encapsulation",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "radio",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-ix-reveal-001",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "interactive",
+      "platform": "syn-ix",
+      "priority": "standard",
+      "reason": "Representative syn-ix form (5 fields, textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-vue-001",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "reason": "syn-mega mega-vue representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-fw-lever-001",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "lever",
+      "platform": "lever",
+      "priority": "critical",
+      "reason": "Representative lever form (5 fields, textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-bamboohr-001",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "corpus2-bamboohr",
+      "platform": "bamboohr",
+      "priority": "standard",
+      "reason": "Representative bamboohr form (5 fields, select+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-smartrec-003",
+      "passed": true,
+      "field_count": 6,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 6,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "corpus2-smartrecruiters",
+      "platform": "syn-corpus2",
+      "priority": "standard",
+      "reason": "syn-corpus2 diverse layout representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-fw-wizard-001",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "wizard",
+      "platform": "syn-fw",
+      "priority": "standard",
+      "reason": "Multi-step wizard navigation",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-ix-date-001",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "interactive",
+      "platform": "syn-ix",
+      "priority": "standard",
+      "reason": "Representative syn-ix form (4 fields, text)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "date"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-angular-001",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "reason": "syn-mega mega-angular representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-workday-006",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "workday",
+      "platform": "workday",
+      "priority": "standard",
+      "reason": "Representative workday form (4 fields, textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea",
+        "number"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-bamboohr-002",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "corpus2-bamboohr",
+      "platform": "bamboohr",
+      "priority": "standard",
+      "reason": "Representative bamboohr form (5 fields, select+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-smartrec-004",
+      "passed": true,
+      "field_count": 6,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 6,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "corpus2-smartrecruiters",
+      "platform": "syn-corpus2",
+      "priority": "standard",
+      "reason": "syn-corpus2 diverse layout representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-ix-fw-001",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "interactive",
+      "platform": "syn-ix",
+      "priority": "standard",
+      "reason": "Representative syn-ix form (5 fields, select+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-ix-date-002",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "interactive",
+      "platform": "syn-ix",
+      "priority": "standard",
+      "reason": "Representative syn-ix form (4 fields, text)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "date"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-date-001",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "reason": "syn-mega mega-date representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "date"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-workday-007",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "workday",
+      "platform": "workday",
+      "priority": "standard",
+      "reason": "Representative workday form (4 fields, textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea",
+        "number"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-workable-001",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "corpus2-workable",
+      "platform": "workable",
+      "priority": "standard",
+      "reason": "Representative workable form (5 fields, radio+textarea)",
       "field_types": [
         "text",
         "email",
@@ -318,7 +1432,7 @@
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-fw-wd-001",
+      "id": "syn-workday-008",
       "passed": true,
       "field_count": 4,
       "failures": [],
@@ -348,14 +1462,57 @@
         }
       },
       "stack": "workday",
-      "platform": "syn-fw",
-      "priority": "critical",
-      "reason": "Representative syn-fw form (4 fields, textarea+multiStep)",
+      "platform": "workday",
+      "priority": "standard",
+      "reason": "Representative workday form (4 fields, textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea",
+        "number"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-workable-002",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "corpus2-workable",
+      "platform": "workable",
+      "priority": "standard",
+      "reason": "Representative workable form (5 fields, radio+textarea)",
       "field_types": [
         "text",
         "email",
         "tel",
-        "textarea"
+        "textarea",
+        "radio"
       ],
       "verify_engine": "jsdom"
     },
@@ -529,7 +1686,49 @@
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-fw-lever-001",
+      "id": "syn-workday-009",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "workday",
+      "platform": "workday",
+      "priority": "standard",
+      "reason": "Representative workday form (4 fields, textarea+multiStep)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea",
+        "number"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-icims-001",
       "passed": true,
       "field_count": 5,
       "failures": [],
@@ -558,15 +1757,16 @@
           "error_count": 0
         }
       },
-      "stack": "lever",
-      "platform": "lever",
-      "priority": "critical",
-      "reason": "Representative lever form (5 fields, textarea+multiStep)",
+      "stack": "corpus2-icims",
+      "platform": "icims",
+      "priority": "standard",
+      "reason": "Representative icims form (5 fields, select+textarea)",
       "field_types": [
         "text",
         "email",
         "tel",
-        "textarea"
+        "textarea",
+        "select"
       ],
       "verify_engine": "jsdom"
     },
@@ -742,7 +1942,7 @@
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-workday-006",
+      "id": "syn-workday-010",
       "passed": true,
       "field_count": 4,
       "failures": [],
@@ -780,6 +1980,49 @@
         "email",
         "textarea",
         "number"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-icims-002",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "corpus2-icims",
+      "platform": "icims",
+      "priority": "standard",
+      "reason": "Representative icims form (5 fields, select+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
       ],
       "verify_engine": "jsdom"
     },
@@ -950,682 +2193,6 @@
         "tel",
         "textarea",
         "radio"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-workday-007",
-      "passed": true,
-      "field_count": 4,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 4,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "workday",
-      "platform": "workday",
-      "priority": "standard",
-      "reason": "Representative workday form (4 fields, textarea+multiStep)",
-      "field_types": [
-        "text",
-        "email",
-        "textarea",
-        "number"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-fw-dom-001",
-      "passed": true,
-      "field_count": 4,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 4,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "dom",
-      "platform": "syn-fw",
-      "priority": "standard",
-      "reason": "Vanilla DOM form",
-      "field_types": [
-        "text",
-        "email",
-        "radio",
-        "textarea"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-ix-modal-001",
-      "passed": true,
-      "field_count": 5,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 5,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "interactive",
-      "platform": "syn-ix",
-      "priority": "standard",
-      "reason": "Representative syn-ix form (5 fields, textarea)",
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "textarea"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-mega-shadow-001",
-      "passed": true,
-      "field_count": 4,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 4,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "mega",
-      "platform": "syn-mega",
-      "priority": "standard",
-      "reason": "syn-mega mega-shadow representative",
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "url"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-workday-008",
-      "passed": true,
-      "field_count": 4,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 4,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "workday",
-      "platform": "workday",
-      "priority": "standard",
-      "reason": "Representative workday form (4 fields, textarea+multiStep)",
-      "field_types": [
-        "text",
-        "email",
-        "textarea",
-        "number"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-fw-shadow-002",
-      "passed": true,
-      "field_count": 5,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 5,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "shadow",
-      "platform": "syn-fw",
-      "priority": "standard",
-      "reason": "Shadow DOM encapsulation",
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "radio",
-        "select"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-ix-reveal-001",
-      "passed": true,
-      "field_count": 5,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 5,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "interactive",
-      "platform": "syn-ix",
-      "priority": "standard",
-      "reason": "Representative syn-ix form (5 fields, textarea)",
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "textarea"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-mega-vue-001",
-      "passed": true,
-      "field_count": 5,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 5,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "mega",
-      "platform": "syn-mega",
-      "priority": "standard",
-      "reason": "syn-mega mega-vue representative",
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "textarea",
-        "select"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-workday-009",
-      "passed": true,
-      "field_count": 4,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 4,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "workday",
-      "platform": "workday",
-      "priority": "standard",
-      "reason": "Representative workday form (4 fields, textarea+multiStep)",
-      "field_types": [
-        "text",
-        "email",
-        "textarea",
-        "number"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-fw-wizard-001",
-      "passed": true,
-      "field_count": 4,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 4,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "wizard",
-      "platform": "syn-fw",
-      "priority": "standard",
-      "reason": "Multi-step wizard navigation",
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "textarea"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-ix-date-001",
-      "passed": true,
-      "field_count": 4,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 4,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "interactive",
-      "platform": "syn-ix",
-      "priority": "standard",
-      "reason": "Representative syn-ix form (4 fields, text)",
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "date"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-mega-angular-001",
-      "passed": true,
-      "field_count": 5,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 5,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "mega",
-      "platform": "syn-mega",
-      "priority": "standard",
-      "reason": "syn-mega mega-angular representative",
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "textarea",
-        "select"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-workday-010",
-      "passed": true,
-      "field_count": 4,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 4,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "workday",
-      "platform": "workday",
-      "priority": "standard",
-      "reason": "Representative workday form (4 fields, textarea+multiStep)",
-      "field_types": [
-        "text",
-        "email",
-        "textarea",
-        "number"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-ix-fw-001",
-      "passed": true,
-      "field_count": 5,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 4,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "interactive",
-      "platform": "syn-ix",
-      "priority": "standard",
-      "reason": "Representative syn-ix form (5 fields, select+textarea)",
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "textarea",
-        "select"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-ix-date-002",
-      "passed": true,
-      "field_count": 4,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 4,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "interactive",
-      "platform": "syn-ix",
-      "priority": "standard",
-      "reason": "Representative syn-ix form (4 fields, text)",
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "date"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-mega-date-001",
-      "passed": true,
-      "field_count": 4,
-      "failures": [],
-      "apply_failures": 0,
-      "verify_failures": 0,
-      "checks": {
-        "domReadback": {
-          "passed": true,
-          "failures": [],
-          "apply_failures": 0,
-          "verify_failures": 0
-        },
-        "html5Validity": {
-          "passed": true,
-          "failures": [],
-          "checked_controls": 4,
-          "checked_forms": 1
-        },
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "errors": [],
-          "error_count": 0
-        }
-      },
-      "stack": "mega",
-      "platform": "syn-mega",
-      "priority": "standard",
-      "reason": "syn-mega mega-date representative",
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "date"
       ],
       "verify_engine": "jsdom"
     }

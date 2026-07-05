@@ -1,0 +1,42 @@
+{
+  "scenario_id": "syn-corpus2-smartrec-002",
+  "plan_count": 6,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "sr-name-20482",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "sr-email-20482",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "sr-phone-20482",
+      "ref": "f2",
+      "answer": "+15550000002"
+    },
+    {
+      "kind": "id",
+      "selector": "why-this-role-20482-20482",
+      "ref": "f3",
+      "answer": "FillVerify-textarea-3"
+    },
+    {
+      "kind": "id",
+      "selector": "preferred-location-20482-204",
+      "ref": "f4",
+      "answer": "Choose one…"
+    },
+    {
+      "kind": "id",
+      "selector": "do-you-require-visa-spon-0",
+      "ref": "f5",
+      "answer": "Yes"
+    }
+  ]
+}

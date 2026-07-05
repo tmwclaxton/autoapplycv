@@ -1,0 +1,42 @@
+{
+  "scenario_id": "syn-corpus2-teamtailor-002",
+  "plan_count": 6,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "tt-name-20002",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "tt-email-20002",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "tt-phone-20002",
+      "ref": "f2",
+      "answer": "+15550000002"
+    },
+    {
+      "kind": "id",
+      "selector": "tell-us-about-yourself-20002",
+      "ref": "f3",
+      "answer": "FillVerify-textarea-3"
+    },
+    {
+      "kind": "id",
+      "selector": "current-city-20002-20002",
+      "ref": "f4",
+      "answer": "Choose one…"
+    },
+    {
+      "kind": "id",
+      "selector": "visa-sponsorship-needed--0",
+      "ref": "f5",
+      "answer": "Yes"
+    }
+  ]
+}

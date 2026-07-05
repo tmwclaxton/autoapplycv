@@ -1,0 +1,64 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "applicant name (20002) applicant name (20002)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f1",
+      "question": "personal email (20002) personal email (20002)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f2",
+      "question": "telephone (20002) telephone (20002)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f3",
+      "question": "tell us about yourself (20002) tell us about yourself (20002)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null
+    },
+    {
+      "ref": "f4",
+      "question": "current city (20002) current city (20002)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Hybrid",
+        "Manchester",
+        "Remote",
+        "Dublin"
+      ]
+    },
+    {
+      "ref": "f5",
+      "question": "visa sponsorship needed? (20002)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}

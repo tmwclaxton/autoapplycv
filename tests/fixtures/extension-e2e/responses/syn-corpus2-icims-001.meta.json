@@ -1,0 +1,36 @@
+{
+  "scenario_id": "syn-corpus2-icims-001",
+  "plan_count": 5,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "icims_applicant-na_20153",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "icims_personal-ema_20153",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "icims_mobile-numbe_20153",
+      "ref": "f2",
+      "answer": "+15550000002"
+    },
+    {
+      "kind": "id",
+      "selector": "motivation-statement-20153-2",
+      "ref": "f3",
+      "answer": "FillVerify-textarea-3"
+    },
+    {
+      "kind": "id",
+      "selector": "how-did-you-hear-about-us-20",
+      "ref": "f4",
+      "answer": "Choose one…"
+    }
+  ]
+}

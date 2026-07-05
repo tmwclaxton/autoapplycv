@@ -1,0 +1,36 @@
+{
+  "scenario_id": "syn-corpus2-bamboohr-002",
+  "plan_count": 5,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "bb-name-20030",
+      "ref": "f0",
+      "answer": "FillVerify-0"
+    },
+    {
+      "kind": "id",
+      "selector": "bb-email-20030",
+      "ref": "f1",
+      "answer": "fillverify1@test.example"
+    },
+    {
+      "kind": "id",
+      "selector": "bb-phone-20030",
+      "ref": "f2",
+      "answer": "+15550000002"
+    },
+    {
+      "kind": "id",
+      "selector": "motivation-statement-20030-2",
+      "ref": "f3",
+      "answer": "FillVerify-textarea-3"
+    },
+    {
+      "kind": "id",
+      "selector": "application-source-20030-200",
+      "ref": "f4",
+      "answer": "Choose one…"
+    }
+  ]
+}

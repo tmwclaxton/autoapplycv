@@ -1,0 +1,64 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "your name (20001) your name (20001)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f1",
+      "question": "contact email (20001) contact email (20001)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f2",
+      "question": "contact number (20001) contact number (20001)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f3",
+      "question": "why this role? (20001) why this role? (20001)",
+      "field_type": "textarea",
+      "max_chars": 500,
+      "options": null
+    },
+    {
+      "ref": "f4",
+      "question": "preferred location (20001) preferred location (20001)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Choose one…",
+        "Dublin",
+        "Berlin",
+        "Manchester",
+        "London"
+      ]
+    },
+    {
+      "ref": "f5",
+      "question": "visa sponsorship needed? (20001)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ]
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}

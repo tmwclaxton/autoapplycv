@@ -1,0 +1,52 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "applicant name (20057) applicant name (20057)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f1",
+      "question": "contact email (20057) contact email (20057)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f2",
+      "question": "phone number (20057) phone number (20057)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f3",
+      "question": "why this role? (20057) why this role? (20057)",
+      "field_type": "textarea",
+      "max_chars": 600,
+      "options": null
+    },
+    {
+      "ref": "f4",
+      "question": "relocation preference (20057)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Maybe"
+      ]
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}

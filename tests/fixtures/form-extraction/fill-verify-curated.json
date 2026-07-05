@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-04T18:52:24.827Z",
+  "generated_at": "2026-07-04T23:35:59.750Z",
   "description": "Curated fill verification tier prioritizing platform diversity and verification depth over corpus quantity.",
   "thresholds": {
     "jsdom": {
@@ -767,33 +767,39 @@
       "playwright_priority": false
     },
     {
-      "id": "web-usgnorthamerica-teamtailor-com-jobs",
+      "id": "syn-corpus2-teamtailor-001",
       "platform": "teamtailor",
-      "reason": "Representative teamtailor form (4 fields, checkbox+select)",
+      "reason": "Representative teamtailor form (6 fields, radio+select+textarea)",
       "field_types": [
-        "checkbox",
         "text",
-        "select"
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
       ],
-      "field_count": 4,
+      "field_count": 6,
       "priority": "standard",
-      "verify_engine": "playwright",
-      "playwright": true,
+      "verify_engine": "jsdom",
+      "playwright": false,
       "playwright_priority": false
     },
     {
-      "id": "web-thealineagroup-1700147786-na-teamtailor-com-jobs",
+      "id": "syn-corpus2-teamtailor-002",
       "platform": "teamtailor",
-      "reason": "Representative teamtailor form (4 fields, checkbox+select)",
+      "reason": "Representative teamtailor form (6 fields, radio+select+textarea)",
       "field_types": [
-        "checkbox",
         "text",
-        "select"
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
       ],
-      "field_count": 4,
+      "field_count": 6,
       "priority": "standard",
-      "verify_engine": "playwright",
-      "playwright": true,
+      "verify_engine": "jsdom",
+      "playwright": false,
       "playwright_priority": false
     },
     {
@@ -915,31 +921,177 @@
       "playwright_priority": false
     },
     {
-      "id": "web-www-bamboohr-com-application",
+      "id": "syn-corpus2-bamboohr-001",
       "platform": "bamboohr",
-      "reason": "Representative bamboohr form (4 fields, select+combobox)",
+      "reason": "Representative bamboohr form (5 fields, select+textarea)",
       "field_types": [
         "text",
+        "email",
+        "tel",
+        "textarea",
         "select"
       ],
-      "field_count": 4,
+      "field_count": 5,
       "priority": "standard",
-      "verify_engine": "playwright",
-      "playwright": true,
+      "verify_engine": "jsdom",
+      "playwright": false,
       "playwright_priority": false
     },
     {
-      "id": "web-www-bamboohr-com-careers",
+      "id": "syn-corpus2-bamboohr-002",
       "platform": "bamboohr",
-      "reason": "Representative bamboohr form (2 fields, select+multiStep)",
+      "reason": "Representative bamboohr form (5 fields, select+textarea)",
       "field_types": [
         "text",
+        "email",
+        "tel",
+        "textarea",
         "select"
       ],
-      "field_count": 2,
+      "field_count": 5,
       "priority": "standard",
-      "verify_engine": "playwright",
-      "playwright": true,
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-corpus2-workable-001",
+      "platform": "workable",
+      "reason": "Representative workable form (5 fields, radio+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-corpus2-workable-002",
+      "platform": "workable",
+      "reason": "Representative workable form (5 fields, radio+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-corpus2-icims-001",
+      "platform": "icims",
+      "reason": "Representative icims form (5 fields, select+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-corpus2-icims-002",
+      "platform": "icims",
+      "reason": "Representative icims form (5 fields, select+textarea)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-corpus2-smartrec-001",
+      "platform": "syn-corpus2",
+      "reason": "syn-corpus2 diverse layout representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "field_count": 6,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-corpus2-smartrec-002",
+      "platform": "syn-corpus2",
+      "reason": "syn-corpus2 diverse layout representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "field_count": 6,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-corpus2-smartrec-003",
+      "platform": "syn-corpus2",
+      "reason": "syn-corpus2 diverse layout representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "field_count": 6,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-corpus2-smartrec-004",
+      "platform": "syn-corpus2",
+      "reason": "syn-corpus2 diverse layout representative",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "field_count": 6,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
       "playwright_priority": false
     },
     {

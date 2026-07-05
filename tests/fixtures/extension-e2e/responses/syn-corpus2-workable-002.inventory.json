@@ -1,0 +1,52 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "full name (20058) full name (20058)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f1",
+      "question": "personal email (20058) personal email (20058)",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f2",
+      "question": "phone number (20058) phone number (20058)",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null
+    },
+    {
+      "ref": "f3",
+      "question": "motivation statement (20058) motivation statement (20058)",
+      "field_type": "textarea",
+      "max_chars": 600,
+      "options": null
+    },
+    {
+      "ref": "f4",
+      "question": "willing to relocate? (20058)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Maybe"
+      ]
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-04T18:54:53.459Z",
+  "generated_at": "2026-07-04T23:36:00.167Z",
   "description": "Extension E2E scenario manifest — Playwright with real extension and mocked assist API.",
   "target_count": 100,
   "thresholds": {
@@ -672,30 +672,36 @@
       "reason": "Representative teamtailor form (13 fields, checkbox+textarea+multiStep)"
     },
     {
-      "id": "web-usgnorthamerica-teamtailor-com-jobs",
+      "id": "syn-corpus2-teamtailor-001",
       "platform": "teamtailor",
       "priority": "standard",
-      "field_count": 4,
+      "field_count": 6,
       "field_types": [
-        "checkbox",
         "text",
-        "select"
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
       ],
       "ci": false,
-      "reason": "Representative teamtailor form (4 fields, checkbox+select)"
+      "reason": "Representative teamtailor form (6 fields, radio+select+textarea)"
     },
     {
-      "id": "web-thealineagroup-1700147786-na-teamtailor-com-jobs",
+      "id": "syn-corpus2-teamtailor-002",
       "platform": "teamtailor",
       "priority": "standard",
-      "field_count": 4,
+      "field_count": 6,
       "field_types": [
-        "checkbox",
         "text",
-        "select"
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
       ],
       "ci": false,
-      "reason": "Representative teamtailor form (4 fields, checkbox+select)"
+      "reason": "Representative teamtailor form (6 fields, radio+select+textarea)"
     },
     {
       "id": "web-wpforms-com-employment-agency-application-form-template",
@@ -796,28 +802,158 @@
       "reason": "Generic web form with 58 fields"
     },
     {
-      "id": "web-www-bamboohr-com-application",
+      "id": "syn-corpus2-bamboohr-001",
       "platform": "bamboohr",
       "priority": "standard",
-      "field_count": 4,
+      "field_count": 5,
       "field_types": [
         "text",
+        "email",
+        "tel",
+        "textarea",
         "select"
       ],
       "ci": false,
-      "reason": "Representative bamboohr form (4 fields, select+combobox)"
+      "reason": "Representative bamboohr form (5 fields, select+textarea)"
     },
     {
-      "id": "web-www-bamboohr-com-careers",
+      "id": "syn-corpus2-bamboohr-002",
       "platform": "bamboohr",
       "priority": "standard",
-      "field_count": 2,
+      "field_count": 5,
       "field_types": [
         "text",
+        "email",
+        "tel",
+        "textarea",
         "select"
       ],
       "ci": false,
-      "reason": "Representative bamboohr form (2 fields, select+multiStep)"
+      "reason": "Representative bamboohr form (5 fields, select+textarea)"
+    },
+    {
+      "id": "syn-corpus2-workable-001",
+      "platform": "workable",
+      "priority": "standard",
+      "field_count": 5,
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "ci": false,
+      "reason": "Representative workable form (5 fields, radio+textarea)"
+    },
+    {
+      "id": "syn-corpus2-workable-002",
+      "platform": "workable",
+      "priority": "standard",
+      "field_count": 5,
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "ci": false,
+      "reason": "Representative workable form (5 fields, radio+textarea)"
+    },
+    {
+      "id": "syn-corpus2-icims-001",
+      "platform": "icims",
+      "priority": "standard",
+      "field_count": 5,
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "ci": false,
+      "reason": "Representative icims form (5 fields, select+textarea)"
+    },
+    {
+      "id": "syn-corpus2-icims-002",
+      "platform": "icims",
+      "priority": "standard",
+      "field_count": 5,
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "ci": false,
+      "reason": "Representative icims form (5 fields, select+textarea)"
+    },
+    {
+      "id": "syn-corpus2-smartrec-001",
+      "platform": "syn-corpus2",
+      "priority": "standard",
+      "field_count": 6,
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "ci": false,
+      "reason": "syn-corpus2 diverse layout representative"
+    },
+    {
+      "id": "syn-corpus2-smartrec-002",
+      "platform": "syn-corpus2",
+      "priority": "standard",
+      "field_count": 6,
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "ci": false,
+      "reason": "syn-corpus2 diverse layout representative"
+    },
+    {
+      "id": "syn-corpus2-smartrec-003",
+      "platform": "syn-corpus2",
+      "priority": "standard",
+      "field_count": 6,
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "ci": false,
+      "reason": "syn-corpus2 diverse layout representative"
+    },
+    {
+      "id": "syn-corpus2-smartrec-004",
+      "platform": "syn-corpus2",
+      "priority": "standard",
+      "field_count": 6,
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "ci": false,
+      "reason": "syn-corpus2 diverse layout representative"
     },
     {
       "id": "web-vikingcruises-hire-trakstar-com-fk0zq1a",
@@ -1338,89 +1474,6 @@
       "reason": "Extra web fixture (45 fields, text+email+tel+textarea+radio+checkbox)"
     },
     {
-      "id": "web-www-surveymonkey-com-work-with-us",
-      "platform": "generic-web",
-      "priority": "standard",
-      "field_count": 32,
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "radio",
-        "select",
-        "checkbox"
-      ],
-      "ci": false,
-      "reason": "Extra web fixture (32 fields, text+email+tel+radio+select+checkbox)"
-    },
-    {
-      "id": "web-george-f-young-breezy-hr-apply",
-      "platform": "generic-web",
-      "priority": "standard",
-      "field_count": 26,
-      "field_types": [
-        "text",
-        "email",
-        "checkbox",
-        "select",
-        "textarea",
-        "tel",
-        "radio"
-      ],
-      "ci": false,
-      "reason": "Extra web fixture (26 fields, text+email+checkbox+select+textarea+tel+radio)"
-    },
-    {
-      "id": "web-formnx-com-job-application-form-template-19vd99",
-      "platform": "generic-web",
-      "priority": "standard",
-      "field_count": 22,
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "textarea",
-        "select",
-        "number",
-        "radio",
-        "checkbox"
-      ],
-      "ci": false,
-      "reason": "Extra web fixture (22 fields, text+email+tel+textarea+select+number+radio+checkbox)"
-    },
-    {
-      "id": "web-apply-workable-com-apply-5",
-      "platform": "generic-web",
-      "priority": "standard",
-      "field_count": 30,
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "textarea",
-        "radio"
-      ],
-      "ci": false,
-      "reason": "Extra web fixture (30 fields, text+email+tel+textarea+radio)"
-    },
-    {
-      "id": "web-agbo-breezy-hr-apply",
-      "platform": "generic-web",
-      "priority": "standard",
-      "field_count": 23,
-      "field_types": [
-        "text",
-        "email",
-        "checkbox",
-        "select",
-        "textarea",
-        "tel",
-        "radio"
-      ],
-      "ci": false,
-      "reason": "Extra web fixture (23 fields, text+email+checkbox+select+textarea+tel+radio)"
-    },
-    {
       "id": "web-boards-greenhouse-io-5291086008",
       "platform": "greenhouse",
       "priority": "standard",
@@ -1442,49 +1495,6 @@
       ],
       "ci": false,
       "reason": "Extra web fixture (30 fields, text)"
-    },
-    {
-      "id": "web-boards-greenhouse-io-8529553002",
-      "platform": "greenhouse",
-      "priority": "standard",
-      "field_count": 30,
-      "field_types": [
-        "text"
-      ],
-      "ci": false,
-      "reason": "Extra web fixture (30 fields, text)"
-    },
-    {
-      "id": "web-jobs-lever-co-apply-9",
-      "platform": "lever",
-      "priority": "standard",
-      "field_count": 19,
-      "field_types": [
-        "text",
-        "email",
-        "radio",
-        "checkbox",
-        "textarea",
-        "select"
-      ],
-      "ci": false,
-      "reason": "Extra web fixture (19 fields, text+email+radio+checkbox+textarea+select)"
-    },
-    {
-      "id": "web-jobs-lever-co-apply-12",
-      "platform": "lever",
-      "priority": "standard",
-      "field_count": 19,
-      "field_types": [
-        "text",
-        "checkbox",
-        "email",
-        "textarea",
-        "radio",
-        "select"
-      ],
-      "ci": false,
-      "reason": "Extra web fixture (19 fields, text+checkbox+email+textarea+radio+select)"
     },
     {
       "id": "web-dupont-wd5-myworkdayjobs-com-applymanually",
