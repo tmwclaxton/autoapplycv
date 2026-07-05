@@ -2,6 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { ArrowRight, FileUp, Stamp } from 'lucide-vue-next';
 import PostboxCta from '@/components/postbox/PostboxCta.vue';
+import PostboxDraftAllDemo from '@/components/postbox/PostboxDraftAllDemo.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPlatformBadges from '@/components/postbox/PostboxPlatformBadges.vue';
@@ -59,6 +60,8 @@ defineProps<{
                 </Link>
             </div>
         </section>
+
+        <PostboxDraftAllDemo />
 
         <PostboxPlatformBadges class="mt-12" />
 
