@@ -171,7 +171,7 @@ onUnmounted(() => {
 
         <div class="mx-auto w-full max-w-sm sm:max-w-md">
             <div
-                class="flex aspect-square flex-col overflow-hidden rounded-xl border border-[#d4d4d8] bg-[#ececec] shadow-[0_8px_30px_rgb(0_0_0_/_12%)]"
+                class="flex aspect-square flex-col overflow-hidden border border-[#d4d4d8] bg-[#ececec] shadow-[0_8px_30px_rgb(0_0_0_/_12%)]"
             >
                 <div
                     class="flex shrink-0 items-center gap-2 border-b border-[#d4d4d8] px-3 py-1.5 sm:py-2"
@@ -191,7 +191,7 @@ onUnmounted(() => {
                         />
                     </div>
                     <div
-                        class="min-w-0 flex-1 rounded-md border border-[#d4d4d8] bg-white px-2 py-0.5 text-center sm:px-2.5 sm:py-1"
+                        class="min-w-0 flex-1 border border-[#d4d4d8] bg-white px-2 py-0.5 text-center sm:px-2.5 sm:py-1"
                     >
                         <span
                             class="block truncate text-[10px] text-[#71717a] sm:text-xs"
