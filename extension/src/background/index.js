@@ -32,6 +32,7 @@ import {
     collectSnapshotFromTab,
     fetchPagePayloadForJobContext,
     findBestFormFrameId,
+    invalidateTabFrameCache,
     sendTabMessage,
 } from './form-frame-messaging.js';
 import { createPerfTimer } from './perf-timer.js';
