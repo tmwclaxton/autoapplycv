@@ -65,6 +65,47 @@ function resolveElement(document, dom, fieldType) {
         return document.querySelector(`[data-testid="${escapeSelectorValue(dom.data_testid)}"]`);
     }
 
+    if (fieldType === 'tel' && dom.type === 'tel') {
+        return document.querySelector('input[type="tel"].PhoneInputInput')
+            || document.querySelector('.PhoneInput input[type="tel"]')
+            || document.querySelector('input[type="tel"]');
+    }
+
+    if (dom.question_prefix) {
+        for (const label of document.querySelectorAll('label')) {
+            if (!label.textContent.trim().startsWith(dom.question_prefix)) {
+                continue;
+            }
+
+            if (label.querySelector('input[type="radio"], input[type="checkbox"]')) {
+                continue;
+            }
+
+            const block = label.parentElement;
+            const input = block?.querySelector(`input[type="${escapeSelectorValue(dom.type || fieldType)}"], textarea, select`);
+
+            if (input) {
+                return input;
+            }
+        }
+    }
+
+    if (dom.placeholder) {
+        const byPlaceholder = document.querySelector(`input[placeholder="${escapeSelectorValue(dom.placeholder)}"]`);
+
+        if (byPlaceholder) {
+            return byPlaceholder;
+        }
+    }
+
+    if (dom.min && dom.type) {
+        const byMin = document.querySelector(`input[type="${escapeSelectorValue(dom.type)}"][min="${escapeSelectorValue(dom.min)}"]`);
+
+        if (byMin) {
+            return byMin;
+        }
+    }
+
     return null;
 }
 
@@ -346,6 +387,13 @@ function valuesMatch(field, expectedAnswer, actual) {
     if (actual.kind === 'text') {
         const expected = String(expectedAnswer).trim();
 
+        if (field?.field_type === 'tel') {
+            const normalizePhone = (value) => String(value || '').replace(/[^\d+]/g, '');
+
+            return normalizePhone(actual.value) === normalizePhone(expected)
+                || normalizePhone(actual.value).includes(normalizePhone(expected).replace(/^\+\d{1,3}/, ''));
+        }
+
         return actual.value === expected || actual.value.includes(expected);
     }
 
@@ -421,7 +469,7 @@ export async function runFillVerifyForScenario(scenario, options = {}) {
     const failures = [];
 
     for (const item of plan) {
-        const applied = await window.AutoCVApplyFieldInventory.applyAnswerByRefAllFrames(
+        const applied = await window.AutoCVApplyFieldInventory.applyAnswerByRefWithFallback(
             window.document,
             item.ref,
             item.answer,

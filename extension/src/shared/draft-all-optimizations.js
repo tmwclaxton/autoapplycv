@@ -156,6 +156,19 @@ export function compactSnapshotForInventory(snapshot) {
     return compact;
 }
 
+export function enrichFieldsWithSnapshotDom(fields, snapshot) {
+    const domByRef = new Map(
+        (snapshot?.elements || [])
+            .filter((element) => element?.ref)
+            .map((element) => [element.ref, element.dom ?? null]),
+    );
+
+    return (fields || []).map((field) => ({
+        ...field,
+        dom: field.dom || domByRef.get(field.ref) || null,
+    }));
+}
+
 export function compactFieldsForDraft(fields) {
     return (fields || []).map((field, index) => {
         const fieldType = field.field_type || 'text';
@@ -202,6 +215,29 @@ export function snapshotFingerprint(snapshot) {
         elements.map((element) => `${element.ref}:${element.question}`).join('|'),
         controls.map((control) => control.ref).join('|'),
     ].join('::');
+}
+
+/**
+ * Lightweight DOM signature for SPA step changes where the URL stays the same.
+ * Used by the content mutation observer and to invalidate draft-all snapshot cache.
+ */
+export function computeFormContentSignature(rootDocument) {
+    const doc = rootDocument || (typeof document !== 'undefined' ? document : null);
+
+    if (!doc) {
+        return '';
+    }
+
+    const heading = doc.querySelector('h1')?.textContent?.replace(/\s+/g, ' ').trim().slice(0, 80) || '';
+    const form = doc.querySelector('form');
+
+    return `${heading}|${form?.querySelectorAll('input, textarea, select').length || 0}|${form?.textContent?.length || 0}`;
+}
+
+export function shouldReuseCachedDraftAllSnapshot(cachedFingerprint, freshFingerprint) {
+    return Boolean(cachedFingerprint)
+        && Boolean(freshFingerprint)
+        && cachedFingerprint === freshFingerprint;
 }
 
 export function shouldForceInventoryComplete(snapshot, inventory) {

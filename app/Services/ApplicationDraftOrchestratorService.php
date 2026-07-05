@@ -130,7 +130,8 @@ class ApplicationDraftOrchestratorService
             );
             $batchResult = $llmResults[$batchIndex] ?? null;
             $llmAnswers = $batchResult['answers'] ?? [];
-            $answers = array_merge($partition['identity_answers'], $llmAnswers);
+            // Identity answers must win when both paths emit the same ref.
+            $answers = array_merge($llmAnswers, $partition['identity_answers']);
 
             if ($answers === []) {
                 $onBatchError($batchIndex, 'Could not generate answers for this batch.');

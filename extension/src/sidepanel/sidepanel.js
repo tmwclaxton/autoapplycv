@@ -6,6 +6,7 @@ import {
 } from './connection.js';
 import { createRemoteLogger } from './debug-log.js';
 import { initDocumentsPanel } from './documents.js';
+import { drainDraftChatQueue } from './draft-batch-chat.js';
 import { initPendingFieldsPanel } from './pending-fields-panel.js';
 
 const messageEl = document.getElementById('message');
@@ -27,6 +28,8 @@ let documentsPanel = null;
 let assistChat = null;
 let pendingFieldsPanel = null;
 let connectedApiBase = null;
+let sidePanelPresencePort = null;
+const pendingDraftBatchAnswers = [];
 const sidepanelLog = createRemoteLogger('sidepanel');
 
 function configureExtensionIcons() {
@@ -237,6 +240,36 @@ async function showOnboardingIfNeeded() {
     });
 }
 
+function handleDraftBatchAnswers(payload) {
+    if (assistChat?.appendDraftBatchAnswers) {
+        assistChat.appendDraftBatchAnswers(payload);
+
+        return;
+    }
+
+    pendingDraftBatchAnswers.push(payload);
+}
+
+function flushPendingDraftBatchAnswers() {
+    if (!assistChat?.appendDraftBatchAnswers) {
+        return;
+    }
+
+    while (pendingDraftBatchAnswers.length > 0) {
+        assistChat.appendDraftBatchAnswers(pendingDraftBatchAnswers.shift());
+    }
+}
+
+async function drainQueuedDraftBatchAnswers() {
+    const queue = await drainDraftChatQueue();
+
+    for (const payload of queue) {
+        handleDraftBatchAnswers(payload);
+    }
+
+    flushPendingDraftBatchAnswers();
+}
+
 function startSidePanelHeartbeat() {
     const markOpen = () => {
         chrome.runtime.sendMessage({ type: 'SIDE_PANEL_HEARTBEAT' }).catch(() => {});
@@ -253,8 +286,20 @@ function startSidePanelHeartbeat() {
     };
 
     try {
-        chrome.runtime.connect({ name: 'sidepanel-presence' });
+        sidePanelPresencePort = chrome.runtime.connect({ name: 'sidepanel-presence' });
+        sidePanelPresencePort.onMessage.addListener((message) => {
+            if (message.type === 'DRAFT_ALL_BATCH_ANSWERS') {
+                handleDraftBatchAnswers({
+                    batchNumber: message.batchNumber,
+                    answers: message.answers,
+                });
+            }
+        });
+        sidePanelPresencePort.onDisconnect.addListener(() => {
+            sidePanelPresencePort = null;
+        });
     } catch {
+        sidePanelPresencePort = null;
         // Extension context may be invalid during reload.
     }
 
@@ -403,12 +448,10 @@ chrome.runtime.onMessage.addListener((message) => {
     }
 
     if (message.type === 'DRAFT_ALL_BATCH_ANSWERS') {
-        if (assistChat?.appendDraftBatchAnswers) {
-            assistChat.appendDraftBatchAnswers({
-                batchNumber: message.batchNumber,
-                answers: message.answers,
-            });
-        }
+        handleDraftBatchAnswers({
+            batchNumber: message.batchNumber,
+            answers: message.answers,
+        });
     }
 
     if (message.type === 'DRAFT_ALL_PROGRESS') {
@@ -479,6 +522,9 @@ async function init() {
             getApiBase: () => connectedApiBase,
         });
     }
+
+    flushPendingDraftBatchAnswers();
+    void drainQueuedDraftBatchAnswers().catch(() => {});
 
     if (!pendingFieldsPanel) {
         pendingFieldsPanel = initPendingFieldsPanel({ showMessage });

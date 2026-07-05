@@ -139,7 +139,9 @@ class ProfileIdentityFieldResolver
     public static function resolveValue(CvProfile $profile, string $path, array $settings = []): ?string
     {
         if ($path === 'full_name.first' || $path === 'full_name.last') {
-            $split = self::splitFullName((string) ($profile->full_name ?? ''));
+            $user = $profile->user;
+            $fullName = trim((string) ($profile->full_name ?? $user?->name ?? ''));
+            $split = self::splitFullName($fullName);
 
             $value = $path === 'full_name.first' ? $split['first'] : $split['last'];
 
@@ -158,9 +160,11 @@ class ProfileIdentityFieldResolver
             return self::meaningful($city) ? $city : null;
         }
 
+        $user = $profile->user;
+
         $value = match ($path) {
-            'full_name' => trim((string) ($profile->full_name ?? '')),
-            'email' => trim((string) ($profile->email ?? '')),
+            'full_name' => trim((string) ($profile->full_name ?? $user?->name ?? '')),
+            'email' => trim((string) ($profile->email ?? $user?->email ?? '')),
             default => null,
         };
 

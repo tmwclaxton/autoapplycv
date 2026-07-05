@@ -6,28 +6,64 @@
       "question": "your name (20001) your name (20001)",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "tt-name-20001",
+        "name": "tt-name-20001",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f1",
       "question": "contact email (20001) contact email (20001)",
       "field_type": "email",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "tt-email-20001",
+        "name": "tt-email-20001",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f2",
       "question": "contact number (20001) contact number (20001)",
       "field_type": "tel",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "tt-phone-20001",
+        "name": "tt-phone-20001",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f3",
       "question": "why this role? (20001) why this role? (20001)",
       "field_type": "textarea",
       "max_chars": 500,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-this-role-20001-20001",
+        "name": "why-this-role-20001-20001",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f4",
@@ -40,7 +76,16 @@
         "Berlin",
         "Manchester",
         "London"
-      ]
+      ],
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-location-20001-200",
+        "name": "preferred-location-20001-200",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f5",
@@ -50,7 +95,16 @@
       "options": [
         "Yes",
         "No"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "visa-sponsorship-needed--0",
+        "name": "visa-sponsorship-needed-",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     }
   ],
   "complete": true,

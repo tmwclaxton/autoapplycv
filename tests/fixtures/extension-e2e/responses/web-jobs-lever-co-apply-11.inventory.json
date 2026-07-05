@@ -11,77 +11,176 @@
         "United States",
         "Dallas, Texas",
         "Boston, MA"
-      ]
+      ],
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "opportunityLocationId",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f1",
       "question": "full name✱ full name✱ full name✱",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f2",
       "question": "email✱ email✱ email✱",
       "field_type": "email",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f3",
       "question": "phone phone phone",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f4",
       "question": "current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading current location no location found. try entering a different locationloading",
       "field_type": "text",
       "max_chars": 100,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "location-input",
+        "name": "location",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f5",
       "question": "current company current company current company",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "org",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f6",
       "question": "linkedin url linkedin url linkedin url",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[LinkedIn]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f7",
       "question": "twitter url twitter url twitter url",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Twitter]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f8",
       "question": "github url github url github url",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[GitHub]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f9",
       "question": "portfolio url portfolio url portfolio url",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Portfolio]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f10",
       "question": "other website other website other website",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "urls[Other]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f11",
@@ -91,14 +190,32 @@
       "options": [
         "Yes",
         "No"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[115d9079-dcfa-4a25-aff3-f213bf88362e][field0]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f12",
       "question": "cards[115d9079-dcfa-4a25-aff3-f213bf88362e][field2]",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[115d9079-dcfa-4a25-aff3-f213bf88362e][field2]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f13",
@@ -110,21 +227,48 @@
         "A lawful permanent resident of the United States (i.e. Greencard holder)",
         "A protected individual",
         "Other"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[7e99ef70-58ab-4a59-bc31-cc1c35935935][field0]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f14",
       "question": "cards[7e99ef70-58ab-4a59-bc31-cc1c35935935][field1]",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[7e99ef70-58ab-4a59-bc31-cc1c35935935][field1]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f15",
       "question": "cards[5f2a739c-bb0e-4283-92c6-1dc8c09b459c][field1]",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[5f2a739c-bb0e-4283-92c6-1dc8c09b459c][field1]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f16",
@@ -141,21 +285,48 @@
         "Referral",
         "Handshake",
         "Other"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[a90569ad-6b52-448e-9792-055f7c122285][field0]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f17",
       "question": "cards[a90569ad-6b52-448e-9792-055f7c122285][field1]",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[a90569ad-6b52-448e-9792-055f7c122285][field1]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f18",
       "question": "type your response",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "cards[eb3750bb-e1f0-473c-a54d-012919c5e349][field0]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f19",
@@ -165,7 +336,16 @@
       "options": [
         "No",
         "Yes"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field0]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f20",
@@ -176,35 +356,80 @@
         "Hiring our Heroes",
         "NextOp",
         "Skillbridge general (no program)"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field1]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f21",
       "question": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field2]",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field2]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f22",
       "question": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field3]",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field3]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f23",
       "question": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field4]",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field4]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f24",
       "question": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field5]",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[07fdf1f1-9952-493d-a9b7-320969a56fed][field5]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f25",
@@ -215,7 +440,16 @@
         "Please select an option",
         "Yes",
         "No"
-      ]
+      ],
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "cards[f27077c2-d069-4885-b031-ee14b393fd41][field0]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f26",
@@ -229,14 +463,32 @@
         "Boston, MA",
         "International",
         "San Francisco, California"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "cards[f27077c2-d069-4885-b031-ee14b393fd41][field1]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f27",
       "question": "cards[f27077c2-d069-4885-b031-ee14b393fd41][field2]",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "cards[f27077c2-d069-4885-b031-ee14b393fd41][field2]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f28",
@@ -248,7 +500,16 @@
         "Male",
         "Female",
         "Decline to self-identify"
-      ]
+      ],
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "eeo[gender]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f29",
@@ -264,7 +525,16 @@
         "American Indian or Alaska Native (Not Hispanic or Latino)A person having origins in any of the original peoples of North and South America (including Central America), and who maintain tribal affiliation or community attachment.",
         "Two or More Races (Not Hispanic or Latino)All persons who identify with more than one of the above five races.",
         "Decline to self-identify"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "eeo[race]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f30",
@@ -276,7 +546,16 @@
         "I identify as one or more of the classifications of protected veteran listed above",
         "I am not a protected veteran",
         "I decline to self-identify for protected veteran status"
-      ]
+      ],
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "eeo[veteran]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f31",
@@ -288,21 +567,48 @@
         "Yes, I have a disability, or have had one in the past",
         "No, I do not have a disability and have not had one in the past",
         "I do not want to answer"
-      ]
+      ],
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "disabilitySelectElement",
+        "name": "eeo[disability]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f32",
       "question": "name enter your full name name name",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "eeo[disabilitySignature]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f33",
       "question": "date mm/dd/yyyy date date",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "eeo[disabilitySignatureDate]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f34",
@@ -311,7 +617,16 @@
       "max_chars": null,
       "options": [
         "Yes, Shield AI can contact me about future job opportunities for up to 1 yearPrivacy policy"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "consent[marketing]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     }
   ],
   "complete": true,

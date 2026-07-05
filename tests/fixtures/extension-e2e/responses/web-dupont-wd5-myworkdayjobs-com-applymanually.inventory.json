@@ -6,21 +6,48 @@
       "question": "email address email address",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "input-4",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f1",
       "question": "password password",
       "field_type": "password",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "input-5",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f2",
       "question": "verify new password verify new password",
       "field_type": "password",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "password",
+        "id": "input-6",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f3",
@@ -29,14 +56,32 @@
       "max_chars": null,
       "options": [
         "I consent to the collection, use, transfer and disclosure of my personal information stated above."
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input-9",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f4",
       "question": "enter website. this input is for robots only, do not enter if you're human. enter website. this input is for robots only, do not enter if you're human.",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "c3bf1bc8-17c4-4b90-9064-8391a95023a5",
+        "name": "website",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     }
   ],
   "complete": true,

@@ -8,7 +8,16 @@
       "max_chars": null,
       "options": [
         "Analytics"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "analytics",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f1",
@@ -17,14 +26,32 @@
       "max_chars": null,
       "options": [
         "Marketing"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "marketing",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f2",
       "question": "search search search",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "query",
+        "name": "query",
+        "data_testid": null,
+        "role": "search",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f3",
@@ -52,7 +79,16 @@
         "Research & Development",
         "Safety & Environmental",
         "Sales & Sales Operations"
-      ]
+      ],
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "department-select",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     }
   ],
   "complete": true,

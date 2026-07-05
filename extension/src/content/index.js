@@ -10,6 +10,30 @@ let fieldHighlightRefreshInFlight = false;
 let cachedAuthenticated = false;
 let pendingSidePanelOpen = undefined;
 let lastMutationRefreshAt = 0;
+let lastFormContentSignature = '';
+
+function computeFormContentSignature() {
+    if (typeof AutoCVApplyFormContentSignature !== 'undefined') {
+        return AutoCVApplyFormContentSignature.computeFormContentSignature(document);
+    }
+
+    const heading = document.querySelector('h1')?.textContent?.replace(/\s+/g, ' ').trim().slice(0, 80) || '';
+    const form = document.querySelector('form');
+
+    return `${heading}|${form?.querySelectorAll('input, textarea, select').length || 0}|${form?.textContent?.length || 0}`;
+}
+
+function notifyFormContentSignatureChanged(signature) {
+    if (window !== window.top) {
+        return;
+    }
+
+    chrome.runtime.sendMessage({
+        type: 'FORM_CONTENT_SIGNATURE_CHANGED',
+        pageUrl: window.location.href.split('?')[0],
+        signature,
+    }).catch(() => {});
+}
 
 function contentLog(level, phase, message, data) {
     if (typeof AutoCVApplyDebugLog === 'undefined') {
@@ -348,14 +372,23 @@ async function init() {
 
     const observer = new MutationObserver(() => {
         const now = Date.now();
+        const signature = computeFormContentSignature();
+        const signatureChanged = signature !== lastFormContentSignature;
 
-        if (now - lastMutationRefreshAt < 800) {
+        if (signatureChanged) {
+            lastFormContentSignature = signature;
+            notifyFormContentSignatureChanged(signature);
+        }
+
+        if (!signatureChanged && now - lastMutationRefreshAt < 800) {
             return;
         }
 
         lastMutationRefreshAt = now;
         scheduleOverlayRefresh();
     });
+
+    lastFormContentSignature = computeFormContentSignature();
 
     observer.observe(document.documentElement, { childList: true, subtree: true });
 

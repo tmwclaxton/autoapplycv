@@ -23,12 +23,17 @@ import {
     compactFieldsForDraft,
     compactSnapshotForInventory,
     enrichApplyAnswers,
+    enrichFieldsWithSnapshotDom,
     partitionFieldsByQuestionMemo,
+    shouldReuseCachedDraftAllSnapshot,
     snapshotFingerprint,
     tryInferJobContextFromPage,
 } from './draft-all-optimizations.js';
 import { requestDraftAllStream, requestDraftField, requestAssistChatStream, requestFieldInventory, requestJobContext } from './draft-all-stream.js';
-import { normalizeDraftBatchAnswers } from './draft-batch-chat.js';
+import {
+    appendDraftChatQueueEntry,
+    normalizeDraftBatchAnswers,
+} from './draft-batch-chat.js';
 import { arrayBufferToBase64, base64ToBlob } from './file-transfer.js';
 import {
     applyDraftAnswerToTab,
@@ -39,6 +44,7 @@ import {
     invalidateTabFrameCache,
     sendTabMessage,
 } from './form-frame-messaging.js';
+import { capturePageFromTab } from './page-capture.js';
 import {
     buildPendingFieldsFromProfileGaps,
     formatProfileSaveValue,
@@ -46,6 +52,7 @@ import {
     mergePendingFields,
     partitionBatchAnswers,
     pendingFieldsStorageKey,
+    resolveIdentityProfileAnswer,
 } from './pending-fields.js';
 import { createPerfTimer } from './perf-timer.js';
 import {
@@ -299,9 +306,14 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
 
 chrome.runtime.onConnect.addListener((port) => {
     if (port.name === 'sidepanel-presence') {
+        sidePanelPort = port;
         recordSidePanelHeartbeat().catch(() => {});
 
         port.onDisconnect.addListener(() => {
+            if (sidePanelPort === port) {
+                sidePanelPort = null;
+            }
+
             markSidePanelClosed().catch(() => {});
         });
 
@@ -337,6 +349,7 @@ chrome.runtime.onConnect.addListener((port) => {
 });
 
 let draftAllRunning = false;
+let sidePanelPort = null;
 
 function isInjectableTabUrl(url) {
     if (!url) {
@@ -384,6 +397,39 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
 chrome.tabs.onActivated.addListener(({ tabId }) => {
     notifyTabOverlayVisibility(tabId);
 });
+
+async function deliverDraftBatchAnswersToSidepanel(payload) {
+    const message = {
+        type: 'DRAFT_ALL_BATCH_ANSWERS',
+        ...payload,
+    };
+
+    if (sidePanelPort) {
+        try {
+            sidePanelPort.postMessage(message);
+
+            return;
+        } catch {
+            sidePanelPort = null;
+        }
+    }
+
+    await appendDraftChatQueueEntry(payload);
+    chrome.runtime.sendMessage(message).catch(() => {});
+}
+
+function pushDraftAnswersToSidepanelChat(batchNumber, answers, fieldsByRef) {
+    const chatAnswers = normalizeDraftBatchAnswers(answers, fieldsByRef);
+
+    if (chatAnswers.length === 0) {
+        return;
+    }
+
+    void deliverDraftBatchAnswersToSidepanel({
+        batchNumber,
+        answers: chatAnswers,
+    });
+}
 
 function broadcastDraftEvent(type, payload = {}) {
     if (type === 'DRAFT_ALL_PROGRESS' || type === 'DRAFT_ALL_DONE') {
@@ -549,6 +595,20 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 logDraftError('draft-all.start', 'Draft All failed to start', err, sender.tab?.id);
                 sendResponse({ error: err.message });
             });
+
+        return true;
+    }
+
+    if (message.type === 'FORM_CONTENT_SIGNATURE_CHANGED') {
+        const pageUrl = message.pageUrl || sender.tab?.url?.split('?')[0] || '';
+
+        void clearSnapshotCache(pageUrl).then(() => {
+            logDebug('background', 'snapshot.cache', 'Cleared snapshot cache after form content change', {
+                pageUrl,
+                signature: message.signature || null,
+            }, sender.tab?.id);
+            sendResponse({ success: true });
+        });
 
         return true;
     }
@@ -760,13 +820,27 @@ async function buildAutofillSettings() {
     return mapApplicationSettingsForAssist(null);
 }
 
-async function saveLocalMemo(answers) {
+async function saveLocalMemo(answers, fieldsByRef = null, profileData = null) {
     const memoUpdates = {};
 
     for (const answer of answers) {
-        if (answer?.label && isMeaningfulAnswer(answer?.answer)) {
-            memoUpdates[answer.label] = answer.answer;
+        if (!answer?.label || !isMeaningfulAnswer(answer?.answer)) {
+            continue;
         }
+
+        if (fieldsByRef && profileData) {
+            const field = fieldsByRef.get(answer.ref) || {
+                ref: answer.ref,
+                label: answer.label,
+                field_type: answer.field_type,
+            };
+
+            if (isMeaningfulAnswer(resolveIdentityProfileAnswer(field, profileData))) {
+                continue;
+            }
+        }
+
+        memoUpdates[answer.label] = answer.answer;
     }
 
     if (Object.keys(memoUpdates).length === 0) {
@@ -976,6 +1050,15 @@ function snapshotCacheKey(pageUrl) {
     return `formSnapshot:${pageUrl}`;
 }
 
+async function clearSnapshotCache(pageUrl) {
+    if (!pageUrl) {
+        return;
+    }
+
+    snapshotCache.delete(pageUrl);
+    await chrome.storage.session.remove(snapshotCacheKey(pageUrl));
+}
+
 async function getCachedSnapshot(pageUrl, fingerprint = null) {
     if (!pageUrl) {
         return null;
@@ -1135,31 +1218,32 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
 
     logInfo('background', 'frame.discovery', 'Form frame selected', { formFrameId }, tabId);
 
-    const cachedEntry = await getCachedSnapshot(pageUrl);
-
-    if (cachedEntry?.snapshot) {
-        perf?.start('snapshot.collect');
-        perf?.end('snapshot.collect');
-
-        logInfo('background', 'snapshot.cache', 'Using prefetched form snapshot', {
-            formFrameId: cachedEntry.formFrameId ?? formFrameId,
-            fieldCount: cachedEntry.snapshot.elements?.length || 0,
-            fingerprint: cachedEntry.fingerprint,
-        }, tabId);
-
-        return {
-            success: true,
-            snapshot: cachedEntry.snapshot,
-            formFrameId: cachedEntry.formFrameId ?? formFrameId,
-            cached: true,
-        };
-    }
-
     perf?.start('snapshot.collect');
     const snapshotStartedAt = Date.now();
     const profilePayload = await getProfile().catch(() => null);
     const collectResponse = await collectSnapshotFromTab(tabId, formFrameId, profilePayload);
     perf?.end('snapshot.collect');
+
+    const freshFingerprint = collectResponse?.snapshot
+        ? snapshotFingerprint(collectResponse.snapshot)
+        : null;
+    const cachedEntry = await getCachedSnapshot(pageUrl);
+
+    if (cachedEntry?.snapshot && !shouldReuseCachedDraftAllSnapshot(cachedEntry.fingerprint, freshFingerprint)) {
+        logInfo('background', 'snapshot.cache', 'Ignoring stale prefetched snapshot after form content change', {
+            formFrameId,
+            cachedFingerprint: cachedEntry.fingerprint,
+            freshFingerprint,
+            cachedFieldCount: cachedEntry.snapshot.elements?.length || 0,
+            freshFieldCount: collectResponse?.snapshot?.elements?.length || 0,
+        }, tabId);
+    } else if (cachedEntry?.snapshot && shouldReuseCachedDraftAllSnapshot(cachedEntry.fingerprint, freshFingerprint)) {
+        logDebug('background', 'snapshot.cache', 'Fresh snapshot matches prefetched cache fingerprint', {
+            formFrameId,
+            fingerprint: freshFingerprint,
+            fieldCount: collectResponse?.snapshot?.elements?.length || 0,
+        }, tabId);
+    }
 
     logInfo('background', 'snapshot.collect', 'Initial snapshot collected', {
         formFrameId,
@@ -1167,6 +1251,7 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
         success: collectResponse?.success === true,
         fieldCount: collectResponse?.snapshot?.elements?.length || 0,
         controlCount: collectResponse?.snapshot?.controls?.length || 0,
+        fingerprint: freshFingerprint,
         error: collectResponse?.error,
     }, tabId);
 
@@ -1303,7 +1388,9 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
         cachedProfile.subscription = inventory.subscription;
     }
 
-    const fields = inventoryFieldsToDraftShape(inventory.fields);
+    const fields = inventoryFieldsToDraftShape(
+        enrichFieldsWithSnapshotDom(inventory.fields, initialCollect.snapshot),
+    );
 
     if (fields.length === 0) {
         return { error: 'No empty fields found to draft.' };
@@ -1336,6 +1423,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
             settings,
             e2eMock: Boolean(e2eOptions?.fields?.length),
         }, tabId);
+
+        void capturePageFromTab(tabId, tab);
 
         const resolved = e2eOptions?.fields?.length
             ? {
@@ -1375,8 +1464,23 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 message: `Applying ${memoAnswers.length} saved answer(s)…`,
             });
 
+            const { toApply: memoToApply } = partitionBatchAnswers(
+                memoAnswers.map(({ ref, label, answer, field_type }) => ({
+                    ref,
+                    label,
+                    answer,
+                    field_type,
+                })),
+                fieldsByRef,
+                profileData,
+            );
+
             perf.start('apply.memo');
-            const memoApplyResult = await applyDraftBatchToTab(tabId, enrichApplyAnswers(memoAnswers, fieldsByRef), formFrameId);
+            const memoApplyResult = await applyDraftBatchToTab(
+                tabId,
+                enrichApplyAnswers(memoToApply, fieldsByRef),
+                formFrameId,
+            );
             perf.end('apply.memo');
 
             logInfo('background', 'draft-all.memo', 'Applied question memo answers', {
@@ -1384,6 +1488,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 success: memoApplyResult?.success,
                 applied: memoApplyResult?.applied,
             }, tabId);
+
+            pushDraftAnswersToSidepanelChat(0, memoToApply, fieldsByRef);
         }
 
         if (remainingFields.length === 0) {
@@ -1505,17 +1611,10 @@ async function runDraftAll(tabId, e2eOptions = null) {
                     });
 
                 applyPromises.push(applyPromise);
-                void saveLocalMemo(toApply);
+                void saveLocalMemo(toApply, fieldsByRef, profileData);
                 batchIndex = batchNumber;
 
-                const chatAnswers = normalizeDraftBatchAnswers(toApply, fieldsByRef);
-
-                if (chatAnswers.length > 0) {
-                    broadcastDraftEvent('DRAFT_ALL_BATCH_ANSWERS', {
-                        batchNumber,
-                        answers: chatAnswers,
-                    });
-                }
+                pushDraftAnswersToSidepanelChat(batchNumber, toApply, fieldsByRef);
 
                 broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
                     message: `Applied batch ${batchNumber}…`,
@@ -1651,6 +1750,8 @@ async function quickAnswerFocused(tabId) {
     }
 
     const tab = await chrome.tabs.get(tabId);
+    void capturePageFromTab(tabId, tab);
+
     let job = {
         title: tab.title || 'Job application',
         company: 'Unknown company',
@@ -1680,11 +1781,21 @@ async function quickAnswerFocused(tabId) {
         field_type: focusedField.field_type || null,
         data_field_path: focusedField.data_field_path || focusedField.dom?.data_field_path || null,
     });
-    await saveLocalMemo([{ label: data.label, answer: data.answer }]);
+    await saveLocalMemo([{
+        ref: focusedField.ref,
+        label: data.label,
+        answer: data.answer,
+    }], new Map([[focusedField.ref, focusedField]]), cachedProfile);
 
     if (cachedProfile && data.subscription) {
         cachedProfile.subscription = data.subscription;
     }
+
+    pushDraftAnswersToSidepanelChat(0, [{
+        ref: focusedField.ref,
+        label: data.label || focusedField.label,
+        answer: data.answer,
+    }], new Map([[focusedField.ref, focusedField]]));
 
     return {
         success: true,

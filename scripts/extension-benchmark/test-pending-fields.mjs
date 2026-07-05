@@ -497,8 +497,45 @@ const teamtailorByRef = new Map(teamtailorApply.map((row) => [row.ref, row.answe
 assert(
     teamtailorByRef.get('f10') === 'Toby'
         && teamtailorByRef.get('f11') === 'Claxton'
-        && teamtailorByRef.get('f12') === 'toby@example.com',
+        &&     teamtailorByRef.get('f12') === 'toby@example.com',
     'Teamtailor identity fields should override hallucinated AI answers',
+);
+
+const memoProfile = {
+    profile: {
+        full_name: 'Toby Claxton',
+        email: 'toby@example.com',
+    },
+    user: {
+        name: 'Toby Claxton',
+        email: 'toby@example.com',
+    },
+};
+
+const memoFieldsByRef = new Map([
+    ['f10', {
+        ref: 'f10',
+        label: 'first namerequired first namerequired',
+        field_type: 'text',
+    }],
+    ['f12', {
+        ref: 'f12',
+        label: 'emailrequired emailrequired',
+        field_type: 'email',
+    }],
+]);
+
+const { toApply: memoOverrideApply } = partitionBatchAnswers([
+    { ref: 'f10', label: 'first namerequired first namerequired', answer: 'Erik' },
+    { ref: 'f12', label: 'emailrequired emailrequired', answer: 'erik.andersson@example.com' },
+], memoFieldsByRef, memoProfile);
+
+const memoOverrideByRef = new Map(memoOverrideApply.map((row) => [row.ref, row.answer]));
+
+assert(
+    memoOverrideByRef.get('f10') === 'Toby'
+        && memoOverrideByRef.get('f12') === 'toby@example.com',
+    'saved memo answers for identity fields should be overridden from profile before apply',
 );
 
 console.log('pending-fields tests passed');

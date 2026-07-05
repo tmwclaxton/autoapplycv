@@ -2,9 +2,12 @@
 import {
     buildMechanicalInventoryFields,
     canUseMechanicalInventory,
+    computeFormContentSignature,
     matchMemoAnswer,
     normalizeQuestionLabel,
     partitionFieldsByQuestionMemo,
+    shouldReuseCachedDraftAllSnapshot,
+    snapshotFingerprint,
 } from '../../extension/src/shared/draft-all-optimizations.js';
 
 function assert(condition, message) {
@@ -70,5 +73,63 @@ const wizardSnapshot = {
 };
 
 assert(!canUseMechanicalInventory(wizardSnapshot), 'wizard controls should disable mechanical inventory');
+
+const stepOneSnapshot = {
+    elements: [
+        { ref: 'f0', question: 'Full name', field_type: 'text' },
+        { ref: 'f1', question: 'Email', field_type: 'email' },
+    ],
+    controls: [{ ref: 'c0', name: 'Next' }],
+};
+
+const stepTwoSnapshot = {
+    elements: [
+        { ref: 'f0', question: 'Years of experience', field_type: 'number' },
+        { ref: 'f1', question: 'Hourly rate', field_type: 'number' },
+    ],
+    controls: [{ ref: 'c0', name: 'Next' }],
+};
+
+const stepOneFingerprint = snapshotFingerprint(stepOneSnapshot);
+const stepTwoFingerprint = snapshotFingerprint(stepTwoSnapshot);
+
+assert(
+    shouldReuseCachedDraftAllSnapshot(stepOneFingerprint, stepOneFingerprint),
+    'matching snapshot fingerprints should reuse cached draft-all snapshot',
+);
+
+assert(
+    !shouldReuseCachedDraftAllSnapshot(stepOneFingerprint, stepTwoFingerprint),
+    'SPA step change should invalidate cached draft-all snapshot',
+);
+
+assert(
+    !shouldReuseCachedDraftAllSnapshot(stepOneFingerprint, null),
+    'missing fresh fingerprint should not reuse cached draft-all snapshot',
+);
+
+const mockDocument = {
+    querySelector(selector) {
+        if (selector === 'h1') {
+            return { textContent: 'Step 2 - Skills' };
+        }
+
+        if (selector === 'form') {
+            return {
+                querySelectorAll() {
+                    return { length: 4 };
+                },
+                textContent: 'Years of experience Hourly rate',
+            };
+        }
+
+        return null;
+    },
+};
+
+assert(
+    computeFormContentSignature(mockDocument) === 'Step 2 - Skills|4|31',
+    'computeFormContentSignature should summarize heading and form field counts',
+);
 
 console.log('draft-all-optimizations tests passed');

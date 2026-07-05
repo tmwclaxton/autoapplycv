@@ -185,4 +185,69 @@ class ProfileIdentityFieldResolverTest extends TestCase
             ])['path'] ?? null,
         );
     }
+
+    public function test_teamtailor_fixture_labels_resolve_identity_from_profile(): void
+    {
+        $fixturePath = base_path('tests/fixtures/form-extraction/expected/web-vekst-teamtailor-com-new-3.json');
+        $fixture = json_decode((string) file_get_contents($fixturePath), true, 512, JSON_THROW_ON_ERROR);
+
+        $user = User::factory()->create([
+            'name' => 'Toby Claxton',
+            'email' => 'tmwclaxton@gmail.com',
+        ]);
+        $profile = CvProfile::factory()->for($user)->create([
+            'full_name' => 'Toby Claxton',
+            'email' => 'tmwclaxton@gmail.com',
+            'phone' => '7837370669',
+            'city' => 'High Wycombe',
+        ]);
+
+        $identityFields = array_values(array_filter(
+            $fixture['fields'],
+            static fn (array $field): bool => in_array($field['dom']['id'] ?? '', [
+                'candidate_first_name',
+                'candidate_last_name',
+                'candidate_email',
+            ], true),
+        ));
+
+        $questions = array_map(
+            static fn (array $field, int $index): array => [
+                'label' => $field['question'],
+                'ref' => 'f'.$index,
+                'field_type' => $field['field_type'],
+                'dom' => $field['dom'] ?? null,
+            ],
+            $identityFields,
+            array_keys($identityFields),
+        );
+
+        $partition = ProfileIdentityFieldResolver::partitionQuestions(
+            $profile,
+            $questions,
+            ['phone_country_code' => '+44'],
+        );
+
+        $this->assertCount(3, $partition['identity_answers']);
+        $this->assertSame('Toby', $partition['identity_answers'][0]['answer'] ?? null);
+        $this->assertSame('Claxton', $partition['identity_answers'][1]['answer'] ?? null);
+        $this->assertSame('tmwclaxton@gmail.com', $partition['identity_answers'][2]['answer'] ?? null);
+        $this->assertSame([], $partition['llm_questions']);
+    }
+
+    public function test_resolve_value_falls_back_to_user_email_and_name_when_profile_fields_empty(): void
+    {
+        $user = User::factory()->create([
+            'name' => 'Toby Claxton',
+            'email' => 'tmwclaxton@gmail.com',
+        ]);
+        $profile = CvProfile::factory()->for($user)->create([
+            'full_name' => null,
+            'email' => null,
+        ]);
+
+        $this->assertSame('Toby', ProfileIdentityFieldResolver::resolveValue($profile, 'full_name.first'));
+        $this->assertSame('Claxton', ProfileIdentityFieldResolver::resolveValue($profile, 'full_name.last'));
+        $this->assertSame('tmwclaxton@gmail.com', ProfileIdentityFieldResolver::resolveValue($profile, 'email'));
+    }
 }

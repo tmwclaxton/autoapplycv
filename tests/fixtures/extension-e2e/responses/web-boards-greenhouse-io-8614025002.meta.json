@@ -1,42 +1,42 @@
 {
   "scenario_id": "web-boards-greenhouse-io-8614025002",
-  "plan_count": 43,
+  "plan_count": 42,
   "field_assertions": [
     {
       "kind": "id",
       "selector": "first_name",
       "ref": "f0",
-      "answer": "FillVerify-0"
+      "answer": "E2E"
     },
     {
       "kind": "id",
       "selector": "last_name",
       "ref": "f1",
-      "answer": "FillVerify-1"
+      "answer": "Test User"
     },
     {
       "kind": "id",
       "selector": "email",
       "ref": "f2",
-      "answer": "FillVerify-2"
+      "answer": "e2e.test@example.com"
     },
     {
       "kind": "id",
       "selector": "country",
       "ref": "f3",
-      "answer": "FillVerify-3"
-    },
-    {
-      "kind": "label_contains",
-      "selector": "first",
-      "ref": "f5",
-      "answer": "FillVerify-5"
+      "answer": "+15550100"
     },
     {
       "kind": "id",
-      "selector": "school--0",
-      "ref": "f6",
-      "answer": "FillVerify-6"
+      "selector": "candidate-location",
+      "ref": "f5",
+      "answer": "E2E"
+    },
+    {
+      "kind": "id",
+      "selector": "question_37142024002",
+      "ref": "f9",
+      "answer": "E2E"
     }
   ]
 }

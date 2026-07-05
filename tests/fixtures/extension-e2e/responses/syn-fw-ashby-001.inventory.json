@@ -6,28 +6,64 @@
       "question": "full name full name",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "ashby-name",
+        "name": "ashby-name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f1",
       "question": "email address email address",
       "field_type": "email",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ashby-email",
+        "name": "ashby-email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f2",
       "question": "phone number phone number",
       "field_type": "tel",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ashby-phone",
+        "name": "ashby-phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f3",
       "question": "cover letter cover letter cover letter",
       "field_type": "textarea",
       "max_chars": 500,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter",
+        "name": "cover-letter",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f4",
@@ -37,7 +73,16 @@
       "options": [
         "Yes",
         "No"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "do-you-require-visa-spon-0",
+        "name": "do-you-require-visa-spon",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     }
   ],
   "complete": true,

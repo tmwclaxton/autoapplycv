@@ -5,6 +5,7 @@ import {
     normalizeDraftBatchAnswer,
     normalizeDraftBatchAnswers,
     resolveDraftBatchAnswerLabel,
+    trimDraftChatQueue,
 } from '../../extension/src/shared/draft-batch-chat.js';
 
 function assert(condition, message) {
@@ -77,6 +78,11 @@ assert(
 assert(
     buildDraftBatchChatHeading(2, 3) === 'Drafted 3 answers (batch 2)',
     'buildDraftBatchChatHeading should include batch number after the first batch',
+);
+
+assert(
+    trimDraftChatQueue([{ batchNumber: 1 }, { batchNumber: 2 }], 1).length === 1,
+    'trimDraftChatQueue should keep the most recent entries',
 );
 
 console.log('draft-batch-chat tests passed');

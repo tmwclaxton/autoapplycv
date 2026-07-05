@@ -4,8 +4,8 @@
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { buildFormDomContext } from '../form-corpus/lib/snapshot-runner.mjs';
 import { EXPECTED_DIR, HTML_DIR } from '../form-corpus/lib/paths.mjs';
+import { buildFormDomContext } from '../form-corpus/lib/snapshot-runner.mjs';
 
 function assert(condition, message) {
     if (!condition) {

@@ -1,0 +1,36 @@
+{
+  "scenario_id": "web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b",
+  "plan_count": 12,
+  "field_assertions": [
+    {
+      "kind": "id",
+      "selector": "first-name-input",
+      "ref": "f0",
+      "answer": "E2E"
+    },
+    {
+      "kind": "id",
+      "selector": "last-name-input",
+      "ref": "f1",
+      "answer": "Test User"
+    },
+    {
+      "kind": "id",
+      "selector": "email-input",
+      "ref": "f2",
+      "answer": "e2e.test@example.com"
+    },
+    {
+      "kind": "id",
+      "selector": "confirm-email-input",
+      "ref": "f3",
+      "answer": "e2e.test@example.com"
+    },
+    {
+      "kind": "id",
+      "selector": "spl-form-element_10",
+      "ref": "f4",
+      "answer": "San Francisco"
+    }
+  ]
+}

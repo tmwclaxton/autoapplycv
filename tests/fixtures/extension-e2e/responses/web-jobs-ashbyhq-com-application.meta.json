@@ -1,24 +1,18 @@
 {
   "scenario_id": "web-jobs-ashbyhq-com-application",
-  "plan_count": 6,
+  "plan_count": 7,
   "field_assertions": [
     {
       "kind": "id",
       "selector": "_systemfield_name",
       "ref": "f3",
-      "answer": "FillVerify-3"
+      "answer": "E2E Test User"
     },
     {
       "kind": "id",
       "selector": "_systemfield_email",
       "ref": "f4",
-      "answer": "fillverify4@test.example"
-    },
-    {
-      "kind": "id",
-      "selector": "09976cfd-6e76-4886-9d04-4d7ed259faca",
-      "ref": "f6",
-      "answer": "FillVerify-textarea-6"
+      "answer": "e2e.test@example.com"
     }
   ]
 }

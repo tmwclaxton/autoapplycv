@@ -6,94 +6,195 @@
       "question": "first name first name first name first name",
       "field_type": "text",
       "max_chars": 255,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "first_name",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f1",
       "question": "last name last name last name last name",
       "field_type": "text",
       "max_chars": 255,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "last_name",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f2",
       "question": "email email email email",
       "field_type": "text",
       "max_chars": 255,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "email",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f3",
-      "question": "phone",
-      "field_type": "text",
+      "question": "country",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "country",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f4",
-      "question": "location (city) location (city) first name",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": 255,
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f5",
-      "question": "first name",
-      "field_type": "text",
+      "question": "location (city) location (city) first name",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate-location",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f6",
       "question": "are you legally authorized to work in the united states? are you legally authorized to work in the united states? are you legally authorized to work in the united states?",
-      "field_type": "text",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_15773310008",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f7",
-      "question": "are you legally authorized to work in the united states?",
-      "field_type": "text",
+      "question": "will you now or in the future require employer-sponsored visa sponsorship? will you now or in the future require employer-sponsored visa sponsorship? are you legally authorized to work in the united states?",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_15773340008",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f8",
-      "question": "will you now or in the future require employer-sponsored visa sponsorship? will you now or in the future require employer-sponsored visa sponsorship? are you legally authorized to work in the united states?",
-      "field_type": "text",
+      "question": "in which u.s. state do you currently reside? in which u.s. state do you currently reside? are you legally authorized to work in the united states?",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_15773320008",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f9",
-      "question": "in which u.s. state do you currently reside? in which u.s. state do you currently reside? are you legally authorized to work in the united states?",
-      "field_type": "text",
+      "question": "how many years of experience do you have working as an advanced practice provider (np/pa)? how many years of experience do you have working as an advanced practice provider (np/pa)? are you legally authorized to work in the united states?",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_14073478008",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f10",
-      "question": "how many years of experience do you have working as an advanced practice provider (np/pa)? how many years of experience do you have working as an advanced practice provider (np/pa)? are you legally authorized to work in the united states?",
-      "field_type": "text",
+      "question": "how many years of obesity medicine experience do you have? how many years of obesity medicine experience do you have? are you legally authorized to work in the united states?",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_14073479008",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f11",
-      "question": "how many years of obesity medicine experience do you have? how many years of obesity medicine experience do you have? are you legally authorized to work in the united states?",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null
-    },
-    {
-      "ref": "f12",
       "question": "what interested you in form health? what interested you in form health? what interested you in form health? what interested you in form health?",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "question_15773339008",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
-      "ref": "f13",
+      "ref": "f12",
       "question": "please select all states where you currently hold an active medical license. (select all that apply)",
       "field_type": "checkbox",
       "max_chars": null,
@@ -149,10 +250,19 @@
         "Wisconsin",
         "Wyoming",
         "District of Columbia"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "question_15773355008[]",
+        "name": "question_15773355008[]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
-      "ref": "f14",
+      "ref": "f13",
       "question": "please select all states where you hold a pending or inactive medical license. (select all that apply)",
       "field_type": "checkbox",
       "max_chars": null,
@@ -208,45 +318,99 @@
         "Wisconsin",
         "Wyoming",
         "District of Columbia"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "question_15773345008[]",
+        "name": "question_15773345008[]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "ref": "f14",
+      "question": "do you hold a compact license? do you hold a compact license? are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_15773315008",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f15",
-      "question": "do you hold a compact license? do you hold a compact license? are you legally authorized to work in the united states?",
-      "field_type": "text",
+      "question": "this role will require you to obtain additional state licenses. is there anything that would prevent you from obtaining additional licenses as needed? this role will require you to obtain additional state licenses. is there anything that would prevent you from obtaining additional licenses as needed? are you legally authorized to work in the united states?",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_15773342008",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f16",
-      "question": "this role will require you to obtain additional state licenses. is there anything that would prevent you from obtaining additional licenses as needed? this role will require you to obtain additional state licenses. is there anything that would prevent you from obtaining additional licenses as needed? are you legally authorized to work in the united states?",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null
-    },
-    {
-      "ref": "f17",
       "question": "if you answered yes, please provide additional information below. if you answered yes, please provide additional information below. if you answered yes, please provide additional information below. if you answered yes, please provide additional information below.",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "question_15773372008",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "ref": "f17",
+      "question": "are you currently or have recently been credentialed with major insurance payers in any u.s. state? (please select the answer that applies to you) are you currently or have recently been credentialed with major insurance payers in any u.s. state? (please select the answer that applies to you) are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_15773311008",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f18",
-      "question": "are you currently or have recently been credentialed with major insurance payers in any u.s. state? (please select the answer that applies to you) are you currently or have recently been credentialed with major insurance payers in any u.s. state? (please select the answer that applies to you) are you legally authorized to work in the united states?",
-      "field_type": "text",
+      "question": "please indicate the states you are currently, or have recently been, credentialed with major insurance payers. (please select all that apply) please indicate the states you are currently, or have recently been, credentialed with major insurance payers. (please select all that apply) are you legally authorized to work in the united states?",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_15773336008[]",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f19",
-      "question": "please indicate the states you are currently, or have recently been, credentialed with major insurance payers. (please select all that apply) please indicate the states you are currently, or have recently been, credentialed with major insurance payers. (please select all that apply) are you legally authorized to work in the united states?",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null
-    },
-    {
-      "ref": "f20",
       "question": "have you ever opted out of medicare?",
       "field_type": "checkbox",
       "max_chars": null,
@@ -254,45 +418,99 @@
         "Yes",
         "No",
         "Not Sure"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "question_15773316008[]",
+        "name": "question_15773316008[]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
-      "ref": "f21",
+      "ref": "f20",
       "question": "if you have ever opted out of medicare, please provide the start date of your opt-out period. if you have ever opted out of medicare, please provide the start date of your opt-out period. if you have ever opted out of medicare, please provide the start date of your opt-out period. if you have ever opted out of medicare, please provide the start date of your opt-out period.",
       "field_type": "text",
       "max_chars": 255,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_15773373008",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
-      "ref": "f22",
+      "ref": "f21",
       "question": "what type of glp-1 medications do you typically prescribe? do you use compounded medications, name-brand or both? please provide additional details of the context of your pharmacotherapy philosophy. what type of glp-1 medications do you typically prescribe? do you use compounded medications, name-brand or both? please provide additional details of the context of your pharmacotherapy philosophy. what type of glp-1 medications do you typically prescribe? do you use compounded medications, name-brand or both? please provide additional details of the context of your pharmacotherapy philosophy. what type of glp-1 medications do you typically prescribe? do you use compounded medications, name-brand or both? please provide additional details of the context of your pharmacotherapy philosophy.",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "question_14073482008",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
-      "ref": "f23",
+      "ref": "f22",
       "question": "to help us better understand your experience please describe your clinical experience in obesity medicine (including older generation oral omms and newer injectable medications). to help us better understand your experience please describe your clinical experience in obesity medicine (including older generation oral omms and newer injectable medications). to help us better understand your experience please describe your clinical experience in obesity medicine (including older generation oral omms and newer injectable medications). to help us better understand your experience please describe your clinical experience in obesity medicine (including older generation oral omms and newer injectable medications).",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "question_15773341008",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
-      "ref": "f24",
+      "ref": "f23",
       "question": "when cost is a barrier, how do you help patients access obesity management medications? when cost is a barrier, how do you help patients access obesity management medications? when cost is a barrier, how do you help patients access obesity management medications? when cost is a barrier, how do you help patients access obesity management medications?",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "question_14073483008",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "ref": "f24",
+      "question": "are you able to commit to w2, 40-hr/week, full-time, seeing patients 5 days per week? (32 hours of clinical patient-facing work, and 8 hrs of administrative time). are you able to commit to w2, 40-hr/week, full-time, seeing patients 5 days per week? (32 hours of clinical patient-facing work, and 8 hrs of administrative time). are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_14073476008",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f25",
-      "question": "are you able to commit to w2, 40-hr/week, full-time, seeing patients 5 days per week? (32 hours of clinical patient-facing work, and 8 hrs of administrative time). are you able to commit to w2, 40-hr/week, full-time, seeing patients 5 days per week? (32 hours of clinical patient-facing work, and 8 hrs of administrative time). are you legally authorized to work in the united states?",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null
-    },
-    {
-      "ref": "f26",
       "question": "please indicate which type of position (w2, full-time, part-time) you'd be most interested in. (please select all that apply to you). we don't currently offer 1099 or part-time roles for apps at this time and if you choose this option, we will keep your application on file for future needs.",
       "field_type": "checkbox",
       "max_chars": null,
@@ -301,70 +519,160 @@
         "W2 PT (20 hours/week)",
         "1099 Contractor",
         "I'm open to both 1099 and W2 roles"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "question_15536228008[]",
+        "name": "question_15536228008[]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "ref": "f26",
+      "question": "do you currently hold an oma certification (caeom)? do you currently hold an oma certification (caeom)? are you legally authorized to work in the united states?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_15767381008",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f27",
-      "question": "do you currently hold an oma certification (caeom)? do you currently hold an oma certification (caeom)? are you legally authorized to work in the united states?",
-      "field_type": "text",
+      "question": "do you have experience practicing in a telehealth or digital health setting, particularly in a fast-paced environment? do you have experience practicing in a telehealth or digital health setting, particularly in a fast-paced environment? are you legally authorized to work in the united states?",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_15773314008",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f28",
-      "question": "do you have experience practicing in a telehealth or digital health setting, particularly in a fast-paced environment? do you have experience practicing in a telehealth or digital health setting, particularly in a fast-paced environment? are you legally authorized to work in the united states?",
-      "field_type": "text",
+      "question": "bilingual candidates: are you able to provide patient care in spanish without the assistance of an interpreter?  bilingual candidates: are you able to provide patient care in spanish without the assistance of an interpreter?  are you legally authorized to work in the united states?",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_14073490008",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f29",
-      "question": "bilingual candidates: are you able to provide patient care in spanish without the assistance of an interpreter?  bilingual candidates: are you able to provide patient care in spanish without the assistance of an interpreter?  are you legally authorized to work in the united states?",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null
-    },
-    {
-      "ref": "f30",
       "question": "please provide a link to your linkedin profile. please provide a link to your linkedin profile. please provide a link to your linkedin profile. please provide a link to your linkedin profile.",
       "field_type": "text",
       "max_chars": 255,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_15773317008",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
-      "ref": "f31",
+      "ref": "f30",
       "question": "please include three (3) professional references. please include full name, title, company where you have worked together, work relationship, email and phone number. this helps streamline the later stages of the process. we’ll only contact references for candidates who reach the final stages, and by providing them, you consent to us reaching out at that time. please include three (3) professional references. please include full name, title, company where you have worked together, work relationship, email and phone number. this helps streamline the later stages of the process. we’ll only contact references for candidates who reach the final stages, and by providing them, you consent to us reaching out at that time. please include three (3) professional references. please include full name, title, company where you have worked together, work relationship, email and phone number. this helps streamline the later stages of the process. we’ll only contact references for candidates who reach the final stages, and by providing them, you consent to us reaching out at that time. please include three (3) professional references. please include full name, title, company where you have worked together, work relationship, email and phone number. this helps streamline the later stages of the process. we’ll only contact references for candidates who reach the final stages, and by providing them, you consent to us reaching out at that time.",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "question_15866378008",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "ref": "f31",
+      "question": "gender gender gender",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "gender",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f32",
-      "question": "gender gender gender",
-      "field_type": "text",
+      "question": "are you hispanic/latino? are you hispanic/latino? are you hispanic/latino?",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "hispanic_ethnicity",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f33",
-      "question": "are you hispanic/latino? are you hispanic/latino? are you hispanic/latino?",
-      "field_type": "text",
+      "question": "veteran status veteran status veteran status",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "veteran_status",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     },
     {
       "ref": "f34",
-      "question": "veteran status veteran status veteran status",
-      "field_type": "text",
-      "max_chars": null,
-      "options": null
-    },
-    {
-      "ref": "f35",
       "question": "disability status disability status disability status",
-      "field_type": "text",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "disability_status",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
     }
   ],
   "complete": true,

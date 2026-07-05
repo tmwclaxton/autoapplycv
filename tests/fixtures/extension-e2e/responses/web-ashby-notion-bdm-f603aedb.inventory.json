@@ -9,7 +9,16 @@
       "options": [
         "Yes",
         "No"
-      ]
+      ],
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e01a85db-feaa-42b3-a9ad-69b1dcbbab3f"
+      }
     },
     {
       "ref": "f1",
@@ -19,42 +28,96 @@
       "options": [
         "Yes",
         "No"
-      ]
+      ],
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "790b5934-74f5-46f5-897a-675b7f37f2f3"
+      }
     },
     {
       "ref": "f2",
       "question": "full name",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name"
+      }
     },
     {
       "ref": "f3",
       "question": "email",
       "field_type": "email",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email"
+      }
     },
     {
       "ref": "f4",
       "question": "phone",
       "field_type": "tel",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "8039f8aa-c269-467e-bdea-dec068474224",
+        "name": "8039f8aa-c269-467e-bdea-dec068474224",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8039f8aa-c269-467e-bdea-dec068474224"
+      }
     },
     {
       "ref": "f5",
       "question": "location",
-      "field_type": "text",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location"
+      }
     },
     {
       "ref": "f6",
       "question": "linkedin profile",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "dbb7e595-3d7b-4a1f-b0b6-76497b74b4cb",
+        "name": "dbb7e595-3d7b-4a1f-b0b6-76497b74b4cb",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "dbb7e595-3d7b-4a1f-b0b6-76497b74b4cb"
+      }
     },
     {
       "ref": "f7",
@@ -67,7 +130,16 @@
         "They/Them",
         "Prefer not to say",
         "Not represented here"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "8e2fc878-49e3-46fd-8c39-c49a11bf8b7a_b0a5aba8-dbb7-41a9-b548-f72cc3e48956-labeled-radio-0",
+        "name": "8e2fc878-49e3-46fd-8c39-c49a11bf8b7a_b0a5aba8-dbb7-41a9-b548-f72cc3e48956",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f8",
@@ -82,7 +154,16 @@
         "Notion Website",
         "Billboard/Outdoor Ads",
         "Conference or Meetup"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "8e2fc878-49e3-46fd-8c39-c49a11bf8b7a_0b3b7773-f6d9-4032-9ab1-368c4164e95a-labeled-checkbox-0",
+        "name": "LinkedIn",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f9",
@@ -93,7 +174,16 @@
         "Male",
         "Female",
         "Decline to self-identify"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "a2f1e4e0-f2d4-45bc-bca0-28c748bf28f4__systemfield_eeoc_gender-labeled-radio-0",
+        "name": "a2f1e4e0-f2d4-45bc-bca0-28c748bf28f4__systemfield_eeoc_gender",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f10",
@@ -109,7 +199,16 @@
         "American Indian or Alaska Native (Not Hispanic or Latino)",
         "Two or More Races (Not Hispanic or Latino)",
         "Decline to self-identify"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "a2f1e4e0-f2d4-45bc-bca0-28c748bf28f4__systemfield_eeoc_race-labeled-radio-0",
+        "name": "a2f1e4e0-f2d4-45bc-bca0-28c748bf28f4__systemfield_eeoc_race",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f11",
@@ -120,7 +219,16 @@
         "I identify as one or more of the classifications of protected veteran listed above",
         "I am not a protected veteran",
         "I decline to self-identify for protected veteran status"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "a2f1e4e0-f2d4-45bc-bca0-28c748bf28f4__systemfield_eeoc_veteran_status-labeled-radio-0",
+        "name": "a2f1e4e0-f2d4-45bc-bca0-28c748bf28f4__systemfield_eeoc_veteran_status",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     }
   ],
   "complete": true,

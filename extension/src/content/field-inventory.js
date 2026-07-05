@@ -81,6 +81,16 @@ const AutoCVApplyFieldInventory = (() => {
         const tag = (rep?.tagName || '').toLowerCase() || null;
         const inputType = rep?.type || rep?.getAttribute?.('type') || null;
         const type = tag === 'input' || tag === 'textarea' || tag === 'select' ? (inputType || null) : null;
+        let questionPrefix = null;
+
+        if (typeof AutoCVApplyFormHeuristics !== 'undefined') {
+            const label = AutoCVApplyFormHeuristics.getQuestionLabel(rep);
+            const match = label.match(/^q(\d+)\./i);
+
+            if (match) {
+                questionPrefix = `Q${match[1]}.`;
+            }
+        }
 
         return {
             tag,
@@ -90,6 +100,10 @@ const AutoCVApplyFieldInventory = (() => {
             data_testid: scope?.getAttribute?.('data-testid') || rep?.getAttribute?.('data-testid') || null,
             role: scope?.getAttribute?.('role') || rep?.getAttribute?.('role') || null,
             data_field_path: scope?.getAttribute?.('data-field-path') || null,
+            placeholder: rep?.getAttribute?.('placeholder') || null,
+            min: rep?.getAttribute?.('min') || null,
+            max: rep?.getAttribute?.('max') || null,
+            question_prefix: questionPrefix,
         };
     }
 

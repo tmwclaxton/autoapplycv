@@ -75,3 +75,29 @@ export function buildDraftBatchChatHeading(batchNumber, answerCount) {
 
     return `Drafted ${countLabel}${batchLabel}`;
 }
+
+export const DRAFT_CHAT_QUEUE_KEY = 'draftChatQueue';
+
+export const DRAFT_CHAT_QUEUE_MAX = 50;
+
+export function trimDraftChatQueue(queue, maxEntries = DRAFT_CHAT_QUEUE_MAX) {
+    return Array.isArray(queue) ? queue.slice(-maxEntries) : [];
+}
+
+export async function appendDraftChatQueueEntry(entry) {
+    const stored = await chrome.storage.session.get([DRAFT_CHAT_QUEUE_KEY]);
+    const queue = trimDraftChatQueue(stored[DRAFT_CHAT_QUEUE_KEY]);
+    queue.push(entry);
+    await chrome.storage.session.set({ [DRAFT_CHAT_QUEUE_KEY]: queue });
+}
+
+export async function drainDraftChatQueue() {
+    const stored = await chrome.storage.session.get([DRAFT_CHAT_QUEUE_KEY]);
+    const queue = trimDraftChatQueue(stored[DRAFT_CHAT_QUEUE_KEY]);
+
+    if (queue.length > 0) {
+        await chrome.storage.session.remove([DRAFT_CHAT_QUEUE_KEY]);
+    }
+
+    return queue;
+}

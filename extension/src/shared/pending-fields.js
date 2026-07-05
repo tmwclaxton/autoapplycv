@@ -94,13 +94,6 @@ const PROFILE_FIELD_MAPPINGS = [
     { path: 'application_settings.job_preferences', label: 'Job preferences', dashboard_tab: 'preferences', dashboard_anchor: 'field-job-preferences', keywords: ['job preferences', 'job preference', 'role preferences', 'type of role'] },
 ];
 
-const DOM_HINT_MAPPINGS = [
-    { path: 'full_name.first', patterns: ['first_name', 'firstname', 'given_name', 'given-name'] },
-    { path: 'full_name.last', patterns: ['last_name', 'lastname', 'surname', 'family_name', 'family-name'] },
-    { path: 'email', patterns: ['email', 'e_mail', 'e-mail'] },
-    { path: 'phone', patterns: ['phone', 'mobile', 'telephone', 'tel'] },
-];
-
 const CONTEXTUAL_SAVE_PROFILE_PATHS = new Set([
     'application_settings.job_preferences',
 ]);
@@ -755,7 +748,15 @@ export function readProfileValue(profileData, path) {
         node = node?.[part];
     }
 
-    if (node === null || node === undefined) {
+    if (node === null || node === undefined || (typeof node === 'string' && node.trim() === '')) {
+        if (path === 'full_name') {
+            return profileData?.user?.name ?? '';
+        }
+
+        if (path === 'email') {
+            return profileData?.user?.email ?? '';
+        }
+
         return '';
     }
 

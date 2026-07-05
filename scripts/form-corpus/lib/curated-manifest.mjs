@@ -48,6 +48,10 @@ export function detectPlatform(scenario) {
         return 'trakstar';
     }
 
+    if (hay.includes('micro1')) {
+        return 'micro1';
+    }
+
     if (id.startsWith('syn-fw-')) {
         return 'syn-fw';
     }
@@ -309,6 +313,7 @@ const CRITICAL_IDS = new Set([
     'web-jobs-lever-co-apply-11',
     'web-jobs-smartrecruiters-com-99cf550a-4a3b-47f8-b682-449cc524d98f',
     'web-jobs-ashbyhq-com-application-9',
+    'web-jobs-micro1-ai-59336643',
     'syn-fw-ashby-001',
     'syn-fw-wd-001',
     'syn-fw-lever-001',
@@ -321,6 +326,7 @@ const PLAYWRIGHT_IDS = new Set([
     'web-boards-greenhouse-io-8614025002',
     'web-jobs-lever-co-apply-11',
     'web-jobs-smartrecruiters-com-99cf550a-4a3b-47f8-b682-449cc524d98f',
+    'web-jobs-micro1-ai-59336643',
     'web-vekst-teamtailor-com-new',
     'web-jobs-ashbyhq-com-application-3',
     'web-job-boards-greenhouse-io-5025215008',
@@ -495,6 +501,7 @@ const SMOKE_PLATFORM_PICKS = [
     { platform: 'ashby', id: 'web-ashby-notion-bdm-f603aedb' },
     { platform: 'greenhouse', id: 'web-boards-greenhouse-io-8614025002' },
     { platform: 'lever', id: 'web-jobs-lever-co-apply-11' },
+    { platform: 'micro1', id: 'web-jobs-micro1-ai-59336643' },
     { platform: 'smartrecruiters', id: 'web-jobs-smartrecruiters-com-99cf550a-4a3b-47f8-b682-449cc524d98f' },
     { platform: 'workday', id: 'web-dupont-wd5-myworkdayjobs-com-applymanually' },
     { platform: 'teamtailor', id: 'web-vekst-teamtailor-com-new-3' },

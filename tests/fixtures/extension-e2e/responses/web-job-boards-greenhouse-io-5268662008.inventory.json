@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "search search search search search",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "keyword-filter",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "ref": "f1",
+      "question": "department department",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "department-filter",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}

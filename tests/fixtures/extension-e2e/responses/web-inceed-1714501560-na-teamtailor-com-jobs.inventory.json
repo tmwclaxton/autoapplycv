@@ -1,0 +1,86 @@
+{
+  "success": true,
+  "fields": [
+    {
+      "ref": "f0",
+      "question": "analytics analytics",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Analytics"
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "analytics",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "ref": "f1",
+      "question": "marketing marketing",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Marketing"
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "marketing",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "ref": "f2",
+      "question": "search search search",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "query",
+        "name": "query",
+        "data_testid": null,
+        "role": "search",
+        "data_field_path": null
+      }
+    },
+    {
+      "ref": "f3",
+      "question": "job filters",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "All",
+        "Internship",
+        "Recruitment",
+        "Sales"
+      ],
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "department-select",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    }
+  ],
+  "complete": true,
+  "next_actions": [],
+  "autofill_cost": 1,
+  "subscription": {
+    "tier": "pro",
+    "autofills_remaining": 999,
+    "autofills_limit": 1000
+  }
+}

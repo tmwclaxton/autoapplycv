@@ -582,20 +582,6 @@ body {
     padding: 10px 16px 12px;
 }
 
-.assist-toolbar {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--postbox-grey);
-}
-
-.assist-toolbar-btn {
-    width: auto;
-    padding: 0.4rem 0.75rem;
-    font-size: 12px;
-}
-
 .assist-messages {
     display: flex;
     flex-direction: column;
@@ -702,11 +688,24 @@ body {
 }
 
 .assist-composer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: stretch;
     margin-top: 10px;
 }
 
 .assist-composer-actions .postbox-btn {
-    width: 100%;
+    flex: 1 1 6rem;
+    min-width: 0;
+    width: auto;
+}
+
+.assist-composer-actions .assist-clear-btn {
+    flex: 0 1 auto;
+    padding: 0.5rem 0.75rem;
+    font-size: 12px;
+    white-space: nowrap;
 }
 
 .assist-inline-btn {

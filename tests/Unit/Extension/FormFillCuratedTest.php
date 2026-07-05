@@ -127,6 +127,33 @@ class FormFillCuratedTest extends TestCase
         );
     }
 
+    public function test_micro1_react_phone_fill_verify_passes(): void
+    {
+        $result = Process::path(base_path())
+            ->timeout(120)
+            ->run(['node', 'scripts/form-corpus/run-fill-verify.mjs', '--id=web-jobs-micro1-ai-59336643', '--json-only']);
+
+        $this->assertTrue(
+            $result->successful(),
+            'micro1 fill verify runner failed:'."\n".$result->errorOutput().$result->output(),
+        );
+
+        $reportPath = base_path('tests/fixtures/form-extraction/fill-verify-report.json');
+
+        $this->assertFileExists($reportPath);
+
+        /** @var array<string, mixed> $report */
+        $report = json_decode((string) file_get_contents($reportPath), true);
+
+        $scenario = collect($report['results'] ?? [])->firstWhere('id', 'web-jobs-micro1-ai-59336643');
+
+        $this->assertIsArray($scenario);
+        $this->assertTrue(
+            (bool) ($scenario['passed'] ?? false),
+            'micro1 react-phone-number-input fill verify failed: '.json_encode($scenario['failures'] ?? []),
+        );
+    }
+
     public function test_curated_platform_coverage(): void
     {
         $manifest = $this->loadCuratedManifest();

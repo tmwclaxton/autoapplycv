@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-05T15:25:34.111Z",
+  "generated_at": "2026-07-05T17:45:43.990Z",
   "description": "Per-platform Playwright smoke tier - one critical scenario per ATS/platform.",
   "thresholds": {
     "critical_pass_rate": 1,
@@ -51,6 +51,20 @@
         "checkbox"
       ],
       "field_count": 35,
+      "priority": "critical",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-jobs-micro1-ai-59336643",
+      "platform": "micro1",
+      "reason": "Representative micro1 form (5 fields, multiStep)",
+      "field_types": [
+        "text",
+        "tel"
+      ],
+      "field_count": 5,
       "priority": "critical",
       "verify_engine": "playwright",
       "playwright": true,

@@ -5,7 +5,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { runFillVerifyForScenario } from '../form-corpus/lib/fill-verify-runner.mjs';
-import { buildFillPlan } from '../form-corpus/lib/mock-answers.mjs';
+import { buildFillPlan, buildE2eDraftPlan } from '../form-corpus/lib/mock-answers.mjs';
 import { EXPECTED_DIR, HTML_DIR } from '../form-corpus/lib/paths.mjs';
 import { buildFormDomContext } from '../form-corpus/lib/snapshot-runner.mjs';
 
@@ -193,5 +193,140 @@ assert(appliedDepartment, 'Teamtailor department checkbox apply should succeed')
 
 const commercialCheckbox = teamtailorWindow.document.getElementById('candidate_answers_attributes_0_choices_1');
 assert(commercialCheckbox?.checked, 'Commercial department checkbox should be checked after apply');
+
+const teamtailorE2ePlan = buildE2eDraftPlan(teamtailorExpected, teamtailorSnapshot);
+assert(
+    teamtailorE2ePlan.length >= 10,
+    `Teamtailor E2E draft plan should include optional identity fields (got ${teamtailorE2ePlan.length})`,
+);
+assert(
+    teamtailorE2ePlan.some((item) => item.dom?.id === 'candidate_first_name'),
+    'Teamtailor E2E draft plan should include first name',
+);
+
+const consentItem = teamtailorE2ePlan.find((item) => item.dom?.id === 'candidate_consent_given');
+assert(consentItem, 'Teamtailor fixture should include consent checkbox');
+
+const appliedConsent = await teamtailorWindow.AutoCVApplyFieldInventory.applyAnswerByRefAllFrames(
+    teamtailorWindow.document,
+    consentItem.ref,
+    consentItem.answer,
+);
+
+assert(appliedConsent, 'Teamtailor consent checkbox apply should succeed');
+
+const consentCheckbox = teamtailorWindow.document.getElementById('candidate_consent_given');
+assert(consentCheckbox?.checked, 'Teamtailor consent checkbox should be checked after apply');
+
+const micro1Scenario = {
+    id: 'web-jobs-micro1-ai-59336643',
+    html_file: 'web-jobs-micro1-ai-59336643.html',
+    page_url: 'https://jobs.micro1.ai/post/59336643-40f9-494b-b5c6-1ed72d02bac9',
+    page_title: 'Software Engineer | Apply on Job',
+};
+
+const micro1Result = await runFillVerifyForScenario(micro1Scenario);
+
+assert(!micro1Result.skipped, `micro1 fixture should not be skipped (${micro1Result.reason || 'unknown'})`);
+assert(micro1Result.passed, `micro1 fill-verify failed: ${JSON.stringify(micro1Result.failures?.slice(0, 3) || [])}`);
+
+const micro1Expected = JSON.parse(readFileSync(join(EXPECTED_DIR, `${micro1Scenario.id}.json`), 'utf8'));
+const micro1Html = readFileSync(join(HTML_DIR, micro1Scenario.html_file), 'utf8');
+const { window: micro1Window, snapshot: micro1Snapshot } = buildFormDomContext({
+    html: micro1Html,
+    pageUrl: micro1Scenario.page_url,
+    pageTitle: micro1Scenario.page_title,
+});
+const micro1Plan = buildFillPlan(micro1Expected, micro1Snapshot);
+const phoneItem = micro1Plan.find((item) => item.field?.field_type === 'tel');
+
+assert(phoneItem, 'micro1 fixture should include the phone field in fill plan');
+
+const appliedPhone = await micro1Window.AutoCVApplyFieldInventory.applyAnswerByRefWithFallback(
+    micro1Window.document,
+    phoneItem.ref,
+    phoneItem.answer,
+);
+
+assert(appliedPhone, 'micro1 phone apply should succeed');
+
+const phoneInput = micro1Window.document.querySelector('input[type="tel"]');
+assert(
+    phoneInput?.value?.includes(String(phoneItem.answer).replace(/\D/g, '').slice(-10)),
+    `micro1 phone value should be present in DOM after apply (got "${phoneInput?.value || ''}")`,
+);
+
+const micro1Step2Scenario = {
+    id: 'web-jobs-micro1-ai-59336643-step2',
+    html_file: 'web-jobs-micro1-ai-59336643-step2.html',
+    page_url: 'https://jobs.micro1.ai/post/59336643-40f9-494b-b5c6-1ed72d02bac9',
+    page_title: 'Software Engineer | Apply on Job',
+};
+
+const micro1Step2Result = await runFillVerifyForScenario(micro1Step2Scenario);
+
+assert(!micro1Step2Result.skipped, `micro1 step2 fixture should not be skipped (${micro1Step2Result.reason || 'unknown'})`);
+assert(micro1Step2Result.passed, `micro1 step2 fill-verify failed: ${JSON.stringify(micro1Step2Result.failures?.slice(0, 3) || [])}`);
+
+const micro1Step2Expected = JSON.parse(readFileSync(join(EXPECTED_DIR, `${micro1Step2Scenario.id}.json`), 'utf8'));
+const micro1Step2Html = readFileSync(join(HTML_DIR, micro1Step2Scenario.html_file), 'utf8');
+const { window: micro1Step2Window, snapshot: micro1Step2Snapshot } = buildFormDomContext({
+    html: micro1Step2Html,
+    pageUrl: micro1Step2Scenario.page_url,
+    pageTitle: micro1Step2Scenario.page_title,
+});
+
+assert(
+    micro1Step2Snapshot.elements.length === 11,
+    `micro1 step2 snapshot should include 11 fields (got ${micro1Step2Snapshot.elements.length})`,
+);
+
+const micro1Step2Plan = buildFillPlan(micro1Step2Expected, micro1Step2Snapshot);
+const startDaysItem = micro1Step2Plan.find((item) => /how soon can you start/i.test(item.field?.question || ''));
+const weeklyHoursItem = micro1Step2Plan.find((item) => /10.?15 hours/i.test(item.field?.question || ''));
+const portfolioItem = micro1Step2Plan.find((item) => /github, portfolio/i.test(item.field?.question || ''));
+
+assert(startDaysItem, 'micro1 step2 fixture should include the start-days number field');
+assert(weeklyHoursItem, 'micro1 step2 fixture should include the weekly hours yes/no field');
+assert(portfolioItem, 'micro1 step2 fixture should include the portfolio text field');
+
+const appliedStartDays = await micro1Step2Window.AutoCVApplyFieldInventory.applyAnswerByRefWithFallback(
+    micro1Step2Window.document,
+    startDaysItem.ref,
+    startDaysItem.answer,
+);
+
+assert(appliedStartDays, 'micro1 step2 start-days number apply should succeed');
+
+const startDaysInput = micro1Step2Window.document.querySelector('input[type="number"][min="1"]');
+assert(
+    startDaysInput?.value === String(startDaysItem.answer),
+    `micro1 step2 start-days value should be present after apply (got "${startDaysInput?.value || ''}")`,
+);
+
+const appliedWeeklyHours = await micro1Step2Window.AutoCVApplyFieldInventory.applyAnswerByRefWithFallback(
+    micro1Step2Window.document,
+    weeklyHoursItem.ref,
+    weeklyHoursItem.answer,
+);
+
+assert(appliedWeeklyHours, 'micro1 step2 weekly hours yes/no apply should succeed');
+
+const weeklyHoursYes = micro1Step2Window.document.getElementById('fc8a909a-909f-43cf-9376-08c912cb0ee4_yes');
+assert(weeklyHoursYes?.checked, 'micro1 step2 weekly hours yes radio should be checked after apply');
+
+const appliedPortfolio = await micro1Step2Window.AutoCVApplyFieldInventory.applyAnswerByRefWithFallback(
+    micro1Step2Window.document,
+    portfolioItem.ref,
+    portfolioItem.answer,
+);
+
+assert(appliedPortfolio, 'micro1 step2 portfolio text apply should succeed');
+
+const portfolioInput = micro1Step2Window.document.querySelector('input[type="text"]');
+assert(
+    portfolioInput?.value?.includes(String(portfolioItem.answer).slice(0, 8)),
+    `micro1 step2 portfolio value should be present after apply (got "${portfolioInput?.value || ''}")`,
+);
 
 console.log('apply-dom-verify tests passed');

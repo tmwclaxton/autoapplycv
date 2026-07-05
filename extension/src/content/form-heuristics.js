@@ -47,7 +47,92 @@ const AutoCVApplyFormHeuristics = (() => {
         return String(value).replace(/"/g, '\\"');
     }
 
+    function isMicro1ApplicationPage(doc = document) {
+        const hostname = doc?.location?.hostname
+            || (typeof location !== 'undefined' ? location.hostname : '');
+
+        return /(?:^|\.)micro1\.ai$/i.test(hostname);
+    }
+
+    function getMicro1QuestionBlock(element) {
+        if (!element?.closest) {
+            return null;
+        }
+
+        let node = element.parentElement;
+
+        while (node) {
+            const label = node.querySelector(':scope > label');
+
+            if (label
+                && !label.querySelector('input[type="radio"], input[type="checkbox"]')
+                && /^Q\d+\./i.test((label.textContent || '').trim())) {
+                return node;
+            }
+
+            if (node.tagName?.toLowerCase() === 'form') {
+                break;
+            }
+
+            node = node.parentElement;
+        }
+
+        return null;
+    }
+
+    function getMicro1QuestionLabel(element) {
+        if (!isMicro1ApplicationPage(element.ownerDocument || document)) {
+            return '';
+        }
+
+        const block = getMicro1QuestionBlock(element);
+
+        if (!block) {
+            return '';
+        }
+
+        const label = block.querySelector(':scope > label');
+
+        return label ? normalize(label.textContent) : '';
+    }
+
+    function isMicro1YesNoRadio(element) {
+        return element?.type === 'radio'
+            && /^yes_no_/i.test(element.name || '');
+    }
+
+    function isMicro1DefaultNumberValue(element) {
+        if (!isMicro1ApplicationPage(element.ownerDocument || document) || element.type !== 'number') {
+            return false;
+        }
+
+        if (String(element.value || '').trim() !== '1') {
+            return false;
+        }
+
+        return getMicro1QuestionLabel(element).length >= 3;
+    }
+
+    function isMicro1ApplicationQuestionStep(root = document) {
+        const doc = root.ownerDocument || root.defaultView?.document || (root.nodeType === 9 ? root : document);
+
+        if (!isMicro1ApplicationPage(doc)) {
+            return false;
+        }
+
+        return Array.from(root.querySelectorAll('label')).some(
+            (label) => /^Q\d+\./i.test((label.textContent || '').trim())
+                && !label.querySelector('input[type="radio"]'),
+        );
+    }
+
     function getQuestionContainer(element) {
+        const micro1Block = getMicro1QuestionBlock(element);
+
+        if (micro1Block) {
+            return micro1Block;
+        }
+
         return element.closest(
             'fieldset[data-testid^="input-q_"], [data-testid^="input-q_"], .ia-Questions-item, fieldset[name^="q_"], fieldset, [data-field-path], .ashby-application-form-field-entry',
         );
@@ -755,6 +840,12 @@ const AutoCVApplyFormHeuristics = (() => {
             return phoneInputLabel;
         }
 
+        const micro1Label = getMicro1QuestionLabel(element);
+
+        if (micro1Label.length >= 3) {
+            return micro1Label;
+        }
+
         const ashbyTitle = getAshbyQuestionTitle(element);
 
         if (ashbyTitle.length >= 3) {
@@ -820,7 +911,8 @@ const AutoCVApplyFormHeuristics = (() => {
         if (element.name) {
             const selector = `input[type="${element.type}"][name="${escapeSelectorValue(element.name)}"]`;
 
-            return Array.from((container || doc).querySelectorAll(selector)).filter(isVisible);
+            return Array.from((container || doc).querySelectorAll(selector))
+                .filter((input) => input.type !== 'hidden' && isVisible(input));
         }
 
         return [element].filter(isVisible);
@@ -906,7 +998,9 @@ const AutoCVApplyFormHeuristics = (() => {
 
         return /\bprivacy policy\b/.test(normalized)
             || /\bconsent\b/.test(normalized)
-            || /\bi agree\b/.test(normalized);
+            || /\bi agree\b/.test(normalized)
+            || /^yes\b/.test(normalized)
+            || /\bfuture job\b/.test(normalized);
     }
 
     function resolveCheckboxClickTargets(input) {
@@ -930,6 +1024,10 @@ const AutoCVApplyFormHeuristics = (() => {
 
         add(input.labels?.[0]);
         add(input.closest('.c-spl-checkbox-wrapper, .c-spl-checkbox, .choice-input-wrapper, .wpforms-field-label-inline'));
+
+        if (isMicro1YesNoRadio(input)) {
+            add(input.closest('[role="button"]'));
+        }
 
         return targets;
     }
@@ -1022,6 +1120,15 @@ const AutoCVApplyFormHeuristics = (() => {
             if (optionMatchesAnswer(optionText, answer) || optionMatchesAnswer(optionValue, answer)) {
                 return markInputChecked(radio);
             }
+
+            if (isMicro1YesNoRadio(radio)) {
+                const id = String(radio.id || '').toLowerCase();
+                const suffix = id.includes('_') ? id.split('_').pop() : '';
+
+                if (suffix && optionMatchesAnswer(suffix, answer)) {
+                    return markInputChecked(radio);
+                }
+            }
         }
 
         return false;
@@ -1045,6 +1152,10 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function setCheckboxGroupValue(element, answer) {
+        if (isConsentWildcardAnswer(answer) && element.type === 'checkbox' && markInputChecked(element)) {
+            return true;
+        }
+
         if (isConsentWildcardAnswer(answer)) {
             const groupInputs = getGroupInputs(element).filter((input) => input.type === 'checkbox');
             const consentTarget = groupInputs.length === 1
@@ -1456,22 +1567,38 @@ const AutoCVApplyFormHeuristics = (() => {
     function getPhoneInputFieldLabel(element) {
         const fieldset = element.closest('fieldset.phone-input');
 
-        if (!fieldset) {
+        if (fieldset) {
+            const id = element.getAttribute('id');
+
+            if (id) {
+                const doc = element.ownerDocument || document;
+                const escapedId = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(id) : id.replace(/"/g, '\\"');
+                const explicit = doc.querySelector(`label[for="${escapedId}"]`);
+
+                if (explicit) {
+                    return normalize(explicit.textContent);
+                }
+            }
+        }
+
+        const phoneWidget = element.closest('.PhoneInput, [class*="phone-input-"]');
+
+        if (!phoneWidget) {
             return null;
         }
 
-        const id = element.getAttribute('id');
+        for (let node = phoneWidget.parentElement; node; node = node.parentElement) {
+            for (const label of node.querySelectorAll(':scope > label')) {
+                if (label.querySelector('input, textarea, select, .PhoneInput')) {
+                    continue;
+                }
 
-        if (!id) {
-            return null;
-        }
+                const text = normalize(label.textContent);
 
-        const doc = element.ownerDocument || document;
-        const escapedId = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(id) : id.replace(/"/g, '\\"');
-        const explicit = doc.querySelector(`label[for="${escapedId}"]`);
-
-        if (explicit) {
-            return normalize(explicit.textContent);
+                if (text.length >= 3 && /phone|mobile|tel/i.test(text)) {
+                    return text;
+                }
+            }
         }
 
         return null;
@@ -1629,6 +1756,47 @@ const AutoCVApplyFormHeuristics = (() => {
             }
         }
 
+        if (fieldType === 'tel' && dom.type === 'tel') {
+            return doc.querySelector('input[type="tel"].PhoneInputInput')
+                || doc.querySelector('.PhoneInput input[type="tel"]')
+                || doc.querySelector('input[type="tel"]');
+        }
+
+        if (dom.question_prefix) {
+            for (const label of doc.querySelectorAll('label')) {
+                if (!label.textContent.trim().startsWith(dom.question_prefix)) {
+                    continue;
+                }
+
+                if (label.querySelector('input[type="radio"], input[type="checkbox"]')) {
+                    continue;
+                }
+
+                const block = label.parentElement;
+                const input = block?.querySelector(`input[type="${escapeSelectorValue(dom.type || fieldType)}"], textarea, select`);
+
+                if (input) {
+                    return input;
+                }
+            }
+        }
+
+        if (dom.placeholder) {
+            const byPlaceholder = doc.querySelector(`input[placeholder="${escapeSelectorValue(dom.placeholder)}"]`);
+
+            if (byPlaceholder) {
+                return byPlaceholder;
+            }
+        }
+
+        if (dom.min && dom.type) {
+            const byMin = doc.querySelector(`input[type="${escapeSelectorValue(dom.type)}"][min="${escapeSelectorValue(dom.min)}"]`);
+
+            if (byMin) {
+                return byMin;
+            }
+        }
+
         return null;
     }
 
@@ -1679,6 +1847,13 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function valueMatchesAnswer(actual, expected) {
+        const actualDigits = normalizePhoneDigits(actual);
+        const expectedDigits = normalizePhoneDigits(expected);
+
+        if (actualDigits.length >= 8 && expectedDigits.length >= 8 && actualDigits === expectedDigits) {
+            return true;
+        }
+
         const normalizedActual = normalizeOption(actual);
         const normalizedExpected = normalizeOption(expected);
 
@@ -1891,6 +2066,93 @@ const AutoCVApplyFormHeuristics = (() => {
         return String(value || '').replace(/[^\d+]/g, '');
     }
 
+    function isPhoneDialCodeOnlyValue(value) {
+        const digits = normalizePhoneDigits(value);
+
+        if (!digits.startsWith('+')) {
+            return false;
+        }
+
+        return digits.slice(1).length <= 3;
+    }
+
+    function isReactPhoneCountrySelect(element) {
+        if (element.tagName?.toLowerCase() !== 'select') {
+            return false;
+        }
+
+        return element.classList?.contains('PhoneInputCountrySelect')
+            || element.closest('.PhoneInputCountry') !== null
+            || /phone number country/i.test(element.getAttribute('aria-label') || '');
+    }
+
+    function isReactPhoneNumberInput(element) {
+        if (!element || element.type !== 'tel') {
+            return false;
+        }
+
+        return element.classList?.contains('PhoneInputInput')
+            || element.closest('.PhoneInput') !== null;
+    }
+
+    const PHONE_CALLING_CODE_TO_ISO = [
+        ['971', 'AE'], ['966', 'SA'], ['972', 'IL'], ['886', 'TW'], ['852', 'HK'],
+        ['353', 'IE'], ['351', 'PT'], ['358', 'FI'], ['420', 'CZ'], ['421', 'SK'],
+        ['44', 'GB'], ['49', 'DE'], ['33', 'FR'], ['39', 'IT'], ['34', 'ES'],
+        ['61', 'AU'], ['64', 'NZ'], ['91', 'IN'], ['81', 'JP'], ['86', 'CN'],
+        ['55', 'BR'], ['52', 'MX'], ['27', 'ZA'], ['65', 'SG'], ['31', 'NL'],
+        ['32', 'BE'], ['41', 'CH'], ['46', 'SE'], ['47', 'NO'], ['45', 'DK'],
+        ['48', 'PL'], ['1', 'US'],
+    ];
+
+    function resolveCountryIsoFromE164(e164, countrySelect) {
+        if (!countrySelect || !String(e164).trim().startsWith('+')) {
+            return null;
+        }
+
+        const digits = String(e164).replace(/\D/g, '');
+        const options = new Set(Array.from(countrySelect.options).map((option) => option.value));
+
+        for (const [code, iso] of PHONE_CALLING_CODE_TO_ISO) {
+            if (digits.startsWith(code) && options.has(iso)) {
+                return iso;
+            }
+        }
+
+        return null;
+    }
+
+    async function setReactPhoneNumberInputValue(element, value) {
+        const stringValue = String(value).trim();
+
+        if (!stringValue) {
+            return false;
+        }
+
+        const widget = element.closest('.PhoneInput');
+        const countrySelect = widget?.querySelector('.PhoneInputCountrySelect');
+        const countryIso = countrySelect ? resolveCountryIsoFromE164(stringValue, countrySelect) : null;
+
+        if (countrySelect && countryIso) {
+            countrySelect.value = countryIso;
+            countrySelect.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        element.focus();
+        dispatchPointerClick(element);
+
+        const filled = fillReactTextControl(element, stringValue);
+
+        if (filled) {
+            heuristicsLog('info', 'apply.phone', 'react-phone-number-input filled', {
+                valuePreview: stringValue.slice(0, 80),
+                countryIso,
+            });
+        }
+
+        return filled;
+    }
+
     function readIntlTelInputInstance(element) {
         const view = element.ownerDocument?.defaultView || window;
 
@@ -1971,6 +2233,10 @@ const AutoCVApplyFormHeuristics = (() => {
             return filled && verifyFieldApplied(element, 'select', value);
         }
 
+        if (element.type === 'tel' && isReactPhoneNumberInput(element)) {
+            return setReactPhoneNumberInputValue(element, value);
+        }
+
         if (element.type === 'tel' && isIntlTelInput(element)) {
             return setIntlTelInputValue(element, value);
         }
@@ -2034,6 +2300,10 @@ const AutoCVApplyFormHeuristics = (() => {
                 return false;
             }
 
+            if (isReactPhoneCountrySelect(element)) {
+                return false;
+            }
+
             if (isAshbyStyledChoiceInput(element)) {
                 return true;
             }
@@ -2078,6 +2348,10 @@ const AutoCVApplyFormHeuristics = (() => {
         let score = 0;
 
         forEachIframeDocument((doc) => {
+            if (isMicro1ApplicationQuestionStep(doc)) {
+                score += 3;
+            }
+
             const inputs = collectFillableElements(doc);
 
             if (inputs.length >= 2) {
@@ -2099,6 +2373,10 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function frameHasApplicationForm(root = document) {
+        if (isMicro1ApplicationQuestionStep(root)) {
+            return true;
+        }
+
         const inputs = collectFillableElements(root);
 
         if (inputs.length < 2) {
@@ -2161,7 +2439,13 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         if (element.value?.trim()) {
-            return false;
+            if (element.type === 'tel' && isPhoneDialCodeOnlyValue(element.value)) {
+                // Treat dial-code-only phone widgets as unfilled.
+            } else if (isMicro1DefaultNumberValue(element)) {
+                // micro1 steppers and hourly rate inputs ship with placeholder default "1".
+            } else {
+                return false;
+            }
         }
 
         return getQuestionLabel(element).length >= 3;

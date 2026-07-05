@@ -9,28 +9,64 @@
       "options": [
         "I accept the retention of my information during a maximum of 2 years",
         "I don't accept"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_d4a11fb9-8c0e-4a9e-98e2-79b090f4a36b-labeled-radio-0",
+        "name": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_d4a11fb9-8c0e-4a9e-98e2-79b090f4a36b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f1",
       "question": "what's your first name?",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name"
+      }
     },
     {
       "ref": "f2",
       "question": "and your last name?",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "b57623db-9ef5-4f55-9d65-35cb4d9da6e2",
+        "name": "b57623db-9ef5-4f55-9d65-35cb4d9da6e2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b57623db-9ef5-4f55-9d65-35cb4d9da6e2"
+      }
     },
     {
       "ref": "f3",
       "question": "leave us your main personal email, so we know where to reply to your application.",
       "field_type": "email",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email"
+      }
     },
     {
       "ref": "f4",
@@ -45,21 +81,48 @@
         "Part-time permanent contract",
         "Full-time limited-term contract",
         "Part-time limited-term contract"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_849b526c-0593-4c18-ba13-96869ca4caf9-labeled-checkbox-0",
+        "name": "Internship",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f5",
       "question": "what is your nationality?",
-      "field_type": "text",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "82553bbd-730b-43e8-a5c4-bfedce53bd31"
+      }
     },
     {
       "ref": "f6",
       "question": "currently, what is your main country of residence?",
-      "field_type": "text",
+      "field_type": "select",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "5d7337d8-8859-4ff5-8295-1492ac1b177e"
+      }
     },
     {
       "ref": "f7",
@@ -72,7 +135,16 @@
         "Remote first, but I can be here for some events or team buildings",
         "Weekly hybrid (a few days a week in the office, a few days home office)",
         "Yearly hybrid (a few weeks/months a year in the office, a few weeks/months a year remote)"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_26b9b658-2e4a-4b10-ae86-a79bbc10438a-labeled-checkbox-0",
+        "name": "Full-time at the office",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f8",
@@ -84,7 +156,16 @@
         "I am definitely open to relocating",
         "I am already planning to relocate",
         "I will not be able or don't want to relocate"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_78abbcc2-b4dc-4bcc-b918-e74c772d3029-labeled-radio-0",
+        "name": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_78abbcc2-b4dc-4bcc-b918-e74c772d3029",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f9",
@@ -99,14 +180,32 @@
         "Greece",
         "None of the above",
         "France"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_dbb0dcab-e8df-4780-8071-a08d5d76db5c-labeled-checkbox-0",
+        "name": "United Arab Emirates",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f10",
       "question": "what other countries would you be open to relocating to?",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "b241946b-7dcf-485d-8ca7-56f5ca076c52",
+        "name": "b241946b-7dcf-485d-8ca7-56f5ca076c52",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b241946b-7dcf-485d-8ca7-56f5ca076c52"
+      }
     },
     {
       "ref": "f11",
@@ -120,7 +219,16 @@
         "Between 6 months and 1 year",
         "Between 1 year and 2 years",
         "After more than 2 years"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_b8a814c1-08a4-4bb2-beeb-c5a7e8e24def-labeled-checkbox-0",
+        "name": "I will never relocate",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f12",
@@ -130,14 +238,32 @@
       "options": [
         "I have heard of David Laroche or Paradox before seeing the offer",
         "I haven’t heard neither of David Laroche nor Paradox before seeing the offer"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_2e4c1dea-0417-4820-8062-3e5742ad4e10-labeled-radio-0",
+        "name": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_2e4c1dea-0417-4820-8062-3e5742ad4e10",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f13",
       "question": "why do you want to join paradox, and why are you applying for this position?",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "406b30b3-4bb1-45ad-a184-db1209890e20",
+        "name": "406b30b3-4bb1-45ad-a184-db1209890e20",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "406b30b3-4bb1-45ad-a184-db1209890e20"
+      }
     },
     {
       "ref": "f14",
@@ -149,7 +275,16 @@
         "1 to 5 years",
         "5 to 10 years",
         "More than 10 years"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_38b57d0c-cc04-4132-bad8-c6b809d71d36-labeled-radio-0",
+        "name": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_38b57d0c-cc04-4132-bad8-c6b809d71d36",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f15",
@@ -161,14 +296,32 @@
         "Why not, but I’m not sure I can get 3 people",
         "I would like to but I definitely cannot get 3 people",
         "I am opposed to giving contacts for reference calls"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_26165f13-1bdd-4582-9bb1-229da9de8b19-labeled-radio-0",
+        "name": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_26165f13-1bdd-4582-9bb1-229da9de8b19",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f16",
       "question": "what top 3 elements would make your approach to your work in this particular position stand out from other candidates?",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e1acbe1b-3498-40de-bc74-dc867fae5769",
+        "name": "e1acbe1b-3498-40de-bc74-dc867fae5769",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e1acbe1b-3498-40de-bc74-dc867fae5769"
+      }
     },
     {
       "ref": "f17",
@@ -181,14 +334,32 @@
         "5 to 10",
         "11 to 20",
         "More than 20"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_71b42ada-587f-467a-bdaa-1e1fbc500752-labeled-radio-0",
+        "name": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_71b42ada-587f-467a-bdaa-1e1fbc500752",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f18",
       "question": "how do you usually grow your professional knowledge and skills?",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "4f42bd7a-115d-4775-ba18-49a378cef7a6",
+        "name": "4f42bd7a-115d-4775-ba18-49a378cef7a6",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "4f42bd7a-115d-4775-ba18-49a378cef7a6"
+      }
     },
     {
       "ref": "f19",
@@ -201,7 +372,16 @@
         "2 - INTERMEDIATE: I am comfortable using a variety of digital tools and require minimal guidance and training to use them effectively.",
         "3 - ADVANCED: I have extensive experience using a variety of digital tools and can use them effectively without much guidance or training.",
         "4 - EXPERT: I have a deep understanding of digital tools and can use them to solve complex problems and achieve business goals."
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_1e3ef381-95f5-4cd2-865a-5a2ef1618213-labeled-radio-0",
+        "name": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_1e3ef381-95f5-4cd2-865a-5a2ef1618213",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f20",
@@ -223,7 +403,16 @@
         "Ads: Facebook ads, Google Ads, Linkedin Ads, etc.",
         "ChatGPT",
         "I don't know how to use any of the above tools"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_cd9b040e-6183-4846-8429-383a1e1c85fb-labeled-checkbox-0",
+        "name": "Airtable",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f21",
@@ -238,7 +427,16 @@
         "CI/CD: Jenkins, Github, etc.",
         "System Architecture",
         "I don't have any of the above tech skills"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_3d9013e0-4d66-484d-995a-a019bdaeb429-labeled-checkbox-0",
+        "name": "Back-end: Node.js, Laravel, etc.",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f22",
@@ -251,7 +449,16 @@
         "2 - INTERMEDIATE: I use AI tools like ChatGPT, Notion AI or Canva AI to support my work. I can integrate basic AI workflow with tools like Zapier, Make, ...",
         "3 - ADVANCED: I have extensive experience. Built custom automations, used APIs or advances GPT features and experimented with new tools independently.",
         "4 - EXPERT: I have a deep understanding of AI Tools. I understand model mechanics, code Python, build/deploy AI models or agents to solve business problems."
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_2573b2c1-4f02-4d7e-a28a-572b29b0ec2c-labeled-radio-0",
+        "name": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_2573b2c1-4f02-4d7e-a28a-572b29b0ec2c",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f23",
@@ -277,7 +484,16 @@
         "Public speaking",
         "Stress management",
         "Influence"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_615cf466-a051-48a1-9c1e-bc3f2e711bb3-labeled-checkbox-0",
+        "name": "Critical thinking",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f24",
@@ -303,7 +519,16 @@
         "Public speaking",
         "Stress management",
         "Influence"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_e055a5eb-1b21-4972-bb3b-599dc76d6b8d-labeled-checkbox-0",
+        "name": "Critical thinking",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f25",
@@ -317,7 +542,16 @@
         "3 - Professional working English",
         "4 - Full professional English",
         "5 - Native / Bilingual English"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_5634ff41-e72d-4dfe-90eb-999dc8d6c79d-labeled-radio-0",
+        "name": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_5634ff41-e72d-4dfe-90eb-999dc8d6c79d",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f26",
@@ -331,28 +565,64 @@
         "3 - Professional working French",
         "4 - Full professional French",
         "5 - Native / Bilingual French"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_55332ff5-b5cf-4285-9dad-8723d1d608c1-labeled-radio-0",
+        "name": "b37e25d9-1dd4-4ec2-a176-f17df128d18d_55332ff5-b5cf-4285-9dad-8723d1d608c1",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f27",
       "question": "what is your linkedin url?",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "46697395-6710-4c99-b09a-ba021caf2d66",
+        "name": "46697395-6710-4c99-b09a-ba021caf2d66",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "46697395-6710-4c99-b09a-ba021caf2d66"
+      }
     },
     {
       "ref": "f28",
       "question": "do you have any relevant resource to share, besides your resume, that could add more value to your application? upload the link right here.👇",
       "field_type": "text",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "04073b94-e00a-46bc-b529-e3aefc0da460",
+        "name": "04073b94-e00a-46bc-b529-e3aefc0da460",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "04073b94-e00a-46bc-b529-e3aefc0da460"
+      }
     },
     {
       "ref": "f29",
       "question": "last but not list, what is your phone number?",
       "field_type": "tel",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "870a2173-7ca6-4b3b-8a95-4a345caaabeb",
+        "name": "870a2173-7ca6-4b3b-8a95-4a345caaabeb",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "870a2173-7ca6-4b3b-8a95-4a345caaabeb"
+      }
     }
   ],
   "complete": true,

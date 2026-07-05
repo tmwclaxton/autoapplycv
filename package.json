@@ -53,6 +53,7 @@
         "test:apply-dom-verify": "node scripts/extension-benchmark/test-apply-dom-verify.mjs",
         "test:pending-fields": "node scripts/extension-benchmark/test-pending-fields.mjs",
         "test:quick-draft": "node scripts/extension-benchmark/test-quick-draft.mjs",
+        "test:page-capture": "node scripts/extension-benchmark/test-page-capture.mjs",
         "test:e2e-fill": "npm run build:extension && node scripts/extension-benchmark/run-draft-all-dom-verify.mjs --fixture",
         "test:e2e-fill:live": "npm run build:extension && node scripts/extension-benchmark/run-draft-all-dom-verify.mjs --live",
         "discord:invite": "node scripts/discord/setup-server.mjs",

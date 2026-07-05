@@ -199,6 +199,7 @@ export function buildFillPlan(expected, snapshot) {
 
 /**
  * E2E Draft All mocks include location comboboxes (fixture HTML has no live autocomplete).
+ * Unlike fill-verify, E2E should draft every non-skipped field so extension apply is tested end-to-end.
  *
  * @param {{ fields?: Array<Record<string, unknown>> }} expected
  * @param {{ elements?: Array<Record<string, unknown>> }} snapshot
@@ -211,10 +212,6 @@ export function buildE2eDraftPlan(expected, snapshot) {
     const plan = [];
 
     for (const [index, expectedField] of expectedFields.entries()) {
-        if (!shouldIncludeInFillPlan(expectedField)) {
-            continue;
-        }
-
         if (shouldSkipFieldType(expectedField.field_type) || shouldSkipE2eDraftField(expectedField)) {
             continue;
         }

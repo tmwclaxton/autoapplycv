@@ -1,0 +1,246 @@
+{
+  "id": "web-jobs-micro1-ai-59336643-step2",
+  "min_fields": 11,
+  "exact_field_count": 11,
+  "fields": [
+    {
+      "question": "q1.how soon can you start the work? (in days)",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "1",
+        "max": null,
+        "question_prefix": "Q1."
+      },
+      "fill_verify": true
+    },
+    {
+      "question": "q2.what is your expected hourly rate in usd?",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. 10",
+        "min": null,
+        "max": "999",
+        "question_prefix": "Q2."
+      }
+    },
+    {
+      "question": "q3.are you able to commit 10–15 hours+ per week to this role?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "yes",
+        "no"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "fc8a909a-909f-43cf-9376-08c912cb0ee4_yes",
+        "name": "yes_no_fc8a909a-909f-43cf-9376-08c912cb0ee4",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": "Q3."
+      },
+      "fill_verify": true
+    },
+    {
+      "question": "q4.if moving forward, would you be able to review and sign the contract within 24 hours, and begin tasking within 24-48 hours of receiving your credentials?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "yes",
+        "no"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "4f05e361-9428-41f6-bb2b-90ecec675b8d_yes",
+        "name": "yes_no_4f05e361-9428-41f6-bb2b-90ecec675b8d",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": "Q4."
+      }
+    },
+    {
+      "question": "q5.compensation is output-based; experts are paid per task that meets the project specifications. the time required to complete work may vary depending on the expert’s experience and workflow. minimum submission requirements apply. experts must submit a minimum of tasks per week. is this acceptable to you?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "yes",
+        "no"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "7da55e84-0b28-4653-ae68-d5191fcc446f_yes",
+        "name": "yes_no_7da55e84-0b28-4653-ae68-d5191fcc446f",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": "Q5."
+      }
+    },
+    {
+      "question": "q6.please share a github, portfolio, open-source contribution, technical writing sample, or any public work that shows your engineering ability. if you do not have public work, briefly explain what kind of private/professional projects best represent your experience.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": "Q6."
+      },
+      "fill_verify": true
+    },
+    {
+      "question": "q7.do you have an bugcrowd/hackerone/equivalent profile? if so, please share it here.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": "Q7."
+      }
+    },
+    {
+      "question": "q8.do you have any of the below? link to vulnerabilities identified or patched in public github repositories (link issue or pr) link to real contributions (not just documentation) in open source projects in cybersecurity domain cve or github security advisory where they are the credited reporter/discoverer if so, please share it here.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": "Q8."
+      }
+    },
+    {
+      "question": "q9.what is experience with secops/cybersecurity? (not a deal breaker)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": "Q9."
+      }
+    },
+    {
+      "question": "q10.what is your highest level of education?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": "Q10."
+      }
+    },
+    {
+      "question": "q11.are you available to work on a pay-per-task basis?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "yes",
+        "no"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "be9a276a-f982-438a-8f41-ef38e98f1cb9_yes",
+        "name": "yes_no_be9a276a-f982-438a-8f41-ef38e98f1cb9",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": "Q11."
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": [
+    "micro1 application step 2 screening questions after Next on post apply flow"
+  ]
+}

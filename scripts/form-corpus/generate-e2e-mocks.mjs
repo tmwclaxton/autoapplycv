@@ -85,6 +85,11 @@ function buildFieldAssertions(scenarioId, plan) {
     for (const item of plan.slice(0, 6)) {
         const dom = item.dom || item.field?.dom || {};
         const label = (item.field?.question || item.ref).toLowerCase();
+        const fieldType = item.field?.field_type || 'text';
+
+        if (fieldType === 'checkbox' || fieldType === 'radio' || fieldType === 'file') {
+            continue;
+        }
 
         if (dom.id) {
             assertions.push({ kind: 'id', selector: dom.id, ref: item.ref, answer: item.answer });
@@ -105,6 +110,76 @@ function buildFieldAssertions(scenarioId, plan) {
     return assertions.filter((assertion) => assertion.answer);
 }
 
+function splitFullName(fullName) {
+    const trimmed = String(fullName || '').trim();
+
+    if (!trimmed) {
+        return { first: '', last: '' };
+    }
+
+    const parts = trimmed.split(/\s+/);
+
+    if (parts.length === 1) {
+        return { first: parts[0], last: parts[0] };
+    }
+
+    return {
+        first: parts[0],
+        last: parts.slice(1).join(' '),
+    };
+}
+
+function identityAnswerForField(field, profileData) {
+    const label = String(field.question || field.label || '').toLowerCase();
+    const domId = String(field.dom?.id || field.dom?.name || '').toLowerCase();
+    const { first, last } = splitFullName(profileData.full_name);
+
+    if (/\b(first name|given name|forename|fornamn|förnamn)\b/u.test(label)
+        || /first[_-]?name|given[_-]?name/.test(domId)) {
+        return first || null;
+    }
+
+    if (/\b(last name|surname|family name|efternamn)\b/u.test(label)
+        || /last[_-]?name|surname|family[_-]?name/.test(domId)) {
+        return last || null;
+    }
+
+    if (/\b(email|e-mail|e post|epost)\b/u.test(label) || domId.includes('email')) {
+        return profileData.email || null;
+    }
+
+    if (/\b(phone|mobile|telephone|tel|cell)\b/u.test(label)
+        || /phone|mobile|telephone|tel/.test(domId)) {
+        return String(profileData.phone || '').replace(/\s+/g, '') || null;
+    }
+
+    if (/\b(full name|your name|applicant name|candidate name)\b/u.test(label)
+        || (label.trim() === 'name' && !label.includes('company'))) {
+        return profileData.full_name || null;
+    }
+
+    if ((/\b(city|town|stad|ort)\b/u.test(label) && !/\b(university|school|employer|company)\b/u.test(label))
+        || /\blocation\s*\(\s*city\b/u.test(label)) {
+        return profileData.city || null;
+    }
+
+    return null;
+}
+
+function alignE2ePlanWithProfile(plan, profile) {
+    const profileData = profile.profile || profile;
+
+    for (const item of plan) {
+        const identityAnswer = identityAnswerForField(item.field || {}, profileData);
+
+        if (identityAnswer) {
+            item.answer = identityAnswer;
+        }
+    }
+
+    return plan;
+}
+
 function generateMocksForScenario(scenario) {
     const expected = loadExpected(scenario.id);
     const htmlPath = join(HTML_DIR, scenario.html_file);
@@ -112,7 +187,14 @@ function generateMocksForScenario(scenario) {
     const pageTitle = scenario.page_title || 'Job Application';
     const html = readFileSync(htmlPath, 'utf8');
     const { snapshot } = buildFormDomContext({ html, pageUrl, pageTitle });
-    const plan = buildE2eDraftPlan(expected, snapshot);
+    const plan = alignE2ePlanWithProfile(buildE2eDraftPlan(expected, snapshot), {
+        profile: {
+            full_name: 'E2E Test User',
+            email: 'e2e.test@example.com',
+            phone: '+1 555 0100',
+            city: 'San Francisco',
+        },
+    });
     const job = {
         title: pageTitle,
         company: scenario.id.split('-').slice(1, 3).join(' ') || 'Test Company',
