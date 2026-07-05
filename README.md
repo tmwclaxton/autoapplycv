@@ -27,7 +27,7 @@
   <img src="https://img.shields.io/badge/Inertia-3-E644AD" alt="Inertia v3" />
   <img src="https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white" alt="PHP 8.5" />
   <img src="https://img.shields.io/badge/Chrome-MV3-4285F4?logo=googlechrome&logoColor=white" alt="Chrome MV3" />
-  <img src="https://img.shields.io/badge/form%20corpus-1%2C850%20scenarios-2ea44f" alt="1,850 form scenarios" />
+  <img src="https://img.shields.io/badge/form%20corpus-2%2C350%20scenarios-2ea44f" alt="2,350 form scenarios" />
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License" />
 </p>
 
@@ -62,7 +62,7 @@ Job applications are a copy-paste endurance test. Workday wants your address. Gr
 | Skip cover letters because they're tedious | **One-click cover letter** tailored to the job description |
 | Same generic CV for every posting | **Tailored resume draft** matched to the role |
 | No idea how your CV reads against the JD | **ATS score** with keyword and formatting feedback |
-| Pray comboboxes and wizards don't break mid-form | **1,850-scenario test corpus** — Greenhouse, Ashby, Workday, and more |
+| Pray comboboxes and wizards don't break mid-form | **2,350-scenario test corpus** — Greenhouse, Ashby, Workday, and more |
 | Submit applications blindly | **You stay in control** — we fill fields; you review and submit |
 
 > AutoCVApply is **not** LinkedIn Easy Apply automation. We do not click Submit on your behalf.
@@ -78,7 +78,7 @@ Job applications are a copy-paste endurance test. Workday wants your address. Gr
 
 - **Save time** — autofill plus AI drafting for the questions that actually slow you down
 - **Stay honest** — answers draw from your profile and preferences, not invented credentials
-- **Trust the engineering** — four-layer fill verification, Playwright smoke tests, and 223 PHPUnit methods
+- **Trust the engineering** — four-layer fill verification, Playwright smoke tests, and 230 PHPUnit methods
 - **British Postbox UI** — Royal Mail red, navy, warm paper tones. Feels like sending a letter, not filling a spreadsheet
 
 ## How it works
@@ -190,7 +190,7 @@ Generate a connection from the dashboard and paste it into the extension sidebar
 - **Extension fills locally** — the browser extension fetches your profile via a revocable Sanctum token and writes values into the page DOM. It does not send completed submissions back to us.
 - **No data selling** — we do not sell personal data. See the full [privacy policy](https://autocvapply.com/privacy).
 - **AI processing** — CV parsing and drafting send text to our NanoGPT provider as needed to extract fields or generate answers. Job context from the page may be included in draft requests.
-- **Open source** — MIT-licensed core. Inspect the extension, backend, and 1,850-scenario test corpus on GitHub.
+- **Open source** — MIT-licensed core. Inspect the extension, backend, and 2,350-scenario test corpus on GitHub.
 - **You submit** — AutoCVApply never auto-clicks Submit Application. Final review is always yours.
 
 ---
@@ -268,16 +268,16 @@ flowchart TB
 
 | Metric | Count | Source |
 |--------|------:|--------|
-| Form extraction scenarios | **1,850** | `tests/fixtures/form-extraction/manifest.json` |
-| Vetted scenarios | **1,846** | same manifest (`status: vetted`) |
-| HTML fixtures + expected snapshots | **1,850 each** | `tests/fixtures/form-extraction/html/` · `expected/` |
-| Curated fill-verify scenarios | **89** | `tests/fixtures/form-extraction/fill-verify-curated.json` |
+| Form extraction scenarios | **2,350** | `tests/fixtures/form-extraction/manifest.json` |
+| Vetted scenarios | **2,346** | same manifest (`status: vetted`; 4 pending) |
+| HTML fixtures + expected snapshots | **2,350 each** | `tests/fixtures/form-extraction/html/` · `expected/` |
+| Curated fill-verify scenarios | **97** (48 JSDOM · 49 Playwright) | `tests/fixtures/form-extraction/fill-verify-curated.json` |
 | Platform smoke scenarios | **10** (+ 2 Ashby widget checks) | `fill-verify-smoke.json` · `run-ashby-*-playwright.mjs` |
-| Extension E2E scenarios | **101** (10 in CI) | `tests/fixtures/extension-e2e/e2e-scenarios.json` |
-| PHPUnit test methods | **223** | `tests/**/*Test.php` |
-| ATS platforms in curated tier | **13** | `scripts/form-corpus/lib/curated-manifest.mjs` |
+| Extension E2E scenarios | **103** (10 in CI) | `tests/fixtures/extension-e2e/e2e-scenarios.json` |
+| PHPUnit test methods | **230** | `tests/**/*Test.php` |
+| Platform buckets in curated tier | **16** | `scripts/form-corpus/lib/curated-manifest.mjs` |
 
-The corpus blends **544 scraped real ATS pages** (via Firecrawl) with **1,306 synthetic scenarios** — including framework-specific mega-forms for React, Vue, Angular, Svelte, Shadow DOM, Workday wizards, conditional fields, and combobox edge cases.
+The corpus blends **544 scraped real ATS pages** (via Firecrawl) with **1,806 synthetic scenarios** — including 500 **syn-corpus2** ATS-style fixtures plus framework mega-forms for React, Vue, Angular, Svelte, Shadow DOM, Workday wizards, conditional fields, and combobox edge cases.
 
 ### The test pyramid
 
@@ -286,23 +286,23 @@ Every change to `form-heuristics.js` or `field-inventory.js` must survive the fu
 ```mermaid
 flowchart TB
     subgraph L1["Layer 1 — Fast feedback"]
-        U["PHPUnit unit tests<br/>223 methods"]
+        U["PHPUnit unit tests<br/>230 methods"]
         P["Propagation + mock answer tests"]
         D["Debug log golden replay"]
     end
 
     subgraph L2["Layer 2 — Curated JSDOM"]
-        J["36 synthetic scenarios<br/>4-layer verification"]
+        J["48 synthetic scenarios<br/>4-layer verification · 100% pass"]
     end
 
     subgraph L3["Layer 3 — Real browser"]
         S["Platform smoke<br/>10 ATS fixtures + Ashby widgets"]
-        PW["Curated Playwright<br/>53 scraped ATS pages"]
+        PW["Curated Playwright<br/>49 scraped ATS pages"]
         VR["Visual regression<br/>screenshot baselines"]
     end
 
     subgraph L4["Layer 4 — Full extension"]
-        E2E["Extension E2E<br/>101 scenarios · real MV3 + mocked API"]
+        E2E["Extension E2E<br/>103 scenarios · real MV3 + mocked API"]
     end
 
     L1 --> L2 --> L3 --> L4
@@ -310,13 +310,14 @@ flowchart TB
 
 | Tier | Engine | Scope | CI job |
 |------|--------|-------|--------|
-| **Unit** | JSDOM / Node | Propagation, mock answers, debug-log replay | `php-tests` |
-| **Form extraction eval** | JSDOM | All 1,846 vetted scenarios vs expected field inventory | `php-tests` |
-| **Curated JSDOM** | JSDOM | 36 synthetic scenarios, 4-layer checks | `extension-fill` |
-| **Platform smoke** | Playwright | 1 scenario per ATS/platform + Ashby yes/no + checkbox | `extension-fill` |
-| **Curated Playwright** | Playwright | 53 priority scraped ATS fixtures | manual (`tests-heavy.yml`) |
-| **Visual regression** | Playwright + pixelmatch | Baseline compare on smoke subset | `extension-fill` |
-| **Extension E2E** | Playwright + unpacked MV3 | Full Draft All with mocked assist API | `extension-fill` (optional) |
+| **Unit** | JSDOM / Node | Propagation, mock answers, debug-log replay | `tests.yml` → `php-tests` |
+| **Corpus sanity** | PHPUnit | Corpus size checks (2,350 scenarios, 2,346 vetted) | `tests.yml` → `php-tests` |
+| **Form extraction eval** | JSDOM | All 2,346 vetted scenarios vs expected field inventory | `tests-heavy.yml` (manual) |
+| **Curated JSDOM** | JSDOM | 48 synthetic scenarios, 4-layer checks at 100% | `tests.yml` → `extension-fill` |
+| **Platform smoke** | Playwright | 1 scenario per ATS/platform + Ashby yes/no + checkbox | `tests.yml` → `extension-fill` |
+| **Curated Playwright** | Playwright | 49 priority scraped ATS fixtures | `tests-heavy.yml` (manual) |
+| **Visual regression** | Playwright + pixelmatch | Baseline compare on smoke subset | `tests-heavy.yml` (manual) |
+| **Extension E2E** | Playwright + unpacked MV3 | Full Draft All with mocked assist API (103 total · 10 in CI) | `extension-fill` (CI subset) · `tests-heavy.yml` (full batch) |
 
 ### Four layers of fill verification
 
@@ -342,14 +343,15 @@ Additional tiers add **OCR readback** (Playwright + Tesseract on Ashby fixtures)
 
 ### CI pipeline
 
-Three GitHub Actions workflows guard every push to `main` and `develop`:
+Fast feedback runs on every push to `main` and `develop`; the heavy corpus eval tier is manual-only:
 
-| Workflow | What runs |
-|----------|-----------|
-| **`tests.yml` → `php-tests`** | Laravel suite on PostgreSQL 17 — excludes `@group playwright` and `@group extension-e2e` |
-| **`tests.yml` → `extension-fill`** | `npm run build:extension` → curated JSDOM verify → Playwright smoke + visual regression → optional extension E2E |
-| **`lint.yml`** | Laravel Pint, ESLint, Prettier |
-| **`prod_deploy.yml`** | Docker build → GHCR push → deploy to production on `main` |
+| Workflow | Trigger | What runs |
+|----------|---------|-----------|
+| **`tests.yml` → `php-tests`** | Push / PR | Laravel suite on PostgreSQL 17 — excludes `@group playwright` and `@group extension-e2e`; corpus sanity checks only (not full extraction eval) |
+| **`tests.yml` → `extension-fill`** | Push / PR | `npm run build:extension` → curated JSDOM verify (48 scenarios) → Playwright platform smoke |
+| **`tests-heavy.yml`** | Manual dispatch | Full 2,346-scenario extraction eval · comprehensive fill verify · curated Playwright · visual regression · extension E2E batch (~103 scenarios) |
+| **`lint.yml`** | Push / PR | Laravel Pint, ESLint, Prettier |
+| **`prod_deploy.yml`** | Push to `main` | Docker build → GHCR push → deploy to production |
 
 After changing form heuristics locally, run the smoke tier before opening a PR:
 
@@ -396,7 +398,7 @@ autocvapply/
 ├── tests/
 │   ├── Unit/Extension/         # 11 extension test suites (fill, E2E, extraction)
 │   └── fixtures/
-│       ├── form-extraction/    # 1,850-scenario corpus (html, expected, manifest)
+│       ├── form-extraction/    # 2,350-scenario corpus (html, expected, manifest)
 │       └── extension-e2e/      # E2E mocks, scenarios, reports
 └── config/subscriptions.php    # Plan tiers and token limits
 ```
@@ -506,13 +508,13 @@ Generate a connection from the dashboard (**Copy** includes `token` + `api_base`
 # Default CI (excludes playwright + extension-e2e groups)
 php artisan test --compact --exclude-group=extension-e2e,playwright
 
-# Playwright smoke + visual regression
-FORM_CORPUS_PLAYWRIGHT=1 php artisan test --compact --group=playwright
+# Playwright smoke (fast CI tier)
+FORM_CORPUS_PLAYWRIGHT=1 php artisan test --compact --group=playwright --exclude-group=extension-e2e
 
 # Extension E2E CI subset
 EXTENSION_E2E=1 php artisan test --compact --group=extension-e2e
 
-# Full ~101 scenario extension E2E (manual via tests-heavy.yml, 30–60+ min)
+# Full ~103 scenario extension E2E (manual via tests-heavy.yml, 30–60+ min)
 EXTENSION_E2E=1 EXTENSION_E2E_FULL=1 php artisan test --compact --group=extension-e2e
 ```
 
@@ -575,5 +577,5 @@ These polish items couldn't be copied from competitors without your input:
 <p align="center">
   <strong><a href="https://autocvapply.com">Get started free at autocvapply.com</a></strong><br />
   <sub>Built for people who'd rather apply to jobs than retype their CV.<br />
-  Verified against 1,850 form scenarios. Battle-tested on real ATS platforms.</sub>
+  Verified against 2,350 form scenarios. Battle-tested on real ATS platforms.</sub>
 </p>
