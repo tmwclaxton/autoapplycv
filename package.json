@@ -6,6 +6,7 @@
         "build": "vite build",
         "build:ssr": "vite build && vite build --ssr",
         "build:extension": "node scripts/build-extension.mjs",
+        "screenshots:readme": "node scripts/capture-readme-screenshots.mjs",
         "dev": "vite",
         "format": "prettier --write resources/",
         "format:check": "prettier --check resources/",

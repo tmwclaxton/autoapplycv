@@ -40,6 +40,18 @@
 
 ## See it in action
 
+<p align="center">
+  <img src="/screenshots/extension-autofill.png" alt="AutoCVApply extension autofilling a Greenhouse job application with the sidebar open" width="900" />
+</p>
+
+<p align="center">
+  <img src="/screenshots/dashboard-profile.png" alt="AutoCVApply dashboard CV profile tab with Jane Doe demo data" width="720" />
+  &nbsp;&nbsp;
+  <img src="/screenshots/dashboard-extension.png" alt="AutoCVApply dashboard extension download and connection tab" width="720" />
+</p>
+
+> Screenshots use a fake **Jane Doe** demo profile (`jane.doe@example.com`). Capture locally with `npm run screenshots:readme` after `npm run build:extension` and `php artisan readme:seed-demo`.
+
 <!-- TODO: replace with YouTube thumbnail + link once demo video is recorded -->
 <!-- [![AutoCVApply demo](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://youtu.be/VIDEO_ID) -->
 
@@ -119,7 +131,7 @@ flowchart LR
 
 ### Supported platforms
 
-Autofill is verified against real and synthetic fixtures from the ATS platforms that actually hire:
+AutoCVApply works on most major ATS and employer career sites - including Workday, Greenhouse, Lever, Ashby, SmartRecruiters, and many more. Autofill is verified against real and synthetic fixtures on the platforms below:
 
 | Platform | Coverage | Notes |
 |----------|----------|-------|
@@ -498,6 +510,7 @@ Generate a connection from the dashboard (**Copy** includes `token` + `api_base`
 | `npm run form-corpus:fill-verify:smoke` | Per-platform Playwright smoke |
 | `npm run form-corpus:extension-e2e` | Extension E2E CI subset (~10 scenarios) |
 | `npm run form-corpus:visual-regression` | Screenshot baseline compare |
+| `npm run screenshots:readme` | Capture README marketing screenshots (local Playwright) |
 | `npm run form-corpus:build-curated` | Regenerate curated + smoke manifests |
 | `npm run lint:check` | ESLint |
 | `composer lint:check` | Laravel Pint |
@@ -563,10 +576,9 @@ These polish items couldn't be copied from competitors without your input:
 
 | Asset | Why we need it |
 |-------|----------------|
-| **Demo video** (YouTube URL + thumbnail) | Replace the "coming soon" block in [See it in action](#see-it-in-action) |
+| **Demo video** (YouTube URL + thumbnail) | Replace the "coming soon" note in [See it in action](#see-it-in-action) |
 | **Chrome Web Store listing URL** | Enable Option A store badge and install table links |
 | **Firefox Add-ons listing URL** | Complete the browser install table |
-| **Screenshots / GIFs** | Hero images for README and autocvapply.com (extension sidebar, Draft All, dashboard) |
 | **Before/after time stats** | Only if you have real user data - we avoided inventing "50+ apps/day" claims |
 | **Testimonial quotes** | Social proof section (optional) |
 | **Twitter/X or LinkedIn handle** | Links table and footer badges |

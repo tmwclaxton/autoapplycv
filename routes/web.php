@@ -55,4 +55,8 @@ Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function ()
     Route::inertia('/settings/appearance', 'settings/Appearance')->name('appearance.edit');
 });
 
+if (app()->environment('local')) {
+    require __DIR__.'/readme-screenshots.php';
+}
+
 require __DIR__.'/auth.php';
