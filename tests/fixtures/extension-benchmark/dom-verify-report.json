@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-07-05T08:54:46.990Z",
+  "api_base": "http://localhost:8000",
+  "results": [
+    {
+      "mode": "fixture",
+      "form": "Ashby (Capi Money)",
+      "id": "web-jobs-ashbyhq-com-application",
+      "ats": "ashby",
+      "fields_expected": 6,
+      "dom_verified": 6,
+      "failures": [],
+      "pass_rate": 1,
+      "passed": true,
+      "root_cause": null,
+      "fix": null
+    },
+    {
+      "mode": "fixture",
+      "form": "Greenhouse",
+      "id": "web-boards-greenhouse-io-8614025002",
+      "ats": "greenhouse",
+      "fields_expected": 41,
+      "dom_verified": 41,
+      "failures": [],
+      "pass_rate": 1,
+      "passed": true,
+      "root_cause": null,
+      "fix": null
+    },
+    {
+      "mode": "fixture",
+      "form": "Teamtailor",
+      "id": "web-vekst-teamtailor-com-new",
+      "ats": "teamtailor",
+      "fields_expected": 14,
+      "dom_verified": 12,
+      "failures": [
+        {
+          "ref": "f14",
+          "label": "required.by submitting this application, i agree that i have read the privacy policy and confirm that vekst store my personal details to be able to process my job application. required.by submitting this application, i agree that i have read the privacy policy and confirm that vekst store my personal details to be able to process my job application.",
+          "field_type": "checkbox",
+          "expected": "Required.By submitting this application, I agree that I have read the Privacy Policy and confirm that Vekst store my personal details to be able to process my job application.*",
+          "actual": null,
+          "filled": false
+        },
+        {
+          "ref": "f15",
+          "label": "yes, vekst can contact me directly about specific future job opportunities. yes, vekst can contact me directly about specific future job opportunities.",
+          "field_type": "checkbox",
+          "expected": "Yes, Vekst can contact me directly about specific future job opportunities.",
+          "actual": null,
+          "filled": false
+        }
+      ],
+      "pass_rate": 0.8571428571428571,
+      "passed": false,
+      "root_cause": "Apply reported success but DOM empty/mismatch for f14 (required.by submitting this application, i agree that i have read the privacy policy and confirm that vekst store my personal details to be able to process my job application. required.by submitting this application, i agree that i have read the privacy policy and confirm that vekst store my personal details to be able to process my job application.)",
+      "fix": "Check stale ref re-resolution or apply-before-DOM-ready timing"
+    }
+  ],
+  "table": "form\texpected\tverified\tfailed\tpass_rate\nAshby (Capi Money)\t6\t6\t0\t100%\nGreenhouse\t41\t41\t0\t100%\nTeamtailor\t14\t12\t2\t86%"
+}

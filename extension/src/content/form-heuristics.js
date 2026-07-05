@@ -776,7 +776,17 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function isConsentWildcardAnswer(answer) {
-        return String(answer ?? '').trim() === '*';
+        const text = String(answer ?? '').trim();
+
+        if (text === '*') {
+            return true;
+        }
+
+        const normalized = text.toLowerCase();
+
+        return /\bprivacy policy\b/.test(normalized)
+            || /\bconsent\b/.test(normalized)
+            || /\bi agree\b/.test(normalized);
     }
 
     function resolveCheckboxClickTargets(input) {
@@ -915,6 +925,17 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function setCheckboxGroupValue(element, answer) {
+        if (isConsentWildcardAnswer(answer)) {
+            const groupInputs = getGroupInputs(element).filter((input) => input.type === 'checkbox');
+            const consentTarget = groupInputs.length === 1
+                ? groupInputs[0]
+                : groupInputs.find((input) => input.required || input.getAttribute('aria-required') === 'true');
+
+            if (consentTarget && markInputChecked(consentTarget)) {
+                return true;
+            }
+        }
+
         const answers = coerceCheckboxAnswers(answer);
 
         if (answers.length === 0) {
@@ -933,7 +954,7 @@ const AutoCVApplyFormHeuristics = (() => {
         });
 
         if (answers.some(isConsentWildcardAnswer)) {
-            const groupInputs = getGroupInputs(element);
+            const groupInputs = getGroupInputs(element).filter((input) => input.type === 'checkbox');
             const consentTarget = groupInputs.length === 1
                 ? groupInputs[0]
                 : groupInputs.find((input) => input.required || input.getAttribute('aria-required') === 'true');
@@ -945,8 +966,13 @@ const AutoCVApplyFormHeuristics = (() => {
 
         let matched = 0;
         let applied = 0;
+        const visibleCheckboxes = getGroupInputs(element).filter((input) => input.type === 'checkbox');
 
-        for (const checkbox of getGroupInputs(element)) {
+        if (visibleCheckboxes.length === 1 && /^yes\b/i.test(String(answer).trim())) {
+            return markInputChecked(visibleCheckboxes[0]);
+        }
+
+        for (const checkbox of visibleCheckboxes) {
             const optionText = getOptionLabel(checkbox);
             const optionValue = String(checkbox.value || checkbox.name || '');
 
@@ -958,6 +984,14 @@ const AutoCVApplyFormHeuristics = (() => {
 
             if (markInputChecked(checkbox)) {
                 applied += 1;
+            }
+        }
+
+        if (applied === 0) {
+            const visibleCheckboxes = getGroupInputs(element).filter((input) => input.type === 'checkbox');
+
+            if (visibleCheckboxes.length === 1 && answers.some(isConsentWildcardAnswer)) {
+                return markInputChecked(visibleCheckboxes[0]);
             }
         }
 

@@ -608,38 +608,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 return filled ? 1 : 0;
             }
 
-            const textLike = [];
-            const sequential = [];
-
             for (const answer of answers) {
-                const fieldType = answer.field_type || 'text';
-                const isWidgetField = ['select', 'radio', 'checkbox', 'file'].includes(fieldType);
-                const isTextLike = !isWidgetField
-                    && (!fieldType
-                        || fieldType === 'text'
-                        || ['email', 'tel', 'url', 'number', 'textarea'].includes(fieldType));
-
-                if (isTextLike) {
-                    textLike.push(answer);
-                } else {
-                    sequential.push(answer);
-                }
-            }
-
-            if (textLike.length > 0) {
-                const parallelResults = await Promise.all(textLike.map((answer) => applySingleAnswer(answer)));
-                applied += parallelResults.reduce((sum, count) => sum + count, 0);
-            }
-
-            for (const answer of sequential) {
                 applied += await applySingleAnswer(answer);
             }
 
             contentLog('info', 'apply.batch', 'Batch apply complete', {
                 requested: answers.length,
                 applied,
-                parallelTextFields: textLike.length,
-                sequentialFields: sequential.length,
             });
 
             sendResponse({ success: true, applied });

@@ -51,6 +51,8 @@
         "benchmark:draft-all:mock:baseline": "node scripts/extension-benchmark/mock-draft-all-flow.mjs --mode=baseline --iterations=8",
         "test:apply-dom-verify": "node scripts/extension-benchmark/test-apply-dom-verify.mjs",
         "test:pending-fields": "node scripts/extension-benchmark/test-pending-fields.mjs",
+        "test:e2e-fill": "npm run build:extension && node scripts/extension-benchmark/run-draft-all-dom-verify.mjs --fixture",
+        "test:e2e-fill:live": "npm run build:extension && node scripts/extension-benchmark/run-draft-all-dom-verify.mjs --live",
         "discord:invite": "node scripts/discord/setup-server.mjs",
         "discord:setup": "node scripts/discord/setup-server.mjs"
     },

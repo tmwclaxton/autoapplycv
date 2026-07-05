@@ -8,7 +8,16 @@
       "max_chars": null,
       "options": [
         "Analytics"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "analytics",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f1",
@@ -17,21 +26,48 @@
       "max_chars": null,
       "options": [
         "Marketing"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "marketing",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f2",
       "question": "in short, what is your main interest in vekst and this role?required in short, what is your main interest in vekst and this role?required in short, what is your main interest in vekst and this role?required",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_0_text",
+        "name": "candidate[answers_attributes][0][text]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f3",
       "question": "which systems, tools and platforms have you worked with for digital content creation? which systems, tools and platforms have you worked with for digital content creation? which systems, tools and platforms have you worked with for digital content creation?",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_1_text",
+        "name": "candidate[answers_attributes][1][text]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f4",
@@ -41,14 +77,32 @@
       "options": [
         "Yes",
         "No"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "id_6887872",
+        "name": "candidate[answers_attributes][2][boolean]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f5",
       "question": "which tool, systems and platforms have you worked with for social media management?required which tool, systems and platforms have you worked with for social media management?required which tool, systems and platforms have you worked with for social media management?required",
       "field_type": "textarea",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "candidate_answers_attributes_3_text",
+        "name": "candidate[answers_attributes][3][text]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f6",
@@ -61,7 +115,16 @@
         "I have worked inhouse at at B2B company.",
         "I have worked inhouse at a B2C company.",
         "I have no experience working with content production."
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "id_6887888",
+        "name": "candidate[answers_attributes][4][choices][]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f7",
@@ -71,7 +134,16 @@
       "options": [
         "Yes",
         "No"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "id_6887904",
+        "name": "candidate[answers_attributes][5][boolean]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f8",
@@ -81,7 +153,16 @@
       "options": [
         "Yes",
         "No"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "id_6887920",
+        "name": "candidate[answers_attributes][6][boolean]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f9",
@@ -91,35 +172,80 @@
       "options": [
         "Yes",
         "No"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "id_6887936",
+        "name": "candidate[answers_attributes][7][boolean]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f10",
       "question": "first namerequired first namerequired",
       "field_type": "text",
       "max_chars": 50,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate_first_name",
+        "name": "candidate[first_name]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f11",
       "question": "last namerequired last namerequired",
       "field_type": "text",
       "max_chars": 50,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate_last_name",
+        "name": "candidate[last_name]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f12",
       "question": "emailrequired emailrequired",
       "field_type": "email",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "candidate_email",
+        "name": "candidate[email]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f13",
       "question": "phonerequired phonerequired phone number with country code",
       "field_type": "tel",
       "max_chars": null,
-      "options": null
+      "options": null,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "candidate_phone",
+        "name": "candidate[phone]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f14",
@@ -128,7 +254,16 @@
       "max_chars": null,
       "options": [
         "Required.By submitting this application, I agree that I have read the Privacy Policy and confirm that Vekst store my personal details to be able to process my job application.*"
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "candidate_consent_given",
+        "name": "candidate[consent_given]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     },
     {
       "ref": "f15",
@@ -137,7 +272,16 @@
       "max_chars": null,
       "options": [
         "Yes, Vekst can contact me directly about specific future job opportunities."
-      ]
+      ],
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "candidate_consent_given_future_jobs",
+        "name": "candidate[consent_given_future_jobs]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
     }
   ],
   "complete": true,

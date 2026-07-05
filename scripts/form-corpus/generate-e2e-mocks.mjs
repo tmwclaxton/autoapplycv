@@ -52,6 +52,7 @@ function inventoryFieldsFromSnapshot(snapshot) {
         field_type: element.field_type || 'text',
         max_chars: element.max_chars ?? null,
         options: element.options ?? null,
+        dom: element.dom ?? null,
     }));
 }
 
@@ -61,6 +62,8 @@ function buildDraftAllNdjson(plan) {
         label: item.field?.question || item.ref,
         field_type: item.field?.field_type || 'text',
         answer: item.answer,
+        dom: item.dom || item.field?.dom || null,
+        data_field_path: item.dom?.data_field_path || item.field?.dom?.data_field_path || null,
     }));
 
     const lines = [

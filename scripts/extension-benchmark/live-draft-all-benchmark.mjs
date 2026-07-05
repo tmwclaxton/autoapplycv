@@ -17,6 +17,11 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
+    buildVerifyItems,
+    extractAppliedAnswersFromLogs,
+    verifyDomFieldsInPage,
+} from '../form-corpus/lib/dom-fill-verify.mjs';
+import {
     createExtensionContext,
     exportDebugLogs,
     startDraftAll,
@@ -227,31 +232,12 @@ async function waitForContentScript(page) {
     await page.waitForTimeout(4000);
 }
 
-async function spotCheckFilledFields(page, refs = []) {
-    if (refs.length === 0) {
-        return { checked: 0, filled: 0 };
+async function spotCheckFilledFields(page, verifyItems = []) {
+    if (verifyItems.length === 0) {
+        return { checked: 0, filled: 0, failures: [], rows: [] };
     }
 
-    return page.evaluate((checkRefs) => {
-        let filled = 0;
-
-        for (const ref of checkRefs) {
-            const entry = globalThis.AutoCVApplyFieldInventory?.getRefEntry?.(ref);
-
-            if (!entry?.target) {
-                continue;
-            }
-
-            const target = Array.isArray(entry.target) ? entry.target[0] : entry.target;
-            const value = target.value ?? target.textContent ?? '';
-
-            if (String(value).trim() !== '') {
-                filled += 1;
-            }
-        }
-
-        return { checked: checkRefs.length, filled };
-    }, refs.slice(0, 5));
+    return verifyDomFieldsInPage(page, verifyItems);
 }
 
 async function runIteration(context, getServiceWorker, { url, ats }, iteration) {
@@ -284,7 +270,14 @@ async function runIteration(context, getServiceWorker, { url, ats }, iteration) 
         const perfSummaries = extractPerfSummaries(logExport);
         const perf = perfSummaries.at(-1) ?? null;
         const draftComplete = extractDraftComplete(logExport);
-        const spotCheck = await spotCheckFilledFields(page, []).catch(() => ({ checked: 0, filled: 0 }));
+        const appliedAnswers = extractAppliedAnswersFromLogs(logExport);
+        const verifyItems = buildVerifyItems(appliedAnswers);
+        const spotCheck = await spotCheckFilledFields(page, verifyItems).catch(() => ({
+            checked: 0,
+            filled: 0,
+            failures: [],
+            rows: [],
+        }));
 
         return {
             iteration,
@@ -297,6 +290,7 @@ async function runIteration(context, getServiceWorker, { url, ats }, iteration) 
             perf,
             draftComplete,
             spotCheck,
+            domVerify: spotCheck,
             perfSummaryCount: perfSummaries.length,
             logEntryCount: logExport?.entry_count ?? 0,
         };
@@ -349,6 +343,13 @@ async function runBenchmark(urlEntries) {
                     console.log(`  total: ${formatMs(summary.totalMs)} | browser: ${formatMs(summary.browserMs)} | llm: ${formatMs(summary.llmMs)}`);
                     console.log(`  tokens: ${summary.tokensIn}/${summary.tokensOut} | inventory: ${summary.inventorySource ?? '?'}`);
                     console.log(`  fields: ${summary.fieldCount ?? '?'} | pending: ${summary.pending ?? '?'} | sub-10s: ${summary.sub10s ? 'yes' : 'no'}`);
+                    console.log(`  DOM verified: ${result.spotCheck?.filled ?? 0}/${result.spotCheck?.checked ?? 0}`);
+
+                    if (result.spotCheck?.failures?.length) {
+                        for (const failure of result.spotCheck.failures.slice(0, 3)) {
+                            console.log(`  DOM fail: ${failure.ref} expected "${failure.expected}", got "${failure.actual ?? 'empty'}"`);
+                        }
+                    }
                 } else {
                     console.log(`  error: ${result.startResult?.error || 'no perf.summary captured'}`);
                 }
@@ -370,7 +371,7 @@ async function runBenchmark(urlEntries) {
     writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
     console.log(`\nReport: ${reportPath}`);
 
-    if (results.some((result) => result.startResult?.error)) {
+    if (results.some((result) => result.startResult?.error || (result.spotCheck?.checked > 0 && result.spotCheck?.filled === 0))) {
         process.exitCode = 1;
     }
 

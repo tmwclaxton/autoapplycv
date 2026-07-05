@@ -47,6 +47,30 @@ Run 5–10 back-to-back iterations on the same tab (cache warm) and note `job-co
 
 For DOM readback, HTML5 validity, accessibility state, error-banner detection, OCR, and pixel-diff checks on the form corpus, see [form-corpus/README.md](../form-corpus/README.md).
 
+## Draft All DOM E2E
+
+After Draft All, verify fields are actually filled in the DOM (not just API success):
+
+```bash
+# Fixture mode (mocked API, Ashby/Greenhouse/Teamtailor)
+npm run test:e2e-fill
+
+# Live URLs (requires EXTENSION_API_TOKEN + running API)
+npm run test:e2e-fill:live
+
+# Or directly:
+node scripts/extension-benchmark/run-draft-all-dom-verify.mjs --fixture
+node scripts/extension-benchmark/run-draft-all-dom-verify.mjs --live --token="..." --api-base=http://localhost:8000
+```
+
+Reports per-field ref, label, expected vs actual. Fails when apply reported success but DOM is empty.
+
+Live benchmark also prints DOM verification counts:
+
+```bash
+node scripts/extension-benchmark/live-draft-all-benchmark.mjs --url="..." --token="..." --api-base=http://localhost:8000
+```
+
 ## PHP API timing
 
 Inventory and draft-all LLM calls dominate real-world latency. To profile backend:

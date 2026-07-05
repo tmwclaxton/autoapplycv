@@ -3,6 +3,12 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { analyzeLogExport } from './debug-log-analyzer.mjs';
+import {
+    buildVerifyItems,
+    parseDraftAllAnswers,
+    summarizeDomVerifyReport,
+    verifyDomFieldsInPage,
+} from './dom-fill-verify.mjs';
 import { startE2eMockServer, usesLocalFixtureUrl } from './e2e-mock-server.mjs';
 import { detectFormErrorsInPage } from './fill-error-detector.mjs';
 import { HTML_DIR } from './paths.mjs';
@@ -242,6 +248,11 @@ export async function runScenario(context, getServiceWorker, mockServer, scenari
             };
         }
 
+        await serviceWorker.evaluate(async (activeTabId) => {
+            await chrome.tabs.sendMessage(activeTabId, { type: 'BUILD_FIELD_SNAPSHOT' });
+        }, tabId);
+        await page.waitForTimeout(500);
+
         const inventory = JSON.parse(loadMock(scenarioId, 'inventory.json'));
         const jobContext = JSON.parse(loadMock(scenarioId, 'job-context.json'));
         const mockPayload = {
@@ -271,7 +282,14 @@ export async function runScenario(context, getServiceWorker, mockServer, scenari
         const logExport = await exportDebugLogs(context, getServiceWorker).catch(() => null);
         const errorBanner = await detectFormErrorsInPage(page);
         const domFailures = await assertDomFields(page, meta.field_assertions || []);
+        const draftAnswers = parseDraftAllAnswers(loadMock(scenarioId, 'draft-all.ndjson'));
+        const verifyItems = buildVerifyItems(draftAnswers, inventory.fields);
+        const domVerify = await verifyDomFieldsInPage(page, verifyItems);
         const minApplied = (meta.plan_count ?? inventory.fields?.length ?? 0) > 0;
+        const applyReportedSuccess = Boolean(startResult?.success);
+        const domEmptyAfterSuccess = applyReportedSuccess
+            && domVerify.checked > 0
+            && domVerify.filled === 0;
 
         let logAnalysis = { passed: true, failures: [] };
         const goldenPath = join(LOGS_DIR, `${scenarioId}.e2e.summary.json`);
@@ -283,9 +301,17 @@ export async function runScenario(context, getServiceWorker, mockServer, scenari
 
         return {
             id: scenarioId,
-            passed: Boolean(startResult?.success) && errorBanner.passed && minApplied,
+            passed: applyReportedSuccess
+                && errorBanner.passed
+                && minApplied
+                && domVerify.failures.length === 0
+                && !domEmptyAfterSuccess,
             startResult,
             domFailures,
+            domVerify: {
+                ...domVerify,
+                ...summarizeDomVerifyReport(domVerify.rows),
+            },
             errorBanner,
             logAnalysis,
             logSummary: logExport?.summary ?? null,

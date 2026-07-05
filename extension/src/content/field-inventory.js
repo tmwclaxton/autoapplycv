@@ -234,6 +234,34 @@ const AutoCVApplyFieldInventory = (() => {
     }
 
     function resolveEntryTarget(entry) {
+        if (entry.dom || entry.data_field_path) {
+            let resolvedFromDom = null;
+
+            AutoCVApplyFormHeuristics.forEachIframeDocument((doc) => {
+                if (resolvedFromDom) {
+                    return;
+                }
+
+                resolvedFromDom = AutoCVApplyFormHeuristics.resolveTargetFromDom(
+                    doc,
+                    entry.dom,
+                    entry.field_type,
+                    entry.data_field_path,
+                );
+            });
+
+            if (resolvedFromDom) {
+                entry.target = resolvedFromDom;
+                inventoryLog('debug', 'apply.ref', 'Resolved apply target from DOM metadata', {
+                    field_type: entry.field_type,
+                    data_field_path: entry.data_field_path,
+                    domId: entry.dom?.id || null,
+                });
+
+                return resolvedFromDom;
+            }
+        }
+
         if (AutoCVApplyFormHeuristics.isTargetConnected(entry.target)) {
             return entry.target;
         }
@@ -267,21 +295,24 @@ const AutoCVApplyFieldInventory = (() => {
 
     function resolveApplyEntry(ref, options = {}) {
         const registryEntry = refRegistry.get(ref);
+        const dom = options.dom || registryEntry?.dom || null;
+        const fieldType = options.field_type || registryEntry?.field_type || 'text';
+        const dataFieldPath = options.data_field_path || dom?.data_field_path || registryEntry?.data_field_path || null;
 
-        if (registryEntry) {
-            return registryEntry;
+        if (registryEntry || dom || dataFieldPath || options.field_type) {
+            return {
+                target: registryEntry?.target ?? null,
+                field_type: fieldType,
+                data_field_path: dataFieldPath,
+                dom,
+            };
         }
 
-        if (!options.dom && !options.field_type) {
-            return null;
-        }
+        return null;
+    }
 
-        return {
-            target: null,
-            field_type: options.field_type || 'text',
-            data_field_path: options.data_field_path || options.dom?.data_field_path || null,
-            dom: options.dom || null,
-        };
+    function getRefEntry(ref) {
+        return refRegistry.get(ref) || null;
     }
 
     async function applyAnswerByRef(root, ref, answer, options = {}) {
@@ -449,6 +480,7 @@ const AutoCVApplyFieldInventory = (() => {
         clickRef,
         clickRefAllFrames,
         fieldsFromInventory,
+        getRefEntry,
         resetRegistry,
     };
 })();
