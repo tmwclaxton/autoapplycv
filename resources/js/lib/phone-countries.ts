@@ -1280,3 +1280,14 @@ export function resolvePhoneCountryIso2(dialCode: string): string {
             ?.iso2 ?? 'GB'
     );
 }
+
+/** ISO alpha-2 codes with widely recognized shorthand overrides (e.g. GB → UK). */
+const PHONE_COUNTRY_DISPLAY_OVERRIDES: Partial<Record<string, string>> = {
+    GB: 'UK',
+};
+
+export function getPhoneCountryDisplayLabel(iso2: string): string {
+    const normalized = iso2.toUpperCase();
+
+    return PHONE_COUNTRY_DISPLAY_OVERRIDES[normalized] ?? normalized;
+}

@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import {
     DEFAULT_PHONE_COUNTRY_CODE,
     findPhoneCountryByIso2,
+    getPhoneCountryDisplayLabel,
     normalizeDialCode,
     PHONE_COUNTRIES,
     resolvePhoneCountryIso2,
@@ -72,7 +73,8 @@ ensureCountryCode();
                 :key="country.iso2"
                 :value="country.iso2"
             >
-                {{ country.dialCode }} {{ country.name }}
+                {{ country.dialCode }}
+                {{ getPhoneCountryDisplayLabel(country.iso2) }}
             </option>
         </select>
 
