@@ -2,9 +2,14 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { ArrowRight, Github } from 'lucide-vue-next';
 import { computed } from 'vue';
+import DiscordIcon from '@/components/DiscordIcon.vue';
 import ThemeToggle from '@/components/ThemeToggle.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
-import { GITHUB_REPOSITORY_URL, MARKETING_NAV_LINKS } from '@/lib/site';
+import {
+    DISCORD_INVITE_URL,
+    GITHUB_REPOSITORY_URL,
+    MARKETING_NAV_LINKS,
+} from '@/lib/site';
 import {
     about,
     analytics,
@@ -62,10 +67,20 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
             :href="GITHUB_REPOSITORY_URL"
             target="_blank"
             rel="noopener noreferrer"
-            class="postbox-btn-outline hidden shrink-0 sm:inline-flex"
+            aria-label="GitHub repository"
+            class="postbox-btn-outline hidden shrink-0 p-2 sm:inline-flex"
         >
-            <Github class="size-4" />
-            GitHub
+            <Github class="size-4" aria-hidden="true" />
+        </a>
+
+        <a
+            :href="DISCORD_INVITE_URL"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Join Discord community"
+            class="postbox-btn-outline hidden shrink-0 p-2 sm:inline-flex"
+        >
+            <DiscordIcon class="size-4" aria-hidden="true" />
         </a>
 
         <Link
