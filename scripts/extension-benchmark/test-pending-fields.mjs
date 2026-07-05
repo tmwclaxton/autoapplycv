@@ -3,16 +3,21 @@ import {
     appendContextualProfileAnswer,
     buildKnownProfileAnswers,
     buildPendingFieldsFromProfileGaps,
+    dedupeLocationParts,
     defaultSalaryFallbackPath,
     formatProfileSaveValue,
     formatContextualProfileLine,
     formatPhoneForForm,
     isAvailabilityQuestionLabel,
+    isCityLocationQuestionLabel,
     isMeaningfulAnswer,
     isNoticePeriodQuestionLabel,
+    isOpenEndedQuestionLabel,
     partitionBatchAnswers,
+    resolveConciseLocationValue,
     resolveProfileMappingForLabel,
     resolveSalaryPeriodPath,
+    shouldDeferFieldToAiDraft,
     shouldSkipAiDraftAnswer,
 } from '../../extension/src/shared/pending-fields.js';
 
@@ -242,5 +247,68 @@ assert(
     ) === 'Remote Laravel roles\nWhy do you want this role: Mission-driven product work',
     'catch-all profile fields should save contextual lines',
 );
+
+const belfastProfile = {
+    profile: {
+        location: 'Belfast, Belfast, Northern Ireland, United Kingdom',
+        city: 'Belfast',
+        country: 'United Kingdom',
+        structured_data: {
+            state_region: 'Northern Ireland',
+        },
+    },
+};
+
+assert(
+    dedupeLocationParts('Belfast, Belfast, Northern Ireland, United Kingdom')
+        === 'Belfast, Northern Ireland, United Kingdom',
+    'dedupeLocationParts should remove repeated location segments',
+);
+
+assert(
+    resolveConciseLocationValue(belfastProfile, { preferCity: true }) === 'Belfast',
+    'city-focused location answers should use city only',
+);
+
+assert(
+    resolveConciseLocationValue(belfastProfile) === 'Belfast, Northern Ireland, United Kingdom',
+    'concise location should combine unique city, region, and country parts',
+);
+
+assert(
+    isCityLocationQuestionLabel('location (city) location (city) first name'),
+    'Greenhouse location (city) labels should be treated as city fields',
+);
+
+assert(
+    resolveProfileMappingForLabel('location (city) location (city) first name')?.path === 'city',
+    'location (city) should map to city profile field',
+);
+
+assert(
+    shouldDeferFieldToAiDraft({ label: 'location (city) location (city) first name', field_type: 'text' }),
+    'location autocomplete fields should defer to AI draft',
+);
+
+assert(
+    shouldDeferFieldToAiDraft({ label: 'Why are you interested in this role?', field_type: 'textarea' }),
+    'motivation questions should defer to AI draft',
+);
+
+assert(
+    isOpenEndedQuestionLabel('Why do you want to work here?'),
+    'open-ended motivation labels should be detected',
+);
+
+const locationFields = [
+    { ref: 'loc1', label: 'location (city) location (city) first name', field_type: 'text' },
+    { ref: 'city1', label: 'City', field_type: 'text' },
+    { ref: 'mot1', label: 'Why are you interested in this role?', field_type: 'textarea' },
+];
+
+const locationKnown = buildKnownProfileAnswers(locationFields, belfastProfile);
+assert(!locationKnown.some((field) => field.ref === 'loc1'), 'location (city) should not use mechanical profile dump');
+assert(locationKnown.find((field) => field.ref === 'city1')?.answer === 'Belfast', 'plain city fields should still fill from profile');
+assert(!locationKnown.some((field) => field.ref === 'mot1'), 'motivation fields should not use mechanical profile dump');
 
 console.log('pending-fields tests passed');

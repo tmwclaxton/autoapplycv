@@ -356,4 +356,69 @@ class ApplicationAssistantServiceTest extends TestCase
         $this->assertContains('postcode', $fields);
         $this->assertContains('country', $fields);
     }
+
+    public function test_answer_questions_includes_location_and_motivation_guidance(): void
+    {
+        $user = User::factory()->create();
+        $profile = CvProfile::factory()->for($user)->create([
+            'city' => 'Belfast',
+            'location' => 'Belfast, Belfast, Northern Ireland, United Kingdom',
+            'summary' => 'Backend engineer with Laravel experience.',
+        ]);
+
+        $capturedUserPayload = null;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock) use (&$capturedUserPayload): void {
+            $mock->shouldReceive('chatJson')
+                ->once()
+                ->withArgs(function (array $messages): bool {
+                    return ($messages[1]['role'] ?? null) === 'user';
+                })
+                ->andReturnUsing(function (array $messages) use (&$capturedUserPayload): array {
+                    $capturedUserPayload = json_decode($messages[1]['content'], true);
+
+                    return [
+                        'answers' => [
+                            [
+                                'label' => 'location (city)',
+                                'ref' => 'loc-city',
+                                'answer' => 'Belfast',
+                            ],
+                            [
+                                'label' => 'Why are you interested in this role?',
+                                'ref' => 'motivation',
+                                'answer' => 'I want to work on APIs that ship to production quickly.',
+                            ],
+                        ],
+                    ];
+                });
+        });
+
+        $service = app(ApplicationAssistantService::class);
+
+        $result = $service->answerQuestions(
+            $profile,
+            ['title' => 'Engineer', 'company' => 'Acme'],
+            [
+                [
+                    'label' => 'location (city)',
+                    'ref' => 'loc-city',
+                    'field_type' => 'text',
+                ],
+                [
+                    'label' => 'Why are you interested in this role?',
+                    'ref' => 'motivation',
+                    'field_type' => 'textarea',
+                    'max_chars' => 1000,
+                ],
+            ],
+        );
+
+        $this->assertNotNull($result);
+        $this->assertSame('Belfast', $result['answers'][0]['answer'] ?? null);
+
+        $instructions = (string) ($capturedUserPayload['instructions'] ?? '');
+        $this->assertStringContainsString('city name', $instructions);
+        $this->assertStringContainsString('Never paste raw profile fields', $instructions);
+    }
 }

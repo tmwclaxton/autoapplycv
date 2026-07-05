@@ -61,13 +61,27 @@ const GENERIC_SALARY_KEYWORDS = [
     'desired compensation',
 ];
 
+const OPEN_ENDED_QUESTION_PATTERNS = [
+    /\bwhy (?:are you|do you|did you)\b/i,
+    /\bwhy (?:interested|want|this role|this company|work here)\b/i,
+    /\btell us about\b/i,
+    /\bdescribe your\b/i,
+    /\bwhat (?:motivates|attracts) you\b/i,
+    /\bcover(?:ing)? letter\b/i,
+    /\bpersonal statement\b/i,
+    /\badditional (?:information|comments|details)\b/i,
+    /\banything else (?:you|we) should know\b/i,
+    /\bhow would you\b/i,
+    /\bwhat makes you\b/i,
+];
+
 const PROFILE_FIELD_MAPPINGS = [
     { path: 'full_name', label: 'Full name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['full name', 'applicant name', 'your name', 'candidate name'] },
     { path: 'email', label: 'Email', dashboard_tab: 'profile', dashboard_anchor: 'field-email', keywords: ['email', 'e-mail', 'personal email'] },
     { path: 'phone', label: 'Phone', dashboard_tab: 'profile', dashboard_anchor: 'field-phone', keywords: ['phone', 'mobile', 'telephone', 'contact number', 'cell'] },
     { path: 'linkedin_url', label: 'LinkedIn', dashboard_tab: 'profile', dashboard_anchor: 'field-linkedin-url', keywords: ['linkedin'] },
-    { path: 'location', label: 'Location', dashboard_tab: 'profile', dashboard_anchor: 'field-location', keywords: ['location', 'current location'] },
     { path: 'city', label: 'City', dashboard_tab: 'profile', dashboard_anchor: 'field-city', keywords: ['city', 'current city', 'town'] },
+    { path: 'location', label: 'Location', dashboard_tab: 'profile', dashboard_anchor: 'field-location', keywords: ['location', 'current location'] },
     { path: 'country', label: 'Country', dashboard_tab: 'profile', dashboard_anchor: 'field-country', keywords: ['country', 'country of residence'] },
     { path: 'application_settings.years_of_experience', label: 'Years of experience', dashboard_tab: 'preferences', dashboard_anchor: 'field-years-of-experience', keywords: ['years of experience', 'years experience', 'total experience'] },
     { path: 'application_settings.visa_sponsorship', label: 'Visa sponsorship', dashboard_tab: 'preferences', dashboard_anchor: 'field-visa-sponsorship', keywords: ['visa sponsorship', 'require sponsorship', 'work authorisation', 'work authorization'] },
@@ -250,6 +264,149 @@ function profileMappingByPath(path) {
     return PROFILE_FIELD_MAPPINGS.find((mapping) => mapping.path === path) ?? null;
 }
 
+export function isOpenEndedQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    return OPEN_ENDED_QUESTION_PATTERNS.some((pattern) => pattern.test(normalized));
+}
+
+export function isCityLocationQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (/\blocation\s*\(\s*city\b/.test(normalized)) {
+        return true;
+    }
+
+    if (/\b(?:city|town)\b/.test(normalized) && /\blocation\b/.test(normalized)) {
+        return true;
+    }
+
+    if (/\b(?:city|town)\b/.test(normalized) && /\b(?:state|region|zip|postcode)\b/.test(normalized)) {
+        return true;
+    }
+
+    if (/\bwhere (?:are you|do you live|is your)\b/.test(normalized)) {
+        return true;
+    }
+
+    return false;
+}
+
+export function isLocationAutocompleteQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized || /\bcountry\b/.test(normalized)) {
+        return false;
+    }
+
+    if (isCityLocationQuestionLabel(label)) {
+        return true;
+    }
+
+    if (/\b(?:current )?location\b/.test(normalized) && !/\baddress line\b/.test(normalized)) {
+        return true;
+    }
+
+    return false;
+}
+
+export function shouldDeferFieldToAiDraft(field) {
+    const label = field?.label || field?.question || '';
+
+    if (isOpenEndedQuestionLabel(label)) {
+        return true;
+    }
+
+    if (field?.field_type === 'textarea') {
+        return true;
+    }
+
+    if (isLocationAutocompleteQuestionLabel(label)) {
+        return true;
+    }
+
+    return false;
+}
+
+export function dedupeLocationParts(value) {
+    const parts = String(value || '')
+        .split(',')
+        .map((part) => part.trim())
+        .filter(Boolean);
+    const seen = new Set();
+    const deduped = [];
+
+    for (const part of parts) {
+        const key = part.toLowerCase();
+
+        if (seen.has(key)) {
+            continue;
+        }
+
+        seen.add(key);
+        deduped.push(part);
+    }
+
+    return deduped.join(', ');
+}
+
+export function resolveConciseLocationValue(profileData, { preferCity = false } = {}) {
+    const city = String(readProfileValue(profileData, 'city') || '').trim();
+    const region = String(readProfileValue(profileData, 'structured_data.state_region') || '').trim();
+    const country = String(readProfileValue(profileData, 'country') || '').trim();
+    const location = dedupeLocationParts(readProfileValue(profileData, 'location'));
+
+    if (preferCity && city) {
+        return city;
+    }
+
+    const parts = [];
+    const seen = new Set();
+
+    for (const part of [city, region, country]) {
+        const key = part.toLowerCase();
+
+        if (!part || seen.has(key)) {
+            continue;
+        }
+
+        seen.add(key);
+        parts.push(part);
+    }
+
+    if (parts.length > 0) {
+        return parts.join(', ');
+    }
+
+    return location;
+}
+
+function resolveKnownProfileAnswerValue(mapping, profileData, field) {
+    if (mapping.path === 'phone') {
+        return formatPhoneForForm(profileData, readProfileValue(profileData, 'phone'));
+    }
+
+    if (mapping.path === 'city') {
+        return resolveConciseLocationValue(profileData, { preferCity: true });
+    }
+
+    if (mapping.path === 'location') {
+        return resolveConciseLocationValue(profileData, {
+            preferCity: isCityLocationQuestionLabel(field?.label || field?.question || ''),
+        });
+    }
+
+    return String(readProfileValue(profileData, mapping.path)).trim();
+}
+
 export function resolveProfileMappingForLabel(label, profileData = null) {
     const normalized = normalizeQuestionLabel(label);
 
@@ -267,6 +424,10 @@ export function resolveProfileMappingForLabel(label, profileData = null) {
 
     if (isAvailabilityQuestionLabel(label)) {
         return availabilityProfileMapping();
+    }
+
+    if (isCityLocationQuestionLabel(label)) {
+        return profileMappingByPath('city');
     }
 
     for (const mapping of PROFILE_FIELD_MAPPINGS) {
@@ -360,6 +521,10 @@ export function buildKnownProfileAnswers(fields, profileData) {
     const answers = [];
 
     for (const field of fields || []) {
+        if (shouldDeferFieldToAiDraft(field)) {
+            continue;
+        }
+
         const mapping = resolveProfileMappingForLabel(field.label, profileData);
 
         if (!mapping) {
@@ -368,7 +533,7 @@ export function buildKnownProfileAnswers(fields, profileData) {
 
         const value = readProfileValue(profileData, mapping.path);
 
-        if (!isMeaningfulAnswer(value)) {
+        if (!isMeaningfulAnswer(value) && mapping.path !== 'location' && mapping.path !== 'city') {
             continue;
         }
 
@@ -376,9 +541,7 @@ export function buildKnownProfileAnswers(fields, profileData) {
             continue;
         }
 
-        const answerValue = mapping.path === 'phone'
-            ? formatPhoneForForm(profileData, value)
-            : String(value).trim();
+        const answerValue = resolveKnownProfileAnswerValue(mapping, profileData, field);
 
         if (!isMeaningfulAnswer(answerValue)) {
             continue;

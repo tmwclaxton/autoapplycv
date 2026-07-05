@@ -61,7 +61,8 @@ class ApplicationAssistantService
                         .'Read each question label carefully, including any helper text embedded in it, and answer that specific question - do not paste a generic CV summary unless the question explicitly asks for a full background overview. '
                         .'Use job.title, job.company, and job.job_description to tailor answers to this employer and role. '
                         .'For field_type radio, select, or checkbox with an options array, you MUST return one exact option string copied verbatim from options. Pick the best fit using application_settings when relevant (visa, relocation, salary, start date, office preference, employment type). '
-                        .'For open text questions about motivation, interest, or fit, write 2-4 sentences in first person explaining why this role/company specifically appeals to you. '
+                        .'For open text questions about motivation, interest, or fit, write 2-4 sentences in first person explaining why this role/company specifically appeals to you. Never paste raw profile fields (location strings, summary, headline) into these answers. '
+                        .'For location or city autocomplete fields, return only the city name (for example "Belfast") unless the question explicitly asks for full address. Do not repeat the same place name or concatenate city, region, and country redundantly. '
                         .'Use null only when the profile truly lacks enough facts. Never invent employers, degrees, or dates. '
                         .'For simple yes/no questions return "yes" or "no". For checkbox groups that allow multiple selections, return comma-separated option texts. '
                         .'Keep within max_chars when provided. Plain text only - no markdown.',
@@ -159,6 +160,10 @@ class ApplicationAssistantService
             'describe your experience',
             'additional information',
             'personal statement',
+            'location (city)',
+            'current location',
+            'where are you based',
+            'working location',
         ];
 
         foreach ($prosePatterns as $pattern) {
@@ -1048,6 +1053,8 @@ Be specific, not generic:
 - Ground answers in real details from the profile: company names, projects, tools, and numbers when available.
 - When job context is available, tie the answer to this employer or role instead of writing something that could fit any company.
 - Do not pad with filler or corporate buzzwords. Say what actually happened and why it matters.
+- For location answers, keep them concise and non-redundant. Prefer a single city name for autocomplete fields unless the question asks for a full address.
+- Never dump concatenated profile location strings or paste summary/headline text into motivation or open-ended questions.
 
 Formatting:
 - Plain text only. No markdown, bullet lists, headings, or em dashes. Use normal hyphens (-).
