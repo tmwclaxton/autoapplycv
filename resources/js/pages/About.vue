@@ -5,7 +5,7 @@ import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
 import PostboxProse from '@/components/postbox/PostboxProse.vue';
-import { GITHUB_REPOSITORY_URL } from '@/lib/site';
+import { GITHUB_REPOSITORY_URL, PLATFORM_MARKETING_INLINE } from '@/lib/site';
 </script>
 
 <template>
@@ -28,7 +28,7 @@ import { GITHUB_REPOSITORY_URL } from '@/lib/site';
                 You upload your CV once. We extract the useful fields - contact
                 details, experience, skills, education - and store them in your
                 profile. A browser extension then fills job application forms on
-                sites like Workday, Indeed, LinkedIn, Greenhouse, and Lever.
+                {{ PLATFORM_MARKETING_INLINE }}.
             </p>
 
             <h2>What it does not do</h2>

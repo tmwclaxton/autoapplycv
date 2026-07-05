@@ -15,6 +15,7 @@ class ApplicationJobContextService
      *     location: string|null,
      *     job_description: string|null,
      *     source: string|null,
+     *     usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int, credits?: float|null, model: string},
      * }|null
      */
     public function extractFromPage(string $pageTitle, string $pageUrl, string $pageText): ?array
@@ -51,12 +52,20 @@ class ApplicationJobContextService
             return null;
         }
 
+        $usage = is_array($payload['_usage'] ?? null) ? $payload['_usage'] : [
+            'prompt_tokens' => 0,
+            'completion_tokens' => 0,
+            'total_tokens' => 0,
+            'model' => (string) config('cv.job_context_model'),
+        ];
+
         return [
             'title' => $this->nullableString($payload['title'] ?? null),
             'company' => $this->nullableString($payload['company'] ?? null),
             'location' => $this->nullableString($payload['location'] ?? null),
             'job_description' => $this->nullableString($payload['job_description'] ?? null),
             'source' => $this->nullableString($payload['source'] ?? null),
+            'usage' => $usage,
         ];
     }
 

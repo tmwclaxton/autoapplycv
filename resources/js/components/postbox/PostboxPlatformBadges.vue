@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { SUPPORTED_PLATFORMS } from '@/lib/site';
+import { PLATFORM_MARKETING_LINE, SUPPORTED_PLATFORMS } from '@/lib/site';
 </script>
 
 <template>
     <section class="postbox-panel-muted p-5 sm:p-6">
-        <p class="postbox-label mb-4">Accepted destinations</p>
+        <p class="postbox-label mb-2">Works on major ATS and career sites</p>
+        <p class="mb-4 text-sm leading-relaxed text-muted-foreground">
+            {{ PLATFORM_MARKETING_LINE }}
+        </p>
         <div class="flex flex-wrap gap-2">
             <span
                 v-for="platform in SUPPORTED_PLATFORMS"

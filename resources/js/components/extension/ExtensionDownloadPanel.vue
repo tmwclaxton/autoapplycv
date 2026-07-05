@@ -138,7 +138,7 @@ function selectBrowser(browser: BrowserChoice): void {
         </div>
 
         <div v-else class="space-y-5">
-            <div class="postbox-panel p-6">
+            <div class="postbox-panel p-4 sm:p-6">
                 <p class="postbox-label">Step 2 · Download the extension</p>
                 <p class="mt-1 text-sm text-muted-foreground">
                     This zip is built for
@@ -160,7 +160,7 @@ function selectBrowser(browser: BrowserChoice): void {
                 </a>
             </div>
 
-            <div v-if="showInstructions" class="postbox-panel p-6">
+            <div v-if="showInstructions" class="postbox-panel p-4 sm:p-6">
                 <p class="postbox-label">Step 3 · Install it</p>
 
                 <ol

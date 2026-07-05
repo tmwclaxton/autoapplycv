@@ -14,6 +14,10 @@ import {
     Zap,
 } from 'lucide-vue-next';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import {
+    store as cvUpload,
+    updateProfile as cvProfileUpdate,
+} from '@/actions/App/Http/Controllers/CvUploadController';
 import ApplicationPreferencesPanel from '@/components/cv/ApplicationPreferencesPanel.vue';
 import CvParsingOverlay from '@/components/cv/CvParsingOverlay.vue';
 import CvProfileForm from '@/components/cv/CvProfileForm.vue';
@@ -22,6 +26,7 @@ import type { ExtensionUsageSummary } from '@/components/cv/ExtensionUsagePanel.
 import ProfileDocumentsPanel from '@/components/cv/ProfileDocumentsPanel.vue';
 import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
 import { cvAcceptAttribute, validateCvUpload } from '@/lib/upload-validation';
+import billing from '@/routes/billing';
 import { useToastStore } from '@/stores/toastStore';
 import { normalizeCvProfile } from '@/types/cvProfile';
 import type { CvProfile, CvProfileSection } from '@/types/cvProfile';
@@ -29,11 +34,6 @@ import type {
     DocumentCategoryOption,
     ProfileDocument,
 } from '@/types/profileDocument';
-import {
-    store as cvUpload,
-    updateProfile as cvProfileUpdate,
-} from '@/actions/App/Http/Controllers/CvUploadController';
-import billing from '@/routes/billing';
 
 setLayoutProps({
     tagline: 'Your profile, ready to post.',
@@ -425,8 +425,10 @@ async function copyToken() {
 <template>
     <Head title="Dashboard - AutoCVApply" />
 
-    <div class="mb-8 flex flex-wrap items-start justify-between gap-4">
-        <div>
+    <div
+        class="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between"
+    >
+        <div class="min-w-0">
             <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
                 Your profile
             </h1>
@@ -449,7 +451,9 @@ async function copyToken() {
                 {{ saveStatusLabel }}
             </p>
         </div>
-        <div class="flex shrink-0 items-center gap-3">
+        <div
+            class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center sm:gap-3"
+        >
             <input
                 ref="cvFileInput"
                 type="file"
@@ -461,13 +465,13 @@ async function copyToken() {
             />
             <Link
                 :href="billing.index().url"
-                class="postbox-btn-outline text-sm"
+                class="postbox-btn-outline w-full text-sm sm:w-auto"
             >
                 Manage plan
             </Link>
             <button
                 type="button"
-                class="postbox-btn-outline inline-flex items-center gap-2 text-sm"
+                class="postbox-btn-outline inline-flex w-full items-center justify-center gap-2 text-sm sm:w-auto"
                 :disabled="isUploading"
                 @click="openCvUpload"
             >
@@ -476,7 +480,7 @@ async function copyToken() {
                 {{ isUploading ? 'Uploading…' : 'Replace CV' }}
             </button>
             <div
-                class="postbox-stamp flex size-12 items-center justify-center text-base"
+                class="postbox-stamp hidden size-12 shrink-0 items-center justify-center text-base sm:flex"
             >
                 {{ profile.full_name?.charAt(0)?.toUpperCase() ?? '?' }}
             </div>
@@ -490,22 +494,30 @@ async function copyToken() {
         {{ uploadError }}
     </p>
 
-    <div class="mb-6 flex border-b-2 border-postbox-navy/20">
-        <button
-            v-for="tab in tabs"
-            :key="tab.key"
-            type="button"
-            class="flex items-center gap-2 border-b-2 border-transparent px-4 py-3 text-sm transition-colors"
-            :class="
-                activeTab === tab.key
-                    ? 'postbox-tab-active'
-                    : 'text-muted-foreground hover:text-postbox-navy'
-            "
-            @click="activeTab = tab.key"
+    <div class="-mx-4 mb-6 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+        <div
+            class="flex min-w-max border-b-2 border-postbox-navy/20"
+            role="tablist"
+            aria-label="Profile sections"
         >
-            <component :is="tab.icon" class="size-4" />
-            {{ tab.label }}
-        </button>
+            <button
+                v-for="tab in tabs"
+                :key="tab.key"
+                type="button"
+                role="tab"
+                :aria-selected="activeTab === tab.key"
+                class="flex shrink-0 items-center gap-1.5 border-b-2 border-transparent px-3 py-2.5 text-sm transition-colors sm:gap-2 sm:px-4 sm:py-3"
+                :class="
+                    activeTab === tab.key
+                        ? 'postbox-tab-active'
+                        : 'text-muted-foreground hover:text-postbox-navy'
+                "
+                @click="activeTab = tab.key"
+            >
+                <component :is="tab.icon" class="size-4 shrink-0" />
+                <span class="whitespace-nowrap">{{ tab.label }}</span>
+            </button>
+        </div>
     </div>
 
     <div v-if="activeTab === 'profile'" class="relative space-y-6">
@@ -574,7 +586,7 @@ async function copyToken() {
     </div>
 
     <div v-else-if="activeTab === 'extension'" class="space-y-4">
-        <div class="postbox-panel p-6">
+        <div class="postbox-panel p-4 sm:p-6">
             <h2 class="postbox-label">Install extension</h2>
             <p class="mb-6 text-sm text-muted-foreground">
                 Choose your browser, download the matching zip, and sideload it
@@ -583,24 +595,27 @@ async function copyToken() {
             <ExtensionDownloadPanel />
         </div>
 
-        <div class="postbox-panel p-6">
+        <div class="postbox-panel p-4 sm:p-6">
             <h2 class="postbox-label">Extension connection</h2>
             <p class="mb-5 text-sm text-muted-foreground">
                 Generate a connection for the extension. We copy the JSON to
                 your clipboard automatically - paste it into the extension
                 sidebar. We won't show it again.
             </p>
-            <div v-if="extensionConnectionJson" class="mb-4 flex gap-2">
+            <div
+                v-if="extensionConnectionJson"
+                class="mb-4 flex flex-col gap-2 sm:flex-row"
+            >
                 <textarea
                     :value="extensionConnectionJson"
                     readonly
                     rows="4"
                     autocomplete="off"
-                    class="postbox-input flex-1 font-mono text-xs"
+                    class="postbox-input min-w-0 flex-1 font-mono text-xs"
                 />
                 <button
                     type="button"
-                    class="postbox-btn-outline shrink-0 self-start px-3"
+                    class="postbox-btn-outline shrink-0 self-stretch px-3 sm:self-start"
                     @click="copyToken"
                 >
                     <Copy class="size-4" />

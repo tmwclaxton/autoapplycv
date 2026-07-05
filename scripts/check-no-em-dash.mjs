@@ -129,11 +129,13 @@ async function main() {
 
     if (fixMode) {
         console.log(`Replaced em dashes in ${fixedFiles} file(s).`);
+
         return;
     }
 
     if (violations.length === 0) {
         console.log('No em dashes found in scanned source files.');
+
         return;
     }
 

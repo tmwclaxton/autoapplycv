@@ -12,7 +12,7 @@ defineProps<{
             {{ badge }}
         </span>
         <h1
-            class="text-3xl font-bold tracking-tight text-balance text-postbox-navy sm:text-4xl"
+            class="text-2xl font-bold tracking-tight text-balance text-postbox-navy sm:text-3xl md:text-4xl"
         >
             {{ title }}
         </h1>

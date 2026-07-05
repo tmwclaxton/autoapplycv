@@ -29,11 +29,14 @@ const maxWidthClass = {
         <header class="postbox-bar-top">
             <div
                 :class="[
-                    'mx-auto flex w-full items-center justify-between gap-4 px-4 py-3 sm:px-6 sm:py-4',
+                    'mx-auto flex w-full flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 py-3 sm:gap-x-4 sm:px-6 sm:py-4',
                     maxWidthClass[maxWidth],
                 ]"
             >
-                <Link :href="home()" class="flex min-w-0 items-center gap-3">
+                <Link
+                    :href="home()"
+                    class="flex min-w-0 flex-1 items-center gap-2 sm:flex-none sm:gap-3"
+                >
                     <PostboxMark />
                     <div class="min-w-0">
                         <p
@@ -46,14 +49,16 @@ const maxWidthClass = {
                         </p>
                     </div>
                 </Link>
-                <nav class="flex shrink-0 items-center gap-2">
+                <nav
+                    class="flex w-full shrink-0 items-center justify-end gap-2 sm:w-auto"
+                >
                     <slot name="nav" />
                     <Link
                         v-if="showSignOut"
                         :href="logout()"
                         method="post"
                         as="button"
-                        class="postbox-btn-ghost text-sm"
+                        class="postbox-btn-ghost px-2 text-xs sm:px-3 sm:text-sm"
                     >
                         Sign out
                     </Link>
@@ -63,7 +68,7 @@ const maxWidthClass = {
 
         <main
             :class="[
-                'mx-auto w-full flex-1 px-4 py-8 sm:px-6 sm:py-10',
+                'mx-auto w-full flex-1 px-4 py-6 sm:px-6 sm:py-10',
                 maxWidthClass[maxWidth],
             ]"
         >

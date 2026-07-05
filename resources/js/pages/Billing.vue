@@ -185,9 +185,11 @@ async function cancelSubscription(): Promise<void> {
         {{ flashError }}
     </div>
 
-    <div class="postbox-panel mb-8 p-6">
-        <div class="flex flex-wrap items-start justify-between gap-4">
-            <div>
+    <div class="postbox-panel mb-8 p-4 sm:p-6">
+        <div
+            class="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between"
+        >
+            <div class="min-w-0">
                 <p class="postbox-label">{{ planHeading }}</p>
                 <p class="text-xl font-bold text-postbox-navy">
                     {{ planTitle }}
@@ -212,7 +214,7 @@ async function cancelSubscription(): Promise<void> {
                     Status: {{ subscription.status_label }}
                 </p>
             </div>
-            <div class="text-right text-sm text-muted-foreground">
+            <div class="text-sm text-muted-foreground sm:text-right">
                 Autofills reset
                 {{ formatDate(subscription.period_resets_at) }}
             </div>
@@ -257,23 +259,29 @@ async function cancelSubscription(): Promise<void> {
             Finish Direct Debit setup
         </button>
 
-        <Link :href="dashboard()" class="postbox-btn-outline mt-6">
-            Back to dashboard
-        </Link>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <Link
+                :href="dashboard()"
+                class="postbox-btn-outline w-full sm:w-auto"
+            >
+                Back to dashboard
+            </Link>
 
-        <button
-            v-if="
-                subscription.tier !== 'free' && subscription.status === 'active'
-            "
-            type="button"
-            class="postbox-btn-outline mt-6 ml-3"
-            @click="cancelSubscription"
-        >
-            Cancel paid plan
-        </button>
+            <button
+                v-if="
+                    subscription.tier !== 'free' &&
+                    subscription.status === 'active'
+                "
+                type="button"
+                class="postbox-btn-outline w-full sm:w-auto"
+                @click="cancelSubscription"
+            >
+                Cancel paid plan
+            </button>
+        </div>
     </div>
 
-    <div v-if="showBillingHistory" class="postbox-panel mb-8 p-6">
+    <div v-if="showBillingHistory" class="postbox-panel mb-8 p-4 sm:p-6">
         <h2 class="text-lg font-bold text-postbox-navy">
             Direct Debit billing
         </h2>

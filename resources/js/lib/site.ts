@@ -7,11 +7,21 @@ export const CONTACT_EMAIL = 'hello@autocvapply.com';
 
 export const SUPPORTED_PLATFORMS = [
     'Workday',
-    'Indeed',
-    'LinkedIn',
     'Greenhouse',
     'Lever',
+    'Ashby',
+    'SmartRecruiters',
+    'Teamtailor',
+    'Indeed',
+    'LinkedIn',
 ] as const;
+
+export const PLATFORM_MARKETING_LINE =
+    'Most major ATS and employer career sites - including Workday, Greenhouse, Lever, Ashby, SmartRecruiters, and many more.';
+
+/** Lowercase, no trailing period - for mid-sentence use in marketing copy. */
+export const PLATFORM_MARKETING_INLINE =
+    'most major ATS and employer career sites - including Workday, Greenhouse, Lever, Ashby, SmartRecruiters, and many more';
 
 export const SETUP_STEPS = [
     {
@@ -30,7 +40,7 @@ export const SETUP_STEPS = [
         number: '03',
         title: 'Stamp the forms',
         description:
-            'Install the extension. Hit autofill on Workday, Indeed, and the rest.',
+            'Install the extension. Hit autofill on major ATS and career sites.',
     },
 ] as const;
 

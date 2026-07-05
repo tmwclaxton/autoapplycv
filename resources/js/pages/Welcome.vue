@@ -5,6 +5,7 @@ import PostboxCta from '@/components/postbox/PostboxCta.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPlatformBadges from '@/components/postbox/PostboxPlatformBadges.vue';
+import { PLATFORM_MARKETING_INLINE } from '@/lib/site';
 import { howTo, login } from '@/routes';
 
 defineProps<{
@@ -37,8 +38,8 @@ defineProps<{
                 class="mt-5 text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
             >
                 Job forms ask the same questions again and again. AutoCVApply
-                stores your CV profile and stamps answers onto Workday, Indeed,
-                LinkedIn, Greenhouse, and Lever - without the copy-paste
+                stores your CV profile and stamps answers onto
+                {{ PLATFORM_MARKETING_INLINE }} - without the copy-paste
                 marathon.
             </p>
 

@@ -126,7 +126,7 @@ class BlogArticleFormats
             'Free vs Starter vs Pro: choosing an AutoCVApply plan for your job search intensity',
             'Why CV upload and profile editing are free but extension autofill is metered',
             'Using the Chrome extension safely: API tokens and what stays on your device',
-            'Indeed, LinkedIn, Greenhouse, Lever, and Workday: where AutoCVApply autofill works today',
+            'Major ATS and career sites: where AutoCVApply autofill works today',
             'Application fatigue is real: practical ways to lower friction without cutting corners',
             'How AI CV parsing gets your profile started so you can focus on tailoring answers',
             'After redundancy: structuring a faster, calmer application routine with AutoCVApply',

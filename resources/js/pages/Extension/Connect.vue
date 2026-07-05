@@ -68,7 +68,7 @@ onMounted(() => {
         class="flex min-h-screen items-center justify-center bg-postbox-grey px-4 py-10"
     >
         <div
-            class="w-full max-w-md border-2 border-postbox-navy bg-white p-8 shadow-[4px_4px_0_rgb(27_54_93_/_18%)]"
+            class="w-full max-w-md border-2 border-postbox-navy bg-postbox-surface p-6 shadow-[4px_4px_0_rgb(27_54_93_/_18%)] sm:p-8"
         >
             <p class="postbox-badge mb-4 inline-flex">AutoCVApply extension</p>
             <h1 class="text-xl font-bold text-postbox-navy">

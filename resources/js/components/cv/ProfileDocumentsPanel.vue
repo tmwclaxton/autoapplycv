@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { Download, FileText, Loader2, Trash2, Upload } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
+import {
+    destroy as deleteDocument,
+    store as storeDocument,
+} from '@/actions/App/Http/Controllers/ProfileDocumentController';
 import { useConfirm } from '@/composables/useConfirm';
 import {
     cvAcceptAttribute,
@@ -13,10 +17,6 @@ import type {
     DocumentCategoryOption,
     ProfileDocument,
 } from '@/types/profileDocument';
-import {
-    destroy as deleteDocument,
-    store as storeDocument,
-} from '@/actions/App/Http/Controllers/ProfileDocumentController';
 
 const documents = defineModel<ProfileDocument[]>('documents', {
     required: true,
@@ -196,7 +196,7 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
 </script>
 
 <template>
-    <div id="profile-documents" class="postbox-panel p-6">
+    <div id="profile-documents" class="postbox-panel p-4 sm:p-6">
         <h2 class="postbox-label">Documents</h2>
         <p class="mb-6 text-sm text-muted-foreground">
             Upload your CV or résumé here, or add certificates, reference

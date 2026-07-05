@@ -122,7 +122,7 @@ const isEmpty = computed(() =>
         <div v-else class="overflow-x-auto">
             <svg
                 :viewBox="`0 0 ${chartWidth} ${chartHeight}`"
-                class="min-w-full"
+                class="h-auto w-full min-w-[640px]"
                 role="img"
                 :aria-label="`${title} bar chart`"
             >

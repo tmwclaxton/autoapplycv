@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Mail\PostalTransport;
+use App\Services\WorkerHeartbeatService;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
@@ -27,7 +29,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerPostalMailer();
+        $this->registerWorkerHeartbeatRecorder();
         $this->configureDefaults();
+    }
+
+    protected function registerWorkerHeartbeatRecorder(): void
+    {
+        Queue::after(function (): void {
+            app(WorkerHeartbeatService::class)->record();
+        });
     }
 
     protected function registerPostalMailer(): void

@@ -2,9 +2,9 @@
 import { Link } from '@inertiajs/vue3';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { toUrl } from '@/lib/utils';
-import type { NavItem } from '@/types';
 import { edit as editAppearance } from '@/routes/appearance';
 import { edit as editProfile } from '@/routes/profile';
+import type { NavItem } from '@/types';
 
 const sidebarNavItems: NavItem[] = [
     {
@@ -57,7 +57,7 @@ function navLinkClass(href: NavItem['href']): string {
             </aside>
 
             <div class="min-w-0 flex-1">
-                <div class="postbox-panel p-6 sm:p-8">
+                <div class="postbox-panel p-4 sm:p-8">
                     <slot />
                 </div>
             </div>

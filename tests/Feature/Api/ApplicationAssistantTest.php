@@ -125,7 +125,14 @@ class ApplicationAssistantTest extends TestCase
         $token = $user->createToken('extension')->plainTextToken;
 
         $this->mock(NanoGptService::class, function (MockInterface $mock): void {
-            $mock->shouldReceive('chat')->once()->andReturn('Dear hiring manager, I am excited to apply.');
+            $mock->shouldReceive('chatWithUsage')->once()->andReturn([
+                'content' => 'Dear hiring manager, I am excited to apply.',
+                'prompt_tokens' => 100,
+                'completion_tokens' => 50,
+                'total_tokens' => 150,
+                'credits' => null,
+                'model' => 'openai/gpt-4.1-mini',
+            ]);
         });
 
         $this->withToken($token)
@@ -149,7 +156,14 @@ class ApplicationAssistantTest extends TestCase
         $token = $user->createToken('extension')->plainTextToken;
 
         $this->mock(NanoGptService::class, function (MockInterface $mock): void {
-            $mock->shouldReceive('chat')->once()->andReturn("Alex Developer\nSenior Laravel Engineer\n\nSummary\nExperienced engineer.");
+            $mock->shouldReceive('chatWithUsage')->once()->andReturn([
+                'content' => "Alex Developer\nSenior Laravel Engineer\n\nSummary\nExperienced engineer.",
+                'prompt_tokens' => 120,
+                'completion_tokens' => 80,
+                'total_tokens' => 200,
+                'credits' => null,
+                'model' => 'openai/gpt-4.1-mini',
+            ]);
         });
 
         $this->withToken($token)

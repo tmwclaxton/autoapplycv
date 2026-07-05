@@ -35,7 +35,7 @@ function formatDate(value: string): string {
 
 <template>
     <div class="space-y-6">
-        <div class="postbox-panel p-6">
+        <div class="postbox-panel p-4 sm:p-6">
             <div class="mb-6 flex items-start gap-3">
                 <div
                     class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary"
@@ -87,7 +87,7 @@ function formatDate(value: string): string {
             </div>
         </div>
 
-        <div class="postbox-panel p-6">
+        <div class="postbox-panel p-4 sm:p-6">
             <h2 class="postbox-label mb-2">AI autofill quota</h2>
             <p class="mb-4 text-sm text-muted-foreground">
                 Used for Quick Answer, draft-all, ATS scoring, cover letters,
@@ -110,7 +110,7 @@ function formatDate(value: string): string {
             </div>
         </div>
 
-        <div class="postbox-panel p-6">
+        <div class="postbox-panel p-4 sm:p-6">
             <h2 class="postbox-label mb-2">AI tools in the extension</h2>
             <p class="text-sm text-muted-foreground">
                 Open the sidebar on any job page. Use Assist for form drafting,

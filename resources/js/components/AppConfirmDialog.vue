@@ -38,17 +38,17 @@ function onOpenChange(open: boolean): void {
                 </DialogDescription>
             </DialogHeader>
 
-            <DialogFooter class="gap-2 sm:justify-end">
+            <DialogFooter class="flex-col gap-2 sm:flex-row sm:justify-end">
                 <button
                     type="button"
-                    class="postbox-btn-outline"
+                    class="postbox-btn-outline w-full sm:w-auto"
                     @click="confirmStore.dismiss()"
                 >
                     {{ options?.cancelLabel ?? 'Cancel' }}
                 </button>
                 <button
                     type="button"
-                    class="postbox-btn"
+                    class="postbox-btn w-full sm:w-auto"
                     :class="
                         options?.variant === 'destructive'
                             ? 'bg-postbox-red hover:bg-postbox-red/90'

@@ -8,6 +8,7 @@ import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
 import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
+import { PLATFORM_MARKETING_LINE } from '@/lib/site';
 import { login } from '@/routes';
 import billing from '@/routes/billing';
 
@@ -39,7 +40,7 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
         />
 
         <div class="mt-10 grid gap-4 lg:grid-cols-3">
-            <div class="postbox-panel p-6">
+            <div class="postbox-panel p-4 sm:p-6">
                 <div
                     class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
                 >
@@ -55,7 +56,7 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                 </p>
             </div>
 
-            <div class="postbox-panel p-6">
+            <div class="postbox-panel p-4 sm:p-6">
                 <div
                     class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
                 >
@@ -65,12 +66,11 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                     Supported platforms
                 </h2>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    Autofill works on Workday, Indeed, LinkedIn, Greenhouse, and
-                    Lever.
+                    {{ PLATFORM_MARKETING_LINE }}
                 </p>
             </div>
 
-            <div class="postbox-panel p-6">
+            <div class="postbox-panel p-4 sm:p-6">
                 <div
                     class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
                 >

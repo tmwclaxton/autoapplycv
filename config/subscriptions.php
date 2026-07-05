@@ -1,5 +1,7 @@
 <?php
 
+$platformFeature = 'Major ATS and career sites (Workday, Greenhouse, Lever, Ashby, and more)';
+
 return [
 
     'default_tier' => 'free',
@@ -13,7 +15,7 @@ return [
             'available' => true,
             'features' => [
                 '250 extension autofills per month',
-                'Workday, Indeed, LinkedIn, Greenhouse & Lever',
+                $platformFeature,
             ],
         ],
         'starter' => [
@@ -24,7 +26,7 @@ return [
             'available' => true,
             'features' => [
                 '2,500 extension autofills per month',
-                'Workday, Indeed, LinkedIn, Greenhouse & Lever',
+                $platformFeature,
             ],
         ],
         'pro' => [
@@ -35,7 +37,7 @@ return [
             'available' => true,
             'features' => [
                 '15,000 extension autofills per month',
-                'Workday, Indeed, LinkedIn, Greenhouse & Lever',
+                $platformFeature,
             ],
         ],
     ],

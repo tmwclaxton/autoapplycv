@@ -2,20 +2,20 @@
 import { Head, Link, router, setLayoutProps } from '@inertiajs/vue3';
 import { Check, Loader2, Upload } from 'lucide-vue-next';
 import { computed, nextTick, ref } from 'vue';
+import {
+    store as cvUpload,
+    updateProfile as cvProfileUpdate,
+} from '@/actions/App/Http/Controllers/CvUploadController';
 import CvProfileForm from '@/components/cv/CvProfileForm.vue';
 import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
 import { cvAcceptAttribute, validateCvUpload } from '@/lib/upload-validation';
+import { dashboard } from '@/routes';
 import { normalizeCvProfile } from '@/types/cvProfile';
 import type { CvProfile } from '@/types/cvProfile';
 import type {
     DocumentCategoryOption,
     ProfileDocument,
 } from '@/types/profileDocument';
-import {
-    store as cvUpload,
-    updateProfile as cvProfileUpdate,
-} from '@/actions/App/Http/Controllers/CvUploadController';
-import { dashboard } from '@/routes';
 
 const props = defineProps<{
     cvProfile: CvProfile | null;
@@ -230,7 +230,7 @@ async function saveProfile() {
         </p>
 
         <div
-            class="postbox-dropzone relative mx-auto mt-8 max-w-xl p-12 text-center"
+            class="postbox-dropzone relative mx-auto mt-8 max-w-xl p-8 text-center sm:p-12"
             :class="{ 'postbox-dropzone-active': isDragging }"
             @dragover.prevent="isDragging = true"
             @dragleave="isDragging = false"

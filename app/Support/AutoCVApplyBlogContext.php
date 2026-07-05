@@ -38,12 +38,16 @@ Primary audience: people actively job hunting - graduates, career changers, cont
 3. On a supported job application page, the user clicks **AutoFill**; the extension fills empty fields from the saved profile.
 4. **One autofill** = **one input successfully filled** (not one button click). A form with six empty fields filled in one action uses six autofills.
 
-Supported platforms (extension autofill):
+Supported platforms (extension autofill - verified examples include):
 - Workday
-- Indeed
-- LinkedIn
 - Greenhouse
 - Lever
+- Ashby
+- SmartRecruiters
+- Teamtailor
+- Indeed
+- LinkedIn
+- Other major ATS and employer career sites
 
 ## Pricing (GBP, monthly; allowances reset on the 1st of each month)
 | Plan | Price | Extension autofills / month |
@@ -92,7 +96,7 @@ CONTEXT;
     public static function summaryForImagePrompt(): string
     {
         return <<<'SUMMARY'
-AutoCVApply helps UK job seekers apply faster: upload a CV once, use a Chrome extension to autofill application forms on Workday, Indeed, LinkedIn, Greenhouse, and Lever. Warm, optimistic, professional - people at laptops completing job applications with less repetitive typing. Postbox-inspired red and navy accents optional; no logos or readable text in the image.
+AutoCVApply helps UK job seekers apply faster: upload a CV once, use a Chrome extension to autofill application forms on major ATS and career sites including Workday, Greenhouse, Lever, Ashby, and SmartRecruiters. Warm, optimistic, professional - people at laptops completing job applications with less repetitive typing. Postbox-inspired red and navy accents optional; no logos or readable text in the image.
 SUMMARY;
     }
 }

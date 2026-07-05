@@ -237,7 +237,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
 
 <template>
     <form autocomplete="on" class="space-y-6" @submit.prevent>
-        <div v-if="show('basic')" class="postbox-panel p-6">
+        <div v-if="show('basic')" class="postbox-panel p-4 sm:p-6">
             <h2 class="postbox-label">Basic information</h2>
             <div class="grid gap-4 sm:grid-cols-2">
                 <div>
@@ -374,7 +374,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('address')" class="postbox-panel p-6">
+        <div v-if="show('address')" class="postbox-panel p-4 sm:p-6">
             <div class="mb-4 flex items-center justify-between gap-4">
                 <h2 class="postbox-label">Address &amp; links</h2>
                 <button
@@ -480,7 +480,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             />
         </div>
 
-        <div v-if="show('skills')" class="postbox-panel p-6">
+        <div v-if="show('skills')" class="postbox-panel p-4 sm:p-6">
             <h2 class="postbox-label">Skills</h2>
             <div class="mb-3 flex flex-wrap gap-2">
                 <span
@@ -609,7 +609,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('experience')" class="postbox-panel p-6">
+        <div v-if="show('experience')" class="postbox-panel p-4 sm:p-6">
             <div class="mb-4 flex items-center justify-between gap-4">
                 <h2 class="postbox-label">Experience</h2>
                 <button
@@ -750,7 +750,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('education')" class="postbox-panel p-6">
+        <div v-if="show('education')" class="postbox-panel p-4 sm:p-6">
             <div class="mb-4 flex items-center justify-between gap-4">
                 <h2 class="postbox-label">Education</h2>
                 <button
@@ -878,7 +878,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('languages')" class="postbox-panel p-6">
+        <div v-if="show('languages')" class="postbox-panel p-4 sm:p-6">
             <div class="mb-4 flex items-center justify-between gap-4">
                 <h2 class="postbox-label">Languages</h2>
                 <button
@@ -922,7 +922,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('certifications')" class="postbox-panel p-6">
+        <div v-if="show('certifications')" class="postbox-panel p-4 sm:p-6">
             <div class="mb-4 flex items-center justify-between gap-4">
                 <h2 class="postbox-label">Certifications</h2>
                 <button
@@ -993,7 +993,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('projects')" class="postbox-panel p-6">
+        <div v-if="show('projects')" class="postbox-panel p-4 sm:p-6">
             <div class="mb-4 flex items-center justify-between gap-4">
                 <h2 class="postbox-label">Projects</h2>
                 <button
@@ -1071,7 +1071,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('publications')" class="postbox-panel p-6">
+        <div v-if="show('publications')" class="postbox-panel p-4 sm:p-6">
             <div class="mb-4 flex items-center justify-between gap-4">
                 <h2 class="postbox-label">Publications</h2>
                 <button
@@ -1129,7 +1129,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('awards')" class="postbox-panel p-6">
+        <div v-if="show('awards')" class="postbox-panel p-4 sm:p-6">
             <div class="mb-4 flex items-center justify-between gap-4">
                 <h2 class="postbox-label">Awards</h2>
                 <button
@@ -1184,7 +1184,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('volunteering')" class="postbox-panel p-6">
+        <div v-if="show('volunteering')" class="postbox-panel p-4 sm:p-6">
             <div class="mb-4 flex items-center justify-between gap-4">
                 <h2 class="postbox-label">Volunteering</h2>
                 <button
@@ -1264,7 +1264,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('memberships')" class="postbox-panel p-6">
+        <div v-if="show('memberships')" class="postbox-panel p-4 sm:p-6">
             <div class="mb-4 flex items-center justify-between gap-4">
                 <h2 class="postbox-label">Memberships</h2>
                 <button
@@ -1316,7 +1316,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('references')" class="postbox-panel p-6">
+        <div v-if="show('references')" class="postbox-panel p-4 sm:p-6">
             <div class="mb-4 flex items-center justify-between gap-4">
                 <h2 class="postbox-label">References</h2>
                 <button
@@ -1384,7 +1384,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('interests')" class="postbox-panel p-6">
+        <div v-if="show('interests')" class="postbox-panel p-4 sm:p-6">
             <h2 class="postbox-label">Interests</h2>
             <div class="mb-3 flex flex-wrap gap-2">
                 <span
@@ -1421,7 +1421,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('additional')" class="postbox-panel p-6">
+        <div v-if="show('additional')" class="postbox-panel p-4 sm:p-6">
             <div class="mb-4 flex items-center justify-between gap-4">
                 <h2 class="postbox-label">Additional sections</h2>
                 <button
@@ -1505,7 +1505,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('formatted')" class="postbox-panel p-6">
+        <div v-if="show('formatted')" class="postbox-panel p-4 sm:p-6">
             <h2 class="postbox-label">Formatted CV text</h2>
             <p class="mb-4 text-sm text-muted-foreground">
                 A tidy plain-text version of your full CV, used when
@@ -1541,7 +1541,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
 
         <div
             v-if="show('raw') && profile.raw_cv_text"
-            class="postbox-panel p-6"
+            class="postbox-panel p-4 sm:p-6"
         >
             <h2 class="postbox-label">Raw extracted text</h2>
             <p class="mb-4 text-sm text-muted-foreground">

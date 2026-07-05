@@ -13,7 +13,11 @@ const computedEarliestStart = computed(() =>
 </script>
 
 <template>
-    <form autocomplete="on" class="postbox-panel space-y-6 p-6" @submit.prevent>
+    <form
+        autocomplete="on"
+        class="postbox-panel space-y-6 p-4 sm:p-6"
+        @submit.prevent
+    >
         <div>
             <h2 class="postbox-label">What you're looking for</h2>
             <p class="mt-1 text-sm text-muted-foreground">
@@ -79,7 +83,7 @@ const computedEarliestStart = computed(() =>
             </div>
         </div>
 
-        <div class="grid gap-4 sm:grid-cols-3">
+        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             <div>
                 <label for="field-expected-salary-weekly" class="postbox-label"
                     >Expected salary - weekly (optional)</label

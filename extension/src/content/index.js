@@ -67,6 +67,21 @@ function buildPagePayloadForJobContext() {
     };
 }
 
+function buildPageHtmlCapturePayload() {
+    const maxBytes = 5_000_000;
+    let html = document.documentElement?.outerHTML || '';
+
+    if (html.length > maxBytes) {
+        html = html.slice(0, maxBytes);
+    }
+
+    return {
+        page_title: document.title || '',
+        page_url: window.location.href.split('?')[0],
+        html,
+    };
+}
+
 function mapApplicationSettingsForAssist(settings) {
     const merged = {
         phone_country_code: '+44',
@@ -688,6 +703,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 },
                 page: buildPagePayloadForJobContext(),
             });
+
+            return;
+        }
+
+        if (message.type === 'GET_PAGE_HTML') {
+            sendResponse(buildPageHtmlCapturePayload());
 
             return;
         }
