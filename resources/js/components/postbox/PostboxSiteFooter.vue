@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
+import DiscordIcon from '@/components/DiscordIcon.vue';
 import {
     FOOTER_LINKS,
     DISCORD_INVITE_URL,
@@ -53,8 +54,9 @@ const routeMap = {
                     :href="DISCORD_INVITE_URL"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="postbox-link"
+                    class="postbox-link inline-flex items-center gap-1"
                 >
+                    <DiscordIcon class="size-4" aria-hidden="true" />
                     Discord
                 </a>
             </nav>
