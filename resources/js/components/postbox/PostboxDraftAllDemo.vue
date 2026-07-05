@@ -328,10 +328,13 @@ onUnmounted(() => {
                     </form>
 
                     <div
-                        v-if="isComplete"
-                        class="shrink-0 border-t border-[#e4e4e7] bg-[#f0fdf4] px-3 py-1.5"
+                        class="shrink-0 border-t border-[#e4e4e7] px-3 py-2 sm:px-4"
+                        :class="isComplete ? 'bg-[#f0fdf4]' : 'bg-white'"
                     >
-                        <div class="flex items-center justify-between gap-1">
+                        <div
+                            v-if="isComplete"
+                            class="flex min-h-9 items-center justify-between gap-1 sm:min-h-10"
+                        >
                             <div class="flex min-w-0 items-center gap-1">
                                 <CheckCircle2
                                     class="size-3 shrink-0 text-[#16a34a]"
@@ -365,14 +368,10 @@ onUnmounted(() => {
                                 </Link>
                             </div>
                         </div>
-                    </div>
 
-                    <div
-                        v-else
-                        class="shrink-0 border-t border-[#e4e4e7] bg-white px-3 py-2 sm:px-4"
-                    >
                         <div
-                            class="flex flex-wrap items-center gap-x-2 gap-y-1"
+                            v-else
+                            class="flex min-h-9 flex-wrap items-center gap-x-2 gap-y-1 sm:min-h-10"
                         >
                             <button
                                 type="button"

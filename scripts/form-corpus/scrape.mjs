@@ -1,11 +1,12 @@
 #!/usr/bin/env node
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { isCreditError, scrapeHtml } from './lib/firecrawl-client.mjs';
 import { loadManifest, saveManifest, upsertScenario } from './lib/manifest.mjs';
 import { slugify } from './lib/normalize.mjs';
 import { DISCOVERED_URLS_PATH, HTML_DIR } from './lib/paths.mjs';
 import { buildSnapshotFromHtml } from './lib/snapshot-runner.mjs';
+import { writeHtmlFixture } from './lib/write-html-fixture.mjs';
 
 const limit = Number(process.argv.find((arg) => arg.startsWith('--limit='))?.split('=')[1] || 40);
 const minFields = Number(process.argv.find((arg) => arg.startsWith('--min-fields='))?.split('=')[1] || 2);
@@ -150,7 +151,7 @@ for (const row of candidateUrls) {
         }
 
         const filename = `${id}.html`;
-        writeFileSync(join(HTML_DIR, filename), html);
+        writeHtmlFixture(join(HTML_DIR, filename), html);
         upsertScenario(manifest, {
             id,
             category: 'scraped',

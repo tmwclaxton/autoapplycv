@@ -148,6 +148,8 @@ npm run form-corpus:build-form-e2e-scoring
 
 Scrape tries direct fetch first, then Firecrawl for JS-heavy ATS hosts. Workday listing pages often skip (no form controls). Re-run in batches if rate-limited.
 
+Third-party API keys embedded in live page HTML (Google Maps, GoCardless widgets, etc.) are **redacted before fixtures are saved** via `lib/redact-secrets.mjs`. Re-run `npm run form-corpus:redact-secrets` if secrets slip into committed HTML; CI runs `npm run secrets:check-fixtures` to block regressions.
+
 ## Curated verification tier
 
 The curated tier (`fill-verify-curated.json`) selects ~90 scenarios for **accuracy and variety** rather than running all 1800+ fixtures blindly.
@@ -177,3 +179,4 @@ The curated tier (`fill-verify-curated.json`) selects ~90 scenarios for **accura
 - `lib/fill-a11y-runner.mjs` - accessibility state assertions
 - `lib/fill-error-detector.mjs` - post-fill error banner scan
 - `lib/fill-screenshot-diff.mjs` - Playwright pixel diff + baselines
+- `lib/redact-secrets.mjs` - strip third-party keys from scraped HTML before save

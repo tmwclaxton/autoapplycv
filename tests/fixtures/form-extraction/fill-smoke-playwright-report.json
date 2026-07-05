@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-07-05T15:26:33.095Z",
+  "generated_at": "2026-07-05T21:09:38.257Z",
   "totals": {
-    "scenarios": 10,
-    "evaluated": 7,
-    "passed": 5,
+    "scenarios": 11,
+    "evaluated": 8,
+    "passed": 6,
     "failed": 2,
-    "pass_rate": 0.7143,
-    "critical_total": 4,
-    "critical_passed": 3,
-    "critical_pass_rate": 0.75,
+    "pass_rate": 0.75,
+    "critical_total": 5,
+    "critical_passed": 4,
+    "critical_pass_rate": 0.8,
     "ashby_widget_passed": 2,
     "ashby_widget_total": 2
   },
@@ -666,6 +666,47 @@
       "tier": "smoke"
     },
     {
+      "id": "web-jobs-micro1-ai-59336643",
+      "platform": "micro1",
+      "priority": "critical",
+      "passed": true,
+      "plan_count": 1,
+      "apply_failures": 0,
+      "readback_failures": 1,
+      "a11y_failures": 0,
+      "error_banner_count": 0,
+      "failures": [],
+      "readback_failures_detail": [
+        {
+          "stage": "verify",
+          "field": "phone number",
+          "ref": "f3",
+          "expected": "+15550000003",
+          "actual": null
+        }
+      ],
+      "readbacks": [
+        {
+          "ref": "f3",
+          "expected": "+15550000003",
+          "actual": null,
+          "fieldType": "tel"
+        }
+      ],
+      "checks": {
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "error_count": 0
+        }
+      },
+      "verify_engine": "playwright",
+      "tier": "smoke"
+    },
+    {
       "id": "web-jobs-smartrecruiters-com-99cf550a-4a3b-47f8-b682-449cc524d98f",
       "platform": "smartrecruiters",
       "priority": "critical",
@@ -1076,6 +1117,15 @@
       "critical_pass_rate": 1
     },
     "lever": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "critical_total": 1,
+      "critical_passed": 1,
+      "pass_rate": 1,
+      "critical_pass_rate": 1
+    },
+    "micro1": {
       "total": 1,
       "passed": 1,
       "failed": 0,

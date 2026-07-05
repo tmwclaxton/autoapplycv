@@ -44,3 +44,6 @@ jobs:
 
       - name: Check for em dashes
         run: npm run em-dash:check
+
+      - name: Check fixture secrets
+        run: npm run secrets:check-fixtures
