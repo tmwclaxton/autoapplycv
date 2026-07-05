@@ -33,7 +33,7 @@ const AutoCVApplyFieldInventory = (() => {
             } else {
                 fieldType = target[0]?.getAttribute?.('role') === 'checkbox' ? 'checkbox' : 'radio';
             }
-        } else if (target?.getAttribute?.('role') === 'listbox') {
+        } else if (target?.getAttribute?.('role') === 'listbox' || target?.getAttribute?.('role') === 'combobox') {
             fieldType = 'select';
         } else {
             fieldType = target.type === 'radio' || target.type === 'checkbox'
@@ -45,6 +45,7 @@ const AutoCVApplyFieldInventory = (() => {
             target,
             field_type: fieldType,
             data_field_path: dom.data_field_path,
+            dom,
         });
 
         return ref;
@@ -229,6 +230,38 @@ const AutoCVApplyFieldInventory = (() => {
         return merged;
     }
 
+    function resolveEntryTarget(entry) {
+        if (AutoCVApplyFormHeuristics.isTargetConnected(entry.target)) {
+            return entry.target;
+        }
+
+        let resolved = null;
+
+        AutoCVApplyFormHeuristics.forEachIframeDocument((doc) => {
+            if (resolved) {
+                return;
+            }
+
+            resolved = AutoCVApplyFormHeuristics.resolveTargetFromDom(
+                doc,
+                entry.dom,
+                entry.field_type,
+                entry.data_field_path,
+            );
+        });
+
+        if (resolved) {
+            entry.target = resolved;
+            inventoryLog('debug', 'apply.ref', 'Re-resolved stale ref target from DOM metadata', {
+                field_type: entry.field_type,
+                data_field_path: entry.data_field_path,
+                domId: entry.dom?.id || null,
+            });
+        }
+
+        return resolved || entry.target;
+    }
+
     async function applyAnswerByRef(root, ref, answer) {
         const entry = refRegistry.get(ref);
 
@@ -247,9 +280,11 @@ const AutoCVApplyFieldInventory = (() => {
             answerPreview: String(answer).slice(0, 80),
         });
 
+        const target = resolveEntryTarget(entry);
+
         return AutoCVApplyFormHeuristics.applyAnswerForTarget(
             root,
-            entry.target,
+            target,
             entry.field_type,
             answer,
             { data_field_path: entry.data_field_path },
@@ -261,15 +296,19 @@ const AutoCVApplyFieldInventory = (() => {
         let applied = false;
         const entry = refRegistry.get(ref);
 
+        if (!entry || !answer) {
+            inventoryLog('warn', 'apply.ref', 'applyAnswerByRefAllFrames - ref not in registry', { ref });
+
+            return false;
+        }
+
+        const target = resolveEntryTarget(entry);
+
         AutoCVApplyFormHeuristics.forEachIframeDocument((doc) => {
             documents.push(doc);
         });
 
         for (const doc of documents) {
-            if (!entry || !answer) {
-                continue;
-            }
-
             inventoryLog('debug', 'apply.ref', 'applyAnswerByRefAllFrames trying document', {
                 ref,
                 field_type: entry.field_type,
@@ -278,13 +317,14 @@ const AutoCVApplyFieldInventory = (() => {
 
             if (await AutoCVApplyFormHeuristics.applyAnswerForTarget(
                 doc,
-                entry.target,
+                target,
                 entry.field_type,
                 answer,
                 { data_field_path: entry.data_field_path },
             )) {
                 inventoryLog('info', 'apply.ref', 'applyAnswerByRefAllFrames succeeded', { ref });
                 applied = true;
+                break;
             }
         }
 
@@ -293,6 +333,14 @@ const AutoCVApplyFieldInventory = (() => {
         }
 
         return applied;
+    }
+
+    async function applyAnswerByRefWithFallback(root, ref, answer) {
+        if (await applyAnswerByRef(root, ref, answer)) {
+            return true;
+        }
+
+        return applyAnswerByRefAllFrames(root, ref, answer);
     }
 
     function clickRef(root, ref) {
@@ -349,6 +397,7 @@ const AutoCVApplyFieldInventory = (() => {
         buildSnapshotAllFrames,
         applyAnswerByRef,
         applyAnswerByRefAllFrames,
+        applyAnswerByRefWithFallback,
         clickRef,
         clickRefAllFrames,
         fieldsFromInventory,

@@ -573,12 +573,20 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 let method = null;
 
                 if (answer.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {
-                    filled = await AutoCVApplyFieldInventory.applyAnswerByRef(document, answer.ref, answer.answer);
+                    filled = await AutoCVApplyFieldInventory.applyAnswerByRefWithFallback(
+                        document,
+                        answer.ref,
+                        answer.answer,
+                    );
                     method = 'ref';
                 }
 
                 if (!filled && answer.label) {
-                    filled = await AutoCVApplyFormHeuristics.applyAnswerByLabel(document, answer.label, answer.answer);
+                    filled = await AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(
+                        document,
+                        answer.label,
+                        answer.answer,
+                    );
                     method = method ? `${method}+label` : 'label';
                 }
 
@@ -599,9 +607,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
             for (const answer of answers) {
                 const fieldType = answer.field_type || 'text';
-                const isTextLike = !fieldType
-                    || fieldType === 'text'
-                    || ['email', 'tel', 'url', 'number', 'textarea'].includes(fieldType);
+                const isWidgetField = ['select', 'radio', 'checkbox', 'file'].includes(fieldType);
+                const isTextLike = !isWidgetField
+                    && (!fieldType
+                        || fieldType === 'text'
+                        || ['email', 'tel', 'url', 'number', 'textarea'].includes(fieldType));
 
                 if (isTextLike) {
                     textLike.push(answer);
@@ -646,12 +656,20 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             let method = null;
 
             if (message.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {
-                filled = await AutoCVApplyFieldInventory.applyAnswerByRef(document, message.ref, message.answer);
+                filled = await AutoCVApplyFieldInventory.applyAnswerByRefWithFallback(
+                    document,
+                    message.ref,
+                    message.answer,
+                );
                 method = 'ref';
             }
 
             if (!filled && message.label) {
-                filled = await AutoCVApplyFormHeuristics.applyAnswerByLabel(document, message.label, message.answer);
+                filled = await AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(
+                    document,
+                    message.label,
+                    message.answer,
+                );
                 method = method ? `${method}+label` : 'label';
             }
 

@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-07-05T07:08:23.204Z",
+  "generated_at": "2026-07-05T08:31:25.033Z",
   "totals": {
     "scenarios": 10,
     "evaluated": 10,
-    "passed": 10,
-    "failed": 0,
-    "pass_rate": 1,
+    "passed": 3,
+    "failed": 7,
+    "pass_rate": 0.3,
     "critical_total": 5,
-    "critical_passed": 5,
-    "critical_pass_rate": 1,
+    "critical_passed": 2,
+    "critical_pass_rate": 0.4,
     "ashby_widget_passed": 2,
     "ashby_widget_total": 2
   },
@@ -17,13 +17,37 @@
       "id": "web-ashby-notion-bdm-f603aedb",
       "platform": "ashby",
       "priority": "critical",
-      "passed": true,
+      "passed": false,
       "plan_count": 11,
-      "apply_failures": 0,
+      "apply_failures": 4,
       "readback_failures": 0,
       "a11y_failures": 5,
       "error_banner_count": 0,
       "failures": [
+        {
+          "stage": "apply",
+          "field": "what pronouns would you like our team to use when addressing you?",
+          "ref": "f7",
+          "expected": "He/Him"
+        },
+        {
+          "stage": "apply",
+          "field": "how did you hear about this opportunity? (select all that apply)",
+          "ref": "f8",
+          "expected": "LinkedIn"
+        },
+        {
+          "stage": "apply",
+          "field": "gender",
+          "ref": "f9",
+          "expected": "Male"
+        },
+        {
+          "stage": "apply",
+          "field": "race",
+          "ref": "f10",
+          "expected": "Hispanic or Latino"
+        },
         {
           "stage": "a11yState",
           "field": "what pronouns would you like our team to use when addressing you?",
@@ -104,30 +128,6 @@
           "fieldType": "text"
         },
         {
-          "ref": "f7",
-          "expected": "He/Him",
-          "actual": "checked",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f8",
-          "expected": "LinkedIn",
-          "actual": "checked",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f9",
-          "expected": "Male",
-          "actual": "checked",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f10",
-          "expected": "Hispanic or Latino",
-          "actual": "checked",
-          "fieldType": "radio"
-        },
-        {
           "ref": "f11",
           "expected": "I identify as one or more of the classifications of protected veteran listed above",
           "actual": "checked",
@@ -187,13 +187,19 @@
       "id": "web-boards-greenhouse-io-8614025002",
       "platform": "greenhouse",
       "priority": "critical",
-      "passed": true,
+      "passed": false,
       "plan_count": 43,
-      "apply_failures": 0,
+      "apply_failures": 1,
       "readback_failures": 2,
       "a11y_failures": 19,
       "error_banner_count": 0,
       "failures": [
+        {
+          "stage": "apply",
+          "field": "other experience",
+          "ref": "f23",
+          "expected": "Start-up"
+        },
         {
           "stage": "a11yState",
           "field": "phone",
@@ -495,12 +501,6 @@
           "expected": "FillVerify-22",
           "actual": "FillVerify-22",
           "fieldType": "text"
-        },
-        {
-          "ref": "f23",
-          "expected": "Start-up",
-          "actual": "Other Experience *Start-upProduct LaunchInjectablesMatrix EnvironmentREMS ProductScheduled Class II to Class IV productPatient/ HUB Services",
-          "fieldType": "checkbox"
         },
         {
           "ref": "f24",
@@ -1163,13 +1163,19 @@
       "id": "web-jobs-smartrecruiters-com-99cf550a-4a3b-47f8-b682-449cc524d98f",
       "platform": "smartrecruiters",
       "priority": "critical",
-      "passed": true,
+      "passed": false,
       "plan_count": 13,
-      "apply_failures": 0,
+      "apply_failures": 1,
       "readback_failures": 12,
       "a11y_failures": 2,
       "error_banner_count": 0,
       "failures": [
+        {
+          "stage": "apply",
+          "field": "nopolicy",
+          "ref": "f12",
+          "expected": "*"
+        },
         {
           "stage": "a11yState",
           "field": "search by country/region or code search by country/region or code",
@@ -1345,12 +1351,6 @@
           "expected": "FillVerify-textarea-11",
           "actual": "Let the company know about your interest working there",
           "fieldType": "textarea"
-        },
-        {
-          "ref": "f12",
-          "expected": "*",
-          "actual": "*\n                    \n                        \n                    \n                \n            \n        \n        \n\n                \n                    \n            \n        \n\n                    \n                \n                \n            \n        Please be informed that your application to this job offer will trigger some processing of your personal data by the recruiting company, the data controller. SmartRecruiters, the data processor, has no control over such personal data processing. For more information on these personal data processing, please refer to the recruiting company’s privacy notice.",
-          "fieldType": "checkbox"
         }
       ],
       "checks": {
@@ -1385,13 +1385,19 @@
       "id": "web-vekst-teamtailor-com-new",
       "platform": "teamtailor",
       "priority": "standard",
-      "passed": true,
+      "passed": false,
       "plan_count": 12,
-      "apply_failures": 0,
+      "apply_failures": 1,
       "readback_failures": 0,
       "a11y_failures": 5,
       "error_banner_count": 0,
       "failures": [
+        {
+          "stage": "apply",
+          "field": "have you been working with content production at an agency and/or at a b2b company?required",
+          "ref": "f4",
+          "expected": "I have worked at an agency with mainly B2B clients."
+        },
         {
           "stage": "a11yState",
           "field": "have you created graphic assets for different digital channels?required",
@@ -1458,12 +1464,6 @@
           "expected": "FillVerify-textarea-5",
           "actual": "FillVerify-textarea-5",
           "fieldType": "textarea"
-        },
-        {
-          "ref": "f4",
-          "expected": "I have worked at an agency with mainly B2B clients.",
-          "actual": "Have you been working with content production at an agency and/or at a B2B company?*Required\n    \n\n\n\n\n\n\n\n\n\n  \n      \n        I have worked at an agency with mainly B2B clients.I have worked at an agency mainly B2C clients.I have worked inhouse at at B2B company.I have worked inhouse at a B2C company.I have no experience working with content production.",
-          "fieldType": "checkbox"
         },
         {
           "ref": "f5",
@@ -1820,13 +1820,20 @@
       "id": "syn-ix-fw-001",
       "platform": "syn-ix",
       "priority": "standard",
-      "passed": true,
+      "passed": false,
       "plan_count": 4,
-      "apply_failures": 0,
+      "apply_failures": 1,
       "readback_failures": 0,
       "a11y_failures": 0,
       "error_banner_count": 0,
-      "failures": [],
+      "failures": [
+        {
+          "stage": "apply",
+          "field": "where are you based?",
+          "ref": "f3",
+          "expected": "London"
+        }
+      ],
       "readback_failures_detail": [],
       "readbacks": [
         {
@@ -1846,12 +1853,6 @@
           "expected": "+15550000002",
           "actual": "+15550000002",
           "fieldType": "tel"
-        },
-        {
-          "ref": "f3",
-          "expected": "London",
-          "actual": "London\nRemote\nHybrid",
-          "fieldType": "select"
         }
       ],
       "checks": {
@@ -1871,13 +1872,20 @@
       "id": "syn-mega-combobox-001",
       "platform": "syn-mega",
       "priority": "standard",
-      "passed": true,
+      "passed": false,
       "plan_count": 4,
-      "apply_failures": 0,
+      "apply_failures": 1,
       "readback_failures": 0,
       "a11y_failures": 0,
       "error_banner_count": 0,
-      "failures": [],
+      "failures": [
+        {
+          "stage": "apply",
+          "field": "preferred location (9691)",
+          "ref": "f3",
+          "expected": "Hybrid"
+        }
+      ],
       "readback_failures_detail": [],
       "readbacks": [
         {
@@ -1897,12 +1905,6 @@
           "expected": "+15550000002",
           "actual": "+15550000002",
           "fieldType": "tel"
-        },
-        {
-          "ref": "f3",
-          "expected": "Hybrid",
-          "actual": "HybridManchesterRemoteDublin",
-          "fieldType": "select"
         }
       ],
       "checks": {
@@ -1922,13 +1924,121 @@
       "id": "web-apply-workable-com-apply-7",
       "platform": "generic-web",
       "priority": "standard",
-      "passed": true,
+      "passed": false,
       "plan_count": 76,
-      "apply_failures": 0,
+      "apply_failures": 18,
       "readback_failures": 0,
       "a11y_failures": 39,
       "error_banner_count": 0,
       "failures": [
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday am",
+          "ref": "f29",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AM"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday pm",
+          "ref": "f30",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PM"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday evening",
+          "ref": "f31",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday Evening"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday am",
+          "ref": "f32",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AM"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday pm",
+          "ref": "f33",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PM"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday evening",
+          "ref": "f34",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday Evening"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday am",
+          "ref": "f35",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AM"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday pm",
+          "ref": "f36",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PM"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday evening",
+          "ref": "f37",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday Evening"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday am",
+          "ref": "f38",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AM"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday pm",
+          "ref": "f39",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PM"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday evening",
+          "ref": "f40",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday Evening"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday am",
+          "ref": "f41",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AM"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday pm",
+          "ref": "f42",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PM"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday evening",
+          "ref": "f43",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday Evening"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday am",
+          "ref": "f44",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AM"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday pm",
+          "ref": "f45",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PM"
+        },
+        {
+          "stage": "apply",
+          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday evening",
+          "ref": "f46",
+          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening"
+        },
         {
           "stage": "a11yState",
           "field": "svgs not supported by this browser. yes svgs not supported by this browser. yes",
@@ -2419,114 +2529,6 @@
           "fieldType": "checkbox"
         },
         {
-          "ref": "f29",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f30",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f31",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday Evening",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f32",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f33",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f34",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday Evening",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f35",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f36",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f37",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday Evening",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f38",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f39",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f40",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday Evening",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f41",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f42",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f43",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday Evening",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f44",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f45",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f46",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday EveningSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PMSVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "fieldType": "checkbox"
-        },
-        {
           "ref": "f47",
           "expected": "FillVerify-textarea-47",
           "actual": "FillVerify-textarea-47",
@@ -2998,21 +3000,21 @@
   "by_platform": {
     "ashby": {
       "total": 2,
-      "passed": 2,
-      "failed": 0,
+      "passed": 1,
+      "failed": 1,
       "critical_total": 2,
-      "critical_passed": 2,
-      "pass_rate": 1,
-      "critical_pass_rate": 1
+      "critical_passed": 1,
+      "pass_rate": 0.5,
+      "critical_pass_rate": 0.5
     },
     "greenhouse": {
       "total": 1,
-      "passed": 1,
-      "failed": 0,
+      "passed": 0,
+      "failed": 1,
       "critical_total": 1,
-      "critical_passed": 1,
-      "pass_rate": 1,
-      "critical_pass_rate": 1
+      "critical_passed": 0,
+      "pass_rate": 0,
+      "critical_pass_rate": 0
     },
     "lever": {
       "total": 1,
@@ -3025,20 +3027,20 @@
     },
     "smartrecruiters": {
       "total": 1,
-      "passed": 1,
-      "failed": 0,
+      "passed": 0,
+      "failed": 1,
       "critical_total": 1,
-      "critical_passed": 1,
-      "pass_rate": 1,
-      "critical_pass_rate": 1
+      "critical_passed": 0,
+      "pass_rate": 0,
+      "critical_pass_rate": 0
     },
     "teamtailor": {
       "total": 1,
-      "passed": 1,
-      "failed": 0,
+      "passed": 0,
+      "failed": 1,
       "critical_total": 0,
       "critical_passed": 0,
-      "pass_rate": 1,
+      "pass_rate": 0,
       "critical_pass_rate": 0
     },
     "wordpress": {
@@ -3052,29 +3054,29 @@
     },
     "syn-ix": {
       "total": 1,
-      "passed": 1,
-      "failed": 0,
+      "passed": 0,
+      "failed": 1,
       "critical_total": 0,
       "critical_passed": 0,
-      "pass_rate": 1,
+      "pass_rate": 0,
       "critical_pass_rate": 0
     },
     "syn-mega": {
       "total": 1,
-      "passed": 1,
-      "failed": 0,
+      "passed": 0,
+      "failed": 1,
       "critical_total": 0,
       "critical_passed": 0,
-      "pass_rate": 1,
+      "pass_rate": 0,
       "critical_pass_rate": 0
     },
     "generic-web": {
       "total": 1,
-      "passed": 1,
-      "failed": 0,
+      "passed": 0,
+      "failed": 1,
       "critical_total": 0,
       "critical_passed": 0,
-      "pass_rate": 1,
+      "pass_rate": 0,
       "critical_pass_rate": 0
     }
   },
