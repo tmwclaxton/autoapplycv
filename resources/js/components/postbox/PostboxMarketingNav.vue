@@ -68,9 +68,9 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub repository"
-            class="postbox-btn-outline hidden shrink-0 p-2 sm:inline-flex"
+            class="postbox-btn-ghost hidden shrink-0 items-center border-2 text-sm sm:inline-flex"
         >
-            <Github class="size-4" aria-hidden="true" />
+            <Github class="size-5" aria-hidden="true" />
         </a>
 
         <a
@@ -78,9 +78,9 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Join Discord community"
-            class="postbox-btn-outline hidden shrink-0 p-2 sm:inline-flex"
+            class="postbox-btn-ghost hidden shrink-0 items-center border-2 text-sm sm:inline-flex"
         >
-            <DiscordIcon class="size-4" aria-hidden="true" />
+            <DiscordIcon class="size-5" aria-hidden="true" />
         </a>
 
         <Link
