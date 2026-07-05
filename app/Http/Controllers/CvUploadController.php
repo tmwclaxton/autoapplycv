@@ -13,6 +13,7 @@ use App\Services\CvExtractionService;
 use App\Services\CvParserService;
 use App\Services\CvProfileDocumentService;
 use App\Support\ApplicationSettings;
+use App\Support\CvExtractionProfileMerge;
 use App\Support\CvExtractionSchema;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -61,12 +62,11 @@ class CvUploadController extends Controller
 
         $parsed = $this->parseWithAi($user, $rawText, $file->getClientOriginalName(), $extractedUrls);
 
+        $existingProfile = CvProfile::query()->where('user_id', $user->id)->first();
+
         $profile = CvProfile::updateOrCreate(
             ['user_id' => $user->id],
-            array_merge($parsed ?? [], [
-                'raw_cv_text' => $rawText,
-                'parsing_complete' => $parsed !== null,
-            ])
+            CvExtractionProfileMerge::apply($existingProfile, $parsed, $rawText, $parsed !== null),
         );
 
         if ($parsed !== null) {

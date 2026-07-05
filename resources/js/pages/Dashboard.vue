@@ -261,10 +261,7 @@ function uploadCv(file: File): void {
             }
 
             if (data.profile) {
-                profile.value = normalizeCvProfile({
-                    ...profile.value,
-                    ...data.profile,
-                });
+                profile.value = normalizeCvProfile(data.profile);
             }
 
             activeTab.value = 'profile';

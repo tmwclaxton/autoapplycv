@@ -255,4 +255,185 @@ class CvUploadTest extends TestCase
         ]);
         Storage::disk('local')->assertMissing($firstPath);
     }
+
+    #[Test]
+    public function test_cv_upload_overwrites_existing_profile_fields_when_extraction_provides_values(): void
+    {
+        $this->mock(CvParserService::class, function ($mock): void {
+            $mock->shouldReceive('extractText')->once()->andReturn('New CV raw text');
+            $mock->shouldReceive('extractHyperlinks')->once()->andReturn([]);
+        });
+
+        $this->mock(CvExtractionService::class, function ($mock): void {
+            $mock->shouldReceive('extract')
+                ->once()
+                ->andReturn($this->sampleExtractedProfile([
+                    'full_name' => 'New Name From CV',
+                    'email' => 'new@example.com',
+                    'phone' => '+44 7700 900999',
+                ]));
+        });
+
+        $user = User::factory()->create();
+        $user->cvProfile()->create([
+            'full_name' => 'Old Name',
+            'email' => 'old@example.com',
+            'phone' => '+44 1111 222222',
+            'summary' => 'Old summary stays when not extracted',
+            'application_settings' => [
+                'expected_salary_yearly' => '£80,000',
+                'notice_period' => '1 month',
+            ],
+            'parsing_complete' => true,
+        ]);
+
+        $file = UploadedFile::fake()->createWithContent('replacement-cv.pdf', '%PDF replacement');
+
+        $this->actingAs($user)
+            ->postJson(route('cv.upload'), ['cv' => $file])
+            ->assertOk()
+            ->assertJsonPath('profile.full_name', 'New Name From CV')
+            ->assertJsonPath('profile.email', 'new@example.com')
+            ->assertJsonPath('profile.phone', '+44 7700 900999')
+            ->assertJsonPath('profile.summary', 'Old summary stays when not extracted')
+            ->assertJsonPath('profile.application_settings.expected_salary_yearly', '£80,000')
+            ->assertJsonPath('profile.application_settings.notice_period', '1 month');
+
+        $profile = $user->fresh()->cvProfile;
+        $this->assertNotNull($profile);
+        $this->assertSame('New Name From CV', $profile->full_name);
+        $this->assertSame('£80,000', $profile->application_settings['expected_salary_yearly']);
+    }
+
+    #[Test]
+    public function test_cv_reupload_replaces_experience_and_education_sections(): void
+    {
+        $this->mock(CvParserService::class, function ($mock): void {
+            $mock->shouldReceive('extractText')->once()->andReturn('Second CV raw text');
+            $mock->shouldReceive('extractHyperlinks')->once()->andReturn([]);
+        });
+
+        $this->mock(CvExtractionService::class, function ($mock): void {
+            $mock->shouldReceive('extract')
+                ->once()
+                ->andReturn($this->sampleExtractedProfile([
+                    'experience' => [[
+                        'title' => 'Platform Engineer',
+                        'company' => 'New Employer',
+                        'location' => null,
+                        'employment_type' => null,
+                        'start_date' => '2024-01',
+                        'end_date' => null,
+                        'is_current' => true,
+                        'description' => null,
+                        'highlights' => ['Built CI pipelines'],
+                        'technologies' => ['Go'],
+                    ]],
+                    'education' => [[
+                        'degree' => 'MSc Cloud Computing',
+                        'field_of_study' => null,
+                        'institution' => 'New University',
+                        'location' => null,
+                        'start_date' => null,
+                        'end_date' => null,
+                        'grade' => null,
+                        'honours' => null,
+                        'description' => null,
+                        'highlights' => [],
+                    ]],
+                    'skills' => ['Go', 'Kubernetes'],
+                ]));
+        });
+
+        $user = User::factory()->create();
+        $user->cvProfile()->create([
+            'full_name' => 'Alex Developer',
+            'skills' => ['PHP', 'Laravel'],
+            'experience' => [[
+                'title' => 'Old Role',
+                'company' => 'Old Employer',
+                'location' => null,
+                'employment_type' => null,
+                'start_date' => null,
+                'end_date' => null,
+                'is_current' => false,
+                'description' => null,
+                'highlights' => ['Old highlight'],
+                'technologies' => ['PHP'],
+            ]],
+            'education' => [[
+                'degree' => 'Old Degree',
+                'field_of_study' => null,
+                'institution' => 'Old University',
+                'location' => null,
+                'start_date' => null,
+                'end_date' => null,
+                'grade' => null,
+                'honours' => null,
+                'description' => null,
+                'highlights' => [],
+            ]],
+            'parsing_complete' => true,
+        ]);
+
+        $file = UploadedFile::fake()->createWithContent('second-cv.pdf', '%PDF second');
+
+        $this->actingAs($user)
+            ->postJson(route('cv.upload'), ['cv' => $file])
+            ->assertOk()
+            ->assertJsonPath('profile.experience.0.title', 'Platform Engineer')
+            ->assertJsonPath('profile.education.0.degree', 'MSc Cloud Computing')
+            ->assertJsonPath('profile.skills.0', 'Go');
+
+        $profile = $user->fresh()->cvProfile;
+        $this->assertNotNull($profile);
+        $this->assertSame('Platform Engineer', $profile->experience[0]['title']);
+        $this->assertSame('MSc Cloud Computing', $profile->education[0]['degree']);
+        $this->assertSame(['Go', 'Kubernetes'], $profile->skills);
+    }
+
+    /**
+     * @param  array<string, mixed>  $overrides
+     * @return array<string, mixed>
+     */
+    private function sampleExtractedProfile(array $overrides = []): array
+    {
+        return array_merge([
+            'full_name' => 'Alex Developer',
+            'headline' => null,
+            'email' => 'alex@example.com',
+            'phone' => null,
+            'location' => null,
+            'city' => null,
+            'postcode' => null,
+            'country' => null,
+            'linkedin_url' => null,
+            'website_url' => null,
+            'summary' => null,
+            'skills' => ['PHP'],
+            'experience' => [],
+            'education' => [],
+            'structured_data' => [
+                'headline' => null,
+                'address_line_1' => null,
+                'address_line_2' => null,
+                'state_region' => null,
+                'social_links' => [],
+                'languages' => [],
+                'certifications' => [],
+                'projects' => [],
+                'publications' => [],
+                'awards' => [],
+                'volunteering' => [],
+                'memberships' => [],
+                'references' => [],
+                'interests' => [],
+                'technical_skills' => [],
+                'soft_skills' => [],
+                'additional_sections' => [],
+            ],
+            'formatted_cv_text' => 'Formatted CV text',
+            'extra_context' => null,
+        ], $overrides);
+    }
 }
