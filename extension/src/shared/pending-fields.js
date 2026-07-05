@@ -1,5 +1,66 @@
 import { normalizeQuestionLabel } from './draft-all-optimizations.js';
 
+const SALARY_MAPPINGS = [
+    {
+        path: 'application_settings.expected_salary_weekly',
+        label: 'Expected salary (weekly)',
+        dashboard_tab: 'preferences',
+        dashboard_anchor: 'field-expected-salary-weekly',
+        periodKeywords: [
+            'weekly salary',
+            'weekly wage',
+            'salary per week',
+            'wage per week',
+            'per week',
+            '/week',
+            ' per wk',
+        ],
+    },
+    {
+        path: 'application_settings.expected_salary_monthly',
+        label: 'Expected salary (monthly)',
+        dashboard_tab: 'preferences',
+        dashboard_anchor: 'field-expected-salary-monthly',
+        periodKeywords: [
+            'monthly salary',
+            'monthly gross',
+            'salary per month',
+            'per month',
+            '/month',
+            ' per mo',
+        ],
+    },
+    {
+        path: 'application_settings.expected_salary_yearly',
+        label: 'Expected salary (yearly)',
+        dashboard_tab: 'preferences',
+        dashboard_anchor: 'field-expected-salary-yearly',
+        periodKeywords: [
+            'yearly salary',
+            'annual salary',
+            'salary per year',
+            'per year',
+            '/year',
+            'yearly gross',
+            'annual gross',
+            'annual compensation',
+        ],
+    },
+];
+
+const GENERIC_SALARY_KEYWORDS = [
+    'expected salary',
+    'salary expectation',
+    'salary expectations',
+    'desired salary',
+    'salary requirement',
+    'minimum salary requirement',
+    'compensation expectation',
+    'base salary',
+    'desired base salary',
+    'desired compensation',
+];
+
 const PROFILE_FIELD_MAPPINGS = [
     { path: 'full_name', label: 'Full name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['full name', 'applicant name', 'your name', 'candidate name'] },
     { path: 'email', label: 'Email', dashboard_tab: 'profile', dashboard_anchor: 'field-email', keywords: ['email', 'e-mail', 'personal email'] },
@@ -8,22 +69,25 @@ const PROFILE_FIELD_MAPPINGS = [
     { path: 'location', label: 'Location', dashboard_tab: 'profile', dashboard_anchor: 'field-location', keywords: ['location', 'current location'] },
     { path: 'city', label: 'City', dashboard_tab: 'profile', dashboard_anchor: 'field-city', keywords: ['city', 'current city', 'town'] },
     { path: 'country', label: 'Country', dashboard_tab: 'profile', dashboard_anchor: 'field-country', keywords: ['country', 'country of residence'] },
-    { path: 'application_settings.expected_salary', label: 'Expected salary', dashboard_tab: 'preferences', dashboard_anchor: 'field-expected-salary', keywords: ['expected salary', 'salary expectation', 'monthly salary', 'desired salary', 'salary requirement', 'compensation expectation'] },
     { path: 'application_settings.years_of_experience', label: 'Years of experience', dashboard_tab: 'preferences', dashboard_anchor: 'field-years-of-experience', keywords: ['years of experience', 'years experience', 'total experience'] },
     { path: 'application_settings.visa_sponsorship', label: 'Visa sponsorship', dashboard_tab: 'preferences', dashboard_anchor: 'field-visa-sponsorship', keywords: ['visa sponsorship', 'require sponsorship', 'work authorisation', 'work authorization'] },
     { path: 'application_settings.legally_authorized', label: 'Legally authorized to work', dashboard_tab: 'preferences', dashboard_anchor: 'field-legally-authorized', keywords: ['legally authorized', 'right to work', 'eligible to work', 'work permit'] },
     { path: 'application_settings.willing_to_relocate', label: 'Willing to relocate', dashboard_tab: 'preferences', dashboard_anchor: 'field-willing-to-relocate', keywords: ['willing to relocate', 'open to relocation', 'relocate'] },
     { path: 'application_settings.drivers_license', label: 'Driving licence', dashboard_tab: 'preferences', dashboard_anchor: 'field-drivers-license', keywords: ['driving licence', 'driving license', 'drivers license'] },
-    { path: 'application_settings.job_preferences', label: 'Job preferences', dashboard_tab: 'preferences', dashboard_anchor: 'field-job-preferences', keywords: ['notice period', 'availability', 'start date', 'earliest start', 'when can you start'] },
+    { path: 'application_settings.notice_period', label: 'Notice period', dashboard_tab: 'preferences', dashboard_anchor: 'field-notice-period', keywords: ['notice period'] },
+    { path: 'application_settings.earliest_start', label: 'Earliest start date', dashboard_tab: 'preferences', dashboard_anchor: 'field-earliest-start', keywords: ['availability', 'start date', 'earliest start', 'when can you start', 'available to start'] },
+    { path: 'application_settings.job_preferences', label: 'Job preferences', dashboard_tab: 'preferences', dashboard_anchor: 'field-job-preferences', keywords: ['job preferences', 'job preference', 'role preferences', 'type of role'] },
 ];
 
 const USER_SPECIFIC_LABEL_PATTERNS = [
     /notice period/i,
-    /expected (?:monthly |annual )?salary/i,
+    /expected (?:weekly |monthly |annual |yearly )?salary/i,
+    /(?:weekly|monthly|annual|yearly) (?:salary|wage|compensation)/i,
     /salary expectation/i,
-    /desired (?:monthly |annual )?salary/i,
+    /desired (?:weekly |monthly |annual |yearly )?salary/i,
     /compensation expectation/i,
     /current(?:ly)? (?:drawn )?salary/i,
+    /minimum salary/i,
     /earliest (?:start|availability)/i,
     /when can you start/i,
     /available to start/i,
@@ -38,6 +102,12 @@ const PLACEHOLDER_ANSWER_PATTERNS = [
     /^not applicable$/i,
 ];
 
+const SALARY_FALLBACK_PATHS = [
+    'application_settings.expected_salary_yearly',
+    'application_settings.expected_salary_monthly',
+    'application_settings.expected_salary_weekly',
+];
+
 export function isMeaningfulAnswer(answer) {
     if (answer === null || answer === undefined) {
         return false;
@@ -48,11 +118,104 @@ export function isMeaningfulAnswer(answer) {
     return text !== '' && !PLACEHOLDER_ANSWER_PATTERNS.some((pattern) => pattern.test(text));
 }
 
-export function resolveProfileMappingForLabel(label) {
+function salaryMappingByPath(path) {
+    return SALARY_MAPPINGS.find((mapping) => mapping.path === path) ?? SALARY_MAPPINGS[2];
+}
+
+export function isSalaryQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (GENERIC_SALARY_KEYWORDS.some((keyword) => normalized.includes(keyword))) {
+        return true;
+    }
+
+    return SALARY_MAPPINGS.some((mapping) => mapping.periodKeywords.some((keyword) => normalized.includes(keyword)));
+}
+
+export function resolveSalaryPeriodPath(label) {
     const normalized = normalizeQuestionLabel(label);
 
     if (!normalized) {
         return null;
+    }
+
+    for (const mapping of SALARY_MAPPINGS) {
+        if (mapping.periodKeywords.some((keyword) => normalized.includes(keyword))) {
+            return mapping.path;
+        }
+    }
+
+    return null;
+}
+
+export function defaultSalaryFallbackPath(profileData) {
+    for (const path of SALARY_FALLBACK_PATHS) {
+        if (isMeaningfulAnswer(readProfileValue(profileData, path))) {
+            return path;
+        }
+    }
+
+    return SALARY_FALLBACK_PATHS[0];
+}
+
+export function resolveSalaryMapping(label, profileData = null) {
+    const periodPath = resolveSalaryPeriodPath(label);
+    const path = periodPath ?? (profileData ? defaultSalaryFallbackPath(profileData) : SALARY_FALLBACK_PATHS[0]);
+    const definition = salaryMappingByPath(path);
+
+    return {
+        path: definition.path,
+        label: definition.label,
+        dashboard_tab: definition.dashboard_tab,
+        dashboard_anchor: definition.dashboard_anchor,
+    };
+}
+
+export function isNoticePeriodQuestionLabel(label) {
+    return /notice period/i.test(String(label || ''));
+}
+
+export function isAvailabilityQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    return [
+        'availability',
+        'start date',
+        'earliest start',
+        'when can you start',
+        'available to start',
+    ].some((keyword) => normalized.includes(keyword));
+}
+
+function profileMappingByPath(path) {
+    return PROFILE_FIELD_MAPPINGS.find((mapping) => mapping.path === path) ?? null;
+}
+
+export function resolveProfileMappingForLabel(label, profileData = null) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return null;
+    }
+
+    if (isSalaryQuestionLabel(label)) {
+        return resolveSalaryMapping(label, profileData);
+    }
+
+    if (isNoticePeriodQuestionLabel(label)) {
+        return profileMappingByPath('application_settings.notice_period');
+    }
+
+    if (isAvailabilityQuestionLabel(label)) {
+        return profileMappingByPath('application_settings.earliest_start');
     }
 
     for (const mapping of PROFILE_FIELD_MAPPINGS) {
@@ -65,7 +228,8 @@ export function resolveProfileMappingForLabel(label) {
 }
 
 export function isUserSpecificQuestion(label) {
-    return USER_SPECIFIC_LABEL_PATTERNS.some((pattern) => pattern.test(String(label || '')));
+    return USER_SPECIFIC_LABEL_PATTERNS.some((pattern) => pattern.test(String(label || '')))
+        || isSalaryQuestionLabel(label);
 }
 
 export function readProfileValue(profileData, path) {
@@ -141,7 +305,7 @@ export function buildKnownProfileAnswers(fields, profileData) {
     const answers = [];
 
     for (const field of fields || []) {
-        const mapping = resolveProfileMappingForLabel(field.label);
+        const mapping = resolveProfileMappingForLabel(field.label, profileData);
 
         if (!mapping) {
             continue;
@@ -182,7 +346,7 @@ export function buildPendingFieldsFromProfileGaps(fields, profileData) {
     const pending = [];
 
     for (const field of fields || []) {
-        const mapping = resolveProfileMappingForLabel(field.label);
+        const mapping = resolveProfileMappingForLabel(field.label, profileData);
 
         if (!mapping) {
             if (isUserSpecificQuestion(field.label)) {
@@ -228,7 +392,7 @@ export function shouldSkipAiDraftAnswer(field, answer, profileData) {
         return true;
     }
 
-    const mapping = resolveProfileMappingForLabel(field.label || '');
+    const mapping = resolveProfileMappingForLabel(field.label || '', profileData);
 
     if (mapping?.path === 'phone') {
         const profilePhone = readProfileValue(profileData, 'phone');
@@ -287,7 +451,7 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
         if (shouldSkipAiDraftAnswer(field, answer.answer, profileData)) {
             pending.push(createPendingField(
                 field,
-                resolveProfileMappingForLabel(field.label || answer.label || ''),
+                resolveProfileMappingForLabel(field.label || answer.label || '', profileData),
                 !isMeaningfulAnswer(answer.answer) ? 'missing_answer' : 'needs_user_input',
             ));
 

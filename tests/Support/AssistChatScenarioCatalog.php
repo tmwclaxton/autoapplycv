@@ -890,7 +890,7 @@ final class AssistChatScenarioCatalog
     private static function preferenceUpdateScenarios(): array
     {
         $updates = [
-            ['field' => 'application_settings.expected_salary', 'message' => 'set my expected salary to 65000', 'value' => '65000'],
+            ['field' => 'application_settings.expected_salary_yearly', 'message' => 'set my expected salary to 65000', 'value' => '65000'],
             ['field' => 'application_settings.visa_sponsorship', 'message' => 'update visa sponsorship to no', 'value' => 'no'],
             ['field' => 'application_settings.willing_to_relocate', 'message' => 'set willing to relocate to yes', 'value' => 'yes'],
             ['field' => 'application_settings.drivers_license', 'message' => 'change driving licence to full uk', 'value' => 'full uk'],

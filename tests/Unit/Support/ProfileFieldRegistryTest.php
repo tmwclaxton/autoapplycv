@@ -23,8 +23,8 @@ class ProfileFieldRegistryTest extends TestCase
         );
 
         $this->assertSame(
-            ['application_settings' => ['expected_salary' => '£80,000']],
-            ProfileFieldRegistry::buildPatchPayload('application_settings.expected_salary', '£80,000'),
+            ['application_settings' => ['expected_salary_yearly' => '£80,000']],
+            ProfileFieldRegistry::buildPatchPayload('application_settings.expected_salary_yearly', '£80,000'),
         );
 
         $this->assertSame(
@@ -41,5 +41,7 @@ class ProfileFieldRegistryTest extends TestCase
         $this->assertArrayHasKey('experience', $definitions);
         $this->assertArrayHasKey('structured_data.languages', $definitions);
         $this->assertArrayHasKey('application_settings.job_preferences', $definitions);
+        $this->assertArrayHasKey('application_settings.notice_period', $definitions);
+        $this->assertSame('Notice period', $definitions['application_settings.notice_period']['label']);
     }
 }

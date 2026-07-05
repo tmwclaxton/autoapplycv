@@ -126,11 +126,15 @@ export interface CvStructuredData {
 export interface ApplicationSettings {
     phone_country_code: string;
     years_of_experience: string;
-    expected_salary: string;
+    expected_salary_weekly: string;
+    expected_salary_monthly: string;
+    expected_salary_yearly: string;
     visa_sponsorship: 'yes' | 'no';
     legally_authorized: 'yes' | 'no';
     willing_to_relocate: 'yes' | 'no';
     drivers_license: 'yes' | 'no';
+    notice_period: string;
+    earliest_start: string;
     job_preferences: string;
 }
 
@@ -236,11 +240,15 @@ export function defaultApplicationSettings(): ApplicationSettings {
     return {
         phone_country_code: '+44',
         years_of_experience: '2',
-        expected_salary: '',
+        expected_salary_weekly: '',
+        expected_salary_monthly: '',
+        expected_salary_yearly: '',
         visa_sponsorship: 'no',
         legally_authorized: 'yes',
         willing_to_relocate: 'yes',
         drivers_license: 'yes',
+        notice_period: '',
+        earliest_start: '',
         job_preferences: '',
     };
 }

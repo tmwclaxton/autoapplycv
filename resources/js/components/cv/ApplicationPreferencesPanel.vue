@@ -27,8 +27,40 @@ const applicationSettings = defineModel<ApplicationSettings>({
                 name="job_preferences"
                 autocomplete="off"
                 class="postbox-input mt-2 min-h-28"
-                placeholder="Roles, locations, remote/hybrid, industries, notice period…"
+                placeholder="Roles, locations, remote/hybrid, industries…"
             />
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+                <label for="field-notice-period" class="postbox-label"
+                    >Notice period</label
+                >
+                <input
+                    id="field-notice-period"
+                    v-model="applicationSettings.notice_period"
+                    name="notice_period"
+                    type="text"
+                    autocomplete="off"
+                    class="postbox-input mt-2"
+                    placeholder="e.g. 2 weeks"
+                />
+            </div>
+
+            <div>
+                <label for="field-earliest-start" class="postbox-label"
+                    >Earliest start date</label
+                >
+                <input
+                    id="field-earliest-start"
+                    v-model="applicationSettings.earliest_start"
+                    name="earliest_start"
+                    type="text"
+                    autocomplete="off"
+                    class="postbox-input mt-2"
+                    placeholder="e.g. Immediately, 1 March 2026"
+                />
+            </div>
         </div>
 
         <div class="grid gap-4 sm:grid-cols-2">
@@ -69,19 +101,51 @@ const applicationSettings = defineModel<ApplicationSettings>({
             </div>
         </div>
 
-        <div>
-            <label for="field-expected-salary" class="postbox-label"
-                >Expected salary (optional)</label
-            >
-            <input
-                id="field-expected-salary"
-                v-model="applicationSettings.expected_salary"
-                name="expected_salary"
-                type="text"
-                autocomplete="off"
-                class="postbox-input mt-2"
-                placeholder="e.g. £45,000"
-            />
+        <div class="grid gap-4 sm:grid-cols-3">
+            <div>
+                <label for="field-expected-salary-weekly" class="postbox-label"
+                    >Expected salary — weekly (optional)</label
+                >
+                <input
+                    id="field-expected-salary-weekly"
+                    v-model="applicationSettings.expected_salary_weekly"
+                    name="expected_salary_weekly"
+                    type="text"
+                    autocomplete="off"
+                    class="postbox-input mt-2"
+                    placeholder="e.g. £850"
+                />
+            </div>
+
+            <div>
+                <label for="field-expected-salary-monthly" class="postbox-label"
+                    >Expected salary — monthly (optional)</label
+                >
+                <input
+                    id="field-expected-salary-monthly"
+                    v-model="applicationSettings.expected_salary_monthly"
+                    name="expected_salary_monthly"
+                    type="text"
+                    autocomplete="off"
+                    class="postbox-input mt-2"
+                    placeholder="e.g. £3,500"
+                />
+            </div>
+
+            <div>
+                <label for="field-expected-salary-yearly" class="postbox-label"
+                    >Expected salary — yearly (optional)</label
+                >
+                <input
+                    id="field-expected-salary-yearly"
+                    v-model="applicationSettings.expected_salary_yearly"
+                    name="expected_salary_yearly"
+                    type="text"
+                    autocomplete="off"
+                    class="postbox-input mt-2"
+                    placeholder="e.g. £45,000"
+                />
+            </div>
         </div>
 
         <div class="grid gap-4 sm:grid-cols-2">

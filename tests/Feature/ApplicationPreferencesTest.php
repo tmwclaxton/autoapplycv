@@ -18,7 +18,9 @@ class ApplicationPreferencesTest extends TestCase
         CvProfile::factory()->for($user)->create([
             'parsing_complete' => true,
             'application_settings' => [
-                'expected_salary' => '£55,000',
+                'expected_salary_yearly' => '£55,000',
+                'expected_salary_monthly' => '£4,500',
+                'notice_period' => '2 weeks',
                 'job_preferences' => 'Remote Laravel roles in the UK.',
             ],
         ]);
@@ -28,7 +30,9 @@ class ApplicationPreferencesTest extends TestCase
         $response = $this->getJson('/api/profile');
 
         $response->assertOk()
-            ->assertJsonPath('application_settings.expected_salary', '£55,000')
+            ->assertJsonPath('application_settings.expected_salary_yearly', '£55,000')
+            ->assertJsonPath('application_settings.expected_salary_monthly', '£4,500')
+            ->assertJsonPath('application_settings.notice_period', '2 weeks')
             ->assertJsonPath('application_settings.job_preferences', 'Remote Laravel roles in the UK.')
             ->assertJsonPath('application_settings.phone_country_code', '+44');
     }
@@ -42,6 +46,7 @@ class ApplicationPreferencesTest extends TestCase
             'application_settings' => [
                 'years_of_experience' => '5',
                 'visa_sponsorship' => 'yes',
+                'notice_period' => '1 month',
                 'job_preferences' => 'Senior backend roles, hybrid London.',
             ],
         ]);
@@ -56,6 +61,7 @@ class ApplicationPreferencesTest extends TestCase
 
         $this->assertSame('5', $profile->application_settings['years_of_experience']);
         $this->assertSame('yes', $profile->application_settings['visa_sponsorship']);
+        $this->assertSame('1 month', $profile->application_settings['notice_period']);
         $this->assertSame('Senior backend roles, hybrid London.', $profile->application_settings['job_preferences']);
     }
 }

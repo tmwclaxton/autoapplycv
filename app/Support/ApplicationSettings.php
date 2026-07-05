@@ -12,11 +12,15 @@ class ApplicationSettings
         return [
             'phone_country_code' => '+44',
             'years_of_experience' => '2',
-            'expected_salary' => '',
+            'expected_salary_weekly' => '',
+            'expected_salary_monthly' => '',
+            'expected_salary_yearly' => '',
             'visa_sponsorship' => 'no',
             'legally_authorized' => 'yes',
             'willing_to_relocate' => 'yes',
             'drivers_license' => 'yes',
+            'notice_period' => '',
+            'earliest_start' => '',
             'job_preferences' => '',
         ];
     }
@@ -57,11 +61,15 @@ class ApplicationSettings
             'application_settings' => ['nullable', 'array'],
             'application_settings.phone_country_code' => ['nullable', 'string', 'max:8'],
             'application_settings.years_of_experience' => ['nullable', 'string', 'max:3'],
-            'application_settings.expected_salary' => ['nullable', 'string', 'max:100'],
+            'application_settings.expected_salary_weekly' => ['nullable', 'string', 'max:100'],
+            'application_settings.expected_salary_monthly' => ['nullable', 'string', 'max:100'],
+            'application_settings.expected_salary_yearly' => ['nullable', 'string', 'max:100'],
             'application_settings.visa_sponsorship' => ['nullable', 'in:yes,no'],
             'application_settings.legally_authorized' => ['nullable', 'in:yes,no'],
             'application_settings.willing_to_relocate' => ['nullable', 'in:yes,no'],
             'application_settings.drivers_license' => ['nullable', 'in:yes,no'],
+            'application_settings.notice_period' => ['nullable', 'string', 'max:100'],
+            'application_settings.earliest_start' => ['nullable', 'string', 'max:100'],
             'application_settings.job_preferences' => ['nullable', 'string', 'max:5000'],
         ];
     }
