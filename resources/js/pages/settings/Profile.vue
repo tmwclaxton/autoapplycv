@@ -2,9 +2,9 @@
 import { Form, Head, usePage } from '@inertiajs/vue3';
 import { setLayoutProps } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DeleteUser from '@/components/DeleteUser.vue';
 import InputError from '@/components/InputError.vue';
+import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
 
 setLayoutProps({
     tagline: 'Your account, your control.',

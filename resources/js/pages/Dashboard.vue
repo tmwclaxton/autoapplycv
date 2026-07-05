@@ -14,10 +14,6 @@ import {
     Zap,
 } from 'lucide-vue-next';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
-import {
-    store as cvUpload,
-    updateProfile as cvProfileUpdate,
-} from '@/actions/App/Http/Controllers/CvUploadController';
 import ApplicationPreferencesPanel from '@/components/cv/ApplicationPreferencesPanel.vue';
 import CvParsingOverlay from '@/components/cv/CvParsingOverlay.vue';
 import CvProfileForm from '@/components/cv/CvProfileForm.vue';
@@ -26,7 +22,6 @@ import type { ExtensionUsageSummary } from '@/components/cv/ExtensionUsagePanel.
 import ProfileDocumentsPanel from '@/components/cv/ProfileDocumentsPanel.vue';
 import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
 import { cvAcceptAttribute, validateCvUpload } from '@/lib/upload-validation';
-import billing from '@/routes/billing';
 import { useToastStore } from '@/stores/toastStore';
 import { normalizeCvProfile } from '@/types/cvProfile';
 import type { CvProfile, CvProfileSection } from '@/types/cvProfile';
@@ -34,6 +29,11 @@ import type {
     DocumentCategoryOption,
     ProfileDocument,
 } from '@/types/profileDocument';
+import {
+    store as cvUpload,
+    updateProfile as cvProfileUpdate,
+} from '@/actions/App/Http/Controllers/CvUploadController';
+import billing from '@/routes/billing';
 
 setLayoutProps({
     tagline: 'Your profile, ready to post.',
