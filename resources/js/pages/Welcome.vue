@@ -61,9 +61,9 @@ defineProps<{
             </div>
         </section>
 
-        <PostboxDraftAllDemo />
-
         <PostboxPlatformBadges class="mt-12" />
+
+        <PostboxDraftAllDemo />
 
         <PostboxCta class="mt-12" title="Ready for your dream job" />
     </PostboxMarketingLayout>
