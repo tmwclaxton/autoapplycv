@@ -41,13 +41,13 @@
 ## See it in action
 
 <p align="center">
-  <img src="/screenshots/extension-autofill.png" alt="AutoCVApply extension autofilling a Greenhouse job application with the sidebar open" width="900" />
+  <img src="./public/screenshots/extension-autofill.png" alt="AutoCVApply extension autofilling a Greenhouse job application with the sidebar open" width="900" />
 </p>
 
 <p align="center">
-  <img src="/screenshots/dashboard-profile.png" alt="AutoCVApply dashboard CV profile tab with Jane Doe demo data" width="720" />
+  <img src="./public/screenshots/dashboard-profile.png" alt="AutoCVApply dashboard CV profile tab with Jane Doe demo data" width="720" />
   &nbsp;&nbsp;
-  <img src="/screenshots/dashboard-extension.png" alt="AutoCVApply dashboard extension download and connection tab" width="720" />
+  <img src="./public/screenshots/dashboard-extension.png" alt="AutoCVApply dashboard extension download and connection tab" width="720" />
 </p>
 
 > Screenshots use a fake **Jane Doe** demo profile (`jane.doe@example.com`). Capture locally with `npm run screenshots:readme` after `npm run build:extension` and `php artisan readme:seed-demo`.
