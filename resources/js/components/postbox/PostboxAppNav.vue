@@ -22,6 +22,9 @@ const navLinkClass = (href: string): string =>
         ? 'border-postbox-red bg-postbox-grey text-postbox-navy'
         : 'border-transparent text-postbox-navy hover:border-postbox-navy hover:bg-postbox-grey';
 
+const desktopNavLinkClass =
+    'shrink-0 whitespace-nowrap !px-2 !py-2 text-xs xl:!px-3 xl:text-sm';
+
 const items = [
     { label: 'Dashboard', href: dashboard().url },
     { label: 'Billing', href: billing.index().url },
@@ -89,22 +92,22 @@ const adminHref = '/admin';
             </Sheet>
         </div>
 
-        <div class="hidden flex-wrap items-center gap-2 lg:flex">
+        <div class="hidden flex-nowrap items-center gap-1 lg:flex xl:gap-2">
             <ThemeToggle />
             <Link
                 v-for="item in items"
                 :key="item.label"
                 :href="item.href"
-                class="postbox-btn-ghost border-2 text-sm"
-                :class="navLinkClass(item.href)"
+                class="postbox-btn-ghost border-2"
+                :class="[desktopNavLinkClass, navLinkClass(item.href)]"
             >
                 {{ item.label }}
             </Link>
             <Link
                 v-if="page.props.auth.is_admin"
                 :href="adminHref"
-                class="postbox-btn-ghost border-2 text-sm"
-                :class="navLinkClass(adminHref)"
+                class="postbox-btn-ghost border-2"
+                :class="[desktopNavLinkClass, navLinkClass(adminHref)]"
             >
                 Admin
             </Link>

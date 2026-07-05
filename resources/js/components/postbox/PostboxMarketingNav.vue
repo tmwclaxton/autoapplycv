@@ -46,6 +46,9 @@ const navLinkClass = (href: string): string =>
         ? 'border-postbox-red bg-postbox-grey text-postbox-navy'
         : 'border-transparent text-postbox-navy hover:border-postbox-navy hover:bg-postbox-grey';
 
+const desktopNavLinkClass =
+    'shrink-0 whitespace-nowrap !px-2 !py-2 text-xs xl:!px-3 xl:text-sm';
+
 const isAuthenticated = computed(() => Boolean(page.props.auth.user));
 </script>
 
@@ -132,12 +135,12 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
             </Sheet>
         </div>
 
-        <div class="hidden flex-wrap items-center gap-2 lg:flex">
+        <div class="hidden flex-nowrap items-center gap-1 lg:flex xl:gap-2">
             <ThemeToggle />
             <Link
                 :href="home()"
-                class="postbox-btn-ghost border-2 text-sm"
-                :class="navLinkClass(home().url)"
+                class="postbox-btn-ghost border-2"
+                :class="[desktopNavLinkClass, navLinkClass(home().url)]"
             >
                 Home
             </Link>
@@ -146,8 +149,11 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                 v-for="item in MARKETING_NAV_LINKS"
                 :key="item.route"
                 :href="routeMap[item.route]().url"
-                class="postbox-btn-ghost border-2 text-sm"
-                :class="navLinkClass(routeMap[item.route]().url)"
+                class="postbox-btn-ghost border-2"
+                :class="[
+                    desktopNavLinkClass,
+                    navLinkClass(routeMap[item.route]().url),
+                ]"
             >
                 {{ item.label }}
             </Link>
@@ -157,7 +163,7 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub repository"
-                class="postbox-btn-ghost shrink-0 items-center border-2 text-sm"
+                class="postbox-btn-ghost shrink-0 items-center border-2 !p-2"
             >
                 <Github class="size-5" aria-hidden="true" />
             </a>
@@ -167,7 +173,7 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Join Discord community"
-                class="postbox-btn-ghost shrink-0 items-center border-2 text-sm"
+                class="postbox-btn-ghost shrink-0 items-center border-2 !p-2"
             >
                 <DiscordIcon class="size-5" aria-hidden="true" />
             </a>
@@ -175,11 +181,15 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
             <Link
                 v-if="isAuthenticated"
                 :href="dashboard()"
-                class="postbox-btn shrink-0"
+                class="postbox-btn shrink-0 !px-3 !py-2 text-xs xl:!px-5 xl:text-sm"
             >
                 Dashboard
             </Link>
-            <Link v-else :href="login()" class="postbox-btn shrink-0">
+            <Link
+                v-else
+                :href="login()"
+                class="postbox-btn shrink-0 !px-3 !py-2 text-xs xl:!px-5 xl:text-sm"
+            >
                 Get started
                 <ArrowRight class="size-4" />
             </Link>
