@@ -1363,6 +1363,75 @@ const AutoCVApplyFormHeuristics = (() => {
         element.value = stringValue;
     }
 
+    function isIntlTelInput(element) {
+        if (!element || element.type !== 'tel') {
+            return false;
+        }
+
+        return element.closest('.iti') !== null
+            || element.dataset?.controller === 'phone-input'
+            || element.hasAttribute('data-phone-input-country-value');
+    }
+
+    function normalizePhoneDigits(value) {
+        return String(value || '').replace(/[^\d+]/g, '');
+    }
+
+    function readIntlTelInputInstance(element) {
+        const view = element.ownerDocument?.defaultView || window;
+
+        return view.intlTelInputGlobals?.getInstance?.(element) ?? null;
+    }
+
+    async function setIntlTelInputValue(element, value) {
+        const stringValue = String(value).trim();
+
+        if (!stringValue) {
+            return false;
+        }
+
+        element.focus();
+        dispatchPointerClick(element);
+
+        for (let attempt = 0; attempt < 4; attempt += 1) {
+            const iti = readIntlTelInputInstance(element);
+
+            if (iti?.setNumber) {
+                iti.setNumber(stringValue);
+                element.dispatchEvent(new InputEvent('input', {
+                    bubbles: true,
+                    cancelable: true,
+                    inputType: 'insertFromPaste',
+                    data: stringValue,
+                }));
+                element.dispatchEvent(new Event('change', { bubbles: true }));
+                element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+
+                const entered = normalizePhoneDigits(iti.getNumber?.() || element.value);
+                const expected = normalizePhoneDigits(stringValue);
+
+                if (entered.length >= Math.min(expected.length, 8)) {
+                    heuristicsLog('info', 'apply.phone', 'intl-tel-input filled', {
+                        valuePreview: stringValue.slice(0, 80),
+                        attempt: attempt + 1,
+                    });
+
+                    return true;
+                }
+            }
+
+            await sleep(attempt === 0 ? 80 : 160);
+        }
+
+        fillReactTextControl(element, stringValue);
+
+        heuristicsLog('info', 'apply.phone', 'intl-tel-input fallback to text fill', {
+            valuePreview: stringValue.slice(0, 80),
+        });
+
+        return true;
+    }
+
     async function setFieldValue(element, value) {
         if (!element || value === null || value === undefined || value === '') {
             heuristicsLog('warn', 'apply.setFieldValue', 'setFieldValue skipped — empty', {});
@@ -1382,6 +1451,10 @@ const AutoCVApplyFormHeuristics = (() => {
 
         if (role === 'combobox') {
             return setAshbyComboboxValue(element, value);
+        }
+
+        if (element.type === 'tel' && isIntlTelInput(element)) {
+            return setIntlTelInputValue(element, value);
         }
 
         if (tag === 'select') {

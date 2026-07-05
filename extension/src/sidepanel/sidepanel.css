@@ -516,6 +516,62 @@ body {
     min-height: 0;
 }
 
+.pending-fields-section {
+    padding: 12px 16px 0;
+    border-bottom: 2px solid var(--postbox-grey);
+}
+
+.pending-fields-header {
+    margin-bottom: 10px;
+}
+
+.pending-fields-title {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--postbox-navy);
+}
+
+.pending-fields-summary {
+    margin: 0;
+}
+
+.pending-fields-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 12px;
+}
+
+.pending-field-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+}
+
+.pending-field-question {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--postbox-navy);
+    line-height: 1.4;
+}
+
+.pending-field-hint {
+    margin: 0;
+}
+
+.pending-field-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pending-field-save-btn {
+    width: auto;
+    min-width: 120px;
+}
+
 .assist-messages-scroll {
     flex: 1;
     min-height: 0;

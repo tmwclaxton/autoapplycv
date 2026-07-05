@@ -35,6 +35,14 @@ import {
     invalidateTabFrameCache,
     sendTabMessage,
 } from './form-frame-messaging.js';
+import {
+    buildKnownProfileAnswers,
+    buildPendingFieldsFromProfileGaps,
+    isMeaningfulAnswer,
+    mergePendingFields,
+    partitionBatchAnswers,
+    pendingFieldsStorageKey,
+} from './pending-fields.js';
 import { createPerfTimer } from './perf-timer.js';
 import { validateCvUpload, validateDocumentUpload } from './upload-validation.js';
 
@@ -636,6 +644,27 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         return true;
     }
+
+    if (message.type === 'GET_PENDING_FIELDS') {
+        resolveActiveTabId(sender.tab?.id)
+            .then(async (tabId) => {
+                const fields = await loadPendingFields(tabId);
+
+                sendResponse({ fields });
+            })
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'SAVE_PENDING_FIELD_ANSWER') {
+        resolveActiveTabId(sender.tab?.id)
+            .then((tabId) => savePendingFieldAnswer(tabId, message.field, message.answer))
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
 });
 
 chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
@@ -740,7 +769,7 @@ async function saveLocalMemo(answers) {
     const memoUpdates = {};
 
     for (const answer of answers) {
-        if (answer?.label && answer?.answer) {
+        if (answer?.label && isMeaningfulAnswer(answer?.answer)) {
             memoUpdates[answer.label] = answer.answer;
         }
     }
@@ -757,6 +786,75 @@ async function saveLocalMemo(answers) {
             ...memoUpdates,
         },
     });
+}
+
+async function loadPendingFields(tabId) {
+    const key = pendingFieldsStorageKey(tabId);
+    const stored = await chrome.storage.session.get([key]);
+
+    return stored[key] || [];
+}
+
+async function savePendingFields(tabId, fields) {
+    const key = pendingFieldsStorageKey(tabId);
+    await chrome.storage.session.set({ [key]: fields });
+    broadcastPendingFieldsUpdated(tabId, fields);
+}
+
+function broadcastPendingFieldsUpdated(tabId, fields) {
+    chrome.runtime.sendMessage({
+        type: 'PENDING_FIELDS_UPDATED',
+        tabId,
+        fields,
+    }).catch(() => {});
+}
+
+async function savePendingFieldAnswer(tabId, field, answer) {
+    if (!field?.ref) {
+        throw new Error('Missing field reference.');
+    }
+
+    const trimmed = String(answer || '').trim();
+
+    if (!isMeaningfulAnswer(trimmed)) {
+        throw new Error('Enter an answer first.');
+    }
+
+    if (field.profile_path) {
+        const pathParts = field.profile_path.split('.');
+        const fieldKey = pathParts[pathParts.length - 1];
+
+        await applyProfileUpdate({
+            path: field.profile_path,
+            field: fieldKey,
+            value: trimmed,
+        });
+    }
+
+    await saveLocalMemo([{
+        label: field.label || field.question,
+        answer: trimmed,
+    }]);
+
+    let applied = false;
+
+    try {
+        const formFrameId = await findBestFormFrameId(tabId);
+        const result = await sendTabMessage(tabId, {
+            type: 'APPLY_DRAFT_ANSWER',
+            ref: field.ref,
+            label: field.label || field.question,
+            answer: trimmed,
+        }, formFrameId);
+        applied = Boolean(result?.success);
+    } catch {
+        // Best-effort fill after profile save.
+    }
+
+    const pending = (await loadPendingFields(tabId)).filter((item) => item.ref !== field.ref);
+    await savePendingFields(tabId, pending);
+
+    return { success: true, applied, fields: pending };
 }
 
 function inventoryFieldsToDraftShape(inventoryFields) {
@@ -1234,8 +1332,35 @@ async function runDraftAll(tabId, e2eOptions = null) {
         }
 
         const { fields, job, formFrameId } = resolved;
+        const profileData = await getProfile();
+        const fieldsByRef = new Map(fields.map((field) => [field.ref, field]));
+        let pendingFields = await loadPendingFields(tabId);
+
+        const knownAnswers = buildKnownProfileAnswers(fields, profileData);
+
+        if (knownAnswers.length > 0) {
+            broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+                message: `Applying ${knownAnswers.length} profile answer(s)…`,
+            });
+
+            perf.start('apply.profile');
+            await applyDraftBatchToTab(tabId, knownAnswers, formFrameId);
+            perf.end('apply.profile');
+
+            logInfo('background', 'draft-all.profile', 'Applied known profile answers', {
+                count: knownAnswers.length,
+            }, tabId);
+
+            pendingFields = pendingFields.filter((field) => !knownAnswers.some((answer) => answer.ref === field.ref));
+        }
+
+        const profileGapPending = buildPendingFieldsFromProfileGaps(fields, profileData);
+        pendingFields = mergePendingFields(pendingFields, profileGapPending);
+        const deferToUserRefs = new Set(profileGapPending.map((field) => field.ref));
+
         const questionMemo = await loadQuestionMemo();
-        const { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(fields, questionMemo);
+        let { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(fields, questionMemo);
+        remainingFields = remainingFields.filter((field) => !deferToUserRefs.has(field.ref));
 
         if (memoAnswers.length > 0) {
             broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
@@ -1254,11 +1379,18 @@ async function runDraftAll(tabId, e2eOptions = null) {
         }
 
         if (remainingFields.length === 0) {
-            const message = memoAnswers.length > 0
-                ? `Fill complete (${memoAnswers.length} field(s) from saved answers).`
-                : 'No fields required AI drafting.';
+            await savePendingFields(tabId, pendingFields);
 
-            broadcastDraftEvent('DRAFT_ALL_DONE', { message });
+            const pendingCount = pendingFields.length;
+            const message = pendingCount > 0
+                ? `Fill complete. ${pendingCount} question(s) need your input in the sidebar.`
+                : memoAnswers.length > 0
+                    ? `Fill complete (${memoAnswers.length} field(s) from saved answers).`
+                    : knownAnswers.length > 0
+                        ? `Fill complete (${knownAnswers.length} field(s) from your profile).`
+                        : 'No fields required AI drafting.';
+
+            broadcastDraftEvent('DRAFT_ALL_DONE', { message, pendingCount });
 
             try {
                 await sendTabMessage(tabId, { type: 'FILL_RESUME' }, formFrameId);
@@ -1304,6 +1436,13 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 const batchNumber = event.batch_index + 1;
                 const draftPhase = `draft.batch-${batchNumber}`;
                 const applyPhase = `apply.batch-${batchNumber}`;
+                const { toApply, pending: batchPending } = partitionBatchAnswers(
+                    event.answers,
+                    fieldsByRef,
+                    profileData,
+                );
+
+                pendingFields = mergePendingFields(pendingFields, batchPending);
 
                 perf.end(draftPhase);
                 perf.start(applyPhase);
@@ -1312,7 +1451,9 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 logDebug('background', 'draft-all.batch', `Applying batch ${batchNumber}`, {
                     batchIndex: event.batch_index,
                     answerCount: event.answers.length,
-                    answers: event.answers.map((answer) => ({
+                    applyCount: toApply.length,
+                    pendingCount: batchPending.length,
+                    answers: toApply.map((answer) => ({
                         ref: answer.ref,
                         label: answer.label,
                         field_type: answer.field_type,
@@ -1322,7 +1463,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                     })),
                 }, tabId);
 
-                const applyPromise = applyDraftBatchToTab(tabId, event.answers, formFrameId)
+                const applyPromise = applyDraftBatchToTab(tabId, toApply, formFrameId)
                     .then((applyResult) => {
                         logInfo('background', 'draft-all.apply', `Batch ${batchNumber} apply result`, {
                             batchIndex: event.batch_index,
@@ -1344,7 +1485,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                     });
 
                 applyPromises.push(applyPromise);
-                void saveLocalMemo(event.answers);
+                void saveLocalMemo(toApply);
                 batchIndex = batchNumber;
 
                 broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
@@ -1388,15 +1529,22 @@ async function runDraftAll(tabId, e2eOptions = null) {
             perf.end(`draft.batch-${batchIndex + 1}`);
         }
 
-        const message = `Fill complete (${fields.length} field(s) drafted).`;
+        await savePendingFields(tabId, pendingFields);
+
+        const pendingCount = pendingFields.length;
+        const message = pendingCount > 0
+            ? `Fill complete. ${pendingCount} question(s) need your input in the sidebar.`
+            : `Fill complete (${fields.length} field(s) drafted).`;
         logInfo('background', 'draft-all.complete', 'Draft All finished', {
             fieldCount: fields.length,
             memoApplied: memoAnswers.length,
+            profileApplied: knownAnswers.length,
             aiFieldCount: remainingFields.length,
             batchesApplied: batchIndex,
+            pendingCount,
         }, tabId);
 
-        broadcastDraftEvent('DRAFT_ALL_DONE', { message });
+        broadcastDraftEvent('DRAFT_ALL_DONE', { message, pendingCount });
 
         try {
             perf.start('resume.fill');

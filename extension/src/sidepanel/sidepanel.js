@@ -6,6 +6,7 @@ import {
 } from './connection.js';
 import { createRemoteLogger } from './debug-log.js';
 import { initDocumentsPanel } from './documents.js';
+import { initPendingFieldsPanel } from './pending-fields.js';
 
 const messageEl = document.getElementById('message');
 const authState = document.getElementById('auth-state');
@@ -24,6 +25,7 @@ const aiTabs = new Set(['ats', 'cover']);
 
 let documentsPanel = null;
 let assistChat = null;
+let pendingFieldsPanel = null;
 let connectedApiBase = null;
 const sidepanelLog = createRemoteLogger('sidepanel');
 
@@ -412,7 +414,18 @@ chrome.runtime.onMessage.addListener((message) => {
     if (message.type === 'DRAFT_ALL_DONE') {
         sidepanelLog.logInfo('draft-all.complete', message.message || 'Draft All done', {
             message: message.message,
+            pendingCount: message.pendingCount,
         });
+
+        if (pendingFieldsPanel?.refreshPendingFields) {
+            void pendingFieldsPanel.refreshPendingFields().catch(() => {});
+        }
+    }
+
+    if (message.type === 'PENDING_FIELDS_UPDATED') {
+        if (pendingFieldsPanel?.refreshPendingFields) {
+            void pendingFieldsPanel.refreshPendingFields().catch(() => {});
+        }
     }
 });
 
@@ -461,6 +474,10 @@ async function init() {
         });
     }
 
+    if (!pendingFieldsPanel) {
+        pendingFieldsPanel = initPendingFieldsPanel({ showMessage });
+    }
+
     const auth = await checkAuth();
 
     if (auth?.isAuthenticated) {
@@ -484,6 +501,12 @@ async function init() {
         }
 
         await showOnboardingIfNeeded();
+
+        try {
+            await pendingFieldsPanel.refreshPendingFields();
+        } catch {
+            // Pending fields are optional until Draft All runs.
+        }
     } else {
         authState.classList.remove('is-visible');
         unauthState.classList.add('is-visible');
