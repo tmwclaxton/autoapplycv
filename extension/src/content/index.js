@@ -6,6 +6,7 @@
 let profile = null;
 let overlayRefreshTimer = null;
 let overlayRefreshInFlight = false;
+let fieldHighlightRefreshInFlight = false;
 let cachedAuthenticated = false;
 let lastMutationRefreshAt = 0;
 
@@ -96,6 +97,14 @@ function isRestrictedPage() {
         || protocol === 'chrome-extension:'
         || protocol === 'about:'
         || protocol === 'moz-extension:';
+}
+
+function isAppDashboardPage() {
+    const host = location.hostname.replace(/^www\./, '');
+
+    return host === 'autocvapply.com'
+        || host === 'localhost'
+        || host === '127.0.0.1';
 }
 
 function getAutofillSettings() {
@@ -370,6 +379,7 @@ function scheduleOverlayRefresh() {
     overlayRefreshTimer = setTimeout(() => {
         overlayRefreshTimer = null;
         void refreshFillButtonVisibility();
+        void refreshFieldHighlights();
     }, 350);
 }
 
@@ -418,6 +428,70 @@ async function runOverlayRefresh() {
         });
     } catch {
         // Ignore visibility updates on restricted or disconnected pages.
+    }
+}
+
+async function refreshFieldHighlights() {
+    if (fieldHighlightRefreshInFlight) {
+        return;
+    }
+
+    fieldHighlightRefreshInFlight = true;
+
+    try {
+        await runFieldHighlightRefresh();
+    } finally {
+        fieldHighlightRefreshInFlight = false;
+    }
+}
+
+async function runFieldHighlightRefresh() {
+    if (typeof AutoCVApplyFieldHighlighter === 'undefined') {
+        return;
+    }
+
+    if (isRestrictedPage() || isAppDashboardPage()) {
+        AutoCVApplyFieldHighlighter.clearHighlights();
+
+        return;
+    }
+
+    try {
+        const authenticated = await isAuthenticated();
+
+        if (!authenticated) {
+            AutoCVApplyFieldHighlighter.clearHighlights();
+
+            return;
+        }
+
+        const profileData = await ensureProfileLoaded();
+
+        if (!profileData?.profile) {
+            AutoCVApplyFieldHighlighter.clearHighlights();
+
+            return;
+        }
+
+        const settings = getAutofillSettings();
+        const count = AutoCVApplyFormHeuristics.countDraftableFields(
+            document,
+            profileData.profile,
+            settings,
+            {},
+        );
+        const isFormHost = AutoCVApplyFormHeuristics.frameHasApplicationForm(document) || count > 0;
+        const sidePanelOpen = window === window.top ? await isSidePanelOpen() : false;
+
+        if (count === 0 || (!sidePanelOpen && !isFormHost)) {
+            AutoCVApplyFieldHighlighter.clearHighlights();
+
+            return;
+        }
+
+        AutoCVApplyFieldHighlighter.applyHighlights(document, profileData.profile, settings, {});
+    } catch {
+        AutoCVApplyFieldHighlighter.clearHighlights();
     }
 }
 
