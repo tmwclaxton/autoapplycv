@@ -222,192 +222,184 @@ onUnmounted(() => {
                         </p>
                     </div>
 
+                    <form
+                        class="min-h-0 flex-1 px-3 pt-2 sm:px-4"
+                        @submit.prevent
+                    >
+                        <div class="grid shrink-0 gap-1.5 sm:grid-cols-2">
+                            <template
+                                v-for="field in MOCK_FIELDS"
+                                :key="field.id"
+                            >
+                                <div
+                                    :class="
+                                        field.half
+                                            ? 'sm:col-span-1'
+                                            : 'sm:col-span-2'
+                                    "
+                                >
+                                    <label
+                                        :for="`demo-${field.id}`"
+                                        class="mb-px block text-[10px] font-medium text-[#3f3f46] sm:text-[11px]"
+                                    >
+                                        {{ field.label }}
+                                        <span class="text-[#c8102e]">*</span>
+                                    </label>
+
+                                    <textarea
+                                        v-if="field.type === 'textarea'"
+                                        :id="`demo-${field.id}`"
+                                        :rows="field.rows ?? 2"
+                                        :value="formValues[field.id]"
+                                        :placeholder="field.placeholder"
+                                        readonly
+                                        :class="[
+                                            'w-full resize-none rounded border border-[#d4d4d8] bg-white px-2 py-0.5 text-[11px] leading-snug text-[#18181b] placeholder:text-[#a1a1aa] focus:outline-none sm:text-xs',
+                                            fieldClass(field.id),
+                                        ]"
+                                    />
+
+                                    <select
+                                        v-else-if="field.type === 'select'"
+                                        :id="`demo-${field.id}`"
+                                        :value="formValues[field.id]"
+                                        disabled
+                                        :class="[
+                                            'w-full rounded border border-[#d4d4d8] bg-white px-2 py-0.5 text-[11px] text-[#18181b] focus:outline-none disabled:opacity-100 sm:text-xs',
+                                            fieldClass(field.id),
+                                        ]"
+                                    >
+                                        <option
+                                            v-for="option in field.options"
+                                            :key="option.value"
+                                            :value="option.value"
+                                        >
+                                            {{ option.label }}
+                                        </option>
+                                    </select>
+
+                                    <div
+                                        v-else-if="field.type === 'file'"
+                                        :class="[
+                                            'flex items-center gap-1.5 rounded border border-dashed border-[#d4d4d8] bg-white px-2 py-1 text-[11px] transition-colors duration-200 sm:text-xs',
+                                            formValues[field.id]
+                                                ? 'border-[#86efac] bg-[#f0fdf4]'
+                                                : 'text-[#71717a]',
+                                            fieldClass(field.id),
+                                        ]"
+                                    >
+                                        <FileText
+                                            class="size-3.5 shrink-0 sm:size-4"
+                                            :class="
+                                                formValues[field.id]
+                                                    ? 'text-[#16a34a]'
+                                                    : 'text-[#a1a1aa]'
+                                            "
+                                        />
+                                        <span
+                                            :class="
+                                                formValues[field.id]
+                                                    ? 'truncate font-medium text-[#166534]'
+                                                    : 'truncate'
+                                            "
+                                        >
+                                            {{
+                                                formValues[field.id] ||
+                                                'Drop resume or browse'
+                                            }}
+                                        </span>
+                                    </div>
+
+                                    <input
+                                        v-else
+                                        :id="`demo-${field.id}`"
+                                        :type="field.type"
+                                        :value="formValues[field.id]"
+                                        :placeholder="field.placeholder"
+                                        readonly
+                                        :class="[
+                                            'w-full rounded border border-[#d4d4d8] bg-white px-2 py-0.5 text-[11px] text-[#18181b] placeholder:text-[#a1a1aa] focus:outline-none sm:text-xs',
+                                            fieldClass(field.id),
+                                        ]"
+                                    />
+                                </div>
+                            </template>
+                        </div>
+                    </form>
+
                     <div
                         v-if="isComplete"
-                        class="flex min-h-0 flex-1 flex-col justify-start border-t border-[#e4e4e7] bg-[#f0fdf4] px-3 py-2 sm:px-4"
+                        class="shrink-0 border-t border-[#e4e4e7] bg-[#f0fdf4] px-3 py-1.5"
                     >
-                        <div
-                            class="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
-                        >
-                            <div class="flex min-w-0 items-center gap-1.5">
+                        <div class="flex items-center justify-between gap-1">
+                            <div class="flex min-w-0 items-center gap-1">
                                 <CheckCircle2
                                     class="size-3 shrink-0 text-[#16a34a]"
                                 />
-                                <div class="min-w-0 leading-tight">
-                                    <p
-                                        class="text-xs font-semibold text-[#166534]"
+                                <p
+                                    class="truncate text-[10px] font-semibold text-[#166534] sm:text-xs"
+                                >
+                                    Form filled from your profile
+                                    <span
+                                        class="hidden font-normal text-[#15803d] sm:inline"
                                     >
-                                        Form filled from your profile
-                                    </p>
-                                    <p class="text-[10px] text-[#15803d]">
-                                        Draft All on a real application - no
-                                        copy-paste.
-                                    </p>
-                                </div>
+                                        - no copy-paste on real forms
+                                    </span>
+                                </p>
                             </div>
-                            <div
-                                class="flex shrink-0 flex-row items-center gap-2"
-                            >
+                            <div class="flex shrink-0 items-center gap-2">
                                 <button
                                     type="button"
-                                    class="inline-flex items-center justify-center gap-1 text-[10px] font-semibold text-postbox-navy underline-offset-2 hover:underline"
+                                    class="inline-flex items-center gap-0.5 text-[10px] font-semibold text-postbox-navy underline-offset-2 hover:underline"
                                     @click="resetDemo"
                                 >
                                     <RotateCcw class="size-3" />
-                                    Reset demo
+                                    Reset
                                 </button>
                                 <Link
                                     :href="howTo()"
-                                    class="postbox-btn inline-flex px-2.5 py-1 text-[10px] sm:px-3 sm:text-xs"
+                                    class="inline-flex items-center gap-0.5 text-[10px] font-semibold text-postbox-navy underline-offset-2 hover:underline"
                                 >
-                                    Get the extension
+                                    Get extension
                                     <ArrowRight class="size-3" />
                                 </Link>
                             </div>
                         </div>
                     </div>
 
-                    <template v-else>
-                        <form
-                            class="min-h-0 flex-1 px-3 pt-2 sm:px-4"
-                            @submit.prevent
-                        >
-                            <div class="grid shrink-0 gap-1.5 sm:grid-cols-2">
-                                <template
-                                    v-for="field in MOCK_FIELDS"
-                                    :key="field.id"
-                                >
-                                    <div
-                                        :class="
-                                            field.half
-                                                ? 'sm:col-span-1'
-                                                : 'sm:col-span-2'
-                                        "
-                                    >
-                                        <label
-                                            :for="`demo-${field.id}`"
-                                            class="mb-px block text-[10px] font-medium text-[#3f3f46] sm:text-[11px]"
-                                        >
-                                            {{ field.label }}
-                                            <span class="text-[#c8102e]"
-                                                >*</span
-                                            >
-                                        </label>
-
-                                        <textarea
-                                            v-if="field.type === 'textarea'"
-                                            :id="`demo-${field.id}`"
-                                            :rows="field.rows ?? 2"
-                                            :value="formValues[field.id]"
-                                            :placeholder="field.placeholder"
-                                            readonly
-                                            :class="[
-                                                'w-full resize-none rounded border border-[#d4d4d8] bg-white px-2 py-0.5 text-[11px] leading-snug text-[#18181b] placeholder:text-[#a1a1aa] focus:outline-none sm:text-xs',
-                                                fieldClass(field.id),
-                                            ]"
-                                        />
-
-                                        <select
-                                            v-else-if="field.type === 'select'"
-                                            :id="`demo-${field.id}`"
-                                            :value="formValues[field.id]"
-                                            disabled
-                                            :class="[
-                                                'w-full rounded border border-[#d4d4d8] bg-white px-2 py-0.5 text-[11px] text-[#18181b] focus:outline-none disabled:opacity-100 sm:text-xs',
-                                                fieldClass(field.id),
-                                            ]"
-                                        >
-                                            <option
-                                                v-for="option in field.options"
-                                                :key="option.value"
-                                                :value="option.value"
-                                            >
-                                                {{ option.label }}
-                                            </option>
-                                        </select>
-
-                                        <div
-                                            v-else-if="field.type === 'file'"
-                                            :class="[
-                                                'flex items-center gap-1.5 rounded border border-dashed border-[#d4d4d8] bg-white px-2 py-1 text-[11px] transition-colors duration-200 sm:text-xs',
-                                                formValues[field.id]
-                                                    ? 'border-[#86efac] bg-[#f0fdf4]'
-                                                    : 'text-[#71717a]',
-                                                fieldClass(field.id),
-                                            ]"
-                                        >
-                                            <FileText
-                                                class="size-3.5 shrink-0 sm:size-4"
-                                                :class="
-                                                    formValues[field.id]
-                                                        ? 'text-[#16a34a]'
-                                                        : 'text-[#a1a1aa]'
-                                                "
-                                            />
-                                            <span
-                                                :class="
-                                                    formValues[field.id]
-                                                        ? 'truncate font-medium text-[#166534]'
-                                                        : 'truncate'
-                                                "
-                                            >
-                                                {{
-                                                    formValues[field.id] ||
-                                                    'Drop resume or browse'
-                                                }}
-                                            </span>
-                                        </div>
-
-                                        <input
-                                            v-else
-                                            :id="`demo-${field.id}`"
-                                            :type="field.type"
-                                            :value="formValues[field.id]"
-                                            :placeholder="field.placeholder"
-                                            readonly
-                                            :class="[
-                                                'w-full rounded border border-[#d4d4d8] bg-white px-2 py-0.5 text-[11px] text-[#18181b] placeholder:text-[#a1a1aa] focus:outline-none sm:text-xs',
-                                                fieldClass(field.id),
-                                            ]"
-                                        />
-                                    </div>
-                                </template>
-                            </div>
-                        </form>
-
+                    <div
+                        v-else
+                        class="shrink-0 border-t border-[#e4e4e7] bg-white px-3 py-2 sm:px-4"
+                    >
                         <div
-                            class="shrink-0 border-t border-[#e4e4e7] bg-white px-3 py-2 sm:px-4"
+                            class="flex flex-wrap items-center gap-x-2 gap-y-1"
                         >
-                            <div
-                                class="flex flex-wrap items-center gap-x-2 gap-y-1"
+                            <button
+                                type="button"
+                                class="inline-flex shrink-0 items-center justify-center border-2 border-postbox-navy bg-postbox-red px-2.5 py-1.5 text-[11px] leading-tight font-bold whitespace-nowrap text-white shadow-[2px_2px_0_rgb(27_54_93_/_8%)] transition-[filter] hover:brightness-105 disabled:cursor-wait disabled:opacity-70 sm:px-3 sm:py-2 sm:text-xs"
+                                :disabled="isFilling"
+                                @click="startDraftAll"
                             >
-                                <button
-                                    type="button"
-                                    class="inline-flex shrink-0 items-center justify-center border-2 border-postbox-navy bg-postbox-red px-2.5 py-1.5 text-[11px] leading-tight font-bold whitespace-nowrap text-white shadow-[2px_2px_0_rgb(27_54_93_/_8%)] transition-[filter] hover:brightness-105 disabled:cursor-wait disabled:opacity-70 sm:px-3 sm:py-2 sm:text-xs"
-                                    :disabled="isFilling"
-                                    @click="startDraftAll"
-                                >
-                                    Draft All
-                                </button>
-                                <span
-                                    v-if="progressLabel"
-                                    class="min-w-0 flex-1 text-[10px] leading-snug text-[#6b6b6b]"
-                                >
-                                    {{ progressLabel }}
-                                </span>
-                                <button
-                                    v-if="filledCount > 0"
-                                    type="button"
-                                    class="inline-flex items-center gap-1 text-[10px] font-semibold text-postbox-navy underline-offset-2 hover:underline"
-                                    :disabled="isFilling"
-                                    @click="resetDemo"
-                                >
-                                    <RotateCcw class="size-3" />
-                                    Reset demo
-                                </button>
-                            </div>
+                                Draft All
+                            </button>
+                            <span
+                                v-if="progressLabel"
+                                class="min-w-0 flex-1 text-[10px] leading-snug text-[#6b6b6b]"
+                            >
+                                {{ progressLabel }}
+                            </span>
+                            <button
+                                v-if="filledCount > 0"
+                                type="button"
+                                class="inline-flex items-center gap-1 text-[10px] font-semibold text-postbox-navy underline-offset-2 hover:underline"
+                                :disabled="isFilling"
+                                @click="resetDemo"
+                            >
+                                <RotateCcw class="size-3" />
+                                Reset demo
+                            </button>
                         </div>
-                    </template>
+                    </div>
                 </div>
             </div>
         </div>
