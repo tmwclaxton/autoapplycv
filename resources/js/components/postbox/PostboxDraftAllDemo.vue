@@ -224,35 +224,33 @@ onUnmounted(() => {
 
                     <div
                         v-if="isComplete"
-                        class="flex min-h-0 flex-1 flex-col justify-center border-t border-[#e4e4e7] bg-[#f0fdf4] px-3 py-3 sm:px-4"
+                        class="flex min-h-0 flex-1 flex-col justify-start border-t border-[#e4e4e7] bg-[#f0fdf4] px-3 py-2 sm:px-4"
                     >
                         <div
-                            class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3"
+                            class="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
                         >
-                            <div class="flex min-w-0 items-start gap-2">
+                            <div class="flex min-w-0 items-center gap-1.5">
                                 <CheckCircle2
-                                    class="mt-0.5 size-3.5 shrink-0 text-[#16a34a] sm:size-4"
+                                    class="size-3 shrink-0 text-[#16a34a]"
                                 />
-                                <div class="min-w-0">
+                                <div class="min-w-0 leading-tight">
                                     <p
-                                        class="text-xs font-semibold text-[#166534] sm:text-sm"
+                                        class="text-xs font-semibold text-[#166534]"
                                     >
                                         Form filled from your profile
                                     </p>
-                                    <p
-                                        class="mt-0.5 text-[10px] leading-snug text-[#15803d] sm:text-xs"
-                                    >
+                                    <p class="text-[10px] text-[#15803d]">
                                         Draft All on a real application - no
                                         copy-paste.
                                     </p>
                                 </div>
                             </div>
                             <div
-                                class="flex shrink-0 flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-2"
+                                class="flex shrink-0 flex-row items-center gap-2"
                             >
                                 <button
                                     type="button"
-                                    class="inline-flex items-center justify-center gap-1 text-[10px] font-semibold text-postbox-navy underline-offset-2 hover:underline sm:text-xs"
+                                    class="inline-flex items-center justify-center gap-1 text-[10px] font-semibold text-postbox-navy underline-offset-2 hover:underline"
                                     @click="resetDemo"
                                 >
                                     <RotateCcw class="size-3" />
@@ -260,7 +258,7 @@ onUnmounted(() => {
                                 </button>
                                 <Link
                                     :href="howTo()"
-                                    class="postbox-btn inline-flex w-full px-3 py-1.5 text-xs sm:w-auto sm:text-sm"
+                                    class="postbox-btn inline-flex px-2.5 py-1 text-[10px] sm:px-3 sm:text-xs"
                                 >
                                     Get the extension
                                     <ArrowRight class="size-3" />
