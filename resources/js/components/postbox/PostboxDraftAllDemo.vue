@@ -49,24 +49,10 @@ const MOCK_FIELDS: DemoField[] = [
         placeholder: 'you@example.com',
     },
     {
-        id: 'phone',
-        label: 'Phone',
-        type: 'tel',
-        value: '+44 7700 900123',
-        placeholder: '+44 7700 900000',
-    },
-    {
         id: 'resume',
         label: 'Resume / CV',
         type: 'file',
         value: 'Alex_Chen_CV.pdf',
-    },
-    {
-        id: 'coverLetter',
-        label: 'Cover letter',
-        type: 'textarea',
-        value: 'Dear hiring team, I am excited to apply for the Senior Product Designer role.',
-        rows: 2,
     },
 ];
 
@@ -188,7 +174,7 @@ onUnmounted(() => {
                 class="overflow-hidden rounded-xl border border-[#d4d4d8] bg-[#ececec] shadow-[0_8px_30px_rgb(0_0_0_/_12%)]"
             >
                 <div
-                    class="flex items-center gap-2 border-b border-[#d4d4d8] px-3 py-2"
+                    class="flex items-center gap-2 border-b border-[#d4d4d8] px-3 py-1.5 sm:py-2"
                 >
                     <div class="flex shrink-0 items-center gap-1.5">
                         <span
@@ -205,7 +191,7 @@ onUnmounted(() => {
                         />
                     </div>
                     <div
-                        class="min-w-0 flex-1 rounded-md border border-[#d4d4d8] bg-white px-2.5 py-1 text-center"
+                        class="min-w-0 flex-1 rounded-md border border-[#d4d4d8] bg-white px-2 py-0.5 text-center sm:px-2.5 sm:py-1"
                     >
                         <span
                             class="block truncate text-[10px] text-[#71717a] sm:text-xs"
@@ -215,34 +201,80 @@ onUnmounted(() => {
                     </div>
                 </div>
 
-                <div class="relative overflow-hidden bg-[#fafafa]">
+                <div
+                    class="flex h-60 flex-col overflow-hidden bg-[#fafafa] sm:h-64"
+                >
                     <div
-                        class="border-b border-[#e4e4e7] bg-white px-3 py-2 sm:px-4"
+                        class="shrink-0 border-b border-[#e4e4e7] bg-white px-3 py-1.5 sm:px-4 sm:py-2"
                     >
                         <p
-                            class="text-[10px] font-semibold tracking-wide text-[#71717a] uppercase sm:text-xs"
+                            class="text-[10px] font-semibold tracking-wide text-[#71717a] uppercase"
                         >
                             Acme Corp · Careers
                         </p>
                         <h3
-                            class="mt-0.5 text-sm font-semibold text-[#18181b] sm:text-base"
+                            class="text-xs font-semibold text-[#18181b] sm:text-sm"
                         >
                             Senior Product Designer
                         </h3>
-                        <p class="text-[11px] text-[#71717a] sm:text-xs">
+                        <p class="text-[10px] text-[#71717a] sm:text-[11px]">
                             London · Hybrid · Full-time
                         </p>
                     </div>
 
                     <div
-                        class="max-h-60 overflow-y-auto sm:max-h-64"
-                        :class="isComplete ? '' : 'pb-12'"
+                        v-if="isComplete"
+                        class="flex min-h-0 flex-1 flex-col justify-center border-t border-[#e4e4e7] bg-[#f0fdf4] px-3 py-3 sm:px-4"
                     >
+                        <div
+                            class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3"
+                        >
+                            <div class="flex min-w-0 items-start gap-2">
+                                <CheckCircle2
+                                    class="mt-0.5 size-3.5 shrink-0 text-[#16a34a] sm:size-4"
+                                />
+                                <div class="min-w-0">
+                                    <p
+                                        class="text-xs font-semibold text-[#166534] sm:text-sm"
+                                    >
+                                        Form filled from your profile
+                                    </p>
+                                    <p
+                                        class="mt-0.5 text-[10px] leading-snug text-[#15803d] sm:text-xs"
+                                    >
+                                        Draft All on a real application - no
+                                        copy-paste.
+                                    </p>
+                                </div>
+                            </div>
+                            <div
+                                class="flex shrink-0 flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-2"
+                            >
+                                <button
+                                    type="button"
+                                    class="inline-flex items-center justify-center gap-1 text-[10px] font-semibold text-postbox-navy underline-offset-2 hover:underline sm:text-xs"
+                                    @click="resetDemo"
+                                >
+                                    <RotateCcw class="size-3" />
+                                    Reset demo
+                                </button>
+                                <Link
+                                    :href="howTo()"
+                                    class="postbox-btn inline-flex w-full px-3 py-1.5 text-xs sm:w-auto sm:text-sm"
+                                >
+                                    Get the extension
+                                    <ArrowRight class="size-3" />
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+
+                    <template v-else>
                         <form
-                            class="space-y-2 px-3 pt-3 sm:px-4"
+                            class="flex min-h-0 flex-1 flex-col px-3 pt-2 sm:px-4"
                             @submit.prevent
                         >
-                            <div class="grid gap-2 sm:grid-cols-2">
+                            <div class="grid shrink-0 gap-1.5 sm:grid-cols-2">
                                 <template
                                     v-for="field in MOCK_FIELDS"
                                     :key="field.id"
@@ -256,7 +288,7 @@ onUnmounted(() => {
                                     >
                                         <label
                                             :for="`demo-${field.id}`"
-                                            class="mb-0.5 block text-xs font-medium text-[#3f3f46]"
+                                            class="mb-px block text-[10px] font-medium text-[#3f3f46] sm:text-[11px]"
                                         >
                                             {{ field.label }}
                                             <span class="text-[#c8102e]"
@@ -272,7 +304,7 @@ onUnmounted(() => {
                                             :placeholder="field.placeholder"
                                             readonly
                                             :class="[
-                                                'w-full resize-none rounded border border-[#d4d4d8] bg-white px-2 py-1 text-xs leading-snug text-[#18181b] placeholder:text-[#a1a1aa] focus:outline-none',
+                                                'w-full resize-none rounded border border-[#d4d4d8] bg-white px-2 py-0.5 text-[11px] leading-snug text-[#18181b] placeholder:text-[#a1a1aa] focus:outline-none sm:text-xs',
                                                 fieldClass(field.id),
                                             ]"
                                         />
@@ -283,7 +315,7 @@ onUnmounted(() => {
                                             :value="formValues[field.id]"
                                             disabled
                                             :class="[
-                                                'w-full rounded border border-[#d4d4d8] bg-white px-2 py-1 text-xs text-[#18181b] focus:outline-none disabled:opacity-100',
+                                                'w-full rounded border border-[#d4d4d8] bg-white px-2 py-0.5 text-[11px] text-[#18181b] focus:outline-none disabled:opacity-100 sm:text-xs',
                                                 fieldClass(field.id),
                                             ]"
                                         >
@@ -299,7 +331,7 @@ onUnmounted(() => {
                                         <div
                                             v-else-if="field.type === 'file'"
                                             :class="[
-                                                'flex items-center gap-2 rounded border border-dashed border-[#d4d4d8] bg-white px-2 py-1.5 text-xs transition-colors duration-200',
+                                                'flex items-center gap-1.5 rounded border border-dashed border-[#d4d4d8] bg-white px-2 py-1 text-[11px] transition-colors duration-200 sm:text-xs',
                                                 formValues[field.id]
                                                     ? 'border-[#86efac] bg-[#f0fdf4]'
                                                     : 'text-[#71717a]',
@@ -307,7 +339,7 @@ onUnmounted(() => {
                                             ]"
                                         >
                                             <FileText
-                                                class="size-4 shrink-0"
+                                                class="size-3.5 shrink-0 sm:size-4"
                                                 :class="
                                                     formValues[field.id]
                                                         ? 'text-[#16a34a]'
@@ -336,7 +368,7 @@ onUnmounted(() => {
                                             :placeholder="field.placeholder"
                                             readonly
                                             :class="[
-                                                'w-full rounded border border-[#d4d4d8] bg-white px-2 py-1 text-xs text-[#18181b] placeholder:text-[#a1a1aa] focus:outline-none',
+                                                'w-full rounded border border-[#d4d4d8] bg-white px-2 py-0.5 text-[11px] text-[#18181b] placeholder:text-[#a1a1aa] focus:outline-none sm:text-xs',
                                                 fieldClass(field.id),
                                             ]"
                                         />
@@ -345,92 +377,45 @@ onUnmounted(() => {
                             </div>
 
                             <p
-                                class="pb-2 text-[10px] text-[#a1a1aa] sm:text-xs"
+                                class="mt-auto pt-1.5 text-[9px] text-[#a1a1aa] sm:text-[10px]"
                             >
                                 Demo only - nothing is submitted.
                             </p>
                         </form>
-                    </div>
 
-                    <div
-                        v-if="isComplete"
-                        class="border-t border-[#e4e4e7] bg-[#f0fdf4] px-3 py-2.5 sm:px-4"
-                    >
                         <div
-                            class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+                            class="shrink-0 border-t border-[#e4e4e7] bg-white px-3 py-2 sm:px-4"
                         >
-                            <div class="flex min-w-0 items-start gap-2">
-                                <CheckCircle2
-                                    class="mt-0.5 size-4 shrink-0 text-[#16a34a]"
-                                />
-                                <div class="min-w-0">
-                                    <p
-                                        class="text-sm font-semibold text-[#166534]"
-                                    >
-                                        Form filled from your profile
-                                    </p>
-                                    <p class="mt-0.5 text-xs text-[#15803d]">
-                                        All fields filled from your profile.
-                                        Draft All on a real application - no
-                                        copy-paste.
-                                    </p>
-                                </div>
-                            </div>
                             <div
-                                class="flex shrink-0 flex-col gap-2 sm:flex-row sm:items-center"
+                                class="flex flex-wrap items-center gap-x-2 gap-y-1"
                             >
                                 <button
                                     type="button"
-                                    class="inline-flex items-center justify-center gap-1 text-xs font-semibold text-postbox-navy underline-offset-2 hover:underline"
+                                    class="inline-flex shrink-0 items-center justify-center border-2 border-postbox-navy bg-postbox-red px-2.5 py-1.5 text-[11px] leading-tight font-bold whitespace-nowrap text-white shadow-[2px_2px_0_rgb(27_54_93_/_8%)] transition-[filter] hover:brightness-105 disabled:cursor-wait disabled:opacity-70 sm:px-3 sm:py-2 sm:text-xs"
+                                    :disabled="isFilling"
+                                    @click="startDraftAll"
+                                >
+                                    Draft All
+                                </button>
+                                <span
+                                    v-if="progressLabel"
+                                    class="min-w-0 flex-1 text-[10px] leading-snug text-[#6b6b6b]"
+                                >
+                                    {{ progressLabel }}
+                                </span>
+                                <button
+                                    v-if="filledCount > 0"
+                                    type="button"
+                                    class="inline-flex items-center gap-1 text-[10px] font-semibold text-postbox-navy underline-offset-2 hover:underline"
+                                    :disabled="isFilling"
                                     @click="resetDemo"
                                 >
-                                    <RotateCcw class="size-3.5" />
+                                    <RotateCcw class="size-3" />
                                     Reset demo
                                 </button>
-                                <Link
-                                    :href="howTo()"
-                                    class="postbox-btn inline-flex w-full text-sm sm:w-auto"
-                                >
-                                    Get the extension
-                                    <ArrowRight class="size-3.5" />
-                                </Link>
                             </div>
                         </div>
-                    </div>
-
-                    <div
-                        v-if="!isComplete"
-                        class="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-start p-2.5 sm:p-3"
-                    >
-                        <div
-                            class="pointer-events-auto flex max-w-full flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:gap-2"
-                        >
-                            <button
-                                type="button"
-                                class="inline-flex shrink-0 items-center justify-center border-2 border-postbox-navy bg-postbox-red px-3 py-2 text-xs leading-tight font-bold whitespace-nowrap text-white shadow-[3px_3px_0_rgb(27_54_93_/_8%)] transition-[filter] hover:brightness-105 disabled:cursor-wait disabled:opacity-70"
-                                :disabled="isFilling"
-                                @click="startDraftAll"
-                            >
-                                Draft All
-                            </button>
-                            <span
-                                v-if="progressLabel"
-                                class="max-w-[12rem] text-[10px] leading-snug text-[#6b6b6b] sm:text-[11px]"
-                            >
-                                {{ progressLabel }}
-                            </span>
-                            <button
-                                v-if="filledCount > 0"
-                                type="button"
-                                class="inline-flex items-center gap-1 text-[10px] font-semibold text-postbox-navy underline-offset-2 hover:underline sm:text-xs"
-                                :disabled="isFilling"
-                                @click="resetDemo"
-                            >
-                                <RotateCcw class="size-3" />
-                                Reset demo
-                            </button>
-                        </div>
-                    </div>
+                    </template>
                 </div>
             </div>
         </div>
