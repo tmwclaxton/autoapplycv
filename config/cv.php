@@ -15,12 +15,12 @@ return [
     'vision_model' => env('NANOGPT_VISION_MODEL', 'openai/gpt-4.1-mini:speed'),
 
     /*
-    | Recommended NANOGPT_CV_MODEL values (override via .env only when needed):
-    | - google/gemini-3.1-flash-lite:throughput  fast, accurate CV parsing (default)
-    | - deepseek/deepseek-v4-flash:throughput    slower but strong on messy OCR text
+    | Recommended NANOGPT_CV_MODEL values (optional override via .env):
+    | - deepseek/deepseek-v4-flash:throughput    strong on messy OCR text (default)
+    | - google/gemini-3.1-flash-lite:throughput  faster alternative for clean PDFs
     | Avoid qwen3.7-max for uploads - high quality but 10x+ slower on full CV output.
     */
-    'extraction_model' => env('NANOGPT_CV_MODEL', 'google/gemini-3.1-flash-lite:throughput'),
+    'extraction_model' => env('NANOGPT_CV_MODEL', 'deepseek/deepseek-v4-flash:throughput'),
 
     'inventory_model' => 'google/gemini-3.1-flash-lite:throughput',
 

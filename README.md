@@ -547,6 +547,8 @@ The extension authenticates with Laravel Sanctum bearer tokens.
 
 Production runs in Docker (`DockerfileProd`) with Nginx, PHP-FPM, and a queue worker. Pushes to `main` build a GHCR image and deploy via GitHub Actions.
 
+CV extraction and Draft All use `deepseek/deepseek-v4-flash:throughput` by default (`config/cv.php`). To override the model in production, set `NANOGPT_CV_MODEL` in the server `.env` at `/opt/autocvapply/.env`; remove that key to use the config default after deploy.
+
 Live site: **[autocvapply.com](https://autocvapply.com)**
 
 ## Contributing
