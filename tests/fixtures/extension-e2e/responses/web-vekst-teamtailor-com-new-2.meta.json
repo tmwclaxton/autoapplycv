@@ -1,19 +1,7 @@
 {
   "scenario_id": "web-vekst-teamtailor-com-new-2",
-  "plan_count": 13,
+  "plan_count": 11,
   "field_assertions": [
-    {
-      "kind": "id",
-      "selector": "analytics",
-      "ref": "f0",
-      "answer": "Analytics"
-    },
-    {
-      "kind": "id",
-      "selector": "marketing",
-      "ref": "f1",
-      "answer": "Marketing"
-    },
     {
       "kind": "id",
       "selector": "candidate_answers_attributes_0_text",
@@ -37,6 +25,18 @@
       "selector": "id_26646640",
       "ref": "f5",
       "answer": "Yes"
+    },
+    {
+      "kind": "id",
+      "selector": "id_26646656",
+      "ref": "f6",
+      "answer": "Yes"
+    },
+    {
+      "kind": "id",
+      "selector": "candidate_first_name",
+      "ref": "f7",
+      "answer": "FillVerify-7"
     }
   ]
 }

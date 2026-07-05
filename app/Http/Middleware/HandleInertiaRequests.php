@@ -35,6 +35,7 @@ class HandleInertiaRequests extends Middleware
             'subscription' => $user
                 ? app(AiTokenService::class)->summary($user)
                 : null,
+            'extensionId' => $request->session()->get('extension_auth_extension_id'),
         ];
     }
 }

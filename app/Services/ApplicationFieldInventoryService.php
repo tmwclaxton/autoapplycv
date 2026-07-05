@@ -38,14 +38,13 @@ class ApplicationFieldInventoryService
             'page_title' => $snapshot['page_title'] ?? null,
             'page_url' => $snapshot['page_url'] ?? null,
             'elements' => $elements,
-            'instructions' => 'Return JSON: {"fields":[{"ref":"exact ref","question":"string","field_type":"text|textarea|radio|checkbox|select","max_chars":number|null,"options":["..."]|null}],"complete":boolean,"next_actions":[{"ref":"control ref","reason":"string"}]}. '
+            'instructions' => 'Return JSON: {"fields":[{"ref":"exact ref","question":"string","field_type":"text|textarea|radio|checkbox|select","max_chars":number|null,"options":["..."]|null}],"complete":true,"next_actions":[]}. '
+                .'Inventory only the application questions visible in this snapshot — do not assume hidden wizard steps or off-screen pages. '
                 .'Include every element that is an unanswered application question the candidate still needs to answer. '
-                .'Use the exact ref from elements or controls — never invent refs. '
+                .'Use the exact ref from elements — never invent refs. '
                 .'Improve question text when context helps, but keep the same ref. '
                 .'Merge duplicate questions only if they truly refer to the same control ref. '
-                .'Set complete to false when controls suggest hidden steps (Continue, Next, Save and continue) and required questions may still be off-screen. '
-                .'Never put final submit buttons (Submit Application, Apply now) in next_actions. '
-                .'Put up to 2 control refs in next_actions when complete is false. '
+                .'Always set complete to true and return an empty next_actions array. '
                 .'Omit file upload fields. For radio/select/checkbox, preserve options exactly from the snapshot.',
         ];
 
@@ -63,7 +62,7 @@ class ApplicationFieldInventoryService
                 'content' => json_encode($userPayload, JSON_THROW_ON_ERROR),
             ],
         ], [
-            'model' => config('cv.extraction_model'),
+            'model' => config('cv.inventory_model'),
             'temperature' => 0.2,
         ]);
 
@@ -71,7 +70,7 @@ class ApplicationFieldInventoryService
             return null;
         }
 
-        return $this->normalizeInventoryPayload($payload, $elements, $controls);
+        return $this->normalizeInventoryPayload($payload, $elements);
     }
 
     /**
@@ -163,17 +162,15 @@ class ApplicationFieldInventoryService
     /**
      * @param  array<string, mixed>  $payload
      * @param  array<int, array{ref: string, question: string, field_type: string, max_chars?: int|null, options?: array<int, string>|null, required?: bool, context?: string|null}>  $elements
-     * @param  array<int, array{ref: string, name: string, role?: string|null}>  $controls
      * @return array{
      *     fields: array<int, array{ref: string, question: string, field_type: string, max_chars?: int|null, options?: array<int, string>|null}>,
      *     complete: bool,
      *     next_actions: array<int, array{ref: string, reason: string}>,
      * }
      */
-    private function normalizeInventoryPayload(array $payload, array $elements, array $controls): array
+    private function normalizeInventoryPayload(array $payload, array $elements): array
     {
         $elementByRef = collect($elements)->keyBy('ref');
-        $controlRefs = collect($controls)->pluck('ref')->all();
         $fields = [];
 
         foreach ($payload['fields'] ?? [] as $row) {
@@ -207,31 +204,10 @@ class ApplicationFieldInventoryService
             return null;
         }
 
-        $nextActions = [];
-
-        foreach ($payload['next_actions'] ?? [] as $action) {
-            if (! is_array($action) || ! isset($action['ref'])) {
-                continue;
-            }
-
-            $ref = trim((string) $action['ref']);
-
-            if (! in_array($ref, $controlRefs, true)) {
-                continue;
-            }
-
-            $nextActions[] = [
-                'ref' => $ref,
-                'reason' => isset($action['reason']) && is_string($action['reason'])
-                    ? trim($action['reason'])
-                    : 'Reveal the next section of the form.',
-            ];
-        }
-
         return [
             'fields' => array_values($fields),
-            'complete' => (bool) ($payload['complete'] ?? true),
-            'next_actions' => array_slice($nextActions, 0, 2),
+            'complete' => true,
+            'next_actions' => [],
         ];
     }
 

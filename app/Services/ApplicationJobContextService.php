@@ -43,7 +43,7 @@ class ApplicationJobContextService
                 ], JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE),
             ],
         ], [
-            'model' => config('cv.extraction_model'),
+            'model' => config('cv.job_context_model'),
             'temperature' => 0.2,
         ]);
 

@@ -104,6 +104,52 @@ class ApplicationFieldInventoryTest extends TestCase
             ->assertJsonPath('success', false);
     }
 
+    public function test_inventory_always_returns_single_step_result(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create();
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')->once()->andReturn([
+                'fields' => [
+                    [
+                        'ref' => 'f0',
+                        'question' => 'Why do you want this role?',
+                        'field_type' => 'textarea',
+                    ],
+                ],
+                'complete' => false,
+                'next_actions' => [
+                    ['ref' => 'c0', 'reason' => 'Continue'],
+                ],
+            ]);
+        });
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/inventory', [
+                'job' => [
+                    'title' => 'Laravel Developer',
+                    'company' => 'Example Ltd',
+                ],
+                'snapshot' => [
+                    'elements' => [
+                        [
+                            'ref' => 'f0',
+                            'question' => 'Why do you want this role?',
+                            'field_type' => 'textarea',
+                        ],
+                    ],
+                    'controls' => [
+                        ['ref' => 'c0', 'name' => 'Continue'],
+                    ],
+                ],
+            ])
+            ->assertOk()
+            ->assertJsonPath('complete', true)
+            ->assertJsonPath('next_actions', []);
+    }
+
     public function test_inventory_returns_error_when_ai_fails(): void
     {
         $user = User::factory()->create();

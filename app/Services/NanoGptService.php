@@ -390,7 +390,7 @@ class NanoGptService
      */
     private function modelCandidates(string $model): array
     {
-        $suffixes = [':throughput', ':speed'];
+        $suffixes = [':throughput', ':speed', ':ttfs'];
         $base = $model;
         $activeSuffix = null;
 

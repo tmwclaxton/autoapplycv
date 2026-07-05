@@ -16,6 +16,10 @@ return [
 
     'extraction_model' => env('NANOGPT_CV_MODEL', 'deepseek/deepseek-v4-flash:throughput'),
 
+    'inventory_model' => 'google/gemini-3.1-flash-lite:throughput',
+
+    'job_context_model' => 'google/gemini-3.1-flash-lite:ttfs',
+
     'extraction_timeout' => (int) env('CV_EXTRACTION_TIMEOUT_SECONDS', 180),
 
     'vision_timeout' => (int) env('CV_VISION_TIMEOUT_SECONDS', 120),

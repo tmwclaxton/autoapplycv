@@ -195,16 +195,12 @@ async function runMockFlow(fixture, optimized) {
     const inventoryStartedAt = performance.now();
     let inventoryRoundCount = 0;
 
-    for (let round = 0; round < 3; round += 1) {
+    for (let round = 0; round < 1; round += 1) {
         const inventory = await mockInventoryRound(snapshot, round, optimized);
         inventoryRoundCount += 1;
 
         if (inventory.complete || inventory.next_actions.length === 0) {
             break;
-        }
-
-        if (!optimized) {
-            await sleep(MOCK_LATENCY_MS.inventoryStepDelay);
         }
     }
 

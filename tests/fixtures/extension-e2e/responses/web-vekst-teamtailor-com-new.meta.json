@@ -1,19 +1,7 @@
 {
   "scenario_id": "web-vekst-teamtailor-com-new",
-  "plan_count": 16,
+  "plan_count": 14,
   "field_assertions": [
-    {
-      "kind": "id",
-      "selector": "analytics",
-      "ref": "f0",
-      "answer": "Analytics"
-    },
-    {
-      "kind": "id",
-      "selector": "marketing",
-      "ref": "f1",
-      "answer": "Marketing"
-    },
     {
       "kind": "id",
       "selector": "candidate_answers_attributes_0_text",
@@ -37,6 +25,18 @@
       "selector": "candidate_answers_attributes_3_text",
       "ref": "f5",
       "answer": "FillVerify-textarea-5"
+    },
+    {
+      "kind": "id",
+      "selector": "id_6887888",
+      "ref": "f6",
+      "answer": "I have worked at an agency with mainly B2B clients."
+    },
+    {
+      "kind": "id",
+      "selector": "id_6887904",
+      "ref": "f7",
+      "answer": "Yes"
     }
   ]
 }

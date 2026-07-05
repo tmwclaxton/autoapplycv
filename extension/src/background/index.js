@@ -20,7 +20,7 @@ import {
 import {
     compactFieldsForDraft,
     compactSnapshotForInventory,
-    shouldForceInventoryComplete,
+    partitionFieldsByQuestionMemo,
     snapshotFingerprint,
     tryInferJobContextFromPage,
 } from './draft-all-optimizations.js';
@@ -29,11 +29,9 @@ import { arrayBufferToBase64, base64ToBlob } from './file-transfer.js';
 import {
     applyDraftAnswerToTab,
     applyDraftBatchToTab,
-    clickInventoryRefOnTab,
     collectSnapshotFromTab,
     fetchPagePayloadForJobContext,
     findBestFormFrameId,
-    invalidateTabFrameCache,
     sendTabMessage,
 } from './form-frame-messaging.js';
 import { createPerfTimer } from './perf-timer.js';
@@ -44,17 +42,30 @@ void initDebugLog();
 let cachedProfile = null;
 let cacheTimestamp = 0;
 const CACHE_TTL_MS = 15 * 60 * 1000;
-const INVENTORY_MAX_ROUNDS = 8;
-const INVENTORY_STEP_DELAY_MS = 600;
 const JOB_CONTEXT_CACHE_TTL_MS = 30 * 60 * 1000;
 const JOB_CONTEXT_PREFETCH_DEBOUNCE_MS = 5000;
+const SNAPSHOT_CACHE_TTL_MS = 3 * 60 * 1000;
+const SNAPSHOT_PREFETCH_DEBOUNCE_MS = 5000;
 const jobContextCache = new Map();
 const jobContextPrefetchInFlight = new Set();
 const jobContextPrefetchLastAt = new Map();
+const snapshotCache = new Map();
+const snapshotPrefetchInFlight = new Set();
+const snapshotPrefetchLastAt = new Map();
 
 function invalidateProfileCache() {
     cachedProfile = null;
     cacheTimestamp = 0;
+}
+
+async function clearQuestionMemo() {
+    await chrome.storage.local.remove(['questionMemo']);
+}
+
+async function loadQuestionMemo() {
+    const { questionMemo = {} } = await chrome.storage.local.get(['questionMemo']);
+
+    return questionMemo;
 }
 
 function apiErrorMessage(data, fallbackMessage) {
@@ -102,6 +113,7 @@ async function uploadCv(filePayload) {
     }
 
     invalidateProfileCache();
+    await clearQuestionMemo();
 
     return data;
 }
@@ -160,6 +172,7 @@ async function uploadProfileDocument(message) {
     }
 
     invalidateProfileCache();
+    await clearQuestionMemo();
 
     return data;
 }
@@ -359,6 +372,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
 
             notifyTabOverlayVisibility(tabId);
             void prefetchJobContextForTab(tabId, tab);
+            void prefetchSnapshotForTab(tabId, tab);
         })
         .catch(() => {});
 });
@@ -511,6 +525,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     if (message.type === 'PROFILE_UPDATED') {
         invalidateProfileCache();
+        void clearQuestionMemo();
         sendResponse({ success: true });
 
         return false;
@@ -623,6 +638,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
+    if (message.type === 'PROFILE_UPDATED') {
+        invalidateProfileCache();
+        void clearQuestionMemo();
+        sendResponse({ success: true });
+
+        return;
+    }
+
     if (message.type !== 'EXTENSION_AUTH_COMPLETE') {
         return;
     }
@@ -746,14 +769,6 @@ function inventoryFieldsToDraftShape(inventoryFields) {
     }));
 }
 
-function isFinalSubmitControlName(name) {
-    return /\b(submit\s+(?:application|app)|apply\s+now|send\s+(?:application|app))\b/i.test(String(name || '').trim());
-}
-
-function controlNameByRef(snapshot, ref) {
-    return (snapshot?.controls || []).find((control) => control.ref === ref)?.name || '';
-}
-
 function jobContextCacheKey(pageUrl) {
     return `jobContext:${pageUrl}`;
 }
@@ -860,6 +875,101 @@ async function prefetchJobContextForTab(tabId, tab) {
     }
 }
 
+function snapshotCacheKey(pageUrl) {
+    return `formSnapshot:${pageUrl}`;
+}
+
+async function getCachedSnapshot(pageUrl, fingerprint = null) {
+    if (!pageUrl) {
+        return null;
+    }
+
+    const memoryEntry = snapshotCache.get(pageUrl);
+
+    if (memoryEntry && Date.now() - memoryEntry.cachedAt < SNAPSHOT_CACHE_TTL_MS) {
+        if (fingerprint === null || memoryEntry.fingerprint === fingerprint) {
+            return memoryEntry;
+        }
+    }
+
+    const stored = await chrome.storage.session.get([snapshotCacheKey(pageUrl)]);
+    const sessionEntry = stored[snapshotCacheKey(pageUrl)];
+
+    if (sessionEntry?.snapshot && Date.now() - sessionEntry.cachedAt < SNAPSHOT_CACHE_TTL_MS) {
+        if (fingerprint === null || sessionEntry.fingerprint === fingerprint) {
+            snapshotCache.set(pageUrl, sessionEntry);
+
+            return sessionEntry;
+        }
+    }
+
+    return null;
+}
+
+async function setCachedSnapshot(pageUrl, snapshot, formFrameId) {
+    if (!pageUrl || !snapshot) {
+        return;
+    }
+
+    const entry = {
+        snapshot,
+        formFrameId,
+        fingerprint: snapshotFingerprint(snapshot),
+        cachedAt: Date.now(),
+    };
+
+    snapshotCache.set(pageUrl, entry);
+    await chrome.storage.session.set({
+        [snapshotCacheKey(pageUrl)]: entry,
+    });
+}
+
+async function prefetchSnapshotForTab(tabId, tab) {
+    const pageUrl = tab.url?.split('?')[0] || tab.url || '';
+
+    if (!pageUrl) {
+        return;
+    }
+
+    if (await getCachedSnapshot(pageUrl)) {
+        return;
+    }
+
+    const lastPrefetchAt = snapshotPrefetchLastAt.get(pageUrl) || 0;
+
+    if (Date.now() - lastPrefetchAt < SNAPSHOT_PREFETCH_DEBOUNCE_MS) {
+        return;
+    }
+
+    if (snapshotPrefetchInFlight.has(pageUrl)) {
+        return;
+    }
+
+    snapshotPrefetchLastAt.set(pageUrl, Date.now());
+    snapshotPrefetchInFlight.add(pageUrl);
+
+    try {
+        const formFrameId = await findBestFormFrameId(tabId);
+        const collectResponse = await collectSnapshotFromTab(tabId, formFrameId);
+
+        if (collectResponse?.success && collectResponse.snapshot?.elements?.length) {
+            await setCachedSnapshot(pageUrl, collectResponse.snapshot, formFrameId);
+            logDebug('background', 'snapshot.prefetch', 'Prefetched form snapshot', {
+                pageUrl,
+                fieldCount: collectResponse.snapshot.elements.length,
+                formFrameId,
+            }, tabId);
+        }
+    } catch (error) {
+        logDebug('background', 'snapshot.prefetch', 'Snapshot prefetch failed', {
+            pageUrl,
+            error: error instanceof Error ? error.message : error,
+        }, tabId);
+    } finally {
+        snapshotPrefetchInFlight.delete(pageUrl);
+    }
+}
+
 async function resolveJobContextForDraft(tabId, tab, perf = null) {
     const pageUrl = tab.url?.split('?')[0] || tab.url || '';
 
@@ -916,10 +1026,60 @@ async function resolveJobContextForDraft(tabId, tab, perf = null) {
     return result;
 }
 
-function sleep(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
+async function collectInitialSnapshot(tabId, tab, perf = null) {
+    const pageUrl = tab.url?.split('?')[0] || tab.url || '';
+
+    logDebug('background', 'frame.discovery', 'Finding best form frame', { url: tab.url }, tabId);
+    perf?.start('frame.discovery');
+
+    let formFrameId = await findBestFormFrameId(tabId);
+    perf?.end('frame.discovery');
+
+    logInfo('background', 'frame.discovery', 'Form frame selected', { formFrameId }, tabId);
+
+    const cachedEntry = await getCachedSnapshot(pageUrl);
+
+    if (cachedEntry?.snapshot) {
+        perf?.start('snapshot.collect');
+        perf?.end('snapshot.collect');
+
+        logInfo('background', 'snapshot.cache', 'Using prefetched form snapshot', {
+            formFrameId: cachedEntry.formFrameId ?? formFrameId,
+            fieldCount: cachedEntry.snapshot.elements?.length || 0,
+            fingerprint: cachedEntry.fingerprint,
+        }, tabId);
+
+        return {
+            success: true,
+            snapshot: cachedEntry.snapshot,
+            formFrameId: cachedEntry.formFrameId ?? formFrameId,
+            cached: true,
+        };
+    }
+
+    perf?.start('snapshot.collect');
+    const snapshotStartedAt = Date.now();
+    const collectResponse = await collectSnapshotFromTab(tabId, formFrameId);
+    perf?.end('snapshot.collect');
+
+    logInfo('background', 'snapshot.collect', 'Initial snapshot collected', {
+        formFrameId,
+        durationMs: Date.now() - snapshotStartedAt,
+        success: collectResponse?.success === true,
+        fieldCount: collectResponse?.snapshot?.elements?.length || 0,
+        controlCount: collectResponse?.snapshot?.controls?.length || 0,
+        error: collectResponse?.error,
+    }, tabId);
+
+    if (collectResponse?.success && collectResponse.snapshot) {
+        await setCachedSnapshot(pageUrl, collectResponse.snapshot, formFrameId);
+    }
+
+    return {
+        ...collectResponse,
+        formFrameId,
+        cached: false,
+    };
 }
 
 async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null) {
@@ -927,29 +1087,10 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
         message: 'Scanning form and extracting job details…',
     });
 
-    logDebug('background', 'frame.discovery', 'Finding best form frame', { url: tab.url }, tabId);
-    perf?.start('frame.discovery');
-    let formFrameId = await findBestFormFrameId(tabId);
-    perf?.end('frame.discovery');
-
-    logInfo('background', 'frame.discovery', 'Form frame selected', { formFrameId }, tabId);
-
-    perf?.start('snapshot.collect');
-    const snapshotStartedAt = Date.now();
     const [initialCollect, jobContext] = await Promise.all([
-        collectSnapshotFromTab(tabId, formFrameId),
+        collectInitialSnapshot(tabId, tab, perf),
         resolveJobContextForDraft(tabId, tab, perf),
     ]);
-    perf?.end('snapshot.collect');
-
-    logInfo('background', 'snapshot.collect', 'Initial snapshot collected', {
-        formFrameId,
-        durationMs: Date.now() - snapshotStartedAt,
-        success: initialCollect?.success === true,
-        fieldCount: initialCollect?.snapshot?.elements?.length || 0,
-        controlCount: initialCollect?.snapshot?.controls?.length || 0,
-        error: initialCollect?.error,
-    }, tabId);
 
     if (initialCollect?.snapshot?.elements?.length) {
         logDebug('background', 'snapshot.fields', 'Snapshot field summary', {
@@ -983,179 +1124,67 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
         cachedProfile.subscription = jobContext.subscription;
     }
 
-    let job = jobContext.job;
-    let lastFields = [];
-    let bestFields = [];
-    let lastSnapshotFingerprint = snapshotFingerprint(initialCollect.snapshot);
+    const job = jobContext.job;
+    const formFrameId = initialCollect.formFrameId;
 
-    for (let round = 0; round < INVENTORY_MAX_ROUNDS; round += 1) {
-        let collectResponse;
+    if (!initialCollect.snapshot?.elements?.length) {
+        return { error: 'No empty fields found to draft.' };
+    }
 
-        if (round === 0) {
-            collectResponse = initialCollect;
-        } else {
-            formFrameId = await findBestFormFrameId(tabId, { force: true });
-            collectResponse = await collectSnapshotFromTab(tabId, formFrameId);
-        }
+    broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+        message: 'Scanning form fields…',
+    });
 
-        if (!collectResponse?.success) {
-            return { error: collectResponse?.error || 'Could not scan this page for fields.' };
-        }
+    const inventoryPayload = {
+        job,
+        snapshot: compactSnapshotForInventory(initialCollect.snapshot),
+        settings,
+        page_title: tab.title,
+    };
 
-        const currentFingerprint = snapshotFingerprint(collectResponse.snapshot);
+    perf?.start('inventory.round-1');
 
-        if (round > 0 && currentFingerprint === lastSnapshotFingerprint) {
-            logDebug('background', 'snapshot.collect', 'Snapshot unchanged — skipping inventory round', {
-                round: round + 1,
-            }, tabId);
+    logDebug('background', 'inventory.request', 'Inventory request', {
+        elementCount: inventoryPayload.snapshot?.elements?.length || 0,
+        settingsKeys: Object.keys(settings || {}),
+    }, tabId);
 
-            if (lastFields.length > 0) {
-                return { fields: lastFields, job, formFrameId };
-            }
+    const inventoryStartedAt = Date.now();
+    const inventory = await requestFieldInventory(inventoryPayload);
+    perf?.end('inventory.round-1');
 
-            if (bestFields.length > 0) {
-                return { fields: bestFields, job, formFrameId };
-            }
-        }
+    logInfo('background', 'inventory.response', 'Inventory response', {
+        durationMs: Date.now() - inventoryStartedAt,
+        ok: inventory.ok,
+        complete: inventory.complete,
+        fieldCount: inventory.fields?.length || 0,
+        message: inventory.message,
+        fields: (inventory.fields || []).map((field) => ({
+            ref: field.ref,
+            question: field.question || field.label,
+            field_type: field.field_type,
+        })),
+    }, tabId);
 
-        lastSnapshotFingerprint = currentFingerprint;
-
-        if (!collectResponse.snapshot?.elements?.length) {
-            if (lastFields.length > 0) {
-                return { fields: lastFields, job, formFrameId };
-            }
-
-            return { error: 'No empty fields found to draft.' };
-        }
-
-        broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
-            message: round === 0
-                ? 'Scanning form fields…'
-                : `Rescanning form fields (step ${round + 1})…`,
-        });
-
-        const inventoryPayload = {
-            job,
-            snapshot: compactSnapshotForInventory(collectResponse.snapshot),
-            settings,
-            page_title: tab.title,
-        };
-
-        const inventoryPhase = `inventory.round-${round + 1}`;
-        perf?.start(inventoryPhase);
-
-        logDebug('background', 'inventory.request', `Inventory round ${round + 1} request`, {
-            round: round + 1,
-            elementCount: inventoryPayload.snapshot?.elements?.length || 0,
-            settingsKeys: Object.keys(settings || {}),
-        }, tabId);
-
-        const inventoryStartedAt = Date.now();
-        const inventory = await requestFieldInventory(inventoryPayload);
-        perf?.end(inventoryPhase);
-
-        logInfo('background', 'inventory.response', `Inventory round ${round + 1} response`, {
-            round: round + 1,
-            durationMs: Date.now() - inventoryStartedAt,
-            ok: inventory.ok,
-            complete: inventory.complete,
-            fieldCount: inventory.fields?.length || 0,
-            nextActionCount: inventory.next_actions?.length || 0,
-            message: inventory.message,
-            fields: (inventory.fields || []).map((field) => ({
-                ref: field.ref,
-                question: field.question || field.label,
-                field_type: field.field_type,
-            })),
-        }, tabId);
-
-        if (!inventory.ok) {
-            if (inventory.subscription && cachedProfile) {
-                cachedProfile.subscription = inventory.subscription;
-            }
-
-            return { error: inventory.message || 'Field inventory failed.' };
-        }
-
+    if (!inventory.ok) {
         if (inventory.subscription && cachedProfile) {
             cachedProfile.subscription = inventory.subscription;
         }
 
-        lastFields = inventoryFieldsToDraftShape(inventory.fields);
-
-        if (lastFields.length > bestFields.length) {
-            bestFields = lastFields;
-        }
-
-        if (inventory.complete || !inventory.next_actions?.length || shouldForceInventoryComplete(collectResponse.snapshot, inventory)) {
-            if (lastFields.length === 0 && bestFields.length > 0) {
-                return { fields: bestFields, job, formFrameId };
-            }
-
-            if (lastFields.length === 0) {
-                return { error: 'No empty fields found to draft.' };
-            }
-
-            return { fields: lastFields.length >= bestFields.length ? lastFields : bestFields, job, formFrameId };
-        }
-
-        broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
-            message: 'Opening the next section of the form…',
-        });
-
-        let clickedNavigation = false;
-
-        for (const action of inventory.next_actions) {
-            if (!action?.ref) {
-                continue;
-            }
-
-            const controlName = controlNameByRef(collectResponse.snapshot, action.ref);
-
-            if (isFinalSubmitControlName(controlName)) {
-                logWarn('background', 'inventory.click', 'Skipping final submit control during inventory', {
-                    ref: action.ref,
-                    controlName,
-                    round: round + 1,
-                }, tabId);
-
-                continue;
-            }
-
-            logDebug('background', 'inventory.click', 'Clicking inventory navigation ref', {
-                ref: action.ref,
-                round: round + 1,
-            }, tabId);
-
-            await clickInventoryRefOnTab(tabId, action.ref, formFrameId);
-            clickedNavigation = true;
-        }
-
-        if (!clickedNavigation) {
-            if (bestFields.length > 0) {
-                return { fields: bestFields, job, formFrameId };
-            }
-
-            if (lastFields.length === 0) {
-                return { error: 'No empty fields found to draft.' };
-            }
-
-            return { fields: lastFields, job, formFrameId };
-        }
-
-        invalidateTabFrameCache(tabId);
-        await sleep(INVENTORY_STEP_DELAY_MS);
+        return { error: inventory.message || 'Field inventory failed.' };
     }
 
-    if (bestFields.length > 0) {
-        return { fields: bestFields, job, formFrameId };
+    if (inventory.subscription && cachedProfile) {
+        cachedProfile.subscription = inventory.subscription;
     }
 
-    if (lastFields.length > 0) {
-        return { fields: lastFields, job, formFrameId };
+    const fields = inventoryFieldsToDraftShape(inventory.fields);
+
+    if (fields.length === 0) {
+        return { error: 'No empty fields found to draft.' };
     }
 
-    return { error: 'No empty fields found to draft.' };
+    return { fields, job, formFrameId };
 }
 
 async function runDraftAll(tabId, e2eOptions = null) {
@@ -1204,17 +1233,61 @@ async function runDraftAll(tabId, e2eOptions = null) {
         }
 
         const { fields, job, formFrameId } = resolved;
-        const draftFields = compactFieldsForDraft(fields);
+        const questionMemo = await loadQuestionMemo();
+        const { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(fields, questionMemo);
+
+        if (memoAnswers.length > 0) {
+            broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+                message: `Applying ${memoAnswers.length} saved answer(s)…`,
+            });
+
+            perf.start('apply.memo');
+            const memoApplyResult = await applyDraftBatchToTab(tabId, memoAnswers, formFrameId);
+            perf.end('apply.memo');
+
+            logInfo('background', 'draft-all.memo', 'Applied question memo answers', {
+                memoCount: memoAnswers.length,
+                success: memoApplyResult?.success,
+                applied: memoApplyResult?.applied,
+            }, tabId);
+        }
+
+        if (remainingFields.length === 0) {
+            const message = memoAnswers.length > 0
+                ? `Fill complete (${memoAnswers.length} field(s) from saved answers).`
+                : 'No fields required AI drafting.';
+
+            broadcastDraftEvent('DRAFT_ALL_DONE', { message });
+
+            try {
+                await sendTabMessage(tabId, { type: 'FILL_RESUME' }, formFrameId);
+            } catch {
+                // Best-effort profile fill after memo-only apply.
+            }
+
+            perf.summary({
+                fieldCount: fields.length,
+                memoApplied: memoAnswers.length,
+                batchesApplied: 0,
+                url: tab.url,
+            });
+
+            return { success: true, message };
+        }
+
+        const draftFields = compactFieldsForDraft(remainingFields);
 
         logInfo('background', 'draft-all.stream', 'Starting draft-all stream', {
             fieldCount: fields.length,
+            memoApplied: memoAnswers.length,
+            aiFieldCount: remainingFields.length,
             compactFieldCount: draftFields.length,
             formFrameId,
             jobTitle: job?.title,
         }, tabId);
 
         broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
-            message: `Drafting ${fields.length} field(s)…`,
+            message: `Drafting ${remainingFields.length} field(s)…`,
         });
 
         let batchIndex = 0;
@@ -1317,6 +1390,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
         const message = `Fill complete (${fields.length} field(s) drafted).`;
         logInfo('background', 'draft-all.complete', 'Draft All finished', {
             fieldCount: fields.length,
+            memoApplied: memoAnswers.length,
+            aiFieldCount: remainingFields.length,
             batchesApplied: batchIndex,
         }, tabId);
 
@@ -1337,6 +1412,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
         perf.summary({
             fieldCount: fields.length,
+            memoApplied: memoAnswers.length,
+            aiFieldCount: remainingFields.length,
             batchesApplied: batchIndex,
             url: tab.url,
         });
@@ -1611,6 +1688,7 @@ async function applyProfileUpdate(update) {
     }
 
     invalidateProfileCache();
+    await clearQuestionMemo();
 
     return data;
 }

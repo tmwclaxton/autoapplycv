@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link, setLayoutProps } from '@inertiajs/vue3';
+import { Head, Link, setLayoutProps, usePage } from '@inertiajs/vue3';
 import { watchDebounced } from '@vueuse/core';
 import {
     Briefcase,
@@ -75,6 +75,35 @@ const cvFileInput = ref<HTMLInputElement | null>(null);
 const extensionConnectionJson = ref<string | null>(null);
 const isGeneratingToken = ref(false);
 const toastStore = useToastStore();
+const page = usePage();
+
+function notifyExtensionProfileUpdated(): void {
+    const extensionId = page.props.extensionId;
+
+    if (typeof extensionId !== 'string' || extensionId === '') {
+        return;
+    }
+
+    const chromeApi = (
+        window as Window & {
+            chrome?: {
+                runtime?: {
+                    sendMessage: (
+                        extensionId: string,
+                        message: { type: string },
+                        callback: () => void,
+                    ) => void;
+                };
+            };
+        }
+    ).chrome;
+
+    if (!chromeApi?.runtime?.sendMessage) {
+        return;
+    }
+
+    chromeApi.runtime.sendMessage(extensionId, { type: 'PROFILE_UPDATED' }, () => {});
+}
 
 const experienceSections = ['experience', 'education'] as const;
 
@@ -322,6 +351,8 @@ async function saveProfile(): Promise<void> {
                 saveStatus.value = 'idle';
             }
         }, 2000);
+
+        notifyExtensionProfileUpdated();
     } catch (error) {
         saveStatus.value = 'error';
         toastStore.error(

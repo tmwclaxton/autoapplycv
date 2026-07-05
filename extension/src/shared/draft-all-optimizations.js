@@ -65,6 +65,67 @@ function parseJobTitleFromPageTitle(pageTitle, company) {
     return title.slice(0, 255);
 }
 
+export function normalizeQuestionLabel(label) {
+    return String(label || '')
+        .toLowerCase()
+        .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+export function matchMemoAnswer(questionMemo, fieldLabel) {
+    if (!questionMemo || typeof questionMemo !== 'object') {
+        return null;
+    }
+
+    const answer = questionMemo[fieldLabel];
+
+    if (typeof answer === 'string' && answer.trim() !== '') {
+        return answer;
+    }
+
+    const normalizedLabel = normalizeQuestionLabel(fieldLabel);
+
+    if (!normalizedLabel) {
+        return null;
+    }
+
+    for (const [memoLabel, memoAnswer] of Object.entries(questionMemo)) {
+        if (typeof memoAnswer !== 'string' || memoAnswer.trim() === '') {
+            continue;
+        }
+
+        if (normalizeQuestionLabel(memoLabel) === normalizedLabel) {
+            return memoAnswer;
+        }
+    }
+
+    return null;
+}
+
+export function partitionFieldsByQuestionMemo(fields, questionMemo) {
+    const memoAnswers = [];
+    const remainingFields = [];
+
+    for (const field of fields || []) {
+        const answer = matchMemoAnswer(questionMemo, field.label);
+
+        if (answer) {
+            memoAnswers.push({
+                id: field.id,
+                ref: field.ref,
+                label: field.label,
+                field_type: field.field_type,
+                answer,
+            });
+        } else {
+            remainingFields.push(field);
+        }
+    }
+
+    return { memoAnswers, remainingFields };
+}
+
 export function compactSnapshotForInventory(snapshot) {
     if (!snapshot || typeof snapshot !== 'object') {
         return snapshot;
