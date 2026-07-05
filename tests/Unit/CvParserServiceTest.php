@@ -49,13 +49,8 @@ class CvParserServiceTest extends TestCase
 
         $this->mock(NanoGptService::class);
 
-        $service = $this->partialMock(CvParserService::class, function ($mock): void {
-            $mock->shouldAllowMockingProtectedMethods();
-            $mock->shouldReceive('extractFromPdf')->once()->andReturn('tiny');
-        });
-
         $file = UploadedFile::fake()->createWithContent('cv.pdf', '%PDF-1.4 tiny');
-        $result = $service->extractTextWithMetadata($file);
+        $result = app(CvParserService::class)->extractTextWithMetadata($file);
 
         $this->assertStringContainsString('Toby Claxton OCR text', $result['text']);
         $this->assertTrue($result['ocr_used']);

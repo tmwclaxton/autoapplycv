@@ -243,7 +243,7 @@ class CvParserService
         return $this->nanoGpt->extractTextFromImage($path, $mimeType);
     }
 
-    private function extractFromPdf(string $path): string
+    protected function extractFromPdf(string $path): string
     {
         try {
             $parser = new Parser;
