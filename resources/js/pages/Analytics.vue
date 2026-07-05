@@ -56,8 +56,12 @@ function formatNumber(value: number): string {
                     <Sparkles class="size-4" />
                     Answers autofilled
                 </div>
-                <p class="text-3xl font-semibold tracking-tight text-postbox-navy">
-                    {{ formatNumber(analytics.metrics.answers_autofilled.total) }}
+                <p
+                    class="text-3xl font-semibold tracking-tight text-postbox-navy"
+                >
+                    {{
+                        formatNumber(analytics.metrics.answers_autofilled.total)
+                    }}
                 </p>
                 <p class="mt-1 text-sm text-muted-foreground">
                     {{
@@ -76,7 +80,9 @@ function formatNumber(value: number): string {
                     <MessageCircle class="size-4" />
                     Extension questions
                 </div>
-                <p class="text-3xl font-semibold tracking-tight text-postbox-navy">
+                <p
+                    class="text-3xl font-semibold tracking-tight text-postbox-navy"
+                >
                     {{
                         formatNumber(
                             analytics.metrics.extension_questions.total,
@@ -100,7 +106,9 @@ function formatNumber(value: number): string {
                     <FileText class="size-4" />
                     CVs parsed
                 </div>
-                <p class="text-3xl font-semibold tracking-tight text-postbox-navy">
+                <p
+                    class="text-3xl font-semibold tracking-tight text-postbox-navy"
+                >
                     {{ formatNumber(analytics.metrics.cvs_parsed.total) }}
                 </p>
                 <p class="mt-1 text-sm text-muted-foreground">
@@ -153,7 +161,9 @@ function formatNumber(value: number): string {
                 >
                     <BarChart3 class="size-5" />
                 </div>
-                <div class="space-y-2 text-sm leading-relaxed text-muted-foreground">
+                <div
+                    class="space-y-2 text-sm leading-relaxed text-muted-foreground"
+                >
                     <p>
                         One autofilled answer equals one successfully populated
                         form input on a supported job site.

@@ -98,8 +98,7 @@ const planTitle = computed(() =>
 );
 
 function resumeCheckout(): void {
-    const tier =
-        props.subscription.pending_tier ?? props.subscription.tier;
+    const tier = props.subscription.pending_tier ?? props.subscription.tier;
 
     router.post(billingRoutes.checkout.url(), { tier });
 }
@@ -263,7 +262,9 @@ async function cancelSubscription(): Promise<void> {
         </Link>
 
         <button
-            v-if="subscription.tier !== 'free' && subscription.status === 'active'"
+            v-if="
+                subscription.tier !== 'free' && subscription.status === 'active'
+            "
             type="button"
             class="postbox-btn-outline mt-6 ml-3"
             @click="cancelSubscription"

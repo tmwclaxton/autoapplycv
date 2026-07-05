@@ -102,7 +102,11 @@ function notifyExtensionProfileUpdated(): void {
         return;
     }
 
-    chromeApi.runtime.sendMessage(extensionId, { type: 'PROFILE_UPDATED' }, () => {});
+    chromeApi.runtime.sendMessage(
+        extensionId,
+        { type: 'PROFILE_UPDATED' },
+        () => {},
+    );
 }
 
 const experienceSections = ['experience', 'education'] as const;
@@ -144,7 +148,10 @@ function applyDashboardNavigationFromUrl(): void {
     const params = new URLSearchParams(window.location.search);
     const tab = params.get('tab');
 
-    if (tab && dashboardTabKeys.includes(tab as (typeof dashboardTabKeys)[number])) {
+    if (
+        tab &&
+        dashboardTabKeys.includes(tab as (typeof dashboardTabKeys)[number])
+    ) {
         activeTab.value = tab as typeof activeTab.value;
     }
 }
@@ -197,11 +204,8 @@ const saveStatusLabel = computed(() => {
 
 function csrfToken(): string {
     return (
-        (
-            document.querySelector(
-                'meta[name="csrf-token"]',
-            ) as HTMLMetaElement
-        )?.content ?? ''
+        (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)
+            ?.content ?? ''
     );
 }
 
@@ -356,9 +360,7 @@ async function saveProfile(): Promise<void> {
     } catch (error) {
         saveStatus.value = 'error';
         toastStore.error(
-            error instanceof Error
-                ? error.message
-                : 'Could not save profile.',
+            error instanceof Error ? error.message : 'Could not save profile.',
         );
     } finally {
         isSaving.value = false;
@@ -460,7 +462,10 @@ async function copyToken() {
                 :accept="cvAcceptAttribute()"
                 @change="onCvFileSelected"
             />
-            <Link :href="billing.index().url" class="postbox-btn-outline text-sm">
+            <Link
+                :href="billing.index().url"
+                class="postbox-btn-outline text-sm"
+            >
                 Manage plan
             </Link>
             <button

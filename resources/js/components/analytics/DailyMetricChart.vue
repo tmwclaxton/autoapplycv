@@ -71,7 +71,8 @@ const yTicks = computed(() => {
 
     return Array.from({ length: steps + 1 }, (_, index) => {
         const value = stepValue * index;
-        const y = padding.top + plotHeight - (value / maxCount.value) * plotHeight;
+        const y =
+            padding.top + plotHeight - (value / maxCount.value) * plotHeight;
 
         return { value, y };
     });

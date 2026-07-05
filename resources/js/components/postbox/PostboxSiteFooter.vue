@@ -1,7 +1,20 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { FOOTER_LINKS, DISCORD_INVITE_URL, GITHUB_REPOSITORY_URL } from '@/lib/site';
-import { about, analytics, contact, home, howTo, pricing, privacy, terms } from '@/routes';
+import {
+    FOOTER_LINKS,
+    DISCORD_INVITE_URL,
+    GITHUB_REPOSITORY_URL,
+} from '@/lib/site';
+import {
+    about,
+    analytics,
+    contact,
+    home,
+    howTo,
+    pricing,
+    privacy,
+    terms,
+} from '@/routes';
 import { index as blog } from '@/routes/blog';
 
 const routeMap = {

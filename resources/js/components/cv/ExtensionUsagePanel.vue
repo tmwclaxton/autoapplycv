@@ -102,9 +102,7 @@ function formatDate(value: string): string {
                         </span>
                     </p>
                     <p class="mt-1 text-sm text-muted-foreground">
-                        {{
-                            formatNumber(subscription.autofills_remaining)
-                        }}
+                        {{ formatNumber(subscription.autofills_remaining) }}
                         remaining · resets
                         {{ formatDate(subscription.period_resets_at) }}
                     </p>

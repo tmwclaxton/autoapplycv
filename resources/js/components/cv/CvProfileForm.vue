@@ -268,9 +268,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                     />
                 </div>
                 <div>
-                    <label for="field-email" class="postbox-label"
-                        >Email</label
-                    >
+                    <label for="field-email" class="postbox-label">Email</label>
                     <input
                         id="field-email"
                         v-model="profile.email"
@@ -282,9 +280,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                     />
                 </div>
                 <div>
-                    <label for="field-phone" class="postbox-label"
-                        >Phone</label
-                    >
+                    <label for="field-phone" class="postbox-label">Phone</label>
                     <input
                         id="field-phone"
                         v-model="profile.phone"
@@ -310,9 +306,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                     />
                 </div>
                 <div>
-                    <label for="field-city" class="postbox-label"
-                        >City</label
-                    >
+                    <label for="field-city" class="postbox-label">City</label>
                     <input
                         id="field-city"
                         v-model="profile.city"
@@ -471,7 +465,11 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             </div>
         </div>
 
-        <div v-if="show('summary')" id="field-summary" class="postbox-panel scroll-mt-24 p-6">
+        <div
+            v-if="show('summary')"
+            id="field-summary"
+            class="postbox-panel scroll-mt-24 p-6"
+        >
             <h2 class="postbox-label">Professional summary</h2>
             <textarea
                 id="field-summary-text"
@@ -594,14 +592,14 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                     </span>
                 </div>
                 <div class="flex gap-2">
-                <input
-                    v-model="newSoftSkill"
-                    type="text"
-                    autocomplete="off"
-                    class="postbox-input flex-1"
-                    placeholder="Add a soft skill…"
-                    @keydown.enter.prevent="addSoftSkill"
-                />
+                    <input
+                        v-model="newSoftSkill"
+                        type="text"
+                        autocomplete="off"
+                        class="postbox-input flex-1"
+                        placeholder="Add a soft skill…"
+                        @keydown.enter.prevent="addSoftSkill"
+                    />
                     <button
                         type="button"
                         class="postbox-btn-outline shrink-0"
@@ -663,9 +661,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                             <input
                                 v-model="exp.company"
                                 type="text"
-                                :autocomplete="
-                                    i === 0 ? 'organization' : 'off'
-                                "
+                                :autocomplete="i === 0 ? 'organization' : 'off'"
                                 class="postbox-input"
                             />
                         </div>
@@ -811,9 +807,7 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                             <input
                                 v-model="edu.institution"
                                 type="text"
-                                :autocomplete="
-                                    i === 0 ? 'organization' : 'off'
-                                "
+                                :autocomplete="i === 0 ? 'organization' : 'off'"
                                 class="postbox-input"
                             />
                         </div>
@@ -1526,7 +1520,11 @@ function addAdditionalSectionItem(sectionIndex: number): void {
             />
         </div>
 
-        <div v-if="show('extra')" id="field-extra-context" class="postbox-panel scroll-mt-24 p-6">
+        <div
+            v-if="show('extra')"
+            id="field-extra-context"
+            class="postbox-panel scroll-mt-24 p-6"
+        >
             <h2 class="postbox-label">Extra context</h2>
             <p class="mb-4 text-sm text-muted-foreground">
                 Visa status, notice period, salary floor, cover letter tone -

@@ -116,7 +116,9 @@ function validateUpload(
     return errorMessage;
 }
 
-export function validateCvUpload(file: Pick<File, 'name' | 'type'>): string | null {
+export function validateCvUpload(
+    file: Pick<File, 'name' | 'type'>,
+): string | null {
     return validateUpload(
         file.name,
         file.type,
