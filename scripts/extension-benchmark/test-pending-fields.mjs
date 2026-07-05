@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 import {
+    appendContextualProfileAnswer,
     buildKnownProfileAnswers,
     buildPendingFieldsFromProfileGaps,
     defaultSalaryFallbackPath,
+    formatProfileSaveValue,
+    formatContextualProfileLine,
     formatPhoneForForm,
+    isAvailabilityQuestionLabel,
     isMeaningfulAnswer,
     isNoticePeriodQuestionLabel,
     partitionBatchAnswers,
@@ -29,7 +33,9 @@ const profileData = {
         expected_salary_monthly: '£3,500',
         expected_salary_yearly: '£45,000',
         notice_period: '2 weeks',
+        job_preferences: 'Remote Laravel roles',
     },
+    computed_earliest_start: '19 July 2026',
 };
 
 assert(
@@ -85,10 +91,11 @@ const fields = [
     { ref: 'f4', label: 'What are your salary expectations?', field_type: 'text' },
     { ref: 'f5', label: 'Tell us about yourself', field_type: 'textarea' },
     { ref: 'f6', label: 'What is your official notice period?', field_type: 'text' },
+    { ref: 'f7', label: 'When can you start?', field_type: 'text' },
 ];
 
 const known = buildKnownProfileAnswers(fields, profileData);
-assert(known.length === 5, 'buildKnownProfileAnswers should include phone, salary, and notice period fields');
+assert(known.length === 6, 'buildKnownProfileAnswers should include phone, salary, notice period, and availability fields');
 assert(known.find((field) => field.ref === 'f1')?.answer === '+447912345678', 'known phone answer should be E.164');
 assert(known.find((field) => field.ref === 'f2')?.answer === '£3,500', 'monthly salary should use monthly profile value');
 assert(known.find((field) => field.ref === 'f3')?.answer === '£45,000', 'yearly salary should use yearly profile value');
@@ -97,6 +104,25 @@ assert(known.find((field) => field.ref === 'f6')?.answer === '2 weeks', 'notice 
 assert(
     known.find((field) => field.ref === 'f6')?.profile_path === 'application_settings.notice_period',
     'notice period should map to notice_period field',
+);
+assert(
+    known.find((field) => field.ref === 'f7')?.answer === '19 July 2026',
+    'availability questions should use computed earliest start',
+);
+assert(
+    known.find((field) => field.ref === 'f7')?.profile_path === 'computed_earliest_start',
+    'availability questions should map to computed earliest start',
+);
+
+assert(
+    isAvailabilityQuestionLabel('When can you start?'),
+    'availability labels should be detected',
+);
+
+const availabilityMapping = resolveProfileMappingForLabel('When can you start?');
+assert(
+    availabilityMapping?.path === 'computed_earliest_start',
+    'availability questions should map to computed earliest start field',
 );
 
 assert(
@@ -130,7 +156,17 @@ assert(gaps.some((field) => field.ref === 'f2'), 'missing monthly salary should 
 assert(gaps.some((field) => field.ref === 'f3'), 'missing yearly salary should be pending');
 assert(gaps.some((field) => field.ref === 'f4'), 'missing generic salary should be pending');
 assert(gaps.some((field) => field.ref === 'f6'), 'missing notice period should be pending');
+assert(
+    gaps.some((field) => field.ref === 'f7' && field.profile_path === 'application_settings.notice_period'),
+    'availability questions should prompt for notice period when earliest start is not computable',
+);
 assert(!gaps.some((field) => field.ref === 'f1'), 'filled phone should not be pending');
+
+const availabilityGaps = buildPendingFieldsFromProfileGaps(
+    [{ ref: 'f7', label: 'When can you start?', field_type: 'text' }],
+    profileData,
+);
+assert(availabilityGaps.length === 0, 'availability should not be pending when computed earliest start exists');
 
 assert(
     resolveProfileMappingForLabel('What is your expected monthly salary?', emptySalaryProfile)?.path
@@ -162,5 +198,49 @@ const { toApply, pending } = partitionBatchAnswers([
 assert(toApply.length === 1 && toApply[0].ref === 'f5', 'meaningful AI answers should apply');
 assert(pending.some((field) => field.ref === 'f2'), 'null salary answer should be pending');
 assert(!isMeaningfulAnswer(null), 'null is not meaningful');
+
+assert(
+    formatContextualProfileLine('Notice period', '2 weeks') === 'Notice period: 2 weeks',
+    'contextual lines should prefix question label',
+);
+
+assert(
+    appendContextualProfileAnswer('Remote Laravel roles', 'Notice period', '2 weeks')
+        === 'Remote Laravel roles\nNotice period: 2 weeks',
+    'contextual answers should append to existing catch-all text',
+);
+
+assert(
+    appendContextualProfileAnswer(
+        'Remote Laravel roles\nNotice period: 2 weeks',
+        'Notice period',
+        '2 weeks',
+    ) === 'Remote Laravel roles\nNotice period: 2 weeks',
+    'duplicate contextual answers should not be appended twice',
+);
+
+assert(
+    formatProfileSaveValue(
+        {
+            profile_path: 'application_settings.notice_period',
+            label: 'What is your notice period?',
+        },
+        '2 weeks',
+        profileData,
+    ) === '2 weeks',
+    'structured notice period should save bare value',
+);
+
+assert(
+    formatProfileSaveValue(
+        {
+            profile_path: 'application_settings.job_preferences',
+            label: 'Why do you want this role?',
+        },
+        'Mission-driven product work',
+        profileData,
+    ) === 'Remote Laravel roles\nWhy do you want this role: Mission-driven product work',
+    'catch-all profile fields should save contextual lines',
+);
 
 console.log('pending-fields tests passed');

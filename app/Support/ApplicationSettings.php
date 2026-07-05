@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use Carbon\Carbon;
+
 class ApplicationSettings
 {
     /**
@@ -20,7 +22,6 @@ class ApplicationSettings
             'willing_to_relocate' => 'yes',
             'drivers_license' => 'yes',
             'notice_period' => '',
-            'earliest_start' => '',
             'job_preferences' => '',
         ];
     }
@@ -52,6 +53,11 @@ class ApplicationSettings
         return $merged;
     }
 
+    public static function computeEarliestStart(?string $noticePeriod, ?Carbon $from = null): ?string
+    {
+        return NoticePeriodParser::computeEarliestStart($noticePeriod, $from);
+    }
+
     /**
      * @return array<string, mixed>
      */
@@ -69,7 +75,6 @@ class ApplicationSettings
             'application_settings.willing_to_relocate' => ['nullable', 'in:yes,no'],
             'application_settings.drivers_license' => ['nullable', 'in:yes,no'],
             'application_settings.notice_period' => ['nullable', 'string', 'max:100'],
-            'application_settings.earliest_start' => ['nullable', 'string', 'max:100'],
             'application_settings.job_preferences' => ['nullable', 'string', 'max:5000'],
         ];
     }

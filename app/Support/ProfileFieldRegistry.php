@@ -61,7 +61,6 @@ class ProfileFieldRegistry
             'application_settings.willing_to_relocate' => self::field('Willing to relocate', 'preferences', 'field-willing-to-relocate', 'application_settings.willing_to_relocate', 'settings', ['willing to relocate', 'relocate']),
             'application_settings.drivers_license' => self::field('Driving licence', 'preferences', 'field-drivers-license', 'application_settings.drivers_license', 'settings', ['drivers license', 'driving licence', 'driving license']),
             'application_settings.notice_period' => self::field('Notice period', 'preferences', 'field-notice-period', 'application_settings.notice_period', 'settings', ['notice period']),
-            'application_settings.earliest_start' => self::field('Earliest start date', 'preferences', 'field-earliest-start', 'application_settings.earliest_start', 'settings', ['availability', 'start date', 'earliest start', 'when can you start']),
             'application_settings.job_preferences' => self::field('Job preferences', 'preferences', 'field-job-preferences', 'application_settings.job_preferences', 'settings', ['job preferences', 'job preference']),
         ];
     }
@@ -171,7 +170,6 @@ class ProfileFieldRegistry
             'drivers_license' => 'application_settings.drivers_license',
             'driving_licence' => 'application_settings.drivers_license',
             'notice_period' => 'application_settings.notice_period',
-            'earliest_start' => 'application_settings.earliest_start',
             'job_preferences' => 'application_settings.job_preferences',
         ];
 

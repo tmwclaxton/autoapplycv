@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\CvProfile;
 use App\Models\User;
+use App\Support\ApplicationSettings;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -14,6 +16,8 @@ class ApplicationPreferencesTest extends TestCase
 
     public function test_api_profile_includes_application_settings(): void
     {
+        Carbon::setTestNow(Carbon::create(2026, 7, 5));
+
         $user = User::factory()->create();
         CvProfile::factory()->for($user)->create([
             'parsing_complete' => true,
@@ -34,7 +38,46 @@ class ApplicationPreferencesTest extends TestCase
             ->assertJsonPath('application_settings.expected_salary_monthly', '£4,500')
             ->assertJsonPath('application_settings.notice_period', '2 weeks')
             ->assertJsonPath('application_settings.job_preferences', 'Remote Laravel roles in the UK.')
-            ->assertJsonPath('application_settings.phone_country_code', '+44');
+            ->assertJsonPath('application_settings.phone_country_code', '+44')
+            ->assertJsonPath('computed_earliest_start', '19 July 2026');
+
+        Carbon::setTestNow();
+    }
+
+    public function test_api_profile_rejects_persisted_earliest_start(): void
+    {
+        Carbon::setTestNow(Carbon::create(2026, 7, 5));
+
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'parsing_complete' => true,
+            'application_settings' => [
+                'notice_period' => '2 weeks',
+                'earliest_start' => '1 January 2099',
+            ],
+        ]);
+
+        Sanctum::actingAs($user);
+
+        $this->getJson('/api/profile')
+            ->assertOk()
+            ->assertJsonMissingPath('application_settings.earliest_start')
+            ->assertJsonPath('computed_earliest_start', '19 July 2026');
+
+        $this->patchJson('/api/profile', [
+            'application_settings' => [
+                'earliest_start' => '1 January 2099',
+            ],
+        ])
+            ->assertOk()
+            ->assertJsonMissingPath('profile.application_settings.earliest_start');
+
+        $profile = $user->fresh()->cvProfile;
+        $settings = ApplicationSettings::merge($profile->application_settings);
+
+        $this->assertArrayNotHasKey('earliest_start', $settings);
+
+        Carbon::setTestNow();
     }
 
     public function test_dashboard_can_save_application_settings(): void

@@ -75,9 +75,12 @@ const PROFILE_FIELD_MAPPINGS = [
     { path: 'application_settings.willing_to_relocate', label: 'Willing to relocate', dashboard_tab: 'preferences', dashboard_anchor: 'field-willing-to-relocate', keywords: ['willing to relocate', 'open to relocation', 'relocate'] },
     { path: 'application_settings.drivers_license', label: 'Driving licence', dashboard_tab: 'preferences', dashboard_anchor: 'field-drivers-license', keywords: ['driving licence', 'driving license', 'drivers license'] },
     { path: 'application_settings.notice_period', label: 'Notice period', dashboard_tab: 'preferences', dashboard_anchor: 'field-notice-period', keywords: ['notice period'] },
-    { path: 'application_settings.earliest_start', label: 'Earliest start date', dashboard_tab: 'preferences', dashboard_anchor: 'field-earliest-start', keywords: ['availability', 'start date', 'earliest start', 'when can you start', 'available to start'] },
     { path: 'application_settings.job_preferences', label: 'Job preferences', dashboard_tab: 'preferences', dashboard_anchor: 'field-job-preferences', keywords: ['job preferences', 'job preference', 'role preferences', 'type of role'] },
 ];
+
+const CONTEXTUAL_SAVE_PROFILE_PATHS = new Set([
+    'application_settings.job_preferences',
+]);
 
 const USER_SPECIFIC_LABEL_PATTERNS = [
     /notice period/i,
@@ -195,6 +198,54 @@ export function isAvailabilityQuestionLabel(label) {
     ].some((keyword) => normalized.includes(keyword));
 }
 
+export function shouldUseContextualProfileSave(path) {
+    return typeof path === 'string' && CONTEXTUAL_SAVE_PROFILE_PATHS.has(path);
+}
+
+export function formatContextualProfileLine(questionLabel, answer) {
+    const label = String(questionLabel || '').trim().replace(/[?:\s]+$/, '');
+    const value = String(answer || '').trim();
+
+    return `${label}: ${value}`;
+}
+
+export function appendContextualProfileAnswer(existing, questionLabel, answer) {
+    const line = formatContextualProfileLine(questionLabel, answer);
+    const current = String(existing || '').trim();
+
+    if (!current) {
+        return line;
+    }
+
+    if (current.includes(line)) {
+        return current;
+    }
+
+    return `${current}\n${line}`;
+}
+
+export function formatProfileSaveValue(field, answer, profileData) {
+    const path = field?.profile_path;
+
+    if (!shouldUseContextualProfileSave(path)) {
+        return String(answer || '').trim();
+    }
+
+    const existing = readProfileValue(profileData, path);
+    const questionLabel = field.label || field.question || field.profile_label || 'Answer';
+
+    return appendContextualProfileAnswer(existing, questionLabel, answer);
+}
+
+function availabilityProfileMapping() {
+    return {
+        path: 'computed_earliest_start',
+        label: 'Earliest start date',
+        dashboard_tab: 'preferences',
+        dashboard_anchor: 'field-notice-period',
+    };
+}
+
 function profileMappingByPath(path) {
     return PROFILE_FIELD_MAPPINGS.find((mapping) => mapping.path === path) ?? null;
 }
@@ -215,7 +266,7 @@ export function resolveProfileMappingForLabel(label, profileData = null) {
     }
 
     if (isAvailabilityQuestionLabel(label)) {
-        return profileMappingByPath('application_settings.earliest_start');
+        return availabilityProfileMapping();
     }
 
     for (const mapping of PROFILE_FIELD_MAPPINGS) {
@@ -235,6 +286,10 @@ export function isUserSpecificQuestion(label) {
 export function readProfileValue(profileData, path) {
     if (!profileData || !path) {
         return '';
+    }
+
+    if (path === 'computed_earliest_start') {
+        return profileData.computed_earliest_start ?? '';
     }
 
     const parts = String(path).split('.').filter(Boolean);
@@ -346,6 +401,26 @@ export function buildPendingFieldsFromProfileGaps(fields, profileData) {
     const pending = [];
 
     for (const field of fields || []) {
+        if (isAvailabilityQuestionLabel(field.label)) {
+            const computed = readProfileValue(profileData, 'computed_earliest_start');
+
+            if (isMeaningfulAnswer(computed)) {
+                continue;
+            }
+
+            const noticePeriod = readProfileValue(profileData, 'application_settings.notice_period');
+
+            if (!isMeaningfulAnswer(noticePeriod)) {
+                pending.push(createPendingField(
+                    field,
+                    profileMappingByPath('application_settings.notice_period'),
+                    'missing_profile_data',
+                ));
+            }
+
+            continue;
+        }
+
         const mapping = resolveProfileMappingForLabel(field.label, profileData);
 
         if (!mapping) {
@@ -359,6 +434,10 @@ export function buildPendingFieldsFromProfileGaps(fields, profileData) {
         const value = readProfileValue(profileData, mapping.path);
 
         if (isMeaningfulAnswer(value)) {
+            continue;
+        }
+
+        if (mapping.path === 'computed_earliest_start') {
             continue;
         }
 

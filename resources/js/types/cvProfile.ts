@@ -134,7 +134,6 @@ export interface ApplicationSettings {
     willing_to_relocate: 'yes' | 'no';
     drivers_license: 'yes' | 'no';
     notice_period: string;
-    earliest_start: string;
     job_preferences: string;
 }
 
@@ -248,7 +247,6 @@ export function defaultApplicationSettings(): ApplicationSettings {
         willing_to_relocate: 'yes',
         drivers_license: 'yes',
         notice_period: '',
-        earliest_start: '',
         job_preferences: '',
     };
 }

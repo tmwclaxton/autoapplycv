@@ -1,9 +1,15 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { computeEarliestStart } from '@/lib/notice-period';
 import type { ApplicationSettings } from '@/types/cvProfile';
 
 const applicationSettings = defineModel<ApplicationSettings>({
     required: true,
 });
+
+const computedEarliestStart = computed(() =>
+    computeEarliestStart(applicationSettings.value.notice_period),
+);
 </script>
 
 <template>
@@ -45,21 +51,13 @@ const applicationSettings = defineModel<ApplicationSettings>({
                     class="postbox-input mt-2"
                     placeholder="e.g. 2 weeks"
                 />
-            </div>
-
-            <div>
-                <label for="field-earliest-start" class="postbox-label"
-                    >Earliest start date</label
+                <p
+                    v-if="computedEarliestStart"
+                    class="mt-2 text-sm text-muted-foreground"
                 >
-                <input
-                    id="field-earliest-start"
-                    v-model="applicationSettings.earliest_start"
-                    name="earliest_start"
-                    type="text"
-                    autocomplete="off"
-                    class="postbox-input mt-2"
-                    placeholder="e.g. Immediately, 1 March 2026"
-                />
+                    Earliest start (computed):
+                    {{ computedEarliestStart }}
+                </p>
             </div>
         </div>
 

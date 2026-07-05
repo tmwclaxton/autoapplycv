@@ -38,6 +38,7 @@ import {
 import {
     buildKnownProfileAnswers,
     buildPendingFieldsFromProfileGaps,
+    formatProfileSaveValue,
     isMeaningfulAnswer,
     mergePendingFields,
     partitionBatchAnswers,
@@ -823,11 +824,13 @@ async function savePendingFieldAnswer(tabId, field, answer) {
     if (field.profile_path) {
         const pathParts = field.profile_path.split('.');
         const fieldKey = pathParts[pathParts.length - 1];
+        const profileData = await getProfile();
+        const profileValue = formatProfileSaveValue(field, trimmed, profileData);
 
         await applyProfileUpdate({
             path: field.profile_path,
             field: fieldKey,
-            value: trimmed,
+            value: profileValue,
         });
     }
 

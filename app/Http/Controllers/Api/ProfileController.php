@@ -57,6 +57,8 @@ class ProfileController extends Controller
         }
 
         if ($applicationSettingsPatch !== []) {
+            unset($applicationSettingsPatch['earliest_start']);
+
             $profile->application_settings = ApplicationSettings::merge(
                 array_merge(is_array($profile->application_settings) ? $profile->application_settings : [], $applicationSettingsPatch),
             );
@@ -68,8 +70,11 @@ class ProfileController extends Controller
 
         $profile->refresh();
 
+        $applicationSettings = ApplicationSettings::merge($profile->application_settings);
+
         return response()->json([
             'success' => true,
+            'computed_earliest_start' => ApplicationSettings::computeEarliestStart($applicationSettings['notice_period']),
             'profile' => [
                 'full_name' => $profile->full_name,
                 'headline' => $profile->headline,
@@ -88,7 +93,7 @@ class ProfileController extends Controller
                 'extra_context' => $profile->extra_context,
                 'formatted_cv_text' => $profile->formatted_cv_text,
                 'structured_data' => $profile->structured_data ?? [],
-                'application_settings' => ApplicationSettings::merge($profile->application_settings),
+                'application_settings' => $applicationSettings,
             ],
             'subscription' => $this->aiTokens->summary($user),
         ]);
@@ -99,6 +104,8 @@ class ProfileController extends Controller
      */
     private function profilePayload(User $user, CvProfile $profile): array
     {
+        $applicationSettings = ApplicationSettings::merge($profile->application_settings);
+
         return [
             'user' => [
                 'name' => $user->name,
@@ -131,7 +138,8 @@ class ProfileController extends Controller
                 ->values()
                 ->all(),
             'document_categories' => ProfileDocumentCategory::options(),
-            'application_settings' => ApplicationSettings::merge($profile->application_settings),
+            'application_settings' => $applicationSettings,
+            'computed_earliest_start' => ApplicationSettings::computeEarliestStart($applicationSettings['notice_period']),
             'subscription' => $this->aiTokens->summary($user),
         ];
     }
