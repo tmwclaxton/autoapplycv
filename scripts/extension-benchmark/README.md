@@ -21,7 +21,9 @@ Reports snapshot build p50/p95 and payload byte sizes (raw vs compact).
 
 ## Mocked end-to-end flow
 
-Simulates Draft All phases with realistic mocked API delays. Compare baseline vs optimized orchestration:
+Simulates Draft All phases with realistic mocked API delays. Compare baseline vs optimized orchestration.
+
+Draft All does not keyword-map profile values into form fields. Question memo applies explicit user-saved answers; all other fields are LLM-drafted with profile context in the prompt. Mechanical inventory (DOM snapshot to field list) is still used when confidence is high.
 
 ```bash
 # Baseline: API job context, extra inventory round, serial apply

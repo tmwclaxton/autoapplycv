@@ -1,6 +1,6 @@
 /**
  * AutoCVApply Content Script
- * Scans application forms mechanically, then Draft All uses AI inventory + draft-all on the server.
+ * Scans application forms mechanically, then Draft All uses AI for all answers (profile context in prompt).
  */
 
 let profile = null;

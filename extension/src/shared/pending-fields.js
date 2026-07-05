@@ -348,22 +348,10 @@ export function isLocationAutocompleteQuestionLabel(label) {
 }
 
 export function shouldDeferFieldToAiDraft(field) {
-    // Retained for tests documenting field types that always use LLM draft (never keyword pre-fill).
-    const label = field?.label || field?.question || '';
+    void field;
 
-    if (isOpenEndedQuestionLabel(label)) {
-        return true;
-    }
-
-    if (field?.field_type === 'textarea') {
-        return true;
-    }
-
-    if (isLocationAutocompleteQuestionLabel(label)) {
-        return true;
-    }
-
-    return false;
+    // Draft All never keyword-maps profile values; every field is LLM-drafted.
+    return true;
 }
 
 export function dedupeLocationParts(value) {
@@ -498,16 +486,6 @@ function phoneCountryCode(profileData) {
     ).trim();
 }
 
-export function isOnlyCountryCodePhoneValue(value, profileData) {
-    const phone = String(value || '').replace(/\s/g, '');
-    const code = phoneCountryCode(profileData).replace(/\s/g, '');
-
-    if (!phone || !code) {
-        return false;
-    }
-
-    return phone === code || phone === code.replace(/^\+/, '');
-}
 
 export function formatPhoneForForm(profileData, phone) {
     const normalized = String(phone || '').replace(/\s/g, '');
@@ -527,51 +505,6 @@ export function formatPhoneForForm(profileData, phone) {
     }
 
     return `${code}${normalized.replace(/^0+/, '')}`;
-}
-
-export function buildKnownProfileAnswers(fields, profileData) {
-    const answers = [];
-
-    for (const field of fields || []) {
-        if (shouldDeferFieldToAiDraft(field)) {
-            continue;
-        }
-
-        const mapping = resolveProfileMappingForLabel(field.label, profileData);
-
-        if (!mapping) {
-            continue;
-        }
-
-        const value = readProfileValue(profileData, mapping.path);
-
-        if (!isMeaningfulAnswer(value) && mapping.path !== 'location' && mapping.path !== 'city') {
-            continue;
-        }
-
-        if (mapping.path === 'phone' && isOnlyCountryCodePhoneValue(value, profileData)) {
-            continue;
-        }
-
-        const answerValue = resolveKnownProfileAnswerValue(mapping, profileData, field);
-
-        if (!isMeaningfulAnswer(answerValue)) {
-            continue;
-        }
-
-        answers.push({
-            id: field.id,
-            ref: field.ref,
-            label: field.label,
-            field_type: field.field_type || 'text',
-            answer: answerValue,
-            profile_path: mapping.path,
-            dom: field.dom || null,
-            data_field_path: field.dom?.data_field_path || null,
-        });
-    }
-
-    return answers;
 }
 
 export function buildPendingFieldsFromProfileGaps(fields, profileData) {
@@ -644,52 +577,10 @@ function createPendingField(field, mapping, reason) {
 }
 
 export function shouldSkipAiDraftAnswer(field, answer, profileData) {
-    if (!isMeaningfulAnswer(answer)) {
-        return true;
-    }
+    void field;
+    void profileData;
 
-    const mapping = resolveProfileMappingForLabel(field.label || '', profileData);
-
-    if (mapping?.path === 'phone') {
-        const profilePhone = readProfileValue(profileData, 'phone');
-
-        if (!isMeaningfulAnswer(profilePhone)) {
-            return true;
-        }
-
-        const normalizedAnswer = String(answer).replace(/\s/g, '');
-        const normalizedProfile = String(profilePhone).replace(/\s/g, '');
-
-        if (normalizedAnswer !== normalizedProfile) {
-            return true;
-        }
-    }
-
-    if (isUserSpecificQuestion(field.label || '')) {
-        if (mapping) {
-            const profileValue = readProfileValue(profileData, mapping.path);
-
-            if (!isMeaningfulAnswer(profileValue)) {
-                return true;
-            }
-
-            if (String(answer).trim().toLowerCase() !== String(profileValue).trim().toLowerCase()) {
-                return true;
-            }
-        } else {
-            return true;
-        }
-    }
-
-    if (mapping?.path?.startsWith('application_settings.')) {
-        const profileValue = readProfileValue(profileData, mapping.path);
-
-        if (!isMeaningfulAnswer(profileValue)) {
-            return true;
-        }
-    }
-
-    return false;
+    return !isMeaningfulAnswer(answer);
 }
 
 export function partitionBatchAnswers(answers, fieldsByRef, profileData) {

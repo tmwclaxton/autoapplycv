@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import {
     appendContextualProfileAnswer,
-    buildKnownProfileAnswers,
     buildPendingFieldsFromProfileGaps,
     dedupeLocationParts,
     defaultSalaryFallbackPath,
@@ -100,24 +99,14 @@ const fields = [
     { ref: 'f7', label: 'When can you start?', field_type: 'text' },
 ];
 
-const known = buildKnownProfileAnswers(fields, profileData);
-assert(known.length === 6, 'buildKnownProfileAnswers should include phone, salary, notice period, and availability fields');
-assert(known.find((field) => field.ref === 'f1')?.answer === '+447912345678', 'known phone answer should be E.164');
-assert(known.find((field) => field.ref === 'f2')?.answer === '£3,500', 'monthly salary should use monthly profile value');
-assert(known.find((field) => field.ref === 'f3')?.answer === '£45,000', 'yearly salary should use yearly profile value');
-assert(known.find((field) => field.ref === 'f4')?.answer === '£45,000', 'generic salary should use yearly fallback');
-assert(known.find((field) => field.ref === 'f6')?.answer === '2 weeks', 'notice period should use dedicated profile value');
 assert(
-    known.find((field) => field.ref === 'f6')?.profile_path === 'application_settings.notice_period',
-    'notice period should map to notice_period field',
+    resolveProfileMappingForLabel('Phone')?.path === 'phone',
+    'phone labels should map to profile for pending-fields UX',
 );
 assert(
-    known.find((field) => field.ref === 'f7')?.answer === '19 July 2026',
-    'availability questions should use computed earliest start',
-);
-assert(
-    known.find((field) => field.ref === 'f7')?.profile_path === 'computed_earliest_start',
-    'availability questions should map to computed earliest start',
+    resolveProfileMappingForLabel('What is your expected monthly salary?')?.path
+        === 'application_settings.expected_salary_monthly',
+    'salary labels should map to profile for pending-fields UX',
 );
 
 assert(
@@ -187,12 +176,21 @@ assert(
 );
 
 assert(
-    shouldSkipAiDraftAnswer(
+    !shouldSkipAiDraftAnswer(
         { label: 'What is your expected monthly salary?' },
         '50000',
         emptySalaryProfile,
     ),
-    'AI salary guess should be skipped without profile value',
+    'meaningful AI answers should apply even without matching profile value',
+);
+
+assert(
+    shouldSkipAiDraftAnswer(
+        { label: 'What is your expected monthly salary?' },
+        null,
+        emptySalaryProfile,
+    ),
+    'empty AI answers should be skipped',
 );
 
 const fieldsByRef = new Map(fields.map((field) => [field.ref, field]));
@@ -288,29 +286,23 @@ assert(
 
 assert(
     shouldDeferFieldToAiDraft({ label: 'location (city) location (city) first name', field_type: 'text' }),
-    'location autocomplete fields should defer to AI draft',
+    'location autocomplete fields should use LLM draft',
 );
 
 assert(
     shouldDeferFieldToAiDraft({ label: 'Why are you interested in this role?', field_type: 'textarea' }),
-    'motivation questions should defer to AI draft',
+    'motivation questions should use LLM draft',
+);
+
+assert(
+    shouldDeferFieldToAiDraft({ label: 'Phone', field_type: 'tel' }),
+    'standard profile fields should also use LLM draft (no mechanical pre-fill)',
 );
 
 assert(
     isOpenEndedQuestionLabel('Why do you want to work here?'),
     'open-ended motivation labels should be detected',
 );
-
-const locationFields = [
-    { ref: 'loc1', label: 'location (city) location (city) first name', field_type: 'text' },
-    { ref: 'city1', label: 'City', field_type: 'text' },
-    { ref: 'mot1', label: 'Why are you interested in this role?', field_type: 'textarea' },
-];
-
-const locationKnown = buildKnownProfileAnswers(locationFields, belfastProfile);
-assert(!locationKnown.some((field) => field.ref === 'loc1'), 'location (city) should not use mechanical profile dump');
-assert(locationKnown.find((field) => field.ref === 'city1')?.answer === 'Belfast', 'plain city fields should still fill from profile');
-assert(!locationKnown.some((field) => field.ref === 'mot1'), 'motivation fields should not use mechanical profile dump');
 
 assert(
     resolveProfileMappingForLabel('name')?.path === 'full_name',
@@ -321,14 +313,6 @@ assert(
     splitFullName('Toby Claxton').first === 'Toby'
         && splitFullName('Toby Claxton').last === 'Claxton',
     'splitFullName should split first and last names',
-);
-
-const ashbyNameKnown = buildKnownProfileAnswers([
-    { ref: 'n1', label: 'name', field_type: 'text' },
-], { profile: { full_name: 'Toby Claxton' } });
-assert(
-    ashbyNameKnown.find((field) => field.ref === 'n1')?.answer === 'Toby Claxton',
-    'Ashby name should fill from profile full_name',
 );
 
 console.log('pending-fields tests passed');
