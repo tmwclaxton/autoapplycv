@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { Github, Mail, MessageSquare } from 'lucide-vue-next';
+import DiscordIcon from '@/components/DiscordIcon.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
-import { CONTACT_EMAIL, GITHUB_REPOSITORY_URL } from '@/lib/site';
+import {
+    CONTACT_EMAIL,
+    DISCORD_INVITE_URL,
+    GITHUB_REPOSITORY_URL,
+} from '@/lib/site';
 import { howTo } from '@/routes';
 </script>
 
@@ -22,7 +27,7 @@ import { howTo } from '@/routes';
             description="No sales team. No chat widget. Just a couple of sensible ways to reach us."
         />
 
-        <div class="grid gap-4 sm:grid-cols-2">
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <a
                 :href="`mailto:${CONTACT_EMAIL}`"
                 class="postbox-panel flex gap-4 p-5 transition-colors hover:bg-postbox-grey/40"
@@ -59,6 +64,28 @@ import { howTo } from '@/routes';
                     <p class="font-bold text-postbox-navy">Report a bug</p>
                     <p class="mt-1 text-sm text-muted-foreground">
                         Best for reproducible problems and feature requests.
+                    </p>
+                </div>
+            </a>
+
+            <a
+                :href="DISCORD_INVITE_URL"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="postbox-panel flex gap-4 p-5 transition-colors hover:bg-postbox-grey/40"
+            >
+                <div
+                    class="flex size-12 shrink-0 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                >
+                    <DiscordIcon class="size-5 text-postbox-navy" />
+                </div>
+                <div>
+                    <p class="postbox-label">Discord</p>
+                    <p class="font-bold text-postbox-navy">
+                        Join the community
+                    </p>
+                    <p class="mt-1 text-sm text-muted-foreground">
+                        Chat with other users and get help from the team.
                     </p>
                 </div>
             </a>
