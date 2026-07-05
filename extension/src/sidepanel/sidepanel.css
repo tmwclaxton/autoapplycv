@@ -867,6 +867,105 @@ body {
     cursor: wait;
 }
 
+.assist-message-draft-batch .assist-message-content {
+    border-color: rgb(200 16 46 / 45%);
+    background: rgb(200 16 46 / 4%);
+}
+
+.assist-draft-batch-header {
+    padding: 10px 12px 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--postbox-red);
+}
+
+.assist-draft-batch-hint {
+    padding: 4px 12px 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: rgb(27 54 93 / 72%);
+}
+
+.assist-draft-batch-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 12px 12px;
+}
+
+.assist-draft-answer {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px;
+    border: 1px solid rgb(27 54 93 / 16%);
+    background: rgb(255 255 255 / 88%);
+}
+
+.assist-draft-answer-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--postbox-navy);
+}
+
+.assist-draft-answer-text {
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    color: var(--postbox-navy);
+}
+
+.assist-draft-answer-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.assist-draft-answer-copy {
+    width: auto;
+    padding: 0.35rem 0.7rem;
+    font-size: 11px;
+    line-height: 1.2;
+}
+
+.assist-draft-answer-copy.is-copied {
+    border-color: rgb(21 128 61 / 35%);
+    color: rgb(21 128 61);
+}
+
 .assist-tools {
     display: none;
+}
+
+.shell-scroll,
+.panel-section,
+.card,
+.message {
+    overflow-wrap: anywhere;
+}
+
+.shell-scroll code,
+.panel-section code,
+.card code {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+@media (max-width: 380px) {
+    .shell-header-inner {
+        flex-wrap: wrap;
+    }
+
+    .header-action {
+        padding: 6px 8px;
+        font-size: 10px;
+    }
+
+    .pending-field-save-btn {
+        width: 100%;
+        min-width: 0;
+    }
 }

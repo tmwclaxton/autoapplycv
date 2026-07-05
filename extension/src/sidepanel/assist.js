@@ -1,3 +1,4 @@
+import { buildDraftBatchChatHeading } from './draft-batch-chat.js';
 import { polishProfileUpdateActions } from './profile-value-polish.js';
 
 const WELCOME_MESSAGE =
@@ -111,6 +112,86 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         }
 
         return readValueAtPath(response, path);
+    }
+
+    function createDraftAnswerCopyButton(answerText) {
+        const copyBtn = document.createElement('button');
+        copyBtn.type = 'button';
+        copyBtn.className = 'assist-draft-answer-copy postbox-btn-outline';
+        copyBtn.textContent = 'Copy';
+
+        copyBtn.addEventListener('click', async () => {
+            copyBtn.disabled = true;
+
+            try {
+                await navigator.clipboard.writeText(answerText);
+                copyBtn.classList.add('is-copied');
+                copyBtn.textContent = 'Copied';
+                showMessage('Answer copied.', 'success');
+            } catch (error) {
+                showMessage(error.message || 'Could not copy answer.', 'error');
+                copyBtn.disabled = false;
+            }
+        });
+
+        return copyBtn;
+    }
+
+    function appendDraftBatchAnswers({ batchNumber = 1, answers = [] } = {}) {
+        const entries = Array.isArray(answers)
+            ? answers.filter((entry) => entry?.label && entry?.answer)
+            : [];
+
+        if (entries.length === 0) {
+            return;
+        }
+
+        const bubble = document.createElement('div');
+        bubble.className = 'assist-message assist-message-assistant assist-message-draft-batch';
+
+        const contentBox = document.createElement('div');
+        contentBox.className = 'assist-message-content';
+
+        const header = document.createElement('div');
+        header.className = 'assist-draft-batch-header';
+        header.textContent = buildDraftBatchChatHeading(batchNumber, entries.length);
+
+        const hint = document.createElement('div');
+        hint.className = 'assist-draft-batch-hint';
+        hint.textContent = 'Copy any answer below if autofill missed a field.';
+
+        const list = document.createElement('div');
+        list.className = 'assist-draft-batch-list';
+
+        entries.forEach((entry) => {
+            const item = document.createElement('div');
+            item.className = 'assist-draft-answer';
+
+            const label = document.createElement('div');
+            label.className = 'assist-draft-answer-label';
+            label.textContent = entry.label;
+
+            const answerText = document.createElement('div');
+            answerText.className = 'assist-draft-answer-text';
+            answerText.textContent = entry.answer;
+
+            const actions = document.createElement('div');
+            actions.className = 'assist-draft-answer-actions';
+            actions.appendChild(createDraftAnswerCopyButton(entry.answer));
+
+            item.appendChild(label);
+            item.appendChild(answerText);
+            item.appendChild(actions);
+            list.appendChild(item);
+        });
+
+        contentBox.appendChild(header);
+        contentBox.appendChild(hint);
+        contentBox.appendChild(list);
+        bubble.appendChild(contentBox);
+
+        messagesEl.appendChild(bubble);
+        scrollMessagesToBottom();
     }
 
     function createProfileApplyButton(tag, action, label, viewLink) {
@@ -784,5 +865,5 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
 
     appendWelcomeMessage();
 
-    return { appendMessage, clearChat };
+    return { appendMessage, appendDraftBatchAnswers, clearChat };
 }

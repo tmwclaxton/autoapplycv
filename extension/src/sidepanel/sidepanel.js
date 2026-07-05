@@ -405,6 +405,15 @@ chrome.runtime.onMessage.addListener((message) => {
         void init();
     }
 
+    if (message.type === 'DRAFT_ALL_BATCH_ANSWERS') {
+        if (assistChat?.appendDraftBatchAnswers) {
+            assistChat.appendDraftBatchAnswers({
+                batchNumber: message.batchNumber,
+                answers: message.answers,
+            });
+        }
+    }
+
     if (message.type === 'DRAFT_ALL_PROGRESS') {
         sidepanelLog.logInfo('draft-all.progress', message.message || 'Draft All progress', {
             message: message.message,

@@ -28,6 +28,7 @@ import {
     tryInferJobContextFromPage,
 } from './draft-all-optimizations.js';
 import { requestDraftAllStream, requestDraftField, requestAssistChatStream, requestFieldInventory, requestJobContext } from './draft-all-stream.js';
+import { normalizeDraftBatchAnswers } from './draft-batch-chat.js';
 import { arrayBufferToBase64, base64ToBlob } from './file-transfer.js';
 import {
     applyDraftAnswerToTab,
@@ -1520,6 +1521,15 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 applyPromises.push(applyPromise);
                 void saveLocalMemo(toApply);
                 batchIndex = batchNumber;
+
+                const chatAnswers = normalizeDraftBatchAnswers(toApply, fieldsByRef);
+
+                if (chatAnswers.length > 0) {
+                    broadcastDraftEvent('DRAFT_ALL_BATCH_ANSWERS', {
+                        batchNumber,
+                        answers: chatAnswers,
+                    });
+                }
 
                 broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
                     message: `Applied batch ${batchNumber}…`,
