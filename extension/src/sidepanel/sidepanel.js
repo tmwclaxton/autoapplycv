@@ -6,7 +6,7 @@ import {
 } from './connection.js';
 import { createRemoteLogger } from './debug-log.js';
 import { initDocumentsPanel } from './documents.js';
-import { initPendingFieldsPanel } from './pending-fields.js';
+import { initPendingFieldsPanel } from './pending-fields-panel.js';
 
 const messageEl = document.getElementById('message');
 const authState = document.getElementById('auth-state');

@@ -74,8 +74,64 @@ function hostPermissionForApiBase(apiBase) {
     return `${url.origin}/*`;
 }
 
+function collectExportNames(content) {
+    const names = new Set();
+
+    for (const match of content.matchAll(/export\s+(?:async\s+)?function\s+(\w+)/g)) {
+        names.add(match[1]);
+    }
+
+    for (const match of content.matchAll(/export\s+(?:const|let|var|class)\s+(\w+)/g)) {
+        names.add(match[1]);
+    }
+
+    for (const match of content.matchAll(/export\s*\{([^}]+)\}/g)) {
+        for (const part of match[1].split(',')) {
+            const trimmed = part.trim();
+
+            if (!trimmed) {
+                continue;
+            }
+
+            const exportName = trimmed.includes(' as ')
+                ? trimmed.split(/\s+as\s+/)[1].trim()
+                : trimmed.split(/\s+/)[0];
+
+            names.add(exportName);
+        }
+    }
+
+    return names;
+}
+
+function collectNamedImports(content) {
+    const imports = [];
+
+    for (const match of content.matchAll(/import\s*\{([^}]+)\}\s*from\s*['"](\.\/[^'"]+)['"]/g)) {
+        const names = match[1]
+            .split(',')
+            .map((part) => {
+                const trimmed = part.trim();
+
+                if (!trimmed) {
+                    return null;
+                }
+
+                return trimmed.includes(' as ')
+                    ? trimmed.split(/\s+as\s+/)[0].trim()
+                    : trimmed.split(/\s+/)[0];
+            })
+            .filter(Boolean);
+
+        imports.push({ names, from: match[2] });
+    }
+
+    return imports;
+}
+
 function verifyDistImports() {
     const jsFiles = readdirSync(DIST).filter((file) => file.endsWith('.js'));
+    const exportCache = new Map();
 
     for (const file of jsFiles) {
         const content = readFileSync(join(DIST, file), 'utf8');
@@ -91,6 +147,24 @@ function verifyDistImports() {
 
             if (!existsSync(importedPath)) {
                 throw new Error(`${file} imports missing dist file: ${match[1]}`);
+            }
+        }
+
+        for (const { names, from } of collectNamedImports(content)) {
+            const importedPath = join(DIST, from);
+
+            if (!exportCache.has(importedPath)) {
+                exportCache.set(importedPath, collectExportNames(readFileSync(importedPath, 'utf8')));
+            }
+
+            const exports = exportCache.get(importedPath);
+
+            for (const name of names) {
+                if (!exports.has(name)) {
+                    throw new Error(
+                        `${file} imports "${name}" from ${from}, but that export is missing in dist.`,
+                    );
+                }
             }
         }
     }
@@ -162,7 +236,7 @@ copyFileSync(join(SRC, 'sidepanel/sidepanel.css'), join(DIST, 'sidepanel.css'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.js'), join(DIST, 'sidepanel.js'));
 copyFileSync(join(SRC, 'sidepanel/assist.js'), join(DIST, 'assist.js'));
 copyFileSync(join(SRC, 'sidepanel/documents.js'), join(DIST, 'documents.js'));
-copyFileSync(join(SRC, 'sidepanel/pending-fields.js'), join(DIST, 'pending-fields.js'));
+copyFileSync(join(SRC, 'sidepanel/pending-fields.js'), join(DIST, 'pending-fields-panel.js'));
 
 patchManifest(apiBase);
 verifyDistImports();
