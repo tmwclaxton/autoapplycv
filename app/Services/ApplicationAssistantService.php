@@ -7,6 +7,7 @@ use App\Models\ApplicationArtifact;
 use App\Models\CvProfile;
 use App\Models\JobApplication;
 use App\Support\ProfileFieldRegistry;
+use App\Support\ProfileIdentityFieldResolver;
 use App\Support\ProfileUpdateValueSanitizer;
 use Illuminate\Support\Facades\Log;
 
@@ -63,6 +64,7 @@ class ApplicationAssistantService
                         .'For field_type radio, select, or checkbox with an options array, you MUST return one exact option string copied verbatim from options. Pick the best fit using application_settings when relevant (visa, relocation, salary, start date, office preference, employment type). '
                         .'For open text questions about motivation, interest, or fit, write 2-4 sentences in first person explaining why this role/company specifically appeals to you. Never paste raw profile fields (location strings, summary, headline) into these answers. '
                         .'For location or city autocomplete fields, return only the city name (for example "Belfast") unless the question explicitly asks for full address. Do not repeat the same place name or concatenate city, region, and country redundantly. '
+                        .ProfileIdentityFieldResolver::identityPromptRules().' '
                         .'Use null only when the profile truly lacks enough facts. Never invent employers, degrees, or dates. '
                         .'For simple yes/no questions return "yes" or "no". For checkbox groups that allow multiple selections, return comma-separated option texts. '
                         .'Keep within max_chars when provided. Plain text only - no markdown.',
@@ -108,6 +110,8 @@ class ApplicationAssistantService
 
             $answers[] = $entry;
         }
+
+        $answers = ProfileIdentityFieldResolver::enforceIdentityAnswers($profile, $questions, $answers, $settings);
 
         $usage = is_array($payload['_usage'] ?? null) ? $payload['_usage'] : [
             'prompt_tokens' => 0,
@@ -451,6 +455,12 @@ class ApplicationAssistantService
             'profile_updates' => $profileUpdates,
             'draft_answer' => $draftAnswer !== '' ? $draftAnswer : null,
             'actions' => $this->buildChatActions($profileUpdates, $draftAnswer !== '' ? $draftAnswer : null),
+            'usage' => is_array($payload['_usage'] ?? null) ? $payload['_usage'] : [
+                'prompt_tokens' => 0,
+                'completion_tokens' => 0,
+                'total_tokens' => 0,
+                'model' => (string) config('cv.extraction_model'),
+            ],
         ];
     }
 
@@ -459,7 +469,7 @@ class ApplicationAssistantService
      * @param  array<string, mixed>  $context
      * @param  callable(array<string, mixed>): void  $emit
      */
-    public function streamChat(CvProfile $profile, array $messages, array $context, callable $emit): bool
+    public function streamChat(CvProfile $profile, array $messages, array $context, callable $emit, ?array &$usage = null): bool
     {
         $conversation = $this->normalizeConversationMessages($messages);
 
@@ -518,6 +528,16 @@ class ApplicationAssistantService
             'draft_answer' => $draftAnswer,
             'actions' => $actions,
         ]);
+
+        $promptEstimate = max(1, (int) ceil(mb_strlen(json_encode($payloadMessages, JSON_THROW_ON_ERROR)) / 4));
+        $completionEstimate = max(1, (int) ceil(mb_strlen($content) / 4));
+
+        $usage = [
+            'prompt_tokens' => $promptEstimate,
+            'completion_tokens' => $completionEstimate,
+            'total_tokens' => $promptEstimate + $completionEstimate,
+            'model' => (string) config('cv.extraction_model'),
+        ];
 
         return true;
     }
@@ -893,10 +913,11 @@ class ApplicationAssistantService
 
     /**
      * @param  array<string, mixed>  $job
+     * @return array{content: string, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int, credits?: float|null, model: string}}|null
      */
-    public function generateCoverLetter(CvProfile $profile, array $job, string $tone = 'professional'): ?string
+    public function generateCoverLetter(CvProfile $profile, array $job, string $tone = 'professional'): ?array
     {
-        $result = $this->nanoGpt->chat([
+        $result = $this->nanoGpt->chatWithUsage([
             [
                 'role' => 'system',
                 'content' => $this->systemPrompt($profile)."\n\nWrite concise, truthful cover letters. Do not invent experience.",
@@ -911,13 +932,27 @@ class ApplicationAssistantService
             'temperature' => 0.5,
         ]);
 
-        return $result !== null && trim($result) !== '' ? $this->sanitizeAssistantText(trim($result)) : null;
+        if ($result === null || trim($result['content']) === '') {
+            return null;
+        }
+
+        return [
+            'content' => $this->sanitizeAssistantText(trim($result['content'])),
+            'usage' => [
+                'prompt_tokens' => $result['prompt_tokens'],
+                'completion_tokens' => $result['completion_tokens'],
+                'total_tokens' => $result['total_tokens'],
+                'credits' => $result['credits'],
+                'model' => $result['model'],
+            ],
+        ];
     }
 
     /**
      * @param  array<string, mixed>  $job
+     * @return array{content: string, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int, credits?: float|null, model: string}}|null
      */
-    public function generateTailoredResume(CvProfile $profile, array $job, string $template = 'modern'): ?string
+    public function generateTailoredResume(CvProfile $profile, array $job, string $template = 'modern'): ?array
     {
         $templateGuide = match ($template) {
             'consulting' => 'Use a concise consulting-style layout: strong action bullets, quantified impact, leadership verbs, one-line role summaries.',
@@ -925,7 +960,7 @@ class ApplicationAssistantService
             default => 'Use a modern professional layout: headline, summary, skills, experience bullets tailored to the job.',
         };
 
-        $result = $this->nanoGpt->chat([
+        $result = $this->nanoGpt->chatWithUsage([
             [
                 'role' => 'system',
                 'content' => $this->systemPrompt($profile)."\n\nTailor the CV truthfully to the job. Do not invent employers, dates, or qualifications. {$templateGuide} Output plain text only.",
@@ -943,7 +978,20 @@ class ApplicationAssistantService
             'temperature' => 0.45,
         ]);
 
-        return $result !== null && trim($result) !== '' ? $this->sanitizeAssistantText(trim($result)) : null;
+        if ($result === null || trim($result['content']) === '') {
+            return null;
+        }
+
+        return [
+            'content' => $this->sanitizeAssistantText(trim($result['content'])),
+            'usage' => [
+                'prompt_tokens' => $result['prompt_tokens'],
+                'completion_tokens' => $result['completion_tokens'],
+                'total_tokens' => $result['total_tokens'],
+                'credits' => $result['credits'],
+                'model' => $result['model'],
+            ],
+        ];
     }
 
     /**
@@ -951,7 +999,8 @@ class ApplicationAssistantService
      *     score: int,
      *     matched_keywords: array<int, string>,
      *     missing_keywords: array<int, string>,
-     *     suggestions: array<int, string>
+     *     suggestions: array<int, string>,
+     *     usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int, credits?: float|null, model: string},
      * }|null
      */
     public function scoreAts(CvProfile $profile, ?string $jobDescription): ?array
@@ -989,11 +1038,19 @@ class ApplicationAssistantService
             return null;
         }
 
+        $usage = is_array($payload['_usage'] ?? null) ? $payload['_usage'] : [
+            'prompt_tokens' => 0,
+            'completion_tokens' => 0,
+            'total_tokens' => 0,
+            'model' => (string) config('cv.extraction_model'),
+        ];
+
         return [
             'score' => max(0, min(100, (int) ($payload['score'] ?? 0))),
             'matched_keywords' => array_values(array_filter($payload['matched_keywords'] ?? [], 'is_string')),
             'missing_keywords' => array_values(array_filter($payload['missing_keywords'] ?? [], 'is_string')),
             'suggestions' => array_values(array_filter($payload['suggestions'] ?? [], 'is_string')),
+            'usage' => $usage,
         ];
     }
 
@@ -1058,6 +1115,10 @@ Be specific, not generic:
 
 Formatting:
 - Plain text only. No markdown, bullet lists, headings, or em dashes. Use normal hyphens (-).
+
+Identity (non-negotiable):
+- First name, last name, email, phone, and city must match the profile exactly. Never invent or localize identity to the employer's country or language.
+- Open-ended answers must reflect this candidate's real experience from the profile - not a generic marketing persona.
 GUIDE;
     }
 

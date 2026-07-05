@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\CvProfile;
 use App\Models\User;
+use App\Support\ProfileIdentityFieldResolver;
 use Illuminate\Support\Facades\Concurrency;
 
 class ApplicationDraftOrchestratorService
@@ -11,6 +12,7 @@ class ApplicationDraftOrchestratorService
     public function __construct(
         private readonly AiTokenService $usage,
         private readonly AutofillAnalyticsService $analytics,
+        private readonly ExtensionNanoGptUsageService $nanoGptUsage,
     ) {}
 
     public function batchSize(): int
@@ -82,24 +84,33 @@ class ApplicationDraftOrchestratorService
 
         $profileId = $profile->getKey();
         $llmTasks = [];
+        $batchPartitions = [];
 
         foreach (array_slice($batches, 0, $affordableBatchCount, true) as $batchIndex => $batch) {
             $questions = $this->questionsForBatch($batch);
+            $partition = ProfileIdentityFieldResolver::partitionQuestions($profile, $questions, $settings);
+            $batchPartitions[$batchIndex] = $partition;
 
-            $llmTasks[$batchIndex] = function () use ($profileId, $job, $questions, $settings): ?array {
+            if ($partition['llm_questions'] === []) {
+                continue;
+            }
+
+            $llmQuestions = $partition['llm_questions'];
+
+            $llmTasks[$batchIndex] = function () use ($profileId, $job, $llmQuestions, $settings): ?array {
                 $resolvedProfile = CvProfile::query()->findOrFail($profileId);
 
                 return app(ApplicationAssistantService::class)->answerQuestions(
                     $resolvedProfile,
                     $job,
-                    $questions,
+                    $llmQuestions,
                     $settings,
                 );
             };
         }
 
         /** @var array<int, ?array{answers: array<int, array{label: string, ref?: string|null, answer: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int, model: string}}> $llmResults */
-        $llmResults = Concurrency::run($llmTasks);
+        $llmResults = $llmTasks === [] ? [] : Concurrency::run($llmTasks);
 
         $batchesOk = 0;
         $batchesFailed = 0;
@@ -112,10 +123,16 @@ class ApplicationDraftOrchestratorService
                 continue;
             }
 
+            $partition = $batchPartitions[$batchIndex] ?? ProfileIdentityFieldResolver::partitionQuestions(
+                $profile,
+                $this->questionsForBatch($batch),
+                $settings,
+            );
             $batchResult = $llmResults[$batchIndex] ?? null;
-            $answers = $batchResult['answers'] ?? null;
+            $llmAnswers = $batchResult['answers'] ?? [];
+            $answers = array_merge($partition['identity_answers'], $llmAnswers);
 
-            if ($answers === null) {
+            if ($answers === []) {
                 $onBatchError($batchIndex, 'Could not generate answers for this batch.');
                 $batchesFailed++;
 
@@ -131,6 +148,12 @@ class ApplicationDraftOrchestratorService
 
             $this->usage->recordAutofill($user, $this->batchCost());
             $this->analytics->recordExtensionQuestions(count($batch));
+            $this->nanoGptUsage->record(
+                $user,
+                'assist.draft-all',
+                $batchResult['usage'] ?? null,
+                $this->batchCost(),
+            );
             $user->refresh();
 
             $onBatch(

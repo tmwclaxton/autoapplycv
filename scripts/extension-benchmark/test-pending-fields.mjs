@@ -422,4 +422,37 @@ assert(
     'Discord GH fixture should apply profile fallbacks for standard fields when AI returns null',
 );
 
+const tobyProfile = {
+    profile: {
+        full_name: 'Toby Claxton',
+        email: 'toby@example.com',
+        phone: '7700900123',
+    },
+    application_settings: {
+        phone_country_code: '+44',
+    },
+};
+
+const { toApply: identityApply } = partitionBatchAnswers([
+    { ref: 'f1', label: 'First name', answer: 'Alex' },
+    { ref: 'f2', label: 'Last name', answer: 'Andersson' },
+    { ref: 'f3', label: 'Email', answer: 'alex.andersson@email.com' },
+    { ref: 'f4', label: 'Why do you want this role?', answer: 'Generic marketing persona.' },
+], new Map([
+    ['f1', { ref: 'f1', label: 'First name', field_type: 'text' }],
+    ['f2', { ref: 'f2', label: 'Last name', field_type: 'text' }],
+    ['f3', { ref: 'f3', label: 'Email', field_type: 'email' }],
+    ['f4', { ref: 'f4', label: 'Why do you want this role?', field_type: 'textarea' }],
+]), tobyProfile);
+
+const identityByRef = new Map(identityApply.map((row) => [row.ref, row.answer]));
+
+assert(
+    identityByRef.get('f1') === 'Toby'
+        && identityByRef.get('f2') === 'Claxton'
+        && identityByRef.get('f3') === 'toby@example.com'
+        && identityByRef.get('f4') === 'Generic marketing persona.',
+    'identity fields should always use profile values even when AI hallucinates',
+);
+
 console.log('pending-fields tests passed');

@@ -98,6 +98,15 @@ const CONTEXTUAL_SAVE_PROFILE_PATHS = new Set([
     'application_settings.job_preferences',
 ]);
 
+const IDENTITY_PROFILE_PATHS = new Set([
+    'full_name',
+    'full_name.first',
+    'full_name.last',
+    'email',
+    'phone',
+    'city',
+]);
+
 const USER_SPECIFIC_LABEL_PATTERNS = [
     /notice period/i,
     /expected (?:weekly |monthly |annual |yearly )?salary/i,
@@ -739,6 +748,20 @@ export function shouldPromptUserForField(field, profileData) {
     return !isMeaningfulAnswer(readProfileValue(profileData, mapping.path));
 }
 
+export function isIdentityProfilePath(path) {
+    return IDENTITY_PROFILE_PATHS.has(path);
+}
+
+export function resolveIdentityProfileAnswer(field, profileData) {
+    const mapping = resolveProfileMappingForLabel(field.label || field.question || '', profileData);
+
+    if (!mapping || !isIdentityProfilePath(mapping.path)) {
+        return '';
+    }
+
+    return profileValueForApply(mapping, profileData);
+}
+
 function profileValueForApply(mapping, profileData) {
     const value = readProfileValue(profileData, mapping.path);
 
@@ -831,8 +854,11 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
             options: answer.options,
         };
         let resolvedAnswer = answer.answer;
+        const identityAnswer = resolveIdentityProfileAnswer(field, profileData);
 
-        if (!isMeaningfulAnswer(resolvedAnswer)) {
+        if (isMeaningfulAnswer(identityAnswer)) {
+            resolvedAnswer = identityAnswer;
+        } else if (!isMeaningfulAnswer(resolvedAnswer)) {
             const profileFallback = resolveProfileFallbackAnswer(field, profileData);
 
             if (isMeaningfulAnswer(profileFallback)) {

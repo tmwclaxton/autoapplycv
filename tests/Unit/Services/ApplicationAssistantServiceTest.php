@@ -420,5 +420,62 @@ class ApplicationAssistantServiceTest extends TestCase
         $instructions = (string) ($capturedUserPayload['instructions'] ?? '');
         $this->assertStringContainsString('city name', $instructions);
         $this->assertStringContainsString('Never paste raw profile fields', $instructions);
+        $this->assertStringContainsString('Never invent a candidate name', $instructions);
+    }
+
+    public function test_answer_questions_overrides_hallucinated_identity_with_profile_values(): void
+    {
+        $user = User::factory()->create();
+        $profile = CvProfile::factory()->for($user)->create([
+            'full_name' => 'Toby Claxton',
+            'email' => 'toby@example.com',
+            'phone' => '+44 7700 900123',
+            'city' => 'High Wycombe',
+        ]);
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')->once()->andReturn([
+                'answers' => [
+                    ['label' => 'First name', 'ref' => 'f1', 'answer' => 'Alex'],
+                    ['label' => 'Last name', 'ref' => 'f2', 'answer' => 'Andersson'],
+                    ['label' => 'Email', 'ref' => 'f3', 'answer' => 'alex.andersson@email.com'],
+                    [
+                        'label' => 'In short, what is your main interest in this role?',
+                        'ref' => 'f4',
+                        'answer' => 'I have led e-commerce campaigns in Stockholm.',
+                    ],
+                ],
+            ]);
+        });
+
+        $service = app(ApplicationAssistantService::class);
+
+        $result = $service->answerQuestions(
+            $profile,
+            ['title' => 'Marketing Manager', 'company' => 'Vekst'],
+            [
+                ['label' => 'First name', 'ref' => 'f1', 'field_type' => 'text'],
+                ['label' => 'Last name', 'ref' => 'f2', 'field_type' => 'text'],
+                ['label' => 'Email', 'ref' => 'f3', 'field_type' => 'email'],
+                [
+                    'label' => 'In short, what is your main interest in this role?',
+                    'ref' => 'f4',
+                    'field_type' => 'textarea',
+                    'max_chars' => 500,
+                ],
+            ],
+        );
+
+        $this->assertNotNull($result);
+
+        $answersByRef = collect($result['answers'])->keyBy('ref');
+
+        $this->assertSame('Toby', $answersByRef->get('f1')['answer'] ?? null);
+        $this->assertSame('Claxton', $answersByRef->get('f2')['answer'] ?? null);
+        $this->assertSame('toby@example.com', $answersByRef->get('f3')['answer'] ?? null);
+        $this->assertSame(
+            'I have led e-commerce campaigns in Stockholm.',
+            $answersByRef->get('f4')['answer'] ?? null,
+        );
     }
 }
