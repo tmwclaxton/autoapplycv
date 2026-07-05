@@ -18,10 +18,14 @@ class ApplicationFieldInventoryService
      *     fields: array<int, array{ref: string, question: string, field_type: string, max_chars?: int|null, options?: array<int, string>|null}>,
      *     complete: bool,
      *     next_actions: array<int, array{ref: string, reason: string}>,
+     *     source: 'mechanical'|'llm',
+     *     usage?: array{prompt_tokens: int, completion_tokens: int, total_tokens: int, model: string},
      * }|null
      */
     public function resolveFields(CvProfile $profile, array $job, array $snapshot, array $settings = []): ?array
     {
+        unset($profile);
+
         $elements = $this->normalizeSnapshotElements($snapshot['elements'] ?? []);
 
         if ($elements === []) {
@@ -29,10 +33,22 @@ class ApplicationFieldInventoryService
                 'fields' => [],
                 'complete' => true,
                 'next_actions' => [],
+                'source' => 'mechanical',
             ];
         }
 
         $controls = $this->filterNavigationControls($this->normalizeControls($snapshot['controls'] ?? []));
+        $mechanicalFields = $this->buildMechanicalFields($elements);
+
+        if ($this->canUseMechanicalInventory($snapshot, $mechanicalFields, $controls)) {
+            return [
+                'fields' => $mechanicalFields,
+                'complete' => true,
+                'next_actions' => [],
+                'source' => 'mechanical',
+            ];
+        }
+
         $userPayload = [
             'job' => $job,
             'page_title' => $snapshot['page_title'] ?? null,
@@ -52,17 +68,18 @@ class ApplicationFieldInventoryService
             $userPayload['controls'] = $controls;
         }
 
+        $model = (string) config('cv.inventory_model');
         $payload = $this->nanoGpt->chatJson([
             [
                 'role' => 'system',
-                'content' => $this->systemPrompt($profile, $settings),
+                'content' => $this->systemPrompt($settings),
             ],
             [
                 'role' => 'user',
                 'content' => json_encode($userPayload, JSON_THROW_ON_ERROR),
             ],
         ], [
-            'model' => config('cv.inventory_model'),
+            'model' => $model,
             'temperature' => 0.2,
         ]);
 
@@ -70,7 +87,97 @@ class ApplicationFieldInventoryService
             return null;
         }
 
-        return $this->normalizeInventoryPayload($payload, $elements);
+        $normalized = $this->normalizeInventoryPayload($payload, $elements);
+
+        if ($normalized === null) {
+            return null;
+        }
+
+        $usage = is_array($payload['_usage'] ?? null) ? $payload['_usage'] : null;
+
+        return [
+            ...$normalized,
+            'source' => 'llm',
+            'usage' => $usage ?? [
+                'prompt_tokens' => 0,
+                'completion_tokens' => 0,
+                'total_tokens' => 0,
+                'model' => $model,
+            ],
+        ];
+    }
+
+    /**
+     * @param  array<int, array{ref: string, question: string, field_type: string, max_chars?: int|null, options?: array<int, string>|null, required?: bool, context?: string|null}>  $elements
+     * @return array<int, array{ref: string, question: string, field_type: string, max_chars?: int|null, options?: array<int, string>|null}>
+     */
+    private function buildMechanicalFields(array $elements): array
+    {
+        $fields = [];
+
+        foreach ($elements as $element) {
+            if (($element['field_type'] ?? '') === 'file') {
+                continue;
+            }
+
+            $fields[] = [
+                'ref' => $element['ref'],
+                'question' => $element['question'],
+                'field_type' => $element['field_type'],
+                'max_chars' => $element['max_chars'],
+                'options' => $element['options'],
+            ];
+        }
+
+        return $fields;
+    }
+
+    /**
+     * @param  array<string, mixed>  $snapshot
+     * @param  array<int, array{ref: string, question: string, field_type: string, max_chars?: int|null, options?: array<int, string>|null}>  $fields
+     * @param  array<int, array{ref: string, name: string, role?: string|null}>  $controls
+     */
+    private function canUseMechanicalInventory(array $snapshot, array $fields, array $controls): bool
+    {
+        if ($fields === []) {
+            return false;
+        }
+
+        if ($controls !== []) {
+            return false;
+        }
+
+        $refs = [];
+
+        foreach ($fields as $field) {
+            if (isset($refs[$field['ref']])) {
+                return false;
+            }
+
+            $refs[$field['ref']] = true;
+            $question = $this->normalizeQuestionLabel($field['question']);
+
+            if ($question === '' || mb_strlen($question) < 2) {
+                return false;
+            }
+
+            if (preg_match('/^(field|input|select|choose one|click here)\b/u', $question) === 1) {
+                return false;
+            }
+        }
+
+        $elementCount = count($snapshot['elements'] ?? []);
+
+        return $elementCount >= 3;
+    }
+
+    private function normalizeQuestionLabel(string $label): string
+    {
+        $label = mb_strtolower(trim($label));
+        $label = (string) preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $label);
+        $label = (string) preg_replace('/\s+/u', ' ', $label);
+
+        return trim($label);
     }
 
     /**
@@ -240,9 +347,9 @@ class ApplicationFieldInventoryService
     /**
      * @param  array<string, mixed>  $settings
      */
-    private function systemPrompt(CvProfile $profile, array $settings): string
+    private function systemPrompt(array $settings): string
     {
-        unset($profile, $settings);
+        unset($settings);
 
         return 'You inventory unanswered job application form fields from a browser snapshot. '
             .'Return strict JSON only. Never invent form fields or refs that are not in the snapshot.';

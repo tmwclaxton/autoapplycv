@@ -134,12 +134,19 @@ class NanoGptService
     /**
      * @param  array<array{role: string, content: string}>  $messages
      * @param  array<string, mixed>  $options
-     * @return array{content: string, tokens: int}|null
+     * @return array{
+     *     content: string,
+     *     prompt_tokens: int,
+     *     completion_tokens: int,
+     *     total_tokens: int,
+     *     model: string,
+     * }|null
      */
     public function chatWithUsage(array $messages, array $options = []): ?array
     {
         $timeout = (int) ($options['timeout'] ?? config('services.nanogpt.timeout', 120));
         $connectTimeout = (int) ($options['connect_timeout'] ?? config('services.nanogpt.connect_timeout', 15));
+        $requestedModel = (string) ($options['model'] ?? $this->defaultModel);
 
         try {
             $response = $this->postChatCompletions(
@@ -168,15 +175,19 @@ class NanoGptService
             Log::error('NanoGPT API error', [
                 'status' => $response->status(),
                 'body' => $response->body(),
-                'model' => (string) ($options['model'] ?? $this->defaultModel),
+                'model' => $requestedModel,
             ]);
 
             return null;
         }
 
         $usage = $response->json('usage');
-        $tokens = (int) ($usage['total_tokens'] ?? $this->estimateTokens($messages));
+        $estimatedTokens = $this->estimateTokens($messages);
+        $totalTokens = max(1, (int) ($usage['total_tokens'] ?? $estimatedTokens));
+        $promptTokens = max(0, (int) ($usage['prompt_tokens'] ?? $totalTokens));
+        $completionTokens = max(0, (int) ($usage['completion_tokens'] ?? max(0, $totalTokens - $promptTokens)));
         $content = $response->json('choices.0.message.content');
+        $model = (string) ($response->json('model') ?? $requestedModel);
 
         if (! is_string($content)) {
             return null;
@@ -184,7 +195,10 @@ class NanoGptService
 
         return [
             'content' => $content,
-            'tokens' => max(1, $tokens),
+            'prompt_tokens' => $promptTokens,
+            'completion_tokens' => $completionTokens,
+            'total_tokens' => $totalTokens,
+            'model' => $model,
         ];
     }
 
@@ -218,7 +232,13 @@ class NanoGptService
     }
 
     /**
-     * @param  array{content: string, tokens: int}|null  $result
+     * @param  array{
+     *     content: string,
+     *     prompt_tokens: int,
+     *     completion_tokens: int,
+     *     total_tokens: int,
+     *     model: string,
+     * }|null  $result
      * @return array<string, mixed>|null
      */
     private function decodeChatJsonResponse(?array $result): ?array
@@ -237,7 +257,12 @@ class NanoGptService
             return null;
         }
 
-        $decoded['_tokens_used'] = $result['tokens'];
+        $decoded['_usage'] = [
+            'prompt_tokens' => $result['prompt_tokens'],
+            'completion_tokens' => $result['completion_tokens'],
+            'total_tokens' => $result['total_tokens'],
+            'model' => $result['model'],
+        ];
 
         return $decoded;
     }

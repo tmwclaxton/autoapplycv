@@ -41,7 +41,7 @@ class ApplicationDraftOrchestratorService
      * @param  array<int, array{id: int, ref?: string|null, label: string, field_type?: string, max_chars?: int|null, options?: array<int, string>|null}>  $fields
      * @param  array<string, mixed>  $job
      * @param  array<string, mixed>  $settings
-     * @param  callable(int, array<int, array{id: int, ref?: string|null, label: string, answer: string|null}>): void  $onBatch
+     * @param  callable(int, array<int, array{id: int, ref?: string|null, label: string, answer: string|null}>, array{prompt_tokens: int, completion_tokens: int, total_tokens: int, model: string}): void  $onBatch
      * @param  callable(int, string): void  $onBatchError
      * @return array{batches_ok: int, batches_failed: int}
      */
@@ -98,7 +98,7 @@ class ApplicationDraftOrchestratorService
             };
         }
 
-        /** @var array<int, ?array<int, array{label: string, ref?: string|null, answer: string|null}>> $llmResults */
+        /** @var array<int, ?array{answers: array<int, array{label: string, ref?: string|null, answer: string|null}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int, model: string}}> $llmResults */
         $llmResults = Concurrency::run($llmTasks);
 
         $batchesOk = 0;
@@ -112,7 +112,8 @@ class ApplicationDraftOrchestratorService
                 continue;
             }
 
-            $answers = $llmResults[$batchIndex] ?? null;
+            $batchResult = $llmResults[$batchIndex] ?? null;
+            $answers = $batchResult['answers'] ?? null;
 
             if ($answers === null) {
                 $onBatchError($batchIndex, 'Could not generate answers for this batch.');
@@ -132,7 +133,16 @@ class ApplicationDraftOrchestratorService
             $this->analytics->recordExtensionQuestions(count($batch));
             $user->refresh();
 
-            $onBatch($batchIndex, $this->mapBatchAnswers($batch, $answers));
+            $onBatch(
+                $batchIndex,
+                $this->mapBatchAnswers($batch, $answers),
+                $batchResult['usage'] ?? [
+                    'prompt_tokens' => 0,
+                    'completion_tokens' => 0,
+                    'total_tokens' => 0,
+                    'model' => (string) config('cv.extraction_model'),
+                ],
+            );
             $batchesOk++;
         }
 

@@ -18,6 +18,8 @@ import {
     logWarn,
 } from './debug-log.js';
 import {
+    buildMechanicalInventoryFields,
+    canUseMechanicalInventory,
     compactFieldsForDraft,
     compactSnapshotForInventory,
     partitionFieldsByQuestionMemo,
@@ -51,7 +53,10 @@ void initDebugLog();
 
 let cachedProfile = null;
 let cacheTimestamp = 0;
+let cachedCvDocument = null;
+let cachedCvDocumentAt = 0;
 const CACHE_TTL_MS = 15 * 60 * 1000;
+const CV_CACHE_TTL_MS = 15 * 60 * 1000;
 const JOB_CONTEXT_CACHE_TTL_MS = 30 * 60 * 1000;
 const JOB_CONTEXT_PREFETCH_DEBOUNCE_MS = 5000;
 const SNAPSHOT_CACHE_TTL_MS = 3 * 60 * 1000;
@@ -66,6 +71,8 @@ const snapshotPrefetchLastAt = new Map();
 function invalidateProfileCache() {
     cachedProfile = null;
     cacheTimestamp = 0;
+    cachedCvDocument = null;
+    cachedCvDocumentAt = 0;
 }
 
 async function clearQuestionMemo() {
@@ -1051,8 +1058,9 @@ async function prefetchSnapshotForTab(tabId, tab) {
     snapshotPrefetchInFlight.add(pageUrl);
 
     try {
+        const profilePayload = await getProfile().catch(() => null);
         const formFrameId = await findBestFormFrameId(tabId);
-        const collectResponse = await collectSnapshotFromTab(tabId, formFrameId);
+        const collectResponse = await collectSnapshotFromTab(tabId, formFrameId, profilePayload);
 
         if (collectResponse?.success && collectResponse.snapshot?.elements?.length) {
             await setCachedSnapshot(pageUrl, collectResponse.snapshot, formFrameId);
@@ -1161,7 +1169,8 @@ async function collectInitialSnapshot(tabId, tab, perf = null) {
 
     perf?.start('snapshot.collect');
     const snapshotStartedAt = Date.now();
-    const collectResponse = await collectSnapshotFromTab(tabId, formFrameId);
+    const profilePayload = await getProfile().catch(() => null);
+    const collectResponse = await collectSnapshotFromTab(tabId, formFrameId, profilePayload);
     perf?.end('snapshot.collect');
 
     logInfo('background', 'snapshot.collect', 'Initial snapshot collected', {
@@ -1237,6 +1246,26 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
         message: 'Scanning form fields…',
     });
 
+    const mechanicalFields = buildMechanicalInventoryFields(initialCollect.snapshot);
+
+    if (canUseMechanicalInventory(initialCollect.snapshot)) {
+        perf?.start('inventory.mechanical');
+        perf?.end('inventory.mechanical');
+
+        logInfo('background', 'inventory.mechanical', 'Using mechanical field inventory', {
+            fieldCount: mechanicalFields.length,
+            elementCount: initialCollect.snapshot.elements.length,
+        }, tabId);
+
+        const fields = inventoryFieldsToDraftShape(mechanicalFields);
+
+        if (fields.length === 0) {
+            return { error: 'No empty fields found to draft.' };
+        }
+
+        return { fields, job, formFrameId, inventorySource: 'mechanical' };
+    }
+
     const inventoryPayload = {
         job,
         snapshot: compactSnapshotForInventory(initialCollect.snapshot),
@@ -1244,7 +1273,7 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
         page_title: tab.title,
     };
 
-    perf?.start('inventory.round-1');
+    perf?.start('inventory.llm');
 
     logDebug('background', 'inventory.request', 'Inventory request', {
         elementCount: inventoryPayload.snapshot?.elements?.length || 0,
@@ -1253,20 +1282,26 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
 
     const inventoryStartedAt = Date.now();
     const inventory = await requestFieldInventory(inventoryPayload);
-    perf?.end('inventory.round-1');
+    perf?.end('inventory.llm');
 
     logInfo('background', 'inventory.response', 'Inventory response', {
         durationMs: Date.now() - inventoryStartedAt,
         ok: inventory.ok,
         complete: inventory.complete,
+        source: inventory.source || 'llm',
         fieldCount: inventory.fields?.length || 0,
         message: inventory.message,
+        usage: inventory.usage ?? null,
         fields: (inventory.fields || []).map((field) => ({
             ref: field.ref,
             question: field.question || field.label,
             field_type: field.field_type,
         })),
     }, tabId);
+
+    if (inventory.usage) {
+        logInfo('background', 'usage.inventory', 'Inventory LLM token usage', inventory.usage, tabId);
+    }
 
     if (!inventory.ok) {
         if (inventory.subscription && cachedProfile) {
@@ -1286,7 +1321,7 @@ async function resolveDraftFieldsViaInventory(tabId, tab, settings, perf = null)
         return { error: 'No empty fields found to draft.' };
     }
 
-    return { fields, job, formFrameId };
+    return { fields, job, formFrameId, inventorySource: inventory.source || 'llm' };
 }
 
 async function runDraftAll(tabId, e2eOptions = null) {
@@ -1428,6 +1463,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
         let batchIndex = 0;
         const applyPromises = [];
+        const usageEvents = [];
+        let resumePromise = null;
         perf.start('draft.batch-1');
         const result = await requestDraftAllStream({
             job,
@@ -1435,6 +1472,18 @@ async function runDraftAll(tabId, e2eOptions = null) {
             settings,
             page_title: tab.title,
         }, async (event) => {
+            if (event.type === 'usage' && event.usage) {
+                usageEvents.push({
+                    phase: event.phase || 'draft',
+                    batch_index: event.batch_index ?? null,
+                    ...event.usage,
+                });
+                logInfo('background', 'usage.draft', 'Draft batch token usage', {
+                    batchIndex: event.batch_index,
+                    ...event.usage,
+                }, tabId);
+            }
+
             if (event.type === 'batch' && Array.isArray(event.answers)) {
                 const batchNumber = event.batch_index + 1;
                 const draftPhase = `draft.batch-${batchNumber}`;
@@ -1509,6 +1558,25 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
             if (event.type === 'complete' && event.subscription && cachedProfile) {
                 cachedProfile.subscription = event.subscription;
+
+                if (!resumePromise) {
+                    perf.start('resume.fill');
+                    resumePromise = sendTabMessage(tabId, { type: 'FILL_RESUME' }, formFrameId)
+                        .then((resumeResult) => {
+                            perf.end('resume.fill');
+                            logInfo('background', 'fill.resume', 'FILL_RESUME result', resumeResult || {}, tabId);
+
+                            return resumeResult;
+                        })
+                        .catch((error) => {
+                            perf.end('resume.fill');
+                            logWarn('background', 'fill.resume', 'FILL_RESUME failed (best-effort)', {
+                                error: error instanceof Error ? error.message : error,
+                            }, tabId);
+
+                            return null;
+                        });
+                }
             }
         });
 
@@ -1549,18 +1617,34 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
         broadcastDraftEvent('DRAFT_ALL_DONE', { message, pendingCount });
 
-        try {
-            perf.start('resume.fill');
-            logDebug('background', 'fill.resume', 'Sending FILL_RESUME to tab', { formFrameId }, tabId);
-            const resumeResult = await sendTabMessage(tabId, { type: 'FILL_RESUME' }, formFrameId);
-            perf.end('resume.fill');
-            logInfo('background', 'fill.resume', 'FILL_RESUME result', resumeResult || {}, tabId);
-        } catch (error) {
-            perf.end('resume.fill');
-            logWarn('background', 'fill.resume', 'FILL_RESUME failed (best-effort)', {
-                error: error instanceof Error ? error.message : error,
-            }, tabId);
+        if (resumePromise) {
+            void resumePromise;
+        } else {
+            try {
+                perf.start('resume.fill');
+                logDebug('background', 'fill.resume', 'Sending FILL_RESUME to tab', { formFrameId }, tabId);
+                const resumeResult = await sendTabMessage(tabId, { type: 'FILL_RESUME' }, formFrameId);
+                perf.end('resume.fill');
+                logInfo('background', 'fill.resume', 'FILL_RESUME result', resumeResult || {}, tabId);
+            } catch (error) {
+                perf.end('resume.fill');
+                logWarn('background', 'fill.resume', 'FILL_RESUME failed (best-effort)', {
+                    error: error instanceof Error ? error.message : error,
+                }, tabId);
+            }
         }
+
+        const tokenUsage = usageEvents.reduce((totals, event) => ({
+            prompt_tokens: totals.prompt_tokens + (event.prompt_tokens || 0),
+            completion_tokens: totals.completion_tokens + (event.completion_tokens || 0),
+            total_tokens: totals.total_tokens + (event.total_tokens || 0),
+            batches: totals.batches + 1,
+        }), {
+            prompt_tokens: 0,
+            completion_tokens: 0,
+            total_tokens: 0,
+            batches: 0,
+        });
 
         perf.summary({
             fieldCount: fields.length,
@@ -1568,6 +1652,9 @@ async function runDraftAll(tabId, e2eOptions = null) {
             aiFieldCount: remainingFields.length,
             batchesApplied: batchIndex,
             url: tab.url,
+            inventorySource: resolved.inventorySource || 'llm',
+            tokenUsage,
+            usageBreakdown: usageEvents,
         });
 
         return { success: true, message };
@@ -1660,6 +1747,12 @@ async function getProfile() {
 }
 
 async function getCvDocument() {
+    const now = Date.now();
+
+    if (cachedCvDocument && (now - cachedCvDocumentAt) < CV_CACHE_TTL_MS) {
+        return cachedCvDocument;
+    }
+
     const profileData = await getProfile();
     const documents = profileData.documents || [];
     const cvDocument = documents.find((document) => document.category === 'cv') || documents[0];
@@ -1669,12 +1762,14 @@ async function getCvDocument() {
     }
 
     const payload = await downloadProfileDocument(cvDocument.id);
-
-    return {
+    cachedCvDocument = {
         base64: `data:${payload.mimeType};base64,${payload.base64}`,
         fileName: payload.fileName,
         mimeType: payload.mimeType,
     };
+    cachedCvDocumentAt = now;
+
+    return cachedCvDocument;
 }
 
 async function assistCoverLetter(message) {

@@ -72,7 +72,7 @@ class ApplicationAssistantController extends Controller
 
         return response()->json([
             'success' => true,
-            'answers' => $answers,
+            'answers' => $answers['answers'],
             'autofill_cost' => $cost,
             'subscription' => $this->usage->summary($user),
         ]);
@@ -112,15 +112,19 @@ class ApplicationAssistantController extends Controller
             ], 502);
         }
 
-        $this->usage->recordAutofill($user, $cost);
-        $this->analytics->recordExtensionQuestions();
+        if (($result['source'] ?? 'llm') === 'llm') {
+            $this->usage->recordAutofill($user, $cost);
+            $this->analytics->recordExtensionQuestions();
+        }
 
         return response()->json([
             'success' => true,
             'fields' => $result['fields'],
             'complete' => $result['complete'],
             'next_actions' => $result['next_actions'],
-            'autofill_cost' => $cost,
+            'source' => $result['source'] ?? 'llm',
+            'usage' => $result['usage'] ?? null,
+            'autofill_cost' => ($result['source'] ?? 'llm') === 'llm' ? $cost : 0,
             'subscription' => $this->usage->summary($user),
         ]);
     }
@@ -348,7 +352,7 @@ class ApplicationAssistantController extends Controller
 
         return response()->json([
             'success' => true,
-            'answer' => $answers[0]['answer'] ?? null,
+            'answer' => $answers['answers'][0]['answer'] ?? null,
             'label' => $field['label'],
             'autofill_cost' => $cost,
             'subscription' => $this->usage->summary($user),
@@ -394,7 +398,13 @@ class ApplicationAssistantController extends Controller
                     $validated['job'],
                     $fields,
                     $validated['settings'] ?? [],
-                    static function (int $batchIndex, array $answers) use ($emit): void {
+                    static function (int $batchIndex, array $answers, array $usage) use ($emit): void {
+                        $emit([
+                            'type' => 'usage',
+                            'phase' => 'draft',
+                            'batch_index' => $batchIndex,
+                            'usage' => $usage,
+                        ]);
                         $emit([
                             'type' => 'batch',
                             'batch_index' => $batchIndex,

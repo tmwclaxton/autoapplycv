@@ -184,6 +184,8 @@ export async function requestFieldInventory(body) {
         fields: data.fields || [],
         complete: data.complete === true,
         next_actions: data.next_actions || [],
+        source: data.source || 'llm',
+        usage: data.usage || null,
         subscription: data.subscription,
     };
 }

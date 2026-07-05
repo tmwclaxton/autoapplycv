@@ -23,23 +23,38 @@ class ApplicationAssistantService
      * @param  array<int, array{label: string, ref?: string, field_type?: string, max_chars?: int, options?: array<int, string>}>  $questions
      * @param  array<string, mixed>  $job
      * @param  array<string, mixed>  $settings
-     * @return array<int, array{label: string, ref?: string, answer: string|null}>|null
+     * @return array{
+     *     answers: array<int, array{label: string, ref?: string, answer: string|null}>,
+     *     usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int, model: string},
+     * }|null
      */
     public function answerQuestions(CvProfile $profile, array $job, array $questions, array $settings = []): ?array
     {
         if ($questions === []) {
-            return [];
+            return [
+                'answers' => [],
+                'usage' => [
+                    'prompt_tokens' => 0,
+                    'completion_tokens' => 0,
+                    'total_tokens' => 0,
+                    'model' => (string) config('cv.extraction_model'),
+                ],
+            ];
         }
 
+        $model = (string) config('cv.extraction_model');
+        $needsFullProfile = $this->batchNeedsFullProfile($questions);
         $payload = $this->nanoGpt->chatJson([
             [
                 'role' => 'system',
-                'content' => $this->systemPrompt($profile, $settings),
+                'content' => $needsFullProfile
+                    ? $this->systemPrompt($profile, $settings)
+                    : $this->compactSystemPrompt($profile, $settings),
             ],
             [
                 'role' => 'user',
                 'content' => json_encode([
-                    'job' => $job,
+                    'job' => $this->compactJobForQuestions($job, $needsFullProfile),
                     'questions' => $questions,
                     'instructions' => 'Return JSON: {"answers":[{"label":"exact label from input","ref":"exact ref when provided in input","answer":"string or null"}]}. '
                         .'When a question includes ref, you MUST echo that exact ref on the matching answer row. '
@@ -53,7 +68,7 @@ class ApplicationAssistantService
                 ], JSON_THROW_ON_ERROR),
             ],
         ], [
-            'model' => config('cv.extraction_model'),
+            'model' => $model,
             'temperature' => 0.4,
         ]);
 
@@ -93,7 +108,107 @@ class ApplicationAssistantService
             $answers[] = $entry;
         }
 
-        return $answers;
+        $usage = is_array($payload['_usage'] ?? null) ? $payload['_usage'] : [
+            'prompt_tokens' => 0,
+            'completion_tokens' => 0,
+            'total_tokens' => 0,
+            'model' => $model,
+        ];
+
+        return [
+            'answers' => $answers,
+            'usage' => $usage,
+        ];
+    }
+
+    /**
+     * @param  array<int, array{label: string, ref?: string, field_type?: string, max_chars?: int|null, options?: array<int, string>|null}>  $questions
+     */
+    private function batchNeedsFullProfile(array $questions): bool
+    {
+        foreach ($questions as $question) {
+            if ($this->questionNeedsFullProfile($question)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param  array{label: string, field_type?: string, max_chars?: int|null}  $question
+     */
+    private function questionNeedsFullProfile(array $question): bool
+    {
+        $label = mb_strtolower(trim($question['label'] ?? ''));
+        $fieldType = $question['field_type'] ?? 'text';
+        $maxChars = (int) ($question['max_chars'] ?? 0);
+
+        if ($fieldType === 'textarea' && $maxChars >= 500) {
+            return true;
+        }
+
+        $prosePatterns = [
+            'cover letter',
+            'covering letter',
+            'motivation',
+            'why do you want',
+            'why this role',
+            'why are you interested',
+            'tell us about yourself',
+            'describe your experience',
+            'additional information',
+            'personal statement',
+        ];
+
+        foreach ($prosePatterns as $pattern) {
+            if (str_contains($label, $pattern)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param  array<string, mixed>  $job
+     * @return array<string, mixed>
+     */
+    private function compactJobForQuestions(array $job, bool $needsFullProfile): array
+    {
+        if ($needsFullProfile) {
+            return $job;
+        }
+
+        return [
+            'title' => $job['title'] ?? null,
+            'company' => $job['company'] ?? null,
+            'location' => $job['location'] ?? null,
+        ];
+    }
+
+    /**
+     * @param  array<string, mixed>  $settings
+     */
+    private function compactSystemPrompt(CvProfile $profile, array $settings = []): string
+    {
+        $structured = json_encode([
+            'full_name' => $profile->full_name,
+            'headline' => $profile->headline,
+            'email' => $profile->email,
+            'phone' => $profile->phone,
+            'location' => $profile->location,
+            'city' => $profile->city,
+            'country' => $profile->country,
+            'linkedin_url' => $profile->linkedin_url,
+            'summary' => mb_substr((string) ($profile->summary ?? ''), 0, 600),
+            'skills' => array_slice((array) ($profile->skills ?? []), 0, 20),
+            'years_of_experience' => data_get($settings, 'yearsOfExperience') ?? data_get($settings, 'years_of_experience'),
+            'application_settings' => $settings,
+        ], JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE);
+
+        return "You help a job seeker answer short employer application questions using ONLY this profile summary:\n{$structured}\n\n"
+            .$this->humanWritingGuidelines();
     }
 
     /**

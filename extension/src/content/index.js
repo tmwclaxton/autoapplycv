@@ -499,7 +499,11 @@ async function runFieldHighlightRefresh() {
     }
 }
 
-async function collectDraftContext() {
+async function collectDraftContext(injectedProfile = null) {
+    if (injectedProfile?.profile) {
+        profile = injectedProfile;
+    }
+
     const profileData = await ensureProfileLoaded();
 
     if (!profileData?.profile) {
@@ -555,7 +559,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
 
         if (message.type === 'BUILD_FIELD_SNAPSHOT') {
-            sendResponse(await collectDraftContext());
+            sendResponse(await collectDraftContext(message.profilePayload));
 
             return;
         }
@@ -569,12 +573,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 let method = null;
 
                 if (answer.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {
-                    filled = await AutoCVApplyFieldInventory.applyAnswerByRefAllFrames(document, answer.ref, answer.answer);
+                    filled = await AutoCVApplyFieldInventory.applyAnswerByRef(document, answer.ref, answer.answer);
                     method = 'ref';
                 }
 
                 if (!filled && answer.label) {
-                    filled = await AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(document, answer.label, answer.answer);
+                    filled = await AutoCVApplyFormHeuristics.applyAnswerByLabel(document, answer.label, answer.answer);
                     method = method ? `${method}+label` : 'label';
                 }
 
@@ -642,12 +646,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             let method = null;
 
             if (message.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {
-                filled = await AutoCVApplyFieldInventory.applyAnswerByRefAllFrames(document, message.ref, message.answer);
+                filled = await AutoCVApplyFieldInventory.applyAnswerByRef(document, message.ref, message.answer);
                 method = 'ref';
             }
 
             if (!filled && message.label) {
-                filled = await AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(document, message.label, message.answer);
+                filled = await AutoCVApplyFormHeuristics.applyAnswerByLabel(document, message.label, message.answer);
                 method = method ? `${method}+label` : 'label';
             }
 

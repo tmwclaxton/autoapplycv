@@ -33,6 +33,12 @@ class ApplicationDraftTest extends TestCase
                 'answers' => [
                     ['label' => 'Why this role?', 'answer' => 'I enjoy building reliable systems.'],
                 ],
+                '_usage' => [
+                    'prompt_tokens' => 500,
+                    'completion_tokens' => 20,
+                    'total_tokens' => 520,
+                    'model' => 'openai/gpt-4.1-mini',
+                ],
             ]);
         });
 
@@ -71,8 +77,24 @@ class ApplicationDraftTest extends TestCase
 
         $this->mock(NanoGptService::class, function (MockInterface $mock): void {
             $mock->shouldReceive('chatJson')->twice()->andReturn(
-                ['answers' => [['ref' => 'f0', 'label' => 'Question one', 'answer' => 'Answer one']]],
-                ['answers' => [['ref' => 'f1', 'label' => 'Question two', 'answer' => 'Answer two']]],
+                [
+                    'answers' => [['ref' => 'f0', 'label' => 'Question one', 'answer' => 'Answer one']],
+                    '_usage' => [
+                        'prompt_tokens' => 900,
+                        'completion_tokens' => 40,
+                        'total_tokens' => 940,
+                        'model' => 'openai/gpt-4.1-mini',
+                    ],
+                ],
+                [
+                    'answers' => [['ref' => 'f1', 'label' => 'Question two', 'answer' => 'Answer two']],
+                    '_usage' => [
+                        'prompt_tokens' => 850,
+                        'completion_tokens' => 35,
+                        'total_tokens' => 885,
+                        'model' => 'openai/gpt-4.1-mini',
+                    ],
+                ],
             );
         });
 
@@ -93,6 +115,7 @@ class ApplicationDraftTest extends TestCase
         $body = $response->streamedContent();
 
         $this->assertStringContainsString('"type":"batch"', $body);
+        $this->assertStringContainsString('"type":"usage"', $body);
         $this->assertStringContainsString('"type":"complete"', $body);
         $this->assertStringContainsString('Answer one', $body);
         $this->assertStringContainsString('Answer two', $body);

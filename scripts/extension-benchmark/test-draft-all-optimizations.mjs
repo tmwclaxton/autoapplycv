@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import {
+    buildMechanicalInventoryFields,
+    canUseMechanicalInventory,
     matchMemoAnswer,
     normalizeQuestionLabel,
     partitionFieldsByQuestionMemo,
@@ -44,5 +46,24 @@ const { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo([
 assert(memoAnswers.length === 1, 'partitionFieldsByQuestionMemo should return memo hits');
 assert(remainingFields.length === 1, 'partitionFieldsByQuestionMemo should exclude memo hits from AI fields');
 assert(remainingFields[0].label === 'Cover letter', 'remaining fields should preserve non-memo items');
+
+const mechanicalSnapshot = {
+    elements: [
+        { ref: 'f0', question: 'Full name', field_type: 'text' },
+        { ref: 'f1', question: 'Email', field_type: 'email' },
+        { ref: 'f2', question: 'Phone', field_type: 'tel' },
+    ],
+    controls: [],
+};
+
+assert(canUseMechanicalInventory(mechanicalSnapshot), 'simple snapshots should use mechanical inventory');
+assert(buildMechanicalInventoryFields(mechanicalSnapshot).length === 3, 'mechanical inventory should map all elements');
+
+const wizardSnapshot = {
+    elements: mechanicalSnapshot.elements,
+    controls: [{ ref: 'c0', name: 'Continue' }],
+};
+
+assert(!canUseMechanicalInventory(wizardSnapshot), 'wizard controls should disable mechanical inventory');
 
 console.log('draft-all-optimizations tests passed');

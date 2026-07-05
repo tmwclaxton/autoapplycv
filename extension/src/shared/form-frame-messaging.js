@@ -173,10 +173,13 @@ export async function collectFieldsFromTab(tabId, frameId) {
     return sendTabMessage(tabId, { type: 'COLLECT_DRAFTABLE_FIELDS' }, resolvedFrameId);
 }
 
-export async function collectSnapshotFromTab(tabId, frameId) {
+export async function collectSnapshotFromTab(tabId, frameId, profilePayload = null) {
     const resolvedFrameId = await resolveFormFrameId(tabId, frameId);
 
-    return sendTabMessage(tabId, { type: 'BUILD_FIELD_SNAPSHOT' }, resolvedFrameId);
+    return sendTabMessage(tabId, {
+        type: 'BUILD_FIELD_SNAPSHOT',
+        profilePayload,
+    }, resolvedFrameId);
 }
 
 export async function clickInventoryRefOnTab(tabId, ref, frameId) {

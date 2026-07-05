@@ -200,6 +200,68 @@ export function shouldForceInventoryComplete(snapshot, inventory) {
     return true;
 }
 
+const GENERIC_QUESTION_PATTERNS = [
+    /^field\b/u,
+    /^input\b/u,
+    /^select\b/u,
+    /^choose one\b/u,
+    /^click here\b/u,
+];
+
+function isGenericQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized || normalized.length < 2) {
+        return true;
+    }
+
+    return GENERIC_QUESTION_PATTERNS.some((pattern) => pattern.test(normalized));
+}
+
+export function buildMechanicalInventoryFields(snapshot) {
+    const elements = snapshot?.elements || [];
+
+    return elements
+        .filter((element) => element?.ref && element?.question && element.field_type !== 'file')
+        .map((element) => ({
+            ref: element.ref,
+            question: element.question,
+            field_type: element.field_type || 'text',
+            max_chars: element.max_chars ?? null,
+            options: element.options ?? null,
+        }));
+}
+
+export function canUseMechanicalInventory(snapshot) {
+    const elements = snapshot?.elements || [];
+    const controls = snapshot?.controls || [];
+    const fields = buildMechanicalInventoryFields(snapshot);
+
+    if (fields.length === 0) {
+        return false;
+    }
+
+    if (controls.length > 0) {
+        return false;
+    }
+
+    const refs = new Set();
+
+    for (const field of fields) {
+        if (refs.has(field.ref)) {
+            return false;
+        }
+
+        refs.add(field.ref);
+
+        if (isGenericQuestionLabel(field.question)) {
+            return false;
+        }
+    }
+
+    return elements.length >= 3;
+}
+
 export function isTextLikeFieldType(fieldType) {
     if (!fieldType || fieldType === 'text') {
         return true;

@@ -527,6 +527,36 @@ const AutoCVApplyFormHeuristics = (() => {
         return options;
     }
 
+    function waitForComboboxOptions(doc, element, timeoutMs = 800) {
+        const existing = collectComboboxOptions(doc, element);
+
+        if (existing.length > 0) {
+            return Promise.resolve(existing);
+        }
+
+        return new Promise((resolve) => {
+            const timeout = setTimeout(() => {
+                observer.disconnect();
+                resolve(collectComboboxOptions(doc, element));
+            }, timeoutMs);
+
+            const observer = new MutationObserver(() => {
+                const options = collectComboboxOptions(doc, element);
+
+                if (options.length > 0) {
+                    clearTimeout(timeout);
+                    observer.disconnect();
+                    resolve(options);
+                }
+            });
+
+            observer.observe(doc.body || doc.documentElement, {
+                childList: true,
+                subtree: true,
+            });
+        });
+    }
+
     async function setAshbyComboboxValue(element, value) {
         if (!element || value === null || value === undefined || value === '') {
             heuristicsLog('warn', 'apply.combobox', 'Combobox fill skipped — empty value or element', {});
@@ -547,12 +577,7 @@ const AutoCVApplyFormHeuristics = (() => {
         fillReactTextControl(element, stringValue);
 
         const normalizedAnswer = normalizeOption(stringValue);
-        let options = collectComboboxOptions(doc, element);
-
-        for (let attempt = 0; attempt < 6 && options.length === 0; attempt += 1) {
-            await sleep(250);
-            options = collectComboboxOptions(doc, element);
-        }
+        let options = await waitForComboboxOptions(doc, element);
 
         heuristicsLog('debug', 'apply.combobox', 'Combobox options collected', {
             optionCount: options.length,
@@ -1393,7 +1418,7 @@ const AutoCVApplyFormHeuristics = (() => {
         element.focus();
         dispatchPointerClick(element);
 
-        for (let attempt = 0; attempt < 4; attempt += 1) {
+        for (let attempt = 0; attempt < 2; attempt += 1) {
             const iti = readIntlTelInputInstance(element);
 
             if (iti?.setNumber) {
@@ -1420,7 +1445,9 @@ const AutoCVApplyFormHeuristics = (() => {
                 }
             }
 
-            await sleep(attempt === 0 ? 80 : 160);
+            if (attempt === 0) {
+                await sleep(40);
+            }
         }
 
         fillReactTextControl(element, stringValue);
