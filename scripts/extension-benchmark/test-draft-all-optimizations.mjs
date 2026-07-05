@@ -19,7 +19,7 @@ const memo = {
 };
 
 assert(
-    normalizeQuestionLabel('  Why — do you want this role?  ') === 'why do you want this role',
+    normalizeQuestionLabel('  Why - do you want this role?  ') === 'why do you want this role',
     'normalizeQuestionLabel should collapse punctuation and whitespace',
 );
 

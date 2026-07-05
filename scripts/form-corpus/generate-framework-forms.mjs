@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Generate 100 framework-style synthetic form fixtures (syn-fw-*).
- * Run standalone — does not regenerate existing syn-basic/syn-workday/etc.
+ * Run standalone - does not regenerate existing syn-basic/syn-workday/etc.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -263,7 +263,7 @@ ${labeledTextarea(pick(covers, index), 500)}
     return variants[index % variants.length]();
 }
 
-/** Web components — custom elements with nested form (light DOM; simulates WC hosting) */
+/** Web components - custom elements with nested form (light DOM; simulates WC hosting) */
 function buildShadowPage(index) {
     const name = pick(names, index);
     const email = pick(emails, index);
@@ -319,7 +319,7 @@ ${labeledTextarea(pick(covers, index), 450)}`),
 </div>
 ${ariaRadiogroup(pick(visas, index), ['Yes', 'No', 'Unsure'])}`),
         () => formShell(`Conditional sections ${index + 1}`, `
-<div role="group" aria-labelledby="step1-label"><p id="step1-label">Step 1 — Contact</p>
+<div role="group" aria-labelledby="step1-label"><p id="step1-label">Step 1 - Contact</p>
 <label for="cond-name">${name}</label><input id="cond-name" name="cond-name" type="text">
 <label for="cond-email">${email}</label><input id="cond-email" name="cond-email" type="email">
 <label for="cond-phone">${phone}</label><input id="cond-phone" name="cond-phone" type="tel">
@@ -354,7 +354,7 @@ ${continueBtn('Next step')}
 </div>`);
 }
 
-/** Iframe srcdoc — main doc holds extractable fields; iframe adds nested DOM noise */
+/** Iframe srcdoc - main doc holds extractable fields; iframe adds nested DOM noise */
 function buildIframePage(index) {
     const name = pick(names, index);
     const email = pick(emails, index);
@@ -383,7 +383,7 @@ function buildAshbyPage(index) {
 
     return shell(`Ashby-style apply ${index + 1}`, `
 <main class="_container_ud4nd_29">
-<h1 class="_title_ud4nd_47">Apply — Role ${index + 1}</h1>
+<h1 class="_title_ud4nd_47">Apply - Role ${index + 1}</h1>
 <form class="_applicationForm_ud4nd_61" action="/apply" method="post">
 <div class="_fieldEntry_ud4nd_85">
 <label class="_label_ud4nd_91" for="ashby-name">${name}</label>

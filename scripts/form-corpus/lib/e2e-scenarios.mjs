@@ -260,7 +260,7 @@ export function buildE2eManifest() {
     return {
         version: 1,
         generated_at: new Date().toISOString(),
-        description: 'Extension E2E scenario manifest — Playwright with real extension and mocked assist API.',
+        description: 'Extension E2E scenario manifest - Playwright with real extension and mocked assist API.',
         target_count: TARGET_SCENARIO_COUNT,
         thresholds: {
             critical_pass_rate: 1,

@@ -82,7 +82,7 @@ const computedEarliestStart = computed(() =>
         <div class="grid gap-4 sm:grid-cols-3">
             <div>
                 <label for="field-expected-salary-weekly" class="postbox-label"
-                    >Expected salary — weekly (optional)</label
+                    >Expected salary - weekly (optional)</label
                 >
                 <input
                     id="field-expected-salary-weekly"
@@ -97,7 +97,7 @@ const computedEarliestStart = computed(() =>
 
             <div>
                 <label for="field-expected-salary-monthly" class="postbox-label"
-                    >Expected salary — monthly (optional)</label
+                    >Expected salary - monthly (optional)</label
                 >
                 <input
                     id="field-expected-salary-monthly"
@@ -112,7 +112,7 @@ const computedEarliestStart = computed(() =>
 
             <div>
                 <label for="field-expected-salary-yearly" class="postbox-label"
-                    >Expected salary — yearly (optional)</label
+                    >Expected salary - yearly (optional)</label
                 >
                 <input
                     id="field-expected-salary-yearly"

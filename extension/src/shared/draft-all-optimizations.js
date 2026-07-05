@@ -32,7 +32,7 @@ function parseJobTitleFromPageTitle(pageTitle, company) {
         return null;
     }
 
-    const separators = [' | ', ' - ', ' — ', ' – ', ' at '];
+    const separators = [' | ', ' - ', ' \u2014 ', ' \u2013 ', ' at '];
 
     for (const separator of separators) {
         const parts = title.split(separator).map((part) => part.trim()).filter(Boolean);

@@ -83,7 +83,7 @@ function renderLogs() {
                     <span class="level level-${entry.level}">${entry.level}</span>
                     <span class="time">${formatTime(entry.timestamp)}</span>
                     <span class="source">${escapeHtml(entry.source || '')}</span>
-                    <span class="message"><strong>${escapeHtml(entry.phase || '')}</strong> — ${escapeHtml(entry.message || '')}</span>
+                    <span class="message"><strong>${escapeHtml(entry.phase || '')}</strong> - ${escapeHtml(entry.message || '')}</span>
                     <span class="phase">${entry.tabId != null ? `tab ${entry.tabId}` : ''}</span>
                 </div>
                 ${dataBlock}

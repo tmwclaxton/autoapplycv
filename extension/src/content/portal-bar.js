@@ -1,5 +1,5 @@
 /**
- * On-page Draft All control — isolated from host page CSS via shadow DOM.
+ * On-page Draft All control - isolated from host page CSS via shadow DOM.
  */
 const AutoCVApplyPortalBar = (() => {
     let hostElement = null;

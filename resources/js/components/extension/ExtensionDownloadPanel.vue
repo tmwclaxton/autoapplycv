@@ -208,7 +208,7 @@ function selectBrowser(browser: BrowserChoice): void {
                             class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
                             >extension/dist</code
                         >
-                        folder — not
+                        folder - not
                         <code
                             class="bg-postbox-grey px-1 py-0.5 font-mono text-xs"
                             >extension/</code

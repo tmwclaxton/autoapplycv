@@ -151,7 +151,7 @@ for (let i = 0; i < fieldLabels.name.length; i += 1) {
         inputRow(fieldLabels.phone[i], 'tel'),
         inputRow(fieldLabels.linkedin[i], 'url'),
     ].join('\n');
-    addScenario(id, 'basic', `Application — ${fieldLabels.name[i]}`, shell(`Apply — ${fieldLabels.name[i]}`, body));
+    addScenario(id, 'basic', `Application - ${fieldLabels.name[i]}`, shell(`Apply - ${fieldLabels.name[i]}`, body));
 }
 
 for (let i = 0; i < 12; i += 1) {

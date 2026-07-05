@@ -91,7 +91,7 @@ function vetScenario(scenario) {
     }
 
     if (!existsSync(expectedPath)) {
-        return { status: 'rejected', issues: ['Missing expected JSON — run propose-expectations.mjs.'] };
+        return { status: 'rejected', issues: ['Missing expected JSON - run propose-expectations.mjs.'] };
     }
 
     const expected = JSON.parse(readFileSync(expectedPath, 'utf8'));

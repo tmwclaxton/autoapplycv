@@ -8,7 +8,7 @@ Application: [Discord Developer Portal](https://discord.com/developers/applicati
 
 | Field | Value |
 |-------|--------|
-| **Description** | Official AutoCVApply community bot. Get extension help, ATS tips, and product updates. Upload your CV once, autofill job forms on Greenhouse, Ashby, Workday & more — you review every field. |
+| **Description** | Official AutoCVApply community bot. Get extension help, ATS tips, and product updates. Upload your CV once, autofill job forms on Greenhouse, Ashby, Workday & more - you review every field. |
 | **Tags** | Productivity, Career, Chrome Extension, Job Search, AI Tools |
 | **Terms of Service** | https://autocvapply.com/terms |
 | **Privacy Policy** | https://autocvapply.com/privacy |
@@ -17,7 +17,7 @@ Application: [Discord Developer Portal](https://discord.com/developers/applicati
 **Bot tab**
 
 - Username: `AutoCVApply`
-- **Public Bot**: on (if you want others to add it to their servers — off for a single community server)
+- **Public Bot**: on (if you want others to add it to their servers - off for a single community server)
 - **Privileged intents**: leave off unless you build moderation that reads message content
 
 **OAuth2 → URL Generator**
@@ -34,7 +34,7 @@ npm run discord:invite
 ## Setup channels
 
 1. Create a Discord server (or use an existing one).
-2. Run `npm run discord:invite` and open the URL — add the bot to your server.
+2. Run `npm run discord:invite` and open the URL - add the bot to your server.
 3. Copy **Server ID** (Developer Mode → right-click server → Copy Server ID).
 4. Set `DISCORD_GUILD_ID=` in `.env`.
 5. Run:

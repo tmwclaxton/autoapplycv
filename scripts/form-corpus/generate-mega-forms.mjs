@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Generate 1000 synthetic mega-form fixtures (syn-mega-*).
- * Parametric templates with seeded randomness — no Firecrawl.
+ * Parametric templates with seeded randomness - no Firecrawl.
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -430,7 +430,7 @@ ${continueBtn('Continue')}
 
             return {
                 html: shell(`Ashby-style ${seq}`, `
-<main class="_container_ud4nd_29"><h1 class="_title_ud4nd_47">Apply — Role ${seq}</h1>
+<main class="_container_ud4nd_29"><h1 class="_title_ud4nd_47">Apply - Role ${seq}</h1>
 <form class="_applicationForm_ud4nd_61" action="/apply" method="post">
 ${contact.html.replace(/<label/g, '<div class="_fieldEntry_ud4nd_85"><label class="_label_ud4nd_91"').replace(/<input/g, '</div><input class="_input_ud4nd_97"')}
 <div class="_questionField_ud4nd_103">${labeledTextarea(`${pick(rng, COVERS)} (${seq})`, seq, 500)}</div>
@@ -572,7 +572,7 @@ ${continueBtn('Continue')}
 
             return {
                 html: formWrap(`Conditional ${seq}`, `
-<div role="group" aria-labelledby="step1-label-${seq}"><p id="step1-label-${seq}">Step 1 — Contact</p>${contact.html}</div>
+<div role="group" aria-labelledby="step1-label-${seq}"><p id="step1-label-${seq}">Step 1 - Contact</p>${contact.html}</div>
 ${hiddenRevealPanel(seq, hiddenFields, 'Show optional questions')}
 ${labeledSelect(`${pick(rng, LOCATIONS)} (${seq})`, seq, pickN(rng, LOC_OPTS, 4))}
 `),

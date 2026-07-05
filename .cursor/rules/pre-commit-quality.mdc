@@ -5,11 +5,12 @@ alwaysApply: true
 
 # Pre-commit quality checks
 
-Before creating a git commit — or before finishing a task that changed JS, Vue, or PHP — run these checks and fix failures:
+Before creating a git commit - or before finishing a task that changed JS, Vue, or PHP - run these checks and fix failures:
 
 ```bash
 npm run format:check    # if it fails: npm run format
 npm run lint:check      # if it fails: npm run lint
+npm run em-dash:check   # if it fails: npm run em-dash:fix
 ```
 
 For PHP changes, also run:
@@ -19,3 +20,14 @@ vendor/bin/pint --dirty --format agent
 ```
 
 Only commit when all applicable checks pass. If you auto-fixed issues, mention what was fixed in the commit message or summary.
+
+## Git hook (optional)
+
+To run the em-dash check automatically on every commit:
+
+```bash
+git config core.hooksPath .githooks
+chmod +x .githooks/pre-commit
+```
+
+The hook runs `npm run em-dash:check` and blocks the commit when em dashes are found.

@@ -11,6 +11,8 @@
         "format:check": "prettier --check resources/",
         "lint": "eslint . --fix",
         "lint:check": "eslint .",
+        "em-dash:check": "node scripts/check-no-em-dash.mjs",
+        "em-dash:fix": "node scripts/check-no-em-dash.mjs --fix",
         "types:check": "vue-tsc --noEmit",
         "form-corpus:generate": "node scripts/form-corpus/generate-synthetic.mjs",
         "form-corpus:generate-framework": "node scripts/form-corpus/generate-framework-forms.mjs",
@@ -47,6 +49,8 @@
         "benchmark:draft-all": "node scripts/extension-benchmark/draft-all-benchmark.mjs",
         "benchmark:draft-all:mock": "node scripts/extension-benchmark/mock-draft-all-flow.mjs --mode=optimized --iterations=8",
         "benchmark:draft-all:mock:baseline": "node scripts/extension-benchmark/mock-draft-all-flow.mjs --mode=baseline --iterations=8",
+        "test:apply-dom-verify": "node scripts/extension-benchmark/test-apply-dom-verify.mjs",
+        "test:pending-fields": "node scripts/extension-benchmark/test-pending-fields.mjs",
         "discord:invite": "node scripts/discord/setup-server.mjs",
         "discord:setup": "node scripts/discord/setup-server.mjs"
     },

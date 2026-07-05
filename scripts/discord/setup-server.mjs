@@ -55,7 +55,7 @@ const SERVER_LAYOUT = [
         channels: [
             {
                 name: 'welcome',
-                topic: 'Start here — read #rules, then say hello in #general.',
+                topic: 'Start here - read #rules, then say hello in #general.',
                 readonly: true,
             },
             {
@@ -99,11 +99,11 @@ const SERVER_LAYOUT = [
             },
             {
                 name: 'feature-requests',
-                topic: 'Ideas for AutoCVApply — one thread per idea please.',
+                topic: 'Ideas for AutoCVApply - one thread per idea please.',
             },
             {
                 name: 'showcase',
-                topic: 'Share wins — forms filled faster, offers landed, clever workflows.',
+                topic: 'Share wins - forms filled faster, offers landed, clever workflows.',
             },
         ],
     },
@@ -120,7 +120,7 @@ const WELCOME_MESSAGE = [
     'You found the community for people who\'d rather **apply to jobs** than retype their CV for the forty-seventh time.',
     '',
     '**What we do**',
-    'Upload your CV once → structured profile → Chrome extension autofill on real ATS forms (Greenhouse, Ashby, Workday, Lever, and more). **Draft All** drafts cover letters and awkward textareas. *You* review every field and click Submit — **we never auto-apply.**',
+    'Upload your CV once → structured profile → Chrome extension autofill on real ATS forms (Greenhouse, Ashby, Workday, Lever, and more). **Draft All** drafts cover letters and awkward textareas. *You* review every field and click Submit - **we never auto-apply.**',
     '',
     '**Get started**',
     '• [Sign up free →](https://autocvapply.com)',
@@ -138,11 +138,11 @@ const RULES_MESSAGE = [
     '',
     'Keep this a useful place for job hunters and contributors.',
     '',
-    '**1 · Be decent** — job hunting is hard enough; help each other out.',
-    '**2 · No spam** — no unsolicited DMs, referral farming, or drive-by self-promo.',
-    '**3 · Protect your account** — never post API tokens, connection JSON, or passwords in public channels.',
-    '**4 · Stay honest** — AutoCVApply helps you present *your* experience; don\'t invent qualifications.',
-    '**5 · Right channel, right question** — `#extension-help` for bugs · `#feature-requests` for ideas · `#ats-tips` for platform quirks',
+    '**1 · Be decent** - job hunting is hard enough; help each other out.',
+    '**2 · No spam** - no unsolicited DMs, referral farming, or drive-by self-promo.',
+    '**3 · Protect your account** - never post API tokens, connection JSON, or passwords in public channels.',
+    '**4 · Stay honest** - AutoCVApply helps you present *your* experience; don\'t invent qualifications.',
+    '**5 · Right channel, right question** - `#extension-help` for bugs · `#feature-requests` for ideas · `#ats-tips` for platform quirks',
     '',
     `[Terms of service](${PORTAL.termsUrl}) · [Privacy policy](${PORTAL.privacyUrl})`,
 ].join('\n');
@@ -153,16 +153,16 @@ const CHANNEL_PIN_MESSAGES = {
     announcements: [
         '📣 **Announcements**',
         '',
-        'Official product news from the AutoCVApply team — releases, maintenance windows, pricing changes, and anything that affects your account or extension.',
+        'Official product news from the AutoCVApply team - releases, maintenance windows, pricing changes, and anything that affects your account or extension.',
         '',
         '**@Team posts only.** React with 👍 so we know you\'ve seen important updates.',
         '',
-        '_Questions about a post? Ask in **#general** or **#extension-help** — not here._',
+        '_Questions about a post? Ask in **#general** or **#extension-help** - not here._',
     ].join('\n'),
     updates: [
         '🔄 **GitHub updates**',
         '',
-        'Every push to [`main`](https://github.com/tmwclaxton/autoapplycv/tree/main) posts here automatically — commit message, author, and link.',
+        'Every push to [`main`](https://github.com/tmwclaxton/autoapplycv/tree/main) posts here automatically - commit message, author, and link.',
         '',
         '**@Team posts only** (bot). Human announcements still go in **#announcements**.',
         '',
@@ -173,14 +173,14 @@ const CHANNEL_PIN_MESSAGES = {
         '',
         'Say hello, swap job-hunt war stories, celebrate offers, and talk careers.',
         '',
-        '**Before you post** — skim **#rules**. This isn\'t a support desk; for extension bugs head to **#extension-help**, for product ideas try **#feature-requests**.',
+        '**Before you post** - skim **#rules**. This isn\'t a support desk; for extension bugs head to **#extension-help**, for product ideas try **#feature-requests**.',
         '',
-        '_Friendly reminder: AutoCVApply fills forms — you still click Submit._',
+        '_Friendly reminder: AutoCVApply fills forms - you still click Submit._',
     ].join('\n'),
     'extension-help': [
         '🛠 **Extension help**',
         '',
-        'Connection JSON, autofill, **Draft All**, cover letters, billing, uploads — if the product misbehaved, ask here.',
+        'Connection JSON, autofill, **Draft All**, cover letters, billing, uploads - if the product misbehaved, ask here.',
         '',
         '**Include in your message**',
         '• Browser (Chrome / Firefox) + extension version',
@@ -188,14 +188,14 @@ const CHANNEL_PIN_MESSAGES = {
         '• What you expected vs what happened',
         '• Screenshot if you can (blur personal data)',
         '',
-        '⚠️ **Redact your API token** — never paste full connection JSON publicly.',
+        '⚠️ **Redact your API token** - never paste full connection JSON publicly.',
         '',
         'Docs: [autocvapply.com/how-to](https://autocvapply.com/how-to)',
     ].join('\n'),
     'ats-tips': [
         '🗺 **ATS tips & quirks**',
         '',
-        'The long tail of application forms — share what works (and what breaks) on:',
+        'The long tail of application forms - share what works (and what breaks) on:',
         'Greenhouse · Ashby · Workday · Lever · SmartRecruiters · Teamtailor · BambooHR · and everything else.',
         '',
         '**Great posts here**',
@@ -203,7 +203,7 @@ const CHANNEL_PIN_MESSAGES = {
         '• Fields AutoCVApply handles well vs ones that need manual touch',
         '• Screenshots with personal details blurred',
         '',
-        '_Verified against 1,850 form scenarios in our test corpus — real-world edge cases still welcome._',
+        '_Verified against 1,850 form scenarios in our test corpus - real-world edge cases still welcome._',
     ].join('\n'),
     'feature-requests': [
         '💡 **Feature requests**',
@@ -220,14 +220,14 @@ const CHANNEL_PIN_MESSAGES = {
     showcase: [
         '🏆 **Showcase**',
         '',
-        'Wins worth sharing — forms filled in minutes, clever Draft All workflows, offers landed, before/after time saved.',
+        'Wins worth sharing - forms filled in minutes, clever Draft All workflows, offers landed, before/after time saved.',
         '',
         '**Post freely**',
         '• Screenshots & short screen recordings (blur employer names if you prefer)',
         '• Which platform and what AutoCVApply handled',
         '• Optional: what still needed a human touch',
         '',
-        '_Inspire the rest of us — job hunting is a grind and progress deserves a shout._',
+        '_Inspire the rest of us - job hunting is a grind and progress deserves a shout._',
     ].join('\n'),
 };
 
@@ -416,7 +416,7 @@ async function ensureBotPermissions() {
 
     if (!pinMessages) {
         console.warn(
-            'Warning: bot role is missing Pin Messages — posts will succeed but pins may fail.\n'
+            'Warning: bot role is missing Pin Messages - posts will succeed but pins may fail.\n'
             + `  Re-open: ${BOT_INVITE_URL}\n`,
         );
     }

@@ -120,7 +120,7 @@ class ApplicationAssistantServiceTest extends TestCase
             $profile,
             [[
                 'role' => 'user',
-                'content' => 'I’m moving to Harborford next month. Update my profile for UK applications — new contact details, location, and application preferences. Clear my old street address.',
+                'content' => 'I’m moving to Harborford next month. Update my profile for UK applications - new contact details, location, and application preferences. Clear my old street address.',
             ]],
             [],
             static function (array $payload) use (&$events): void {

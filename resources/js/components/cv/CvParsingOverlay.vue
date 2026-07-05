@@ -10,7 +10,7 @@ withDefaults(
     {
         title: 'Reading your CV…',
         description:
-            'Usually under a minute — large CVs can take a bit longer.',
+            'Usually under a minute - large CVs can take a bit longer.',
     },
 );
 </script>

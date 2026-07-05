@@ -45,7 +45,7 @@ function formatNumber(value: number): string {
         <PostboxPageHeader
             badge="Analytics"
             title="Product usage over time."
-            description="A public, aggregate view of autofilled answers, extension questions, and CV parses across all users. No personal data — just daily totals."
+            description="A public, aggregate view of autofilled answers, extension questions, and CV parses across all users. No personal data - just daily totals."
         />
 
         <div class="mb-8 grid gap-4 lg:grid-cols-3">
@@ -175,7 +175,7 @@ function formatNumber(value: number): string {
                     </p>
                     <p>
                         CV parses count successful AI extractions after upload.
-                        Totals are aggregated globally — we do not publish
+                        Totals are aggregated globally - we do not publish
                         per-user stats on this page.
                     </p>
                 </div>

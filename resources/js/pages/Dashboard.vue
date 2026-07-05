@@ -587,7 +587,7 @@ async function copyToken() {
             <h2 class="postbox-label">Extension connection</h2>
             <p class="mb-5 text-sm text-muted-foreground">
                 Generate a connection for the extension. We copy the JSON to
-                your clipboard automatically — paste it into the extension
+                your clipboard automatically - paste it into the extension
                 sidebar. We won't show it again.
             </p>
             <div v-if="extensionConnectionJson" class="mb-4 flex gap-2">

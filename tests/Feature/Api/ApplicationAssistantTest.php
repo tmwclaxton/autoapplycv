@@ -252,9 +252,9 @@ class ApplicationAssistantTest extends TestCase
 
         $this->mock(NanoGptService::class, function (MockInterface $mock): void {
             $mock->shouldReceive('chatJson')->once()->andReturn([
-                'message' => 'Based on your profile, my **secret skill** is building tools — fast.',
+                'message' => 'Based on your profile, my **secret skill** is building tools - fast.',
                 'profile_updates' => [],
-                'draft_answer' => 'I build **automation tools** — especially with Laravel.',
+                'draft_answer' => 'I build **automation tools** - especially with Laravel.',
             ]);
         });
 
@@ -397,7 +397,7 @@ class ApplicationAssistantTest extends TestCase
         $this->mock(NanoGptService::class, function (MockInterface $mock): void {
             $mock->shouldReceive('chatJson')->once()->andReturn([
                 'answers' => [
-                    ['label' => 'Why do you want this role?', 'answer' => 'Based on your profile, I build **Laravel APIs** — reliably.'],
+                    ['label' => 'Why do you want this role?', 'answer' => 'Based on your profile, I build **Laravel APIs** - reliably.'],
                 ],
             ]);
         });

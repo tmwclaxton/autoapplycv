@@ -76,7 +76,7 @@ function formatDate(value: string): string {
                         {{
                             extensionUsage.estimated_minutes_saved > 0
                                 ? `~${formatNumber(extensionUsage.estimated_minutes_saved)} min`
-                                : '—'
+                                : '-'
                         }}
                     </p>
                     <p class="mt-1 text-xs text-muted-foreground">

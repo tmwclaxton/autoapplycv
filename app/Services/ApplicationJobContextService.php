@@ -30,7 +30,7 @@ class ApplicationJobContextService
                 'role' => 'system',
                 'content' => 'Extract job posting context from a browser page for a job application assistant. '
                     .'Return JSON only: {"title":"string|null","company":"string|null","location":"string|null","job_description":"string|null","source":"string|null"}. '
-                    .'Use the page title, URL, and visible text. Return null for unknown fields — do not invent employers, titles, or requirements. '
+                    .'Use the page title, URL, and visible text. Return null for unknown fields - do not invent employers, titles, or requirements. '
                     .'job_description should summarize the posting when enough text is present, otherwise null. '
                     .'source is a short label such as "company careers site" or "job board" when inferable.',
             ],

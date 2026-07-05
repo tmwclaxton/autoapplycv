@@ -233,7 +233,7 @@ const AutoCVApplyFieldInventory = (() => {
         const entry = refRegistry.get(ref);
 
         if (!entry || !answer) {
-            inventoryLog('warn', 'apply.ref', 'applyAnswerByRef — ref not in registry', {
+            inventoryLog('warn', 'apply.ref', 'applyAnswerByRef - ref not in registry', {
                 ref,
                 hasEntry: Boolean(entry),
             });

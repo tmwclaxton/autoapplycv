@@ -94,9 +94,9 @@ php artisan test --compact tests/Unit/Extension/FormFillExtensionE2eTest.php
 
 ## CI jobs
 
-**`php-tests`** — Laravel unit/feature tests excluding `playwright` and `extension-e2e` groups.
+**`php-tests`** - Laravel unit/feature tests excluding `playwright` and `extension-e2e` groups.
 
-**`extension-fill`** — Playwright install, `build:extension`, curated JSDOM verify, smoke Playwright tests (`FORM_CORPUS_PLAYWRIGHT=1`), optional extension E2E (`EXTENSION_E2E=1`, `continue-on-error`).
+**`extension-fill`** - Playwright install, `build:extension`, curated JSDOM verify, smoke Playwright tests (`FORM_CORPUS_PLAYWRIGHT=1`), optional extension E2E (`EXTENSION_E2E=1`, `continue-on-error`).
 
 ## Reports & fixtures
 
@@ -115,11 +115,11 @@ php artisan test --compact tests/Unit/Extension/FormFillExtensionE2eTest.php
 
 ## Maintenance workflow
 
-1. **Form heuristics change** — run `npm run form-corpus:fill-verify:smoke` locally; fix regressions before merging.
-2. **New ATS platform** — add vetted fixture, run `npm run form-corpus:build-curated`, update `SMOKE_PLATFORM_PICKS` in `lib/curated-manifest.mjs` if needed.
-3. **Visual baseline update** — `UPDATE_BASELINES=1 npm run form-corpus:visual-regression`, commit `tests/fixtures/form-fill-baselines/`.
-4. **E2E mock refresh** — `npm run form-corpus:generate-e2e-mocks` after expected/manifest changes.
-5. **Debug log golden** — capture `DEBUG_LOG_EXPORT` from E2E run, update `tests/fixtures/form-fill-logs/*.summary.json`.
+1. **Form heuristics change** - run `npm run form-corpus:fill-verify:smoke` locally; fix regressions before merging.
+2. **New ATS platform** - add vetted fixture, run `npm run form-corpus:build-curated`, update `SMOKE_PLATFORM_PICKS` in `lib/curated-manifest.mjs` if needed.
+3. **Visual baseline update** - `UPDATE_BASELINES=1 npm run form-corpus:visual-regression`, commit `tests/fixtures/form-fill-baselines/`.
+4. **E2E mock refresh** - `npm run form-corpus:generate-e2e-mocks` after expected/manifest changes.
+5. **Debug log golden** - capture `DEBUG_LOG_EXPORT` from E2E run, update `tests/fixtures/form-fill-logs/*.summary.json`.
 
 ## Curated verification tier
 
@@ -142,11 +142,11 @@ The curated tier (`fill-verify-curated.json`) selects ~90 scenarios for **accura
 
 ## Library modules
 
-- `lib/curated-manifest.mjs` — curated + smoke scenario selection
-- `lib/fill-verify-playwright.mjs` — Playwright apply/readback/a11y/banner
-- `lib/debug-log-analyzer.mjs` — golden summary replay
-- `lib/e2e-mock-server.mjs` — HTTP mock for extension E2E
-- `lib/fill-validation-runner.mjs` — HTML5 constraint validation
-- `lib/fill-a11y-runner.mjs` — accessibility state assertions
-- `lib/fill-error-detector.mjs` — post-fill error banner scan
-- `lib/fill-screenshot-diff.mjs` — Playwright pixel diff + baselines
+- `lib/curated-manifest.mjs` - curated + smoke scenario selection
+- `lib/fill-verify-playwright.mjs` - Playwright apply/readback/a11y/banner
+- `lib/debug-log-analyzer.mjs` - golden summary replay
+- `lib/e2e-mock-server.mjs` - HTTP mock for extension E2E
+- `lib/fill-validation-runner.mjs` - HTML5 constraint validation
+- `lib/fill-a11y-runner.mjs` - accessibility state assertions
+- `lib/fill-error-detector.mjs` - post-fill error banner scan
+- `lib/fill-screenshot-diff.mjs` - Playwright pixel diff + baselines

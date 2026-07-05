@@ -537,15 +537,15 @@ class ApplicationAssistantService
                 'role' => 'system',
                 'content' => 'Extract structured sidebar actions from an AutoCVApply assist conversation. '
                     .'Return JSON only: {"profile_updates":[{"field":"'.ProfileFieldRegistry::promptFieldIds().'","label":"human label","value":"proposed value, JSON array/object for list fields, or empty string to clear","reason":"why"}],"draft_answer":"optional paste-ready form answer or null"}. '
-                    .'You are the only source of Apply actions — infer every profile field the user asked to change from the conversation and assistant reply. '
-                    .'Return profile_updates when the user asked to update, set, change, clear, move, or correct a profile field and the assistant agreed, confirmed, or proposed a value — including future tense, brief confirmations, bare-name follow-ups, and "no I meant X not Y" corrections. '
+                    .'You are the only source of Apply actions - infer every profile field the user asked to change from the conversation and assistant reply. '
+                    .'Return profile_updates when the user asked to update, set, change, clear, move, or correct a profile field and the assistant agreed, confirmed, or proposed a value - including future tense, brief confirmations, bare-name follow-ups, and "no I meant X not Y" corrections. '
                     .'When the user lists comma-separated field commands such as "email alex@example.com, phone +44..., headline Senior Developer" (with or without "to" after each field name), return one profile_updates entry per field using the values from the user message. '
                     .'When the assistant reply lists concrete changes (bullets or dashes such as "Address line 1 cleared", "Town/city set to X", "location will show as Y"), return one profile_updates entry per field with the final proposed value. '
                     .'When the user asks to move or relocate, include location, city, and state/region when the assistant names them. '
                     .'When the user asks to update all location fields or says "location field too/though", return every related location field (location, city, state/region, postcode, address lines) using values from the conversation. '
                     .'Never treat UI questions ("where is the apply button"), greetings, or meta phrases ("field though") as field values. '
                     .($isConfirmation
-                        ? 'The latest user message confirms pending changes — return ALL agreed profile updates from the conversation using the final values stated by the user or assistant. '
+                        ? 'The latest user message confirms pending changes - return ALL agreed profile updates from the conversation using the final values stated by the user or assistant. '
                         : '')
                     .'Use empty string value when the user asked to clear or blank a field. '
                     .'Only set draft_answer when the user is drafting a form response and the assistant reply is paste-ready.',
@@ -619,7 +619,7 @@ class ApplicationAssistantService
                     .'Return JSON only: {"profile_updates":[{"field":"'.ProfileFieldRegistry::promptFieldIds().'","label":"human label","value":"proposed value","reason":""}]}. '
                     .'If the user asked to update/set/change a profile field to a specific value, return that update. '
                     .'Parse comma-separated lists with or without "to" (for example "email alex@example.com, phone +44..., headline Senior Developer"). '
-                    .'When the user says "location field though" or "too", they mean update location as well using values already discussed — not the words "field though". '
+                    .'When the user says "location field though" or "too", they mean update location as well using values already discussed - not the words "field though". '
                     .'Use the assistant reply to confirm the value when it names one (including future tense). '
                     .'Return {"profile_updates":[]} when there is no explicit profile field update request.',
             ],
@@ -874,7 +874,7 @@ class ApplicationAssistantService
     private function sanitizeAssistantText(string $text): string
     {
         $text = (string) preg_replace('/^Based on your profile,?\s*/iu', '', $text);
-        $text = str_replace(["\u{2014}", "\u{2013}", '—', '–'], '-', $text);
+        $text = str_replace(["\u{2014}", "\u{2013}"], '-', $text);
         $text = (string) preg_replace('/\*\*(.+?)\*\*/s', '$1', $text);
         $text = (string) preg_replace('/\*(.+?)\*/s', '$1', $text);
         $text = (string) preg_replace('/__(.+?)__/s', '$1', $text);
@@ -1098,7 +1098,7 @@ GUIDE;
             .'For profile or tooling questions, you may address the user directly, still in plain text. '
             .'When the user asks to update a profile field, confirm what will change in one short sentence only. '
             .'When they move location or ask to update all location fields, briefly confirm the full move (town, region, clearing old street address). '
-            .'Apply buttons are generated after your reply from structured profile_updates — wait for that step; never tell them to open the dashboard. '
+            .'Apply buttons are generated after your reply from structured profile_updates - wait for that step; never tell them to open the dashboard. '
             .'Do not claim the profile is already saved until they tap Apply.';
     }
 
@@ -1114,7 +1114,7 @@ GUIDE;
     private function chatResponseInstructions(): string
     {
         return 'Respond with JSON only: {"message":"your reply to the user","profile_updates":[{"field":"'.ProfileFieldRegistry::promptFieldIds().'","label":"human label","value":"proposed value, JSON array/object for list fields, or empty string to clear","reason":"why you suggest this"}],"draft_answer":"optional text to paste into a form field or null"}. '
-            .'profile_updates is required whenever the user asked to change profile fields — you are the only source of Apply actions. '
+            .'profile_updates is required whenever the user asked to change profile fields - you are the only source of Apply actions. '
             .'Use plain text only in message and draft_answer: no markdown, no bullet syntax, no bold, no headings, and use normal hyphens (-) instead of em dashes. '
             .'For application-form questions, message must be written in first person as the candidate and ready to paste into the employer form. '
             .'Put the same paste-ready first-person answer in draft_answer when focused_field is present or when the user is clearly drafting a form response. '

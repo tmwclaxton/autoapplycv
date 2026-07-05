@@ -41,3 +41,6 @@ jobs:
 
       - name: Lint Frontend
         run: npm run lint:check
+
+      - name: Check for em dashes
+        run: npm run em-dash:check

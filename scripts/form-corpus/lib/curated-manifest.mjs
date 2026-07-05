@@ -538,7 +538,7 @@ export function buildSmokeManifest(curatedManifest) {
     return {
         version: 1,
         generated_at: new Date().toISOString(),
-        description: 'Per-platform Playwright smoke tier — one critical scenario per ATS/platform.',
+        description: 'Per-platform Playwright smoke tier - one critical scenario per ATS/platform.',
         thresholds: {
             critical_pass_rate: 1,
             overall_pass_rate: 1,

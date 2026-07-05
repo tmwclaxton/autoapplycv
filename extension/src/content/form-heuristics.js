@@ -559,7 +559,7 @@ const AutoCVApplyFormHeuristics = (() => {
 
     async function setAshbyComboboxValue(element, value) {
         if (!element || value === null || value === undefined || value === '') {
-            heuristicsLog('warn', 'apply.combobox', 'Combobox fill skipped — empty value or element', {});
+            heuristicsLog('warn', 'apply.combobox', 'Combobox fill skipped - empty value or element', {});
 
             return false;
         }
@@ -1461,7 +1461,7 @@ const AutoCVApplyFormHeuristics = (() => {
 
     async function setFieldValue(element, value) {
         if (!element || value === null || value === undefined || value === '') {
-            heuristicsLog('warn', 'apply.setFieldValue', 'setFieldValue skipped — empty', {});
+            heuristicsLog('warn', 'apply.setFieldValue', 'setFieldValue skipped - empty', {});
 
             return false;
         }
@@ -1550,7 +1550,7 @@ const AutoCVApplyFormHeuristics = (() => {
                     forEachIframeDocumentIn(doc, callback);
                 }
             } catch {
-                // Cross-origin iframe — skip.
+                // Cross-origin iframe - skip.
             }
         }
     }
@@ -1565,7 +1565,7 @@ const AutoCVApplyFormHeuristics = (() => {
                     forEachIframeDocumentIn(doc, callback);
                 }
             } catch {
-                // Cross-origin iframe — skip.
+                // Cross-origin iframe - skip.
             }
         }
     }

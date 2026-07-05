@@ -12,7 +12,7 @@ export const PORTAL = {
     name: 'AutoCVApply',
     description:
         'Official AutoCVApply community bot. Get extension help, ATS tips, and product updates. '
-        + 'Upload your CV once, autofill job forms on Greenhouse, Ashby, Workday & more — you review every field.',
+        + 'Upload your CV once, autofill job forms on Greenhouse, Ashby, Workday & more - you review every field.',
     tags: ['Productivity', 'Career', 'Chrome Extension', 'Job Search', 'AI Tools'],
     termsUrl: 'https://autocvapply.com/terms',
     privacyUrl: 'https://autocvapply.com/privacy',

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Playwright smoke test: Ashby styled checkbox fill in real Chromium.
- * Static fixture (no React) — native label association must toggle input.checked.
+ * Static fixture (no React) - native label association must toggle input.checked.
  *
  * Usage:
  *   node scripts/form-corpus/run-ashby-checkbox-playwright.mjs

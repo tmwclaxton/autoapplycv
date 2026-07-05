@@ -148,7 +148,7 @@ function generateMocksForScenario(scenario) {
             experience: [],
             education: [],
             structured_data: {},
-            formatted_cv_text: 'E2E Test User — Software Engineer',
+            formatted_cv_text: 'E2E Test User - Software Engineer',
             extra_context: null,
         },
         documents: [],

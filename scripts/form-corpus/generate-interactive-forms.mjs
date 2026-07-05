@@ -285,21 +285,21 @@ const scenarios = [
     {
         id: 'syn-ix-dropdown-001',
         category: 'interactive-dropdown',
-        title: 'Interactive dropdown — visible listbox',
+        title: 'Interactive dropdown - visible listbox',
         build: (i) => shell('Visible custom dropdown', `${formOpen()}${contactFields(i)}${visibleListboxDropdown(i)}${formClose()}`),
         notes: 'Custom listbox options visible without click; should extract as select.',
     },
     {
         id: 'syn-ix-dropdown-002',
         category: 'interactive-dropdown',
-        title: 'Interactive dropdown — visible React-style',
+        title: 'Interactive dropdown - visible React-style',
         build: (i) => shell('React dropdown visible', `${formOpen()}${contactFields(i)}${reactCombobox(i).replace('hidden style="display:none"', '').replace(' aria-expanded="false"', ' aria-expanded="true"')}${formClose()}`),
         notes: 'Expanded combobox with visible listbox.',
     },
     {
         id: 'syn-ix-dropdown-003',
         category: 'interactive-dropdown',
-        title: 'Interactive dropdown — click to expand',
+        title: 'Interactive dropdown - click to expand',
         build: (i) => shell('Collapsed custom dropdown', `${formOpen()}${contactFields(i)}${collapsedListboxDropdown(i)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [{ action: 'click', selector: '.custom-dropdown-trigger' }],
@@ -308,7 +308,7 @@ const scenarios = [
     {
         id: 'syn-ix-dropdown-004',
         category: 'interactive-dropdown',
-        title: 'Interactive dropdown — Vue select click',
+        title: 'Interactive dropdown - Vue select click',
         build: (i) => shell('Vue collapsed dropdown', `${formOpen()}${contactFields(i)}${vueCombobox(i)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [{ action: 'click', selector: '.custom-dropdown-trigger' }],
@@ -316,7 +316,7 @@ const scenarios = [
     {
         id: 'syn-ix-dropdown-005',
         category: 'interactive-dropdown',
-        title: 'Interactive dropdown — text trigger click',
+        title: 'Interactive dropdown - text trigger click',
         build: (i) => shell('Dropdown text trigger', `${formOpen()}${contactFields(i)}${collapsedListboxDropdown(i, 'location-trigger')}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [{ action: 'click', text: 'select' }],
@@ -324,7 +324,7 @@ const scenarios = [
     {
         id: 'syn-ix-combobox-001',
         category: 'interactive-combobox',
-        title: 'Combobox — aria-expanded click',
+        title: 'Combobox - aria-expanded click',
         build: (i) => shell('Combobox expand', `${formOpen()}${contactFields(i)}${collapsedListboxDropdown(i)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [{ action: 'click', selector: '[role="combobox"]' }],
@@ -332,7 +332,7 @@ const scenarios = [
     {
         id: 'syn-ix-combobox-002',
         category: 'interactive-combobox',
-        title: 'Combobox — React MUI pattern',
+        title: 'Combobox - React MUI pattern',
         build: (i) => shell('React combobox', `${formOpen()}${contactFields(i)}${reactCombobox(i)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [{ action: 'click', selector: '[role="combobox"]' }],
@@ -340,7 +340,7 @@ const scenarios = [
     {
         id: 'syn-ix-combobox-003',
         category: 'interactive-combobox',
-        title: 'Combobox — Vue v-select pattern',
+        title: 'Combobox - Vue v-select pattern',
         build: (i) => shell('Vue combobox', `${formOpen()}${contactFields(i)}${vueCombobox(i)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [{ action: 'click', selector: '[role="combobox"]' }],
@@ -348,7 +348,7 @@ const scenarios = [
     {
         id: 'syn-ix-combobox-004',
         category: 'interactive-combobox',
-        title: 'Combobox — listbox aria-controls',
+        title: 'Combobox - listbox aria-controls',
         build: (i) => {
             const label = pick(locations, i);
             const listId = `combo-list-${i}`;
@@ -366,7 +366,7 @@ const scenarios = [
     {
         id: 'syn-ix-combobox-005',
         category: 'interactive-combobox',
-        title: 'Combobox — haspopup listbox',
+        title: 'Combobox - haspopup listbox',
         build: (i) => {
             const label = pick(locations, i);
             const listId = `haspopup-list-${i}`;
@@ -384,7 +384,7 @@ const scenarios = [
     {
         id: 'syn-ix-date-001',
         category: 'interactive-datepicker',
-        title: 'Date picker — calendar popover click',
+        title: 'Date picker - calendar popover click',
         build: (i) => shell('Date picker popover', `${formOpen()}${contactFields(i)}${hiddenDatePicker(i)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [{ action: 'click', text: 'choose date' }],
@@ -393,7 +393,7 @@ const scenarios = [
     {
         id: 'syn-ix-date-002',
         category: 'interactive-datepicker',
-        title: 'Date picker — dialog calendar',
+        title: 'Date picker - dialog calendar',
         build: (i) => shell('Date dialog', `${formOpen()}${contactFields(i)}${hiddenDatePicker(i + 1)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [{ action: 'click', selector: '[aria-haspopup="dialog"]' }],
@@ -401,7 +401,7 @@ const scenarios = [
     {
         id: 'syn-ix-date-003',
         category: 'interactive-datepicker',
-        title: 'Date picker — show availability',
+        title: 'Date picker - show availability',
         build: (i) => shell('Availability date', `${formOpen()}${contactFields(i)}
 <button type="button" id="avail-btn-${i}" data-reveal="#avail-panel-${i}">Show availability calendar</button>
 <div id="avail-panel-${i}" hidden style="display:none">
@@ -414,14 +414,14 @@ const scenarios = [
     {
         id: 'syn-ix-chips-001',
         category: 'interactive-multiselect',
-        title: 'Multi-select chips — visible role checkbox',
+        title: 'Multi-select chips - visible role checkbox',
         build: (i) => shell('Visible skill chips', `${formOpen()}${contactFields(i)}${visibleRoleCheckboxGroup(i)}${formClose()}`),
         notes: 'Chip-style role=checkbox group visible upfront.',
     },
     {
         id: 'syn-ix-chips-002',
         category: 'interactive-multiselect',
-        title: 'Multi-select chips — Svelte panel click',
+        title: 'Multi-select chips - Svelte panel click',
         build: (i) => shell('Svelte chips panel', `${formOpen()}${contactFields(i)}${svelteChipPanel(i)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [{ action: 'click', text: 'select skills' }],
@@ -429,7 +429,7 @@ const scenarios = [
     {
         id: 'syn-ix-chips-003',
         category: 'interactive-multiselect',
-        title: 'Multi-select — hidden chip group',
+        title: 'Multi-select - hidden chip group',
         build: (i) => shell('Hidden chips', `${formOpen()}${contactFields(i)}${hiddenRoleCheckboxGroup(i)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [{ action: 'click', text: 'show skill' }],
@@ -437,7 +437,7 @@ const scenarios = [
     {
         id: 'syn-ix-chips-004',
         category: 'interactive-multiselect',
-        title: 'Multi-select — toggle panel',
+        title: 'Multi-select - toggle panel',
         build: (i) => shell('Toggle chips', `${formOpen()}${contactFields(i)}
 <button type="button" data-reveal="#toggle-panel-${i}">Toggle preferences</button>
 <div id="toggle-panel-${i}" hidden style="display:none">
@@ -454,13 +454,13 @@ const scenarios = [
     {
         id: 'syn-ix-check-001',
         category: 'interactive-role-checkbox',
-        title: 'Role checkbox — visible group',
+        title: 'Role checkbox - visible group',
         build: (i) => shell('Role checkbox group', `${formOpen()}${contactFields(i)}${visibleRoleCheckboxGroup(i + 2)}${formClose()}`),
     },
     {
         id: 'syn-ix-check-002',
         category: 'interactive-role-checkbox',
-        title: 'Role checkbox — framework group',
+        title: 'Role checkbox - framework group',
         build: (i) => shell('Framework checkboxes', `${formOpen()}${contactFields(i)}
 <div role="group" aria-labelledby="fw-lbl-${i}">
 <span id="fw-lbl-${i}">Framework experience</span>
@@ -472,7 +472,7 @@ const scenarios = [
     {
         id: 'syn-ix-check-003',
         category: 'interactive-role-checkbox',
-        title: 'Role checkbox — div toggles',
+        title: 'Role checkbox - div toggles',
         build: (i) => shell('Div checkbox toggles', `${formOpen()}${contactFields(i)}
 <div role="group" aria-label="Language proficiency">
 <div role="checkbox" aria-checked="false">English</div>
@@ -483,7 +483,7 @@ const scenarios = [
     {
         id: 'syn-ix-modal-001',
         category: 'interactive-modal',
-        title: 'Modal portal — add details click',
+        title: 'Modal portal - add details click',
         build: (i) => shell('Modal add details', `${formOpen()}${contactFields(i)}${hiddenModalFields(i)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [{ action: 'click', text: 'add details' }],
@@ -491,7 +491,7 @@ const scenarios = [
     {
         id: 'syn-ix-modal-002',
         category: 'interactive-modal',
-        title: 'Modal portal — open dialog',
+        title: 'Modal portal - open dialog',
         build: (i) => shell('Dialog modal', `${formOpen()}${contactFields(i)}
 <button type="button" aria-haspopup="dialog" aria-controls="dialog-${i}" data-reveal="#dialog-${i}">Open modal</button>
 <div id="dialog-${i}" role="dialog" hidden style="display:none">
@@ -504,7 +504,7 @@ const scenarios = [
     {
         id: 'syn-ix-modal-003',
         category: 'interactive-modal',
-        title: 'Modal portal — teleported fields',
+        title: 'Modal portal - teleported fields',
         build: (i) => shell('Portal modal', `${formOpen()}${contactFields(i)}
 <button type="button" data-reveal="#portal-modal-${i}">Add work history</button>
 <div id="portal-modal-${i}" role="dialog" hidden style="display:none" aria-label="Work history">
@@ -519,7 +519,7 @@ const scenarios = [
     {
         id: 'syn-ix-reveal-001',
         category: 'interactive-reveal',
-        title: 'Reveal section — show more click',
+        title: 'Reveal section - show more click',
         build: (i) => shell('Show more section', `${formOpen()}${contactFields(i)}${hiddenRevealSection(i)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [{ action: 'click', text: 'show more' }],
@@ -527,7 +527,7 @@ const scenarios = [
     {
         id: 'syn-ix-reveal-002',
         category: 'interactive-reveal',
-        title: 'Reveal section — add answer click',
+        title: 'Reveal section - add answer click',
         build: (i) => shell('Add answer reveal', `${formOpen()}${contactFields(i)}${hiddenAddAnswer(i)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [{ action: 'click', text: 'add answer' }],
@@ -535,7 +535,7 @@ const scenarios = [
     {
         id: 'syn-ix-reveal-003',
         category: 'interactive-reveal',
-        title: 'Reveal section — expand questions',
+        title: 'Reveal section - expand questions',
         build: (i) => shell('Expand questions', `${formOpen()}${contactFields(i)}
 <button type="button" data-reveal="#expand-${i}">Expand optional questions</button>
 <div id="expand-${i}" hidden style="display:none">
@@ -550,7 +550,7 @@ const scenarios = [
     {
         id: 'syn-ix-reveal-004',
         category: 'interactive-reveal',
-        title: 'Reveal section — disclosure panel',
+        title: 'Reveal section - disclosure panel',
         build: (i) => shell('Disclosure panel', `${formOpen()}${contactFields(i)}
 <button type="button" id="disclosure-${i}" aria-expanded="false" aria-controls="disclosure-panel-${i}" data-reveal="#disclosure-panel-${i}">Show voluntary disclosures</button>
 <div id="disclosure-panel-${i}" hidden style="display:none">
@@ -563,7 +563,7 @@ const scenarios = [
     {
         id: 'syn-ix-fw-001',
         category: 'interactive-framework',
-        title: 'Framework interactive — Vue combobox + reveal',
+        title: 'Framework interactive - Vue combobox + reveal',
         build: (i) => shell('Vue interactive mix', `${formOpen()}${contactFields(i)}${vueCombobox(i)}${hiddenAddAnswer(i)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [
@@ -574,7 +574,7 @@ const scenarios = [
     {
         id: 'syn-ix-fw-002',
         category: 'interactive-framework',
-        title: 'Framework interactive — React modal + listbox',
+        title: 'Framework interactive - React modal + listbox',
         build: (i) => shell('React interactive mix', `${formOpen()}${contactFields(i)}${reactCombobox(i)}${hiddenModalFields(i + 1)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [
@@ -585,7 +585,7 @@ const scenarios = [
     {
         id: 'syn-ix-fw-003',
         category: 'interactive-framework',
-        title: 'Framework interactive — Svelte skills + date',
+        title: 'Framework interactive - Svelte skills + date',
         build: (i) => shell('Svelte interactive mix', `${formOpen()}${contactFields(i)}${svelteChipPanel(i)}${hiddenDatePicker(i + 2)}${formClose()}`),
         requiresInteraction: true,
         interactionSteps: [
@@ -596,14 +596,14 @@ const scenarios = [
     {
         id: 'syn-ix-shadow-001',
         category: 'interactive-shadow-dom',
-        title: 'Shadow DOM — open mode fields',
+        title: 'Shadow DOM - open mode fields',
         build: (i) => shell('Open shadow form', `${formOpen()}${contactFields(i)}${openShadowForm(i)}${formClose()}`),
         notes: 'Open shadow fields are not traversed by mechanical extractor today; contact fields remain extractable.',
     },
     {
         id: 'syn-ix-shadow-002',
         category: 'interactive-shadow-dom',
-        title: 'Shadow DOM — limitation documented',
+        title: 'Shadow DOM - limitation documented',
         build: (i) => shell('Shadow limitation', `${formOpen()}${contactFields(i)}
 <custom-field-host data-note="closed shadow not supported"></custom-field-host>
 <label for="fallback-${i}">Fallback visible field</label>

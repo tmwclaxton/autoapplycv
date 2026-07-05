@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Mocked Draft All flow benchmark — isolates client orchestration overhead from LLM latency.
+ * Mocked Draft All flow benchmark - isolates client orchestration overhead from LLM latency.
  *
  * Usage:
  *   node scripts/extension-benchmark/mock-draft-all-flow.mjs

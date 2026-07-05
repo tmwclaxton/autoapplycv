@@ -11,31 +11,31 @@ Do not preserve old behaviour "just in case" unless the user explicitly asks for
 
 - Remove legacy code paths instead of keeping parallel old/new flows.
 - Do not accept deprecated input formats alongside new ones.
-- Do not fall back to build-time defaults when runtime configuration is missing — fail clearly instead.
+- Do not fall back to build-time defaults when runtime configuration is missing - fail clearly instead.
 - Do not keep unused config, migrations, or comments for superseded features.
 - When changing a contract (API shape, extension payload, env vars), update all callers in the same change.
 
 ## Examples
 
 ```javascript
-// ❌ BAD — plain token still works
+// ❌ BAD - plain token still works
 if (parsed.api_base) {
   useApiBase(parsed.api_base);
 } else {
   useApiBase(DEFAULT_API_BASE);
 }
 
-// ✅ GOOD — one supported format
+// ✅ GOOD - one supported format
 if (!parsed.token || !parsed.api_base) {
   throw new Error('Connection JSON must include token and api_base.');
 }
 ```
 
 ```php
-// ❌ BAD — support old and new response keys
+// ❌ BAD - support old and new response keys
 return ['token' => $token, 'api_base' => $base, 'api_url' => $base];
 
-// ✅ GOOD — one response shape
+// ✅ GOOD - one response shape
 return ['token' => $token, 'api_base' => $base];
 ```
 

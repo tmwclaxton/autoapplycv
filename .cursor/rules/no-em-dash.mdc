@@ -1,0 +1,34 @@
+---
+description: Replace em dashes with hyphens before committing
+alwaysApply: true
+---
+
+# No em dashes in source
+
+Before creating a git commit, replace every em dash (`-`, Unicode U+2014) with a normal hyphen (`-`, U+002D) in project source.
+
+## Scope
+
+- PHP, JavaScript, Vue, Markdown, and Cursor rule files (`.php`, `.js`, `.mjs`, `.vue`, `.md`, `.mdc`)
+- Excludes vendor, node_modules, build output, and scraped HTML fixtures under `tests/fixtures/form-extraction/html/`
+
+## When matching external text
+
+If code must recognize em dashes from third-party content, use a Unicode escape instead of a literal character:
+
+```javascript
+// ✅ GOOD
+const separators = [' | ', ' - ', ' \u2014 ', ' at '];
+```
+
+```php
+// ✅ GOOD
+$text = str_replace(["\u{2014}", "\u{2013}"], '-', $text);
+```
+
+## Check locally
+
+```bash
+npm run em-dash:check   # fail if any em dashes remain
+npm run em-dash:fix     # replace em dashes with hyphens
+```

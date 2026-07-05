@@ -75,7 +75,7 @@ const QUERIES = [
     'job application form site:github.com html demo',
     'employment application form site:netlify.app',
     'employment application form site:vercel.app demo',
-    // ATS platforms — targeted apply-form discovery
+    // ATS platforms - targeted apply-form discovery
     'site:jobs.ashbyhq.com apply application form',
     'site:jobs.ashbyhq.com/*/application',
     'site:ashbyhq.com careers apply form fields',

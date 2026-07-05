@@ -55,9 +55,9 @@ class ApplicationFieldInventoryService
             'page_url' => $snapshot['page_url'] ?? null,
             'elements' => $elements,
             'instructions' => 'Return JSON: {"fields":[{"ref":"exact ref","question":"string","field_type":"text|textarea|radio|checkbox|select","max_chars":number|null,"options":["..."]|null}],"complete":true,"next_actions":[]}. '
-                .'Inventory only the application questions visible in this snapshot — do not assume hidden wizard steps or off-screen pages. '
+                .'Inventory only the application questions visible in this snapshot - do not assume hidden wizard steps or off-screen pages. '
                 .'Include every element that is an unanswered application question the candidate still needs to answer. '
-                .'Use the exact ref from elements — never invent refs. '
+                .'Use the exact ref from elements - never invent refs. '
                 .'Improve question text when context helps, but keep the same ref. '
                 .'Merge duplicate questions only if they truly refer to the same control ref. '
                 .'Always set complete to true and return an empty next_actions array. '

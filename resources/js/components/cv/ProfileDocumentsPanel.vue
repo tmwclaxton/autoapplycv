@@ -200,7 +200,7 @@ async function removeDocument(profileDocument: ProfileDocument): Promise<void> {
         <h2 class="postbox-label">Documents</h2>
         <p class="mb-6 text-sm text-muted-foreground">
             Upload your CV or résumé here, or add certificates, reference
-            letters, and other supporting files. Only one CV is kept — a new
+            letters, and other supporting files. Only one CV is kept - a new
             upload replaces the previous one and refreshes your profile.
         </p>
 

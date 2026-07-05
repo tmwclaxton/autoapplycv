@@ -140,7 +140,7 @@ function buildTeamtailor(index, seq, rng) {
 
     return {
         html: shell(`Teamtailor apply ${seq}`, `
-<main class="careers-page"><h1 class="job-title">Apply — Role ${seq}</h1>
+<main class="careers-page"><h1 class="job-title">Apply - Role ${seq}</h1>
 <form class="apply-form" action="/apply" method="post" data-teamtailor-form="application">
 <section class="form-section" data-section="personal">
 ${contact.html.replace(/<label/g, '<div class="form-group"><label class="form-label"').replace(/<input/g, '</div><input class="form-control"')}

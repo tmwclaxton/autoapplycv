@@ -1098,7 +1098,7 @@ async function resolveJobContextForDraft(tabId, tab, perf = null) {
         return { ok: true, job: cachedJob, cached: true };
     }
 
-    logDebug('background', 'job-context.fetch', 'Cache miss — fetching page payload', { pageUrl }, tabId);
+    logDebug('background', 'job-context.fetch', 'Cache miss - fetching page payload', { pageUrl }, tabId);
 
     const page = await fetchPagePayloadForJobContext(tabId, tab);
     const inferred = tryInferJobContextFromPage(page, tab.title);
