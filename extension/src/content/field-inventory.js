@@ -54,6 +54,7 @@ const AutoCVApplyFieldInventory = (() => {
     function buildDomMetadata(target, roleRadios) {
         let rep = roleRadios?.[0] || target;
         let scope = rep;
+        const ashbyEntry = rep?.closest?.('[data-field-path], .ashby-application-form-field-entry');
 
         if (Array.isArray(target) && target[0]?.tagName?.toLowerCase() === 'button') {
             scope = target[0].closest('[data-field-path], .ashby-application-form-field-entry')
@@ -73,6 +74,8 @@ const AutoCVApplyFieldInventory = (() => {
             rep = target.querySelector('[role="option"]') || target;
         } else if (target?.type === 'radio' || target?.type === 'checkbox') {
             scope = target.closest('fieldset, [role="radiogroup"], [role="group"], [data-field-path], .ashby-application-form-field-entry') || target;
+        } else if (ashbyEntry) {
+            scope = ashbyEntry;
         }
 
         const tag = (rep?.tagName || '').toLowerCase() || null;
@@ -262,8 +265,27 @@ const AutoCVApplyFieldInventory = (() => {
         return resolved || entry.target;
     }
 
-    async function applyAnswerByRef(root, ref, answer) {
-        const entry = refRegistry.get(ref);
+    function resolveApplyEntry(ref, options = {}) {
+        const registryEntry = refRegistry.get(ref);
+
+        if (registryEntry) {
+            return registryEntry;
+        }
+
+        if (!options.dom && !options.field_type) {
+            return null;
+        }
+
+        return {
+            target: null,
+            field_type: options.field_type || 'text',
+            data_field_path: options.data_field_path || options.dom?.data_field_path || null,
+            dom: options.dom || null,
+        };
+    }
+
+    async function applyAnswerByRef(root, ref, answer, options = {}) {
+        const entry = resolveApplyEntry(ref, options);
 
         if (!entry || !answer) {
             inventoryLog('warn', 'apply.ref', 'applyAnswerByRef - ref not in registry', {
@@ -278,23 +300,36 @@ const AutoCVApplyFieldInventory = (() => {
             ref,
             field_type: entry.field_type,
             answerPreview: String(answer).slice(0, 80),
+            hydratedFromDom: !refRegistry.has(ref),
         });
 
         const target = resolveEntryTarget(entry);
+
+        if (!target) {
+            inventoryLog('warn', 'apply.ref', 'applyAnswerByRef - could not resolve target', {
+                ref,
+                field_type: entry.field_type,
+                data_field_path: entry.data_field_path,
+            });
+
+            return false;
+        }
 
         return AutoCVApplyFormHeuristics.applyAnswerForTarget(
             root,
             target,
             entry.field_type,
             answer,
-            { data_field_path: entry.data_field_path },
+            {
+                data_field_path: entry.data_field_path,
+                root,
+            },
         );
     }
 
-    async function applyAnswerByRefAllFrames(root, ref, answer) {
-        const documents = [];
+    async function applyAnswerByRefAllFrames(root, ref, answer, options = {}) {
         let applied = false;
-        const entry = refRegistry.get(ref);
+        const entry = resolveApplyEntry(ref, options);
 
         if (!entry || !answer) {
             inventoryLog('warn', 'apply.ref', 'applyAnswerByRefAllFrames - ref not in registry', { ref });
@@ -302,13 +337,23 @@ const AutoCVApplyFieldInventory = (() => {
             return false;
         }
 
-        const target = resolveEntryTarget(entry);
-
+        const documents = [];
         AutoCVApplyFormHeuristics.forEachIframeDocument((doc) => {
             documents.push(doc);
         });
 
         for (const doc of documents) {
+            const target = AutoCVApplyFormHeuristics.resolveTargetFromDom(
+                doc,
+                entry.dom,
+                entry.field_type,
+                entry.data_field_path,
+            );
+
+            if (!target) {
+                continue;
+            }
+
             inventoryLog('debug', 'apply.ref', 'applyAnswerByRefAllFrames trying document', {
                 ref,
                 field_type: entry.field_type,
@@ -320,7 +365,10 @@ const AutoCVApplyFieldInventory = (() => {
                 target,
                 entry.field_type,
                 answer,
-                { data_field_path: entry.data_field_path },
+                {
+                    data_field_path: entry.data_field_path,
+                    root: doc,
+                },
             )) {
                 inventoryLog('info', 'apply.ref', 'applyAnswerByRefAllFrames succeeded', { ref });
                 applied = true;
@@ -335,12 +383,12 @@ const AutoCVApplyFieldInventory = (() => {
         return applied;
     }
 
-    async function applyAnswerByRefWithFallback(root, ref, answer) {
-        if (await applyAnswerByRef(root, ref, answer)) {
+    async function applyAnswerByRefWithFallback(root, ref, answer, options = {}) {
+        if (await applyAnswerByRef(root, ref, answer, options)) {
             return true;
         }
 
-        return applyAnswerByRefAllFrames(root, ref, answer);
+        return applyAnswerByRefAllFrames(root, ref, answer, options);
     }
 
     function clickRef(root, ref) {

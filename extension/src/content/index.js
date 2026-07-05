@@ -571,12 +571,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             async function applySingleAnswer(answer) {
                 let filled = false;
                 let method = null;
+                const applyOptions = {
+                    field_type: answer.field_type || null,
+                    dom: answer.dom || null,
+                    data_field_path: answer.data_field_path || answer.dom?.data_field_path || null,
+                };
 
                 if (answer.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {
                     filled = await AutoCVApplyFieldInventory.applyAnswerByRefWithFallback(
                         document,
                         answer.ref,
                         answer.answer,
+                        applyOptions,
                     );
                     method = 'ref';
                 }
@@ -660,6 +666,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                     document,
                     message.ref,
                     message.answer,
+                    {
+                        field_type: message.field_type || null,
+                        dom: message.dom || null,
+                        data_field_path: message.data_field_path || message.dom?.data_field_path || null,
+                    },
                 );
                 method = 'ref';
             }

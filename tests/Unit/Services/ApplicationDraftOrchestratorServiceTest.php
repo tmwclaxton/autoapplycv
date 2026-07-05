@@ -69,6 +69,7 @@ class ApplicationDraftOrchestratorServiceTest extends TestCase
         $this->assertSame(2, $summary['batches_ok']);
         $this->assertSame(0, $summary['batches_failed']);
         $this->assertSame([0, 1], array_column($emitted, 'batch_index'));
+        $this->assertSame('textarea', $emitted[0]['answers'][0]['field_type'] ?? null);
         $this->assertSame(4, $user->fresh()->ai_tokens_used);
     }
 

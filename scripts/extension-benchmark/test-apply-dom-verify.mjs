@@ -38,6 +38,10 @@ const ashbyPlan = buildFillPlan(ashbyExpected, ashbySnapshot);
 const nameItem = ashbyPlan.find((item) => item.dom?.id === '_systemfield_name');
 
 assert(nameItem, 'Ashby fixture should include the name field');
+assert(
+    nameItem.dom?.data_field_path === '_systemfield_name',
+    `Ashby name snapshot should include data_field_path (got ${nameItem.dom?.data_field_path || 'null'})`,
+);
 
 const liveInput = ashbyWindow.document.getElementById('_systemfield_name');
 assert(liveInput, 'Ashby name input should exist before stale simulation');
@@ -48,6 +52,11 @@ const appliedAfterStale = await ashbyWindow.AutoCVApplyFieldInventory.applyAnswe
     ashbyWindow.document,
     nameItem.ref,
     nameItem.answer,
+    {
+        field_type: 'text',
+        dom: nameItem.dom,
+        data_field_path: nameItem.dom?.data_field_path || null,
+    },
 );
 
 assert(appliedAfterStale, 'applyAnswerByRefWithFallback should re-resolve a stale Ashby name input');
@@ -56,6 +65,60 @@ const resolvedInput = ashbyWindow.document.getElementById('_systemfield_name');
 assert(
     resolvedInput?.value?.includes(String(nameItem.answer).slice(0, 8)),
     `Ashby name value should be present in DOM after stale ref apply (got "${resolvedInput?.value || ''}")`,
+);
+
+const locationItem = ashbySnapshot.elements.find((element) => element.field_type === 'select' && /location/i.test(element.question || ''));
+assert(locationItem, 'Ashby snapshot should include the location combobox');
+const locationDom = locationItem.dom;
+const locationRef = locationItem.ref;
+assert(
+    locationDom?.data_field_path === '_systemfield_location',
+    `Ashby location snapshot should include data_field_path (got ${locationDom?.data_field_path || 'null'})`,
+);
+
+const locationCombobox = ashbyWindow.document.querySelector('[data-field-path="_systemfield_location"] [role="combobox"]');
+assert(locationCombobox, 'Ashby location combobox should exist before stale simulation');
+locationCombobox.parentNode.replaceChild(locationCombobox.cloneNode(true), locationCombobox);
+ashbyWindow.AutoCVApplyFieldInventory.resetRegistry();
+
+const appliedLocationAfterStale = await ashbyWindow.AutoCVApplyFieldInventory.applyAnswerByRefWithFallback(
+    ashbyWindow.document,
+    locationRef,
+    'London, UK',
+    {
+        field_type: 'select',
+        dom: locationDom,
+        data_field_path: locationDom?.data_field_path || null,
+    },
+);
+
+assert(appliedLocationAfterStale, 'applyAnswerByRefWithFallback should re-resolve a stale Ashby location combobox');
+
+const motivationItem = ashbySnapshot.elements.find((element) => element.field_type === 'textarea');
+assert(motivationItem, 'Ashby snapshot should include the motivation textarea');
+
+const motivationTextarea = ashbyWindow.document.getElementById(motivationItem.dom.id);
+assert(motivationTextarea, 'Ashby motivation textarea should exist before stale simulation');
+motivationTextarea.parentNode.replaceChild(motivationTextarea.cloneNode(true), motivationTextarea);
+ashbyWindow.AutoCVApplyFieldInventory.resetRegistry();
+
+const appliedMotivationAfterStale = await ashbyWindow.AutoCVApplyFieldInventory.applyAnswerByRefWithFallback(
+    ashbyWindow.document,
+    motivationItem.ref,
+    'I am excited to join Capi because of the mission.',
+    {
+        field_type: 'textarea',
+        dom: motivationItem.dom,
+        data_field_path: motivationItem.dom?.data_field_path || null,
+    },
+);
+
+assert(appliedMotivationAfterStale, 'applyAnswerByRefWithFallback should re-resolve a stale Ashby motivation textarea');
+
+const resolvedMotivation = ashbyWindow.document.getElementById(motivationItem.dom.id);
+assert(
+    resolvedMotivation?.value?.includes('excited to join Capi'),
+    `Ashby motivation textarea should be filled after stale ref apply (got "${resolvedMotivation?.value || ''}")`,
 );
 
 const greenhouseId = 'web-boards-greenhouse-io-8614025002';
@@ -77,6 +140,10 @@ for (const fieldId of ['first_name', 'last_name', 'email']) {
         greenhouseWindow.document,
         item.ref,
         item.answer,
+        {
+            field_type: item.field.field_type,
+            dom: item.dom,
+        },
     );
 
     assert(applied, `Greenhouse ${fieldId} apply should succeed`);

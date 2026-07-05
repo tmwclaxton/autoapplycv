@@ -207,6 +207,7 @@ class ApplicationDraftOrchestratorService
                 'id' => $field['id'],
                 'label' => $field['label'],
                 'answer' => $resolvedAnswer,
+                'field_type' => $field['field_type'] ?? 'text',
             ];
 
             if (isset($field['ref']) && is_string($field['ref']) && $field['ref'] !== '') {

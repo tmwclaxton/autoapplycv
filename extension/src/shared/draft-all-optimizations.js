@@ -116,6 +116,7 @@ export function partitionFieldsByQuestionMemo(fields, questionMemo) {
                 ref: field.ref,
                 label: field.label,
                 field_type: field.field_type,
+                dom: field.dom || null,
                 answer,
             });
         } else {
@@ -229,6 +230,7 @@ export function buildMechanicalInventoryFields(snapshot) {
             field_type: element.field_type || 'text',
             max_chars: element.max_chars ?? null,
             options: element.options ?? null,
+            dom: element.dom ?? null,
         }));
 }
 
@@ -283,6 +285,23 @@ export function partitionBatchAnswersForApply(answers) {
     }
 
     return { parallel, sequential };
+}
+
+export function enrichApplyAnswers(answers, fieldsByRef) {
+    return (answers || []).map((answer) => {
+        const field = fieldsByRef?.get?.(answer.ref);
+
+        if (!field) {
+            return answer;
+        }
+
+        return {
+            ...answer,
+            field_type: answer.field_type || field.field_type || 'text',
+            dom: answer.dom || field.dom || null,
+            data_field_path: answer.data_field_path || field.dom?.data_field_path || null,
+        };
+    });
 }
 
 export function tryInferJobContextFromPage(pagePayload, tabTitle = '') {

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-05T08:31:29.989Z",
+  "generated_at": "2026-07-05T08:41:17.373Z",
   "verify_engine": "jsdom",
   "curated_manifest": "Curated fill verification tier prioritizing platform diversity and verification depth over corpus quantity.",
   "thresholds": {
@@ -9,10 +9,10 @@
   "totals": {
     "scenarios": 48,
     "evaluated": 48,
-    "passed": 41,
-    "failed": 7,
+    "passed": 48,
+    "failed": 0,
     "skipped": 0,
-    "pass_rate": 0.8542,
+    "pass_rate": 1,
     "critical_total": 3,
     "critical_passed": 3,
     "critical_pass_rate": 1
@@ -56,20 +56,20 @@
     },
     "syn-ix": {
       "total": 10,
-      "passed": 5,
-      "failed": 5,
+      "passed": 10,
+      "failed": 0,
       "critical_total": 0,
       "critical_passed": 0,
-      "pass_rate": 0.5,
+      "pass_rate": 1,
       "critical_pass_rate": 0
     },
     "syn-mega": {
       "total": 11,
-      "passed": 9,
-      "failed": 2,
+      "passed": 11,
+      "failed": 0,
       "critical_total": 0,
       "critical_passed": 0,
-      "pass_rate": 0.8182,
+      "pass_rate": 1,
       "critical_pass_rate": 0
     },
     "lever": {
@@ -121,9 +121,9 @@
   "by_check": {
     "domReadback": {
       "evaluated": 48,
-      "passed": 41,
-      "failed": 7,
-      "pass_rate": 0.8542
+      "passed": 48,
+      "failed": 0,
+      "pass_rate": 1
     },
     "html5Validity": {
       "evaluated": 48,
@@ -1052,32 +1052,16 @@
     },
     {
       "id": "syn-ix-fw-001",
-      "passed": false,
+      "passed": true,
       "field_count": 5,
-      "failures": [
-        {
-          "field": "where are you based?",
-          "ref": "f4",
-          "stage": "apply",
-          "expected": "London",
-          "actual": null
-        }
-      ],
-      "apply_failures": 1,
+      "failures": [],
+      "apply_failures": 0,
       "verify_failures": 0,
       "checks": {
         "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "where are you based?",
-              "ref": "f4",
-              "stage": "apply",
-              "expected": "London",
-              "actual": null
-            }
-          ],
-          "apply_failures": 1,
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
           "verify_failures": 0
         },
         "html5Validity": {
@@ -1322,32 +1306,16 @@
     },
     {
       "id": "syn-ix-fw-002",
-      "passed": false,
+      "passed": true,
       "field_count": 6,
-      "failures": [
-        {
-          "field": "preferred location",
-          "ref": "f5",
-          "stage": "apply",
-          "expected": "Office",
-          "actual": null
-        }
-      ],
-      "apply_failures": 1,
+      "failures": [],
+      "apply_failures": 0,
       "verify_failures": 0,
       "checks": {
         "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "preferred location",
-              "ref": "f5",
-              "stage": "apply",
-              "expected": "Office",
-              "actual": null
-            }
-          ],
-          "apply_failures": 1,
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
           "verify_failures": 0
         },
         "html5Validity": {
@@ -1423,32 +1391,16 @@
     },
     {
       "id": "syn-mega-dropdown-001",
-      "passed": false,
+      "passed": true,
       "field_count": 4,
-      "failures": [
-        {
-          "field": "preferred location (9801)",
-          "ref": "f3",
-          "stage": "apply",
-          "expected": "Manchester",
-          "actual": null
-        }
-      ],
-      "apply_failures": 1,
+      "failures": [],
+      "apply_failures": 0,
       "verify_failures": 0,
       "checks": {
         "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "preferred location (9801)",
-              "ref": "f3",
-              "stage": "apply",
-              "expected": "Manchester",
-              "actual": null
-            }
-          ],
-          "apply_failures": 1,
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
           "verify_failures": 0
         },
         "html5Validity": {
@@ -1608,32 +1560,16 @@
     },
     {
       "id": "syn-ix-dropdown-004",
-      "passed": false,
+      "passed": true,
       "field_count": 4,
-      "failures": [
-        {
-          "field": "where are you based?",
-          "ref": "f3",
-          "stage": "apply",
-          "expected": "London",
-          "actual": null
-        }
-      ],
-      "apply_failures": 1,
+      "failures": [],
+      "apply_failures": 0,
       "verify_failures": 0,
       "checks": {
         "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "where are you based?",
-              "ref": "f3",
-              "stage": "apply",
-              "expected": "London",
-              "actual": null
-            }
-          ],
-          "apply_failures": 1,
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
           "verify_failures": 0
         },
         "html5Validity": {
@@ -1666,32 +1602,16 @@
     },
     {
       "id": "syn-mega-combobox-001",
-      "passed": false,
+      "passed": true,
       "field_count": 4,
-      "failures": [
-        {
-          "field": "preferred location (9691)",
-          "ref": "f3",
-          "stage": "apply",
-          "expected": "Hybrid",
-          "actual": null
-        }
-      ],
-      "apply_failures": 1,
+      "failures": [],
+      "apply_failures": 0,
       "verify_failures": 0,
       "checks": {
         "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "preferred location (9691)",
-              "ref": "f3",
-              "stage": "apply",
-              "expected": "Hybrid",
-              "actual": null
-            }
-          ],
-          "apply_failures": 1,
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
           "verify_failures": 0
         },
         "html5Validity": {
@@ -1894,32 +1814,16 @@
     },
     {
       "id": "syn-ix-combobox-001",
-      "passed": false,
+      "passed": true,
       "field_count": 4,
-      "failures": [
-        {
-          "field": "work location",
-          "ref": "f3",
-          "stage": "apply",
-          "expected": "London",
-          "actual": null
-        }
-      ],
-      "apply_failures": 1,
+      "failures": [],
+      "apply_failures": 0,
       "verify_failures": 0,
       "checks": {
         "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "work location",
-              "ref": "f3",
-              "stage": "apply",
-              "expected": "London",
-              "actual": null
-            }
-          ],
-          "apply_failures": 1,
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
           "verify_failures": 0
         },
         "html5Validity": {
@@ -2167,32 +2071,16 @@
     },
     {
       "id": "syn-ix-combobox-002",
-      "passed": false,
+      "passed": true,
       "field_count": 4,
-      "failures": [
-        {
-          "field": "office preference",
-          "ref": "f3",
-          "stage": "apply",
-          "expected": "Office",
-          "actual": null
-        }
-      ],
-      "apply_failures": 1,
+      "failures": [],
+      "apply_failures": 0,
       "verify_failures": 0,
       "checks": {
         "domReadback": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "office preference",
-              "ref": "f3",
-              "stage": "apply",
-              "expected": "Office",
-              "actual": null
-            }
-          ],
-          "apply_failures": 1,
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
           "verify_failures": 0
         },
         "html5Validity": {

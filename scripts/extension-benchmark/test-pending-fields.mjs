@@ -19,6 +19,7 @@ import {
     resolveSalaryPeriodPath,
     shouldDeferFieldToAiDraft,
     shouldSkipAiDraftAnswer,
+    splitFullName,
 } from '../../extension/src/shared/pending-fields.js';
 
 function assert(condition, message) {
@@ -310,5 +311,24 @@ const locationKnown = buildKnownProfileAnswers(locationFields, belfastProfile);
 assert(!locationKnown.some((field) => field.ref === 'loc1'), 'location (city) should not use mechanical profile dump');
 assert(locationKnown.find((field) => field.ref === 'city1')?.answer === 'Belfast', 'plain city fields should still fill from profile');
 assert(!locationKnown.some((field) => field.ref === 'mot1'), 'motivation fields should not use mechanical profile dump');
+
+assert(
+    resolveProfileMappingForLabel('name')?.path === 'full_name',
+    'Ashby Name label should map to full_name profile field',
+);
+
+assert(
+    splitFullName('Toby Claxton').first === 'Toby'
+        && splitFullName('Toby Claxton').last === 'Claxton',
+    'splitFullName should split first and last names',
+);
+
+const ashbyNameKnown = buildKnownProfileAnswers([
+    { ref: 'n1', label: 'name', field_type: 'text' },
+], { profile: { full_name: 'Toby Claxton' } });
+assert(
+    ashbyNameKnown.find((field) => field.ref === 'n1')?.answer === 'Toby Claxton',
+    'Ashby name should fill from profile full_name',
+);
 
 console.log('pending-fields tests passed');

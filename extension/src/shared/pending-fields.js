@@ -76,7 +76,9 @@ const OPEN_ENDED_QUESTION_PATTERNS = [
 ];
 
 const PROFILE_FIELD_MAPPINGS = [
-    { path: 'full_name', label: 'Full name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['full name', 'applicant name', 'your name', 'candidate name'] },
+    { path: 'full_name', label: 'Full name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['full name', 'applicant name', 'your name', 'candidate name'], exactLabels: ['name'] },
+    { path: 'full_name.first', label: 'First name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['first name', 'given name', 'forename'] },
+    { path: 'full_name.last', label: 'Last name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['last name', 'surname', 'family name'] },
     { path: 'email', label: 'Email', dashboard_tab: 'profile', dashboard_anchor: 'field-email', keywords: ['email', 'e-mail', 'personal email'] },
     { path: 'phone', label: 'Phone', dashboard_tab: 'profile', dashboard_anchor: 'field-phone', keywords: ['phone', 'mobile', 'telephone', 'contact number', 'cell'] },
     { path: 'linkedin_url', label: 'LinkedIn', dashboard_tab: 'profile', dashboard_anchor: 'field-linkedin-url', keywords: ['linkedin'] },
@@ -264,6 +266,33 @@ function profileMappingByPath(path) {
     return PROFILE_FIELD_MAPPINGS.find((mapping) => mapping.path === path) ?? null;
 }
 
+export function splitFullName(fullName) {
+    const trimmed = String(fullName || '').trim();
+
+    if (!trimmed) {
+        return { first: '', last: '' };
+    }
+
+    const parts = trimmed.split(/\s+/).filter(Boolean);
+
+    if (parts.length === 1) {
+        return { first: parts[0], last: parts[0] };
+    }
+
+    return {
+        first: parts[0],
+        last: parts.slice(1).join(' '),
+    };
+}
+
+function mappingMatchesLabel(mapping, normalized) {
+    if (mapping.exactLabels?.some((label) => normalized === normalizeQuestionLabel(label))) {
+        return true;
+    }
+
+    return mapping.keywords.some((keyword) => normalized.includes(keyword));
+}
+
 export function isOpenEndedQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
@@ -319,6 +348,7 @@ export function isLocationAutocompleteQuestionLabel(label) {
 }
 
 export function shouldDeferFieldToAiDraft(field) {
+    // Retained for tests documenting field types that always use LLM draft (never keyword pre-fill).
     const label = field?.label || field?.question || '';
 
     if (isOpenEndedQuestionLabel(label)) {
@@ -389,24 +419,6 @@ export function resolveConciseLocationValue(profileData, { preferCity = false } 
     return location;
 }
 
-function resolveKnownProfileAnswerValue(mapping, profileData, field) {
-    if (mapping.path === 'phone') {
-        return formatPhoneForForm(profileData, readProfileValue(profileData, 'phone'));
-    }
-
-    if (mapping.path === 'city') {
-        return resolveConciseLocationValue(profileData, { preferCity: true });
-    }
-
-    if (mapping.path === 'location') {
-        return resolveConciseLocationValue(profileData, {
-            preferCity: isCityLocationQuestionLabel(field?.label || field?.question || ''),
-        });
-    }
-
-    return String(readProfileValue(profileData, mapping.path)).trim();
-}
-
 export function resolveProfileMappingForLabel(label, profileData = null) {
     const normalized = normalizeQuestionLabel(label);
 
@@ -431,7 +443,7 @@ export function resolveProfileMappingForLabel(label, profileData = null) {
     }
 
     for (const mapping of PROFILE_FIELD_MAPPINGS) {
-        if (mapping.keywords.some((keyword) => normalized.includes(keyword))) {
+        if (mappingMatchesLabel(mapping, normalized)) {
             return mapping;
         }
     }
@@ -554,6 +566,8 @@ export function buildKnownProfileAnswers(fields, profileData) {
             field_type: field.field_type || 'text',
             answer: answerValue,
             profile_path: mapping.path,
+            dom: field.dom || null,
+            data_field_path: field.dom?.data_field_path || null,
         });
     }
 

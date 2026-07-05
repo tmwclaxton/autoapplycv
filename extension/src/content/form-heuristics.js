@@ -1372,7 +1372,25 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         if (dom.data_field_path) {
+            const scope = doc.querySelector(`[data-field-path="${escapeSelectorValue(dom.data_field_path)}"]`);
+
+            if (scope) {
+                const combobox = scope.querySelector('[role="combobox"]');
+
+                if (combobox) {
+                    return combobox;
+                }
+            }
+
             return doc.querySelector(`[data-field-path="${escapeSelectorValue(dom.data_field_path)}"]`);
+        }
+
+        if (dom.role === 'combobox') {
+            const comboboxes = Array.from(doc.querySelectorAll('[role="combobox"]')).filter(isVisible);
+
+            if (comboboxes.length === 1) {
+                return comboboxes[0];
+            }
         }
 
         return null;

@@ -22,6 +22,7 @@ import {
     canUseMechanicalInventory,
     compactFieldsForDraft,
     compactSnapshotForInventory,
+    enrichApplyAnswers,
     partitionFieldsByQuestionMemo,
     snapshotFingerprint,
     tryInferJobContextFromPage,
@@ -38,7 +39,6 @@ import {
     sendTabMessage,
 } from './form-frame-messaging.js';
 import {
-    buildKnownProfileAnswers,
     buildPendingFieldsFromProfileGaps,
     formatProfileSaveValue,
     isMeaningfulAnswer,
@@ -875,6 +875,7 @@ function inventoryFieldsToDraftShape(inventoryFields) {
         field_type: field.field_type || 'text',
         max_chars: field.max_chars,
         options: field.options,
+        dom: field.dom || null,
     }));
 }
 
@@ -1374,31 +1375,13 @@ async function runDraftAll(tabId, e2eOptions = null) {
         const fieldsByRef = new Map(fields.map((field) => [field.ref, field]));
         let pendingFields = await loadPendingFields(tabId);
 
-        const knownAnswers = buildKnownProfileAnswers(fields, profileData);
-
-        if (knownAnswers.length > 0) {
-            broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
-                message: `Applying ${knownAnswers.length} profile answer(s)…`,
-            });
-
-            perf.start('apply.profile');
-            await applyDraftBatchToTab(tabId, knownAnswers, formFrameId);
-            perf.end('apply.profile');
-
-            logInfo('background', 'draft-all.profile', 'Applied known profile answers', {
-                count: knownAnswers.length,
-            }, tabId);
-
-            pendingFields = pendingFields.filter((field) => !knownAnswers.some((answer) => answer.ref === field.ref));
-        }
-
+        // Draft All never keyword-maps profile values into fields. Profile context goes to the LLM;
+        // question memo applies only explicit user-saved answers; pending-fields sidebar prompts for gaps.
         const profileGapPending = buildPendingFieldsFromProfileGaps(fields, profileData);
         pendingFields = mergePendingFields(pendingFields, profileGapPending);
-        const deferToUserRefs = new Set(profileGapPending.map((field) => field.ref));
 
         const questionMemo = await loadQuestionMemo();
-        let { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(fields, questionMemo);
-        remainingFields = remainingFields.filter((field) => !deferToUserRefs.has(field.ref));
+        const { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(fields, questionMemo);
 
         if (memoAnswers.length > 0) {
             broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
@@ -1406,7 +1389,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
             });
 
             perf.start('apply.memo');
-            const memoApplyResult = await applyDraftBatchToTab(tabId, memoAnswers, formFrameId);
+            const memoApplyResult = await applyDraftBatchToTab(tabId, enrichApplyAnswers(memoAnswers, fieldsByRef), formFrameId);
             perf.end('apply.memo');
 
             logInfo('background', 'draft-all.memo', 'Applied question memo answers', {
@@ -1424,9 +1407,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 ? `Fill complete. ${pendingCount} question(s) need your input in the sidebar.`
                 : memoAnswers.length > 0
                     ? `Fill complete (${memoAnswers.length} field(s) from saved answers).`
-                    : knownAnswers.length > 0
-                        ? `Fill complete (${knownAnswers.length} field(s) from your profile).`
-                        : 'No fields required AI drafting.';
+                    : 'No fields required AI drafting.';
 
             broadcastDraftEvent('DRAFT_ALL_DONE', { message, pendingCount });
 
@@ -1515,7 +1496,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                     })),
                 }, tabId);
 
-                const applyPromise = applyDraftBatchToTab(tabId, toApply, formFrameId)
+                const applyPromise = applyDraftBatchToTab(tabId, enrichApplyAnswers(toApply, fieldsByRef), formFrameId)
                     .then((applyResult) => {
                         logInfo('background', 'draft-all.apply', `Batch ${batchNumber} apply result`, {
                             batchIndex: event.batch_index,
@@ -1609,7 +1590,6 @@ async function runDraftAll(tabId, e2eOptions = null) {
         logInfo('background', 'draft-all.complete', 'Draft All finished', {
             fieldCount: fields.length,
             memoApplied: memoAnswers.length,
-            profileApplied: knownAnswers.length,
             aiFieldCount: remainingFields.length,
             batchesApplied: batchIndex,
             pendingCount,
