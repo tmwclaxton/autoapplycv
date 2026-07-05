@@ -43,7 +43,9 @@ npm run discord:invite
 npm run discord:setup
 ```
 
-Creates categories **Start here**, **Community**, **AutoCVApply**, roles `@Team` / `@Member`, welcome + rules posts, and prints a permanent invite URL for `DISCORD_INVITE_URL`.
+Creates categories **✨ Start here**, **👥 Community**, **🚀 AutoCVApply**, emoji-prefixed channels (e.g. `#📢-announcements`, `#🔄-updates`), roles `@Team` / `@Member`, welcome + rules posts, and prints a permanent invite URL for `DISCORD_INVITE_URL`.
+
+Re-run `npm run discord:setup` on an existing server to rename legacy channels (e.g. `#updates` → `#🔄-updates`) and refresh pinned intro posts.
 
 ## Env keys
 
@@ -55,9 +57,9 @@ Creates categories **Start here**, **Community**, **AutoCVApply**, roles `@Team`
 
 `DISCORD_APPLICATION_ID` is fixed in `config/discord.php`.
 
-## GitHub → #updates
+## GitHub → #🔄-updates
 
-The workflow [`.github/workflows/discord-updates.yml`](../../.github/workflows/discord-updates.yml) posts an embed to **#updates** on every push to `main`.
+The workflow [`.github/workflows/discord-updates.yml`](../../.github/workflows/discord-updates.yml) posts an embed to **#🔄-updates** on every push to `main`.
 
 Add this **repository secret** (Settings → Secrets and variables → Actions):
 
@@ -65,9 +67,9 @@ Add this **repository secret** (Settings → Secrets and variables → Actions):
 |--------|--------|
 | `DISCORD_BOT_TOKEN` | Same bot token as `.env` |
 
-The **#updates** channel ID (`1523103313531240568`) is fixed in the workflow and `config/discord.php`.
+The **#🔄-updates** channel ID (`1523103313531240568`) is fixed in the workflow and `config/discord.php`.
 
-After creating **#updates**, run `npm run discord:setup` once so permissions and the pinned intro post are applied.
+After creating **#🔄-updates**, run `npm run discord:setup` once so permissions and the pinned intro post are applied.
 
 ```bash
 # If you use GitHub CLI locally:

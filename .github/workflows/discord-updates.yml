@@ -11,7 +11,7 @@ jobs:
     env:
       DISCORD_UPDATES_CHANNEL_ID: '1523103313531240568'
     steps:
-      - name: Post commit embed to #updates
+      - name: Post commit embed to #🔄-updates
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
           DISCORD_CHANNEL_ID: ${{ env.DISCORD_UPDATES_CHANNEL_ID }}

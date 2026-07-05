@@ -51,58 +51,70 @@ const api = async (method, path, body) => {
 
 const SERVER_LAYOUT = [
     {
-        category: 'Start here',
+        category: '✨ Start here',
+        legacyCategory: 'Start here',
         channels: [
             {
-                name: 'welcome',
-                topic: 'Start here - read #rules, then say hello in #general.',
+                name: '👋-welcome',
+                legacyName: 'welcome',
+                topic: 'Start here - read #📜-rules, then say hello in #💬-general.',
                 readonly: true,
             },
             {
-                name: 'rules',
+                name: '📜-rules',
+                legacyName: 'rules',
                 topic: 'Community guidelines for AutoCVApply.',
                 readonly: true,
             },
         ],
     },
     {
-        category: 'Community',
+        category: '👥 Community',
+        legacyCategory: 'Community',
         channels: [
             {
-                name: 'announcements',
+                name: '📢-announcements',
+                legacyName: 'announcements',
                 topic: 'Product updates from the AutoCVApply team.',
                 readonly: true,
                 teamPost: true,
             },
             {
-                name: 'updates',
+                name: '🔄-updates',
+                legacyName: 'updates',
                 topic: 'Automated feed of commits pushed to main on GitHub.',
                 readonly: true,
                 teamPost: true,
             },
             {
-                name: 'general',
+                name: '💬-general',
+                legacyName: 'general',
                 topic: 'Chat about job hunting, extensions, and anything career-related.',
             },
         ],
     },
     {
-        category: 'AutoCVApply',
+        category: '🚀 AutoCVApply',
+        legacyCategory: 'AutoCVApply',
         channels: [
             {
-                name: 'extension-help',
+                name: '🛠-extension-help',
+                legacyName: 'extension-help',
                 topic: 'Chrome extension setup, connection JSON, autofill & Draft All troubleshooting.',
             },
             {
-                name: 'ats-tips',
+                name: '🗺-ats-tips',
+                legacyName: 'ats-tips',
                 topic: 'Greenhouse, Ashby, Workday, Lever, and other ATS quirks.',
             },
             {
-                name: 'feature-requests',
+                name: '💡-feature-requests',
+                legacyName: 'feature-requests',
                 topic: 'Ideas for AutoCVApply - one thread per idea please.',
             },
             {
-                name: 'showcase',
+                name: '🏆-showcase',
+                legacyName: 'showcase',
                 topic: 'Share wins - forms filled faster, offers landed, clever workflows.',
             },
         ],
@@ -115,119 +127,119 @@ const ROLES = [
 ];
 
 const WELCOME_MESSAGE = [
-    '📮 **Welcome to AutoCVApply**',
+    '📮 **Welcome to AutoCVApply** 👋',
     '',
     'You found the community for people who\'d rather **apply to jobs** than retype their CV for the forty-seventh time.',
     '',
-    '**What we do**',
+    '**What we do** 🎯',
     'Upload your CV once → structured profile → Chrome extension autofill on real ATS forms (Greenhouse, Ashby, Workday, Lever, and more). **Draft All** drafts cover letters and awkward textareas. *You* review every field and click Submit - **we never auto-apply.**',
     '',
-    '**Get started**',
-    '• [Sign up free →](https://autocvapply.com)',
-    '• [How it works](https://autocvapply.com/how-to)',
-    '• [Source on GitHub](https://github.com/tmwclaxton/autoapplycv)',
+    '**Get started** 🚀',
+    '• 🆓 [Sign up free →](https://autocvapply.com)',
+    '• 📖 [How it works](https://autocvapply.com/how-to)',
+    '• 💻 [Source on GitHub](https://github.com/tmwclaxton/autoapplycv)',
     '',
-    '**Where to go next**',
-    '→ Read **#rules**',
-    '→ Introduce yourself in **#general**',
-    '→ Extension trouble? **#extension-help**',
+    '**Where to go next** 🧭',
+    '→ 📜 Read **#📜-rules**',
+    '→ 💬 Introduce yourself in **#💬-general**',
+    '→ 🛠 Extension trouble? **#🛠-extension-help**',
 ].join('\n');
 
 const RULES_MESSAGE = [
-    '📋 **Community rules**',
+    '📋 **Community rules** 🤝',
     '',
     'Keep this a useful place for job hunters and contributors.',
     '',
-    '**1 · Be decent** - job hunting is hard enough; help each other out.',
-    '**2 · No spam** - no unsolicited DMs, referral farming, or drive-by self-promo.',
-    '**3 · Protect your account** - never post API tokens, connection JSON, or passwords in public channels.',
-    '**4 · Stay honest** - AutoCVApply helps you present *your* experience; don\'t invent qualifications.',
-    '**5 · Right channel, right question** - `#extension-help` for bugs · `#feature-requests` for ideas · `#ats-tips` for platform quirks',
+    '**1 · Be decent** 🤝 - job hunting is hard enough; help each other out.',
+    '**2 · No spam** 🚫 - no unsolicited DMs, referral farming, or drive-by self-promo.',
+    '**3 · Protect your account** 🔒 - never post API tokens, connection JSON, or passwords in public channels.',
+    '**4 · Stay honest** ✅ - AutoCVApply helps you present *your* experience; don\'t invent qualifications.',
+    '**5 · Right channel, right question** 📌 - `#🛠-extension-help` for bugs · `#💡-feature-requests` for ideas · `#🗺-ats-tips` for platform quirks',
     '',
-    `[Terms of service](${PORTAL.termsUrl}) · [Privacy policy](${PORTAL.privacyUrl})`,
+    `📄 [Terms of service](${PORTAL.termsUrl}) · 🔐 [Privacy policy](${PORTAL.privacyUrl})`,
 ].join('\n');
 
 const CHANNEL_PIN_MESSAGES = {
-    welcome: WELCOME_MESSAGE,
-    rules: RULES_MESSAGE,
-    announcements: [
-        '📣 **Announcements**',
+    '👋-welcome': WELCOME_MESSAGE,
+    '📜-rules': RULES_MESSAGE,
+    '📢-announcements': [
+        '📢 **Announcements**',
         '',
-        'Official product news from the AutoCVApply team - releases, maintenance windows, pricing changes, and anything that affects your account or extension.',
+        'Official product news from the AutoCVApply team - releases 🚀, maintenance windows 🔧, pricing changes 💳, and anything that affects your account or extension.',
         '',
-        '**@Team posts only.** React with 👍 so we know you\'ve seen important updates.',
+        '**@Team posts only.** React with 👍 or ✅ so we know you\'ve seen important updates.',
         '',
-        '_Questions about a post? Ask in **#general** or **#extension-help** - not here._',
+        '_Questions about a post? Ask in **#💬-general** or **#🛠-extension-help** - not here._',
     ].join('\n'),
-    updates: [
+    '🔄-updates': [
         '🔄 **GitHub updates**',
         '',
         'Every push to [`main`](https://github.com/tmwclaxton/autoapplycv/tree/main) posts here automatically - commit message, author, and link.',
         '',
-        '**@Team posts only** (bot). Human announcements still go in **#announcements**.',
+        '**@Team posts only** (bot 🤖). Human announcements still go in **#📢-announcements**.',
         '',
-        '_Noisy? Mute this channel and keep **#announcements** unmuted for curated news._',
+        '_Noisy? 🔕 Mute this channel and keep **#📢-announcements** unmuted for curated news._',
     ].join('\n'),
-    general: [
+    '💬-general': [
         '💬 **General**',
         '',
-        'Say hello, swap job-hunt war stories, celebrate offers, and talk careers.',
+        'Say hello 👋, swap job-hunt war stories, celebrate offers 🎉, and talk careers.',
         '',
-        '**Before you post** - skim **#rules**. This isn\'t a support desk; for extension bugs head to **#extension-help**, for product ideas try **#feature-requests**.',
+        '**Before you post** - skim **#📜-rules**. This isn\'t a support desk; for extension bugs head to **#🛠-extension-help**, for product ideas try **#💡-feature-requests**.',
         '',
-        '_Friendly reminder: AutoCVApply fills forms - you still click Submit._',
+        '_Friendly reminder: AutoCVApply fills forms - you still click Submit._ ✍️',
     ].join('\n'),
-    'extension-help': [
+    '🛠-extension-help': [
         '🛠 **Extension help**',
         '',
         'Connection JSON, autofill, **Draft All**, cover letters, billing, uploads - if the product misbehaved, ask here.',
         '',
-        '**Include in your message**',
-        '• Browser (Chrome / Firefox) + extension version',
-        '• ATS site & URL (Greenhouse, Ashby, Workday, etc.)',
-        '• What you expected vs what happened',
-        '• Screenshot if you can (blur personal data)',
+        '**Include in your message** 📝',
+        '• 🌐 Browser (Chrome / Firefox) + extension version',
+        '• 🏢 ATS site & URL (Greenhouse, Ashby, Workday, etc.)',
+        '• ⚡ What you expected vs what happened',
+        '• 📸 Screenshot if you can (blur personal data)',
         '',
         '⚠️ **Redact your API token** - never paste full connection JSON publicly.',
         '',
-        'Docs: [autocvapply.com/how-to](https://autocvapply.com/how-to)',
+        '📖 Docs: [autocvapply.com/how-to](https://autocvapply.com/how-to)',
     ].join('\n'),
-    'ats-tips': [
+    '🗺-ats-tips': [
         '🗺 **ATS tips & quirks**',
         '',
         'The long tail of application forms - share what works (and what breaks) on:',
-        'Greenhouse · Ashby · Workday · Lever · SmartRecruiters · Teamtailor · BambooHR · and everything else.',
+        '🌿 Greenhouse · 🏗 Ashby · 🏢 Workday · ⚙️ Lever · 📋 SmartRecruiters · 👥 Teamtailor · 🎋 BambooHR · and everything else.',
         '',
-        '**Great posts here**',
+        '**Great posts here** ⭐',
         '• Combobox / multi-step wizard workarounds',
         '• Fields AutoCVApply handles well vs ones that need manual touch',
         '• Screenshots with personal details blurred',
         '',
-        '_Verified against 1,850 form scenarios in our test corpus - real-world edge cases still welcome._',
+        '_Verified against 1,850 form scenarios in our test corpus - real-world edge cases still welcome._ 🧪',
     ].join('\n'),
-    'feature-requests': [
+    '💡-feature-requests': [
         '💡 **Feature requests**',
         '',
-        'One idea per message. Upvote with reactions instead of posting duplicates.',
+        'One idea per message. Upvote with 👍 reactions instead of posting duplicates.',
         '',
-        '**Helpful context**',
+        '**Helpful context** 📋',
         '• Which ATS or workflow?',
         '• Problem you\'re solving',
         '• Why existing Draft All / autofill doesn\'t cover it',
         '',
-        'We read everything. Priority follows impact, safety, and how well we can regression-test it.',
+        'We read everything 👀. Priority follows impact, safety, and how well we can regression-test it.',
     ].join('\n'),
-    showcase: [
+    '🏆-showcase': [
         '🏆 **Showcase**',
         '',
-        'Wins worth sharing - forms filled in minutes, clever Draft All workflows, offers landed, before/after time saved.',
+        'Wins worth sharing - forms filled in minutes ⚡, clever Draft All workflows, offers landed 🎊, before/after time saved.',
         '',
-        '**Post freely**',
+        '**Post freely** 📣',
         '• Screenshots & short screen recordings (blur employer names if you prefer)',
         '• Which platform and what AutoCVApply handled',
         '• Optional: what still needed a human touch',
         '',
-        '_Inspire the rest of us - job hunting is a grind and progress deserves a shout._',
+        '_Inspire the rest of us - job hunting is a grind and progress deserves a shout._ 🙌',
     ].join('\n'),
 };
 
@@ -256,7 +268,7 @@ async function ensureRole(name, options) {
     return created;
 }
 
-async function ensureCategory(name, existingChannels) {
+async function ensureCategory(name, existingChannels, legacyName) {
     const found = existingChannels.find(
         (channel) => channel.type === 4 && channel.name === name,
     );
@@ -265,6 +277,19 @@ async function ensureCategory(name, existingChannels) {
         console.log(`  category exists: ${name}`);
 
         return found;
+    }
+
+    if (legacyName) {
+        const legacy = existingChannels.find(
+            (channel) => channel.type === 4 && channel.name === legacyName,
+        );
+
+        if (legacy) {
+            const renamed = await api('PATCH', `/channels/${legacy.id}`, { name });
+            console.log(`  renamed category: ${legacyName} → ${name}`);
+
+            return renamed;
+        }
     }
 
     const created = await api('POST', `/guilds/${guildId}/channels`, {
@@ -276,15 +301,37 @@ async function ensureCategory(name, existingChannels) {
     return created;
 }
 
-async function ensureTextChannel(name, parentId, topic, existingChannels) {
+async function ensureTextChannel(name, parentId, topic, existingChannels, legacyName) {
     const found = existingChannels.find(
         (channel) => channel.type === 0 && channel.name === name,
     );
 
     if (found) {
-        console.log(`  channel exists: #${name}`);
+        if (topic && found.topic !== topic) {
+            await api('PATCH', `/channels/${found.id}`, { topic });
+            console.log(`  updated topic: #${name}`);
+        } else {
+            console.log(`  channel exists: #${name}`);
+        }
 
         return found;
+    }
+
+    if (legacyName) {
+        const legacy = existingChannels.find(
+            (channel) => channel.type === 0 && channel.name === legacyName,
+        );
+
+        if (legacy) {
+            const renamed = await api('PATCH', `/channels/${legacy.id}`, {
+                name,
+                topic,
+                parent_id: parentId,
+            });
+            console.log(`  renamed channel: #${legacyName} → #${name}`);
+
+            return renamed;
+        }
     }
 
     const created = await api('POST', `/guilds/${guildId}/channels`, {
@@ -459,7 +506,11 @@ async function main() {
     const createdChannels = {};
 
     for (const section of SERVER_LAYOUT) {
-        const category = await ensureCategory(section.category, channels);
+        const category = await ensureCategory(
+            section.category,
+            channels,
+            section.legacyCategory,
+        );
         channels = await findGuildChannels();
 
         for (const spec of section.channels) {
@@ -468,6 +519,7 @@ async function main() {
                 category.id,
                 spec.topic,
                 channels,
+                spec.legacyName,
             );
             createdChannels[spec.name] = channel;
 
@@ -497,7 +549,7 @@ async function main() {
 
     console.log('\nInvite link');
     const inviteUrl = process.env.DISCORD_INVITE_URL
-        || await createPermanentInvite(createdChannels.welcome.id);
+        || await createPermanentInvite(createdChannels['👋-welcome'].id);
     console.log(`  ${inviteUrl}`);
     console.log('\nAdd to .env:');
     console.log(`DISCORD_INVITE_URL=${inviteUrl}`);
