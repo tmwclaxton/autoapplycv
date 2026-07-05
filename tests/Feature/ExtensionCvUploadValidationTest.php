@@ -124,12 +124,15 @@ class ExtensionCvUploadValidationTest extends TestCase
     private function mockSuccessfulCvPipeline(): void
     {
         $this->mock(CvParserService::class, function ($mock): void {
-            $mock->shouldReceive('extractText')->andReturn('Sample CV text with enough characters to pass validation checks easily.');
+            $mock->shouldReceive('extractTextWithMetadata')->andReturn([
+                'text' => 'Sample CV text with enough characters to pass validation checks easily.',
+                'ocr_used' => false,
+            ]);
             $mock->shouldReceive('extractHyperlinks')->andReturn([]);
         });
 
         $this->mock(CvExtractionService::class, function ($mock): void {
-            $mock->shouldReceive('extract')->andReturn(null);
+            $mock->shouldReceive('extractWithUsage')->andReturn(['data' => null, 'usage' => null]);
         });
     }
 }

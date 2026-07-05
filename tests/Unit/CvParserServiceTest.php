@@ -14,6 +14,30 @@ use Tests\TestCase;
 class CvParserServiceTest extends TestCase
 {
     #[Test]
+    public function test_real_text_pdf_skips_tesseract(): void
+    {
+        $path = base_path('tests/fixtures/cv/toby-claxton-cv.pdf');
+
+        if (! is_readable($path)) {
+            $this->markTestSkipped('Real CV fixture missing.');
+        }
+
+        $this->mock(TesseractOcrService::class, function ($mock): void {
+            $mock->shouldReceive('isAvailable')->once()->andReturn(true);
+            $mock->shouldNotReceive('extractFromPdf');
+        });
+
+        $this->mock(NanoGptService::class);
+
+        $file = new UploadedFile($path, 'toby-claxton-cv.pdf', 'application/pdf', null, true);
+        $result = app(CvParserService::class)->extractTextWithMetadata($file);
+
+        $this->assertFalse($result['ocr_used']);
+        $this->assertStringContainsString('Toby Claxton', $result['text']);
+        $this->assertGreaterThan(1000, mb_strlen($result['text']));
+    }
+
+    #[Test]
     public function test_pdf_uses_tesseract_when_embedded_text_is_too_short(): void
     {
         $this->mock(TesseractOcrService::class, function ($mock): void {
@@ -25,11 +49,16 @@ class CvParserServiceTest extends TestCase
 
         $this->mock(NanoGptService::class);
 
+        $service = $this->partialMock(CvParserService::class, function ($mock): void {
+            $mock->shouldAllowMockingProtectedMethods();
+            $mock->shouldReceive('extractFromPdf')->once()->andReturn('tiny');
+        });
+
         $file = UploadedFile::fake()->createWithContent('cv.pdf', '%PDF-1.4 tiny');
+        $result = $service->extractTextWithMetadata($file);
 
-        $text = app(CvParserService::class)->extractText($file);
-
-        $this->assertStringContainsString('Toby Claxton OCR text', $text);
+        $this->assertStringContainsString('Toby Claxton OCR text', $result['text']);
+        $this->assertTrue($result['ocr_used']);
     }
 
     #[Test]

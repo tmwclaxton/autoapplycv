@@ -204,12 +204,18 @@ class ProfileDocumentTest extends TestCase
     public function test_cv_upload_also_creates_a_cv_document_record(): void
     {
         $this->mock(CvParserService::class, function ($mock): void {
-            $mock->shouldReceive('extractText')->once()->andReturn('Parsed CV text');
+            $mock->shouldReceive('extractTextWithMetadata')->andReturn([
+                'text' => 'Parsed CV text',
+                'ocr_used' => false,
+            ]);
             $mock->shouldReceive('extractHyperlinks')->once()->andReturn([]);
         });
 
         $this->mock(CvExtractionService::class, function ($mock): void {
-            $mock->shouldReceive('extract')->once()->andReturn(null);
+            $mock->shouldReceive('extractWithUsage')->once()->andReturn([
+                'data' => null,
+                'usage' => null,
+            ]);
         });
 
         $user = User::factory()->create();

@@ -32,14 +32,18 @@ class CvExtractionSchema
 
     public static function systemPrompt(): string
     {
+        return self::parseSystemPrompt();
+    }
+
+    public static function parseSystemPrompt(): string
+    {
         return <<<'PROMPT'
 You are an expert CV/resume parser for UK and international job applications.
 
 Your job:
 1. Capture EVERY fact from the source text - do not drop sections because they are unusual.
 2. Return structured JSON matching the requested schema exactly.
-3. Produce formatted_cv_text: a clean, readable plain-text version of the entire CV with clear section headings and bullet points. Preserve all content; tidy garbled PDF extraction but never invent employers, dates, or qualifications.
-4. Use null for unknown scalar fields and [] for empty lists. Do not guess.
+3. Use null for unknown scalar fields and [] for empty lists. Do not guess.
 
 For experience and education entries:
 - Each role MUST have its own highlights - copy bullets ONLY from that role's section. Never reuse the professional summary or another role's bullets.
@@ -52,6 +56,105 @@ For links and contact:
 - When a HYPERLINKS section lists URLs, map them to linkedin_url, website_url, and structured_data.social_links with correct full URLs.
 - Put GitHub, portfolio, and project URLs in structured_data.social_links with sensible labels.
 PROMPT;
+    }
+
+    public static function parseSchemaJson(): string
+    {
+        return <<<'JSON'
+{
+  "full_name": "string|null",
+  "headline": "string|null",
+  "email": "string|null",
+  "phone": "string|null",
+  "location": "string|null - city/region/country as written",
+  "city": "string|null",
+  "postcode": "string|null",
+  "country": "string|null",
+  "linkedin_url": "string|null",
+  "website_url": "string|null",
+  "summary": "string|null - professional profile/summary",
+  "skills": ["string"],
+  "experience": [{
+    "title": "string",
+    "company": "string",
+    "location": "string|null",
+    "employment_type": "string|null",
+    "start_date": "string|null",
+    "end_date": "string|null - use Present when current",
+    "is_current": "boolean",
+    "description": "string|null",
+    "highlights": ["string"],
+    "technologies": ["string"]
+  }],
+  "education": [{
+    "degree": "string",
+    "field_of_study": "string|null",
+    "institution": "string",
+    "location": "string|null",
+    "start_date": "string|null",
+    "end_date": "string|null",
+    "grade": "string|null",
+    "honours": "string|null",
+    "description": "string|null",
+    "highlights": ["string"]
+  }],
+  "structured_data": {
+    "headline": "string|null",
+    "address_line_1": "string|null",
+    "address_line_2": "string|null",
+    "state_region": "string|null",
+    "social_links": [{"label": "string", "url": "string"}],
+    "languages": [{"language": "string", "proficiency": "string|null"}],
+    "certifications": [{"name": "string", "issuer": "string|null", "date": "string|null", "credential_id": "string|null", "url": "string|null"}],
+    "projects": [{"name": "string", "url": "string|null", "description": "string|null", "highlights": ["string"], "technologies": ["string"]}],
+    "publications": [{"title": "string", "publisher": "string|null", "date": "string|null", "url": "string|null"}],
+    "awards": [{"title": "string", "issuer": "string|null", "date": "string|null", "description": "string|null"}],
+    "volunteering": [{"role": "string", "organisation": "string|null", "location": "string|null", "start_date": "string|null", "end_date": "string|null", "highlights": ["string"]}],
+    "memberships": [{"name": "string", "organisation": "string|null", "date": "string|null"}],
+    "references": [{"name": "string", "title": "string|null", "company": "string|null", "email": "string|null", "phone": "string|null"}],
+    "interests": ["string"],
+    "technical_skills": [{"name": "string", "level": "string|null"}],
+    "soft_skills": ["string"],
+    "additional_sections": [{"title": "string", "items": [{"label": "string|null", "value": "string|null", "details": "string|null"}]}]
+  }
+}
+JSON;
+    }
+
+    public static function parseUserMessage(string $rawText, string $filename): string
+    {
+        return <<<PROMPT
+Parse this CV file ({$filename}).
+
+Return JSON matching this schema exactly:
+PROMPT
+            .self::parseSchemaJson().<<<'PROMPT'
+
+
+The raw text below may be incomplete, out of order, or garbled from PDF/Word/image extraction. Reconstruct structured fields faithfully. Do not invent facts.
+
+--- RAW CV TEXT START ---
+PROMPT
+            .$rawText.<<<'PROMPT'
+
+--- RAW CV TEXT END ---
+PROMPT;
+    }
+
+    /**
+     * @param  array<string, mixed>  $parsed
+     */
+    public static function buildExtraContextForParsed(array $parsed): ?string
+    {
+        $structured = array_merge(
+            self::emptyStructuredData(),
+            is_array($parsed['structured_data'] ?? null) ? $parsed['structured_data'] : [],
+        );
+        $experience = self::normalizeExperience(is_array($parsed['experience'] ?? null) ? $parsed['experience'] : []);
+        $education = self::normalizeEducation(is_array($parsed['education'] ?? null) ? $parsed['education'] : []);
+        $text = self::buildExtraContext($structured, $experience, $education);
+
+        return $text !== '' ? $text : null;
     }
 
     /**

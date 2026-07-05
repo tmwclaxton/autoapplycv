@@ -24,75 +24,67 @@ class CvUploadTest extends TestCase
     #[Test]
     public function test_cv_upload_stores_verbatim_and_structured_profile_fields(): void
     {
-        $this->mock(CvParserService::class, function ($mock): void {
-            $mock->shouldReceive('extractText')->once()->andReturn('Raw PDF extract for Alex Developer');
-            $mock->shouldReceive('extractHyperlinks')->once()->andReturn([]);
-        });
+        $this->mockParserText('Raw PDF extract for Alex Developer');
 
-        $this->mock(CvExtractionService::class, function ($mock): void {
-            $mock->shouldReceive('extract')
-                ->once()
-                ->with('Raw PDF extract for Alex Developer', 'alex-cv.pdf', [])
-                ->andReturn([
-                    'full_name' => 'Alex Developer',
-                    'headline' => null,
-                    'email' => 'alex@example.com',
-                    'phone' => '+44 7700 900123',
-                    'location' => 'London, UK',
-                    'city' => 'London',
-                    'postcode' => null,
-                    'country' => 'United Kingdom',
-                    'linkedin_url' => null,
-                    'website_url' => null,
-                    'summary' => 'Backend engineer with Laravel experience.',
-                    'skills' => ['PHP', 'Laravel'],
-                    'experience' => [[
-                        'title' => 'Senior Developer',
-                        'company' => 'Example Ltd',
-                        'location' => null,
-                        'employment_type' => null,
-                        'start_date' => null,
-                        'end_date' => null,
-                        'is_current' => false,
-                        'description' => "• Shipped billing module\n• Reduced queue latency",
-                        'highlights' => ['Shipped billing module', 'Reduced queue latency'],
-                        'technologies' => ['PHP', 'Redis'],
-                    ]],
-                    'education' => [[
-                        'degree' => 'BSc Computer Science',
-                        'field_of_study' => null,
-                        'institution' => 'Example University',
-                        'location' => null,
-                        'start_date' => null,
-                        'end_date' => null,
-                        'grade' => null,
-                        'honours' => null,
-                        'description' => null,
-                        'highlights' => [],
-                    ]],
-                    'structured_data' => [
-                        'headline' => null,
-                        'address_line_1' => null,
-                        'address_line_2' => null,
-                        'state_region' => null,
-                        'social_links' => [],
-                        'languages' => [['language' => 'English', 'proficiency' => 'Native']],
-                        'certifications' => [['name' => 'AWS Solutions Architect', 'issuer' => null, 'date' => null, 'credential_id' => null, 'url' => null]],
-                        'projects' => [],
-                        'publications' => [],
-                        'awards' => [],
-                        'volunteering' => [],
-                        'memberships' => [],
-                        'references' => [],
-                        'interests' => [],
-                        'technical_skills' => [],
-                        'soft_skills' => [],
-                        'additional_sections' => [],
-                    ],
-                    'formatted_cv_text' => "Alex Developer\nSenior Developer at Example Ltd",
-                    'extra_context' => 'Certification: AWS Solutions Architect',
-                ]);
-        });
+        $this->mockExtraction([
+            'full_name' => 'Alex Developer',
+            'headline' => null,
+            'email' => 'alex@example.com',
+            'phone' => '+44 7700 900123',
+            'location' => 'London, UK',
+            'city' => 'London',
+            'postcode' => null,
+            'country' => 'United Kingdom',
+            'linkedin_url' => null,
+            'website_url' => null,
+            'summary' => 'Backend engineer with Laravel experience.',
+            'skills' => ['PHP', 'Laravel'],
+            'experience' => [[
+                'title' => 'Senior Developer',
+                'company' => 'Example Ltd',
+                'location' => null,
+                'employment_type' => null,
+                'start_date' => null,
+                'end_date' => null,
+                'is_current' => false,
+                'description' => "• Shipped billing module\n• Reduced queue latency",
+                'highlights' => ['Shipped billing module', 'Reduced queue latency'],
+                'technologies' => ['PHP', 'Redis'],
+            ]],
+            'education' => [[
+                'degree' => 'BSc Computer Science',
+                'field_of_study' => null,
+                'institution' => 'Example University',
+                'location' => null,
+                'start_date' => null,
+                'end_date' => null,
+                'grade' => null,
+                'honours' => null,
+                'description' => null,
+                'highlights' => [],
+            ]],
+            'structured_data' => [
+                'headline' => null,
+                'address_line_1' => null,
+                'address_line_2' => null,
+                'state_region' => null,
+                'social_links' => [],
+                'languages' => [['language' => 'English', 'proficiency' => 'Native']],
+                'certifications' => [['name' => 'AWS Solutions Architect', 'issuer' => null, 'date' => null, 'credential_id' => null, 'url' => null]],
+                'projects' => [],
+                'publications' => [],
+                'awards' => [],
+                'volunteering' => [],
+                'memberships' => [],
+                'references' => [],
+                'interests' => [],
+                'technical_skills' => [],
+                'soft_skills' => [],
+                'additional_sections' => [],
+            ],
+            'formatted_cv_text' => "Alex Developer\nSenior Developer at Example Ltd",
+            'extra_context' => 'Certification: AWS Solutions Architect',
+        ]);
 
         $user = User::factory()->create();
 
@@ -122,14 +114,9 @@ class CvUploadTest extends TestCase
     #[Test]
     public function test_cv_upload_accepts_image_files(): void
     {
-        $this->mock(CvParserService::class, function ($mock): void {
-            $mock->shouldReceive('extractText')->once()->andReturn('Text from scanned CV image');
-            $mock->shouldReceive('extractHyperlinks')->once()->andReturn([]);
-        });
+        $this->mockParserText('Text from scanned CV image', ocrUsed: true);
 
-        $this->mock(CvExtractionService::class, function ($mock): void {
-            $mock->shouldReceive('extract')->once()->andReturn(null);
-        });
+        $this->mockExtraction(null);
 
         $user = User::factory()->create();
 
@@ -148,52 +135,45 @@ class CvUploadTest extends TestCase
         $longHeadline = str_repeat('Senior Software Engineer specialising in distributed systems. ', 20);
         $longExtraContext = str_repeat('Certification: AWS Solutions Architect Professional with advanced networking. ', 30);
 
-        $this->mock(CvParserService::class, function ($mock): void {
-            $mock->shouldReceive('extractText')->once()->andReturn('Raw CV text for long fields test');
-            $mock->shouldReceive('extractHyperlinks')->once()->andReturn([]);
-        });
+        $this->mockParserText('Raw CV text for long fields test');
 
-        $this->mock(CvExtractionService::class, function ($mock) use ($longHeadline, $longExtraContext): void {
-            $mock->shouldReceive('extract')
-                ->once()
-                ->andReturn([
-                    'full_name' => 'Alex Developer',
-                    'headline' => $longHeadline,
-                    'email' => 'alex@example.com',
-                    'phone' => null,
-                    'location' => null,
-                    'city' => null,
-                    'postcode' => null,
-                    'country' => null,
-                    'linkedin_url' => null,
-                    'website_url' => null,
-                    'summary' => 'Backend engineer.',
-                    'skills' => ['PHP'],
-                    'experience' => [],
-                    'education' => [],
-                    'structured_data' => [
-                        'headline' => null,
-                        'address_line_1' => null,
-                        'address_line_2' => null,
-                        'state_region' => null,
-                        'social_links' => [],
-                        'languages' => [],
-                        'certifications' => [],
-                        'projects' => [],
-                        'publications' => [],
-                        'awards' => [],
-                        'volunteering' => [],
-                        'memberships' => [],
-                        'references' => [],
-                        'interests' => [],
-                        'technical_skills' => [],
-                        'soft_skills' => [],
-                        'additional_sections' => [],
-                    ],
-                    'formatted_cv_text' => str_repeat("Alex Developer\n", 100),
-                    'extra_context' => $longExtraContext,
-                ]);
-        });
+        $this->mockExtraction([
+            'full_name' => 'Alex Developer',
+            'headline' => $longHeadline,
+            'email' => 'alex@example.com',
+            'phone' => null,
+            'location' => null,
+            'city' => null,
+            'postcode' => null,
+            'country' => null,
+            'linkedin_url' => null,
+            'website_url' => null,
+            'summary' => 'Backend engineer.',
+            'skills' => ['PHP'],
+            'experience' => [],
+            'education' => [],
+            'structured_data' => [
+                'headline' => null,
+                'address_line_1' => null,
+                'address_line_2' => null,
+                'state_region' => null,
+                'social_links' => [],
+                'languages' => [],
+                'certifications' => [],
+                'projects' => [],
+                'publications' => [],
+                'awards' => [],
+                'volunteering' => [],
+                'memberships' => [],
+                'references' => [],
+                'interests' => [],
+                'technical_skills' => [],
+                'soft_skills' => [],
+                'additional_sections' => [],
+            ],
+            'formatted_cv_text' => str_repeat("Alex Developer\n", 100),
+            'extra_context' => $longExtraContext,
+        ]);
 
         $user = User::factory()->create();
 
@@ -221,14 +201,9 @@ class CvUploadTest extends TestCase
     #[Test]
     public function test_replacement_cv_upload_overwrites_existing_cv_document(): void
     {
-        $this->mock(CvParserService::class, function ($mock): void {
-            $mock->shouldReceive('extractText')->twice()->andReturn('CV text');
-            $mock->shouldReceive('extractHyperlinks')->twice()->andReturn([]);
-        });
+        $this->mockParserText('CV text', times: 2);
 
-        $this->mock(CvExtractionService::class, function ($mock): void {
-            $mock->shouldReceive('extract')->twice()->andReturn(null);
-        });
+        $this->mockExtraction(null, times: 2);
 
         $user = User::factory()->create();
 
@@ -259,20 +234,13 @@ class CvUploadTest extends TestCase
     #[Test]
     public function test_cv_upload_overwrites_existing_profile_fields_when_extraction_provides_values(): void
     {
-        $this->mock(CvParserService::class, function ($mock): void {
-            $mock->shouldReceive('extractText')->once()->andReturn('New CV raw text');
-            $mock->shouldReceive('extractHyperlinks')->once()->andReturn([]);
-        });
+        $this->mockParserText('New CV raw text');
 
-        $this->mock(CvExtractionService::class, function ($mock): void {
-            $mock->shouldReceive('extract')
-                ->once()
-                ->andReturn($this->sampleExtractedProfile([
-                    'full_name' => 'New Name From CV',
-                    'email' => 'new@example.com',
-                    'phone' => '+44 7700 900999',
-                ]));
-        });
+        $this->mockExtraction($this->sampleExtractedProfile([
+            'full_name' => 'New Name From CV',
+            'email' => 'new@example.com',
+            'phone' => '+44 7700 900999',
+        ]));
 
         $user = User::factory()->create();
         $user->cvProfile()->create([
@@ -308,42 +276,35 @@ class CvUploadTest extends TestCase
     #[Test]
     public function test_cv_reupload_replaces_experience_and_education_sections(): void
     {
-        $this->mock(CvParserService::class, function ($mock): void {
-            $mock->shouldReceive('extractText')->once()->andReturn('Second CV raw text');
-            $mock->shouldReceive('extractHyperlinks')->once()->andReturn([]);
-        });
+        $this->mockParserText('Second CV raw text');
 
-        $this->mock(CvExtractionService::class, function ($mock): void {
-            $mock->shouldReceive('extract')
-                ->once()
-                ->andReturn($this->sampleExtractedProfile([
-                    'experience' => [[
-                        'title' => 'Platform Engineer',
-                        'company' => 'New Employer',
-                        'location' => null,
-                        'employment_type' => null,
-                        'start_date' => '2024-01',
-                        'end_date' => null,
-                        'is_current' => true,
-                        'description' => null,
-                        'highlights' => ['Built CI pipelines'],
-                        'technologies' => ['Go'],
-                    ]],
-                    'education' => [[
-                        'degree' => 'MSc Cloud Computing',
-                        'field_of_study' => null,
-                        'institution' => 'New University',
-                        'location' => null,
-                        'start_date' => null,
-                        'end_date' => null,
-                        'grade' => null,
-                        'honours' => null,
-                        'description' => null,
-                        'highlights' => [],
-                    ]],
-                    'skills' => ['Go', 'Kubernetes'],
-                ]));
-        });
+        $this->mockExtraction($this->sampleExtractedProfile([
+            'experience' => [[
+                'title' => 'Platform Engineer',
+                'company' => 'New Employer',
+                'location' => null,
+                'employment_type' => null,
+                'start_date' => '2024-01',
+                'end_date' => null,
+                'is_current' => true,
+                'description' => null,
+                'highlights' => ['Built CI pipelines'],
+                'technologies' => ['Go'],
+            ]],
+            'education' => [[
+                'degree' => 'MSc Cloud Computing',
+                'field_of_study' => null,
+                'institution' => 'New University',
+                'location' => null,
+                'start_date' => null,
+                'end_date' => null,
+                'grade' => null,
+                'honours' => null,
+                'description' => null,
+                'highlights' => [],
+            ]],
+            'skills' => ['Go', 'Kubernetes'],
+        ]));
 
         $user = User::factory()->create();
         $user->cvProfile()->create([
@@ -390,6 +351,34 @@ class CvUploadTest extends TestCase
         $this->assertSame('Platform Engineer', $profile->experience[0]['title']);
         $this->assertSame('MSc Cloud Computing', $profile->education[0]['degree']);
         $this->assertSame(['Go', 'Kubernetes'], $profile->skills);
+    }
+
+    /**
+     * @param  array<string, mixed>|null  $data
+     */
+    private function mockExtraction(?array $data, int $times = 1): void
+    {
+        $this->mock(CvExtractionService::class, function ($mock) use ($data, $times): void {
+            $mock->shouldReceive('extractWithUsage')
+                ->times($times)
+                ->andReturn([
+                    'data' => $data,
+                    'usage' => null,
+                ]);
+        });
+    }
+
+    private function mockParserText(string $text, bool $ocrUsed = false, int $times = 1): void
+    {
+        $this->mock(CvParserService::class, function ($mock) use ($text, $ocrUsed, $times): void {
+            $mock->shouldReceive('extractTextWithMetadata')
+                ->times($times)
+                ->andReturn([
+                    'text' => $text,
+                    'ocr_used' => $ocrUsed,
+                ]);
+            $mock->shouldReceive('extractHyperlinks')->times($times)->andReturn([]);
+        });
     }
 
     /**

@@ -17,21 +17,39 @@ class CvParserService
 
     public function extractText(UploadedFile $file): string
     {
+        return $this->extractTextWithMetadata($file)['text'];
+    }
+
+    /**
+     * @return array{text: string, ocr_used: bool}
+     */
+    public function extractTextWithMetadata(UploadedFile $file): array
+    {
         $mimeType = $file->getMimeType() ?? '';
         $extension = strtolower($file->getClientOriginalExtension());
 
         if ($this->isImage($mimeType, $extension)) {
-            return $this->extractFromImageUpload($file);
+            return [
+                'text' => trim($this->extractFromImageUpload($file)),
+                'ocr_used' => true,
+            ];
         }
 
-        $text = match (true) {
+        return match (true) {
             $mimeType === 'application/pdf' || $extension === 'pdf' => $this->extractFromPdfUpload($file),
-            in_array($extension, ['docx', 'doc'], true) || str_contains($mimeType, 'word') => $this->extractFromWord($file->getRealPath()),
-            $extension === 'txt' || $mimeType === 'text/plain' => $this->extractFromPlainText($file),
-            default => '',
+            in_array($extension, ['docx', 'doc'], true) || str_contains($mimeType, 'word') => [
+                'text' => trim($this->extractFromWord($file->getRealPath())),
+                'ocr_used' => false,
+            ],
+            $extension === 'txt' || $mimeType === 'text/plain' => [
+                'text' => trim($this->extractFromPlainText($file)),
+                'ocr_used' => false,
+            ],
+            default => [
+                'text' => '',
+                'ocr_used' => false,
+            ],
         };
-
-        return trim($text);
     }
 
     /**
@@ -55,29 +73,59 @@ class CvParserService
         return PdfLinkExtractor::extract($path);
     }
 
-    private function extractFromPdfUpload(UploadedFile $file): string
+    /**
+     * @return array{text: string, ocr_used: bool}
+     */
+    private function extractFromPdfUpload(UploadedFile $file): array
     {
         $path = $file->getRealPath();
 
         if (! is_string($path)) {
-            return '';
+            return [
+                'text' => '',
+                'ocr_used' => false,
+            ];
         }
 
         $embeddedText = $this->extractFromPdf($path);
         $minimumLength = (int) config('cv.min_extracted_text_length', 80);
 
         if (! $this->tesseract->isAvailable()) {
-            return $embeddedText;
+            return [
+                'text' => $embeddedText,
+                'ocr_used' => false,
+            ];
+        }
+
+        if ($this->shouldSkipPdfOcr($embeddedText, $minimumLength)) {
+            return [
+                'text' => $embeddedText,
+                'ocr_used' => false,
+            ];
         }
 
         $ocrText = $this->tesseract->extractFromPdf($path);
 
-        return trim($this->chooseBestPdfText(
+        $text = trim($this->chooseBestPdfText(
             $embeddedText,
             $ocrText,
             $minimumLength,
             $file->getClientOriginalName(),
         ));
+
+        return [
+            'text' => $text,
+            'ocr_used' => $ocrText !== null && trim($ocrText) !== '' && $text === trim($ocrText),
+        ];
+    }
+
+    private function shouldSkipPdfOcr(string $embeddedText, int $minimumLength): bool
+    {
+        if ((bool) config('cv.ocr_prefer_pdf_tesseract', false)) {
+            return false;
+        }
+
+        return mb_strlen(trim($embeddedText)) >= $minimumLength;
     }
 
     private function chooseBestPdfText(

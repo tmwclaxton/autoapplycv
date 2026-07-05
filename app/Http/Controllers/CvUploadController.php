@@ -12,6 +12,7 @@ use App\Services\AutofillAnalyticsService;
 use App\Services\CvExtractionService;
 use App\Services\CvParserService;
 use App\Services\CvProfileDocumentService;
+use App\Services\ExtensionNanoGptUsageService;
 use App\Support\ApplicationSettings;
 use App\Support\CvExtractionProfileMerge;
 use App\Support\CvExtractionSchema;
@@ -27,6 +28,7 @@ class CvUploadController extends Controller
         private readonly AiTokenService $aiTokens,
         private readonly CvProfileDocumentService $cvDocuments,
         private readonly AutofillAnalyticsService $analytics,
+        private readonly ExtensionNanoGptUsageService $nanoGptUsage,
     ) {}
 
     public function store(StoreCvUploadRequest $request): JsonResponse
@@ -38,9 +40,11 @@ class CvUploadController extends Controller
 
         $this->cvDocuments->clearExistingCvArtifacts($user);
 
-        $rawText = $this->cvParser->extractText($file);
+        $extracted = $this->cvParser->extractTextWithMetadata($file);
+        $rawText = $extracted['text'];
         $extractedUrls = $this->cvParser->extractHyperlinks($file);
         $rawText = CvExtractionSchema::appendHyperlinksToRawText($rawText, $extractedUrls);
+        $contentHash = hash_file('sha256', $file->getRealPath() ?: '') ?: null;
 
         $storedPath = $file->store("cv-uploads/{$user->id}", 'local');
 
@@ -60,7 +64,15 @@ class CvUploadController extends Controller
             (int) $file->getSize(),
         );
 
-        $parsed = $this->parseWithAi($user, $rawText, $file->getClientOriginalName(), $extractedUrls);
+        $parsed = $this->parseWithAi(
+            $user,
+            $rawText,
+            $file->getClientOriginalName(),
+            $extractedUrls,
+            $request,
+            $extracted['ocr_used'],
+            $contentHash,
+        );
 
         $existingProfile = CvProfile::query()->where('user_id', $user->id)->first();
 
@@ -142,12 +154,30 @@ class CvUploadController extends Controller
     }
 
     /**
+     * @param  array<int, string>  $extractedUrls
      * @return array<string, mixed>|null
      */
-    private function parseWithAi(User $user, string $rawText, string $filename, array $extractedUrls = []): ?array
-    {
-        unset($user);
+    private function parseWithAi(
+        User $user,
+        string $rawText,
+        string $filename,
+        array $extractedUrls = [],
+        ?Request $request = null,
+        bool $ocrUsed = false,
+        ?string $contentHash = null,
+    ): ?array {
+        $extracted = $this->cvExtraction->extractWithUsage(
+            $rawText,
+            $filename,
+            $extractedUrls,
+            $ocrUsed,
+            $contentHash,
+        );
 
-        return $this->cvExtraction->extract($rawText, $filename, $extractedUrls);
+        if ($request?->is('api/*') && $extracted['usage'] !== null) {
+            $this->nanoGptUsage->record($user, 'cv.upload', $extracted['usage']);
+        }
+
+        return $extracted['data'];
     }
 }

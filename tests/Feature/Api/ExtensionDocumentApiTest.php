@@ -27,14 +27,20 @@ class ExtensionDocumentApiTest extends TestCase
     public function test_extension_token_can_upload_cv_via_api_route(): void
     {
         $this->mock(CvParserService::class, function ($mock): void {
-            $mock->shouldReceive('extractText')->once()->andReturn('Parsed CV text');
+            $mock->shouldReceive('extractTextWithMetadata')->once()->andReturn([
+                'text' => 'Parsed CV text',
+                'ocr_used' => false,
+            ]);
             $mock->shouldReceive('extractHyperlinks')->once()->andReturn([]);
         });
 
         $this->mock(CvExtractionService::class, function ($mock): void {
-            $mock->shouldReceive('extract')->once()->andReturn([
-                'full_name' => 'Jane Applicant',
-                'summary' => 'Updated summary',
+            $mock->shouldReceive('extractWithUsage')->once()->andReturn([
+                'data' => [
+                    'full_name' => 'Jane Applicant',
+                    'summary' => 'Updated summary',
+                ],
+                'usage' => null,
             ]);
         });
 

@@ -178,17 +178,23 @@ class AutofillAnalyticsTest extends TestCase
     public function test_successful_cv_parse_increments_cv_parsed_stats(): void
     {
         $this->mock(CvParserService::class, function ($mock): void {
-            $mock->shouldReceive('extractText')->once()->andReturn('Jane Doe backend engineer');
+            $mock->shouldReceive('extractTextWithMetadata')->once()->andReturn([
+                'text' => 'Jane Doe backend engineer',
+                'ocr_used' => false,
+            ]);
             $mock->shouldReceive('extractHyperlinks')->once()->andReturn([]);
         });
 
         $this->mock(CvExtractionService::class, function ($mock): void {
-            $mock->shouldReceive('extract')->once()->andReturn([
-                'full_name' => 'Jane Doe',
-                'email' => 'jane@example.com',
-                'skills' => ['PHP'],
-                'experience' => [],
-                'education' => [],
+            $mock->shouldReceive('extractWithUsage')->once()->andReturn([
+                'data' => [
+                    'full_name' => 'Jane Doe',
+                    'email' => 'jane@example.com',
+                    'skills' => ['PHP'],
+                    'experience' => [],
+                    'education' => [],
+                ],
+                'usage' => null,
             ]);
         });
 

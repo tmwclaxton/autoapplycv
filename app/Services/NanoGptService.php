@@ -139,6 +139,7 @@ class NanoGptService
      *     prompt_tokens: int,
      *     completion_tokens: int,
      *     total_tokens: int,
+     *     credits: float|null,
      *     model: string,
      * }|null
      */
@@ -186,6 +187,7 @@ class NanoGptService
         $totalTokens = max(1, (int) ($usage['total_tokens'] ?? $estimatedTokens));
         $promptTokens = max(0, (int) ($usage['prompt_tokens'] ?? $totalTokens));
         $completionTokens = max(0, (int) ($usage['completion_tokens'] ?? max(0, $totalTokens - $promptTokens)));
+        $credits = $usage['cost'] ?? $usage['credits'] ?? $usage['nano_credits'] ?? null;
         $content = $response->json('choices.0.message.content');
         $model = (string) ($response->json('model') ?? $requestedModel);
 
@@ -198,6 +200,7 @@ class NanoGptService
             'prompt_tokens' => $promptTokens,
             'completion_tokens' => $completionTokens,
             'total_tokens' => $totalTokens,
+            'credits' => is_numeric($credits) ? (float) $credits : null,
             'model' => $model,
         ];
     }
@@ -237,6 +240,7 @@ class NanoGptService
      *     prompt_tokens: int,
      *     completion_tokens: int,
      *     total_tokens: int,
+     *     credits: float|null,
      *     model: string,
      * }|null  $result
      * @return array<string, mixed>|null
@@ -261,6 +265,7 @@ class NanoGptService
             'prompt_tokens' => $result['prompt_tokens'],
             'completion_tokens' => $result['completion_tokens'],
             'total_tokens' => $result['total_tokens'],
+            'credits' => $result['credits'],
             'model' => $result['model'],
         ];
 
