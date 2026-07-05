@@ -25,16 +25,47 @@ class ProfileIdentityFieldResolver
      */
     private const LABEL_MAPPINGS = [
         ['path' => 'full_name', 'keywords' => ['full name', 'applicant name', 'your name', 'candidate name'], 'exact_labels' => ['name']],
-        ['path' => 'full_name.first', 'keywords' => ['first name', 'given name', 'forename']],
-        ['path' => 'full_name.last', 'keywords' => ['last name', 'surname', 'family name']],
-        ['path' => 'email', 'keywords' => ['email', 'e-mail', 'personal email']],
-        ['path' => 'phone', 'keywords' => ['phone', 'mobile', 'telephone', 'contact number', 'cell']],
-        ['path' => 'city', 'keywords' => ['city', 'current city', 'town']],
+        ['path' => 'full_name.first', 'keywords' => ['first name', 'given name', 'forename', 'fornamn', 'förnamn']],
+        ['path' => 'full_name.last', 'keywords' => ['last name', 'surname', 'family name', 'efternamn']],
+        ['path' => 'email', 'keywords' => ['email', 'e-mail', 'personal email', 'e post', 'epost']],
+        ['path' => 'phone', 'keywords' => ['phone', 'mobile', 'telephone', 'contact number', 'cell', 'telefon']],
+        ['path' => 'city', 'keywords' => ['city', 'current city', 'town', 'stad', 'ort']],
+    ];
+
+    /**
+     * @var array<int, array{path: string, patterns: array<int, string>}>
+     */
+    private const DOM_HINT_MAPPINGS = [
+        ['path' => 'full_name.first', 'patterns' => ['first_name', 'firstname', 'given_name', 'given-name']],
+        ['path' => 'full_name.last', 'patterns' => ['last_name', 'lastname', 'surname', 'family_name', 'family-name']],
+        ['path' => 'email', 'patterns' => ['email', 'e_mail', 'e-mail']],
+        ['path' => 'phone', 'patterns' => ['phone', 'mobile', 'telephone', 'tel']],
     ];
 
     public static function isIdentityPath(string $path): bool
     {
         return in_array($path, self::IDENTITY_PATHS, true);
+    }
+
+    /**
+     * @param  array{label?: string, ref?: string|null, dom?: array{id?: string|null, name?: string|null}|null}  $question
+     * @return array{path: string}|null
+     */
+    public static function resolveMappingForQuestion(array $question): ?array
+    {
+        $domMapping = self::resolveMappingFromDomHints($question['dom'] ?? null);
+
+        if ($domMapping !== null) {
+            return $domMapping;
+        }
+
+        $label = $question['label'] ?? '';
+
+        if (! is_string($label) || trim($label) === '') {
+            return null;
+        }
+
+        return self::resolveMappingForLabel($label);
     }
 
     /**
@@ -50,7 +81,7 @@ class ProfileIdentityFieldResolver
             return ['path' => 'city'];
         }
 
-        $normalized = self::normalizeQuestionLabel($label);
+        $normalized = self::normalizeLabelForMapping($label);
 
         if ($normalized === '') {
             return null;
@@ -59,6 +90,43 @@ class ProfileIdentityFieldResolver
         foreach (self::LABEL_MAPPINGS as $mapping) {
             if (self::mappingMatchesLabel($mapping, $normalized)) {
                 return ['path' => $mapping['path']];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param  array{id?: string|null, name?: string|null}|null  $dom
+     * @return array{path: string}|null
+     */
+    public static function resolveMappingFromDomHints(?array $dom): ?array
+    {
+        if ($dom === null) {
+            return null;
+        }
+
+        $tokens = [];
+
+        foreach (['id', 'name'] as $key) {
+            if (! isset($dom[$key]) || ! is_string($dom[$key]) || trim($dom[$key]) === '') {
+                continue;
+            }
+
+            $tokens[] = mb_strtolower(trim($dom[$key]));
+        }
+
+        if ($tokens === []) {
+            return null;
+        }
+
+        $haystack = implode(' ', $tokens);
+
+        foreach (self::DOM_HINT_MAPPINGS as $mapping) {
+            foreach ($mapping['patterns'] as $pattern) {
+                if (str_contains($haystack, $pattern)) {
+                    return ['path' => $mapping['path']];
+                }
             }
         }
 
@@ -106,7 +174,7 @@ class ProfileIdentityFieldResolver
      */
     public static function resolveAnswerForQuestion(CvProfile $profile, array $question, array $settings = []): ?array
     {
-        $mapping = self::resolveMappingForLabel($question['label'] ?? '');
+        $mapping = self::resolveMappingForQuestion($question);
 
         if ($mapping === null || ! self::isIdentityPath($mapping['path'])) {
             return null;
@@ -308,6 +376,10 @@ class ProfileIdentityFieldResolver
             return true;
         }
 
+        if (preg_match('/\b(?:stad|ort)\b/u', $normalized) === 1) {
+            return true;
+        }
+
         return preg_match('/\b(?:city|town)\b/u', $normalized) === 1
             && preg_match('/\blocation\b/u', $normalized) === 1;
     }
@@ -339,11 +411,53 @@ class ProfileIdentityFieldResolver
         return preg_match('/(?:^|\s)'.$escaped.'(?:\s|$)/u', ' '.$normalized.' ') === 1;
     }
 
+    public static function normalizeLabelForMapping(string $label): string
+    {
+        $normalized = self::normalizeQuestionLabel($label);
+        $normalized = self::dedupeNormalizedLabel($normalized);
+        $normalized = (string) preg_replace('/\s+required(?:\s+required)*$/u', '', $normalized);
+
+        return trim($normalized);
+    }
+
+    private static function dedupeNormalizedLabel(string $normalized): string
+    {
+        $tokens = preg_split('/\s+/u', trim($normalized)) ?: [];
+
+        if (count($tokens) <= 1) {
+            return $normalized;
+        }
+
+        for ($phraseLen = 1; $phraseLen <= intdiv(count($tokens), 2); $phraseLen++) {
+            if (count($tokens) % $phraseLen !== 0) {
+                continue;
+            }
+
+            $phrase = array_slice($tokens, 0, $phraseLen);
+            $repeats = true;
+
+            for ($index = $phraseLen; $index < count($tokens); $index += $phraseLen) {
+                if (array_slice($tokens, $index, $phraseLen) !== $phrase) {
+                    $repeats = false;
+
+                    break;
+                }
+            }
+
+            if ($repeats) {
+                return implode(' ', $phrase);
+            }
+        }
+
+        return $normalized;
+    }
+
     private static function normalizeQuestionLabel(string $label): string
     {
         $label = mb_strtolower(trim($label));
         $label = (string) preg_replace('/\*/', '', $label);
-        $label = (string) preg_replace('/[^\p{L}\p{N}\s>\/-]/u', '', $label);
+        $label = (string) preg_replace('/[^\p{L}\p{N}\s>\/-]/u', ' ', $label);
+        $label = (string) preg_replace('/(\p{L})(required|optional)\b/u', '$1 $2', $label);
         $label = (string) preg_replace('/\s+/u', ' ', $label);
 
         return trim($label);

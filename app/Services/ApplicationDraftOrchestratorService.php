@@ -193,6 +193,20 @@ class ApplicationDraftOrchestratorService
                 $question['ref'] = $field['ref'];
             }
 
+            if (isset($field['dom']) && is_array($field['dom'])) {
+                $dom = [];
+
+                foreach (['id', 'name'] as $key) {
+                    if (isset($field['dom'][$key]) && is_string($field['dom'][$key]) && trim($field['dom'][$key]) !== '') {
+                        $dom[$key] = trim($field['dom'][$key]);
+                    }
+                }
+
+                if ($dom !== []) {
+                    $question['dom'] = $dom;
+                }
+            }
+
             return $question;
         }, $batch);
     }

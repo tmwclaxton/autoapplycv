@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-07-05T08:55:18.614Z",
+  "generated_at": "2026-07-05T15:26:33.095Z",
   "totals": {
     "scenarios": 10,
-    "evaluated": 10,
-    "passed": 8,
+    "evaluated": 7,
+    "passed": 5,
     "failed": 2,
-    "pass_rate": 0.8,
-    "critical_total": 5,
+    "pass_rate": 0.7143,
+    "critical_total": 4,
     "critical_passed": 3,
-    "critical_pass_rate": 0.6,
+    "critical_pass_rate": 0.75,
     "ashby_widget_passed": 2,
     "ashby_widget_total": 2
   },
@@ -18,67 +18,14 @@
       "platform": "ashby",
       "priority": "critical",
       "passed": true,
-      "plan_count": 11,
+      "plan_count": 4,
       "apply_failures": 0,
       "readback_failures": 0,
-      "a11y_failures": 5,
+      "a11y_failures": 0,
       "error_banner_count": 0,
-      "failures": [
-        {
-          "stage": "a11yState",
-          "field": "what pronouns would you like our team to use when addressing you?",
-          "ref": "f7",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "how did you hear about this opportunity? (select all that apply)",
-          "ref": "f8",
-          "message": "checkboxNotChecked",
-          "expected": "LinkedIn",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "gender",
-          "ref": "f9",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "race",
-          "ref": "f10",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "veteran status",
-          "ref": "f11",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        }
-      ],
+      "failures": [],
       "readback_failures_detail": [],
       "readbacks": [
-        {
-          "ref": "f0",
-          "expected": "Yes",
-          "actual": "Yes",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f1",
-          "expected": "Yes",
-          "actual": "Yes",
-          "fieldType": "radio"
-        },
         {
           "ref": "f2",
           "expected": "FillVerify-2",
@@ -102,78 +49,12 @@
           "expected": "FillVerify-6",
           "actual": "FillVerify-6",
           "fieldType": "text"
-        },
-        {
-          "ref": "f7",
-          "expected": "He/Him",
-          "actual": "checked",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f8",
-          "expected": "LinkedIn",
-          "actual": "checked",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f9",
-          "expected": "Male",
-          "actual": "checked",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f10",
-          "expected": "Hispanic or Latino",
-          "actual": "checked",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f11",
-          "expected": "I identify as one or more of the classifications of protected veteran listed above",
-          "actual": "checked",
-          "fieldType": "radio"
         }
       ],
       "checks": {
         "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "what pronouns would you like our team to use when addressing you?",
-              "ref": "f7",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "how did you hear about this opportunity? (select all that apply)",
-              "ref": "f8",
-              "reason": "checkboxNotChecked",
-              "expected": "LinkedIn",
-              "actual": []
-            },
-            {
-              "field": "gender",
-              "ref": "f9",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "race",
-              "ref": "f10",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "veteran status",
-              "ref": "f11",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            }
-          ]
+          "passed": true,
+          "failures": []
         },
         "errorBanner": {
           "passed": true,
@@ -187,25 +68,13 @@
       "id": "web-boards-greenhouse-io-8614025002",
       "platform": "greenhouse",
       "priority": "critical",
-      "passed": false,
-      "plan_count": 43,
-      "apply_failures": 2,
+      "passed": true,
+      "plan_count": 34,
+      "apply_failures": 0,
       "readback_failures": 0,
-      "a11y_failures": 19,
+      "a11y_failures": 15,
       "error_banner_count": 0,
       "failures": [
-        {
-          "stage": "apply",
-          "field": "first name",
-          "ref": "f5",
-          "expected": "FillVerify-5"
-        },
-        {
-          "stage": "apply",
-          "field": "current address (city – state – zip code)",
-          "ref": "f14",
-          "expected": "FillVerify-14"
-        },
         {
           "stage": "a11yState",
           "field": "phone",
@@ -248,16 +117,16 @@
         },
         {
           "stage": "a11yState",
-          "field": "years of pharma experience years of pharma experience current address (city – state – zip code)",
-          "ref": "f19",
+          "field": "current address (city – state – zip code)",
+          "ref": "f18",
           "message": "comboboxEmpty",
-          "expected": "FillVerify-19",
+          "expected": "FillVerify-14",
           "actual": ""
         },
         {
           "stage": "a11yState",
           "field": "other experience",
-          "ref": "f23",
+          "ref": "f22",
           "message": "checkboxNotChecked",
           "expected": "Start-up",
           "actual": []
@@ -265,7 +134,7 @@
         {
           "stage": "a11yState",
           "field": "are you at least 18 years old? are you at least 18 years old? current address (city – state – zip code)",
-          "ref": "f24",
+          "ref": "f23",
           "message": "comboboxEmpty",
           "expected": "FillVerify-24",
           "actual": ""
@@ -273,7 +142,7 @@
         {
           "stage": "a11yState",
           "field": "are you an american citizen, lawful permanent resident of the united states, temporary resident, refugee or asylee? are you an american citizen, lawful permanent resident of the united states, temporary resident, refugee or asylee? current address (city – state – zip code)",
-          "ref": "f25",
+          "ref": "f24",
           "message": "comboboxEmpty",
           "expected": "FillVerify-25",
           "actual": ""
@@ -281,7 +150,7 @@
         {
           "stage": "a11yState",
           "field": "are you presently authorized to work for braeburn in the position for which you are applying? are you presently authorized to work for braeburn in the position for which you are applying? current address (city – state – zip code)",
-          "ref": "f26",
+          "ref": "f25",
           "message": "comboboxEmpty",
           "expected": "FillVerify-26",
           "actual": ""
@@ -289,7 +158,7 @@
         {
           "stage": "a11yState",
           "field": "will you now or in the future require braeburn to sponsor you or to obtain, maintain or extend your employment authorization? will you now or in the future require braeburn to sponsor you or to obtain, maintain or extend your employment authorization? current address (city – state – zip code)",
-          "ref": "f27",
+          "ref": "f26",
           "message": "comboboxEmpty",
           "expected": "FillVerify-27",
           "actual": ""
@@ -297,7 +166,7 @@
         {
           "stage": "a11yState",
           "field": "are you related to any officer or member of the board of directors at braeburn? are you related to any officer or member of the board of directors at braeburn? current address (city – state – zip code)",
-          "ref": "f28",
+          "ref": "f27",
           "message": "comboboxEmpty",
           "expected": "FillVerify-28",
           "actual": ""
@@ -305,7 +174,7 @@
         {
           "stage": "a11yState",
           "field": "are you able to perform the essential functions of the job for which you are applying, either with or without reasonable accommodations? are you able to perform the essential functions of the job for which you are applying, either with or without reasonable accommodations? current address (city – state – zip code)",
-          "ref": "f29",
+          "ref": "f28",
           "message": "comboboxEmpty",
           "expected": "FillVerify-29",
           "actual": ""
@@ -313,7 +182,7 @@
         {
           "stage": "a11yState",
           "field": "have you been excluded, debarred, suspended or otherwise declared ineligible to participate in federal or state healthcare programs? have you been excluded, debarred, suspended or otherwise declared ineligible to participate in federal or state healthcare programs? current address (city – state – zip code)",
-          "ref": "f33",
+          "ref": "f32",
           "message": "comboboxEmpty",
           "expected": "FillVerify-33",
           "actual": ""
@@ -321,41 +190,9 @@
         {
           "stage": "a11yState",
           "field": "i understand that completion of this application does not obligate braeburn to hire me or offer me employment. i certify that my answers are true, accurate, and complete to the best of my knowledge, i understand that any falsification, misrepresentation, or omission of any facts in my application, resume, or any other accompanying or required material, or during any interviews, can be justification for refusal of employment, or immediate termination of employment, regardless of when and how discovered. i understand that this employment application is not a contract of employment. i understand that, if employed, my employment may be terminated with or without cause, and with or without notice, at any time, at the option of either braeburn or me. i understand that any oral or written statement to the contrary are hereby expressly disavowed and should not be relied upon by any prospective or existing employee. if hired, i agree to comply with all applicable laws and abide by the rules and regulations of braeburn as issued from time to time. braeburn may, at its sole discretion, hold in abeyance or revoke, amend or modify, abridge or change any benefit, policy, practice, condition or process affecting its employees. any offer of employment i may receive from braeburn is contingent upon my successful completion of the company’s pre-employment screening process, including the receipt by braeburn of references that it considers satisfactory. i authorize all of my former employers and those individuals i have listed as professional references to furnish information about my employment, work performance, abilities, and other qualities pertinent to my qualifications for employment, hereby releasing them from any and all liabilities for damages arising from furnishing the requested information. i also affirm that i have not signed any kind of restrictive document creating any obligation to any former employer that would restrict my acceptance of employment with braeburn in the position i am seeking. i acknowledge that i have read and understand all of the above statements. i understand that completion of this application does not obligate braeburn to hire me or offer me employment. i certify that my answers are true, accurate, and complete to the best of my knowledge, i understand that any falsification, misrepresentation, or omission of any facts in my application, resume, or any other accompanying or required material, or during any interviews, can be justification for refusal of employment, or immediate termination of employment, regardless of when and how discovered. i understand that this employment application is not a contract of employment. i understand that, if employed, my employment may be terminated with or without cause, and with or without notice, at any time, at the option of either braeburn or me. i understand that any oral or written statement to the contrary are hereby expressly disavowed and should not be relied upon by any prospective or existing employee. if hired, i agree to comply with all applicable laws and abide by the rules and regulations of braeburn as issued from time to time. braeburn may, at its sole discretion, hold in abeyance or revoke, amend or modify, abridge or change any benefit, policy, practice, condition or process affecting its employees. any offer of employment i may receive from braeburn is contingent upon my successful completion of the company’s pre-employment screening process, including the receipt by braeburn of references that it considers satisfactory. i authorize all of my former employers and those individuals i have listed as professional references to furnish information about my employment, work performance, abilities, and other qualities pertinent to my qualifications for employment, hereby releasing them from any and all liabilities for damages arising from furnishing the requested information. i also affirm that i have not signed any kind of restrictive document creating any obligation to any former employer that would restrict my acceptance of employment with braeburn in the position i am seeking. i acknowledge that i have read and understand all of the above statements. current address (city – state – zip code)",
-          "ref": "f39",
+          "ref": "f38",
           "message": "comboboxEmpty",
           "expected": "FillVerify-39",
-          "actual": ""
-        },
-        {
-          "stage": "a11yState",
-          "field": "gender gender gender",
-          "ref": "f40",
-          "message": "comboboxEmpty",
-          "expected": "FillVerify-40",
-          "actual": ""
-        },
-        {
-          "stage": "a11yState",
-          "field": "are you hispanic/latino? are you hispanic/latino? are you hispanic/latino?",
-          "ref": "f41",
-          "message": "comboboxEmpty",
-          "expected": "FillVerify-41",
-          "actual": ""
-        },
-        {
-          "stage": "a11yState",
-          "field": "veteran status veteran status veteran status",
-          "ref": "f42",
-          "message": "comboboxEmpty",
-          "expected": "FillVerify-42",
-          "actual": ""
-        },
-        {
-          "stage": "a11yState",
-          "field": "disability status disability status disability status",
-          "ref": "f43",
-          "message": "comboboxEmpty",
-          "expected": "FillVerify-43",
           "actual": ""
         }
       ],
@@ -386,6 +223,12 @@
           "fieldType": "text"
         },
         {
+          "ref": "f9",
+          "expected": "FillVerify-5",
+          "actual": "FillVerify-5",
+          "fieldType": "text"
+        },
+        {
           "ref": "f6",
           "expected": "FillVerify-6",
           "actual": "FillVerify-6",
@@ -404,25 +247,25 @@
           "fieldType": "text"
         },
         {
-          "ref": "f9",
+          "ref": "f10",
           "expected": "FillVerify-9",
           "actual": "FillVerify-9",
           "fieldType": "text"
         },
         {
-          "ref": "f10",
+          "ref": "f11",
           "expected": "FillVerify-10",
           "actual": "FillVerify-10",
           "fieldType": "text"
         },
         {
-          "ref": "f11",
+          "ref": "f12",
           "expected": "FillVerify-11",
           "actual": "FillVerify-11",
           "fieldType": "text"
         },
         {
-          "ref": "f12",
+          "ref": "f14",
           "expected": "FillVerify-12",
           "actual": "FillVerify-12",
           "fieldType": "text"
@@ -431,6 +274,12 @@
           "ref": "f13",
           "expected": "FillVerify-13",
           "actual": "FillVerify-13",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f18",
+          "expected": "FillVerify-14",
+          "actual": "FillVerify-14",
           "fieldType": "text"
         },
         {
@@ -452,81 +301,75 @@
           "fieldType": "text"
         },
         {
-          "ref": "f18",
+          "ref": "f19",
           "expected": "FillVerify-18",
           "actual": "FillVerify-18",
           "fieldType": "text"
         },
         {
-          "ref": "f19",
+          "ref": "f20",
           "expected": "FillVerify-19",
           "actual": "FillVerify-19",
           "fieldType": "text"
         },
         {
-          "ref": "f20",
+          "ref": "f21",
           "expected": "FillVerify-20",
           "actual": "FillVerify-20",
           "fieldType": "text"
         },
         {
-          "ref": "f21",
+          "ref": "f29",
           "expected": "FillVerify-21",
           "actual": "FillVerify-21",
           "fieldType": "text"
         },
         {
-          "ref": "f22",
+          "ref": "f30",
           "expected": "FillVerify-22",
           "actual": "FillVerify-22",
           "fieldType": "text"
         },
         {
-          "ref": "f23",
+          "ref": "f22",
           "expected": "Start-up",
-          "actual": "Start-up",
+          "actual": "Other Experience *Start-upProduct LaunchInjectablesMatrix EnvironmentREMS ProductScheduled Class II to Class IV productPatient/ HUB Services",
           "fieldType": "checkbox"
         },
         {
-          "ref": "f24",
+          "ref": "f23",
           "expected": "FillVerify-24",
           "actual": "FillVerify-24",
           "fieldType": "text"
         },
         {
-          "ref": "f25",
+          "ref": "f24",
           "expected": "FillVerify-25",
           "actual": "FillVerify-25",
           "fieldType": "text"
         },
         {
-          "ref": "f26",
+          "ref": "f25",
           "expected": "FillVerify-26",
           "actual": "FillVerify-26",
           "fieldType": "text"
         },
         {
-          "ref": "f27",
+          "ref": "f26",
           "expected": "FillVerify-27",
           "actual": "FillVerify-27",
           "fieldType": "text"
         },
         {
-          "ref": "f28",
+          "ref": "f27",
           "expected": "FillVerify-28",
           "actual": "FillVerify-28",
           "fieldType": "text"
         },
         {
-          "ref": "f29",
+          "ref": "f28",
           "expected": "FillVerify-29",
           "actual": "FillVerify-29",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f30",
-          "expected": "FillVerify-30",
-          "actual": "FillVerify-30",
           "fieldType": "text"
         },
         {
@@ -536,13 +379,13 @@
           "fieldType": "text"
         },
         {
-          "ref": "f32",
+          "ref": "f33",
           "expected": "FillVerify-32",
           "actual": "FillVerify-32",
           "fieldType": "text"
         },
         {
-          "ref": "f33",
+          "ref": "f32",
           "expected": "FillVerify-33",
           "actual": "FillVerify-33",
           "fieldType": "text"
@@ -554,57 +397,9 @@
           "fieldType": "text"
         },
         {
-          "ref": "f35",
-          "expected": "FillVerify-35",
-          "actual": "FillVerify-35",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f36",
-          "expected": "FillVerify-36",
-          "actual": "FillVerify-36",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f37",
-          "expected": "FillVerify-37",
-          "actual": "FillVerify-37",
-          "fieldType": "text"
-        },
-        {
           "ref": "f38",
-          "expected": "FillVerify-38",
-          "actual": "FillVerify-38",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f39",
           "expected": "FillVerify-39",
           "actual": "FillVerify-39",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f40",
-          "expected": "FillVerify-40",
-          "actual": "FillVerify-40",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f41",
-          "expected": "FillVerify-41",
-          "actual": "FillVerify-41",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f42",
-          "expected": "FillVerify-42",
-          "actual": "FillVerify-42",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f43",
-          "expected": "FillVerify-43",
-          "actual": "FillVerify-43",
           "fieldType": "text"
         }
       ],
@@ -648,101 +443,73 @@
               "actual": ""
             },
             {
-              "field": "years of pharma experience years of pharma experience current address (city – state – zip code)",
-              "ref": "f19",
+              "field": "current address (city – state – zip code)",
+              "ref": "f18",
               "reason": "comboboxEmpty",
-              "expected": "FillVerify-19",
+              "expected": "FillVerify-14",
               "actual": ""
             },
             {
               "field": "other experience",
-              "ref": "f23",
+              "ref": "f22",
               "reason": "checkboxNotChecked",
               "expected": "Start-up",
               "actual": []
             },
             {
               "field": "are you at least 18 years old? are you at least 18 years old? current address (city – state – zip code)",
-              "ref": "f24",
+              "ref": "f23",
               "reason": "comboboxEmpty",
               "expected": "FillVerify-24",
               "actual": ""
             },
             {
               "field": "are you an american citizen, lawful permanent resident of the united states, temporary resident, refugee or asylee? are you an american citizen, lawful permanent resident of the united states, temporary resident, refugee or asylee? current address (city – state – zip code)",
-              "ref": "f25",
+              "ref": "f24",
               "reason": "comboboxEmpty",
               "expected": "FillVerify-25",
               "actual": ""
             },
             {
               "field": "are you presently authorized to work for braeburn in the position for which you are applying? are you presently authorized to work for braeburn in the position for which you are applying? current address (city – state – zip code)",
-              "ref": "f26",
+              "ref": "f25",
               "reason": "comboboxEmpty",
               "expected": "FillVerify-26",
               "actual": ""
             },
             {
               "field": "will you now or in the future require braeburn to sponsor you or to obtain, maintain or extend your employment authorization? will you now or in the future require braeburn to sponsor you or to obtain, maintain or extend your employment authorization? current address (city – state – zip code)",
-              "ref": "f27",
+              "ref": "f26",
               "reason": "comboboxEmpty",
               "expected": "FillVerify-27",
               "actual": ""
             },
             {
               "field": "are you related to any officer or member of the board of directors at braeburn? are you related to any officer or member of the board of directors at braeburn? current address (city – state – zip code)",
-              "ref": "f28",
+              "ref": "f27",
               "reason": "comboboxEmpty",
               "expected": "FillVerify-28",
               "actual": ""
             },
             {
               "field": "are you able to perform the essential functions of the job for which you are applying, either with or without reasonable accommodations? are you able to perform the essential functions of the job for which you are applying, either with or without reasonable accommodations? current address (city – state – zip code)",
-              "ref": "f29",
+              "ref": "f28",
               "reason": "comboboxEmpty",
               "expected": "FillVerify-29",
               "actual": ""
             },
             {
               "field": "have you been excluded, debarred, suspended or otherwise declared ineligible to participate in federal or state healthcare programs? have you been excluded, debarred, suspended or otherwise declared ineligible to participate in federal or state healthcare programs? current address (city – state – zip code)",
-              "ref": "f33",
+              "ref": "f32",
               "reason": "comboboxEmpty",
               "expected": "FillVerify-33",
               "actual": ""
             },
             {
               "field": "i understand that completion of this application does not obligate braeburn to hire me or offer me employment. i certify that my answers are true, accurate, and complete to the best of my knowledge, i understand that any falsification, misrepresentation, or omission of any facts in my application, resume, or any other accompanying or required material, or during any interviews, can be justification for refusal of employment, or immediate termination of employment, regardless of when and how discovered. i understand that this employment application is not a contract of employment. i understand that, if employed, my employment may be terminated with or without cause, and with or without notice, at any time, at the option of either braeburn or me. i understand that any oral or written statement to the contrary are hereby expressly disavowed and should not be relied upon by any prospective or existing employee. if hired, i agree to comply with all applicable laws and abide by the rules and regulations of braeburn as issued from time to time. braeburn may, at its sole discretion, hold in abeyance or revoke, amend or modify, abridge or change any benefit, policy, practice, condition or process affecting its employees. any offer of employment i may receive from braeburn is contingent upon my successful completion of the company’s pre-employment screening process, including the receipt by braeburn of references that it considers satisfactory. i authorize all of my former employers and those individuals i have listed as professional references to furnish information about my employment, work performance, abilities, and other qualities pertinent to my qualifications for employment, hereby releasing them from any and all liabilities for damages arising from furnishing the requested information. i also affirm that i have not signed any kind of restrictive document creating any obligation to any former employer that would restrict my acceptance of employment with braeburn in the position i am seeking. i acknowledge that i have read and understand all of the above statements. i understand that completion of this application does not obligate braeburn to hire me or offer me employment. i certify that my answers are true, accurate, and complete to the best of my knowledge, i understand that any falsification, misrepresentation, or omission of any facts in my application, resume, or any other accompanying or required material, or during any interviews, can be justification for refusal of employment, or immediate termination of employment, regardless of when and how discovered. i understand that this employment application is not a contract of employment. i understand that, if employed, my employment may be terminated with or without cause, and with or without notice, at any time, at the option of either braeburn or me. i understand that any oral or written statement to the contrary are hereby expressly disavowed and should not be relied upon by any prospective or existing employee. if hired, i agree to comply with all applicable laws and abide by the rules and regulations of braeburn as issued from time to time. braeburn may, at its sole discretion, hold in abeyance or revoke, amend or modify, abridge or change any benefit, policy, practice, condition or process affecting its employees. any offer of employment i may receive from braeburn is contingent upon my successful completion of the company’s pre-employment screening process, including the receipt by braeburn of references that it considers satisfactory. i authorize all of my former employers and those individuals i have listed as professional references to furnish information about my employment, work performance, abilities, and other qualities pertinent to my qualifications for employment, hereby releasing them from any and all liabilities for damages arising from furnishing the requested information. i also affirm that i have not signed any kind of restrictive document creating any obligation to any former employer that would restrict my acceptance of employment with braeburn in the position i am seeking. i acknowledge that i have read and understand all of the above statements. current address (city – state – zip code)",
-              "ref": "f39",
+              "ref": "f38",
               "reason": "comboboxEmpty",
               "expected": "FillVerify-39",
-              "actual": ""
-            },
-            {
-              "field": "gender gender gender",
-              "ref": "f40",
-              "reason": "comboboxEmpty",
-              "expected": "FillVerify-40",
-              "actual": ""
-            },
-            {
-              "field": "are you hispanic/latino? are you hispanic/latino? are you hispanic/latino?",
-              "ref": "f41",
-              "reason": "comboboxEmpty",
-              "expected": "FillVerify-41",
-              "actual": ""
-            },
-            {
-              "field": "veteran status veteran status veteran status",
-              "ref": "f42",
-              "reason": "comboboxEmpty",
-              "expected": "FillVerify-42",
-              "actual": ""
-            },
-            {
-              "field": "disability status disability status disability status",
-              "ref": "f43",
-              "reason": "comboboxEmpty",
-              "expected": "FillVerify-43",
               "actual": ""
             }
           ]
@@ -760,10 +527,10 @@
       "platform": "lever",
       "priority": "critical",
       "passed": true,
-      "plan_count": 35,
+      "plan_count": 9,
       "apply_failures": 0,
       "readback_failures": 0,
-      "a11y_failures": 10,
+      "a11y_failures": 4,
       "error_banner_count": 0,
       "failures": [
         {
@@ -797,64 +564,10 @@
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "hiring our heroes hiring our heroes hiring our heroes",
-          "ref": "f20",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "san diego, california san diego, california san diego, california",
-          "ref": "f26",
-          "message": "checkboxNotChecked",
-          "expected": "San Diego",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "san diego, california san diego, california san diego, california",
-          "ref": "f26",
-          "message": "checkboxNotChecked",
-          "expected": "California",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "race hispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races.decline to self-identify hispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race. hispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race. race hispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races.decline to self-identify",
-          "ref": "f29",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy",
-          "ref": "f34",
-          "message": "checkboxNotChecked",
-          "expected": "Yes",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy",
-          "ref": "f34",
-          "message": "checkboxNotChecked",
-          "expected": "Shield AI can contact me about future job opportunities for up to 1 yearPrivacy policy",
-          "actual": []
         }
       ],
       "readback_failures_detail": [],
       "readbacks": [
-        {
-          "ref": "f0",
-          "expected": "Select...",
-          "actual": "Select...",
-          "fieldType": "select"
-        },
         {
           "ref": "f1",
           "expected": "FillVerify-1",
@@ -868,64 +581,10 @@
           "fieldType": "email"
         },
         {
-          "ref": "f3",
-          "expected": "FillVerify-3",
-          "actual": "FillVerify-3",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f4",
-          "expected": "FillVerify-4",
-          "actual": "FillVerify-4",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f5",
-          "expected": "FillVerify-5",
-          "actual": "FillVerify-5",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f6",
-          "expected": "FillVerify-6",
-          "actual": "FillVerify-6",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f7",
-          "expected": "FillVerify-7",
-          "actual": "FillVerify-7",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f8",
-          "expected": "FillVerify-8",
-          "actual": "FillVerify-8",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f9",
-          "expected": "FillVerify-9",
-          "actual": "FillVerify-9",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f10",
-          "expected": "FillVerify-10",
-          "actual": "FillVerify-10",
-          "fieldType": "text"
-        },
-        {
           "ref": "f11",
           "expected": "Yes",
           "actual": "checked",
           "fieldType": "radio"
-        },
-        {
-          "ref": "f12",
-          "expected": "FillVerify-textarea-12",
-          "actual": "FillVerify-textarea-12",
-          "fieldType": "textarea"
         },
         {
           "ref": "f13",
@@ -934,28 +593,10 @@
           "fieldType": "radio"
         },
         {
-          "ref": "f14",
-          "expected": "FillVerify-textarea-14",
-          "actual": "FillVerify-textarea-14",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f15",
-          "expected": "FillVerify-textarea-15",
-          "actual": "FillVerify-textarea-15",
-          "fieldType": "textarea"
-        },
-        {
           "ref": "f16",
           "expected": "Campus visit",
           "actual": "checked",
           "fieldType": "radio"
-        },
-        {
-          "ref": "f17",
-          "expected": "FillVerify-textarea-17",
-          "actual": "FillVerify-textarea-17",
-          "fieldType": "textarea"
         },
         {
           "ref": "f18",
@@ -970,30 +611,6 @@
           "fieldType": "radio"
         },
         {
-          "ref": "f20",
-          "expected": "Hiring our Heroes",
-          "actual": "checked",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f21",
-          "expected": "FillVerify-textarea-21",
-          "actual": "FillVerify-textarea-21",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f22",
-          "expected": "FillVerify-textarea-22",
-          "actual": "FillVerify-textarea-22",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f23",
-          "expected": "FillVerify-textarea-23",
-          "actual": "FillVerify-textarea-23",
-          "fieldType": "textarea"
-        },
-        {
           "ref": "f24",
           "expected": "FillVerify-textarea-24",
           "actual": "FillVerify-textarea-24",
@@ -1004,60 +621,6 @@
           "expected": "Please select an option",
           "actual": "Please select an option",
           "fieldType": "select"
-        },
-        {
-          "ref": "f26",
-          "expected": "San Diego, California",
-          "actual": "checked",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f27",
-          "expected": "FillVerify-textarea-27",
-          "actual": "FillVerify-textarea-27",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f28",
-          "expected": "Select ...",
-          "actual": "Select ...",
-          "fieldType": "select"
-        },
-        {
-          "ref": "f29",
-          "expected": "Race Hispanic or LatinoA person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.White (Not Hispanic or Latino)A person having origins in any of the original peoples of Europe, the Middle East, or North Africa.Black or African American (Not Hispanic or Latino)A person having origins in any of the black racial groups of Africa.Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)A person having origins in any of the peoples of Hawaii, Guam, Samoa, or other Pacific Islands.Asian (Not Hispanic or Latino)A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam.American Indian or Alaska Native (Not Hispanic or Latino)A person having origins in any of the original peoples of North and South America (including Central America), and who maintain tribal affiliation or community attachment.Two or More Races (Not Hispanic or Latino)All persons who identify with more than one of the above five races.Decline to self-identify",
-          "actual": "checked",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f30",
-          "expected": "Select ...",
-          "actual": "Select ...",
-          "fieldType": "select"
-        },
-        {
-          "ref": "f31",
-          "expected": "Select ...",
-          "actual": "Select ...",
-          "fieldType": "select"
-        },
-        {
-          "ref": "f32",
-          "expected": "FillVerify-32",
-          "actual": "FillVerify-32",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f33",
-          "expected": "FillVerify-33",
-          "actual": "FillVerify-33",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f34",
-          "expected": "Yes, Shield AI can contact me about future job opportunities for up to 1 yearPrivacy policy",
-          "actual": "0",
-          "fieldType": "checkbox"
         }
       ],
       "checks": {
@@ -1091,48 +654,6 @@
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
-            },
-            {
-              "field": "hiring our heroes hiring our heroes hiring our heroes",
-              "ref": "f20",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "san diego, california san diego, california san diego, california",
-              "ref": "f26",
-              "reason": "checkboxNotChecked",
-              "expected": "San Diego",
-              "actual": []
-            },
-            {
-              "field": "san diego, california san diego, california san diego, california",
-              "ref": "f26",
-              "reason": "checkboxNotChecked",
-              "expected": "California",
-              "actual": []
-            },
-            {
-              "field": "race hispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races.decline to self-identify hispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race. hispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race. race hispanic or latinoa person of cuban, mexican, puerto rican, south or central american, or other spanish culture or origin regardless of race.white (not hispanic or latino)a person having origins in any of the original peoples of europe, the middle east, or north africa.black or african american (not hispanic or latino)a person having origins in any of the black racial groups of africa.native hawaiian or other pacific islander (not hispanic or latino)a person having origins in any of the peoples of hawaii, guam, samoa, or other pacific islands.asian (not hispanic or latino)a person having origins in any of the original peoples of the far east, southeast asia, or the indian subcontinent, including, for example, cambodia, china, india, japan, korea, malaysia, pakistan, the philippine islands, thailand, and vietnam.american indian or alaska native (not hispanic or latino)a person having origins in any of the original peoples of north and south america (including central america), and who maintain tribal affiliation or community attachment.two or more races (not hispanic or latino)all persons who identify with more than one of the above five races.decline to self-identify",
-              "ref": "f29",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy",
-              "ref": "f34",
-              "reason": "checkboxNotChecked",
-              "expected": "Yes",
-              "actual": []
-            },
-            {
-              "field": "yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy yes, shield ai can contact me about future job opportunities for up to 1 yearprivacy policy",
-              "ref": "f34",
-              "reason": "checkboxNotChecked",
-              "expected": "Shield AI can contact me about future job opportunities for up to 1 yearPrivacy policy",
-              "actual": []
             }
           ]
         },
@@ -1149,31 +670,17 @@
       "platform": "smartrecruiters",
       "priority": "critical",
       "passed": false,
-      "plan_count": 13,
-      "apply_failures": 2,
+      "plan_count": 5,
+      "apply_failures": 1,
       "readback_failures": 0,
-      "a11y_failures": 2,
+      "a11y_failures": 1,
       "error_banner_count": 0,
       "failures": [
-        {
-          "stage": "apply",
-          "field": "search by country/region or code search by country/region or code",
-          "ref": "f5",
-          "expected": "FillVerify-5"
-        },
         {
           "stage": "apply",
           "field": "nopolicy",
           "ref": "f12",
           "expected": "*"
-        },
-        {
-          "stage": "a11yState",
-          "field": "search by country/region or code search by country/region or code",
-          "ref": "f5",
-          "message": "comboboxEmpty",
-          "expected": "FillVerify-5",
-          "actual": ""
         },
         {
           "stage": "a11yState",
@@ -1209,61 +716,12 @@
           "expected": "fillverify3@test.example",
           "actual": "fillverify3@test.example",
           "fieldType": "email"
-        },
-        {
-          "ref": "f4",
-          "expected": "FillVerify-4",
-          "actual": "FillVerify-4",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f6",
-          "expected": "+15550000006",
-          "actual": "+15550000006",
-          "fieldType": "tel"
-        },
-        {
-          "ref": "f7",
-          "expected": "FillVerify-7",
-          "actual": "FillVerify-7",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f8",
-          "expected": "FillVerify-8",
-          "actual": "FillVerify-8",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f9",
-          "expected": "FillVerify-9",
-          "actual": "FillVerify-9",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f10",
-          "expected": "FillVerify-10",
-          "actual": "FillVerify-10",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f11",
-          "expected": "FillVerify-textarea-11",
-          "actual": "FillVerify-textarea-11",
-          "fieldType": "textarea"
         }
       ],
       "checks": {
         "a11yState": {
           "passed": false,
           "failures": [
-            {
-              "field": "search by country/region or code search by country/region or code",
-              "ref": "f5",
-              "reason": "comboboxEmpty",
-              "expected": "FillVerify-5",
-              "actual": ""
-            },
             {
               "field": "nopolicy",
               "ref": "f12",
@@ -1282,130 +740,32 @@
       "tier": "smoke"
     },
     {
-      "id": "web-vekst-teamtailor-com-new",
+      "id": "web-vekst-teamtailor-com-new-3",
       "platform": "teamtailor",
       "priority": "standard",
       "passed": true,
-      "plan_count": 12,
+      "plan_count": 1,
       "apply_failures": 0,
       "readback_failures": 0,
-      "a11y_failures": 5,
+      "a11y_failures": 1,
       "error_banner_count": 0,
       "failures": [
         {
           "stage": "a11yState",
-          "field": "have you created graphic assets for different digital channels?required",
-          "ref": "f2",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "have you been working with content production at an agency and/or at a b2b company?required",
-          "ref": "f4",
+          "field": "vilken eller vilka avdelningar är du intresserad av att sammankopplas med?required välj den eller de avdelningar du skulle kunna tänka dig att arbeta inom, inte de områden du har erfarenhet av.",
+          "ref": "f0",
           "message": "checkboxNotChecked",
-          "expected": "I have worked at an agency with mainly B2B clients.",
+          "expected": "Commercial",
           "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "can you communicate at a professional level in english?required",
-          "ref": "f5",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "can you communicate at a professional level in swedish?required",
-          "ref": "f6",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "the role is based at our office in gothenburg. do you currently live in the area, or are you willing to relocate so you can work from our office?required of course, there is flexibility and the option to work from home one day a week.",
-          "ref": "f7",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
         }
       ],
       "readback_failures_detail": [],
       "readbacks": [
         {
           "ref": "f0",
-          "expected": "FillVerify-textarea-2",
-          "actual": "FillVerify-textarea-2",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f1",
-          "expected": "FillVerify-textarea-3",
-          "actual": "FillVerify-textarea-3",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f2",
-          "expected": "Yes",
-          "actual": "Yes",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f3",
-          "expected": "FillVerify-textarea-5",
-          "actual": "FillVerify-textarea-5",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f4",
-          "expected": "I have worked at an agency with mainly B2B clients.",
-          "actual": "I have worked at an agency with mainly B2B clients.",
+          "expected": "Commercial",
+          "actual": "Vilken eller vilka avdelningar är du intresserad av att sammankopplas med?*Required\n    Välj den eller de avdelningar du skulle kunna tänka dig att arbeta inom, inte de områden du har erfarenhet av. \n\n\n\n\n\n\n\n\n\n  \n      \n        CommercialProject ManagementPerformance Marketing & MediaAnalytics & InsightsDigital Content & Creative",
           "fieldType": "checkbox"
-        },
-        {
-          "ref": "f5",
-          "expected": "Yes",
-          "actual": "Yes",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f6",
-          "expected": "Yes",
-          "actual": "Yes",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f7",
-          "expected": "Yes",
-          "actual": "Yes",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f8",
-          "expected": "FillVerify-10",
-          "actual": "FillVerify-10",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f9",
-          "expected": "FillVerify-11",
-          "actual": "FillVerify-11",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f10",
-          "expected": "fillverify12@test.example",
-          "actual": "fillverify12@test.example",
-          "fieldType": "email"
-        },
-        {
-          "ref": "f11",
-          "expected": "+15550000013",
-          "actual": "+15550000013",
-          "fieldType": "tel"
         }
       ],
       "checks": {
@@ -1413,39 +773,11 @@
           "passed": false,
           "failures": [
             {
-              "field": "have you created graphic assets for different digital channels?required",
-              "ref": "f2",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "have you been working with content production at an agency and/or at a b2b company?required",
-              "ref": "f4",
+              "field": "vilken eller vilka avdelningar är du intresserad av att sammankopplas med?required välj den eller de avdelningar du skulle kunna tänka dig att arbeta inom, inte de områden du har erfarenhet av.",
+              "ref": "f0",
               "reason": "checkboxNotChecked",
-              "expected": "I have worked at an agency with mainly B2B clients.",
+              "expected": "Commercial",
               "actual": []
-            },
-            {
-              "field": "can you communicate at a professional level in english?required",
-              "ref": "f5",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "can you communicate at a professional level in swedish?required",
-              "ref": "f6",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "the role is based at our office in gothenburg. do you currently live in the area, or are you willing to relocate so you can work from our office?required of course, there is flexibility and the option to work from home one day a week.",
-              "ref": "f7",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
             }
           ]
         },
@@ -1462,29 +794,12 @@
       "platform": "wordpress",
       "priority": "standard",
       "passed": true,
-      "plan_count": 21,
+      "plan_count": 8,
       "apply_failures": 0,
       "readback_failures": 0,
-      "a11y_failures": 2,
+      "a11y_failures": 0,
       "error_banner_count": 0,
-      "failures": [
-        {
-          "stage": "a11yState",
-          "field": "which days are you available?",
-          "ref": "f16",
-          "message": "checkboxNotChecked",
-          "expected": "Monday",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "what time of day do you prefer?",
-          "ref": "f17",
-          "message": "checkboxNotChecked",
-          "expected": "Morning",
-          "actual": []
-        }
-      ],
+      "failures": [],
       "readback_failures_detail": [],
       "readbacks": [
         {
@@ -1518,82 +833,10 @@
           "fieldType": "text"
         },
         {
-          "ref": "f5",
-          "expected": "FillVerify-5",
-          "actual": "FillVerify-5",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f6",
-          "expected": "FillVerify-6",
-          "actual": "FillVerify-6",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f7",
-          "expected": "FillVerify-7",
-          "actual": "FillVerify-7",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f8",
-          "expected": "FillVerify-textarea-8",
-          "actual": "FillVerify-textarea-8",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f9",
-          "expected": "FillVerify-9",
-          "actual": "FillVerify-9",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f10",
-          "expected": "FillVerify-10",
-          "actual": "FillVerify-10",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f11",
-          "expected": "FillVerify-11",
-          "actual": "FillVerify-11",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f12",
-          "expected": "FillVerify-12",
-          "actual": "FillVerify-12",
-          "fieldType": "text"
-        },
-        {
           "ref": "f13",
           "expected": "FillVerify-13",
           "actual": "FillVerify-13",
           "fieldType": "text"
-        },
-        {
-          "ref": "f14",
-          "expected": "fillverify14@test.example",
-          "actual": "fillverify14@test.example",
-          "fieldType": "email"
-        },
-        {
-          "ref": "f15",
-          "expected": "+15550000015",
-          "actual": "+15550000015",
-          "fieldType": "tel"
-        },
-        {
-          "ref": "f16",
-          "expected": "Monday",
-          "actual": "checked",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f17",
-          "expected": "Morning",
-          "actual": "checked",
-          "fieldType": "checkbox"
         },
         {
           "ref": "f18",
@@ -1606,33 +849,12 @@
           "expected": "+15550000019",
           "actual": "+15550000019",
           "fieldType": "tel"
-        },
-        {
-          "ref": "f20",
-          "expected": "fillverify20@test.example",
-          "actual": "fillverify20@test.example",
-          "fieldType": "email"
         }
       ],
       "checks": {
         "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "which days are you available?",
-              "ref": "f16",
-              "reason": "checkboxNotChecked",
-              "expected": "Monday",
-              "actual": []
-            },
-            {
-              "field": "what time of day do you prefer?",
-              "ref": "f17",
-              "reason": "checkboxNotChecked",
-              "expected": "Morning",
-              "actual": []
-            }
-          ]
+          "passed": true,
+          "failures": []
         },
         "errorBanner": {
           "passed": true,
@@ -1646,73 +868,11 @@
       "id": "syn-fw-ashby-001",
       "platform": "ashby",
       "priority": "critical",
-      "passed": true,
-      "plan_count": 5,
-      "apply_failures": 0,
-      "readback_failures": 0,
-      "a11y_failures": 1,
-      "error_banner_count": 0,
-      "failures": [
-        {
-          "stage": "a11yState",
-          "field": "do you require visa sponsorship?",
-          "ref": "f4",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        }
-      ],
-      "readback_failures_detail": [],
-      "readbacks": [
-        {
-          "ref": "f0",
-          "expected": "FillVerify-0",
-          "actual": "FillVerify-0",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f1",
-          "expected": "fillverify1@test.example",
-          "actual": "fillverify1@test.example",
-          "fieldType": "email"
-        },
-        {
-          "ref": "f2",
-          "expected": "+15550000002",
-          "actual": "+15550000002",
-          "fieldType": "tel"
-        },
-        {
-          "ref": "f3",
-          "expected": "FillVerify-textarea-3",
-          "actual": "FillVerify-textarea-3",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f4",
-          "expected": "Yes",
-          "actual": "checked",
-          "fieldType": "radio"
-        }
-      ],
-      "checks": {
-        "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "do you require visa sponsorship?",
-              "ref": "f4",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            }
-          ]
-        },
-        "errorBanner": {
-          "passed": true,
-          "error_count": 0
-        }
-      },
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "plan_count": 0,
+      "failures": [],
       "verify_engine": "playwright",
       "tier": "smoke"
     },
@@ -1720,50 +880,11 @@
       "id": "syn-ix-fw-001",
       "platform": "syn-ix",
       "priority": "standard",
-      "passed": true,
-      "plan_count": 4,
-      "apply_failures": 0,
-      "readback_failures": 0,
-      "a11y_failures": 0,
-      "error_banner_count": 0,
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "plan_count": 0,
       "failures": [],
-      "readback_failures_detail": [],
-      "readbacks": [
-        {
-          "ref": "f0",
-          "expected": "FillVerify-0",
-          "actual": "FillVerify-0",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f1",
-          "expected": "fillverify1@test.example",
-          "actual": "fillverify1@test.example",
-          "fieldType": "email"
-        },
-        {
-          "ref": "f2",
-          "expected": "+15550000002",
-          "actual": "+15550000002",
-          "fieldType": "tel"
-        },
-        {
-          "ref": "f3",
-          "expected": "London",
-          "actual": "London\nRemote\nHybrid",
-          "fieldType": "select"
-        }
-      ],
-      "checks": {
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "error_count": 0
-        }
-      },
       "verify_engine": "playwright",
       "tier": "smoke"
     },
@@ -1771,50 +892,11 @@
       "id": "syn-mega-combobox-001",
       "platform": "syn-mega",
       "priority": "standard",
-      "passed": true,
-      "plan_count": 4,
-      "apply_failures": 0,
-      "readback_failures": 0,
-      "a11y_failures": 0,
-      "error_banner_count": 0,
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "plan_count": 0,
       "failures": [],
-      "readback_failures_detail": [],
-      "readbacks": [
-        {
-          "ref": "f0",
-          "expected": "FillVerify-0",
-          "actual": "FillVerify-0",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f1",
-          "expected": "fillverify1@test.example",
-          "actual": "fillverify1@test.example",
-          "fieldType": "email"
-        },
-        {
-          "ref": "f2",
-          "expected": "+15550000002",
-          "actual": "+15550000002",
-          "fieldType": "tel"
-        },
-        {
-          "ref": "f3",
-          "expected": "Hybrid",
-          "actual": "HybridManchesterRemoteDublin",
-          "fieldType": "select"
-        }
-      ],
-      "checks": {
-        "a11yState": {
-          "passed": true,
-          "failures": []
-        },
-        "errorBanner": {
-          "passed": true,
-          "error_count": 0
-        }
-      },
       "verify_engine": "playwright",
       "tier": "smoke"
     },
@@ -1822,13 +904,31 @@
       "id": "web-apply-workable-com-apply-7",
       "platform": "generic-web",
       "priority": "standard",
-      "passed": true,
-      "plan_count": 76,
-      "apply_failures": 0,
+      "passed": false,
+      "plan_count": 10,
+      "apply_failures": 3,
       "readback_failures": 0,
-      "a11y_failures": 39,
+      "a11y_failures": 4,
       "error_banner_count": 0,
       "failures": [
+        {
+          "stage": "apply",
+          "field": "do you have a driver's license?",
+          "ref": "f61",
+          "expected": "SVGs not supported by this browser. YES"
+        },
+        {
+          "stage": "apply",
+          "field": "do you have current right to work in the uk?",
+          "ref": "f62",
+          "expected": "SVGs not supported by this browser. YES"
+        },
+        {
+          "stage": "apply",
+          "field": "will you require sponsorship within the next 12 months?",
+          "ref": "f74",
+          "expected": "SVGs not supported by this browser. YES"
+        },
         {
           "stage": "a11yState",
           "field": "svgs not supported by this browser. yes svgs not supported by this browser. yes",
@@ -1836,190 +936,6 @@
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.monday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.monday am",
-          "ref": "f26",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AM",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.monday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.monday pm",
-          "ref": "f27",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PM",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.monday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.monday evening",
-          "ref": "f28",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday Evening",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday am",
-          "ref": "f29",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AM",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday pm",
-          "ref": "f30",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PM",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday evening",
-          "ref": "f31",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday Evening",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday am",
-          "ref": "f32",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AM",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday pm",
-          "ref": "f33",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PM",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday evening",
-          "ref": "f34",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday Evening",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday am",
-          "ref": "f35",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AM",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday pm",
-          "ref": "f36",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PM",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday evening",
-          "ref": "f37",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday Evening",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday am",
-          "ref": "f38",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AM",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday pm",
-          "ref": "f39",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PM",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday evening",
-          "ref": "f40",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday Evening",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday am",
-          "ref": "f41",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AM",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday pm",
-          "ref": "f42",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PM",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday evening",
-          "ref": "f43",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday Evening",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday am",
-          "ref": "f44",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AM",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday pm",
-          "ref": "f45",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PM",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday evening",
-          "ref": "f46",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application. svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application. svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application.",
-          "ref": "f60",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.I have read",
-          "actual": []
-        },
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application. svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application. svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application.",
-          "ref": "f60",
-          "message": "checkboxNotChecked",
-          "expected": "understand and accept the content of the Privacy Notice and consent to the processing of my data as part of this application.",
-          "actual": []
         },
         {
           "stage": "a11yState",
@@ -2039,107 +955,11 @@
         },
         {
           "stage": "a11yState",
-          "field": "do you have your own transport ?",
-          "ref": "f63",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "do you have any endorsements?",
-          "ref": "f64",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "do you have proof of right to work in the uk as a uk citizen?",
-          "ref": "f65",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "are you an overseas applicant or a uk citizen who has lived outside of the uk for a period of 6 months or more than 5 years ?",
-          "ref": "f66",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "i understand that this role may include shift work, unsociable hours, lone working involved.",
-          "ref": "f67",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "are you related to any of our current members of staff or service users?",
-          "ref": "f68",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "please note this section will only be seen by those involved in the recruitment process and will be treated with the strictest confidence. the rehabilitation of offenders act 1974 aims to promote equality of opportunity and is committed to treating all applicants regardless of ethnicity, disability, age, gender or gender re-assignment, religion or belief, sexual orientation, pregnancy or maternity and marriage or civil partnership. undertakes not to discriminate unfairly against applicants based on a criminal conviction or other information declared. answering 'yes' to the question below will not necessarily prevent your employment. this will depend on the relevance of the information you provide in respect of the nature of the position and the circumstances. are you currently bound over or do you have any current unspent convictions that have been issued by a court or court-martial in the united kingdom or in any other country?",
-          "ref": "f69",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "do you have any current unspent police cautions, reprimands or final warnings in the united kingdom or in any other country?",
-          "ref": "f70",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "please note this section is required by law if the role you are applying for involves working within a care home. the health and social care act 2008 (regulated activities) (amendment) (coronavirus) regulations 2021 make it mandatory for a person working in a care home to be fully vaccinated against covid-19 from 11 november 2021. are you fully vaccinated against covid-19 or exempt from vaccination?",
-          "ref": "f71",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "are you able to evidence your vaccination or exemption status using the nhs covid pass?",
-          "ref": "f72",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "please confirm. the information in this application form is true and complete. i agree that any deliberate omission, falsification, or misrepresentation in the application form will be grounds for rejecting this application or subsequent dismissal if employed. where applicable, i consent that can seek clarification regarding professional registration details.",
-          "ref": "f73",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
           "field": "will you require sponsorship within the next 12 months?",
           "ref": "f74",
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "please select your availability below",
-          "ref": "f75",
-          "message": "checkboxNotChecked",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "actual": []
         }
       ],
       "readback_failures_detail": [],
@@ -2163,81 +983,15 @@
           "fieldType": "email"
         },
         {
-          "ref": "f3",
-          "expected": "FillVerify-3",
-          "actual": "FillVerify-3",
-          "fieldType": "text"
-        },
-        {
           "ref": "f4",
           "expected": "+15550000004",
           "actual": "+15550000004",
           "fieldType": "tel"
         },
         {
-          "ref": "f5",
-          "expected": "FillVerify-5",
-          "actual": "FillVerify-5",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f6",
-          "expected": "FillVerify-6",
-          "actual": "FillVerify-6",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f7",
-          "expected": "FillVerify-7",
-          "actual": "FillVerify-7",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f8",
-          "expected": "FillVerify-8",
-          "actual": "FillVerify-8",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f9",
-          "expected": "FillVerify-9",
-          "actual": "FillVerify-9",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f10",
-          "expected": "FillVerify-10",
-          "actual": "FillVerify-10",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f11",
-          "expected": "FillVerify-11",
-          "actual": "FillVerify-11",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f12",
-          "expected": "FillVerify-12",
-          "actual": "FillVerify-12",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f13",
-          "expected": "FillVerify-13",
-          "actual": "FillVerify-13",
-          "fieldType": "text"
-        },
-        {
           "ref": "f14",
           "expected": "FillVerify-14",
           "actual": "FillVerify-14",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f15",
-          "expected": "FillVerify-15",
-          "actual": "FillVerify-15",
           "fieldType": "text"
         },
         {
@@ -2247,358 +1001,10 @@
           "fieldType": "text"
         },
         {
-          "ref": "f17",
-          "expected": "FillVerify-17",
-          "actual": "FillVerify-17",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f18",
-          "expected": "FillVerify-textarea-18",
-          "actual": "FillVerify-textarea-18",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f19",
-          "expected": "FillVerify-textarea-19",
-          "actual": "FillVerify-textarea-19",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f20",
-          "expected": "FillVerify-textarea-20",
-          "actual": "FillVerify-textarea-20",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f21",
-          "expected": "FillVerify-textarea-21",
-          "actual": "FillVerify-textarea-21",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f22",
-          "expected": "FillVerify-textarea-22",
-          "actual": "FillVerify-textarea-22",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f23",
-          "expected": "FillVerify-textarea-23",
-          "actual": "FillVerify-textarea-23",
-          "fieldType": "textarea"
-        },
-        {
           "ref": "f24",
           "expected": "SVGs not supported by this browser. YES",
           "actual": "checked",
           "fieldType": "radio"
-        },
-        {
-          "ref": "f25",
-          "expected": "FillVerify-25",
-          "actual": "FillVerify-25",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f26",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f27",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f28",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday Evening",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f29",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f30",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f31",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday Evening",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f32",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f33",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f34",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday Evening",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f35",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f36",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f37",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday Evening",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f38",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f39",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f40",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday Evening",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f41",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f42",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f43",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday Evening",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f44",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f45",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PM",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f46",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f47",
-          "expected": "FillVerify-textarea-47",
-          "actual": "FillVerify-textarea-47",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f48",
-          "expected": "FillVerify-48",
-          "actual": "FillVerify-48",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f49",
-          "expected": "FillVerify-textarea-49",
-          "actual": "FillVerify-textarea-49",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f50",
-          "expected": "FillVerify-textarea-50",
-          "actual": "FillVerify-textarea-50",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f51",
-          "expected": "FillVerify-textarea-51",
-          "actual": "FillVerify-textarea-51",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f52",
-          "expected": "FillVerify-textarea-52",
-          "actual": "FillVerify-textarea-52",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f53",
-          "expected": "FillVerify-textarea-53",
-          "actual": "FillVerify-textarea-53",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f54",
-          "expected": "FillVerify-textarea-54",
-          "actual": "FillVerify-textarea-54",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f55",
-          "expected": "FillVerify-textarea-55",
-          "actual": "FillVerify-textarea-55",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f56",
-          "expected": "FillVerify-textarea-56",
-          "actual": "FillVerify-textarea-56",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f57",
-          "expected": "FillVerify-textarea-57",
-          "actual": "FillVerify-textarea-57",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f58",
-          "expected": "FillVerify-textarea-58",
-          "actual": "FillVerify-textarea-58",
-          "fieldType": "textarea"
-        },
-        {
-          "ref": "f59",
-          "expected": "FillVerify-59",
-          "actual": "FillVerify-59",
-          "fieldType": "text"
-        },
-        {
-          "ref": "f60",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.I have read, understand and accept the content of the Privacy Notice and consent to the processing of my data as part of this application.",
-          "actual": "checked",
-          "fieldType": "checkbox"
-        },
-        {
-          "ref": "f61",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f62",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f63",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f64",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f65",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f66",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f67",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f68",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f69",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f70",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f71",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f72",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f73",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f74",
-          "expected": "SVGs not supported by this browser. YES",
-          "actual": "SVGs not supported by this browser. YES",
-          "fieldType": "radio"
-        },
-        {
-          "ref": "f75",
-          "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "actual": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-          "fieldType": "checkbox"
         }
       ],
       "checks": {
@@ -2611,167 +1017,6 @@
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.monday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.monday am",
-              "ref": "f26",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday AM",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.monday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.monday pm",
-              "ref": "f27",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday PM",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.monday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.monday evening",
-              "ref": "f28",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Monday Evening",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday am",
-              "ref": "f29",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday AM",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday pm",
-              "ref": "f30",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday PM",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.tuesday evening",
-              "ref": "f31",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Tuesday Evening",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday am",
-              "ref": "f32",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday AM",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday pm",
-              "ref": "f33",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday PM",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.wednesday evening",
-              "ref": "f34",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Wednesday Evening",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday am",
-              "ref": "f35",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday AM",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday pm",
-              "ref": "f36",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday PM",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.thursday evening",
-              "ref": "f37",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Thursday Evening",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday am",
-              "ref": "f38",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday AM",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday pm",
-              "ref": "f39",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday PM",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.friday evening",
-              "ref": "f40",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Friday Evening",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday am",
-              "ref": "f41",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday AM",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday pm",
-              "ref": "f42",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday PM",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.saturday evening",
-              "ref": "f43",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Saturday Evening",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday am svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday am",
-              "ref": "f44",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday AM",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday pm svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday pm",
-              "ref": "f45",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday PM",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday evening svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.sunday evening",
-              "ref": "f46",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.Sunday Evening",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application. svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application. svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application.",
-              "ref": "f60",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.I have read",
-              "actual": []
-            },
-            {
-              "field": "svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application. svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application. svgs not supported by this browser.svgs not supported by this browser.svgs not supported by this browser.i have read, understand and accept the content of the privacy notice and consent to the processing of my data as part of this application.",
-              "ref": "f60",
-              "reason": "checkboxNotChecked",
-              "expected": "understand and accept the content of the Privacy Notice and consent to the processing of my data as part of this application.",
-              "actual": []
             },
             {
               "field": "do you have a driver's license?",
@@ -2788,95 +1033,11 @@
               "actual": 0
             },
             {
-              "field": "do you have your own transport ?",
-              "ref": "f63",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "do you have any endorsements?",
-              "ref": "f64",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "do you have proof of right to work in the uk as a uk citizen?",
-              "ref": "f65",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "are you an overseas applicant or a uk citizen who has lived outside of the uk for a period of 6 months or more than 5 years ?",
-              "ref": "f66",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "i understand that this role may include shift work, unsociable hours, lone working involved.",
-              "ref": "f67",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "are you related to any of our current members of staff or service users?",
-              "ref": "f68",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "please note this section will only be seen by those involved in the recruitment process and will be treated with the strictest confidence. the rehabilitation of offenders act 1974 aims to promote equality of opportunity and is committed to treating all applicants regardless of ethnicity, disability, age, gender or gender re-assignment, religion or belief, sexual orientation, pregnancy or maternity and marriage or civil partnership. undertakes not to discriminate unfairly against applicants based on a criminal conviction or other information declared. answering 'yes' to the question below will not necessarily prevent your employment. this will depend on the relevance of the information you provide in respect of the nature of the position and the circumstances. are you currently bound over or do you have any current unspent convictions that have been issued by a court or court-martial in the united kingdom or in any other country?",
-              "ref": "f69",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "do you have any current unspent police cautions, reprimands or final warnings in the united kingdom or in any other country?",
-              "ref": "f70",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "please note this section is required by law if the role you are applying for involves working within a care home. the health and social care act 2008 (regulated activities) (amendment) (coronavirus) regulations 2021 make it mandatory for a person working in a care home to be fully vaccinated against covid-19 from 11 november 2021. are you fully vaccinated against covid-19 or exempt from vaccination?",
-              "ref": "f71",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "are you able to evidence your vaccination or exemption status using the nhs covid pass?",
-              "ref": "f72",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "please confirm. the information in this application form is true and complete. i agree that any deliberate omission, falsification, or misrepresentation in the application form will be grounds for rejecting this application or subsequent dismissal if employed. where applicable, i consent that can seek clarification regarding professional registration details.",
-              "ref": "f73",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
               "field": "will you require sponsorship within the next 12 months?",
               "ref": "f74",
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
-            },
-            {
-              "field": "please select your availability below",
-              "ref": "f75",
-              "reason": "checkboxNotChecked",
-              "expected": "SVGs not supported by this browser.SVGs not supported by this browser.SVGs not supported by this browser.",
-              "actual": []
             }
           ]
         },
@@ -2897,22 +1058,22 @@
   },
   "by_platform": {
     "ashby": {
-      "total": 2,
-      "passed": 2,
+      "total": 1,
+      "passed": 1,
       "failed": 0,
-      "critical_total": 2,
-      "critical_passed": 2,
+      "critical_total": 1,
+      "critical_passed": 1,
       "pass_rate": 1,
       "critical_pass_rate": 1
     },
     "greenhouse": {
       "total": 1,
-      "passed": 0,
-      "failed": 1,
+      "passed": 1,
+      "failed": 0,
       "critical_total": 1,
-      "critical_passed": 0,
-      "pass_rate": 0,
-      "critical_pass_rate": 0
+      "critical_passed": 1,
+      "pass_rate": 1,
+      "critical_pass_rate": 1
     },
     "lever": {
       "total": 1,
@@ -2950,31 +1111,13 @@
       "pass_rate": 1,
       "critical_pass_rate": 0
     },
-    "syn-ix": {
-      "total": 1,
-      "passed": 1,
-      "failed": 0,
-      "critical_total": 0,
-      "critical_passed": 0,
-      "pass_rate": 1,
-      "critical_pass_rate": 0
-    },
-    "syn-mega": {
-      "total": 1,
-      "passed": 1,
-      "failed": 0,
-      "critical_total": 0,
-      "critical_passed": 0,
-      "pass_rate": 1,
-      "critical_pass_rate": 0
-    },
     "generic-web": {
       "total": 1,
-      "passed": 1,
-      "failed": 0,
+      "passed": 0,
+      "failed": 1,
       "critical_total": 0,
       "critical_passed": 0,
-      "pass_rate": 1,
+      "pass_rate": 0,
       "critical_pass_rate": 0
     }
   },

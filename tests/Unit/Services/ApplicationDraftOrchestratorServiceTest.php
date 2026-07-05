@@ -141,6 +141,67 @@ class ApplicationDraftOrchestratorServiceTest extends TestCase
         $this->assertSame(2, $user->fresh()->ai_tokens_used);
     }
 
+    public function test_run_batched_draft_stream_fills_teamtailor_identity_labels_from_profile(): void
+    {
+        config([
+            'cv.ai_assist.draft_all_batch_size' => 20,
+            'cv.ai_assist.draft_all_batch_cost' => 2,
+        ]);
+
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'full_name' => 'Toby Claxton',
+            'email' => 'tmwclaxton@gmail.com',
+            'phone' => '7837370669',
+        ]);
+
+        $this->mock(ApplicationAssistantService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('answerQuestions')
+                ->once()
+                ->withArgs(function ($profile, $job, $questions): bool {
+                    return count($questions) === 1
+                        && str_contains((string) ($questions[0]['label'] ?? ''), 'main interest in vekst');
+                })
+                ->andReturn([
+                    'answers' => [
+                        ['label' => 'in short, what is your main interest in vekst and this role?required', 'ref' => 'f2', 'answer' => 'Grounded answer from CV.'],
+                    ],
+                    'usage' => [
+                        'prompt_tokens' => 10,
+                        'completion_tokens' => 5,
+                        'total_tokens' => 15,
+                        'model' => 'openai/gpt-4.1-mini',
+                    ],
+                ]);
+        });
+
+        $orchestrator = app(ApplicationDraftOrchestratorService::class);
+        $emitted = [];
+
+        $orchestrator->runBatchedDraftStream(
+            $user,
+            $user->cvProfile,
+            ['title' => 'Role', 'company' => 'Vekst'],
+            [
+                ['id' => 0, 'ref' => 'f2', 'label' => 'in short, what is your main interest in vekst and this role?required', 'field_type' => 'textarea'],
+                ['id' => 1, 'ref' => 'f10', 'label' => 'first namerequired first namerequired', 'field_type' => 'text'],
+                ['id' => 2, 'ref' => 'f11', 'label' => 'last namerequired last namerequired', 'field_type' => 'text'],
+                ['id' => 3, 'ref' => 'f12', 'label' => 'emailrequired emailrequired', 'field_type' => 'email'],
+            ],
+            ['phone_country_code' => '+44'],
+            static function (int $batchIndex, array $answers) use (&$emitted): void {
+                $emitted[] = $answers;
+            },
+            static function (): void {},
+        );
+
+        $answersByRef = collect($emitted[0] ?? [])->keyBy('ref');
+        $this->assertSame('Toby', $answersByRef->get('f10')['answer'] ?? null);
+        $this->assertSame('Claxton', $answersByRef->get('f11')['answer'] ?? null);
+        $this->assertSame('tmwclaxton@gmail.com', $answersByRef->get('f12')['answer'] ?? null);
+        $this->assertSame('Grounded answer from CV.', $answersByRef->get('f2')['answer'] ?? null);
+    }
+
     public function test_run_batched_draft_stream_only_sends_open_questions_to_llm(): void
     {
         config([

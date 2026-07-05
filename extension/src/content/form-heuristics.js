@@ -1536,23 +1536,68 @@ const AutoCVApplyFormHeuristics = (() => {
         return Boolean(target?.isConnected);
     }
 
+    function isNativeChoiceInput(element, fieldType) {
+        return element?.tagName?.toLowerCase() === 'input' && element.type === fieldType;
+    }
+
+    function queryNativeChoiceInput(doc, fieldType, { name = null, container = null } = {}) {
+        if (name) {
+            const byName = doc.querySelector(`input[type="${fieldType}"][name="${escapeSelectorValue(name)}"]`)
+                || doc.querySelector(`input[name="${escapeSelectorValue(name)}"]`);
+
+            if (byName) {
+                return byName;
+            }
+        }
+
+        if (container) {
+            const inContainer = container.querySelector(`input[type="${fieldType}"]`);
+
+            if (inContainer) {
+                return inContainer;
+            }
+        }
+
+        return null;
+    }
+
     function resolveElementFromDom(doc, dom, fieldType) {
         if (!dom || !doc) {
             return null;
+        }
+
+        const isChoiceField = fieldType === 'radio' || fieldType === 'checkbox';
+
+        if (isChoiceField && dom.name) {
+            const byName = queryNativeChoiceInput(doc, fieldType, { name: dom.name });
+
+            if (byName) {
+                return byName;
+            }
         }
 
         if (dom.id) {
             const byId = doc.getElementById(dom.id);
 
             if (byId) {
+                if (isChoiceField && !isNativeChoiceInput(byId, fieldType)) {
+                    const input = queryNativeChoiceInput(doc, fieldType, {
+                        name: dom.name,
+                        container: byId,
+                    });
+
+                    if (input) {
+                        return input;
+                    }
+                }
+
                 return byId;
             }
         }
 
         if (dom.name) {
-            if (fieldType === 'radio' || fieldType === 'checkbox') {
-                return doc.querySelector(`input[type="${fieldType}"][name="${escapeSelectorValue(dom.name)}"]`)
-                    || doc.querySelector(`input[name="${escapeSelectorValue(dom.name)}"]`);
+            if (isChoiceField) {
+                return queryNativeChoiceInput(doc, fieldType, { name: dom.name });
             }
 
             return doc.querySelector(`[name="${escapeSelectorValue(dom.name)}"]`);
@@ -1622,15 +1667,11 @@ const AutoCVApplyFormHeuristics = (() => {
             }
         }
 
-        if ((fieldType === 'radio' || fieldType === 'checkbox') && dom?.name) {
+        if (fieldType === 'radio' || fieldType === 'checkbox') {
             const anchor = resolveElementFromDom(doc, dom, fieldType);
 
-            if (anchor?.name) {
-                const group = doc.querySelectorAll(`input[type="${fieldType}"][name="${escapeSelectorValue(anchor.name)}"]`);
-
-                if (group.length > 0) {
-                    return anchor;
-                }
+            if (isNativeChoiceInput(anchor, fieldType)) {
+                return anchor;
             }
         }
 
@@ -1962,6 +2003,14 @@ const AutoCVApplyFormHeuristics = (() => {
 
         if (element.type === 'checkbox' || element.type === 'radio') {
             return setGroupValue(element, value);
+        }
+
+        if (tag === 'fieldset' || tag === 'div') {
+            const choiceInput = element.querySelector('input[type="checkbox"], input[type="radio"]');
+
+            if (choiceInput) {
+                return setGroupValue(choiceInput, value);
+            }
         }
 
         const filled = fillReactTextControl(element, value);
@@ -2451,6 +2500,8 @@ const AutoCVApplyFormHeuristics = (() => {
             applied = await setAshbyComboboxValue(target, answer);
         } else if (target.type === 'radio' || target.type === 'checkbox') {
             applied = setGroupValue(target, answer);
+        } else if ((fieldType === 'radio' || fieldType === 'checkbox') && target.querySelector?.(`input[type="${fieldType}"]`)) {
+            applied = setGroupValue(target.querySelector(`input[type="${fieldType}"]`), answer);
         } else {
             applied = await setFieldValue(target, answer);
         }
@@ -2469,6 +2520,49 @@ const AutoCVApplyFormHeuristics = (() => {
         });
     }
 
+    function isQuickDraftEligible(element, root = document) {
+        if (!(element instanceof Element)) {
+            return false;
+        }
+
+        if (element.closest('#autocvapply-portal-bar, #autocvapply-quick-draft, [data-autocvapply-ui]')) {
+            return false;
+        }
+
+        const tag = element.tagName?.toLowerCase();
+        const type = (element.type || '').toLowerCase();
+        const role = element.getAttribute?.('role');
+
+        if (tag !== 'input' && tag !== 'textarea' && tag !== 'select' && role !== 'combobox' && role !== 'listbox') {
+            return false;
+        }
+
+        if (['hidden', 'file', 'password', 'submit', 'button', 'reset', 'image', 'search'].includes(type)) {
+            return false;
+        }
+
+        if (element.closest('header, nav, [role="search"]')
+            && !element.closest('form, [role="form"], [class*="application"], [data-field-path]')) {
+            return false;
+        }
+
+        const identity = [element.name, element.id].filter(Boolean).join(' ').toLowerCase().trim();
+
+        if (/^(search|q|query|s)$/.test(identity)) {
+            return false;
+        }
+
+        if (!elementNeedsDraft(element)) {
+            return false;
+        }
+
+        return frameHasApplicationForm(root)
+            || looksLikeApplicationForm()
+            || Boolean(element.closest(
+                'form, [role="form"], [class*="application"], [class*="job"], [data-field-path], .ashby-application-form-field-entry',
+            ));
+    }
+
     return {
         applyAnswerByLabel,
         applyAnswerByLabelAllFrames,
@@ -2482,6 +2576,7 @@ const AutoCVApplyFormHeuristics = (() => {
         getFieldLabel,
         getFieldType,
         getQuestionLabel,
+        isQuickDraftEligible,
         isTargetConnected,
         looksLikeApplicationForm,
         resolveTargetFromDom,

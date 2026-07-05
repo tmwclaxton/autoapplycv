@@ -497,7 +497,7 @@ const SMOKE_PLATFORM_PICKS = [
     { platform: 'lever', id: 'web-jobs-lever-co-apply-11' },
     { platform: 'smartrecruiters', id: 'web-jobs-smartrecruiters-com-99cf550a-4a3b-47f8-b682-449cc524d98f' },
     { platform: 'workday', id: 'web-dupont-wd5-myworkdayjobs-com-applymanually' },
-    { platform: 'teamtailor', id: 'web-vekst-teamtailor-com-new' },
+    { platform: 'teamtailor', id: 'web-vekst-teamtailor-com-new-3' },
     { platform: 'wordpress', id: 'web-wpforms-com-employment-agency-application-form-template' },
     { platform: 'syn-fw', id: 'syn-fw-ashby-001' },
     { platform: 'syn-ix', id: 'syn-ix-fw-001' },

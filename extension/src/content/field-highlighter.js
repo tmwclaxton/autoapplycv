@@ -23,7 +23,7 @@ const AutoCVApplyFieldHighlighter = (() => {
 
     function isExtensionUiElement(element) {
         return Boolean(
-            element.closest('#autocvapply-portal-bar, #autocvapply-quick-answer-btn, [data-autocvapply-ui]'),
+            element.closest('#autocvapply-portal-bar, #autocvapply-quick-draft, [data-autocvapply-ui]'),
         );
     }
 

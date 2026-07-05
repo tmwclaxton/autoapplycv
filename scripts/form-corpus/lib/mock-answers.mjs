@@ -42,6 +42,14 @@ function shouldSkipE2eDraftField(field) {
     return false;
 }
 
+function shouldIncludeInFillPlan(expectedField) {
+    if (expectedField.fill_verify === true) {
+        return true;
+    }
+
+    return expectedField.required !== false;
+}
+
 export function mockAnswerForField(field, index) {
     const type = field.field_type || 'text';
 
@@ -158,7 +166,7 @@ export function buildFillPlan(expected, snapshot) {
     const plan = [];
 
     for (const [index, expectedField] of expectedFields.entries()) {
-        if (expectedField.required === false) {
+        if (!shouldIncludeInFillPlan(expectedField)) {
             continue;
         }
 
@@ -203,7 +211,7 @@ export function buildE2eDraftPlan(expected, snapshot) {
     const plan = [];
 
     for (const [index, expectedField] of expectedFields.entries()) {
-        if (expectedField.required === false) {
+        if (!shouldIncludeInFillPlan(expectedField)) {
             continue;
         }
 

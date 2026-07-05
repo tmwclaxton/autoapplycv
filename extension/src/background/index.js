@@ -48,6 +48,10 @@ import {
     pendingFieldsStorageKey,
 } from './pending-fields.js';
 import { createPerfTimer } from './perf-timer.js';
+import {
+    buildSidePanelVisibilityMessage,
+    resolveSidePanelOpen,
+} from './side-panel-state.js';
 import { validateCvUpload, validateDocumentUpload } from './upload-validation.js';
 
 void initDebugLog();
@@ -278,7 +282,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
     chrome.contextMenus.create({
         id: 'autocvapply-quick-answer',
-        title: 'Quick Answer with AutoCVApply',
+        title: 'Quick draft with AutoCVApply',
         contexts: ['editable'],
     });
 });
@@ -333,27 +337,6 @@ chrome.runtime.onConnect.addListener((port) => {
 });
 
 let draftAllRunning = false;
-const SIDE_PANEL_HEARTBEAT_TTL_MS = 8000;
-
-function isSidePanelOpenFromStorage(lastHeartbeatAt) {
-    return typeof lastHeartbeatAt === 'number'
-        && lastHeartbeatAt > 0
-        && Date.now() - lastHeartbeatAt < SIDE_PANEL_HEARTBEAT_TTL_MS;
-}
-
-function resolveSidePanelOpen({ sidePanelOpen, sidePanelLastHeartbeatAt } = {}) {
-    if (sidePanelOpen === false) {
-        return false;
-    }
-
-    const heartbeatFresh = isSidePanelOpenFromStorage(sidePanelLastHeartbeatAt);
-
-    if (sidePanelOpen === true) {
-        return heartbeatFresh;
-    }
-
-    return heartbeatFresh;
-}
 
 function isInjectableTabUrl(url) {
     if (!url) {
@@ -369,12 +352,15 @@ function isInjectableTabUrl(url) {
     }
 }
 
-function notifyTabOverlayVisibility(tabId) {
+async function notifyTabOverlayVisibility(tabId) {
     if (!tabId) {
         return;
     }
 
-    chrome.tabs.sendMessage(tabId, { type: 'AUTOFILL_VISIBILITY_CHANGED' }).catch(() => {});
+    const storage = await chrome.storage.session.get(['sidePanelOpen', 'sidePanelLastHeartbeatAt']);
+    const message = buildSidePanelVisibilityMessage(storage);
+
+    chrome.tabs.sendMessage(tabId, message).catch(() => {});
 }
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
@@ -1688,7 +1674,12 @@ async function quickAnswerFocused(tabId) {
         settings,
     });
 
-    await applyDraftAnswerToTab(tabId, data.label, data.answer);
+    await applyDraftAnswerToTab(tabId, data.label, data.answer, {
+        ref: focusedField.ref || null,
+        dom: focusedField.dom || null,
+        field_type: focusedField.field_type || null,
+        data_field_path: focusedField.data_field_path || focusedField.dom?.data_field_path || null,
+    });
     await saveLocalMemo([{ label: data.label, answer: data.answer }]);
 
     if (cachedProfile && data.subscription) {
@@ -1697,7 +1688,7 @@ async function quickAnswerFocused(tabId) {
 
     return {
         success: true,
-        message: data.answer ? 'Quick Answer applied.' : 'No answer generated for this field.',
+        message: data.answer ? 'Quick draft applied.' : 'No answer generated for this field.',
         answer: data.answer,
     };
 }
@@ -1837,6 +1828,8 @@ async function markSidePanelClosed() {
 }
 
 async function broadcastAutofillVisibility() {
+    const storage = await chrome.storage.session.get(['sidePanelOpen', 'sidePanelLastHeartbeatAt']);
+    const message = buildSidePanelVisibilityMessage(storage);
     const tabs = await chrome.tabs.query({});
 
     await Promise.all(tabs.map((tab) => {
@@ -1844,7 +1837,7 @@ async function broadcastAutofillVisibility() {
             return Promise.resolve();
         }
 
-        return chrome.tabs.sendMessage(tab.id, { type: 'AUTOFILL_VISIBILITY_CHANGED' }).catch(() => {});
+        return chrome.tabs.sendMessage(tab.id, message).catch(() => {});
     }));
 }
 

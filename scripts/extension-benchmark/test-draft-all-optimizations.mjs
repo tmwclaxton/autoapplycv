@@ -24,6 +24,11 @@ assert(
 );
 
 assert(
+    normalizeQuestionLabel('first namerequired first namerequired') === 'first name required first name required',
+    'normalizeQuestionLabel should split glued required markers',
+);
+
+assert(
     matchMemoAnswer(memo, 'Why do you want this role?') === 'I enjoy building reliable systems.',
     'matchMemoAnswer should match exact memo keys',
 );

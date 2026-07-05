@@ -69,6 +69,7 @@ export function normalizeQuestionLabel(label) {
     return String(label || '')
         .toLowerCase()
         .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+        .replace(/(\p{L})(required|optional)\b/giu, '$1 $2')
         .replace(/\s+/g, ' ')
         .trim();
 }
@@ -171,6 +172,20 @@ export function compactFieldsForDraft(fields) {
 
         if (CHOICE_FIELD_TYPES.has(fieldType) && Array.isArray(field.options) && field.options.length > 0) {
             compact.options = field.options;
+        }
+
+        if (field.dom && typeof field.dom === 'object') {
+            const dom = {};
+
+            for (const key of ['id', 'name']) {
+                if (typeof field.dom[key] === 'string' && field.dom[key].trim() !== '') {
+                    dom[key] = field.dom[key].trim();
+                }
+            }
+
+            if (Object.keys(dom).length > 0) {
+                compact.dom = dom;
+            }
         }
 
         return compact;

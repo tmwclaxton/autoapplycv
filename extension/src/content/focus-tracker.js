@@ -1,16 +1,123 @@
 /**
- * Track focused form field and show an on-page Quick Answer button.
+ * Track focused form fields and show an on-page Quick draft button.
  */
 const AutoCVApplyFocusTracker = (() => {
     const FOCUSED_FIELD_KEY = 'focusedField';
-    let quickAnswerButton = null;
+    const HOST_ID = 'autocvapply-quick-draft';
+    const BUTTON_LABEL = 'Quick draft';
+
+    let hostElement = null;
+    let shadowRoot = null;
+    let draftButton = null;
     let activeElement = null;
     let hideTimeout = null;
+    let authenticated = false;
 
-    function fieldPayload(element) {
-        const label = AutoCVApplyFormHeuristics.getFieldLabel(element);
+    function mapApplicationSettingsForAssist(settings) {
+        const merged = {
+            phone_country_code: '+44',
+            years_of_experience: '2',
+            expected_salary_weekly: '',
+            expected_salary_monthly: '',
+            expected_salary_yearly: '',
+            visa_sponsorship: 'no',
+            legally_authorized: 'yes',
+            willing_to_relocate: 'yes',
+            drivers_license: 'yes',
+            ...(settings && typeof settings === 'object' ? settings : {}),
+        };
 
-        if (!label || label.length < 3) {
+        return {
+            phoneCountryCode: merged.phone_country_code,
+            yearsOfExperience: String(merged.years_of_experience ?? '2'),
+            expectedSalaryWeekly: merged.expected_salary_weekly ?? '',
+            expectedSalaryMonthly: merged.expected_salary_monthly ?? '',
+            expectedSalaryYearly: merged.expected_salary_yearly ?? '',
+            visaSponsorship: merged.visa_sponsorship ?? 'no',
+            legallyAuthorized: merged.legally_authorized ?? 'yes',
+            willingToRelocate: merged.willing_to_relocate ?? 'yes',
+            driversLicense: merged.drivers_license ?? 'yes',
+        };
+    }
+
+    function isRestrictedPage() {
+        const protocol = location.protocol;
+
+        return protocol === 'chrome:'
+            || protocol === 'chrome-extension:'
+            || protocol === 'about:'
+            || protocol === 'moz-extension:';
+    }
+
+    function isAppDashboardPage() {
+        const host = location.hostname.replace(/^www\./, '');
+
+        return host === 'autocvapply.com'
+            || host === 'localhost'
+            || host === '127.0.0.1';
+    }
+
+    async function checkAuthenticated() {
+        try {
+            const response = await chrome.runtime.sendMessage({ type: 'GET_AUTH_STATUS' });
+            authenticated = response?.isAuthenticated === true;
+
+            return authenticated;
+        } catch {
+            authenticated = false;
+
+            return false;
+        }
+    }
+
+    async function loadProfilePayload() {
+        try {
+            return await new Promise((resolve, reject) => {
+                chrome.runtime.sendMessage({ type: 'GET_PROFILE' }, (response) => {
+                    if (chrome.runtime.lastError) {
+                        reject(new Error(chrome.runtime.lastError.message));
+                    } else if (response?.error) {
+                        reject(new Error(response.error));
+                    } else {
+                        resolve(response);
+                    }
+                });
+            });
+        } catch {
+            return null;
+        }
+    }
+
+    async function buildFieldPayload(element) {
+        if (typeof AutoCVApplyFormHeuristics === 'undefined'
+            || !AutoCVApplyFormHeuristics.isQuickDraftEligible(element, document)) {
+            return null;
+        }
+
+        const profilePayload = await loadProfilePayload();
+
+        if (!profilePayload?.profile) {
+            return null;
+        }
+
+        const settings = mapApplicationSettingsForAssist(profilePayload.application_settings);
+
+        if (typeof AutoCVApplyFieldInventory !== 'undefined') {
+            const inventoryField = AutoCVApplyFieldInventory.resolveDraftableFieldForElement(
+                document,
+                element,
+                profilePayload,
+                settings,
+            );
+
+            if (inventoryField) {
+                return inventoryField;
+            }
+        }
+
+        const label = AutoCVApplyFormHeuristics.getQuestionLabel(element);
+
+        if (label.length < 3) {
             return null;
         }
 
@@ -22,141 +129,210 @@ const AutoCVApplyFocusTracker = (() => {
         };
     }
 
-    function ensureQuickAnswerStyles() {
-        if (document.getElementById('autocvapply-quick-answer-styles')) {
+    function ensureButtonHost() {
+        if (hostElement?.isConnected && draftButton?.isConnected) {
+            return hostElement;
+        }
+
+        hostElement?.remove();
+
+        hostElement = document.createElement('div');
+        hostElement.id = HOST_ID;
+        hostElement.setAttribute('data-autocvapply-ui', 'quick-draft');
+
+        shadowRoot = hostElement.attachShadow({ mode: 'closed' });
+        shadowRoot.innerHTML = `
+            <style>
+                :host {
+                    all: initial;
+                }
+                #quick-draft-btn {
+                    all: unset;
+                    box-sizing: border-box;
+                    display: none;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 6px 10px;
+                    border: 2px solid #1b365d;
+                    background: #c8102e;
+                    color: #ffffff;
+                    font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+                    font-size: 12px;
+                    font-weight: 700;
+                    line-height: 1.2;
+                    white-space: nowrap;
+                    cursor: pointer;
+                    box-shadow: 4px 4px 0 rgb(27 54 93 / 18%);
+                    user-select: none;
+                    -webkit-user-select: none;
+                }
+                #quick-draft-btn.is-visible {
+                    display: inline-flex;
+                }
+                #quick-draft-btn:hover:not(:disabled) {
+                    filter: brightness(1.06);
+                }
+                #quick-draft-btn:disabled {
+                    opacity: 0.75;
+                    cursor: wait;
+                }
+                @media (prefers-color-scheme: dark) {
+                    #quick-draft-btn {
+                        border-color: #8eb4d8;
+                        box-shadow: 4px 4px 0 rgb(0 0 0 / 30%);
+                    }
+                }
+            </style>
+            <button type="button" id="quick-draft-btn">${BUTTON_LABEL}</button>
+        `;
+
+        Object.assign(hostElement.style, {
+            position: 'absolute',
+            zIndex: '2147483646',
+            pointerEvents: 'auto',
+            display: 'none',
+        });
+
+        document.body.appendChild(hostElement);
+
+        draftButton = shadowRoot.getElementById('quick-draft-btn');
+
+        if (!draftButton) {
+            hostElement.remove();
+            hostElement = null;
+            shadowRoot = null;
+            draftButton = null;
+
+            return null;
+        }
+
+        draftButton.addEventListener('mousedown', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+        });
+
+        draftButton.addEventListener('click', async (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (draftButton.disabled) {
+                return;
+            }
+
+            draftButton.disabled = true;
+            draftButton.textContent = 'Drafting…';
+
+            try {
+                const response = await chrome.runtime.sendMessage({ type: 'QUICK_ANSWER_FOCUSED' });
+
+                if (response?.error) {
+                    draftButton.textContent = 'Try again';
+                    setTimeout(() => {
+                        if (draftButton) {
+                            draftButton.textContent = BUTTON_LABEL;
+                        }
+                    }, 1800);
+
+                    return;
+                }
+
+                draftButton.textContent = 'Applied';
+                setTimeout(() => hideQuickDraftButton(), 1200);
+            } catch {
+                draftButton.textContent = BUTTON_LABEL;
+            } finally {
+                draftButton.disabled = false;
+            }
+        });
+
+        return hostElement;
+    }
+
+    function positionQuickDraftButton(element) {
+        const host = ensureButtonHost();
+
+        if (!host || !draftButton) {
             return;
         }
 
-        const style = document.createElement('style');
-        style.id = 'autocvapply-quick-answer-styles';
-        style.textContent = `
-            #autocvapply-quick-answer-btn {
-                position: absolute;
-                z-index: 2147483646;
-                display: none;
-                align-items: center;
-                gap: 6px;
-                padding: 6px 10px;
-                border: 2px solid #1b365d;
-                background: #c8102e;
-                color: #fff;
-                font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-                font-size: 12px;
-                font-weight: 700;
-                cursor: pointer;
-                box-shadow: 4px 4px 0 rgb(27 54 93 / 18%);
-                user-select: none;
-            }
-            #autocvapply-quick-answer-btn:hover {
-                background: #a50d25;
-            }
-            #autocvapply-quick-answer-btn.is-visible {
-                display: inline-flex;
-            }
-            #autocvapply-quick-answer-btn.is-loading {
-                opacity: 0.75;
-                cursor: wait;
-            }
-        `;
-        document.head.appendChild(style);
-    }
-
-    function ensureQuickAnswerButton() {
-        if (quickAnswerButton) {
-            return quickAnswerButton;
-        }
-
-        ensureQuickAnswerStyles();
-
-        quickAnswerButton = document.createElement('button');
-        quickAnswerButton.id = 'autocvapply-quick-answer-btn';
-        quickAnswerButton.type = 'button';
-        quickAnswerButton.textContent = 'Quick Answer';
-        quickAnswerButton.addEventListener('mousedown', (event) => {
-            event.preventDefault();
-        });
-        quickAnswerButton.addEventListener('click', async () => {
-            quickAnswerButton.classList.add('is-loading');
-            quickAnswerButton.textContent = 'Drafting…';
-
-            try {
-                await chrome.runtime.sendMessage({ type: 'QUICK_ANSWER_FOCUSED' });
-                quickAnswerButton.textContent = 'Applied';
-                setTimeout(() => hideQuickAnswerButton(), 1200);
-            } catch {
-                quickAnswerButton.textContent = 'Quick Answer';
-            } finally {
-                quickAnswerButton.classList.remove('is-loading');
-            }
-        });
-
-        document.body.appendChild(quickAnswerButton);
-
-        return quickAnswerButton;
-    }
-
-    function positionQuickAnswerButton(element) {
-        const button = ensureQuickAnswerButton();
         const rect = element.getBoundingClientRect();
         const top = rect.bottom + window.scrollY + 6;
         const left = Math.max(8, rect.left + window.scrollX);
-        const maxLeft = window.scrollX + document.documentElement.clientWidth - button.offsetWidth - 8;
+        const buttonWidth = draftButton.offsetWidth || 96;
+        const maxLeft = window.scrollX + document.documentElement.clientWidth - buttonWidth - 8;
 
-        button.style.top = `${top}px`;
-        button.style.left = `${Math.min(left, maxLeft)}px`;
-        button.classList.add('is-visible');
+        host.style.top = `${top}px`;
+        host.style.left = `${Math.min(left, maxLeft)}px`;
+        host.style.display = 'block';
+        draftButton.classList.add('is-visible');
     }
 
-    function hideQuickAnswerButton() {
+    function hideQuickDraftButton() {
         if (hideTimeout) {
             clearTimeout(hideTimeout);
             hideTimeout = null;
         }
 
-        quickAnswerButton?.classList.remove('is-visible', 'is-loading');
+        if (hostElement) {
+            hostElement.style.display = 'none';
+        }
 
-        if (quickAnswerButton) {
-            quickAnswerButton.textContent = 'Quick Answer';
+        draftButton?.classList.remove('is-visible');
+
+        if (draftButton) {
+            draftButton.disabled = false;
+            draftButton.textContent = BUTTON_LABEL;
         }
 
         activeElement = null;
     }
 
+    function isFocusInsideQuickDraft(relatedTarget) {
+        if (!relatedTarget || !hostElement) {
+            return false;
+        }
+
+        return relatedTarget === hostElement || hostElement.contains(relatedTarget);
+    }
+
     async function saveFocusedField(element) {
-        const payload = fieldPayload(element);
+        const isAuthenticated = await checkAuthenticated();
+
+        if (!isAuthenticated) {
+            hideQuickDraftButton();
+
+            return;
+        }
+
+        const payload = await buildFieldPayload(element);
 
         try {
             if (!payload) {
                 await chrome.storage.session.remove(FOCUSED_FIELD_KEY);
-                hideQuickAnswerButton();
+                hideQuickDraftButton();
 
                 return;
             }
 
             await chrome.storage.session.set({ [FOCUSED_FIELD_KEY]: payload });
             activeElement = element;
-            positionQuickAnswerButton(element);
+            positionQuickDraftButton(element);
         } catch {
-            hideQuickAnswerButton();
+            hideQuickDraftButton();
         }
     }
 
     function bindFocusTracking(root = document) {
-        if (location.protocol === 'chrome:'
-            || location.protocol === 'chrome-extension:'
-            || location.protocol === 'about:'
-            || location.protocol === 'moz-extension:') {
+        if (isRestrictedPage() || isAppDashboardPage()) {
             return;
         }
+
+        void checkAuthenticated();
 
         root.addEventListener('focusin', (event) => {
             const target = event.target;
 
             if (!(target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement)) {
-                return;
-            }
-
-            if (target.type === 'hidden' || target.type === 'file' || target.type === 'checkbox' || target.type === 'radio') {
                 return;
             }
 
@@ -175,18 +351,35 @@ const AutoCVApplyFocusTracker = (() => {
                 return;
             }
 
+            if (isFocusInsideQuickDraft(event.relatedTarget)) {
+                return;
+            }
+
             hideTimeout = setTimeout(() => {
-                if (activeElement === target) {
-                    hideQuickAnswerButton();
+                if (activeElement === target && !isFocusInsideQuickDraft(document.activeElement)) {
+                    hideQuickDraftButton();
                 }
             }, 150);
         }, true);
 
-        window.addEventListener('scroll', () => {
+        const reposition = () => {
             if (activeElement) {
-                positionQuickAnswerButton(activeElement);
+                positionQuickDraftButton(activeElement);
             }
-        }, true);
+        };
+
+        window.addEventListener('scroll', reposition, true);
+        window.addEventListener('resize', reposition, true);
+
+        chrome.runtime.onMessage.addListener((message) => {
+            if (message.type === 'AUTH_STATE_CHANGED') {
+                void checkAuthenticated().then((isAuthenticated) => {
+                    if (!isAuthenticated) {
+                        hideQuickDraftButton();
+                    }
+                });
+            }
+        });
     }
 
     return { bindFocusTracking, FOCUSED_FIELD_KEY };

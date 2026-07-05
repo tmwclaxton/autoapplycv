@@ -455,4 +455,50 @@ assert(
     'identity fields should always use profile values even when AI hallucinates',
 );
 
+assert(
+    resolveProfileMappingForLabel('first namerequired first namerequired')?.path === 'full_name.first',
+    'Teamtailor first-name labels should map after required normalization',
+);
+
+assert(
+    resolveProfileMappingForLabel('emailrequired emailrequired')?.path === 'email',
+    'Teamtailor email labels should map after required normalization',
+);
+
+const teamtailorFieldsByRef = new Map([
+    ['f10', {
+        ref: 'f10',
+        label: 'first namerequired first namerequired',
+        field_type: 'text',
+        dom: { id: 'candidate_first_name', name: 'candidate[first_name]' },
+    }],
+    ['f11', {
+        ref: 'f11',
+        label: 'last namerequired last namerequired',
+        field_type: 'text',
+        dom: { id: 'candidate_last_name', name: 'candidate[last_name]' },
+    }],
+    ['f12', {
+        ref: 'f12',
+        label: 'emailrequired emailrequired',
+        field_type: 'email',
+        dom: { id: 'candidate_email', name: 'candidate[email]' },
+    }],
+]);
+
+const { toApply: teamtailorApply } = partitionBatchAnswers([
+    { ref: 'f10', label: 'first namerequired first namerequired', answer: 'Erik' },
+    { ref: 'f11', label: 'last namerequired last namerequired', answer: 'Andersson' },
+    { ref: 'f12', label: 'emailrequired emailrequired', answer: 'erik.andersson@example.com' },
+], teamtailorFieldsByRef, tobyProfile);
+
+const teamtailorByRef = new Map(teamtailorApply.map((row) => [row.ref, row.answer]));
+
+assert(
+    teamtailorByRef.get('f10') === 'Toby'
+        && teamtailorByRef.get('f11') === 'Claxton'
+        && teamtailorByRef.get('f12') === 'toby@example.com',
+    'Teamtailor identity fields should override hallucinated AI answers',
+);
+
 console.log('pending-fields tests passed');

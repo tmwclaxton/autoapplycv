@@ -155,4 +155,43 @@ for (const fieldId of ['first_name', 'last_name', 'email']) {
     );
 }
 
+const teamtailorScenario = {
+    id: 'web-vekst-teamtailor-com-new-3',
+    html_file: 'web-vekst-teamtailor-com-new-3.html',
+    page_url: 'https://vekst.teamtailor.com/jobs/2848071/applications/new',
+    page_title: 'Spontanansökan - Vekst - Teamtailor',
+};
+
+const teamtailorResult = await runFillVerifyForScenario(teamtailorScenario);
+
+assert(!teamtailorResult.skipped, `Teamtailor fixture should not be skipped (${teamtailorResult.reason || 'unknown'})`);
+assert(teamtailorResult.passed, `Teamtailor department checkbox fill-verify failed: ${JSON.stringify(teamtailorResult.failures?.slice(0, 3) || [])}`);
+
+const teamtailorExpected = JSON.parse(readFileSync(join(EXPECTED_DIR, `${teamtailorScenario.id}.json`), 'utf8'));
+const teamtailorHtml = readFileSync(join(HTML_DIR, teamtailorScenario.html_file), 'utf8');
+const { window: teamtailorWindow, snapshot: teamtailorSnapshot } = buildFormDomContext({
+    html: teamtailorHtml,
+    pageUrl: teamtailorScenario.page_url,
+    pageTitle: teamtailorScenario.page_title,
+});
+const teamtailorPlan = buildFillPlan(teamtailorExpected, teamtailorSnapshot);
+const departmentItem = teamtailorPlan.find((item) => /avdelningar/i.test(item.field?.question || ''));
+
+assert(departmentItem, 'Teamtailor fixture should include the department checkbox group');
+assert(
+    departmentItem.answer === 'Commercial',
+    `Teamtailor department mock answer should be Commercial (got "${departmentItem.answer}")`,
+);
+
+const appliedDepartment = await teamtailorWindow.AutoCVApplyFieldInventory.applyAnswerByRefAllFrames(
+    teamtailorWindow.document,
+    departmentItem.ref,
+    departmentItem.answer,
+);
+
+assert(appliedDepartment, 'Teamtailor department checkbox apply should succeed');
+
+const commercialCheckbox = teamtailorWindow.document.getElementById('candidate_answers_attributes_0_choices_1');
+assert(commercialCheckbox?.checked, 'Commercial department checkbox should be checked after apply');
+
 console.log('apply-dom-verify tests passed');

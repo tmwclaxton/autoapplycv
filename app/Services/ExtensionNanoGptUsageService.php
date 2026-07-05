@@ -181,6 +181,10 @@ class ExtensionNanoGptUsageService
         $completionTokens = max(0, (int) ($usage['completion_tokens'] ?? 0));
         $totalTokens = max(0, (int) ($usage['total_tokens'] ?? ($promptTokens + $completionTokens)));
         $credits = $usage['credits'] ?? $usage['nanogpt_credits'] ?? $usage['cost'] ?? null;
+
+        if (! is_numeric($credits) && is_array($usage['x_nanogpt_pricing'] ?? null)) {
+            $credits = $usage['x_nanogpt_pricing']['cost'] ?? null;
+        }
         $model = isset($usage['model']) && is_string($usage['model']) && $usage['model'] !== ''
             ? $usage['model']
             : null;

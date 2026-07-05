@@ -224,6 +224,7 @@ copyFileSync(join(SRC, 'shared/draft-all-optimizations.js'), join(DIST, 'draft-a
 copyFileSync(join(SRC, 'shared/pending-fields.js'), join(DIST, 'pending-fields.js'));
 copyFileSync(join(SRC, 'shared/draft-batch-chat.js'), join(DIST, 'draft-batch-chat.js'));
 copyFileSync(join(SRC, 'shared/upload-validation.js'), join(DIST, 'upload-validation.js'));
+copyFileSync(join(SRC, 'shared/side-panel-state.js'), join(DIST, 'side-panel-state.js'));
 copyFileSync(join(SRC, 'debug/debug.html'), join(DIST, 'debug.html'));
 copyFileSync(join(SRC, 'debug/debug.js'), join(DIST, 'debug.js'));
 copyFileSync(join(SRC, 'background/index.js'), join(DIST, 'background.js'));

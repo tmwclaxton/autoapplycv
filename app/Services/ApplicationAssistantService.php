@@ -44,7 +44,22 @@ class ApplicationAssistantService
         }
 
         $model = (string) config('cv.extraction_model');
-        $needsFullProfile = $this->batchNeedsFullProfile($questions);
+        $partition = ProfileIdentityFieldResolver::partitionQuestions($profile, $questions, $settings);
+        $llmQuestions = $partition['llm_questions'];
+
+        if ($llmQuestions === []) {
+            return [
+                'answers' => $partition['identity_answers'],
+                'usage' => [
+                    'prompt_tokens' => 0,
+                    'completion_tokens' => 0,
+                    'total_tokens' => 0,
+                    'model' => $model,
+                ],
+            ];
+        }
+
+        $needsFullProfile = $this->batchNeedsFullProfile($llmQuestions);
         $payload = $this->nanoGpt->chatJson([
             [
                 'role' => 'system',
@@ -56,7 +71,7 @@ class ApplicationAssistantService
                 'role' => 'user',
                 'content' => json_encode([
                     'job' => $this->compactJobForQuestions($job, $needsFullProfile),
-                    'questions' => $questions,
+                    'questions' => $llmQuestions,
                     'instructions' => 'Return JSON: {"answers":[{"label":"exact label from input","ref":"exact ref when provided in input","answer":"string or null"}]}. '
                         .'When a question includes ref, you MUST echo that exact ref on the matching answer row. '
                         .'Read each question label carefully, including any helper text embedded in it, and answer that specific question - do not paste a generic CV summary unless the question explicitly asks for a full background overview. '
@@ -65,7 +80,8 @@ class ApplicationAssistantService
                         .'For open text questions about motivation, interest, or fit, write 2-4 sentences in first person explaining why this role/company specifically appeals to you. Never paste raw profile fields (location strings, summary, headline) into these answers. '
                         .'For location or city autocomplete fields, return only the city name (for example "Belfast") unless the question explicitly asks for full address. Do not repeat the same place name or concatenate city, region, and country redundantly. '
                         .ProfileIdentityFieldResolver::identityPromptRules().' '
-                        .'Use null only when the profile truly lacks enough facts. Never invent employers, degrees, or dates. '
+                        .'Use null only when the profile truly lacks enough facts. Never invent employers, degrees, dates, skills, or tools not listed in the profile. '
+                        .'Match the question language when writing prose, but keep the candidate\'s real name, email, and CV facts unchanged. '
                         .'For simple yes/no questions return "yes" or "no". For checkbox groups that allow multiple selections, return comma-separated option texts. '
                         .'Keep within max_chars when provided. Plain text only - no markdown.',
                 ], JSON_THROW_ON_ERROR),
@@ -86,7 +102,7 @@ class ApplicationAssistantService
                 continue;
             }
 
-            $question = $this->matchQuestion($row, $questions);
+            $question = $this->matchQuestion($row, $llmQuestions);
 
             if ($question === null) {
                 continue;
@@ -111,7 +127,10 @@ class ApplicationAssistantService
             $answers[] = $entry;
         }
 
-        $answers = ProfileIdentityFieldResolver::enforceIdentityAnswers($profile, $questions, $answers, $settings);
+        $answers = array_merge(
+            $partition['identity_answers'],
+            ProfileIdentityFieldResolver::enforceIdentityAnswers($profile, $llmQuestions, $answers, $settings),
+        );
 
         $usage = is_array($payload['_usage'] ?? null) ? $payload['_usage'] : [
             'prompt_tokens' => 0,
@@ -149,7 +168,7 @@ class ApplicationAssistantService
         $fieldType = $question['field_type'] ?? 'text';
         $maxChars = (int) ($question['max_chars'] ?? 0);
 
-        if ($fieldType === 'textarea' && $maxChars >= 500) {
+        if ($fieldType === 'textarea') {
             return true;
         }
 
@@ -478,6 +497,7 @@ class ApplicationAssistantService
         }
 
         $payloadMessages = $this->buildChatPayloadMessages($profile, $conversation, $context, stream: true);
+        $streamApiUsage = null;
 
         $content = $this->nanoGpt->chatStream(
             $payloadMessages,
@@ -491,6 +511,7 @@ class ApplicationAssistantService
                 'model' => config('cv.extraction_model'),
                 'temperature' => 0.5,
             ],
+            $streamApiUsage,
         );
 
         if ($content === null) {
@@ -529,15 +550,19 @@ class ApplicationAssistantService
             'actions' => $actions,
         ]);
 
-        $promptEstimate = max(1, (int) ceil(mb_strlen(json_encode($payloadMessages, JSON_THROW_ON_ERROR)) / 4));
-        $completionEstimate = max(1, (int) ceil(mb_strlen($content) / 4));
+        if (is_array($streamApiUsage) && ($streamApiUsage['total_tokens'] ?? 0) > 0) {
+            $usage = $streamApiUsage;
+        } else {
+            $promptEstimate = max(1, (int) ceil(mb_strlen(json_encode($payloadMessages, JSON_THROW_ON_ERROR)) / 4));
+            $completionEstimate = max(1, (int) ceil(mb_strlen($content) / 4));
 
-        $usage = [
-            'prompt_tokens' => $promptEstimate,
-            'completion_tokens' => $completionEstimate,
-            'total_tokens' => $promptEstimate + $completionEstimate,
-            'model' => (string) config('cv.extraction_model'),
-        ];
+            $usage = [
+                'prompt_tokens' => $promptEstimate,
+                'completion_tokens' => $completionEstimate,
+                'total_tokens' => $promptEstimate + $completionEstimate,
+                'model' => (string) config('cv.extraction_model'),
+            ];
+        }
 
         return true;
     }

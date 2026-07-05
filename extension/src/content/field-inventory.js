@@ -471,6 +471,60 @@ const AutoCVApplyFieldInventory = (() => {
         }));
     }
 
+    function elementMatchesDraftTarget(element, target, roleRadios) {
+        if (!element || !target) {
+            return false;
+        }
+
+        if (element === target) {
+            return true;
+        }
+
+        if (Array.isArray(target)) {
+            return target.some((node) => node === element || node?.contains?.(element));
+        }
+
+        if (roleRadios?.some?.((node) => node === element)) {
+            return true;
+        }
+
+        return Boolean(target.contains?.(element));
+    }
+
+    function resolveDraftableFieldForElement(root, element, profilePayload, settings, memo = {}) {
+        const profile = profilePayload?.profile;
+
+        if (!element || !profile) {
+            return null;
+        }
+
+        let resolved = null;
+
+        AutoCVApplyFormHeuristics.eachDraftableField(root, profile, settings, memo, (field, target, roleRadios) => {
+            if (resolved) {
+                return;
+            }
+
+            if (!elementMatchesDraftTarget(element, target, roleRadios)) {
+                return;
+            }
+
+            const dom = buildDomMetadata(target, roleRadios);
+
+            resolved = {
+                label: field.label,
+                field_type: field.field_type,
+                max_chars: field.max_chars,
+                options: field.options,
+                dom,
+                data_field_path: dom.data_field_path,
+                updated_at: Date.now(),
+            };
+        });
+
+        return resolved;
+    }
+
     return {
         buildSnapshot,
         buildSnapshotAllFrames,
@@ -479,8 +533,10 @@ const AutoCVApplyFieldInventory = (() => {
         applyAnswerByRefWithFallback,
         clickRef,
         clickRefAllFrames,
+        elementMatchesDraftTarget,
         fieldsFromInventory,
         getRefEntry,
         resetRegistry,
+        resolveDraftableFieldForElement,
     };
 })();

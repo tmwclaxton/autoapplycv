@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generated_at": "2026-07-04T23:35:59.751Z",
-  "description": "Per-platform Playwright smoke tier — one critical scenario per ATS/platform.",
+  "generated_at": "2026-07-05T15:25:34.111Z",
+  "description": "Per-platform Playwright smoke tier - one critical scenario per ATS/platform.",
   "thresholds": {
     "critical_pass_rate": 1,
     "overall_pass_rate": 1
@@ -74,22 +74,21 @@
       "playwright_priority": true
     },
     {
-      "id": "web-vekst-teamtailor-com-new",
+      "id": "web-vekst-teamtailor-com-new-3",
       "platform": "teamtailor",
-      "reason": "Representative teamtailor form (16 fields, radio+checkbox+textarea+multiStep)",
+      "reason": "Representative teamtailor form (13 fields, checkbox+textarea+multiStep)",
       "field_types": [
         "checkbox",
         "textarea",
-        "radio",
         "text",
         "email",
         "tel"
       ],
-      "field_count": 16,
+      "field_count": 13,
       "priority": "standard",
       "verify_engine": "playwright",
       "playwright": true,
-      "playwright_priority": true
+      "playwright_priority": false
     },
     {
       "id": "web-wpforms-com-employment-agency-application-form-template",

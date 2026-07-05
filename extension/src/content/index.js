@@ -8,6 +8,7 @@ let overlayRefreshTimer = null;
 let overlayRefreshInFlight = false;
 let fieldHighlightRefreshInFlight = false;
 let cachedAuthenticated = false;
+let pendingSidePanelOpen = undefined;
 let lastMutationRefreshAt = 0;
 
 function contentLog(level, phase, message, data) {
@@ -391,21 +392,27 @@ async function isAuthenticated() {
     }
 }
 
-function scheduleOverlayRefresh() {
+function scheduleOverlayRefresh(sidePanelOpen = undefined) {
+    if (typeof sidePanelOpen === 'boolean') {
+        pendingSidePanelOpen = sidePanelOpen;
+    }
+
     if (overlayRefreshTimer) {
         clearTimeout(overlayRefreshTimer);
     }
 
     overlayRefreshTimer = setTimeout(() => {
+        const explicitSidePanelOpen = pendingSidePanelOpen;
+        pendingSidePanelOpen = undefined;
         overlayRefreshTimer = null;
-        void refreshFillButtonVisibility();
+        void refreshFillButtonVisibility(explicitSidePanelOpen);
         void refreshFieldHighlights();
     }, 350);
 }
 
-async function refreshFillButtonVisibility() {
+async function refreshFillButtonVisibility(explicitSidePanelOpen) {
     if (overlayRefreshInFlight) {
-        scheduleOverlayRefresh();
+        scheduleOverlayRefresh(explicitSidePanelOpen);
 
         return;
     }
@@ -413,22 +420,22 @@ async function refreshFillButtonVisibility() {
     overlayRefreshInFlight = true;
 
     try {
-        await runOverlayRefresh();
+        await runOverlayRefresh(explicitSidePanelOpen);
     } finally {
         overlayRefreshInFlight = false;
     }
 }
 
-async function runOverlayRefresh() {
+async function runOverlayRefresh(explicitSidePanelOpen) {
     try {
         if (window !== window.top) {
             return;
         }
 
-        const [sidePanelOpen, authenticated] = await Promise.all([
-            isSidePanelOpen(),
-            isAuthenticated(),
-        ]);
+        const sidePanelOpen = typeof explicitSidePanelOpen === 'boolean'
+            ? explicitSidePanelOpen
+            : await isSidePanelOpen();
+        const authenticated = await isAuthenticated();
 
         if (!authenticated) {
             if (typeof AutoCVApplyPortalBar !== 'undefined') {
@@ -714,7 +721,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
 
         if (message.type === 'AUTOFILL_VISIBILITY_CHANGED' || message.type === 'AUTH_STATE_CHANGED') {
-            scheduleOverlayRefresh();
+            scheduleOverlayRefresh(
+                typeof message.sidePanelOpen === 'boolean' ? message.sidePanelOpen : undefined,
+            );
             sendResponse({ success: true });
 
             return;

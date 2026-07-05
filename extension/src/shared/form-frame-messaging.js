@@ -194,8 +194,16 @@ export async function applyDraftBatchToTab(tabId, answers, frameId) {
     return sendTabMessage(tabId, { type: 'APPLY_DRAFT_BATCH', answers }, resolvedFrameId);
 }
 
-export async function applyDraftAnswerToTab(tabId, label, answer, frameId) {
-    const resolvedFrameId = await resolveFormFrameId(tabId, frameId);
+export async function applyDraftAnswerToTab(tabId, label, answer, options = {}) {
+    const resolvedFrameId = await resolveFormFrameId(tabId, options.frameId);
 
-    return sendTabMessage(tabId, { type: 'APPLY_DRAFT_ANSWER', label, answer }, resolvedFrameId);
+    return sendTabMessage(tabId, {
+        type: 'APPLY_DRAFT_ANSWER',
+        label,
+        answer,
+        ref: options.ref || null,
+        dom: options.dom || null,
+        field_type: options.field_type || null,
+        data_field_path: options.data_field_path || options.dom?.data_field_path || null,
+    }, resolvedFrameId);
 }

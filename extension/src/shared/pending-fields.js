@@ -77,12 +77,12 @@ const OPEN_ENDED_QUESTION_PATTERNS = [
 
 const PROFILE_FIELD_MAPPINGS = [
     { path: 'full_name', label: 'Full name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['full name', 'applicant name', 'your name', 'candidate name'], exactLabels: ['name'] },
-    { path: 'full_name.first', label: 'First name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['first name', 'given name', 'forename'] },
-    { path: 'full_name.last', label: 'Last name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['last name', 'surname', 'family name'] },
-    { path: 'email', label: 'Email', dashboard_tab: 'profile', dashboard_anchor: 'field-email', keywords: ['email', 'e-mail', 'personal email'] },
-    { path: 'phone', label: 'Phone', dashboard_tab: 'profile', dashboard_anchor: 'field-phone', keywords: ['phone', 'mobile', 'telephone', 'contact number', 'cell'] },
+    { path: 'full_name.first', label: 'First name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['first name', 'given name', 'forename', 'fornamn', 'förnamn'] },
+    { path: 'full_name.last', label: 'Last name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['last name', 'surname', 'family name', 'efternamn'] },
+    { path: 'email', label: 'Email', dashboard_tab: 'profile', dashboard_anchor: 'field-email', keywords: ['email', 'e-mail', 'personal email', 'e post', 'epost'] },
+    { path: 'phone', label: 'Phone', dashboard_tab: 'profile', dashboard_anchor: 'field-phone', keywords: ['phone', 'mobile', 'telephone', 'contact number', 'cell', 'telefon'] },
     { path: 'linkedin_url', label: 'LinkedIn', dashboard_tab: 'profile', dashboard_anchor: 'field-linkedin-url', keywords: ['linkedin'] },
-    { path: 'city', label: 'City', dashboard_tab: 'profile', dashboard_anchor: 'field-city', keywords: ['city', 'current city', 'town'] },
+    { path: 'city', label: 'City', dashboard_tab: 'profile', dashboard_anchor: 'field-city', keywords: ['city', 'current city', 'town', 'stad', 'ort'] },
     { path: 'location', label: 'Location', dashboard_tab: 'profile', dashboard_anchor: 'field-location', keywords: ['location', 'current location'] },
     { path: 'country', label: 'Country', dashboard_tab: 'profile', dashboard_anchor: 'field-country', keywords: ['country', 'country of residence'] },
     { path: 'application_settings.years_of_experience', label: 'Years of experience', dashboard_tab: 'preferences', dashboard_anchor: 'field-years-of-experience', keywords: ['years of experience', 'years experience', 'total experience'] },
@@ -92,6 +92,13 @@ const PROFILE_FIELD_MAPPINGS = [
     { path: 'application_settings.drivers_license', label: 'Driving licence', dashboard_tab: 'preferences', dashboard_anchor: 'field-drivers-license', keywords: ['driving licence', 'driving license', 'drivers license'] },
     { path: 'application_settings.notice_period', label: 'Notice period', dashboard_tab: 'preferences', dashboard_anchor: 'field-notice-period', keywords: ['notice period'] },
     { path: 'application_settings.job_preferences', label: 'Job preferences', dashboard_tab: 'preferences', dashboard_anchor: 'field-job-preferences', keywords: ['job preferences', 'job preference', 'role preferences', 'type of role'] },
+];
+
+const DOM_HINT_MAPPINGS = [
+    { path: 'full_name.first', patterns: ['first_name', 'firstname', 'given_name', 'given-name'] },
+    { path: 'full_name.last', patterns: ['last_name', 'lastname', 'surname', 'family_name', 'family-name'] },
+    { path: 'email', patterns: ['email', 'e_mail', 'e-mail'] },
+    { path: 'phone', patterns: ['phone', 'mobile', 'telephone', 'tel'] },
 ];
 
 const CONTEXTUAL_SAVE_PROFILE_PATHS = new Set([
@@ -106,6 +113,13 @@ const IDENTITY_PROFILE_PATHS = new Set([
     'phone',
     'city',
 ]);
+
+const IDENTITY_DOM_PATTERNS = [
+    { path: 'full_name.first', pattern: /(?:^|[\[\]_-])(?:first[_-]?name|given[_-]?name|forename)(?:$|[\[\]_-])/i },
+    { path: 'full_name.last', pattern: /(?:^|[\[\]_-])(?:last[_-]?name|surname|family[_-]?name)(?:$|[\[\]_-])/i },
+    { path: 'email', pattern: /(?:^|[\[\]_-])(?:email|e[_-]?mail)(?:$|[\[\]_-])/i },
+    { path: 'phone', pattern: /(?:^|[\[\]_-])(?:phone|mobile|telephone|tel)(?:$|[\[\]_-])/i },
+];
 
 const USER_SPECIFIC_LABEL_PATTERNS = [
     /notice period/i,
@@ -298,6 +312,22 @@ function profileMappingByPath(path) {
     return PROFILE_FIELD_MAPPINGS.find((mapping) => mapping.path === path) ?? null;
 }
 
+function resolveProfileMappingForDomHints(dom) {
+    const hints = [dom?.id, dom?.name].filter(Boolean).join(' ').trim();
+
+    if (!hints) {
+        return null;
+    }
+
+    for (const mapping of IDENTITY_DOM_PATTERNS) {
+        if (mapping.pattern.test(hints)) {
+            return profileMappingByPath(mapping.path);
+        }
+    }
+
+    return null;
+}
+
 export function splitFullName(fullName) {
     const trimmed = String(fullName || '').trim();
 
@@ -321,6 +351,43 @@ function keywordMatchesNormalized(keyword, normalized) {
     const escaped = String(keyword).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
     return new RegExp(`(?:^|\\s)${escaped}(?:\\s|$)`, 'i').test(` ${normalized} `);
+}
+
+function dedupeNormalizedLabel(normalized) {
+    const tokens = String(normalized || '').trim().split(/\s+/).filter(Boolean);
+
+    if (tokens.length <= 1) {
+        return normalized;
+    }
+
+    for (let phraseLen = 1; phraseLen <= Math.floor(tokens.length / 2); phraseLen += 1) {
+        if (tokens.length % phraseLen !== 0) {
+            continue;
+        }
+
+        const phrase = tokens.slice(0, phraseLen);
+        let repeats = true;
+
+        for (let index = phraseLen; index < tokens.length; index += phraseLen) {
+            if (tokens.slice(index, index + phraseLen).join(' ') !== phrase.join(' ')) {
+                repeats = false;
+                break;
+            }
+        }
+
+        if (repeats) {
+            return phrase.join(' ');
+        }
+    }
+
+    return normalized;
+}
+
+function normalizeLabelForMapping(label) {
+    let normalized = normalizeQuestionLabel(label);
+    normalized = dedupeNormalizedLabel(normalized);
+
+    return normalized.replace(/\s+required(?:\s+required)*$/i, '').trim();
 }
 
 function mappingMatchesLabel(mapping, normalized) {
@@ -517,6 +584,10 @@ export function isCityLocationQuestionLabel(label) {
         return true;
     }
 
+    if (/\b(?:stad|ort)\b/.test(normalized)) {
+        return true;
+    }
+
     if (/\b(?:city|town)\b/.test(normalized) && /\blocation\b/.test(normalized)) {
         return true;
     }
@@ -610,15 +681,15 @@ export function resolveConciseLocationValue(profileData, { preferCity = false } 
     return location;
 }
 
-export function resolveProfileMappingForLabel(label, profileData = null) {
-    const normalized = normalizeQuestionLabel(label);
+export function resolveProfileMappingForLabel(label, profileData = null, dom = null) {
+    const normalized = normalizeLabelForMapping(label);
 
     if (!normalized) {
-        return null;
+        return resolveProfileMappingForDomHints(dom);
     }
 
     if (isContaminatedQuestionLabel(label)) {
-        return null;
+        return resolveProfileMappingForDomHints(dom);
     }
 
     if (isSalaryQuestionLabel(label)) {
@@ -643,7 +714,7 @@ export function resolveProfileMappingForLabel(label, profileData = null) {
         }
     }
 
-    return null;
+    return resolveProfileMappingForDomHints(dom);
 }
 
 export function isUserSpecificQuestion(label) {
@@ -753,7 +824,11 @@ export function isIdentityProfilePath(path) {
 }
 
 export function resolveIdentityProfileAnswer(field, profileData) {
-    const mapping = resolveProfileMappingForLabel(field.label || field.question || '', profileData);
+    const mapping = resolveProfileMappingForLabel(
+        field.label || field.question || '',
+        profileData,
+        field.dom || null,
+    );
 
     if (!mapping || !isIdentityProfilePath(mapping.path)) {
         return '';
@@ -781,7 +856,11 @@ function profileValueForApply(mapping, profileData) {
 }
 
 function resolveProfileFallbackAnswer(field, profileData) {
-    const mapping = resolveProfileMappingForLabel(field.label || field.question || '', profileData);
+    const mapping = resolveProfileMappingForLabel(
+        field.label || field.question || '',
+        profileData,
+        field.dom || null,
+    );
 
     if (!mapping) {
         return '';

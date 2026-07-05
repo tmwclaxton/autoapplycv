@@ -128,4 +128,65 @@ class NanoGptServiceTest extends TestCase
         Http::assertSentCount(1);
         Http::assertSent(fn ($request) => $request->data()['model'] === 'deepseek/deepseek-v4-flash:throughput');
     }
+
+    public function test_chat_with_usage_reads_credits_from_x_nanogpt_pricing(): void
+    {
+        config([
+            'services.nanogpt.api_key' => 'test-key',
+            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
+        ]);
+
+        Http::fake([
+            'https://nano-gpt.test/api/v1/chat/completions' => Http::response([
+                'choices' => [
+                    ['message' => ['content' => 'Hello there.']],
+                ],
+                'usage' => [
+                    'prompt_tokens' => 100,
+                    'completion_tokens' => 20,
+                    'total_tokens' => 120,
+                ],
+                'x_nanogpt_pricing' => [
+                    'cost' => 0.0034,
+                ],
+            ], 200),
+        ]);
+
+        $result = app(NanoGptService::class)->chatWithUsage([
+            ['role' => 'user', 'content' => 'Say hi'],
+        ]);
+
+        $this->assertSame('Hello there.', $result['content'] ?? null);
+        $this->assertSame(120, $result['total_tokens'] ?? null);
+        $this->assertSame(0.0034, $result['credits'] ?? null);
+    }
+
+    public function test_chat_with_usage_prefers_x_nanogpt_pricing_over_usage_cost(): void
+    {
+        config([
+            'services.nanogpt.api_key' => 'test-key',
+            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
+        ]);
+
+        Http::fake([
+            'https://nano-gpt.test/api/v1/chat/completions' => Http::response([
+                'choices' => [
+                    ['message' => ['content' => 'Hello there.']],
+                ],
+                'usage' => [
+                    'total_tokens' => 120,
+                    'cost' => 0.0001,
+                ],
+                'x_nanogpt_pricing' => [
+                    'cost' => 0.0034,
+                ],
+            ], 200),
+        ]);
+
+        $result = app(NanoGptService::class)->chatWithUsage([
+            ['role' => 'user', 'content' => 'Say hi'],
+        ]);
+
+        $this->assertSame(0.0034, $result['credits'] ?? null);
+    }
 }

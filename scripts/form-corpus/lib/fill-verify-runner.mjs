@@ -17,10 +17,37 @@ function resolveElement(document, dom, fieldType) {
         return null;
     }
 
+    const isChoiceField = fieldType === 'radio' || fieldType === 'checkbox';
+
+    if (isChoiceField && dom.name) {
+        const byName = document.querySelector(`input[type="${fieldType}"][name="${escapeSelectorValue(dom.name)}"]`)
+            || document.querySelector(`input[name="${escapeSelectorValue(dom.name)}"]`);
+
+        if (byName) {
+            return byName;
+        }
+    }
+
     if (dom.id) {
         const byId = document.getElementById(dom.id);
 
         if (byId) {
+            if (isChoiceField && byId.tagName?.toLowerCase() !== 'input') {
+                if (dom.name) {
+                    const byName = document.querySelector(`input[type="${fieldType}"][name="${escapeSelectorValue(dom.name)}"]`);
+
+                    if (byName) {
+                        return byName;
+                    }
+                }
+
+                const inContainer = byId.querySelector(`input[type="${fieldType}"]`);
+
+                if (inContainer) {
+                    return inContainer;
+                }
+            }
+
             return byId;
         }
     }

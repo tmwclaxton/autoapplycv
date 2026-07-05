@@ -26,8 +26,9 @@ class NanoGptService
      * @param  array<array{role: string, content: string|array<int, mixed>}>  $messages
      * @param  callable(string): void  $onDelta
      * @param  array<string, mixed>  $options
+     * @param  array<string, mixed>|null  $usage
      */
-    public function chatStream(array $messages, callable $onDelta, array $options = []): ?string
+    public function chatStream(array $messages, callable $onDelta, array $options = [], ?array &$usage = null): ?string
     {
         $timeout = (int) ($options['timeout'] ?? config('services.nanogpt.timeout', 120));
         $connectTimeout = (int) ($options['connect_timeout'] ?? config('services.nanogpt.connect_timeout', 15));
@@ -66,6 +67,9 @@ class NanoGptService
 
         $body = $response->toPsrResponse()->getBody();
         $content = '';
+        $streamUsage = null;
+        $streamPricing = null;
+        $streamModel = (string) ($options['model'] ?? $this->defaultModel);
 
         while (! $body->eof()) {
             $line = $this->readStreamLine($body);
@@ -90,6 +94,18 @@ class NanoGptService
                 continue;
             }
 
+            if (isset($decoded['usage']) && is_array($decoded['usage'])) {
+                $streamUsage = $decoded['usage'];
+            }
+
+            if (isset($decoded['x_nanogpt_pricing']) && is_array($decoded['x_nanogpt_pricing'])) {
+                $streamPricing = $decoded['x_nanogpt_pricing'];
+            }
+
+            if (isset($decoded['model']) && is_string($decoded['model']) && $decoded['model'] !== '') {
+                $streamModel = $decoded['model'];
+            }
+
             $delta = $decoded['choices'][0]['delta']['content'] ?? null;
 
             if (! is_string($delta) || $delta === '') {
@@ -98,6 +114,15 @@ class NanoGptService
 
             $content .= $delta;
             $onDelta($delta);
+        }
+
+        if ($usage !== null) {
+            $usage = $this->buildUsagePayload(
+                usage: is_array($streamUsage) ? $streamUsage : null,
+                pricing: $streamPricing,
+                messages: $messages,
+                requestedModel: $streamModel,
+            );
         }
 
         return trim($content) !== '' ? $content : null;
@@ -182,26 +207,22 @@ class NanoGptService
             return null;
         }
 
-        $usage = $response->json('usage');
-        $estimatedTokens = $this->estimateTokens($messages);
-        $totalTokens = max(1, (int) ($usage['total_tokens'] ?? $estimatedTokens));
-        $promptTokens = max(0, (int) ($usage['prompt_tokens'] ?? $totalTokens));
-        $completionTokens = max(0, (int) ($usage['completion_tokens'] ?? max(0, $totalTokens - $promptTokens)));
-        $credits = $usage['cost'] ?? $usage['credits'] ?? $usage['nano_credits'] ?? null;
         $content = $response->json('choices.0.message.content');
-        $model = (string) ($response->json('model') ?? $requestedModel);
 
         if (! is_string($content)) {
             return null;
         }
 
+        $usagePayload = $this->buildUsagePayload(
+            usage: $response->json('usage'),
+            pricing: $response->json('x_nanogpt_pricing'),
+            messages: $messages,
+            requestedModel: (string) ($response->json('model') ?? $requestedModel),
+        );
+
         return [
             'content' => $content,
-            'prompt_tokens' => $promptTokens,
-            'completion_tokens' => $completionTokens,
-            'total_tokens' => $totalTokens,
-            'credits' => is_numeric($credits) ? (float) $credits : null,
-            'model' => $model,
+            ...$usagePayload,
         ];
     }
 
@@ -370,6 +391,7 @@ class NanoGptService
 
         if ($stream) {
             $payload['stream'] = true;
+            $payload['stream_options'] = ['include_usage' => true];
         }
 
         if (array_key_exists('response_format', $options) && $options['response_format'] !== null) {
@@ -450,6 +472,55 @@ class NanoGptService
         }
 
         return array_values(array_unique($candidates));
+    }
+
+    /**
+     * @param  array<string, mixed>|null  $usage
+     * @return array{
+     *     prompt_tokens: int,
+     *     completion_tokens: int,
+     *     total_tokens: int,
+     *     credits: float|null,
+     *     model: string,
+     * }
+     */
+    private function buildUsagePayload(?array $usage, mixed $pricing, array $messages, string $requestedModel): array
+    {
+        $estimatedTokens = $this->estimateTokens($messages);
+        $usage = is_array($usage) ? $usage : [];
+        $totalTokens = max(1, (int) ($usage['total_tokens'] ?? $estimatedTokens));
+        $promptTokens = max(0, (int) ($usage['prompt_tokens'] ?? $totalTokens));
+        $completionTokens = max(0, (int) ($usage['completion_tokens'] ?? max(0, $totalTokens - $promptTokens)));
+
+        return [
+            'prompt_tokens' => $promptTokens,
+            'completion_tokens' => $completionTokens,
+            'total_tokens' => $totalTokens,
+            'credits' => $this->extractCredits($usage, $pricing),
+            'model' => $requestedModel,
+        ];
+    }
+
+    /**
+     * @param  array<string, mixed>|null  $usage
+     */
+    private function extractCredits(?array $usage, mixed $pricing): ?float
+    {
+        if (is_array($pricing)) {
+            $pricingCost = $pricing['cost'] ?? null;
+
+            if (is_numeric($pricingCost)) {
+                return (float) $pricingCost;
+            }
+        }
+
+        if ($usage === null) {
+            return null;
+        }
+
+        $credits = $usage['cost'] ?? $usage['credits'] ?? $usage['nano_credits'] ?? null;
+
+        return is_numeric($credits) ? (float) $credits : null;
     }
 
     /**

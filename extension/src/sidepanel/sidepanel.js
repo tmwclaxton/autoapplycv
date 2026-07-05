@@ -246,14 +246,10 @@ function startSidePanelHeartbeat() {
         chrome.runtime.sendMessage({ type: 'SIDE_PANEL_CLOSED' }).catch(() => {});
     };
 
-    const syncVisibility = () => {
-        if (document.visibilityState === 'hidden') {
-            markClosed();
-
-            return;
+    const syncOpenWhenVisible = () => {
+        if (document.visibilityState === 'visible') {
+            markOpen();
         }
-
-        markOpen();
     };
 
     try {
@@ -262,8 +258,9 @@ function startSidePanelHeartbeat() {
         // Extension context may be invalid during reload.
     }
 
-    syncVisibility();
-    document.addEventListener('visibilitychange', syncVisibility);
+    syncOpenWhenVisible();
+    document.addEventListener('visibilitychange', syncOpenWhenVisible);
+    window.addEventListener('pageshow', markOpen);
     window.addEventListener('pagehide', markClosed);
 
     window.setInterval(() => {
