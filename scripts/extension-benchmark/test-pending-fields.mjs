@@ -14,15 +14,19 @@ import {
     isCityLocationQuestionLabel,
     isEeoQuestionLabel,
     isEducationQuestionLabel,
+    isHoursCommitmentQuestionLabel,
     isMeaningfulAnswer,
     isNoticePeriodQuestionLabel,
     isOpenEndedQuestionLabel,
+    isProfileMappingMismatch,
+    isSalaryQuestionLabel,
     partitionBatchAnswers,
     resolveConciseLocationValue,
     resolveProfileMappingForLabel,
     resolveSalaryPeriodPath,
     shouldDeferFieldToAiDraft,
     shouldPromptUserForField,
+    shouldSaveToApplicationAnswers,
     shouldSkipAiDraftAnswer,
     splitFullName,
 } from '../../extension/src/shared/pending-fields.js';
@@ -151,6 +155,44 @@ const emptySalaryProfile = {
         notice_period: '',
     },
 };
+
+const micro1HoursLabel = 'Q3. Are you able to commit 10-15 hours+ per week to this role?';
+
+assert(
+    isHoursCommitmentQuestionLabel(micro1HoursLabel),
+    'micro1 hours commitment question should be detected',
+);
+
+assert(
+    !isSalaryQuestionLabel(micro1HoursLabel),
+    'hours commitment should not be treated as salary',
+);
+
+assert(
+    resolveSalaryPeriodPath(micro1HoursLabel) === null,
+    'hours commitment should not resolve to a salary period',
+);
+
+assert(
+    resolveProfileMappingForLabel(micro1HoursLabel) === null,
+    'hours commitment should not map to a profile field',
+);
+
+assert(
+    !shouldPromptUserForField(
+        { label: micro1HoursLabel, field_type: 'select', options: ['Yes', 'No'] },
+        emptySalaryProfile,
+    ),
+    'hours commitment yes/no should not prompt profile save',
+);
+
+assert(
+    isProfileMappingMismatch(
+        { label: micro1HoursLabel, field_type: 'select', options: ['Yes', 'No'] },
+        { path: 'application_settings.expected_salary_weekly' },
+    ),
+    'hours commitment mapped to salary should be flagged as mismatch',
+);
 
 const gaps = buildPendingFieldsFromProfileGaps(fields, emptySalaryProfile);
 assert(gaps.some((field) => field.ref === 'f2'), 'missing monthly salary should be pending');
@@ -536,6 +578,14 @@ assert(
     memoOverrideByRef.get('f10') === 'Toby'
         && memoOverrideByRef.get('f12') === 'toby@example.com',
     'saved memo answers for identity fields should be overridden from profile before apply',
+);
+
+assert(
+    shouldSaveToApplicationAnswers(
+        { label: micro1HoursLabel, field_type: 'select', options: ['Yes', 'No'] },
+        { path: 'application_settings.expected_salary_weekly' },
+    ),
+    'hours commitment with salary mapping should save to application Q&A',
 );
 
 console.log('pending-fields tests passed');

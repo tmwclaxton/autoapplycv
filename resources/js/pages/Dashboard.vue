@@ -7,6 +7,7 @@ import {
     FileText,
     Key,
     Loader2,
+    MessageSquare,
     Puzzle,
     Search,
     Upload,
@@ -19,6 +20,7 @@ import {
     updateProfile as cvProfileUpdate,
 } from '@/actions/App/Http/Controllers/CvUploadController';
 import ApplicationPreferencesPanel from '@/components/cv/ApplicationPreferencesPanel.vue';
+import ApplicationQaPanel from '@/components/cv/ApplicationQaPanel.vue';
 import CvParsingOverlay from '@/components/cv/CvParsingOverlay.vue';
 import CvProfileForm from '@/components/cv/CvProfileForm.vue';
 import ExtensionUsagePanel from '@/components/cv/ExtensionUsagePanel.vue';
@@ -64,6 +66,7 @@ const activeTab = ref<
     | 'experience'
     | 'documents'
     | 'preferences'
+    | 'qa'
     | 'usage'
     | 'extension'
 >('profile');
@@ -138,6 +141,7 @@ const tabs = [
     { key: 'experience' as const, label: 'Experience', icon: Briefcase },
     { key: 'documents' as const, label: 'Documents', icon: FileText },
     { key: 'preferences' as const, label: 'Preferences', icon: Search },
+    { key: 'qa' as const, label: 'Application Q&A', icon: MessageSquare },
     { key: 'usage' as const, label: 'Usage', icon: Zap },
     { key: 'extension' as const, label: 'Extension', icon: Puzzle },
 ];
@@ -307,6 +311,7 @@ function profilePayload(): Record<string, unknown> {
         formatted_cv_text: profile.value.formatted_cv_text,
         extra_context: profile.value.extra_context,
         application_settings: profile.value.application_settings,
+        application_answers: profile.value.application_answers,
     };
 }
 
@@ -575,6 +580,14 @@ async function copyToken() {
             <ApplicationPreferencesPanel
                 v-model="profile.application_settings"
             />
+        </div>
+    </div>
+
+    <div v-else-if="activeTab === 'qa'" class="relative space-y-6">
+        <CvParsingOverlay :show="isUploading" />
+
+        <div :class="{ 'pointer-events-none select-none': isUploading }">
+            <ApplicationQaPanel v-model="profile.application_answers" />
         </div>
     </div>
 

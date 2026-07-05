@@ -44,6 +44,7 @@ const SALARY_MAPPINGS = [
             'yearly gross',
             'annual gross',
             'annual compensation',
+            'yearly compensation',
         ],
     },
 ];
@@ -166,6 +167,19 @@ const SALARY_FALLBACK_PATHS = [
     'application_settings.expected_salary_weekly',
 ];
 
+const SALARY_CONTEXT_PATTERN = /\b(?:salary|salaries|wage|wages|compensation|pay|gross|earn|earning|rate|remuneration)\b/i;
+
+const BROAD_SALARY_PERIOD_KEYWORDS = new Set([
+    'per week',
+    '/week',
+    ' per wk',
+    'per month',
+    '/month',
+    ' per mo',
+    'per year',
+    '/year',
+]);
+
 export function isMeaningfulAnswer(answer) {
     if (answer === null || answer === undefined) {
         return false;
@@ -180,10 +194,56 @@ function salaryMappingByPath(path) {
     return SALARY_MAPPINGS.find((mapping) => mapping.path === path) ?? SALARY_MAPPINGS[2];
 }
 
-export function isSalaryQuestionLabel(label) {
+function salaryPeriodKeywordMatches(keyword, normalized) {
+    if (!normalized.includes(keyword)) {
+        return false;
+    }
+
+    if (BROAD_SALARY_PERIOD_KEYWORDS.has(keyword)) {
+        return SALARY_CONTEXT_PATTERN.test(normalized);
+    }
+
+    return true;
+}
+
+function salaryPeriodKeywordsMatch(normalized, periodKeywords) {
+    return periodKeywords.some((keyword) => salaryPeriodKeywordMatches(keyword, normalized));
+}
+
+export function isHoursCommitmentQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
     if (!normalized) {
+        return false;
+    }
+
+    if (/\b(?:hours?|hrs?)\s+(?:per\s+)?(?:week|wk|month|mo)\b/.test(normalized)) {
+        return true;
+    }
+
+    if (/\b(?:hours?|hrs?)\b/.test(normalized) && /\bper\s+(?:week|wk|month|mo)\b/.test(normalized)) {
+        return true;
+    }
+
+    if (/\b(?:commit|commitment|dedicate|devote)\b.*\b(?:hours?|hrs?|time)\b/.test(normalized)) {
+        return true;
+    }
+
+    if (/\b(?:time\s+)?commit(?:ment)?\b.*\bper\s+(?:week|wk)\b/.test(normalized)) {
+        return true;
+    }
+
+    if (/\b(?:able|willing|can you)\b.*\bcommit\b/.test(normalized)) {
+        return true;
+    }
+
+    return false;
+}
+
+export function isSalaryQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized || isHoursCommitmentQuestionLabel(label)) {
         return false;
     }
 
@@ -191,18 +251,18 @@ export function isSalaryQuestionLabel(label) {
         return true;
     }
 
-    return SALARY_MAPPINGS.some((mapping) => mapping.periodKeywords.some((keyword) => normalized.includes(keyword)));
+    return SALARY_MAPPINGS.some((mapping) => salaryPeriodKeywordsMatch(normalized, mapping.periodKeywords));
 }
 
 export function resolveSalaryPeriodPath(label) {
     const normalized = normalizeQuestionLabel(label);
 
-    if (!normalized) {
+    if (!normalized || isHoursCommitmentQuestionLabel(label)) {
         return null;
     }
 
     for (const mapping of SALARY_MAPPINGS) {
-        if (mapping.periodKeywords.some((keyword) => normalized.includes(keyword))) {
+        if (salaryPeriodKeywordsMatch(normalized, mapping.periodKeywords)) {
             return mapping.path;
         }
     }
@@ -674,6 +734,37 @@ export function resolveConciseLocationValue(profileData, { preferCity = false } 
     return location;
 }
 
+function isSalaryProfilePath(path) {
+    return typeof path === 'string' && SALARY_FALLBACK_PATHS.includes(path);
+}
+
+function isBooleanYesNoField(field) {
+    const options = field?.options;
+
+    if (!Array.isArray(options) || options.length === 0) {
+        return false;
+    }
+
+    const normalized = options.map((option) => String(option).trim().toLowerCase());
+    const allowed = new Set(['yes', 'no', 'y', 'n', 'true', 'false']);
+
+    return normalized.length <= 4 && normalized.every((option) => allowed.has(option));
+}
+
+export function isProfileMappingMismatch(field, mapping) {
+    const label = field?.label || field?.question || '';
+
+    if (isHoursCommitmentQuestionLabel(label)) {
+        return true;
+    }
+
+    if (mapping && isSalaryProfilePath(mapping.path) && isBooleanYesNoField(field)) {
+        return true;
+    }
+
+    return false;
+}
+
 export function resolveProfileMappingForLabel(label, profileData = null, dom = null) {
     const normalized = normalizeLabelForMapping(label);
 
@@ -683,6 +774,10 @@ export function resolveProfileMappingForLabel(label, profileData = null, dom = n
 
     if (isContaminatedQuestionLabel(label)) {
         return resolveProfileMappingForDomHints(dom);
+    }
+
+    if (isHoursCommitmentQuestionLabel(label)) {
+        return null;
     }
 
     if (isSalaryQuestionLabel(label)) {
@@ -795,6 +890,10 @@ export function formatPhoneForForm(profileData, phone) {
 export function shouldPromptUserForField(field, profileData) {
     const label = field?.label || field?.question || '';
 
+    if (isHoursCommitmentQuestionLabel(label)) {
+        return false;
+    }
+
     if (isAvailabilityQuestionLabel(label)) {
         if (isMeaningfulAnswer(readProfileValue(profileData, 'computed_earliest_start'))) {
             return false;
@@ -811,13 +910,25 @@ export function shouldPromptUserForField(field, profileData) {
         return false;
     }
 
-    const mapping = resolveProfileMappingForLabel(label, profileData);
+    const mapping = resolveProfileMappingForLabel(label, profileData, field.dom || null);
+
+    if (isProfileMappingMismatch(field, mapping)) {
+        return false;
+    }
 
     if (!mapping) {
         return true;
     }
 
     return !isMeaningfulAnswer(readProfileValue(profileData, mapping.path));
+}
+
+export function shouldSaveToApplicationAnswers(field, mapping) {
+    if (!mapping?.path) {
+        return true;
+    }
+
+    return isProfileMappingMismatch(field, mapping);
 }
 
 export function isIdentityProfilePath(path) {

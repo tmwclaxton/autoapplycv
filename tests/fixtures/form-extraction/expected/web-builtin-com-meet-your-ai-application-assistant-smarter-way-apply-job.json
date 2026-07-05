@@ -1,0 +1,69 @@
+{
+  "id": "web-builtin-com-meet-your-ai-application-assistant-smarter-way-apply-job",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "search",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "header-search-input",
+        "name": "search jobs input",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "job title or keyword job title or keyword job title or keyword",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "searchJobsInput",
+        "name": null,
+        "data_testid": "job-search-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Job Title or Keyword",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location location select location",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "locationDropdownInput",
+        "name": "location",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Select Location",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

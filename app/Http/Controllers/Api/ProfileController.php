@@ -9,6 +9,7 @@ use App\Models\CvProfile;
 use App\Models\User;
 use App\Services\AiTokenService;
 use App\Services\CvProfileDocumentService;
+use App\Support\ApplicationAnswers;
 use App\Support\ApplicationSettings;
 use App\Support\CvExtractionSchema;
 use Illuminate\Http\JsonResponse;
@@ -41,7 +42,16 @@ class ProfileController extends Controller
         $validated = $request->validated();
         $structuredPatch = $validated['structured_data'] ?? [];
         $applicationSettingsPatch = $validated['application_settings'] ?? [];
-        unset($validated['structured_data'], $validated['application_settings']);
+        $applicationAnswers = $validated['application_answers'] ?? null;
+        $applicationAnswersAppend = $validated['application_answers_append'] ?? null;
+        $applicationAnswersRemoveId = $validated['application_answers_remove_id'] ?? null;
+        unset(
+            $validated['structured_data'],
+            $validated['application_settings'],
+            $validated['application_answers'],
+            $validated['application_answers_append'],
+            $validated['application_answers_remove_id'],
+        );
 
         $profile = CvProfile::updateOrCreate(
             ['user_id' => $user->id],
@@ -64,7 +74,31 @@ class ProfileController extends Controller
             );
         }
 
-        if ($structuredPatch !== [] || $applicationSettingsPatch !== []) {
+        $answersChanged = false;
+
+        if ($applicationAnswers !== null) {
+            $profile->application_answers = ApplicationAnswers::normalize($applicationAnswers);
+            $answersChanged = true;
+        }
+
+        if (is_array($applicationAnswersAppend)) {
+            $profile->application_answers = ApplicationAnswers::upsert(
+                ApplicationAnswers::normalize($profile->application_answers),
+                (string) ($applicationAnswersAppend['question'] ?? ''),
+                (string) ($applicationAnswersAppend['answer'] ?? ''),
+            );
+            $answersChanged = true;
+        }
+
+        if (is_string($applicationAnswersRemoveId) && $applicationAnswersRemoveId !== '') {
+            $profile->application_answers = ApplicationAnswers::removeById(
+                ApplicationAnswers::normalize($profile->application_answers),
+                $applicationAnswersRemoveId,
+            );
+            $answersChanged = true;
+        }
+
+        if ($structuredPatch !== [] || $applicationSettingsPatch !== [] || $answersChanged) {
             $profile->save();
         }
 
@@ -94,6 +128,7 @@ class ProfileController extends Controller
                 'formatted_cv_text' => $profile->formatted_cv_text,
                 'structured_data' => $profile->structured_data ?? [],
                 'application_settings' => $applicationSettings,
+                'application_answers' => ApplicationAnswers::normalize($profile->application_answers),
             ],
             'subscription' => $this->aiTokens->summary($user),
         ]);
@@ -130,6 +165,7 @@ class ProfileController extends Controller
                 'structured_data' => $profile->structured_data ?? [],
                 'formatted_cv_text' => $profile->formatted_cv_text,
                 'extra_context' => $profile->extra_context,
+                'application_answers' => ApplicationAnswers::normalize($profile->application_answers),
             ],
             'documents' => $user->profileDocuments()
                 ->latest()

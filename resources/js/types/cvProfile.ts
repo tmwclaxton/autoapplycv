@@ -137,6 +137,12 @@ export interface ApplicationSettings {
     job_preferences: string;
 }
 
+export interface ApplicationAnswer {
+    id: string;
+    question: string;
+    answer: string;
+}
+
 export interface CvProfile {
     id?: number;
     full_name: string | null;
@@ -158,6 +164,7 @@ export interface CvProfile {
     raw_cv_text: string | null;
     extra_context: string | null;
     application_settings: ApplicationSettings;
+    application_answers: ApplicationAnswer[];
     parsing_complete: boolean;
 }
 
@@ -260,6 +267,25 @@ export function normalizeApplicationSettings(
     };
 }
 
+export function normalizeApplicationAnswers(
+    input: Partial<ApplicationAnswer>[] | null | undefined,
+): ApplicationAnswer[] {
+    if (!Array.isArray(input)) {
+        return [];
+    }
+
+    return input
+        .map((entry) => ({
+            id:
+                typeof entry?.id === 'string' && entry.id !== ''
+                    ? entry.id
+                    : crypto.randomUUID(),
+            question: String(entry?.question ?? '').trim(),
+            answer: String(entry?.answer ?? '').trim(),
+        }))
+        .filter((entry) => entry.question !== '' && entry.answer !== '');
+}
+
 export function createEmptyProfile(): CvProfile {
     return {
         full_name: null,
@@ -281,6 +307,7 @@ export function createEmptyProfile(): CvProfile {
         raw_cv_text: null,
         extra_context: null,
         application_settings: defaultApplicationSettings(),
+        application_answers: [],
         parsing_complete: false,
     };
 }
@@ -374,6 +401,9 @@ export function normalizeCvProfile(
         },
         application_settings: normalizeApplicationSettings(
             input.application_settings,
+        ),
+        application_answers: normalizeApplicationAnswers(
+            input.application_answers,
         ),
     };
 }

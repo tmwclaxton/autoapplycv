@@ -85,6 +85,15 @@ EXTENSION_E2E=1 php artisan test --compact --group=extension-e2e
 # Full ~100 scenario extension E2E (manual via tests-heavy.yml, 30–60+ min)
 EXTENSION_E2E=1 EXTENSION_E2E_FULL=1 php artisan test --compact --group=extension-e2e
 
+# Form E2E + NanoGPT answer scoring (Sail-only, not CI)
+npm run form-corpus:build-form-e2e-scoring
+NANOGPT_LIVE_TESTS=1 ./vendor/bin/sail artisan form-e2e:score --limit=5
+# Full pipeline (extension fill + scoring):
+npm run build:extension
+NANOGPT_LIVE_TESTS=1 EXTENSION_E2E=1 npm run form-corpus:form-e2e-scoring -- --limit=5
+# Skip extension E2E, score only:
+NANOGPT_LIVE_TESTS=1 npm run form-corpus:form-e2e-scoring -- --skip-e2e --limit=10
+
 # Individual suites
 php artisan test --compact tests/Unit/Extension/FormFillCuratedTest.php
 php artisan test --compact tests/Unit/Extension/FormFillDebugLogTest.php
@@ -109,6 +118,9 @@ php artisan test --compact tests/Unit/Extension/FormFillExtensionE2eTest.php
 | `fill-verify-smoke.json` | Smoke scenario manifest (auto-generated) |
 | `tests/fixtures/extension-e2e/e2e-scenarios.json` | ~100 scenario E2E manifest |
 | `tests/fixtures/extension-e2e/extension-e2e-report.json` | Latest batch E2E report |
+| `tests/fixtures/extension-e2e/form-e2e-scoring-scenarios.json` | 150 fixture + persona scoring manifest (Sail-only) |
+| `tests/fixtures/extension-e2e/form-e2e-scoring-report.json` | Latest NanoGPT scoring report |
+| `tests/fixtures/extension-e2e/answer-quality-audit-report.json` | Extension E2E dom audit (20 scenarios) |
 | `tests/fixtures/extension-e2e/responses/` | Mock job-context, inventory, draft-all NDJSON |
 | `tests/fixtures/form-fill-logs/` | Debug log export + golden summaries |
 | `tests/fixtures/form-fill-baselines/{id}/after.png` | Visual regression baselines |
@@ -119,7 +131,22 @@ php artisan test --compact tests/Unit/Extension/FormFillExtensionE2eTest.php
 2. **New ATS platform** - add vetted fixture, run `npm run form-corpus:build-curated`, update `SMOKE_PLATFORM_PICKS` in `lib/curated-manifest.mjs` if needed.
 3. **Visual baseline update** - `UPDATE_BASELINES=1 npm run form-corpus:visual-regression`, commit `tests/fixtures/form-fill-baselines/`.
 4. **E2E mock refresh** - `npm run form-corpus:generate-e2e-mocks` after expected/manifest changes.
-5. **Debug log golden** - capture `DEBUG_LOG_EXPORT` from E2E run, update `tests/fixtures/form-fill-logs/*.summary.json`.
+5. **Form E2E scoring manifest** - `npm run form-corpus:build-form-e2e-scoring` after new vetted fixtures land.
+6. **Debug log golden** - capture `DEBUG_LOG_EXPORT` from E2E run, update `tests/fixtures/form-fill-logs/*.summary.json`.
+
+## Firecrawl discovery (150+ new forms)
+
+Firecrawl API key: set `FIRECRAWL_API_KEY` in env or `.cursor/mcp.json` under `firecrawl.env`.
+
+```bash
+npm run form-corpus:discover
+npm run form-corpus:scrape -- --limit=150
+npm run form-corpus:propose -- --id-prefix=web-
+npm run form-corpus:vet -- --pending-only
+npm run form-corpus:build-form-e2e-scoring
+```
+
+Scrape tries direct fetch first, then Firecrawl for JS-heavy ATS hosts. Workday listing pages often skip (no form controls). Re-run in batches if rate-limited.
 
 ## Curated verification tier
 

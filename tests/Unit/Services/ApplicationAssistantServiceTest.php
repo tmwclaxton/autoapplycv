@@ -431,6 +431,16 @@ class ApplicationAssistantServiceTest extends TestCase
             'email' => 'toby@example.com',
             'phone' => '+44 7700 900123',
             'city' => 'High Wycombe',
+            'experience' => [
+                [
+                    'title' => 'Senior Engineer',
+                    'company' => 'Acme Corp',
+                    'start_date' => '2020-01',
+                    'end_date' => 'Present',
+                    'highlights' => ['Built Laravel APIs for internal tools'],
+                    'technologies' => ['PHP', 'Laravel'],
+                ],
+            ],
         ]);
 
         $this->mock(NanoGptService::class, function (MockInterface $mock): void {
@@ -442,7 +452,7 @@ class ApplicationAssistantServiceTest extends TestCase
                     [
                         'label' => 'In short, what is your main interest in this role?',
                         'ref' => 'f4',
-                        'answer' => 'I have led e-commerce campaigns in Stockholm.',
+                        'answer' => 'At Acme Corp I have built Laravel APIs and want to bring that backend work to this role.',
                     ],
                 ],
             ]);
@@ -474,8 +484,105 @@ class ApplicationAssistantServiceTest extends TestCase
         $this->assertSame('Claxton', $answersByRef->get('f2')['answer'] ?? null);
         $this->assertSame('toby@example.com', $answersByRef->get('f3')['answer'] ?? null);
         $this->assertSame(
-            'I have led e-commerce campaigns in Stockholm.',
+            'At Acme Corp I have built Laravel APIs and want to bring that backend work to this role.',
             $answersByRef->get('f4')['answer'] ?? null,
         );
+    }
+
+    public function test_answer_questions_uses_full_profile_for_portfolio_questions(): void
+    {
+        $user = User::factory()->create();
+        $profile = CvProfile::factory()->for($user)->create([
+            'experience' => [
+                [
+                    'title' => 'Senior Engineer',
+                    'company' => 'Acme Corp',
+                    'start_date' => '2020-01',
+                    'end_date' => 'Present',
+                    'highlights' => ['Built Laravel APIs for internal tools'],
+                    'technologies' => ['PHP', 'Laravel'],
+                ],
+            ],
+        ]);
+
+        $capturedSystemPrompt = null;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock) use (&$capturedSystemPrompt): void {
+            $mock->shouldReceive('chatJson')
+                ->once()
+                ->andReturnUsing(function (array $messages) use (&$capturedSystemPrompt): array {
+                    $capturedSystemPrompt = $messages[0]['content'] ?? null;
+
+                    return [
+                        'answers' => [[
+                            'label' => 'Share your GitHub or portfolio work',
+                            'ref' => 'portfolio',
+                            'answer' => 'Most of my work at Acme Corp is private, but I built Laravel APIs for internal tools there.',
+                        ]],
+                    ];
+                });
+        });
+
+        $service = app(ApplicationAssistantService::class);
+
+        $result = $service->answerQuestions(
+            $profile,
+            ['title' => 'Engineer', 'company' => 'Micro1'],
+            [[
+                'label' => 'Share your GitHub or portfolio work',
+                'ref' => 'portfolio',
+                'field_type' => 'text',
+                'max_chars' => 500,
+            ]],
+        );
+
+        $this->assertNotNull($result);
+        $this->assertStringContainsString('Acme Corp', (string) $capturedSystemPrompt);
+        $this->assertStringContainsString('experience', (string) $capturedSystemPrompt);
+        $this->assertStringContainsString('Acme Corp', (string) ($result['answers'][0]['answer'] ?? ''));
+    }
+
+    public function test_answer_questions_rejects_ungrounded_security_answer(): void
+    {
+        $user = User::factory()->create();
+        $profile = CvProfile::factory()->for($user)->create([
+            'experience' => [
+                [
+                    'title' => 'Senior Engineer',
+                    'company' => 'Acme Corp',
+                    'start_date' => '2020-01',
+                    'end_date' => 'Present',
+                    'highlights' => ['Built Laravel APIs for internal tools'],
+                    'technologies' => ['PHP', 'Laravel'],
+                ],
+            ],
+        ]);
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')->once()->andReturn([
+                'answers' => [[
+                    'label' => 'Describe your security experience',
+                    'ref' => 'secops',
+                    'answer' => 'I built OAuth2 for a fintech platform using Node.js and PostgreSQL.',
+                ]],
+            ]);
+        });
+
+        $service = app(ApplicationAssistantService::class);
+
+        $result = $service->answerQuestions(
+            $profile,
+            ['title' => 'SecOps Engineer', 'company' => 'Micro1'],
+            [[
+                'label' => 'Describe your security experience',
+                'ref' => 'secops',
+                'field_type' => 'text',
+                'max_chars' => 500,
+            ]],
+        );
+
+        $this->assertNotNull($result);
+        $this->assertCount(1, $result['answers']);
+        $this->assertNull($result['answers'][0]['answer']);
     }
 }

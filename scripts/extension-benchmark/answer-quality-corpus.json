@@ -1,0 +1,3766 @@
+{
+    "version": 1,
+    "generated_at": "2026-07-05T19:49:35+00:00",
+    "scenario_count": 124,
+    "profile_personas": {
+        "senior_laravel_dev": {
+            "full_name": "James Mitchell",
+            "headline": "Senior Laravel Developer",
+            "email": "james.mitchell@example.com",
+            "phone": "+447700900123",
+            "city": "Bristol",
+            "location": "Bristol, United Kingdom",
+            "country": "United Kingdom",
+            "summary": "Backend engineer specialising in Laravel APIs, Vue frontends, and PostgreSQL at scale.",
+            "skills": [
+                "PHP",
+                "Laravel",
+                "Vue",
+                "PostgreSQL",
+                "Redis",
+                "Docker"
+            ],
+            "experience": [
+                {
+                    "title": "Senior Software Engineer",
+                    "company": "Riverbank Systems",
+                    "location": "Bristol",
+                    "start_date": "2021-03",
+                    "end_date": "Present",
+                    "is_current": true,
+                    "highlights": [
+                        "Led migration of monolith to Laravel 11 microservices serving 40k daily users",
+                        "Built internal admin tooling with Vue 3 and Inertia"
+                    ],
+                    "technologies": [
+                        "Laravel",
+                        "Vue",
+                        "PostgreSQL"
+                    ]
+                },
+                {
+                    "title": "PHP Developer",
+                    "company": "Coastal Digital",
+                    "location": "Cardiff",
+                    "start_date": "2018-06",
+                    "end_date": "2021-02",
+                    "highlights": [
+                        "Maintained legacy PHP apps and introduced PHPUnit coverage"
+                    ],
+                    "technologies": [
+                        "PHP",
+                        "MySQL"
+                    ]
+                }
+            ],
+            "education": [
+                {
+                    "degree": "BSc Computer Science",
+                    "institution": "University of Bristol",
+                    "end_date": "2018"
+                }
+            ],
+            "structured_data": {
+                "projects": [
+                    {
+                        "name": "Payments dashboard",
+                        "description": "Internal Laravel reporting tool"
+                    }
+                ],
+                "languages": [
+                    {
+                        "language": "English",
+                        "proficiency": "Native"
+                    }
+                ]
+            },
+            "application_settings": {
+                "expected_salary_yearly": "65000",
+                "notice_period": "1 month",
+                "willing_to_relocate": "no"
+            }
+        },
+        "marketing_manager": {
+            "full_name": "Sarah Chen",
+            "headline": "B2B Marketing Manager",
+            "email": "sarah.chen@example.com",
+            "phone": "+14155550123",
+            "city": "San Francisco",
+            "location": "San Francisco, CA",
+            "country": "United States",
+            "summary": "Demand generation and content marketing for SaaS products with measurable pipeline impact.",
+            "skills": [
+                "HubSpot",
+                "SEO",
+                "Content strategy",
+                "Google Analytics",
+                "ABM"
+            ],
+            "experience": [
+                {
+                    "title": "Marketing Manager",
+                    "company": "BrightWave Analytics",
+                    "location": "San Francisco",
+                    "start_date": "2020-01",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Increased inbound SQLs by 38% through SEO and webinar programmes",
+                        "Owned ABM campaigns targeting enterprise finance buyers"
+                    ]
+                },
+                {
+                    "title": "Content Marketer",
+                    "company": "Northline SaaS",
+                    "location": "Oakland",
+                    "start_date": "2017-04",
+                    "end_date": "2019-12",
+                    "highlights": [
+                        "Launched company blog and case study programme"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "95000",
+                "notice_period": "2 weeks"
+            }
+        },
+        "cybersecurity_analyst": {
+            "full_name": "Marcus Webb",
+            "headline": "Security Operations Analyst",
+            "email": "marcus.webb@example.com",
+            "phone": "+447911123456",
+            "city": "Manchester",
+            "location": "Manchester, United Kingdom",
+            "country": "United Kingdom",
+            "summary": "SOC analyst with SIEM tuning, incident triage, and threat hunting experience.",
+            "skills": [
+                "Splunk",
+                "SIEM",
+                "Incident response",
+                "MITRE ATT&CK",
+                "Python"
+            ],
+            "experience": [
+                {
+                    "title": "Security Operations Analyst",
+                    "company": "SecureNet Defence",
+                    "location": "Manchester",
+                    "start_date": "2019-08",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Triaged 200+ alerts weekly in Splunk ES with 15-minute SLA",
+                        "Co-authored runbooks for phishing and ransomware playbooks"
+                    ],
+                    "technologies": [
+                        "Splunk",
+                        "CrowdStrike",
+                        "Python"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "52000",
+                "notice_period": "1 month"
+            }
+        },
+        "swedish_product_designer": {
+            "full_name": "Elin Andersson",
+            "headline": "Produktdesigner",
+            "email": "elin.andersson@example.se",
+            "phone": "+46701234567",
+            "city": "Stockholm",
+            "location": "Stockholm, Sweden",
+            "country": "Sweden",
+            "summary": "UX-designer med fokus på tillgänglighet och design systems för B2B-produkter.",
+            "skills": [
+                "Figma",
+                "UX research",
+                "Design systems",
+                "Prototyping"
+            ],
+            "experience": [
+                {
+                    "title": "Senior UX Designer",
+                    "company": "Nordic Flow AB",
+                    "location": "Stockholm",
+                    "start_date": "2019-01",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Ledde omdesign av onboarding som minskade supportärenden med 22%",
+                        "Byggde Figma-bibliotek för 12 produktteam"
+                    ]
+                }
+            ],
+            "structured_data": {
+                "languages": [
+                    {
+                        "language": "Swedish",
+                        "proficiency": "Native"
+                    },
+                    {
+                        "language": "English",
+                        "proficiency": "Professional"
+                    }
+                ]
+            },
+            "application_settings": {
+                "expected_salary_yearly": "720000",
+                "notice_period": "3 months"
+            }
+        },
+        "career_changer_teacher": {
+            "full_name": "David Okonkwo",
+            "headline": "Junior Full Stack Developer",
+            "email": "david.okonkwo@example.com",
+            "phone": "+447700900456",
+            "city": "Leeds",
+            "location": "Leeds, United Kingdom",
+            "country": "United Kingdom",
+            "summary": "Former secondary maths teacher who completed a coding bootcamp and joined a startup as a junior developer.",
+            "skills": [
+                "JavaScript",
+                "React",
+                "Node.js",
+                "HTML",
+                "CSS"
+            ],
+            "experience": [
+                {
+                    "title": "Junior Developer",
+                    "company": "Bridge Labs",
+                    "location": "Leeds",
+                    "start_date": "2024-01",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Shipped customer dashboard features in React after 12-week bootcamp",
+                        "Pair programmed with seniors on REST API integrations"
+                    ]
+                },
+                {
+                    "title": "Maths Teacher",
+                    "company": "West Yorkshire Academy",
+                    "location": "Leeds",
+                    "start_date": "2016-09",
+                    "end_date": "2023-07",
+                    "highlights": [
+                        "Taught GCSE and A-level classes of 30 students"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "32000",
+                "notice_period": "2 weeks"
+            }
+        },
+        "junior_frontend_dev": {
+            "full_name": "Priya Patel",
+            "headline": "Frontend Developer",
+            "email": "priya.patel@example.com",
+            "phone": "+447700900789",
+            "city": "Birmingham",
+            "location": "Birmingham, United Kingdom",
+            "country": "United Kingdom",
+            "summary": "Frontend developer building accessible React interfaces for agency clients.",
+            "skills": [
+                "React",
+                "TypeScript",
+                "Tailwind CSS",
+                "Accessibility"
+            ],
+            "experience": [
+                {
+                    "title": "Frontend Developer",
+                    "company": "Pixel Orchard Agency",
+                    "location": "Birmingham",
+                    "start_date": "2022-06",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Delivered 6 client sites with React and headless CMS integrations",
+                        "Improved Lighthouse accessibility scores to 95+ on two launches"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "38000"
+            }
+        },
+        "devops_engineer": {
+            "full_name": "Tomás Rivera",
+            "headline": "DevOps Engineer",
+            "email": "tomas.rivera@example.com",
+            "phone": "+34600123456",
+            "city": "Barcelona",
+            "location": "Barcelona, Spain",
+            "country": "Spain",
+            "summary": "Platform engineer focused on AWS, Kubernetes, and CI\/CD pipelines.",
+            "skills": [
+                "AWS",
+                "Kubernetes",
+                "Terraform",
+                "GitHub Actions",
+                "Prometheus"
+            ],
+            "experience": [
+                {
+                    "title": "DevOps Engineer",
+                    "company": "CloudSpan Iberia",
+                    "location": "Barcelona",
+                    "start_date": "2020-05",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Migrated 30 services to EKS with zero-downtime cutovers",
+                        "Reduced deploy time from 45 to 8 minutes via GitHub Actions"
+                    ],
+                    "technologies": [
+                        "AWS",
+                        "Kubernetes",
+                        "Terraform"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "55000"
+            }
+        },
+        "data_analyst": {
+            "full_name": "Fiona Walsh",
+            "headline": "Data Analyst",
+            "email": "fiona.walsh@example.com",
+            "phone": "+353871234567",
+            "city": "Dublin",
+            "location": "Dublin, Ireland",
+            "country": "Ireland",
+            "summary": "Analyst turning warehouse data into dashboards and executive insights.",
+            "skills": [
+                "SQL",
+                "Python",
+                "Tableau",
+                "dbt",
+                "Snowflake"
+            ],
+            "experience": [
+                {
+                    "title": "Data Analyst",
+                    "company": "Emerald Retail Group",
+                    "location": "Dublin",
+                    "start_date": "2021-02",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Built Tableau suite tracking store-level margin trends",
+                        "Automated weekly SQL reports saving 6 analyst hours"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "48000"
+            }
+        },
+        "nurse_healthcare": {
+            "full_name": "Rachel Brooks",
+            "headline": "Registered Nurse",
+            "email": "rachel.brooks@example.nhs.uk",
+            "phone": "+447700900321",
+            "city": "Newcastle",
+            "location": "Newcastle upon Tyne, United Kingdom",
+            "country": "United Kingdom",
+            "summary": "Acute care nurse with ward leadership and patient safety audit experience.",
+            "skills": [
+                "Patient care",
+                "Ward management",
+                "Clinical documentation",
+                "CPD"
+            ],
+            "experience": [
+                {
+                    "title": "Staff Nurse",
+                    "company": "Royal North Hospital",
+                    "location": "Newcastle",
+                    "start_date": "2015-03",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Led shift handovers on a 28-bed medical ward",
+                        "Championed infection control audits with 98% compliance"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "35000"
+            }
+        },
+        "sales_executive": {
+            "full_name": "Chris Novak",
+            "headline": "Enterprise Account Executive",
+            "email": "chris.novak@example.com",
+            "phone": "+12125550199",
+            "city": "Chicago",
+            "location": "Chicago, IL",
+            "country": "United States",
+            "summary": "B2B SaaS seller closing mid-market deals with consultative discovery.",
+            "skills": [
+                "SaaS sales",
+                "Salesforce",
+                "Discovery",
+                "Negotiation"
+            ],
+            "experience": [
+                {
+                    "title": "Account Executive",
+                    "company": "PipelineHQ",
+                    "location": "Chicago",
+                    "start_date": "2019-03",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Closed $1.2M ARR across 14 mid-market accounts in 2024",
+                        "Exceeded quota three consecutive years"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "85000"
+            }
+        },
+        "freelance_ux": {
+            "full_name": "Amira Hassan",
+            "headline": "Freelance UX Consultant",
+            "email": "amira.hassan@example.com",
+            "phone": "+447700900654",
+            "city": "London",
+            "location": "London, United Kingdom",
+            "country": "United Kingdom",
+            "summary": "Independent UX consultant for fintech and health clients with private client work.",
+            "skills": [
+                "UX audit",
+                "Wireframing",
+                "User interviews",
+                "Figma"
+            ],
+            "experience": [
+                {
+                    "title": "Freelance UX Consultant",
+                    "company": "Self-employed",
+                    "location": "London",
+                    "start_date": "2020-01",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Ran UX audits for two fintech clients under NDA",
+                        "Redesigned checkout flows for a health startup"
+                    ]
+                },
+                {
+                    "title": "Product Designer",
+                    "company": "Harbour FinTech",
+                    "location": "London",
+                    "start_date": "2017-06",
+                    "end_date": "2019-12",
+                    "highlights": [
+                        "Shipped mobile banking onboarding flows"
+                    ]
+                }
+            ],
+            "structured_data": {
+                "projects": [
+                    {
+                        "name": "Private fintech audit",
+                        "description": "NDA client work, not public"
+                    }
+                ]
+            },
+            "application_settings": {
+                "expected_salary_yearly": "60000"
+            }
+        },
+        "german_engineer": {
+            "full_name": "Lukas Müller",
+            "headline": "Softwareentwickler",
+            "email": "lukas.mueller@example.de",
+            "phone": "+4915123456789",
+            "city": "Berlin",
+            "location": "Berlin, Germany",
+            "country": "Germany",
+            "summary": "Backend-Entwickler mit Schwerpunkt auf Java und Spring Boot in Industrieprojekten.",
+            "skills": [
+                "Java",
+                "Spring Boot",
+                "Kafka",
+                "PostgreSQL"
+            ],
+            "experience": [
+                {
+                    "title": "Software Engineer",
+                    "company": "IndustrieWerk GmbH",
+                    "location": "Berlin",
+                    "start_date": "2018-09",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Entwickelte Event-Pipelines mit Kafka für Produktionsdaten",
+                        "Betreute REST-APIs für interne Logistiktools"
+                    ]
+                }
+            ],
+            "structured_data": {
+                "languages": [
+                    {
+                        "language": "German",
+                        "proficiency": "Native"
+                    },
+                    {
+                        "language": "English",
+                        "proficiency": "Professional"
+                    }
+                ]
+            },
+            "application_settings": {
+                "expected_salary_yearly": "72000"
+            }
+        }
+    },
+    "scenarios": [
+        {
+            "id": "laravel-portfolio-github",
+            "profile_fixture": "senior_laravel_dev",
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge",
+                "description_snippet": "Build APIs with Laravel, Vue, PostgreSQL. GitHub or portfolio required."
+            },
+            "questions": [
+                {
+                    "label": "Share your GitHub profile or portfolio work relevant to this role",
+                    "ref": "q6",
+                    "field_type": "textarea",
+                    "max_chars": 500
+                }
+            ],
+            "job_keywords": [
+                "Laravel",
+                "Vue",
+                "PostgreSQL",
+                "API"
+            ],
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "enterprise software projects",
+                "eager to deepen expertise"
+            ]
+        },
+        {
+            "id": "laravel-motivation",
+            "profile_fixture": "senior_laravel_dev",
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge",
+                "description_snippet": "Remote-first team modernising billing infrastructure."
+            },
+            "questions": [
+                {
+                    "label": "Why are you interested in this role?",
+                    "ref": "motivation",
+                    "field_type": "textarea",
+                    "max_chars": 800
+                }
+            ],
+            "job_keywords": [
+                "Laravel",
+                "billing",
+                "remote"
+            ],
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "laravel-domain-laravel",
+            "profile_fixture": "senior_laravel_dev",
+            "job_context": {
+                "title": "Backend Engineer",
+                "company": "ApiCraft",
+                "description_snippet": "Deep Laravel experience maintaining high-traffic APIs."
+            },
+            "questions": [
+                {
+                    "label": "Describe your experience with Laravel in production",
+                    "ref": "laravel-exp",
+                    "field_type": "text",
+                    "max_chars": 400
+                }
+            ],
+            "job_keywords": [
+                "Laravel",
+                "API",
+                "production"
+            ],
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "laravel-salary",
+            "profile_fixture": "senior_laravel_dev",
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge",
+                "description_snippet": "Competitive UK salary."
+            },
+            "questions": [
+                {
+                    "label": "What are your salary expectations?",
+                    "ref": "salary",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [
+                "salary"
+            ],
+            "must_mention": [
+                "65000"
+            ],
+            "must_not_mention": [
+                "fintech"
+            ]
+        },
+        {
+            "id": "laravel-culture-short",
+            "profile_fixture": "senior_laravel_dev",
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge",
+                "description_snippet": "Collaborative engineering culture with code review focus."
+            },
+            "questions": [
+                {
+                    "label": "In one sentence, what excites you about StackForge?",
+                    "ref": "short-fit",
+                    "field_type": "text",
+                    "max_chars": 200
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "marketing-motivation",
+            "profile_fixture": "marketing_manager",
+            "job_context": {
+                "title": "Demand Generation Manager",
+                "company": "RevLoop",
+                "description_snippet": "Own pipeline for B2B SaaS with ABM and SEO."
+            },
+            "questions": [
+                {
+                    "label": "What motivates you to apply for this role?",
+                    "ref": "motivation",
+                    "field_type": "textarea",
+                    "max_chars": 600
+                }
+            ],
+            "job_keywords": [
+                "ABM",
+                "SEO",
+                "pipeline",
+                "SaaS"
+            ],
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "marketing-domain-abm",
+            "profile_fixture": "marketing_manager",
+            "job_context": {
+                "title": "Marketing Manager",
+                "company": "FinOps Cloud",
+                "description_snippet": "Account-based marketing to enterprise finance buyers."
+            },
+            "questions": [
+                {
+                    "label": "Describe your experience running ABM campaigns",
+                    "ref": "abm",
+                    "field_type": "text",
+                    "max_chars": 400
+                }
+            ],
+            "job_keywords": [
+                "ABM",
+                "enterprise",
+                "finance"
+            ],
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "marketing-salary",
+            "profile_fixture": "marketing_manager",
+            "job_context": {
+                "title": "Marketing Manager",
+                "company": "RevLoop",
+                "description_snippet": "SF Bay Area compensation."
+            },
+            "questions": [
+                {
+                    "label": "Desired annual base salary",
+                    "ref": "salary",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "95000"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "marketing-culture",
+            "profile_fixture": "marketing_manager",
+            "job_context": {
+                "title": "Content Marketing Lead",
+                "company": "Northstar CRM",
+                "description_snippet": "Fast-paced startup marketing team."
+            },
+            "questions": [
+                {
+                    "label": "How would you describe your working style in a startup environment?",
+                    "ref": "culture",
+                    "field_type": "textarea",
+                    "max_chars": 500
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "marketing-short-interest",
+            "profile_fixture": "marketing_manager",
+            "job_context": {
+                "title": "Growth Marketer",
+                "company": "MetricPulse",
+                "description_snippet": "SEO and content for analytics product."
+            },
+            "questions": [
+                {
+                    "label": "Briefly summarise your most relevant marketing achievement",
+                    "ref": "short",
+                    "field_type": "text",
+                    "max_chars": 250
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "secops-domain",
+            "profile_fixture": "cybersecurity_analyst",
+            "job_context": {
+                "title": "SecOps Engineer",
+                "company": "ShieldPoint",
+                "description_snippet": "SIEM tuning, incident response, Splunk experience required."
+            },
+            "questions": [
+                {
+                    "label": "Describe your security operations and SIEM experience",
+                    "ref": "q9",
+                    "field_type": "textarea",
+                    "max_chars": 500
+                }
+            ],
+            "job_keywords": [
+                "SIEM",
+                "Splunk",
+                "incident response",
+                "SecOps"
+            ],
+            "must_mention": [
+                "SecureNet Defence"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "CrowdStrike expert",
+                "10 years SOC"
+            ]
+        },
+        {
+            "id": "secops-motivation",
+            "profile_fixture": "cybersecurity_analyst",
+            "job_context": {
+                "title": "Security Analyst",
+                "company": "ShieldPoint",
+                "description_snippet": "24\/7 SOC supporting financial services clients."
+            },
+            "questions": [
+                {
+                    "label": "Why do you want to join our security team?",
+                    "ref": "motivation",
+                    "field_type": "textarea"
+                }
+            ],
+            "job_keywords": [
+                "SOC",
+                "security"
+            ],
+            "must_mention": [
+                "SecureNet Defence"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "secops-short",
+            "profile_fixture": "cybersecurity_analyst",
+            "job_context": {
+                "title": "SOC Analyst",
+                "company": "WatchTower",
+                "description_snippet": "Alert triage and playbook execution."
+            },
+            "questions": [
+                {
+                    "label": "Summarise your SOC experience in 2-3 sentences",
+                    "ref": "short",
+                    "field_type": "text",
+                    "max_chars": 300
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "SecureNet Defence"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "secops-salary",
+            "profile_fixture": "cybersecurity_analyst",
+            "job_context": {
+                "title": "Security Analyst",
+                "company": "ShieldPoint",
+                "description_snippet": "Manchester-based SOC role."
+            },
+            "questions": [
+                {
+                    "label": "Expected annual salary (GBP)",
+                    "ref": "salary",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "52000"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "secops-honest-gap",
+            "profile_fixture": "cybersecurity_analyst",
+            "job_context": {
+                "title": "Cloud Security Architect",
+                "company": "AzureGuard",
+                "description_snippet": "Requires 5+ years designing Azure landing zones."
+            },
+            "questions": [
+                {
+                    "label": "Describe your experience designing Azure cloud security architecture",
+                    "ref": "azure-gap",
+                    "field_type": "textarea",
+                    "max_chars": 400
+                }
+            ],
+            "job_keywords": [
+                "Azure",
+                "cloud security"
+            ],
+            "must_mention": [
+                "SecureNet Defence"
+            ],
+            "must_not_mention": [
+                "designed Azure landing zones",
+                "Azure architect for 5 years"
+            ]
+        },
+        {
+            "id": "swedish-motivation",
+            "profile_fixture": "swedish_product_designer",
+            "job_context": {
+                "title": "Senior UX Designer",
+                "company": "Vekst",
+                "description_snippet": "Design system och tillgänglighet för B2B-produkt."
+            },
+            "questions": [
+                {
+                    "label": "Varför vill du jobba hos oss?",
+                    "ref": "sv-motivation",
+                    "field_type": "textarea",
+                    "max_chars": 600
+                }
+            ],
+            "job_keywords": [
+                "design system",
+                "tillgänglighet",
+                "UX"
+            ],
+            "must_mention": [
+                "Nordic Flow AB"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "swedish-short",
+            "profile_fixture": "swedish_product_designer",
+            "job_context": {
+                "title": "UX Designer",
+                "company": "Nordic Apps",
+                "description_snippet": "Figma och användarforskning."
+            },
+            "questions": [
+                {
+                    "label": "Beskriv kort din viktigaste designprestation",
+                    "ref": "sv-short",
+                    "field_type": "text",
+                    "max_chars": 250
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Nordic Flow AB"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "swedish-portfolio",
+            "profile_fixture": "swedish_product_designer",
+            "job_context": {
+                "title": "Product Designer",
+                "company": "FlowStudio",
+                "description_snippet": "Portfolio eller case studies önskas."
+            },
+            "questions": [
+                {
+                    "label": "Dela gärna portfolio eller case study-länkar",
+                    "ref": "sv-portfolio",
+                    "field_type": "textarea",
+                    "max_chars": 500
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Nordic Flow AB"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "swedish-salary",
+            "profile_fixture": "swedish_product_designer",
+            "job_context": {
+                "title": "Senior UX Designer",
+                "company": "Vekst",
+                "description_snippet": "Stockholm, heltid."
+            },
+            "questions": [
+                {
+                    "label": "Löneförväntan (SEK per år)",
+                    "ref": "sv-salary",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "720000"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "swedish-english-bilingual",
+            "profile_fixture": "swedish_product_designer",
+            "job_context": {
+                "title": "UX Designer",
+                "company": "Global Nordic",
+                "description_snippet": "English-speaking team, Swedish market focus."
+            },
+            "questions": [
+                {
+                    "label": "How do you adapt UX research for Swedish-speaking users?",
+                    "ref": "bilingual",
+                    "field_type": "textarea",
+                    "max_chars": 500
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Nordic Flow AB"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "career-change-motivation",
+            "profile_fixture": "career_changer_teacher",
+            "job_context": {
+                "title": "Junior Full Stack Developer",
+                "company": "LearnBridge",
+                "description_snippet": "Supportive team for early-career developers."
+            },
+            "questions": [
+                {
+                    "label": "Why are you switching careers into software development?",
+                    "ref": "motivation",
+                    "field_type": "textarea"
+                }
+            ],
+            "job_keywords": [
+                "career change",
+                "junior",
+                "React"
+            ],
+            "must_mention": [
+                "West Yorkshire Academy",
+                "Bridge Labs"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "career-change-honest",
+            "profile_fixture": "career_changer_teacher",
+            "job_context": {
+                "title": "Senior Staff Engineer",
+                "company": "MegaCorp",
+                "description_snippet": "Requires 10+ years distributed systems leadership."
+            },
+            "questions": [
+                {
+                    "label": "Describe your experience leading large distributed systems teams",
+                    "ref": "gap",
+                    "field_type": "textarea"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Bridge Labs"
+            ],
+            "must_not_mention": [
+                "led distributed systems",
+                "10 years engineering leadership"
+            ]
+        },
+        {
+            "id": "career-change-short",
+            "profile_fixture": "career_changer_teacher",
+            "job_context": {
+                "title": "Junior Developer",
+                "company": "CodeSprout",
+                "description_snippet": "React and Node.js product team."
+            },
+            "questions": [
+                {
+                    "label": "What have you built since completing your bootcamp?",
+                    "ref": "short",
+                    "field_type": "text",
+                    "max_chars": 300
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Bridge Labs"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "career-change-salary",
+            "profile_fixture": "career_changer_teacher",
+            "job_context": {
+                "title": "Junior Developer",
+                "company": "LearnBridge",
+                "description_snippet": "Leeds-based hybrid role."
+            },
+            "questions": [
+                {
+                    "label": "Expected salary",
+                    "ref": "salary",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "32000"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "frontend-portfolio",
+            "profile_fixture": "junior_frontend_dev",
+            "job_context": {
+                "title": "Frontend Developer",
+                "company": "WebCraft",
+                "description_snippet": "React, TypeScript, accessibility-focused agency work."
+            },
+            "questions": [
+                {
+                    "label": "Link to GitHub or portfolio showcasing React work",
+                    "ref": "portfolio",
+                    "field_type": "text",
+                    "max_chars": 400
+                }
+            ],
+            "job_keywords": [
+                "React",
+                "accessibility"
+            ],
+            "must_mention": [
+                "Pixel Orchard Agency"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "frontend-motivation",
+            "profile_fixture": "junior_frontend_dev",
+            "job_context": {
+                "title": "React Developer",
+                "company": "UI Labs",
+                "description_snippet": "Component library and design system team."
+            },
+            "questions": [
+                {
+                    "label": "Why do you want this frontend role?",
+                    "ref": "motivation",
+                    "field_type": "textarea"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Pixel Orchard Agency"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "frontend-a11y",
+            "profile_fixture": "junior_frontend_dev",
+            "job_context": {
+                "title": "Accessible UI Engineer",
+                "company": "Inclusive Web Co",
+                "description_snippet": "WCAG compliance and Lighthouse scores matter."
+            },
+            "questions": [
+                {
+                    "label": "Describe your experience improving web accessibility",
+                    "ref": "a11y",
+                    "field_type": "text",
+                    "max_chars": 400
+                }
+            ],
+            "job_keywords": [
+                "accessibility",
+                "Lighthouse",
+                "WCAG"
+            ],
+            "must_mention": [
+                "Pixel Orchard Agency"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "frontend-salary",
+            "profile_fixture": "junior_frontend_dev",
+            "job_context": {
+                "title": "Frontend Developer",
+                "company": "WebCraft",
+                "description_snippet": "Midlands salary band."
+            },
+            "questions": [
+                {
+                    "label": "Annual salary expectation (GBP)",
+                    "ref": "salary",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "38000"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "devops-k8s",
+            "profile_fixture": "devops_engineer",
+            "job_context": {
+                "title": "Platform Engineer",
+                "company": "ShipFast",
+                "description_snippet": "Kubernetes on AWS, Terraform, GitHub Actions."
+            },
+            "questions": [
+                {
+                    "label": "Describe your Kubernetes and CI\/CD experience",
+                    "ref": "k8s",
+                    "field_type": "textarea",
+                    "max_chars": 500
+                }
+            ],
+            "job_keywords": [
+                "Kubernetes",
+                "AWS",
+                "Terraform",
+                "CI\/CD"
+            ],
+            "must_mention": [
+                "CloudSpan Iberia"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "devops-motivation",
+            "profile_fixture": "devops_engineer",
+            "job_context": {
+                "title": "DevOps Engineer",
+                "company": "ShipFast",
+                "description_snippet": "Platform team supporting 40 microservices."
+            },
+            "questions": [
+                {
+                    "label": "Why are you interested in joining our platform team?",
+                    "ref": "motivation",
+                    "field_type": "textarea"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "CloudSpan Iberia"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "devops-short",
+            "profile_fixture": "devops_engineer",
+            "job_context": {
+                "title": "SRE",
+                "company": "ReliableCloud",
+                "description_snippet": "On-call rotation and observability."
+            },
+            "questions": [
+                {
+                    "label": "Summarise a production incident you helped resolve",
+                    "ref": "short",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "CloudSpan Iberia"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "devops-salary",
+            "profile_fixture": "devops_engineer",
+            "job_context": {
+                "title": "DevOps Engineer",
+                "company": "ShipFast",
+                "description_snippet": "Barcelona hybrid."
+            },
+            "questions": [
+                {
+                    "label": "Expected gross annual salary (EUR)",
+                    "ref": "salary",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "55000"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "data-sql",
+            "profile_fixture": "data_analyst",
+            "job_context": {
+                "title": "Analytics Engineer",
+                "company": "RetailIQ",
+                "description_snippet": "SQL, dbt, Snowflake, executive dashboards."
+            },
+            "questions": [
+                {
+                    "label": "Describe your SQL and dashboard experience",
+                    "ref": "sql",
+                    "field_type": "textarea"
+                }
+            ],
+            "job_keywords": [
+                "SQL",
+                "Tableau",
+                "dbt",
+                "Snowflake"
+            ],
+            "must_mention": [
+                "Emerald Retail Group"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "data-motivation",
+            "profile_fixture": "data_analyst",
+            "job_context": {
+                "title": "Data Analyst",
+                "company": "RetailIQ",
+                "description_snippet": "Retail analytics team in Dublin."
+            },
+            "questions": [
+                {
+                    "label": "Why do you want to work in retail analytics?",
+                    "ref": "motivation",
+                    "field_type": "textarea"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Emerald Retail Group"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "data-short",
+            "profile_fixture": "data_analyst",
+            "job_context": {
+                "title": "BI Analyst",
+                "company": "InsightCo",
+                "description_snippet": "Weekly reporting automation."
+            },
+            "questions": [
+                {
+                    "label": "What is your strongest analytics skill and where did you use it?",
+                    "ref": "short",
+                    "field_type": "text",
+                    "max_chars": 250
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Emerald Retail Group"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "data-salary",
+            "profile_fixture": "data_analyst",
+            "job_context": {
+                "title": "Data Analyst",
+                "company": "RetailIQ",
+                "description_snippet": "Dublin office."
+            },
+            "questions": [
+                {
+                    "label": "Salary expectations (EUR annual)",
+                    "ref": "salary",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "48000"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "nurse-motivation",
+            "profile_fixture": "nurse_healthcare",
+            "job_context": {
+                "title": "Ward Manager",
+                "company": "CareNorth",
+                "description_snippet": "Leadership on acute medical wards."
+            },
+            "questions": [
+                {
+                    "label": "Why do you want this ward management role?",
+                    "ref": "motivation",
+                    "field_type": "textarea"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Royal North Hospital"
+            ],
+            "must_not_mention": [
+                "software",
+                "Laravel",
+                "fintech"
+            ]
+        },
+        {
+            "id": "nurse-domain",
+            "profile_fixture": "nurse_healthcare",
+            "job_context": {
+                "title": "Clinical Nurse",
+                "company": "CareNorth",
+                "description_snippet": "Patient safety and infection control focus."
+            },
+            "questions": [
+                {
+                    "label": "Describe your clinical leadership and audit experience",
+                    "ref": "clinical",
+                    "field_type": "text",
+                    "max_chars": 400
+                }
+            ],
+            "job_keywords": [
+                "patient safety",
+                "infection control",
+                "ward"
+            ],
+            "must_mention": [
+                "Royal North Hospital"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "nurse-salary",
+            "profile_fixture": "nurse_healthcare",
+            "job_context": {
+                "title": "Staff Nurse",
+                "company": "CareNorth",
+                "description_snippet": "NHS banded role Newcastle."
+            },
+            "questions": [
+                {
+                    "label": "Expected annual salary",
+                    "ref": "salary",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "35000"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "sales-motivation",
+            "profile_fixture": "sales_executive",
+            "job_context": {
+                "title": "Enterprise AE",
+                "company": "CloseWin",
+                "description_snippet": "Mid-market SaaS quota carrier."
+            },
+            "questions": [
+                {
+                    "label": "Why are you a strong fit for enterprise SaaS sales?",
+                    "ref": "motivation",
+                    "field_type": "textarea"
+                }
+            ],
+            "job_keywords": [
+                "SaaS",
+                "quota",
+                "mid-market"
+            ],
+            "must_mention": [
+                "PipelineHQ"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "sales-domain",
+            "profile_fixture": "sales_executive",
+            "job_context": {
+                "title": "Account Executive",
+                "company": "CloseWin",
+                "description_snippet": "Consultative discovery and Salesforce pipeline hygiene."
+            },
+            "questions": [
+                {
+                    "label": "Describe a complex deal you closed and how you ran discovery",
+                    "ref": "deal",
+                    "field_type": "textarea",
+                    "max_chars": 500
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "PipelineHQ"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "sales-short",
+            "profile_fixture": "sales_executive",
+            "job_context": {
+                "title": "AE",
+                "company": "QuotaBase",
+                "description_snippet": "B2B software sales."
+            },
+            "questions": [
+                {
+                    "label": "What was your quota attainment last year?",
+                    "ref": "short",
+                    "field_type": "text",
+                    "max_chars": 200
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "PipelineHQ"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "sales-salary",
+            "profile_fixture": "sales_executive",
+            "job_context": {
+                "title": "Enterprise AE",
+                "company": "CloseWin",
+                "description_snippet": "OTE disclosed after screen."
+            },
+            "questions": [
+                {
+                    "label": "Base salary expectation (USD)",
+                    "ref": "salary",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "85000"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "ux-portfolio-private",
+            "profile_fixture": "freelance_ux",
+            "job_context": {
+                "title": "Product Designer",
+                "company": "StealthPay",
+                "description_snippet": "Fintech product design, portfolio review required."
+            },
+            "questions": [
+                {
+                    "label": "Share portfolio or GitHub work relevant to product design",
+                    "ref": "q6",
+                    "field_type": "textarea",
+                    "max_chars": 500
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Harbour FinTech"
+            ],
+            "must_not_mention": [
+                "public GitHub repo",
+                "open source fintech app",
+                "enterprise software projects"
+            ]
+        },
+        {
+            "id": "ux-motivation",
+            "profile_fixture": "freelance_ux",
+            "job_context": {
+                "title": "Senior UX Designer",
+                "company": "HealthBridge",
+                "description_snippet": "Healthcare UX with research-led design."
+            },
+            "questions": [
+                {
+                    "label": "Why do you want to move from freelance to in-house design?",
+                    "ref": "motivation",
+                    "field_type": "textarea"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Self-employed",
+                "Harbour FinTech"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "ux-nda-honest",
+            "profile_fixture": "freelance_ux",
+            "job_context": {
+                "title": "UX Lead",
+                "company": "PrivateBank",
+                "description_snippet": "Show publicly available case studies."
+            },
+            "questions": [
+                {
+                    "label": "Link to public case studies of your fintech UX work",
+                    "ref": "public-cases",
+                    "field_type": "text",
+                    "max_chars": 400
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Self-employed"
+            ],
+            "must_not_mention": [
+                "github.com\/amira",
+                "public portfolio link for NDA work"
+            ]
+        },
+        {
+            "id": "ux-salary",
+            "profile_fixture": "freelance_ux",
+            "job_context": {
+                "title": "Product Designer",
+                "company": "HealthBridge",
+                "description_snippet": "London hybrid."
+            },
+            "questions": [
+                {
+                    "label": "Expected salary (GBP)",
+                    "ref": "salary",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "60000"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "german-motivation",
+            "profile_fixture": "german_engineer",
+            "job_context": {
+                "title": "Backend-Entwickler",
+                "company": "LogistikTech",
+                "description_snippet": "Java, Spring Boot, Kafka in Industrie 4.0."
+            },
+            "questions": [
+                {
+                    "label": "Warum möchten Sie bei uns arbeiten?",
+                    "ref": "de-motivation",
+                    "field_type": "textarea",
+                    "max_chars": 600
+                }
+            ],
+            "job_keywords": [
+                "Java",
+                "Spring Boot",
+                "Kafka"
+            ],
+            "must_mention": [
+                "IndustrieWerk GmbH"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "german-domain",
+            "profile_fixture": "german_engineer",
+            "job_context": {
+                "title": "Software Engineer",
+                "company": "LogistikTech",
+                "description_snippet": "Event-getriebene Architektur mit Kafka."
+            },
+            "questions": [
+                {
+                    "label": "Beschreiben Sie Ihre Erfahrung mit Kafka und Event-Pipelines",
+                    "ref": "de-kafka",
+                    "field_type": "text",
+                    "max_chars": 400
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "IndustrieWerk GmbH"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "german-short",
+            "profile_fixture": "german_engineer",
+            "job_context": {
+                "title": "Java Entwickler",
+                "company": "FactorySoft",
+                "description_snippet": "REST-APIs für interne Tools."
+            },
+            "questions": [
+                {
+                    "label": "Nennen Sie ein konkretes Projekt aus Ihrer aktuellen Rolle",
+                    "ref": "de-short",
+                    "field_type": "text",
+                    "max_chars": 250
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "IndustrieWerk GmbH"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "german-salary",
+            "profile_fixture": "german_engineer",
+            "job_context": {
+                "title": "Backend-Entwickler",
+                "company": "LogistikTech",
+                "description_snippet": "Berlin Vollzeit."
+            },
+            "questions": [
+                {
+                    "label": "Gehaltsvorstellung (EUR brutto pro Jahr)",
+                    "ref": "de-salary",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "72000"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "german-english-switch",
+            "profile_fixture": "german_engineer",
+            "job_context": {
+                "title": "Backend Engineer",
+                "company": "GlobalLogistics",
+                "description_snippet": "English-speaking engineering team in Berlin."
+            },
+            "questions": [
+                {
+                    "label": "Describe your Java backend experience for an international team",
+                    "ref": "en-java",
+                    "field_type": "textarea",
+                    "max_chars": 500
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "IndustrieWerk GmbH"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "senior_laravel_dev-culture-fit-v2-1",
+            "profile_fixture": "senior_laravel_dev",
+            "job_context": {
+                "title": "Staff Engineer",
+                "company": "StaffCo",
+                "description_snippet": "Looking for a staff engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "senior_laravel_dev-team-collab-1",
+            "profile_fixture": "senior_laravel_dev",
+            "job_context": {
+                "title": "Staff Engineer",
+                "company": "StaffCo",
+                "description_snippet": "Looking for a staff engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "senior_laravel_dev-start-date-1",
+            "profile_fixture": "senior_laravel_dev",
+            "job_context": {
+                "title": "Staff Engineer",
+                "company": "StaffCo",
+                "description_snippet": "Looking for a staff engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "senior_laravel_dev-culture-fit-v2-2",
+            "profile_fixture": "senior_laravel_dev",
+            "job_context": {
+                "title": "PHP Architect",
+                "company": "PHPCo",
+                "description_snippet": "Looking for a php architect with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "senior_laravel_dev-team-collab-2",
+            "profile_fixture": "senior_laravel_dev",
+            "job_context": {
+                "title": "PHP Architect",
+                "company": "PHPCo",
+                "description_snippet": "Looking for a php architect with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "senior_laravel_dev-start-date-2",
+            "profile_fixture": "senior_laravel_dev",
+            "job_context": {
+                "title": "PHP Architect",
+                "company": "PHPCo",
+                "description_snippet": "Looking for a php architect with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "marketing_manager-culture-fit-v2-1",
+            "profile_fixture": "marketing_manager",
+            "job_context": {
+                "title": "Head of Growth",
+                "company": "HeadCo",
+                "description_snippet": "Looking for a head of growth with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "marketing_manager-team-collab-1",
+            "profile_fixture": "marketing_manager",
+            "job_context": {
+                "title": "Head of Growth",
+                "company": "HeadCo",
+                "description_snippet": "Looking for a head of growth with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "marketing_manager-start-date-1",
+            "profile_fixture": "marketing_manager",
+            "job_context": {
+                "title": "Head of Growth",
+                "company": "HeadCo",
+                "description_snippet": "Looking for a head of growth with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "marketing_manager-culture-fit-v2-2",
+            "profile_fixture": "marketing_manager",
+            "job_context": {
+                "title": "Product Marketing Lead",
+                "company": "ProductCo",
+                "description_snippet": "Looking for a product marketing lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "marketing_manager-team-collab-2",
+            "profile_fixture": "marketing_manager",
+            "job_context": {
+                "title": "Product Marketing Lead",
+                "company": "ProductCo",
+                "description_snippet": "Looking for a product marketing lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "marketing_manager-start-date-2",
+            "profile_fixture": "marketing_manager",
+            "job_context": {
+                "title": "Product Marketing Lead",
+                "company": "ProductCo",
+                "description_snippet": "Looking for a product marketing lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "cybersecurity_analyst-culture-fit-v2-1",
+            "profile_fixture": "cybersecurity_analyst",
+            "job_context": {
+                "title": "Threat Hunter",
+                "company": "ThreatCo",
+                "description_snippet": "Looking for a threat hunter with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "SecureNet Defence"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "cybersecurity_analyst-team-collab-1",
+            "profile_fixture": "cybersecurity_analyst",
+            "job_context": {
+                "title": "Threat Hunter",
+                "company": "ThreatCo",
+                "description_snippet": "Looking for a threat hunter with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "SecureNet Defence"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "cybersecurity_analyst-start-date-1",
+            "profile_fixture": "cybersecurity_analyst",
+            "job_context": {
+                "title": "Threat Hunter",
+                "company": "ThreatCo",
+                "description_snippet": "Looking for a threat hunter with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "SecureNet Defence"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "cybersecurity_analyst-culture-fit-v2-2",
+            "profile_fixture": "cybersecurity_analyst",
+            "job_context": {
+                "title": "Incident Responder",
+                "company": "IncidentCo",
+                "description_snippet": "Looking for a incident responder with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "SecureNet Defence"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "cybersecurity_analyst-team-collab-2",
+            "profile_fixture": "cybersecurity_analyst",
+            "job_context": {
+                "title": "Incident Responder",
+                "company": "IncidentCo",
+                "description_snippet": "Looking for a incident responder with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "SecureNet Defence"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "cybersecurity_analyst-start-date-2",
+            "profile_fixture": "cybersecurity_analyst",
+            "job_context": {
+                "title": "Incident Responder",
+                "company": "IncidentCo",
+                "description_snippet": "Looking for a incident responder with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "SecureNet Defence"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "swedish_product_designer-culture-fit-v2-1",
+            "profile_fixture": "swedish_product_designer",
+            "job_context": {
+                "title": "Lead Designer",
+                "company": "LeadCo",
+                "description_snippet": "Looking for a lead designer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Nordic Flow AB"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "swedish_product_designer-team-collab-1",
+            "profile_fixture": "swedish_product_designer",
+            "job_context": {
+                "title": "Lead Designer",
+                "company": "LeadCo",
+                "description_snippet": "Looking for a lead designer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Nordic Flow AB"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "swedish_product_designer-start-date-1",
+            "profile_fixture": "swedish_product_designer",
+            "job_context": {
+                "title": "Lead Designer",
+                "company": "LeadCo",
+                "description_snippet": "Looking for a lead designer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Nordic Flow AB"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "swedish_product_designer-culture-fit-v2-2",
+            "profile_fixture": "swedish_product_designer",
+            "job_context": {
+                "title": "UX Researcher",
+                "company": "UXCo",
+                "description_snippet": "Looking for a ux researcher with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Nordic Flow AB"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "swedish_product_designer-team-collab-2",
+            "profile_fixture": "swedish_product_designer",
+            "job_context": {
+                "title": "UX Researcher",
+                "company": "UXCo",
+                "description_snippet": "Looking for a ux researcher with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Nordic Flow AB"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "swedish_product_designer-start-date-2",
+            "profile_fixture": "swedish_product_designer",
+            "job_context": {
+                "title": "UX Researcher",
+                "company": "UXCo",
+                "description_snippet": "Looking for a ux researcher with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Nordic Flow AB"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "career_changer_teacher-culture-fit-v2-1",
+            "profile_fixture": "career_changer_teacher",
+            "job_context": {
+                "title": "Full Stack Developer",
+                "company": "FullCo",
+                "description_snippet": "Looking for a full stack developer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Bridge Labs"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "career_changer_teacher-team-collab-1",
+            "profile_fixture": "career_changer_teacher",
+            "job_context": {
+                "title": "Full Stack Developer",
+                "company": "FullCo",
+                "description_snippet": "Looking for a full stack developer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Bridge Labs"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "career_changer_teacher-start-date-1",
+            "profile_fixture": "career_changer_teacher",
+            "job_context": {
+                "title": "Full Stack Developer",
+                "company": "FullCo",
+                "description_snippet": "Looking for a full stack developer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Bridge Labs"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "career_changer_teacher-culture-fit-v2-2",
+            "profile_fixture": "career_changer_teacher",
+            "job_context": {
+                "title": "Software Engineer I",
+                "company": "SoftwareCo",
+                "description_snippet": "Looking for a software engineer i with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Bridge Labs"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "career_changer_teacher-team-collab-2",
+            "profile_fixture": "career_changer_teacher",
+            "job_context": {
+                "title": "Software Engineer I",
+                "company": "SoftwareCo",
+                "description_snippet": "Looking for a software engineer i with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Bridge Labs"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "career_changer_teacher-start-date-2",
+            "profile_fixture": "career_changer_teacher",
+            "job_context": {
+                "title": "Software Engineer I",
+                "company": "SoftwareCo",
+                "description_snippet": "Looking for a software engineer i with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Bridge Labs"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "junior_frontend_dev-culture-fit-v2-1",
+            "profile_fixture": "junior_frontend_dev",
+            "job_context": {
+                "title": "UI Engineer",
+                "company": "UICo",
+                "description_snippet": "Looking for a ui engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Pixel Orchard Agency"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "junior_frontend_dev-team-collab-1",
+            "profile_fixture": "junior_frontend_dev",
+            "job_context": {
+                "title": "UI Engineer",
+                "company": "UICo",
+                "description_snippet": "Looking for a ui engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Pixel Orchard Agency"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "junior_frontend_dev-start-date-1",
+            "profile_fixture": "junior_frontend_dev",
+            "job_context": {
+                "title": "UI Engineer",
+                "company": "UICo",
+                "description_snippet": "Looking for a ui engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Pixel Orchard Agency"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "junior_frontend_dev-culture-fit-v2-2",
+            "profile_fixture": "junior_frontend_dev",
+            "job_context": {
+                "title": "Web Developer",
+                "company": "WebCo",
+                "description_snippet": "Looking for a web developer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Pixel Orchard Agency"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "junior_frontend_dev-team-collab-2",
+            "profile_fixture": "junior_frontend_dev",
+            "job_context": {
+                "title": "Web Developer",
+                "company": "WebCo",
+                "description_snippet": "Looking for a web developer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Pixel Orchard Agency"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "junior_frontend_dev-start-date-2",
+            "profile_fixture": "junior_frontend_dev",
+            "job_context": {
+                "title": "Web Developer",
+                "company": "WebCo",
+                "description_snippet": "Looking for a web developer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Pixel Orchard Agency"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "devops_engineer-culture-fit-v2-1",
+            "profile_fixture": "devops_engineer",
+            "job_context": {
+                "title": "Cloud Engineer",
+                "company": "CloudCo",
+                "description_snippet": "Looking for a cloud engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "CloudSpan Iberia"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "devops_engineer-team-collab-1",
+            "profile_fixture": "devops_engineer",
+            "job_context": {
+                "title": "Cloud Engineer",
+                "company": "CloudCo",
+                "description_snippet": "Looking for a cloud engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "CloudSpan Iberia"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "devops_engineer-start-date-1",
+            "profile_fixture": "devops_engineer",
+            "job_context": {
+                "title": "Cloud Engineer",
+                "company": "CloudCo",
+                "description_snippet": "Looking for a cloud engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "CloudSpan Iberia"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "devops_engineer-culture-fit-v2-2",
+            "profile_fixture": "devops_engineer",
+            "job_context": {
+                "title": "Infrastructure Engineer",
+                "company": "InfrastructureCo",
+                "description_snippet": "Looking for a infrastructure engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "CloudSpan Iberia"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "devops_engineer-team-collab-2",
+            "profile_fixture": "devops_engineer",
+            "job_context": {
+                "title": "Infrastructure Engineer",
+                "company": "InfrastructureCo",
+                "description_snippet": "Looking for a infrastructure engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "CloudSpan Iberia"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "devops_engineer-start-date-2",
+            "profile_fixture": "devops_engineer",
+            "job_context": {
+                "title": "Infrastructure Engineer",
+                "company": "InfrastructureCo",
+                "description_snippet": "Looking for a infrastructure engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "CloudSpan Iberia"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "data_analyst-culture-fit-v2-1",
+            "profile_fixture": "data_analyst",
+            "job_context": {
+                "title": "BI Developer",
+                "company": "BICo",
+                "description_snippet": "Looking for a bi developer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Emerald Retail Group"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "data_analyst-team-collab-1",
+            "profile_fixture": "data_analyst",
+            "job_context": {
+                "title": "BI Developer",
+                "company": "BICo",
+                "description_snippet": "Looking for a bi developer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Emerald Retail Group"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "data_analyst-start-date-1",
+            "profile_fixture": "data_analyst",
+            "job_context": {
+                "title": "BI Developer",
+                "company": "BICo",
+                "description_snippet": "Looking for a bi developer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Emerald Retail Group"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "data_analyst-culture-fit-v2-2",
+            "profile_fixture": "data_analyst",
+            "job_context": {
+                "title": "Analytics Lead",
+                "company": "AnalyticsCo",
+                "description_snippet": "Looking for a analytics lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Emerald Retail Group"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "data_analyst-team-collab-2",
+            "profile_fixture": "data_analyst",
+            "job_context": {
+                "title": "Analytics Lead",
+                "company": "AnalyticsCo",
+                "description_snippet": "Looking for a analytics lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Emerald Retail Group"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "data_analyst-start-date-2",
+            "profile_fixture": "data_analyst",
+            "job_context": {
+                "title": "Analytics Lead",
+                "company": "AnalyticsCo",
+                "description_snippet": "Looking for a analytics lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Emerald Retail Group"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "nurse_healthcare-culture-fit-v2-1",
+            "profile_fixture": "nurse_healthcare",
+            "job_context": {
+                "title": "Senior Staff Nurse",
+                "company": "SeniorCo",
+                "description_snippet": "Looking for a senior staff nurse with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Royal North Hospital"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "nurse_healthcare-team-collab-1",
+            "profile_fixture": "nurse_healthcare",
+            "job_context": {
+                "title": "Senior Staff Nurse",
+                "company": "SeniorCo",
+                "description_snippet": "Looking for a senior staff nurse with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Royal North Hospital"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "nurse_healthcare-start-date-1",
+            "profile_fixture": "nurse_healthcare",
+            "job_context": {
+                "title": "Senior Staff Nurse",
+                "company": "SeniorCo",
+                "description_snippet": "Looking for a senior staff nurse with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Royal North Hospital"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "nurse_healthcare-culture-fit-v2-2",
+            "profile_fixture": "nurse_healthcare",
+            "job_context": {
+                "title": "Clinical Lead",
+                "company": "ClinicalCo",
+                "description_snippet": "Looking for a clinical lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Royal North Hospital"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "nurse_healthcare-team-collab-2",
+            "profile_fixture": "nurse_healthcare",
+            "job_context": {
+                "title": "Clinical Lead",
+                "company": "ClinicalCo",
+                "description_snippet": "Looking for a clinical lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Royal North Hospital"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "nurse_healthcare-start-date-2",
+            "profile_fixture": "nurse_healthcare",
+            "job_context": {
+                "title": "Clinical Lead",
+                "company": "ClinicalCo",
+                "description_snippet": "Looking for a clinical lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Royal North Hospital"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "sales_executive-culture-fit-v2-1",
+            "profile_fixture": "sales_executive",
+            "job_context": {
+                "title": "Regional Sales Director",
+                "company": "RegionalCo",
+                "description_snippet": "Looking for a regional sales director with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "PipelineHQ"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "sales_executive-team-collab-1",
+            "profile_fixture": "sales_executive",
+            "job_context": {
+                "title": "Regional Sales Director",
+                "company": "RegionalCo",
+                "description_snippet": "Looking for a regional sales director with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "PipelineHQ"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "sales_executive-start-date-1",
+            "profile_fixture": "sales_executive",
+            "job_context": {
+                "title": "Regional Sales Director",
+                "company": "RegionalCo",
+                "description_snippet": "Looking for a regional sales director with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "PipelineHQ"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "sales_executive-culture-fit-v2-2",
+            "profile_fixture": "sales_executive",
+            "job_context": {
+                "title": "Strategic AE",
+                "company": "StrategicCo",
+                "description_snippet": "Looking for a strategic ae with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "PipelineHQ"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "sales_executive-team-collab-2",
+            "profile_fixture": "sales_executive",
+            "job_context": {
+                "title": "Strategic AE",
+                "company": "StrategicCo",
+                "description_snippet": "Looking for a strategic ae with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "PipelineHQ"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "sales_executive-start-date-2",
+            "profile_fixture": "sales_executive",
+            "job_context": {
+                "title": "Strategic AE",
+                "company": "StrategicCo",
+                "description_snippet": "Looking for a strategic ae with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "PipelineHQ"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "freelance_ux-culture-fit-v2-1",
+            "profile_fixture": "freelance_ux",
+            "job_context": {
+                "title": "Design Lead",
+                "company": "DesignCo",
+                "description_snippet": "Looking for a design lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Self-employed"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "freelance_ux-team-collab-1",
+            "profile_fixture": "freelance_ux",
+            "job_context": {
+                "title": "Design Lead",
+                "company": "DesignCo",
+                "description_snippet": "Looking for a design lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Self-employed"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "freelance_ux-start-date-1",
+            "profile_fixture": "freelance_ux",
+            "job_context": {
+                "title": "Design Lead",
+                "company": "DesignCo",
+                "description_snippet": "Looking for a design lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Self-employed"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "freelance_ux-culture-fit-v2-2",
+            "profile_fixture": "freelance_ux",
+            "job_context": {
+                "title": "UX Research Lead",
+                "company": "UXCo",
+                "description_snippet": "Looking for a ux research lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Self-employed"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "freelance_ux-team-collab-2",
+            "profile_fixture": "freelance_ux",
+            "job_context": {
+                "title": "UX Research Lead",
+                "company": "UXCo",
+                "description_snippet": "Looking for a ux research lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Self-employed"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "freelance_ux-start-date-2",
+            "profile_fixture": "freelance_ux",
+            "job_context": {
+                "title": "UX Research Lead",
+                "company": "UXCo",
+                "description_snippet": "Looking for a ux research lead with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "Self-employed"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "german_engineer-culture-fit-v2-1",
+            "profile_fixture": "german_engineer",
+            "job_context": {
+                "title": "Senior Java Developer",
+                "company": "SeniorCo",
+                "description_snippet": "Looking for a senior java developer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "IndustrieWerk GmbH"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "german_engineer-team-collab-1",
+            "profile_fixture": "german_engineer",
+            "job_context": {
+                "title": "Senior Java Developer",
+                "company": "SeniorCo",
+                "description_snippet": "Looking for a senior java developer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "IndustrieWerk GmbH"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "german_engineer-start-date-1",
+            "profile_fixture": "german_engineer",
+            "job_context": {
+                "title": "Senior Java Developer",
+                "company": "SeniorCo",
+                "description_snippet": "Looking for a senior java developer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "IndustrieWerk GmbH"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "german_engineer-culture-fit-v2-2",
+            "profile_fixture": "german_engineer",
+            "job_context": {
+                "title": "Integration Engineer",
+                "company": "IntegrationCo",
+                "description_snippet": "Looking for a integration engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "What about our company culture appeals to you?",
+                    "ref": "culture-v2",
+                    "field_type": "textarea",
+                    "max_chars": 450
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "IndustrieWerk GmbH"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "german_engineer-team-collab-2",
+            "profile_fixture": "german_engineer",
+            "job_context": {
+                "title": "Integration Engineer",
+                "company": "IntegrationCo",
+                "description_snippet": "Looking for a integration engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "How do you collaborate with cross-functional teams?",
+                    "ref": "collab",
+                    "field_type": "text",
+                    "max_chars": 350
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "IndustrieWerk GmbH"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        },
+        {
+            "id": "german_engineer-start-date-2",
+            "profile_fixture": "german_engineer",
+            "job_context": {
+                "title": "Integration Engineer",
+                "company": "IntegrationCo",
+                "description_snippet": "Looking for a integration engineer with relevant experience."
+            },
+            "questions": [
+                {
+                    "label": "When could you start?",
+                    "ref": "start",
+                    "field_type": "text"
+                }
+            ],
+            "job_keywords": [],
+            "must_mention": [
+                "IndustrieWerk GmbH"
+            ],
+            "must_not_mention": [
+                "fintech",
+                "invented metrics",
+                "proven track record"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,265 @@
+{
+  "id": "web-careers-stuartmechanical-icims-com-search",
+  "min_fields": 12,
+  "exact_field_count": 12,
+  "fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "firstName",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "First Name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "lastName",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Last Name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email@domain.com",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": null,
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "email@domain.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "mobile phone (optional)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "mobile-phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Mobile Phone (Optional)",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hispanic or latino hispanic or latino",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hispanic or Latino"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "eeoc-ethnicity",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "white white",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "White"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "eeoc-ethnicity",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "black or african american black or african american",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Black or African American"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "eeoc-ethnicity",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "asian asian",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Asian"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "eeoc-ethnicity",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "native hawaiian or pacific islander native hawaiian or pacific islander",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Native Hawaiian or Pacific Islander"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "eeoc-ethnicity",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "american indian or alaskan native american indian or alaskan native",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "American Indian or Alaskan Native"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "eeoc-ethnicity",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i do not wish to self-identify i do not wish to self-identify",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I do not wish to self-identify"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "eeoc-ethnicity",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "by checking this box you're agreeing to our privacy policy by checking this box you're agreeing to our privacy policy",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "By checking this box you're agreeing to our Privacy Policy"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "consent-checkbox",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

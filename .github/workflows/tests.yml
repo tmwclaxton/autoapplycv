@@ -62,7 +62,7 @@ jobs:
           DB_DATABASE: testing
           DB_USERNAME: sail
           DB_PASSWORD: password
-        run: php artisan test --compact --exclude-group=extension-e2e,playwright
+        run: php artisan test --compact --exclude-group=extension-e2e,playwright,nanogpt-live
 
   extension-fill:
     runs-on: ubuntu-latest
@@ -99,6 +99,9 @@ jobs:
 
       - name: Run curated JSDOM fill verify
         run: npm run form-corpus:fill-verify:curated -- --json-only --workers=8
+
+      - name: Run profile mapping corpus tests
+        run: npm run test:profile-mapping-corpus
 
       - name: Run platform smoke Playwright tests
         env:

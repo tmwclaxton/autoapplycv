@@ -6,6 +6,9 @@ use App\Enums\ApplicationArtifactType;
 use App\Models\ApplicationArtifact;
 use App\Models\CvProfile;
 use App\Models\JobApplication;
+use App\Support\AiPhraseDenylist;
+use App\Support\ApplicationAnswers;
+use App\Support\ProfileAnswerGrounding;
 use App\Support\ProfileFieldRegistry;
 use App\Support\ProfileIdentityFieldResolver;
 use App\Support\ProfileUpdateValueSanitizer;
@@ -77,7 +80,13 @@ class ApplicationAssistantService
                         .'Read each question label carefully, including any helper text embedded in it, and answer that specific question - do not paste a generic CV summary unless the question explicitly asks for a full background overview. '
                         .'Use job.title, job.company, and job.job_description to tailor answers to this employer and role. '
                         .'For field_type radio, select, or checkbox with an options array, you MUST return one exact option string copied verbatim from options. Pick the best fit using application_settings when relevant (visa, relocation, salary, start date, office preference, employment type). '
-                        .'For open text questions about motivation, interest, or fit, write 2-4 sentences in first person explaining why this role/company specifically appeals to you. Never paste raw profile fields (location strings, summary, headline) into these answers. '
+                        .'For open text questions about motivation, interest, fit, portfolio, GitHub, security, experience, or skills, write 2-4 sentences in first person. '
+                        .'Every open-ended answer MUST name at least one real employer AND job title from profile.experience (for example "At Riverbank Systems as Senior Engineer I..."). '
+                        .'You MUST cite specific employers, job titles, dates, projects, or highlight bullets from profile.experience, profile.skills, profile.structured_data.projects, or profile.application_answers. '
+                        .'Never use vague placeholders like "enterprise software projects", "various startups", or "eager to deepen my expertise" without tying them to a named employer or role from the profile. '
+                        .'If code or portfolio work is private, name the real employer and role from the profile and say honestly that it is not public - do not invent a generic fintech or startup scenario. '
+                        .'For domain questions (security, SecOps, DevOps), connect only from skills and past roles in the profile - never claim tools or expertise not listed there. '
+                        .'Never paste raw profile fields (location strings, summary, headline) into these answers unless the question asks for a full background overview. '
                         .'For location or city autocomplete fields, return only the city name (for example "Belfast") unless the question explicitly asks for full address. Do not repeat the same place name or concatenate city, region, and country redundantly. '
                         .ProfileIdentityFieldResolver::identityPromptRules().' '
                         .'Use null only when the profile truly lacks enough facts. Never invent employers, degrees, dates, skills, or tools not listed in the profile. '
@@ -127,10 +136,13 @@ class ApplicationAssistantService
             $answers[] = $entry;
         }
 
-        $answers = array_merge(
-            $partition['identity_answers'],
+        $answers = ProfileAnswerGrounding::enforceGroundedAnswers(
+            $profile,
+            $llmQuestions,
             ProfileIdentityFieldResolver::enforceIdentityAnswers($profile, $llmQuestions, $answers, $settings),
         );
+
+        $answers = array_merge($partition['identity_answers'], $answers);
 
         $usage = is_array($payload['_usage'] ?? null) ? $payload['_usage'] : [
             'prompt_tokens' => 0,
@@ -164,38 +176,7 @@ class ApplicationAssistantService
      */
     private function questionNeedsFullProfile(array $question): bool
     {
-        $label = mb_strtolower(trim($question['label'] ?? ''));
-        $fieldType = $question['field_type'] ?? 'text';
-        $maxChars = (int) ($question['max_chars'] ?? 0);
-
-        if ($fieldType === 'textarea') {
-            return true;
-        }
-
-        $prosePatterns = [
-            'cover letter',
-            'covering letter',
-            'motivation',
-            'why do you want',
-            'why this role',
-            'why are you interested',
-            'tell us about yourself',
-            'describe your experience',
-            'additional information',
-            'personal statement',
-            'location (city)',
-            'current location',
-            'where are you based',
-            'working location',
-        ];
-
-        foreach ($prosePatterns as $pattern) {
-            if (str_contains($label, $pattern)) {
-                return true;
-            }
-        }
-
-        return false;
+        return ProfileAnswerGrounding::questionNeedsGrounding($question);
     }
 
     /**
@@ -949,7 +930,7 @@ class ApplicationAssistantService
             ],
             [
                 'role' => 'user',
-                'content' => "Write a {$tone} cover letter for this job. 180-280 words. Plain text only. Write in first person. Sound human and specific - mention real details from the profile and tie them to this employer. Avoid generic AI phrases like 'I am excited to apply', 'proven track record', 'passionate', or 'leverage'.\n\n"
+                'content' => "Write a {$tone} cover letter for this job. 180-280 words. Plain text only. Write in first person. Sound human and specific - mention real details from the profile and tie them to this employer. Avoid generic AI phrases listed in your system guidelines.\n\n"
                     .json_encode($job, JSON_THROW_ON_ERROR),
             ],
         ], [
@@ -1109,6 +1090,7 @@ class ApplicationAssistantService
             'structured_data' => $profile->structured_data,
             'extra_context' => $profile->extra_context,
             'application_settings' => $settings,
+            'application_answers' => ApplicationAnswers::normalize($profile->application_answers),
         ], JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE);
 
         return "You help a job seeker answer employer application questions using ONLY this profile:\n{$structured}\n\n"
@@ -1127,16 +1109,19 @@ Voice and tone:
 - Prefer active voice and plain words (use "use" not "utilize", "help" not "facilitate").
 
 Avoid AI-sounding language. Do not use phrases like:
-- Based on your profile / As an AI / I am excited to apply
-- proven track record, results-driven, dynamic, passionate, leverage, synergy, cutting-edge
-- Furthermore, Moreover, Consequently, It is worth noting, In terms of, Thus, Hence
+GUIDE
+            .AiPhraseDenylist::generationPromptLines().<<<'GUIDE'
 
 Be specific, not generic:
-- Ground answers in real details from the profile: company names, projects, tools, and numbers when available.
+- Ground answers in real details from the profile: company names, job titles, dates, projects, tools, and numbers when available.
+- Open-ended answers MUST name at least one real employer AND job title from profile.experience when the profile lists roles.
+- Never use vague placeholders ("enterprise software projects", "eager to deepen expertise", "various startups") without anchoring to a named employer or role from the profile.
+- Never invent employers, fintech platforms, startup scenarios, metrics, or tech stacks that are not in the profile.
 - When job context is available, tie the answer to this employer or role instead of writing something that could fit any company.
 - Do not pad with filler or corporate buzzwords. Say what actually happened and why it matters.
 - For location answers, keep them concise and non-redundant. Prefer a single city name for autocomplete fields unless the question asks for a full address.
 - Never dump concatenated profile location strings or paste summary/headline text into motivation or open-ended questions.
+- If portfolio or GitHub work is private, cite the real employer and role from the profile instead of inventing public repos or generic enterprise projects.
 
 Formatting:
 - Plain text only. No markdown, bullet lists, headings, or em dashes. Use normal hyphens (-).

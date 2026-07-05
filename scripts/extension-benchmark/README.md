@@ -80,4 +80,59 @@ php artisan test --compact --filter=ApplicationFieldInventoryTest
 php artisan test --compact --filter=ApplicationDraftTest
 ```
 
+## Profile mapping corpus
+
+Deterministic clarifying-question / profile-mapping tests (100+ scenarios, no LLM):
+
+```bash
+npm run test:profile-mapping-corpus:build   # optional: write JSON corpus
+npm run test:profile-mapping-corpus
+```
+
+NanoGPT vetting for ambiguous mappings (Sail/local only, not CI):
+
+```bash
+NANOGPT_LIVE_TESTS=1 ./vendor/bin/sail artisan test --compact --filter=ProfileMappingNanoGptTest
+# or
+NANOGPT_LIVE_TESTS=1 npm run test:profile-mapping-nanogpt
+```
+
+Requires `NANOGPT_API_KEY` in `.env`. GitHub Actions excludes the `nanogpt-live` group.
+
+## Answer quality corpus
+
+Deterministic corpus validation (100+ scenarios, no LLM):
+
+```bash
+npm run test:answer-quality-corpus:build   # write JSON corpus via PHP
+npm run test:answer-quality-corpus
+```
+
+NanoGPT answer generation + rubric scoring (Sail/local only, not CI):
+
+```bash
+NANOGPT_LIVE_TESTS=1 ./vendor/bin/sail artisan answer-quality:audit
+NANOGPT_LIVE_TESTS=1 ./vendor/bin/sail artisan answer-quality:audit --limit=10
+NANOGPT_LIVE_TESTS=1 ANSWER_QUALITY_LIMIT=10 npm run test:answer-quality-nanogpt
+# or PHPUnit sample (default limit 10 via ANSWER_QUALITY_LIMIT):
+NANOGPT_LIVE_TESTS=1 ./vendor/bin/sail artisan test --compact --filter=AnswerQualityNanoGptTest
+```
+
+Report: `tests/fixtures/answer-quality/latest-report.json` (pass rate, dimension averages, worst scenarios).
+
+Scoring rubric (1-5 each): grounding, specificity, human_tone, terminology, language, conciseness, honesty. Pass threshold: average >= 4.0, grounding >= 3, plus mechanical must_mention / must_not_mention checks.
+
+## Form fixture E2E + scoring (150 forms)
+
+Real ATS HTML fixtures with 12 profile personas (round-robin). Sail-only live tier:
+
+```bash
+npm run form-corpus:build-form-e2e-scoring
+NANOGPT_LIVE_TESTS=1 ./vendor/bin/sail artisan form-e2e:score --limit=5
+NANOGPT_LIVE_TESTS=1 EXTENSION_E2E=1 npm run form-corpus:form-e2e-scoring -- --limit=5
+NANOGPT_LIVE_TESTS=1 ./vendor/bin/sail artisan test --compact --filter=FormE2eScoringNanoGptTest
+```
+
+Report: `tests/fixtures/extension-e2e/form-e2e-scoring-report.json`.
+
 Use Laravel Telescope or temporary `Log::debug` timing in `ApplicationFieldInventoryService` / `ApplicationDraftOrchestratorService` if deeper backend profiling is needed.

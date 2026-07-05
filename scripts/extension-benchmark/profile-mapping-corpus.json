@@ -1,0 +1,3746 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-05T18:41:52.574Z",
+  "scenario_count": 190,
+  "scenarios": [
+    {
+      "id": "salary-monthly-1",
+      "label": "What is your expected monthly salary?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_monthly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "salary-monthly-2",
+      "label": "Please enter your monthly gross salary expectation",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_monthly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "salary-weekly-1",
+      "label": "What is your weekly wage?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_weekly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "salary-weekly-2",
+      "label": "Expected salary per week",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_weekly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "salary-yearly-1",
+      "label": "What is your annual salary expectation?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_yearly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "salary-yearly-2",
+      "label": "Desired yearly compensation",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_yearly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "salary-generic-1",
+      "label": "What are your salary expectations?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_yearly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "salary-generic-2",
+      "label": "Minimum salary requirement",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_yearly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "salary-generic-3",
+      "label": "Desired base salary",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_yearly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "salary-generic-4",
+      "label": "Compensation expectation",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_yearly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "salary-micro1-hourly",
+      "label": "Q2. What is your expected hourly rate in USD?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "hours-1",
+      "label": "Q3. Are you able to commit 10-15 hours+ per week to this role?",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": true,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "hours-2",
+      "label": "q3.are you able to commit 10-15 hours+ per week to this role?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": true,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "hours-3",
+      "label": "How many hours per week can you dedicate?",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": true,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "hours-4",
+      "label": "Can you commit 20 hours per week?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": true,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "hours-5",
+      "label": "Hours available per week",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": true,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "hours-6",
+      "label": "Weekly time commitment (hours)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": true,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "hours-7",
+      "label": "Are you willing to devote 15 hrs per week?",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": true,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "hours-8",
+      "label": "How many hrs/week can you work on this project?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": true,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "hours-9",
+      "label": "Time commitment per week",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": true,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "hours-10",
+      "label": "Can you commit at least 10 hours each week?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": true,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "availability-1",
+      "label": "When can you start?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "computed_earliest_start",
+        "should_prompt": true,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "availability-2",
+      "label": "Earliest start date",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "computed_earliest_start",
+        "should_prompt": true,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "availability-3",
+      "label": "Available to start",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "computed_earliest_start",
+        "should_prompt": true,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "notice-1",
+      "label": "What is your notice period?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.notice_period",
+        "should_prompt": true,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "notice-2",
+      "label": "Official notice period",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.notice_period",
+        "should_prompt": true,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "identity-first",
+      "label": "First name",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "full_name.first",
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "identity-last",
+      "label": "Last name",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "full_name.last",
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "identity-email",
+      "label": "Email address",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "email",
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "identity-phone",
+      "label": "Mobile phone",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "phone",
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "identity-linkedin",
+      "label": "LinkedIn profile URL",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "linkedin_url",
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "identity-city",
+      "label": "City",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "city",
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "identity-location",
+      "label": "Current location",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "location",
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "identity-country",
+      "label": "Country of residence",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "country",
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "teamtailor-first",
+      "label": "first namerequired first namerequired",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "dom": {
+            "id": "candidate_first_name"
+          }
+        }
+      },
+      "expect": {
+        "profile_path": "full_name.first",
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "ashby-name",
+      "label": "name",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "full_name",
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "eeo-1",
+      "label": "Gender identity",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No",
+          "Decline"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "eeo-2",
+      "label": "Race and ethnicity",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No",
+          "Decline"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "eeo-3",
+      "label": "Veteran status",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No",
+          "Decline"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "eeo-4",
+      "label": "Disability status",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No",
+          "Decline"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "eeo-5",
+      "label": "Sexual orientation",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No",
+          "Decline"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "eeo-6",
+      "label": "Decline to self identify",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No",
+          "Decline"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "eeo-7",
+      "label": "EEOC voluntary disclosure",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No",
+          "Decline"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "education-1",
+      "label": "School",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "education-2",
+      "label": "Degree",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "education-3",
+      "label": "Discipline",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "education-4",
+      "label": "University attended",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "education-5",
+      "label": "Graduation year",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "education-6",
+      "label": "Education history",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "open-1",
+      "label": "Why do you want to work here?",
+      "field": {
+        "field_type": "textarea",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "open-2",
+      "label": "Tell us about yourself",
+      "field": {
+        "field_type": "textarea",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "open-3",
+      "label": "Describe your experience with Laravel",
+      "field": {
+        "field_type": "textarea",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "open-4",
+      "label": "What motivates you to apply?",
+      "field": {
+        "field_type": "textarea",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "open-5",
+      "label": "Cover letter",
+      "field": {
+        "field_type": "textarea",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "open-6",
+      "label": "Additional information",
+      "field": {
+        "field_type": "textarea",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "portfolio-1",
+      "label": "Portfolio URL",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "department-1",
+      "label": "Which department are you interested in?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "referral-1",
+      "label": "How did you hear about us?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "github-1",
+      "label": "GitHub profile link",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "website-1",
+      "label": "Personal website",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "confuse-hours-salary",
+      "label": "Are you available 40 hours per week?",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": null,
+        "should_prompt": false,
+        "is_salary": false,
+        "is_hours_commitment": true,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": false
+      }
+    },
+    {
+      "id": "confuse-location-salary",
+      "label": "What is your current location and salary expectation?",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_yearly",
+        "should_prompt": false,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": true
+      }
+    },
+    {
+      "id": "confuse-yesno-salary",
+      "label": "Expected weekly salary",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_weekly",
+        "should_prompt": false,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": true,
+        "nanogpt_expect_appropriate": true
+      }
+    },
+    {
+      "id": "variant-salary-weekly-expected",
+      "label": "Expected weekly salary",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_weekly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "variant-salary-weekly-desired",
+      "label": "Desired weekly salary",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_weekly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "variant-salary-weekly-minimum",
+      "label": "Minimum weekly salary",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_weekly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "variant-salary-weekly-target",
+      "label": "Target weekly salary",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_weekly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "variant-salary-monthly-expected",
+      "label": "Expected monthly salary",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_monthly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "variant-salary-monthly-desired",
+      "label": "Desired monthly salary",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_monthly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "variant-salary-monthly-minimum",
+      "label": "Minimum monthly salary",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_monthly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "variant-salary-monthly-target",
+      "label": "Target monthly salary",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_monthly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "variant-salary-yearly-expected",
+      "label": "Expected yearly salary",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_yearly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "variant-salary-yearly-desired",
+      "label": "Desired yearly salary",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_yearly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "variant-salary-yearly-minimum",
+      "label": "Minimum yearly salary",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_yearly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "variant-salary-yearly-target",
+      "label": "Target yearly salary",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": null
+      },
+      "expect": {
+        "profile_path": "application_settings.expected_salary_yearly",
+        "should_prompt": true,
+        "is_salary": true,
+        "is_hours_commitment": false,
+        "vet_with_nanogpt": false
+      }
+    },
+    {
+      "id": "fixture-web-jobs-micro1-ai-59336643-step2-0-q1-how-soon-can-you-start-the-work-in-da",
+      "label": "q1.how soon can you start the work? (in days)",
+      "field": {
+        "field_type": "number",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "number",
+          "id": null,
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null,
+          "placeholder": null,
+          "min": "1",
+          "max": null,
+          "question_prefix": "Q1."
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-micro1-ai-59336643-step2"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-micro1-ai-59336643-step2-1-q2-what-is-your-expected-hourly-rate-in-",
+      "label": "q2.what is your expected hourly rate in usd?",
+      "field": {
+        "field_type": "number",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "number",
+          "id": null,
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null,
+          "placeholder": "e.g. 10",
+          "min": null,
+          "max": "999",
+          "question_prefix": "Q2."
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-micro1-ai-59336643-step2"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-micro1-ai-59336643-step2-2-q3-are-you-able-to-commit-10-15-hours-pe",
+      "label": "q3.are you able to commit 10–15 hours+ per week to this role?",
+      "field": {
+        "field_type": "radio",
+        "options": [
+          "yes",
+          "no"
+        ],
+        "dom": {
+          "tag": "input",
+          "type": "radio",
+          "id": "fc8a909a-909f-43cf-9376-08c912cb0ee4_yes",
+          "name": "yes_no_fc8a909a-909f-43cf-9376-08c912cb0ee4",
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null,
+          "placeholder": null,
+          "min": null,
+          "max": null,
+          "question_prefix": "Q3."
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-micro1-ai-59336643-step2"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-micro1-ai-59336643-step2-3-q4-if-moving-forward-would-you-be-able-t",
+      "label": "q4.if moving forward, would you be able to review and sign the contract within 24 hours, and begin tasking within 24-48 hours of receiving your credentials?",
+      "field": {
+        "field_type": "radio",
+        "options": [
+          "yes",
+          "no"
+        ],
+        "dom": {
+          "tag": "input",
+          "type": "radio",
+          "id": "4f05e361-9428-41f6-bb2b-90ecec675b8d_yes",
+          "name": "yes_no_4f05e361-9428-41f6-bb2b-90ecec675b8d",
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null,
+          "placeholder": null,
+          "min": null,
+          "max": null,
+          "question_prefix": "Q4."
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-micro1-ai-59336643-step2"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-micro1-ai-59336643-step2-4-q5-compensation-is-output-based-experts-",
+      "label": "q5.compensation is output-based; experts are paid per task that meets the project specifications. the time required to complete work may vary depending on the expert’s experience and workflow. minimum submission requirements apply. experts must submit a minimum of tasks per week. is this acceptable to you?",
+      "field": {
+        "field_type": "radio",
+        "options": [
+          "yes",
+          "no"
+        ],
+        "dom": {
+          "tag": "input",
+          "type": "radio",
+          "id": "7da55e84-0b28-4653-ae68-d5191fcc446f_yes",
+          "name": "yes_no_7da55e84-0b28-4653-ae68-d5191fcc446f",
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null,
+          "placeholder": null,
+          "min": null,
+          "max": null,
+          "question_prefix": "Q5."
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-micro1-ai-59336643-step2"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-micro1-ai-59336643-step2-5-q6-please-share-a-github-portfolio-open-",
+      "label": "q6.please share a github, portfolio, open-source contribution, technical writing sample, or any public work that shows your engineering ability. if you do not have public work, briefly explain what kind of private/professional projects best represent your experience.",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": null,
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null,
+          "placeholder": null,
+          "min": null,
+          "max": null,
+          "question_prefix": "Q6."
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-micro1-ai-59336643-step2"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-micro1-ai-59336643-step2-6-q7-do-you-have-an-bugcrowd-hackerone-equ",
+      "label": "q7.do you have an bugcrowd/hackerone/equivalent profile? if so, please share it here.",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": null,
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null,
+          "placeholder": null,
+          "min": null,
+          "max": null,
+          "question_prefix": "Q7."
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-micro1-ai-59336643-step2"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-micro1-ai-59336643-step2-7-q8-do-you-have-any-of-the-below-link-to-",
+      "label": "q8.do you have any of the below? link to vulnerabilities identified or patched in public github repositories (link issue or pr) link to real contributions (not just documentation) in open source projects in cybersecurity domain cve or github security advisory where they are the credited reporter/discoverer if so, please share it here.",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": null,
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null,
+          "placeholder": null,
+          "min": null,
+          "max": null,
+          "question_prefix": "Q8."
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-micro1-ai-59336643-step2"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-micro1-ai-59336643-step2-8-q9-what-is-experience-with-secops-cybers",
+      "label": "q9.what is experience with secops/cybersecurity? (not a deal breaker)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": null,
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null,
+          "placeholder": null,
+          "min": null,
+          "max": null,
+          "question_prefix": "Q9."
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-micro1-ai-59336643-step2"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-micro1-ai-59336643-step2-9-q10-what-is-your-highest-level-of-educat",
+      "label": "q10.what is your highest level of education?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": null,
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null,
+          "placeholder": null,
+          "min": null,
+          "max": null,
+          "question_prefix": "Q10."
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-micro1-ai-59336643-step2"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-micro1-ai-59336643-step2-10-q11-are-you-available-to-work-on-a-pay-p",
+      "label": "q11.are you available to work on a pay-per-task basis?",
+      "field": {
+        "field_type": "radio",
+        "options": [
+          "yes",
+          "no"
+        ],
+        "dom": {
+          "tag": "input",
+          "type": "radio",
+          "id": "be9a276a-f982-438a-8f41-ef38e98f1cb9_yes",
+          "name": "yes_no_be9a276a-f982-438a-8f41-ef38e98f1cb9",
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null,
+          "placeholder": null,
+          "min": null,
+          "max": null,
+          "question_prefix": "Q11."
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-micro1-ai-59336643-step2"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-0-first-name-first-name-first-name-first-n",
+      "label": "first name first name first name first name",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "first_name",
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-1-last-name-last-name-last-name-last-name",
+      "label": "last name last name last name last name",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "last_name",
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-2-preferred-first-name-preferred-first-nam",
+      "label": "preferred first name preferred first name preferred first name preferred first name",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "preferred_name",
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-3-email-email-email-email",
+      "label": "email email email email",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "email",
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-4-country",
+      "label": "country",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "country",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-5-phone",
+      "label": "phone",
+      "field": {
+        "field_type": "tel",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "tel",
+          "id": "phone",
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-6-location-city-location-city-first-name",
+      "label": "location (city) location (city) first name",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "candidate-location",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-7-school-school",
+      "label": "school school",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "school--0",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-8-degree-degree",
+      "label": "degree degree",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "degree--0",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-9-discipline-discipline",
+      "label": "discipline discipline",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "discipline--0",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-10-why-do-you-want-to-work-at-discord-why-d",
+      "label": "why do you want to work at discord? why do you want to work at discord? why do you want to work at discord? why do you want to work at discord?",
+      "field": {
+        "field_type": "textarea",
+        "options": null,
+        "dom": {
+          "tag": "textarea",
+          "type": "textarea",
+          "id": "question_36758311002",
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-11-are-you-legally-authorized-to-work-in-th",
+      "label": "are you legally authorized to work in the united states for our company? are you legally authorized to work in the united states for our company? why do you want to work at discord?",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_36758315002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-12-are-you-currently-based-in-or-willing-to",
+      "label": "are you currently based in or willing to relocate to the bay area for this position? are you currently based in or willing to relocate to the bay area for this position? why do you want to work at discord?",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_36758317002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-13-are-you-currently-located-in-the-us-are-",
+      "label": "are you currently located in the us? are you currently located in the us? why do you want to work at discord?",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_36758316002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-14-how-did-you-hear-about-this-job-how-did-",
+      "label": "how did you hear about this job? how did you hear about this job? how did you hear about this job? how did you hear about this job?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_36758314002",
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-15-linkedin-profile-linkedin-profile-linked",
+      "label": "linkedin profile linkedin profile linkedin profile linkedin profile",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_36758312002",
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-16-website-website-website-website",
+      "label": "website website website website",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_36758313002",
+          "name": null,
+          "data_testid": null,
+          "role": null,
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-17-gender-gender",
+      "label": "gender gender",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "4033064002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-18-race-and-ethnicity-race-and-ethnicity",
+      "label": "race and ethnicity race and ethnicity",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "4033065002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-19-veteran-status-veteran-status",
+      "label": "veteran status veteran status",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "4033066002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-20-disability-status-disability-status",
+      "label": "disability status disability status",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "4033067002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-21-gender-identity-optional-gender-identity",
+      "label": "gender identity (optional) gender identity (optional)",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "4033068002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-22-race-or-ethnicity-optional-race-or-ethni",
+      "label": "race or ethnicity (optional) race or ethnicity (optional)",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "4033069002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8571766002-23-i-consider-myself-a-member-of-the-lgbtq-",
+      "label": "i consider myself a member of the lgbtq+ community. (optional) i consider myself a member of the lgbtq+ community. (optional)",
+      "field": {
+        "field_type": "select",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "4033070002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox",
+          "data_field_path": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8571766002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-0-first-name-first-name-first-name-first-n",
+      "label": "first name first name first name first name",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "first_name",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-1-last-name-last-name-last-name-last-name",
+      "label": "last name last name last name last name",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "last_name",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-2-email-email-email-email",
+      "label": "email email email email",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "email",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-3-phone",
+      "label": "phone",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "country",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-4-location-city-location-city-first-name",
+      "label": "location (city) location (city) first name",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "candidate-location",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-5-first-name",
+      "label": "first name",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": null,
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-6-school-school",
+      "label": "school school",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "school--0",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-7-degree-degree",
+      "label": "degree degree",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "degree--0",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-8-discipline-discipline",
+      "label": "discipline discipline",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "discipline--0",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-9-current-address-city-state-zip-code-curr",
+      "label": "current address (city – state – zip code) current address (city – state – zip code) current address (city – state – zip code) current address (city – state – zip code)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142024002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-10-date-available-for-employment-date-avail",
+      "label": "date available for employment date available for employment date available for employment date available for employment",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142025002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-11-travel-availability-of-time-travel-avail",
+      "label": "travel availability (% of time) travel availability (% of time) travel availability (% of time) travel availability (% of time)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142026002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-12-how-did-you-hear-about-this-job-how-did-",
+      "label": "how did you hear about this job? how did you hear about this job? how did you hear about this job? how did you hear about this job?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142027002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-13-do-you-have-any-friends-or-relatives-emp",
+      "label": "do you have any friends or relatives employed by braeburn? do you have any friends or relatives employed by braeburn? current address (city – state – zip code)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142028002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-14-current-address-city-state-zip-code-",
+      "label": "current address (city – state – zip code)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": null,
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-15-employee-s-name-referral-employee-s-name",
+      "label": "employee's name (referral) employee's name (referral) employee's name (referral) employee's name (referral)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142029002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-16-current-company-current-company-current-",
+      "label": "current company current company current company current company",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142030002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-17-desired-base-salary-desired-base-salary-",
+      "label": "desired base salary ($) desired base salary ($) desired base salary ($) desired base salary ($)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142031002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-18-desired-total-compensation-base-salary-b",
+      "label": "desired total compensation $ (base salary + bonus) desired total compensation $ (base salary + bonus) desired total compensation $ (base salary + bonus) desired total compensation $ (base salary + bonus)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142032002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-19-years-of-pharma-experience-years-of-phar",
+      "label": "years of pharma experience years of pharma experience current address (city – state – zip code)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142033002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-20-years-of-buy-and-bill-experience-years-o",
+      "label": "years of buy and bill experience years of buy and bill experience years of buy and bill experience years of buy and bill experience",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142034002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-21-years-of-product-procurement-through-nat",
+      "label": "years of product procurement through national specialty pharmacies experience years of product procurement through national specialty pharmacies experience years of product procurement through national specialty pharmacies experience years of product procurement through national specialty pharmacies experience",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142035002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-22-years-of-addiction-experience-years-of-a",
+      "label": "years of addiction experience years of addiction experience years of addiction experience years of addiction experience",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142036002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-23-other-experience",
+      "label": "other experience",
+      "field": {
+        "field_type": "checkbox",
+        "options": [
+          "Start-up",
+          "Product Launch",
+          "Injectables",
+          "Matrix Environment",
+          "REMS Product",
+          "Scheduled Class II to Class IV product",
+          "Patient/ HUB Services"
+        ],
+        "dom": {
+          "tag": "input",
+          "type": "checkbox",
+          "id": "question_37142037002[]",
+          "name": "question_37142037002[]",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-24-are-you-at-least-18-years-old-are-you-at",
+      "label": "are you at least 18 years old? are you at least 18 years old? current address (city – state – zip code)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142038002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-25-are-you-an-american-citizen-lawful-perma",
+      "label": "are you an american citizen, lawful permanent resident of the united states, temporary resident, refugee or asylee? are you an american citizen, lawful permanent resident of the united states, temporary resident, refugee or asylee? current address (city – state – zip code)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142039002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-26-are-you-presently-authorized-to-work-for",
+      "label": "are you presently authorized to work for braeburn in the position for which you are applying? are you presently authorized to work for braeburn in the position for which you are applying? current address (city – state – zip code)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142040002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-27-will-you-now-or-in-the-future-require-br",
+      "label": "will you now or in the future require braeburn to sponsor you or to obtain, maintain or extend your employment authorization? will you now or in the future require braeburn to sponsor you or to obtain, maintain or extend your employment authorization? current address (city – state – zip code)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142041002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-28-are-you-related-to-any-officer-or-member",
+      "label": "are you related to any officer or member of the board of directors at braeburn? are you related to any officer or member of the board of directors at braeburn? current address (city – state – zip code)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142042002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-29-are-you-able-to-perform-the-essential-fu",
+      "label": "are you able to perform the essential functions of the job for which you are applying, either with or without reasonable accommodations? are you able to perform the essential functions of the job for which you are applying, either with or without reasonable accommodations? current address (city – state – zip code)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142043002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-30-if-no-please-describe-the-functions-that",
+      "label": "if no, please describe the functions that cannot be performed? if no, please describe the functions that cannot be performed? if no, please describe the functions that cannot be performed? if no, please describe the functions that cannot be performed?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142044002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-31-please-list-any-professional-licenses-an",
+      "label": "please list any professional licenses and/or certifications as applicable please list any professional licenses and/or certifications as applicable please list any professional licenses and/or certifications as applicable please list any professional licenses and/or certifications as applicable",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142045002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-32-has-your-professional-license-certificat",
+      "label": "has your professional license/certification/privilege ever been revoked or suspended (yes, no, n/a)? if yes, state the reason(s). has your professional license/certification/privilege ever been revoked or suspended (yes, no, n/a)? if yes, state the reason(s). has your professional license/certification/privilege ever been revoked or suspended (yes, no, n/a)? if yes, state the reason(s). has your professional license/certification/privilege ever been revoked or suspended (yes, no, n/a)? if yes, state the reason(s).",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142046002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-33-have-you-been-excluded-debarred-suspende",
+      "label": "have you been excluded, debarred, suspended or otherwise declared ineligible to participate in federal or state healthcare programs? have you been excluded, debarred, suspended or otherwise declared ineligible to participate in federal or state healthcare programs? current address (city – state – zip code)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142047002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-34-have-you-ever-been-involuntarily-termina",
+      "label": "have you ever been involuntarily terminated from employment? have you ever been involuntarily terminated from employment? have you ever been involuntarily terminated from employment? have you ever been involuntarily terminated from employment?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142048002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-35-specify-foreign-language-proficiency-if-",
+      "label": "specify foreign language proficiency (if relevant to position) specify foreign language proficiency (if relevant to position) specify foreign language proficiency (if relevant to position) specify foreign language proficiency (if relevant to position)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142049002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-36-please-list-three-professional-reference",
+      "label": "please list three professional references from your last seven years of employment please list three professional references from your last seven years of employment please list three professional references from your last seven years of employment please list three professional references from your last seven years of employment",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142050002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-37-linkedin-profile-linkedin-profile-linked",
+      "label": "linkedin profile linkedin profile linkedin profile linkedin profile",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142051002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-38-any-additional-comments-any-additional-c",
+      "label": "any additional comments any additional comments any additional comments any additional comments",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142052002",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-39-i-understand-that-completion-of-this-app",
+      "label": "i understand that completion of this application does not obligate braeburn to hire me or offer me employment. i certify that my answers are true, accurate, and complete to the best of my knowledge, i understand that any falsification, misrepresentation, or omission of any facts in my application, resume, or any other accompanying or required material, or during any interviews, can be justification for refusal of employment, or immediate termination of employment, regardless of when and how discovered. i understand that this employment application is not a contract of employment. i understand that, if employed, my employment may be terminated with or without cause, and with or without notice, at any time, at the option of either braeburn or me. i understand that any oral or written statement to the contrary are hereby expressly disavowed and should not be relied upon by any prospective or existing employee. if hired, i agree to comply with all applicable laws and abide by the rules and regulations of braeburn as issued from time to time. braeburn may, at its sole discretion, hold in abeyance or revoke, amend or modify, abridge or change any benefit, policy, practice, condition or process affecting its employees. any offer of employment i may receive from braeburn is contingent upon my successful completion of the company’s pre-employment screening process, including the receipt by braeburn of references that it considers satisfactory. i authorize all of my former employers and those individuals i have listed as professional references to furnish information about my employment, work performance, abilities, and other qualities pertinent to my qualifications for employment, hereby releasing them from any and all liabilities for damages arising from furnishing the requested information. i also affirm that i have not signed any kind of restrictive document creating any obligation to any former employer that would restrict my acceptance of employment with braeburn in the position i am seeking. i acknowledge that i have read and understand all of the above statements. i understand that completion of this application does not obligate braeburn to hire me or offer me employment. i certify that my answers are true, accurate, and complete to the best of my knowledge, i understand that any falsification, misrepresentation, or omission of any facts in my application, resume, or any other accompanying or required material, or during any interviews, can be justification for refusal of employment, or immediate termination of employment, regardless of when and how discovered. i understand that this employment application is not a contract of employment. i understand that, if employed, my employment may be terminated with or without cause, and with or without notice, at any time, at the option of either braeburn or me. i understand that any oral or written statement to the contrary are hereby expressly disavowed and should not be relied upon by any prospective or existing employee. if hired, i agree to comply with all applicable laws and abide by the rules and regulations of braeburn as issued from time to time. braeburn may, at its sole discretion, hold in abeyance or revoke, amend or modify, abridge or change any benefit, policy, practice, condition or process affecting its employees. any offer of employment i may receive from braeburn is contingent upon my successful completion of the company’s pre-employment screening process, including the receipt by braeburn of references that it considers satisfactory. i authorize all of my former employers and those individuals i have listed as professional references to furnish information about my employment, work performance, abilities, and other qualities pertinent to my qualifications for employment, hereby releasing them from any and all liabilities for damages arising from furnishing the requested information. i also affirm that i have not signed any kind of restrictive document creating any obligation to any former employer that would restrict my acceptance of employment with braeburn in the position i am seeking. i acknowledge that i have read and understand all of the above statements. current address (city – state – zip code)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "question_37142053002",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-40-gender-gender-gender",
+      "label": "gender gender gender",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "gender",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-41-are-you-hispanic-latino-are-you-hispanic",
+      "label": "are you hispanic/latino? are you hispanic/latino? are you hispanic/latino?",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "hispanic_ethnicity",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-42-veteran-status-veteran-status-veteran-st",
+      "label": "veteran status veteran status veteran status",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "veteran_status",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-boards-greenhouse-io-8614025002-43-disability-status-disability-status-disa",
+      "label": "disability status disability status disability status",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "disability_status",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-boards-greenhouse-io-8614025002"
+      }
+    },
+    {
+      "id": "fixture-web-usgnorthamerica-teamtailor-com-jobs-0-analytics-analytics",
+      "label": "analytics analytics",
+      "field": {
+        "field_type": "checkbox",
+        "options": [
+          "Analytics"
+        ],
+        "dom": {
+          "tag": "input",
+          "type": "checkbox",
+          "id": "analytics",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-usgnorthamerica-teamtailor-com-jobs"
+      }
+    },
+    {
+      "id": "fixture-web-usgnorthamerica-teamtailor-com-jobs-1-marketing-marketing",
+      "label": "marketing marketing",
+      "field": {
+        "field_type": "checkbox",
+        "options": [
+          "Marketing"
+        ],
+        "dom": {
+          "tag": "input",
+          "type": "checkbox",
+          "id": "marketing",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-usgnorthamerica-teamtailor-com-jobs"
+      }
+    },
+    {
+      "id": "fixture-web-usgnorthamerica-teamtailor-com-jobs-2-search-search-search",
+      "label": "search search search",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "query",
+          "name": "query",
+          "data_testid": null,
+          "role": "search"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-usgnorthamerica-teamtailor-com-jobs"
+      }
+    },
+    {
+      "id": "fixture-web-usgnorthamerica-teamtailor-com-jobs-3-job-filters",
+      "label": "job filters",
+      "field": {
+        "field_type": "select",
+        "options": [
+          "All",
+          "Accounting & Finance",
+          "Administrative/Coordinator",
+          "Communications",
+          "Construction",
+          "Corporate Planning & Strategy",
+          "Customer Service",
+          "Engineering",
+          "EPMO",
+          "Human Resources",
+          "IT",
+          "Legal",
+          "Logistics & Supply Chain",
+          "Manufacturing",
+          "Marketing",
+          "Operational Excellence",
+          "Operations",
+          "Research & Development",
+          "Safety & Environmental",
+          "Sales & Sales Operations"
+        ],
+        "dom": {
+          "tag": "select",
+          "type": "select-one",
+          "id": "department-select",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-usgnorthamerica-teamtailor-com-jobs"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b-0-first-name",
+      "label": "first name",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "first-name-input",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b-1-last-name",
+      "label": "last name",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "last-name-input",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b-2-email",
+      "label": "email",
+      "field": {
+        "field_type": "email",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "email",
+          "id": "email-input",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b-3-confirm-your-email",
+      "label": "confirm your email",
+      "field": {
+        "field_type": "email",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "email",
+          "id": "confirm-email-input",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b-4-city",
+      "label": "city",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "spl-form-element_10",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b-5-search-by-country-region-or-code-search-",
+      "label": "search by country/region or code search by country/region or code",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": null,
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b-6-phone-number-phone-number",
+      "label": "phone number phone number",
+      "field": {
+        "field_type": "tel",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "tel",
+          "id": "spl-form-element_5",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b-7-linkedin",
+      "label": "linkedin",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "linkedin-input",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b-8-facebook",
+      "label": "facebook",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "facebook-input",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b-9-x-fka-twitter-",
+      "label": "x (fka twitter)",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "twitter-input",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b-10-website",
+      "label": "website",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "website-input",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b"
+      }
+    },
+    {
+      "id": "fixture-web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b-11-let-the-company-know-about-your-interest",
+      "label": "let the company know about your interest working there",
+      "field": {
+        "field_type": "textarea",
+        "options": null,
+        "dom": {
+          "tag": "textarea",
+          "type": "textarea",
+          "id": "hiring-manager-message-input",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-jobs-smartrecruiters-com-69e6be07-412d-4df2-8406-bac6c8c4b56b"
+      }
+    },
+    {
+      "id": "fixture-web-job-boards-greenhouse-io-5268662008-0-search-search-search-search-search",
+      "label": "search search search search search",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "keyword-filter",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-job-boards-greenhouse-io-5268662008"
+      }
+    },
+    {
+      "id": "fixture-web-job-boards-greenhouse-io-5268662008-1-department-department",
+      "label": "department department",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "department-filter",
+          "name": null,
+          "data_testid": null,
+          "role": "combobox"
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-job-boards-greenhouse-io-5268662008"
+      }
+    },
+    {
+      "id": "fixture-web-vekst-teamtailor-com-new-3-0-analytics-analytics",
+      "label": "analytics analytics",
+      "field": {
+        "field_type": "checkbox",
+        "options": [
+          "Analytics"
+        ],
+        "dom": {
+          "tag": "input",
+          "type": "checkbox",
+          "id": "analytics",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-vekst-teamtailor-com-new-3"
+      }
+    },
+    {
+      "id": "fixture-web-vekst-teamtailor-com-new-3-1-marketing-marketing",
+      "label": "marketing marketing",
+      "field": {
+        "field_type": "checkbox",
+        "options": [
+          "Marketing"
+        ],
+        "dom": {
+          "tag": "input",
+          "type": "checkbox",
+          "id": "marketing",
+          "name": null,
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-vekst-teamtailor-com-new-3"
+      }
+    },
+    {
+      "id": "fixture-web-vekst-teamtailor-com-new-3-2-vilken-eller-vilka-avdelningar-r-du-intr",
+      "label": "vilken eller vilka avdelningar är du intresserad av att sammankopplas med?required välj den eller de avdelningar du skulle kunna tänka dig att arbeta inom, inte de områden du har erfarenhet av.",
+      "field": {
+        "field_type": "checkbox",
+        "options": [
+          "Commercial",
+          "Project Management",
+          "Performance Marketing & Media",
+          "Analytics & Insights",
+          "Digital Content & Creative"
+        ],
+        "dom": {
+          "tag": "input",
+          "type": "checkbox",
+          "id": "id_34512376",
+          "name": "candidate[answers_attributes][0][choices][]",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-vekst-teamtailor-com-new-3"
+      }
+    },
+    {
+      "id": "fixture-web-vekst-teamtailor-com-new-3-3-ber-tta-lite-kort-om-varf-r-du-fastnade-",
+      "label": "berätta lite kort om varför du fastnade för vekst och blev intresserad av att jobba hos oss? berätta lite kort om varför du fastnade för vekst och blev intresserad av att jobba hos oss? berätta lite kort om varför du fastnade för vekst och blev intresserad av att jobba hos oss?",
+      "field": {
+        "field_type": "textarea",
+        "options": null,
+        "dom": {
+          "tag": "textarea",
+          "type": "textarea",
+          "id": "candidate_answers_attributes_1_text",
+          "name": "candidate[answers_attributes][1][text]",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-vekst-teamtailor-com-new-3"
+      }
+    },
+    {
+      "id": "fixture-web-vekst-teamtailor-com-new-3-4-ber-tta-kortfattat-om-vad-du-syssels-tte",
+      "label": "berätta kortfattat om vad du sysselsätter dig med just nu.required berätta kortfattat om vad du sysselsätter dig med just nu.required berätta kortfattat om vad du sysselsätter dig med just nu.required",
+      "field": {
+        "field_type": "textarea",
+        "options": null,
+        "dom": {
+          "tag": "textarea",
+          "type": "textarea",
+          "id": "candidate_answers_attributes_2_text",
+          "name": "candidate[answers_attributes][2][text]",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-vekst-teamtailor-com-new-3"
+      }
+    },
+    {
+      "id": "fixture-web-vekst-teamtailor-com-new-3-5-ber-tta-kortfattat-om-din-erfarenhet-som",
+      "label": "berätta kortfattat om din erfarenhet som du tror är relevant för det/de områden du är intresserad av att arbeta med hos oss. required berätta kortfattat om din erfarenhet som du tror är relevant för det/de områden du är intresserad av att arbeta med hos oss. required berätta kortfattat om din erfarenhet som du tror är relevant för det/de områden du är intresserad av att arbeta med hos oss. required",
+      "field": {
+        "field_type": "textarea",
+        "options": null,
+        "dom": {
+          "tag": "textarea",
+          "type": "textarea",
+          "id": "candidate_answers_attributes_3_text",
+          "name": "candidate[answers_attributes][3][text]",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-vekst-teamtailor-com-new-3"
+      }
+    },
+    {
+      "id": "fixture-web-vekst-teamtailor-com-new-3-6-vilken-stad-utg-r-du-ifr-n-required-vilk",
+      "label": "vilken stad utgår du ifrån?required vilken stad utgår du ifrån?required vilken stad utgår du ifrån?required",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "candidate_answers_attributes_4_text",
+          "name": "candidate[answers_attributes][4][text]",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-vekst-teamtailor-com-new-3"
+      }
+    },
+    {
+      "id": "fixture-web-vekst-teamtailor-com-new-3-7-first-namerequired-first-namerequired",
+      "label": "first namerequired first namerequired",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "candidate_first_name",
+          "name": "candidate[first_name]",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-vekst-teamtailor-com-new-3"
+      }
+    },
+    {
+      "id": "fixture-web-vekst-teamtailor-com-new-3-8-last-namerequired-last-namerequired",
+      "label": "last namerequired last namerequired",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "candidate_last_name",
+          "name": "candidate[last_name]",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-vekst-teamtailor-com-new-3"
+      }
+    },
+    {
+      "id": "fixture-web-vekst-teamtailor-com-new-3-9-emailrequired-emailrequired",
+      "label": "emailrequired emailrequired",
+      "field": {
+        "field_type": "email",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "email",
+          "id": "candidate_email",
+          "name": "candidate[email]",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-vekst-teamtailor-com-new-3"
+      }
+    },
+    {
+      "id": "fixture-web-vekst-teamtailor-com-new-3-10-phonerequired-phonerequired-phone-number",
+      "label": "phonerequired phonerequired phone number with country code",
+      "field": {
+        "field_type": "tel",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "tel",
+          "id": "candidate_phone",
+          "name": "candidate[phone]",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-vekst-teamtailor-com-new-3"
+      }
+    },
+    {
+      "id": "fixture-web-vekst-teamtailor-com-new-3-11-required-by-submitting-this-application-",
+      "label": "required.by submitting this application, i agree that i have read the privacy policy and confirm that vekst store my personal details to be able to process my job application. required.by submitting this application, i agree that i have read the privacy policy and confirm that vekst store my personal details to be able to process my job application.",
+      "field": {
+        "field_type": "checkbox",
+        "options": [
+          "Required.By submitting this application, I agree that I have read the Privacy Policy and confirm that Vekst store my personal details to be able to process my job application.*"
+        ],
+        "dom": {
+          "tag": "input",
+          "type": "checkbox",
+          "id": "candidate_consent_given",
+          "name": "candidate[consent_given]",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-vekst-teamtailor-com-new-3"
+      }
+    },
+    {
+      "id": "fixture-web-vekst-teamtailor-com-new-3-12-yes-vekst-can-contact-me-directly-about-",
+      "label": "yes, vekst can contact me directly about specific future job opportunities. yes, vekst can contact me directly about specific future job opportunities.",
+      "field": {
+        "field_type": "checkbox",
+        "options": [
+          "Yes, Vekst can contact me directly about specific future job opportunities."
+        ],
+        "dom": {
+          "tag": "input",
+          "type": "checkbox",
+          "id": "candidate_consent_given_future_jobs",
+          "name": "candidate[consent_given_future_jobs]",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "web-vekst-teamtailor-com-new-3"
+      }
+    },
+    {
+      "id": "fixture-syn-fw-ashby-006-0-legal-name-legal-name",
+      "label": "legal name legal name",
+      "field": {
+        "field_type": "text",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "text",
+          "id": "ashby-name",
+          "name": "ashby-name",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "syn-fw-ashby-006"
+      }
+    },
+    {
+      "id": "fixture-syn-fw-ashby-006-1-work-email-work-email",
+      "label": "work email work email",
+      "field": {
+        "field_type": "email",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "email",
+          "id": "ashby-email",
+          "name": "ashby-email",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "syn-fw-ashby-006"
+      }
+    },
+    {
+      "id": "fixture-syn-fw-ashby-006-2-mobile-number-mobile-number",
+      "label": "mobile number mobile number",
+      "field": {
+        "field_type": "tel",
+        "options": null,
+        "dom": {
+          "tag": "input",
+          "type": "tel",
+          "id": "ashby-phone",
+          "name": "ashby-phone",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "syn-fw-ashby-006"
+      }
+    },
+    {
+      "id": "fixture-syn-fw-ashby-006-3-why-this-role-why-this-role-why-this-rol",
+      "label": "why this role? why this role? why this role?",
+      "field": {
+        "field_type": "textarea",
+        "options": null,
+        "dom": {
+          "tag": "textarea",
+          "type": "textarea",
+          "id": "why-this-role",
+          "name": "why-this-role",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "syn-fw-ashby-006"
+      }
+    },
+    {
+      "id": "fixture-syn-fw-ashby-006-4-work-authorization-status",
+      "label": "work authorization status",
+      "field": {
+        "field_type": "radio",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "dom": {
+          "tag": "input",
+          "type": "radio",
+          "id": "work-authorization-statu-0",
+          "name": "work-authorization-statu",
+          "data_testid": null,
+          "role": null
+        }
+      },
+      "expect": {
+        "vet_with_nanogpt": false,
+        "source_fixture": "syn-fw-ashby-006"
+      }
+    }
+  ]
+}

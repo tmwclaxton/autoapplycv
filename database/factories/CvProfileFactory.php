@@ -59,6 +59,7 @@ class CvProfileFactory extends Factory
             'city' => fake()->city(),
             'postcode' => fake()->postcode(),
             'country' => 'United Kingdom',
+            'application_answers' => [],
             'parsing_complete' => false,
         ];
     }

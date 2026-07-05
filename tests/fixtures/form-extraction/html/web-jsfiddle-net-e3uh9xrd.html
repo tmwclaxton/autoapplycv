@@ -1,0 +1,2136 @@
+<!DOCTYPE html>
+<html style="color-scheme: dark">
+  <!-- docker -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="JSFiddle - Test your JavaScript, CSS, HTML or CoffeeScript online with JSFiddle.">
+    <meta name="keywords" content="online javascript editor, testing javascript online, online ide, online code editor, html, css, coffeescript, scss online editor">
+    <meta name="author" content="JSFiddle">
+    <meta name="copyright" content="share alike">
+    <meta name="ipc" content="GB">
+
+        <meta name="robots" content="index, follow">
+        <meta name="googlebot" content="index, follow">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#EFEFEF">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1E1F1F">
+
+    <link rel="stylesheet" href="https://jsfiddle.net/css/dist-skeleton.css?development_02540212d4d69a558f076d4ed049b740d2341c6f" />
+
+    
+    
+    <style type="text/css">@font-face {font-family:Inter;font-style:normal;font-weight:100 900;src:url(/cf-fonts/v/inter/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:100 900;src:url(/cf-fonts/v/inter/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:100 900;src:url(/cf-fonts/v/inter/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:100 900;src:url(/cf-fonts/v/inter/5.2.8/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:100 900;src:url(/cf-fonts/v/inter/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:100 900;src:url(/cf-fonts/v/inter/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:Inter;font-style:normal;font-weight:100 900;src:url(/cf-fonts/v/inter/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}</style>
+
+    
+
+
+    <script>
+      Track = {
+        ui: function(action){
+          if (typeof(analytics_jsf) === "function"){
+            analytics_jsf("event", "ui_event", {
+              "event_action": action || null
+            })
+          }
+        }
+      }
+
+      var EditorConfig = {
+        shell: true,
+        paths: {
+          favorite:         "/_make_favourite/",
+          media:            "/mooshellmedia/",
+          addResource:      "/_add_external_resource/",
+          render:           "//fiddle.jshell.net/travistidwell/e3uh9xrd/show/?editor_console=",
+          saveSettings:     "/_editor_options/",
+          fork:             "/_fork/",
+          save:             "/_save/",
+          update:           "/_update/e3uh9xrd/",
+          loadDependencies: "/_get_dependencies/{lib_id}/",
+          showProfile:      "/_show_profile/",
+          fiddlePrivacy:    "/fiddles/toggle-private/",
+          customPage:       "/fiddles/custom_page/",
+        },
+
+        value: {
+          html: "&lt;div class=\&quot;well\&quot;&gt;\n  &lt;form action=\&quot;/person.php\&quot; method=\&quot;post\&quot;&gt;\n    &lt;div class=\&quot;form-group\&quot;&gt;\n      &lt;label for=\&quot;firstname\&quot;&gt;First Name&lt;\/label&gt;\n      &lt;input class=\&quot;form-control\&quot; type=\&quot;text\&quot; name=\&quot;firstname\&quot; placeholder=\&quot;Enter your first name\&quot;&gt;\n    &lt;\/div&gt;\n    &lt;div class=\&quot;form-group\&quot;&gt;\n      &lt;label for=\&quot;lastname\&quot;&gt;Last Name&lt;\/label&gt;\n      &lt;input class=\&quot;form-control\&quot; type=\&quot;text\&quot; name=\&quot;lastname\&quot; placeholder=\&quot;Enter your last name\&quot;&gt;\n    &lt;\/div&gt;\n    &lt;div class=\&quot;form-group\&quot;&gt;\n      &lt;label&gt;Gender&lt;\/label&gt;\n      &lt;label class=\&quot;checkbox-inline\&quot;&gt;\n        &lt;input type=\&quot;radio\&quot; name=\&quot;gender\&quot; id=\&quot;male\&quot; value=\&quot;male\&quot;&gt;\n        Male\n      &lt;\/label&gt;\n      &lt;label class=\&quot;checkbox-inline\&quot;&gt;\n        &lt;input type=\&quot;radio\&quot; name=\&quot;gender\&quot; id=\&quot;female\&quot; value=\&quot;female\&quot;&gt;\n        Female\n      &lt;\/label&gt;\n    &lt;\/div&gt;\n    &lt;input type=\&quot;submit\&quot; class=\&quot;btn btn-primary\&quot; value=\&quot;Submit\&quot;&gt;\n  &lt;\/form&gt;\n&lt;\/div&gt;",
+          js:   "",
+          css:  ""
+        },
+        fiddle: {
+          version:     0,
+          pastie_id:   194513497,
+          slug:        "e3uh9xrd",
+          boilerplate: false,
+          private:     false
+        },
+        panels: {
+          html: "HTML",
+          js:   "JavaScript",
+          css:  "CSS"
+        },
+        syntax: {
+          html: "html",
+          js:   "javascript",
+          css:  "css"
+        },
+        user: {
+          id:       "None",
+          username: "",
+        },
+        currentUser: false,
+        isAuthor:    false,
+        features: {
+          toggleSidebar: false
+        },
+        is_pro: false,
+        experimental_resources: false,
+        show_boilerplates: true,
+        show_console: true
+      }
+
+      // translations
+      const I18n = {
+        editor: {
+          panels: {
+            result: "Result",
+            tidy: "Tidy the code with Prettify"
+          },
+          sidebar: {
+            toggle_sidebar: "Toggle sidebar"
+          },
+          groups: {
+            placeholder_value:        "Add to collections",
+            search_placeholder_value: "Search for collections",
+            no_choices_text:          "No more collections",
+            no_results_text:          "No collections found",
+            item_select_text:         "Press to select",
+            you_have_no_groups:       "You have no collections"
+          }
+        }
+      }
+
+        const EditorUISettings = {
+          // options that user can change
+          layout: 1,
+          themeMode: 3,
+          wordWrap: true, // lineWrapping: true,
+          fontSize: 12, // fontSize: 1,
+          fontFamily: "Monaspace Argon",
+          tabSize: 2, // tabSize: 2,
+          insertSpaces: true, // indentWithTabs: false,
+          renderValidationDecorations: true, // codeLinting: true
+          lineNumbers: true, // lineNumbers: true
+          quickSuggestions: true, // codeHints: true,
+          autoRun: EditorConfig.currentUser ? false : false,
+          autoRunValid: EditorConfig.currentUser ? true : false,
+          autoSave: EditorConfig.currentUser ? true : false,
+          clearConsole: false,
+          editorConsole: true,
+          hotreloadCss: true,
+          hotreloadHtml: false
+        }
+
+      window.JSFiddle = {
+        Layout:    null,
+        Editor:    null,
+        Actions:   null,
+        Resources: null
+      }
+    </script>
+
+
+    <link rel="icon" href="/img/favicon.png">
+
+    <script>
+      var require = { paths: { vs: "https://jsfiddle.net/js/lib/monaco-editor/min/vs" } }
+    </script>
+
+    <link rel="stylesheet" href="https://jsfiddle.net/css/dist-editor.css?development_02540212d4d69a558f076d4ed049b740d2341c6f" />
+    <script src="https://jsfiddle.net/js/_dist-editor.js?development_02540212d4d69a558f076d4ed049b740d2341c6f"></script>
+    <link rel="stylesheet" href="https://jsfiddle.net/js/lib/monaco-editor/min/vs/editor/editor.main.css?development_02540212d4d69a558f076d4ed049b740d2341c6f" />
+    <script src="https://jsfiddle.net/js/lib/monaco-editor/min/vs/loader.js?development_02540212d4d69a558f076d4ed049b740d2341c6f"></script>
+    <script src="https://jsfiddle.net/js/lib/monaco-editor/min/vs/editor/editor.main.js?development_02540212d4d69a558f076d4ed049b740d2341c6f"></script>
+
+    <script>
+      window.addEventListener("load", () => {
+        Layout.skin = "light"
+
+        window.JSFiddle.Actions = window.Actions = new EditorActions()
+
+
+        Layout.render(false, false)
+
+      })
+    </script>
+
+
+
+    <title>Basic HTML Form - JSFiddle - Code Playground</title>
+  </head>
+
+  <body class=" darkMode"><a href="https://jsfiddle.net/cdn-cgi/content?id=WRm2xSIDqnlCaH_UT48NZ2VMyrthro2xRYAcPboTN1g-1783281792.9813406-1.2.1.1-h.meHrTPDBvONfvBqf50GY7E9tkCeKxovMQdJSCoE4I" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
+    <div id="progressbar"><div class="pb"></div></div>
+
+    <form method="post" id="layout-container" target="result" action="https://fiddle.jshell.net/_display/" autocomplete="off">
+
+
+      <input type="hidden" name="authenticity_token" value="VcOacoOXqanlpTLnQnufJlfmcovnRBD80xl-qWZkj5seQUqnFy8LW-BUbPTxA9_uFKUpVqHgBj8045qI7x7Q6Q" />
+
+
+      <header id="header">
+        <section id="fiddle-info">
+          <ul class="headerActions">
+            <li class="sidebarToggle disabled">
+              <a data-tippy-simple-content="Collapse sidebar" data-tippy-pro>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12C2 8.31087 2 6.4663 2.81382 5.15877C3.1149 4.67502 3.48891 4.25427 3.91891 3.91554C5.08116 3 6.72077 3 10 3H14C17.2792 3 18.9188 3 20.0811 3.91554C20.5111 4.25427 20.8851 4.67502 21.1862 5.15877C22 6.4663 22 8.31087 22 12C22 15.6891 22 17.5337 21.1862 18.8412C20.8851 19.325 20.5111 19.7457 20.0811 20.0845C18.9188 21 17.2792 21 14 21H10C6.72077 21 5.08116 21 3.91891 20.0845C3.48891 19.7457 3.1149 19.325 2.81382 18.8412C2 17.5337 2 15.6891 2 12Z" />
+                  <path d="M9.5 3L9.5 21" />
+                  <path d="M5 7H6M5 10H6" />
+                </svg>
+              </a>
+            </li>
+            <li class="togglePrivacy disabled">
+              <a id="toggle-privacy" data-tippy-simple-content="Make this fiddle private" data-tippy-pro class="mode_public">
+                <svg class="tpPrivate" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 16.5V14.5" />
+                  <path d="M4.26781 18.8447C4.49269 20.515 5.87613 21.8235 7.55966 21.9009C8.97627 21.966 10.4153 22 12 22C13.5847 22 15.0237 21.966 16.4403 21.9009C18.1239 21.8235 19.5073 20.515 19.7322 18.8447C19.879 17.7547 20 16.6376 20 15.5C20 14.3624 19.879 13.2453 19.7322 12.1553C19.5073 10.485 18.1239 9.17649 16.4403 9.09909C15.0237 9.03397 13.5847 9 12 9C10.4153 9 8.97627 9.03397 7.55966 9.09909C5.87613 9.17649 4.49269 10.485 4.26781 12.1553C4.12104 13.2453 4 14.3624 4 15.5C4 16.6376 4.12104 17.7547 4.26781 18.8447Z" />
+                  <path d="M7.5 9V6.5C7.5 4.01472 9.51472 2 12 2C14.4853 2 16.5 4.01472 16.5 6.5V9" stroke="currentColor" />
+                </svg>
+                <svg class="tpPublic" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 16.5V14.5" />
+                  <path d="M4.26781 18.8447C4.49269 20.515 5.87613 21.8235 7.55966 21.9009C8.97627 21.966 10.4153 22 12 22C13.5847 22 15.0237 21.966 16.4403 21.9009C18.1239 21.8235 19.5073 20.515 19.7322 18.8447C19.879 17.7547 20 16.6376 20 15.5C20 14.3624 19.879 13.2453 19.7322 12.1553C19.5073 10.485 18.1239 9.17649 16.4403 9.09909C15.0237 9.03397 13.5847 9 12 9C10.4153 9 8.97627 9.03397 7.55966 9.09909C5.87613 9.17649 4.49269 10.485 4.26781 12.1553C4.12105 13.2453 4 14.3624 4 15.5C4 16.6376 4.12105 17.7547 4.26781 18.8447Z" />
+                  <path d="M7.5 9V6.5C7.5 4.01472 9.51472 2 12 2C13.9593 2 15.5 3.5 16 5" />
+                </svg>
+              </a>
+            </li>
+            <li class="fiddleAuthor">
+              <div id="author-info" class="faCont">
+                    <span class="pseudoAvatar"
+      data-tippy-interactive="true"
+      data-tippy-simple-content='
+      <div class="profileTooptipCont">
+        <h4>Fiddle created by:</h4>
+        <div class="ptcUserInfo">
+          <span class="pseudoAvatar">TT</span>
+          <span class="ptcAuthorName"><a href="/u/travistidwell/fiddles/">Travis</a></span>
+        </div>
+
+          <div class="ptcBasicInfo">
+              <p>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 14.5V6.5C20 4.61438 20 3.67157 19.4142 3.08579C18.8284 2.5 17.8856 2.5 16 2.5H8C6.11438 2.5 5.17157 2.5 4.58579 3.08579C4 3.67157 4 4.61438 4 6.5V14.5" />
+                  <path d="M12 5.5H12.009" stroke="currentColor" />
+                  <path d="M3.49762 15.5154L4.01953 14.5H19.9518L20.5023 15.5154C21.9452 18.177 22.3046 19.5077 21.7561 20.5039C21.2077 21.5 19.7536 21.5 16.8454 21.5L7.15462 21.5C4.24642 21.5 2.79231 21.5 2.24387 20.5039C1.69543 19.5077 2.05474 18.177 3.49762 15.5154Z"  />
+                </svg>
+                Form.IO
+              </p>
+
+              <p>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M13.6177 21.367C13.1841 21.773 12.6044 22 12.0011 22C11.3978 22 10.8182 21.773 10.3845 21.367C6.41302 17.626 1.09076 13.4469 3.68627 7.37966C5.08963 4.09916 8.45834 2 12.0011 2C15.5439 2 18.9126 4.09916 20.316 7.37966C22.9082 13.4393 17.599 17.6389 13.6177 21.367Z" />
+                  <path d="M15.5 11C15.5 12.933 13.933 14.5 12 14.5C10.067 14.5 8.5 12.933 8.5 11C8.5 9.067 10.067 7.5 12 7.5C13.933 7.5 15.5 9.067 15.5 11Z" />
+                </svg>
+                Dallas, TX
+              </p>
+
+          </div>
+
+          <ul class="socialInfo">
+              <li>
+                <a target="_blank" rel="noopener" href="https://github.com/travist">GitHub</a>
+              </li>
+              <li>
+                <a target="_blank" rel="noopener" href="https://x.com/softwaregnome">X</a>
+              </li>
+          </ul>
+      </div>
+      '>TT</span>
+
+<div class="uiprogress"></div>
+              </div>
+              <input type="hidden" name="expiration_days" id="expiration-period" value="">
+              <input type="hidden" name="description" value="">
+              <input type="text" name="title" placeholder="Untitled fiddle"
+                value="Basic HTML Form" size="30" data-tippy-special-content="🤖 created this title suggestion for you">
+            </li>
+          </ul>
+        </section>
+        <ul id="actions" class="headerActions">
+  <li class="runButton">
+    <a id="run" data-tippy-simple-content="Run fiddle" data-tippy-shortcut="CMD + Enter" href="">
+      <svg width="24" height="24" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.2" fill="none" stroke="currentColor"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></g></svg>
+      <span>Run</span></a>
+  </li>
+
+  <li class="saveButton ">
+    <a id="save" data-tippy-simple-content="Save fiddle" data-tippy-shortcut="CMD + S" data-extension data-tippy-interactive="true" href="">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path><polyline points="16 16 12 12 8 16"></polyline></svg>
+    </a>
+  </li>
+
+  <!-- <li class="expirationButton">
+    <a id="set-expiration" data-tippy-simple-content="Fiddle expiration" data-tippy-shortcut="(beta)">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+        <path d="M16 12H12L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M18.8475 4.17041C19.0217 4.3242 19.1911 4.48354 19.3555 4.648C19.5199 4.81246 19.6791 4.98203 19.8328 5.15629M15 2C15.4821 2.14255 15.9548 2.32634 16.4134 2.54664M21.4375 7.55457C21.6647 8.02313 21.8539 8.50663 22 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
+  </li> -->
+
+  <li class="forkButton visible">
+    <a id="fork" data-tippy-simple-content="Fork fiddle into a new one" href="">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 8C7.10457 8 8 7.10457 8 6C8 4.89543 7.10457 4 6 4C4.89543 4 4 4.89543 4 6C4 7.10457 4.89543 8 6 8Z" />
+        <path d="M12 20C13.1046 20 14 19.1046 14 18C14 16.8954 13.1046 16 12 16C10.8954 16 10 16.8954 10 18C10 19.1046 10.8954 20 12 20Z" />
+        <path d="M18 8C19.1046 8 20 7.10457 20 6C20 4.89543 19.1046 4 18 4C16.8954 4 16 4.89543 16 6C16 7.10457 16.8954 8 18 8Z" />
+        <path d="M6.01734 8.74104C6.01734 10.4146 5.77537 12.1999 9.22051 11.9858H12.0053M17.9929 8.57654C18.1259 11.9858 16.9199 11.7651 15.7861 11.9858H12.0053M12.0053 15.7005V11.9858" />
+      </svg>
+    </a>
+  </li>
+
+  <li class="favButton hidden ">
+    <a id="mark_favourite" data-tippy-simple-content="Set this version as base" href="">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none"  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 17.9808V9.70753C4 6.07416 4 4.25748 5.17157 3.12874C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.12874C20 4.25748 20 6.07416 20 9.70753V17.9808C20 20.2867 20 21.4396 19.2272 21.8523C17.7305 22.6514 14.9232 19.9852 13.59 19.1824C12.8168 18.7168 12.4302 18.484 12 18.484C11.5698 18.484 11.1832 18.7168 10.41 19.1824C9.0768 19.9852 6.26947 22.6514 4.77285 21.8523C4 21.4396 4 20.2867 4 17.9808Z" />
+        <path d="M4 7H20" />
+      </svg>
+    </a>
+  </li>
+
+  <li class="collaborateButton ">
+    <a id="collaborate" data-tippy-simple-content="Collaborate on this fiddle" href="">
+      <svg width="24" height="24" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.2" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></g></svg>
+    </a>
+  </li>
+
+  <li class="downloadButton visible">
+    <a id="download" data-tippy-simple-content="Download fiddle" href="">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+    </a>
+  </li>
+
+  <li class="divider"></li>
+
+  <!-- <li class="actionItem dropdown">
+  <a id="upvote-iframe-load" class="aiButtonVote dropdownTrigger" href="#upvote" data-popover-trigger="upvote">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#87C449" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+    Vote for features</a>
+</li> -->
+
+<li class="gridButton">
+  <a id="switch-grid" href="" data-tippy-simple-content="Change panels layout">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <path d="M20.1088 20.1088C18.7175 21.5 16.4783 21.5 12 21.5C7.52166 21.5 5.28249 21.5 3.89124 20.1088C2.5 18.7175 2.5 16.4783 2.5 12C2.5 7.52166 2.5 5.28249 3.89124 3.89124C5.28248 2.5 7.52166 2.5 12 2.5C16.4783 2.5 18.7175 2.5 20.1088 3.89124C21.5 5.28249 21.5 7.52166 21.5 12C21.5 16.4783 21.5 18.7175 20.1088 20.1088Z" />
+      <path d="M9 21.5L9 2.5" />
+      <path d="M21.5 12L9 12" />
+    </svg>
+  </a>
+</li>
+
+<li class="settingsButton">
+  <a class="showModalTrigger" href="" data-tippy-simple-content="Editor settings" data-modal-id="modal-editor-settings">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <path d="M11 12C11 13.6569 9.65685 15 8 15C6.34315 15 5 13.6569 5 12C5 10.3431 6.34315 9 8 9C9.65685 9 11 10.3431 11 12Z" />
+      <path d="M16 6H8C4.68629 6 2 8.68629 2 12C2 15.3137 4.68629 18 8 18H16C19.3137 18 22 15.3137 22 12C22 8.68629 19.3137 6 16 6Z" />
+    </svg>
+  </a>
+</li>
+
+<li class="themeButton">
+  <a id="switch-theme" href="" data-tippy-simple-content="Switch theme">
+    <svg class="isLight" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M21.5 14.0784C20.3003 14.7189 18.9301 15.0821 17.4751 15.0821C12.7491 15.0821 8.91792 11.2509 8.91792 6.52485C8.91792 5.06986 9.28105 3.69968 9.92163 2.5C5.66765 3.49698 2.5 7.31513 2.5 11.8731C2.5 17.1899 6.8101 21.5 12.1269 21.5C16.6849 21.5 20.503 18.3324 21.5 14.0784Z" />
+    </svg>
+    <svg class="isDark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12Z" />
+      <path d="M12 2V3.5M12 20.5V22M19.0708 19.0713L18.0101 18.0106M5.98926 5.98926L4.9286 4.9286M22 12H20.5M3.5 12H2M19.0713 4.92871L18.0106 5.98937M5.98975 18.0107L4.92909 19.0714" />
+    </svg>
+  </a>
+</li>
+
+<li class="divider"></li>
+
+<li class="embedButton visible ">
+  <a id="share-embed" class="showModalTrigger" href="" data-modal-id="modal-embed" data-tippy-simple-content="Embed fiddle on websites/blogs">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none"stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
+      <path d="M18 7C18.7745 7.16058 19.3588 7.42859 19.8284 7.87589C21 8.99181 21 10.7879 21 14.38C21 17.9721 21 19.7681 19.8284 20.8841C18.6569 22 16.7712 22 13 22H11C7.22876 22 5.34315 22 4.17157 20.8841C3 19.7681 3 17.9721 3 14.38C3 10.7879 3 8.99181 4.17157 7.87589C4.64118 7.42859 5.2255 7.16058 6 7" />
+      <path d="M12.0253 2.00052L12 14M12.0253 2.00052C11.8627 1.99379 11.6991 2.05191 11.5533 2.17492C10.6469 2.94006 9 4.92886 9 4.92886M12.0253 2.00052C12.1711 2.00657 12.3162 2.06476 12.4468 2.17508C13.3531 2.94037 15 4.92886 15 4.92886" />
+    </svg><!--<span>Embed fiddle on websites/blogs</span>--></a>
+</li>
+
+  <li class="proButton">
+    <a href="/pro/" class="showModalTrigger" data-modal-id="modal-pro">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linecap="round" class="nc-icon-wrapper" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></g></svg>
+      <span>Go PRO</span></a>
+  </li>
+
+</ul>
+
+      </header>
+
+      <aside id="sidebar">
+        <h1>
+          <a data-tippy-simple-content="Create a new fiddle" href="/">
+              <svg width="46px" height="33px" viewBox="0 0 46 33">
+                <g stroke-width="2" fill="none" fill-rule="evenodd">
+                  <path d="M23.4888889,20.543316 C21.4404656,18.4187374 19.0750303,15.6666667 16.4832014,15.6666667 C13.8721947,15.6666667 11.7555556,17.6366138 11.7555556,20.0666667 C11.7555556,22.4967196 13.8721947,24.4666667 16.4832014,24.4666667 C18.8347252,24.4666667 19.9845474,23.0125628 20.6429148,22.312473" id="Oval-1" stroke-linecap="round"></path>
+                  <path d="M22.5111111,19.5900174 C24.5595344,21.7145959 26.9249697,24.4666667 29.5167986,24.4666667 C32.1278053,24.4666667 34.2444444,22.4967196 34.2444444,20.0666667 C34.2444444,17.6366138 32.1278053,15.6666667 29.5167986,15.6666667 C27.1652748,15.6666667 26.0154526,17.1207706 25.3570852,17.8208603" id="Oval-1-Copy" stroke-linecap="round"></path>
+                  <path d="M45,22.7331459 C45,19.1499462 42.7950446,16.079593 39.6628004,14.7835315 C39.6774469,14.5246474 39.7003932,14.2674038 39.7003932,14.0035978 C39.7003932,6.82243304 33.8412885,1 26.611593,1 C21.3985635,1 16.9102123,4.03409627 14.8051788,8.41527616 C13.7828502,7.62878013 12.503719,7.15547161 11.1134367,7.15547161 C7.77825654,7.15547161 5.07450503,9.84159999 5.07450503,13.1544315 C5.07450503,13.7760488 5.16938207,14.3779791 5.3477444,14.9418479 C2.74863428,16.4787471 1,19.2867709 1,22.5105187 C1,27.3287502 4.89630545,31.2367856 9.72803666,31.31094 L36.3341301,31.3109406 C41.1201312,31.3406346 45,27.4870665 45,22.7331459 L45,22.7331459 Z" stroke-linejoin="round"></path>
+                </g>
+              </svg>
+            <span class="seoTitle">JSFiddle - Test your JavaScript, CSS, HTML or CoffeeScript online with JSFiddle.</span>
+          </a>
+        </h1>
+
+        <section id="sidebar-main">
+            <a id="promo-code" class="flash" href="/pro/">
+    <div>
+      <h5>It's a nice day, so...</h5>
+      <p>There's a <strong>50% off</strong> on JSFiddle PRO with <code>CODECUP26</code> for you. This week only.</p>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="currentColor" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3C9.05058 3 6.59627 5.11144 6.07743 7.8996C5.9907 8.36569 5.94733 8.59873 6.1089 8.90532C6.27048 9.2119 6.49914 9.31381 6.95646 9.51763C8.33509 10.1321 10.0897 10.5 12 10.5C13.9103 10.5 15.6649 10.1321 17.0435 9.51763C17.5009 9.31381 17.7295 9.2119 17.8911 8.90532C18.0527 8.59873 18.0093 8.36569 17.9226 7.8996C17.4037 5.11144 14.9494 3 12 3Z" />
+        <path d="M17 5.5C19.989 6.28752 22 7.75946 22 9.44533C22 11.9608 17.5228 14 12 14C6.47715 14 2 11.9608 2 9.44533C2 7.75946 4.01099 6.28752 7 5.5" />
+        <path d="M12 18V21" />
+        <path d="M17 17L18 21" />
+        <path d="M7 17L6 21" />
+      </svg>
+    </div>
+  </a>
+
+          <div class="sidebarItem si_ai">
+  <h3 class="toggler proBadge" data-tippy-simple-content="AI Code Completion">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+      <path opacity="0.4" d="M13.0156 5.25H11.4511C9.25333 5.24999 7.53926 5.24999 6.20359 5.40121C4.84779 5.55471 3.76798 5.87381 2.90814 6.59789C2.02969 7.33764 1.62465 8.29409 1.43329 9.49267C1.24996 10.641 1.24998 12.2355 1.25 14.0655C1.24998 15.8954 1.24996 17.359 1.43329 18.5073C1.62465 19.7059 2.02969 20.6624 2.90814 21.4021C3.76798 22.1262 4.84779 22.4453 6.20359 22.5988C7.53926 22.75 9.35114 22.75 11.5489 22.75C13.7466 22.75 15.4608 22.75 16.7964 22.5988C18.1522 22.4453 19.232 22.1262 20.0919 21.4021C20.9703 20.6624 21.3754 19.7059 21.5667 18.5073C21.75 17.359 21.75 15.8955 21.75 14.0655C21.75 12.4629 21.75 11.0914 21.6441 10.087C21.5599 9.28739 21.4044 8.59907 21.0991 7.98985C21.0676 8.00371 21.0398 8.01622 21.0156 8.02734C20.9416 8.18798 20.8183 8.49803 20.6336 8.99705L20.3757 9.69407C20.0853 10.4789 19.3369 11 18.5 11C17.6631 11 16.9147 10.4789 16.6243 9.69407L16.3664 8.99705C16.1817 8.49803 16.0545 8.17626 15.9805 8.01563C15.8198 7.94164 15.502 7.81828 15.003 7.63363L14.3059 7.3757C13.5211 7.08527 13 6.33688 13 5.5C13 5.41564 13.0053 5.33218 13.0156 5.25Z" fill="currentColor"></path>
+      <path d="M14.9319 11.5104C14.6615 11.8241 14.6966 12.2977 15.0103 12.5681L16.6591 14L15.0103 15.4319C14.6966 15.7023 14.6615 16.1759 14.9319 16.4897C15.2023 16.8034 15.6759 16.8385 15.9897 16.5681L17.2476 15.4839C17.478 15.2853 17.705 15.0898 17.8682 14.9054C18.0487 14.7015 18.25 14.4046 18.25 14C18.25 13.5954 18.0487 13.2985 17.8682 13.0946C17.705 12.9103 17.478 12.7147 17.2476 12.5161L17.2476 12.5161L15.9897 11.4319C15.6759 11.1615 15.2023 11.1966 14.9319 11.5104Z" fill="currentColor"></path>
+      <path d="M8.0681 11.5104C8.33853 11.8241 8.30341 12.2977 7.98966 12.5681L6.34087 14L7.98966 15.4319C8.30341 15.7023 8.33853 16.1759 8.0681 16.4897C7.79767 16.8034 7.32409 16.8385 7.01034 16.5681L5.75243 15.4839C5.52197 15.2853 5.29495 15.0898 5.13178 14.9054C4.9513 14.7015 4.75 14.4046 4.75 14C4.75 13.5954 4.9513 13.2985 5.13178 13.0946C5.29495 12.9103 5.52197 12.7147 5.75243 12.5161L5.75243 12.5161L7.01034 11.4319C7.32409 11.1615 7.79767 11.1966 8.0681 11.5104Z" fill="currentColor"></path>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M12.7374 10.2887C13.1303 10.4197 13.3427 10.8444 13.2117 11.2374L11.2117 17.2374C11.0807 17.6303 10.656 17.8427 10.263 17.7117C9.87008 17.5807 9.65771 17.156 9.78869 16.763L11.7887 10.763C11.9197 10.3701 12.3444 10.1577 12.7374 10.2887Z" fill="currentColor"></path>
+      <path d="M18.5 1.25C18.8138 1.25 19.0945 1.4454 19.2034 1.73972L19.4613 2.43675C19.8233 3.4151 19.9388 3.68091 20.1289 3.87106C20.3191 4.06121 20.5849 4.17667 21.5633 4.53869L22.2603 4.79661C22.5546 4.90552 22.75 5.18617 22.75 5.5C22.75 5.81383 22.5546 6.09448 22.2603 6.20339L21.5633 6.46131C20.5849 6.82333 20.3191 6.93879 20.1289 7.12894C19.9388 7.31909 19.8233 7.5849 19.4613 8.56325L19.2034 9.26028C19.0945 9.5546 18.8138 9.75 18.5 9.75C18.1862 9.75 17.9055 9.5546 17.7966 9.26028L17.5387 8.56325C17.1767 7.5849 17.0612 7.31909 16.8711 7.12894C16.6809 6.93879 16.4151 6.82333 15.4367 6.46131L14.7397 6.20339C14.4454 6.09448 14.25 5.81383 14.25 5.5C14.25 5.18617 14.4454 4.90552 14.7397 4.79661L15.4367 4.53869C16.4151 4.17667 16.6809 4.06121 16.8711 3.87106C17.0612 3.68091 17.1767 3.4151 17.5387 2.43675L17.7966 1.73972C17.9055 1.4454 18.1862 1.25 18.5 1.25Z" fill="currentColor"></path>
+    </svg>
+    <span>AI Code Completion</span>
+  </h3>
+  <div class="body">
+    <p>AI Code Completion is a <abbr title='Bring Your Own Key'>BYOK</abbr> implementation.</p>
+    <p>
+      <input type="text" name="mistral_api_key" placeholder="Your Mistral API Key">
+    </p>
+    <p><a class="showModalTrigger" data-modal-id="modal-mistral-howto" href="">Get your API Key →</a></p>
+    <p>The model we use is <strong>Codestral</strong> by <a href='https://mistral.ai' target='_blank'>Mistral</a>.</p>
+    <p>We won't save your API Key in our database, it's only stored in the browser for your convinience.</p>
+  </div> <!-- /body -->
+</div> <!-- /sidebarItem -->
+
+          <div class="sidebarItem si_yourFiddles">
+  <a class="showModalTrigger toggler" data-tippy-simple-content="Your recent fiddles" data-modal-alwaysreload="1" data-modal-id="modal-your-fiddles" data-modal-source="/user/fiddles/all/?modal=true" href="/user/fiddles/all/">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+      <path opacity="0.4" d="M18.0366 1.25C18.7757 1.24999 19.3832 1.24998 19.8747 1.29671C20.3854 1.34527 20.8478 1.44953 21.2683 1.70725C21.6859 1.9631 22.0369 2.31414 22.2928 2.73166C22.5505 3.15221 22.6547 3.61456 22.7033 4.12529C22.75 4.61678 22.75 5.22429 22.75 5.96343V5.96344V6.03656V6.03658C22.75 6.77571 22.75 7.38322 22.7033 7.87471C22.6547 8.38544 22.5505 8.84779 22.2928 9.26834C22.0369 9.68586 21.6859 10.0369 21.2683 10.2928C20.8478 10.5505 20.3854 10.6547 19.8747 10.7033C19.3832 10.75 18.7757 10.75 18.0366 10.75H18.0366H17.9634H17.9634C17.2243 10.75 16.6168 10.75 16.1253 10.7033C15.6146 10.6547 15.1522 10.5505 14.7317 10.2928C14.3141 10.0369 13.9631 9.68586 13.7072 9.26834C13.4495 8.84779 13.3453 8.38544 13.2967 7.87471C13.25 7.38322 13.25 6.7757 13.25 6.03656V6.03655V5.96345V5.96344C13.25 5.2243 13.25 4.61679 13.2967 4.12529C13.3453 3.61456 13.4495 3.15221 13.7072 2.73166C13.9631 2.31414 14.3141 1.9631 14.7317 1.70725C15.1522 1.44953 15.6146 1.34527 16.1253 1.29671C16.6168 1.24998 17.2243 1.24999 17.9634 1.25H17.9635H18.0365H18.0366Z" fill="currentColor" />
+      <path d="M6.03656 1.25C6.7757 1.24999 7.38322 1.24998 7.87471 1.29671C8.38544 1.34527 8.84779 1.44953 9.26834 1.70725C9.68586 1.9631 10.0369 2.31414 10.2928 2.73166C10.5505 3.15221 10.6547 3.61456 10.7033 4.12529C10.75 4.61678 10.75 5.22429 10.75 5.96343V5.96344V6.03656V6.03658C10.75 6.77571 10.75 7.38322 10.7033 7.87471C10.6547 8.38544 10.5505 8.84779 10.2928 9.26834C10.0369 9.68586 9.68586 10.0369 9.26834 10.2928C8.84779 10.5505 8.38544 10.6547 7.87471 10.7033C7.38322 10.75 6.77571 10.75 6.03658 10.75H6.03656H5.96344H5.96343C5.22429 10.75 4.61678 10.75 4.12529 10.7033C3.61456 10.6547 3.15221 10.5505 2.73166 10.2928C2.31414 10.0369 1.9631 9.68586 1.70725 9.26834C1.44953 8.84779 1.34527 8.38544 1.29671 7.87471C1.24998 7.38322 1.24999 6.7757 1.25 6.03656V6.03655V5.96345V5.96344C1.24999 5.2243 1.24998 4.61679 1.29671 4.12529C1.34527 3.61456 1.44953 3.15221 1.70725 2.73166C1.9631 2.31414 2.31414 1.9631 2.73166 1.70725C3.15221 1.44953 3.61456 1.34527 4.12529 1.29671C4.61678 1.24998 5.2243 1.24999 5.96344 1.25H5.96345H6.03655H6.03656Z" fill="currentColor" />
+      <path d="M18.0366 13.25C18.7757 13.25 19.3832 13.25 19.8747 13.2967C20.3854 13.3453 20.8478 13.4495 21.2683 13.7072C21.6859 13.9631 22.0369 14.3141 22.2928 14.7317C22.5505 15.1522 22.6547 15.6146 22.7033 16.1253C22.75 16.6168 22.75 17.2243 22.75 17.9634V17.9634V18.0366V18.0366C22.75 18.7757 22.75 19.3832 22.7033 19.8747C22.6547 20.3854 22.5505 20.8478 22.2928 21.2683C22.0369 21.6859 21.6859 22.0369 21.2683 22.2928C20.8478 22.5505 20.3854 22.6547 19.8747 22.7033C19.3832 22.75 18.7757 22.75 18.0366 22.75H18.0366H17.9634H17.9634C17.2243 22.75 16.6168 22.75 16.1253 22.7033C15.6146 22.6547 15.1522 22.5505 14.7317 22.2928C14.3141 22.0369 13.9631 21.6859 13.7072 21.2683C13.4495 20.8478 13.3453 20.3854 13.2967 19.8747C13.25 19.3832 13.25 18.7757 13.25 18.0366V18.0365V17.9635V17.9634C13.25 17.2243 13.25 16.6168 13.2967 16.1253C13.3453 15.6146 13.4495 15.1522 13.7072 14.7317C13.9631 14.3141 14.3141 13.9631 14.7317 13.7072C15.1522 13.4495 15.6146 13.3453 16.1253 13.2967C16.6168 13.25 17.2243 13.25 17.9634 13.25H17.9635H18.0365H18.0366Z" fill="currentColor" />
+      <path opacity="0.4" d="M6.03656 13.25C6.7757 13.25 7.38322 13.25 7.87471 13.2967C8.38544 13.3453 8.84779 13.4495 9.26834 13.7072C9.68586 13.9631 10.0369 14.3141 10.2928 14.7317C10.5505 15.1522 10.6547 15.6146 10.7033 16.1253C10.75 16.6168 10.75 17.2243 10.75 17.9634V17.9634V18.0366V18.0366C10.75 18.7757 10.75 19.3832 10.7033 19.8747C10.6547 20.3854 10.5505 20.8478 10.2928 21.2683C10.0369 21.6859 9.68586 22.0369 9.26834 22.2928C8.84779 22.5505 8.38544 22.6547 7.87471 22.7033C7.38322 22.75 6.77571 22.75 6.03658 22.75H6.03656H5.96344H5.96343C5.22429 22.75 4.61678 22.75 4.12529 22.7033C3.61456 22.6547 3.15221 22.5505 2.73166 22.2928C2.31414 22.0369 1.9631 21.6859 1.70725 21.2683C1.44953 20.8478 1.34527 20.3854 1.29671 19.8747C1.24998 19.3832 1.24999 18.7757 1.25 18.0366V18.0365V17.9635V17.9634C1.24999 17.2243 1.24998 16.6168 1.29671 16.1253C1.34527 15.6146 1.44953 15.1522 1.70725 14.7317C1.9631 14.3141 2.31414 13.9631 2.73166 13.7072C3.15221 13.4495 3.61456 13.3453 4.12529 13.2967C4.61678 13.25 5.2243 13.25 5.96344 13.25H5.96345H6.03655H6.03656Z" fill="currentColor" />
+    </svg>
+    <span>Your recent fiddles</span>
+  </a>
+</div> <!-- /sidebarItem -->
+
+          
+          <div class="sidebarItem si_collections">
+  <h3 class="toggler proBadge" data-tippy-simple-content="Collections">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+      <path d="M9.93417 1.25L10 1.25L14.0658 1.25C14.9523 1.24995 15.7161 1.24991 16.3278 1.33215C16.9833 1.42028 17.6117 1.61902 18.1213 2.12868C18.631 2.63835 18.8297 3.2667 18.9179 3.92221C19.0001 4.53387 19.0001 5.29769 19 6.18417L19 6.25C19 6.80229 18.5523 7.25 18 7.25C17.4477 7.25 17 6.80229 17 6.25C17 5.27893 16.9979 4.65122 16.9357 4.18871C16.8774 3.75497 16.7832 3.61902 16.7071 3.5429C16.631 3.46677 16.495 3.37263 16.0613 3.31431C15.5988 3.25213 14.9711 3.25 14 3.25H10C9.02893 3.25 8.40122 3.25213 7.93871 3.31431C7.50497 3.37263 7.36902 3.46677 7.2929 3.5429C7.21677 3.61902 7.12263 3.75497 7.06431 4.18871C7.00213 4.65122 7 5.27893 7 6.25C7 6.80229 6.55229 7.25 6 7.25C5.44772 7.25 5 6.80229 5 6.25L5 6.18417C4.99995 5.29769 4.99991 4.53387 5.08215 3.92221C5.17028 3.2667 5.36902 2.63835 5.87868 2.12868C6.38835 1.61902 7.0167 1.42028 7.67221 1.33215C8.28387 1.24991 9.04769 1.24995 9.93417 1.25Z" fill="currentColor" />
+      <path opacity="0.4" d="M16.0391 9.25C17.1754 9.24999 18.0826 9.24998 18.8104 9.32056C19.558 9.39306 20.1948 9.54555 20.7611 9.90142C21.3018 10.2411 21.7589 10.6982 22.0986 11.2389C22.4544 11.8052 22.6069 12.442 22.6794 13.1896C22.75 13.9174 22.75 14.8246 22.75 15.9609V16.0391C22.75 17.1754 22.75 18.0826 22.6794 18.8104C22.6069 19.558 22.4544 20.1948 22.0986 20.7611C21.7589 21.3018 21.3018 21.7589 20.7611 22.0986C20.1948 22.4544 19.558 22.6069 18.8104 22.6794C18.0826 22.75 17.1754 22.75 16.0391 22.75H7.96092C6.82461 22.75 5.91736 22.75 5.18963 22.6794C4.44204 22.6069 3.80522 22.4544 3.23886 22.0986C2.69825 21.7589 2.24111 21.3018 1.90142 20.7611C1.54555 20.1948 1.39306 19.558 1.32056 18.8104C1.24998 18.0826 1.24999 17.1754 1.25 16.0391V16.0391V15.9609V15.9609C1.24999 14.8246 1.24998 13.9174 1.32056 13.1896C1.39306 12.442 1.54555 11.8052 1.90142 11.2389C2.24111 10.6982 2.69825 10.2411 3.23886 9.90142C3.80522 9.54555 4.44204 9.39306 5.18963 9.32056C5.91736 9.24998 6.82462 9.24999 7.96093 9.25H7.96094H16.0391H16.0391Z" fill="currentColor" />
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M9 13C9.55228 13 10 13.4477 10 14C10 14.5523 10.4477 15 11 15H13C13.5523 15 14 14.5523 14 14C14 13.4477 14.4477 13 15 13C15.5523 13 16 13.4477 16 14C16 15.6569 14.6569 17 13 17H11C9.34315 17 8 15.6569 8 14C8 13.4477 8.44772 13 9 13Z" fill="currentColor" />
+      <path d="M16.0402 5.25H7.95983C7.29398 5.24999 6.73442 5.24998 6.27656 5.28738C5.79784 5.3265 5.34288 5.41144 4.91102 5.63148C4.25245 5.96704 3.71702 6.50247 3.38147 7.16104C3.16142 7.59289 3.07648 8.04785 3.03737 8.52658C3.00274 8.9504 3.00018 9.46132 3 10.0631C3.07764 10.0066 3.1573 9.95267 3.23885 9.90142C3.75778 9.57536 4.33585 9.42003 5.00409 9.34053C5.00802 9.0849 5.01571 8.87328 5.03073 8.68944C5.05974 8.3344 5.11104 8.17194 5.16348 8.06902C5.30729 7.78677 5.53676 7.5573 5.819 7.41349C5.92193 7.36105 6.08439 7.30975 6.43943 7.28074C6.80614 7.25078 7.28342 7.25 7.99999 7.25H16C16.7166 7.25 17.1938 7.25078 17.5606 7.28074C17.9156 7.30975 18.0781 7.36105 18.181 7.41349C18.4632 7.5573 18.6927 7.78677 18.8365 8.06902C18.8889 8.17194 18.9402 8.3344 18.9692 8.68944C18.9843 8.87328 18.992 9.08491 18.9959 9.34054C19.6641 9.42004 20.2422 9.57536 20.7611 9.90142C20.8427 9.95267 20.9223 10.0066 21 10.0631C20.9998 9.46132 20.9972 8.9504 20.9626 8.52658C20.9235 8.04785 20.8386 7.59289 20.6185 7.16104C20.283 6.50247 19.7475 5.96704 19.089 5.63148C18.6571 5.41144 18.2021 5.3265 17.7234 5.28738C17.2656 5.24998 16.706 5.24999 16.0402 5.25Z" fill="currentColor" />
+    </svg>
+    <span>Collections <a class="proBadgeSelf" href="/pro/" target="_blank">PRO</a></span>
+  </h3>
+  <div class="body">
+    <h4>Select collections:</h4>
+    
+
+    <ul class="commonActions">
+        <li>
+          <a class="showModalTrigger" data-modal-id="modal-pro" href="/pro/">
+            <svg viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+              <path d="M12 4V20M20 12H4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>New collection</span>
+          </a>
+        </li>
+    </ul>
+  </div> <!-- /body -->
+</div> <!-- /sidebarItem -->
+
+          <div class="sidebarItem si_resources">
+  <script type="text/javascript">
+    var resources = []
+      resources.push(1541653)
+  </script>
+
+  <h3 class="toggler filled" data-tippy-simple-content="Resources">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4038 14.0251C15.098 13.2945 16.0976 12.75 17.25 12.75C18.4024 12.75 19.402 13.2945 20.0962 14.0251C20.7838 14.7486 21.25 15.7359 21.25 16.75V19.75C21.25 20.3023 20.8023 20.75 20.25 20.75C19.6977 20.75 19.25 20.3023 19.25 19.75L19.25 16.75C19.25 16.3346 19.0447 15.8219 18.6464 15.4028C18.2549 14.9908 17.7544 14.75 17.25 14.75C16.7456 14.75 16.2451 14.9908 15.8536 15.4028C15.4553 15.8219 15.25 16.3346 15.25 16.75V20.25C15.25 20.5261 15.4739 20.75 15.75 20.75C16.0261 20.75 16.25 20.5261 16.25 20.25V16.75C16.25 16.1977 16.6977 15.75 17.25 15.75C17.8023 15.75 18.25 16.1977 18.25 16.75V20.25C18.25 21.6307 17.1307 22.75 15.75 22.75C14.3693 22.75 13.25 21.6307 13.25 20.25L13.25 16.75C13.25 15.7359 13.7162 14.7486 14.4038 14.0251Z" fill="currentColor" />
+      <g opacity="0.4">
+          <path d="M16.989 1.40314C15.8497 1.24997 14.3941 1.24998 12.5564 1.25H11.4436C9.60588 1.24998 8.15026 1.24997 7.01105 1.40313C5.83864 1.56076 4.8897 1.89287 4.14133 2.64123C3.39297 3.38958 3.06085 4.33852 2.90321 5.51094C2.75004 6.65014 2.75004 8.10576 2.75004 9.94351L2.75 14.5489C2.74998 16.1511 2.74996 17.4205 2.86865 18.4247C2.9905 19.4557 3.24632 20.3044 3.82812 21.0133C4.02552 21.2539 4.24609 21.4744 4.48664 21.6718C5.19558 22.2536 6.04427 22.5095 7.07523 22.6313C8.07942 22.75 9.34874 22.75 10.9509 22.75H12.5563C12.6912 22.75 12.8241 22.75 12.9548 22.7499C12.3611 22.0865 12 21.2104 12 20.25V16.75C12 15.3611 12.6299 14.0773 13.4976 13.1641C14.3804 12.2351 15.6916 11.5 17.25 11.5C18.8084 11.5 20.1196 12.2351 21.0024 13.1641C21.0873 13.2534 21.1699 13.3464 21.2499 13.4426V9.94359C21.25 8.10585 21.25 6.65018 21.0968 5.51098C20.9392 4.33856 20.6071 3.38961 19.8587 2.64124C19.1103 1.89288 18.1614 1.56076 16.989 1.40314Z" fill="currentColor" />
+          <path d="M19.3252 21.8018C19.2806 21.7816 19.2367 21.76 19.1936 21.7371C19.1627 21.8084 19.1297 21.8786 19.0947 21.9475C19.1732 21.9017 19.2501 21.8532 19.3252 21.8018Z" fill="currentColor" />
+      </g>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M6.75 6C6.75 5.58579 7.08579 5.25 7.5 5.25H16.5C16.9142 5.25 17.25 5.58579 17.25 6C17.25 6.41421 16.9142 6.75 16.5 6.75H7.5C7.08579 6.75 6.75 6.41421 6.75 6Z" fill="currentColor" />
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M6.75 10C6.75 9.58579 7.08579 9.25 7.5 9.25H13.5C13.9142 9.25 14.25 9.58579 14.25 10C14.25 10.4142 13.9142 10.75 13.5 10.75H7.5C7.08579 10.75 6.75 10.4142 6.75 10Z" fill="currentColor" />
+    </svg>
+    <span>
+        Resources <strong class="resourcesLabel">URL</strong> <strong class="resourcesLabel">cdnjs</strong>
+        <em id="resource-counter" class="">1</em>
+    </span>
+  </h3>
+
+  <div class="body">
+      <ul id="external_resources_list">
+          <li id="external_resource_1541653">
+            <a class="filename" target="_blank" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" title="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="noopener">
+              bootstrap.min.css
+            </a>
+            <a href="#" data-id="1541653" class="remove">Remove</a>
+          </li>
+      </ul>
+
+      <div id="external-resources-form">
+        <p>
+          <input id="external_resource" type="text" name="q" value="" placeholder="JavaScript/CSS URL">
+          <a id="add_external_resource" class="submit" href="#" title="Add resource">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+          </a>
+        </p>
+      </div>
+      <input type="hidden" value="1541653" id="external_resources_id" name="add_external_resources">
+
+      <ul class="resourcesInfo">
+        <li>Paste a direct CSS/JS URL</li>
+        <li>Type a library name to fetch from CDNJS</li>
+      </ul>
+
+  </div> <!-- /body -->
+</div> <!-- /sidebarItem -->
+
+          <div class="sidebarItem si_async">
+  <h3 class="toggler" data-tippy-simple-content="Async requests">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C12.5523 2 13 2.44772 13 3V6C13 6.55228 12.5523 7 12 7C11.4477 7 11 6.55228 11 6V3C11 2.44772 11.4477 2 12 2Z" fill="currentColor" />
+      <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M12 17C12.5523 17 13 17.4477 13 18V21C13 21.5523 12.5523 22 12 22C11.4477 22 11 21.5523 11 21V18C11 17.4477 11.4477 17 12 17Z" fill="currentColor" />
+      <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M17 12C17 11.4477 17.4477 11 18 11L21 11C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13H18C17.4477 13 17 12.5523 17 12Z" fill="currentColor" />
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 11.4477 2.44772 11 3 11L6 11C6.55228 11 7 11.4477 7 12C7 12.5523 6.55228 13 6 13H3C2.44772 13 2 12.5523 2 12Z" fill="currentColor" />
+      <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M19.0706 4.92961C19.4611 5.32014 19.4611 5.9533 19.0706 6.34383L16.9493 8.46515C16.5588 8.85567 15.9256 8.85567 15.5351 8.46515C15.1446 8.07462 15.1446 7.44146 15.5351 7.05093L17.6564 4.92961C18.0469 4.53909 18.6801 4.53909 19.0706 4.92961Z" fill="currentColor" />
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.46515 15.5351C8.85567 15.9256 8.85567 16.5588 8.46515 16.9493L6.34383 19.0706C5.9533 19.4611 5.32014 19.4611 4.92961 19.0706C4.53909 18.6801 4.53909 18.0469 4.92961 17.6564L7.05093 15.5351C7.44146 15.1446 8.07462 15.1446 8.46515 15.5351Z" fill="currentColor" />
+      <path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M15.5351 15.5351C15.9256 15.1446 16.5588 15.1446 16.9493 15.5351L19.0706 17.6564C19.4611 18.0469 19.4611 18.6801 19.0706 19.0706C18.6801 19.4611 18.0469 19.4611 17.6564 19.0706L15.5351 16.9493C15.1446 16.5588 15.1446 15.9256 15.5351 15.5351Z" fill="currentColor" />
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M4.92961 4.92961C5.32014 4.53909 5.9533 4.53909 6.34383 4.92961L8.46515 7.05093C8.85567 7.44146 8.85567 8.07462 8.46515 8.46515C8.07462 8.85567 7.44146 8.85567 7.05093 8.46515L4.92961 6.34383C4.53909 5.9533 4.53909 5.32014 4.92961 4.92961Z" fill="currentColor" />
+    </svg>
+    <span>Async requests</span>
+  </h3>
+  <div class="body">
+    <p>Simulating async requests:</p>
+    <ul class="asyncTable">
+      <li><strong>JSON</strong> <a href="#" target="_blank"><code>/echo/json/</code></a></li>
+      <li><strong>JSONP</strong> <a href="#" target="_blank"><code>/echo/jsonp/</code></a></li>
+      <li><strong>HTML</strong> <a href="https://jsfiddle.net/6he52mnr/1/" target="_blank"><code>/echo/html/</code></a></li>
+      <li><strong>XML</strong> <a href="#" target="_blank"><code>/echo/xml/</code></a></li>
+    </ul>
+    <p>See <a href='https://jsfiddle.gitbook.io/help/async-requests' target='_new'>docs</a> for more info.</p>
+  </div> <!-- /body -->
+</div> <!-- /sidebarItem -->
+
+          <div class="sidebarItem si_changelog hidden">
+  <a class="showModalTrigger toggler" data-tippy-simple-content="Changelog" data-modal-id="modal-changelog">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+      <path opacity="0.4" d="M12.5564 1.25C14.3941 1.24998 15.8497 1.24997 16.989 1.40314C18.1614 1.56076 19.1103 1.89288 19.8587 2.64124C20.6071 3.38961 20.9392 4.33856 21.0968 5.51098C21.25 6.65018 21.2499 8.1058 21.2499 9.94354V9.94359V14.0564V14.0565C21.2499 15.8942 21.25 17.3498 21.0968 18.489C20.9392 19.6614 20.6071 20.6104 19.8587 21.3588C19.1103 22.1071 18.1614 22.4392 16.989 22.5969C15.8497 22.75 14.3941 22.75 12.5564 22.75H12.5563H11.4436H11.4435C9.60579 22.75 8.15016 22.75 7.01094 22.5969C5.83851 22.4392 4.88956 22.1071 4.14119 21.3587C3.39283 20.6104 3.06072 19.6614 2.9031 18.489C2.74994 17.3498 2.74997 15.8941 2.75 14.0564V14.0563L2.75004 9.94351C2.75004 8.10576 2.75004 6.65014 2.90321 5.51094C3.06085 4.33852 3.39297 3.38958 4.14133 2.64123C4.88969 1.89287 5.83863 1.56076 7.01105 1.40313C8.15025 1.24997 9.60587 1.24998 11.4436 1.25H11.4436H12.5563H12.5564Z" fill="currentColor" />
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M7 7C7 6.44772 7.44772 6 8 6H16C16.5523 6 17 6.44772 17 7C17 7.55228 16.5523 8 16 8H8C7.44772 8 7 7.55228 7 7ZM7 12C7 11.4477 7.44772 11 8 11H16C16.5523 11 17 11.4477 17 12C17 12.5523 16.5523 13 16 13H8C7.44772 13 7 12.5523 7 12ZM7 17C7 16.4477 7.44772 16 8 16L12 16C12.5523 16 13 16.4477 13 17C13 17.5523 12.5523 18 12 18L8 18C7.44771 18 7 17.5523 7 17Z" fill="currentColor" />
+    </svg>
+    <span>Changelog</span>
+  </a>
+</div> <!-- /sidebarItem -->
+
+
+            <div id="apps">
+              <h4>JSFiddle Apps</h4>
+
+              <ul>
+                <li>
+                  <a href="https://jsfiddle.net/coderfonts" class="showModalTrigger buttonCPG"
+                    data-modal-source="/coderfonts"
+                    data-modal-id="modal-coderfonts"
+                    data-tippy-simple-content="Coder Fonts">
+                    <svg width="38px" height="25px" viewBox="0 0 38 25">
+                      <g transform="translate(0, 3.65)" fill="#526250">
+                        <path d="M0,19.1835 L2.25225781,18.0912422 L1.13575781,19.69825 L6.44525,1.13686838e-13 L10.5245078,1.13686838e-13 L15.573,19.5797578 L14.4662422,18.0984922 L16.7185,19.19075 L16.7185,21.1652422 L9.74875781,21.1652422 L9.74875781,19.19075 L12.1462422,18.07425 L11.1482344,19.5797578 L7.82025781,5.5245 L7.72125,5.5245 L4.35249219,19.69825 L3.64199219,18.0790078 L6.03925,19.1835 L6.03925,21.17 L0,21.17 L0,19.1835 Z M4.45875,13.456 L12.1630078,13.456 L12.1630078,15.9887422 L4.45875,15.9887422 L4.45875,13.456 Z" id="Shape"></path>
+                      </g>
+                      <g transform="translate(19.7608, 3.65)" fill="#FB8C73">
+                        <path d="M12.615,21.17 L8.53800781,6.1045 L8.33025,6.1045 L4.34750781,21.17 L0,21.17 L6.26875781,1.13686838e-13 L10.8557422,1.13686838e-13 L17.197,21.17 L12.615,21.17 Z M3.65875781,13.34725 L13.8522578,13.34725 L13.8522578,16.4285 L3.65875781,16.4285 L3.65875781,13.34725 Z" id="Shape"></path>
+                      </g>
+                      <g transform="translate(9.8257, -0)" fill="#F6F0E5">
+                        <path d="M0,9.163 L5.00092188,1.13686838e-13 L11.1660781,1.13686838e-13 L16.167,9.163 L16.167,24.82 L11.1775,24.82 L11.1775,10.8574219 L7.446,3.04592188 L8.721,3.04592188 L4.9895,10.8685781 L4.9895,24.82 L0,24.82 L0,9.163 Z M3.15642187,15.6485 L13.4074219,15.6485 L13.4074219,19.2551563 L3.15642187,19.2551563 L3.15642187,15.6485 Z" id="Shape"></path>
+                      </g>
+                    </svg><span>Coder Fonts</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://jsfiddle.net/color-palette-generator" class="showModalTrigger buttonCPG"
+                    data-modal-source="/color-palette-generator"
+                    data-modal-id="modal-cpg"
+                    data-tippy-simple-content="Color Palette Generator">
+                    <svg width="38px" height="40px" viewBox="0 0 38 40"  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                      <g transform="translate(18.000000, 0.000000)" fill-rule="nonzero">
+                        <path d="M20,3 C20,1.447 18.552,0 17,0 L1,0 C0.448,0 0,0.447 0,1 L0,30 L20,30 L20,3 Z" fill="#F5EEE2"></path>
+                        <path d="M1,40 L17,40 C18.552,40 20,38.553 20,37 L20,30 L0,30 L0,39 C0,39.553 0.448,40 1,40 Z" fill="#E6E6E6"></path>
+                        <circle fill="#B3B3B3" cx="10" cy="35" r="3"></circle>
+                      </g>
+                      <g transform="translate(9.000000, 0.000000)" fill-rule="nonzero">
+                        <path d="M20,3 C20,1.447 18.552,0 17,0 L1,0 C0.448,0 0,0.447 0,1 L0,30 L20,30 L20,3 Z" fill="#FB7F64"></path>
+                        <path d="M1,40 L19,40 C19.552,40 20,39.553 20,39 L20,30 L0,30 L0,39 C0,39.553 0.448,40 1,40 Z" fill="#E6E6E6"></path>
+                        <circle fill="#B3B3B3" cx="10" cy="35" r="3"></circle>
+                      </g>
+                      <g fill-rule="nonzero">
+                        <path d="M20,3 C20,1.447 18.552,0 17,0 L3,0 C1.448,0 0,1.447 0,3 L0,30 L20,30 L20,3 Z" fill="#3E503C"></path>
+                        <path d="M3,40 L19,40 C19.552,40 20,39.553 20,39 L20,30 L0,30 L0,37 C0,38.553 1.448,40 3,40 Z" fill="#E6E6E6"></path>
+                        <circle fill="#B3B3B3" cx="10" cy="35" r="3"></circle>
+                      </g>
+                      <rect fill-opacity="0.05" fill="#000000" x="20" y="30" width="1" height="10"></rect>
+                      <rect fill-opacity="0.05" fill="#000000" x="29" y="30" width="1" height="10"></rect>
+                    </svg><span>Color Palette Generator</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://jsfiddle.net/css-flexbox-generator" class="showModalTrigger buttonCPG"
+                    data-modal-source="/css-flexbox-generator"
+                    data-modal-id="modal-flexbox"
+                    data-tippy-simple-content="CSS Flexbox Generator">
+                    <svg width="38px" height="40px" viewBox="0 0 38 40">
+                      <rect id="Rectangle" fill="#F5EEE2" x="0" y="0" width="8" height="7" rx="2"></rect>
+                      <rect id="Rectangle-Copy-15" fill="#3E503C" x="0" y="9" width="18" height="12" rx="2"></rect>
+                      <rect id="Rectangle-Copy-19" fill="#FB7F64" x="0" y="23" width="18" height="12" rx="2"></rect>
+                      <rect id="Rectangle-Copy-16" fill="#F5EEE2" x="10" y="0" width="8" height="7" rx="2"></rect>
+                      <rect id="Rectangle-Copy-20" fill="#FB7F64" x="20" y="23" width="8" height="6" rx="2"></rect>
+                      <rect id="Rectangle-Copy-14" fill="#F5EEE2" x="20" y="0" width="18" height="7" rx="2"></rect>
+                      <rect id="Rectangle-Copy-18" fill="#3E503C" x="20" y="9" width="18" height="12" rx="2"></rect>
+                      <rect id="Rectangle-Copy-21" fill="#FB7F64" x="30" y="23" width="8" height="6" rx="2"></rect>
+                    </svg><span>CSS Flexbox Generator</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+        </section>
+
+        <section id="sidebar-user">
+            <ul class="commonActions">
+              <li>
+                <a data-spec-desc="login-link" href="/user/login/">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor" ><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></g></svg>
+                  <span>Sign in</span>
+                </a>
+              </li>
+            </ul>
+        </section>
+
+          <section id="sidebar-footer">
+            <div class="twitterCont">
+    <!-- <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=jsfiddlenet" id="_carbonads_js"></script> -->
+    <!-- <script type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIEKQ7&placement=jsfiddlenet" id="_carbonads_js"></script> -->
+    <script type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CW7DC2JY&placement=jsfiddlenet&format=cover" id="_carbonads_js"></script>
+    <!-- demo cover: CWYIC2QJ \ demo classic: C6AILKT \ live: CW7DC2JY -->
+  <div id="ethical-sponsor" data-ea-publisher="jsfiddlenet" data-ea-manual="true" data-ea-verbosity="quiet"></div>
+</div>
+
+<style id="temp-ad">
+</style>
+
+<script>
+
+let tempad = ``
+
+if (window.location.hash != "#nostyle"){
+  //let style = document.querySelector('#temp-ad')
+  //style.innerHTML = tempad
+}
+
+</script>
+
+<style>
+  #sidebar #carbon-responsive .carbon-responsive-wrap {
+    border: 0
+  }
+
+  #carbon-responsive .carbon-poweredby,
+  #carbon-cover .carbon-footer {
+    display: none;
+  }
+
+  #carbon-responsive .carbon-text {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  #carbon-responsive .carbon-responsive-wrap {
+    background-color: initial;
+    border: initial;
+  }
+
+  #carbon-responsive a, #carbon-responsive a:hover {
+    color: inherit;
+  }
+
+  #carbon-responsive .carbon-poweredby {
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-transform: uppercase;
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: .2ch;
+    border-left: solid 1px var(--common-border);
+    border-bottom: solid 1px var(--common-border);
+    border-bottom-left-radius: 3px;
+    padding: 1ex 1.5ch;
+  }
+
+  #carbon-cover>a:first-child {
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    border-radius: 0;
+  }
+
+  #carbon-cover a .carbon-large-image,
+  #carbon-cover a:hover .carbon-large-image {
+    width: 35% !important;
+  }
+
+  #carbon-cover a:hover .carbon-large-image {
+    width: 100% !important;
+  }
+
+  #carbon-cover .carbon-tagline {
+    max-inline-size: initial;
+  }
+
+  #carbon-cover .carbon-text {
+    height: initial;
+  }
+
+  #carbon-cover .carbon-logo img {
+    width: 40%;
+  }
+
+  #carbon-cover .carbon-description {
+    height: 0;
+  }
+
+  #carbon-cover:hover .carbon-description {
+    height: initial;
+    margin-bottom: 1em;
+  }
+
+  #carbon-cover .carbon-footer {
+    margin: 1ex 1ch;
+    max-width: max-content;
+  }
+</style>
+          </section>
+      </aside> <!-- #sidebar -->
+
+      <main id="content">
+        <div id="editor"></div>
+
+<div id="problem-banner"></div>
+
+      </main> <!-- #content -->
+
+      <div class="modalBody hasHeader commonLayout mediumModal" id="modal-panel-options">
+  <div class="modalApp">
+    <header>
+      <h1>Code panel options</h1>
+      <h2>Change code languages, preprocessors and plugins</h2>
+    </header>
+    <main class="modalContent">
+
+      <div id="modal-top-menu">
+        <ul class="commonActions">
+          <li>
+            <label class="fxLink">
+              <input id="panel-settings-section-html" type="radio" name="modalTopMenu" value="1" checked>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+                <path opacity="0.3" d="M16.326 2.25C17.359 2.24997 18.2153 2.24994 18.8841 2.34627C19.5877 2.44761 20.2181 2.6721 20.6833 3.22714C21.1465 3.77985 21.2624 4.44172 21.249 5.15733C21.2361 5.84111 21.1001 6.69801 20.9352 7.7363L19.5518 16.4526C19.4001 17.4078 19.1964 18.183 18.7028 18.8047C18.2074 19.4287 17.4982 19.8003 16.5912 20.1548L13.6974 21.2858L13.5922 21.327C12.9918 21.5623 12.5129 21.75 12 21.75C11.4871 21.75 11.0082 21.5623 10.4078 21.327L10.4078 21.327L10.3026 21.2858L7.40879 20.1548C6.50182 19.8003 5.79259 19.4287 5.29715 18.8047C4.80361 18.183 4.59985 17.4078 4.44824 16.4526L3.06474 7.73624C2.89992 6.69797 2.76389 5.8411 2.75102 5.15733C2.73756 4.44172 2.85348 3.77985 3.3167 3.22714C3.78187 2.6721 4.41229 2.44761 5.1159 2.34627C5.78474 2.24994 6.64101 2.24997 7.67398 2.25H7.67401H16.326H16.326Z" fill="currentColor" />
+                <path d="M10.0269 7C9.77907 7 9.51005 7.0115 9.25813 7.06737C8.99694 7.12529 8.67847 7.24735 8.41894 7.52632C8.15803 7.80676 8.05936 8.13523 8.02236 8.40473C7.98689 8.66311 7.99905 8.93419 8.02145 9.18257L8.20243 11.1896C8.2348 11.5485 8.30216 12.1624 8.77232 12.5858C9.23758 13.0048 9.85209 13.0141 10.2079 13.0141L12.9304 13.0141C13.1388 13.0141 13.243 13.0141 13.3027 13.0806C13.3623 13.1472 13.3509 13.2507 13.328 13.4579L13.2072 14.5538L11.9594 14.9732L10.6624 14.5373C10.5238 14.0493 10.035 13.7362 9.52495 13.8273C8.98127 13.9244 8.61922 14.4438 8.71629 14.9875C8.76163 15.2414 8.85139 15.579 9.10768 15.8777C9.36411 16.1766 9.68609 16.3191 9.94161 16.405L11.3152 16.8666L11.3467 16.8773L11.3532 16.8795C11.4743 16.921 11.705 17 11.9594 17C12.2139 17 12.4445 16.921 12.5656 16.8795L12.5725 16.8772L12.6046 16.8663L13.8399 16.4511C13.9762 16.4053 14.1424 16.3495 14.2869 16.2827C14.4444 16.2098 14.6567 16.0892 14.8347 15.8695C15.0134 15.649 15.0872 15.4157 15.1254 15.2452C15.1603 15.0897 15.1795 14.9158 15.195 14.7745L15.3646 13.236C15.3924 12.9839 15.4101 12.7093 15.379 12.4474C15.3468 12.1747 15.2527 11.8392 14.9904 11.5517C14.7296 11.2658 14.4062 11.1414 14.1426 11.0826C13.8879 11.0258 13.6151 11.0141 13.3631 11.0141L10.5603 11.014C10.3867 11.014 10.2999 11.014 10.2426 10.9617C10.1853 10.9093 10.1775 10.8229 10.1619 10.65L10.0524 9.43594C10.034 9.2321 10.0248 9.13018 10.0843 9.0651C10.1438 9.00002 10.2461 9.00002 10.4508 9.00002L15 9C15.5523 9 16 8.55228 16 8C16 7.44771 15.5523 7 15 7H10.0269Z" fill="currentColor" />
+              </svg>
+              <span>HTML</span>
+            </label>
+          </li>
+          <li>
+            <label class="fxLink">
+              <input id="panel-settings-section-js" type="radio" name="modalTopMenu" value="2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+                <path opacity="0.3" d="M12.0572 1.75C14.2479 1.74999 15.9686 1.74998 17.312 1.93059C18.6886 2.11568 19.7809 2.50272 20.6391 3.36091C21.4973 4.21911 21.8843 5.31137 22.0694 6.68802C22.25 8.03144 22.25 9.7521 22.25 11.9428V11.9428V12.0572V12.0572C22.25 14.2479 22.25 15.9686 22.0694 17.312C21.8843 18.6886 21.4973 19.7809 20.6391 20.6391C19.7809 21.4973 18.6886 21.8843 17.312 22.0694C15.9686 22.25 14.2479 22.25 12.0572 22.25H12.0572H11.9428H11.9428C9.7521 22.25 8.03144 22.25 6.68802 22.0694C5.31137 21.8843 4.21911 21.4973 3.36091 20.6391C2.50272 19.7809 2.11568 18.6886 1.93059 17.312C1.74998 15.9686 1.74999 14.2479 1.75 12.0572V11.9428C1.74999 9.75212 1.74998 8.03144 1.93059 6.68802C2.11568 5.31137 2.50272 4.21911 3.36091 3.36091C4.21911 2.50272 5.31137 2.11568 6.68802 1.93059C8.03144 1.74998 9.75212 1.74999 11.9428 1.75H12.0572Z" fill="currentColor" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7326 11.25C12.1468 11.25 12.4826 11.5858 12.4826 12V16C12.4826 17.5188 11.2513 18.75 9.73256 18.75C8.71373 18.75 7.82528 18.1956 7.35092 17.3755C7.14351 17.017 7.26603 16.5582 7.62458 16.3508C7.98313 16.1434 8.44192 16.2659 8.64933 16.6245C8.86659 17 9.27083 17.25 9.73256 17.25C10.4229 17.25 10.9826 16.6904 10.9826 16V12C10.9826 11.5858 11.3183 11.25 11.7326 11.25Z" fill="currentColor" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9844 13.5C13.9844 12.2574 14.9917 11.25 16.2344 11.25H16.7344C17.7532 11.25 18.6417 11.8044 19.116 12.6245C19.3234 12.983 19.2009 13.4418 18.8424 13.6492C18.4838 13.8566 18.025 13.7341 17.8176 13.3755C17.6003 13 17.1961 12.75 16.7344 12.75H16.2344C15.8202 12.75 15.4844 13.0858 15.4844 13.5C15.4844 13.9142 15.8202 14.25 16.2344 14.25H17.2344C18.477 14.25 19.4844 15.2574 19.4844 16.5C19.4844 17.7426 18.477 18.75 17.2344 18.75H16.7344C15.7155 18.75 14.8271 18.1956 14.3527 17.3755C14.1453 17.017 14.2678 16.5582 14.6264 16.3508C14.9849 16.1434 15.4437 16.2659 15.6511 16.6245C15.8684 17 16.2726 17.25 16.7344 17.25H17.2344C17.6486 17.25 17.9844 16.9142 17.9844 16.5C17.9844 16.0858 17.6486 15.75 17.2344 15.75H16.2344C14.9917 15.75 13.9844 14.7426 13.9844 13.5Z" fill="currentColor" />
+              </svg>
+              <span>JavaScript</span>
+            </label>
+          </li>
+          <li>
+            <label class="fxLink">
+              <input id="panel-settings-section-css" type="radio" name="modalTopMenu" value="3">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+                <path opacity="0.3" d="M12.0572 1.75C14.2479 1.74999 15.9686 1.74998 17.312 1.93059C18.6886 2.11568 19.7809 2.50272 20.6391 3.36091C21.4973 4.21911 21.8843 5.31137 22.0694 6.68802C22.25 8.03144 22.25 9.7521 22.25 11.9428V11.9428V12.0572V12.0572C22.25 14.2479 22.25 15.9686 22.0694 17.312C21.8843 18.6886 21.4973 19.7809 20.6391 20.6391C19.7809 21.4973 18.6886 21.8843 17.312 22.0694C15.9686 22.25 14.2479 22.25 12.0572 22.25H12.0572H11.9428H11.9428C9.7521 22.25 8.03144 22.25 6.68802 22.0694C5.31137 21.8843 4.21911 21.4973 3.36091 20.6391C2.50272 19.7809 2.11568 18.6886 1.93059 17.312C1.74998 15.9686 1.74999 14.2479 1.75 12.0572V11.9428C1.74999 9.75212 1.74998 8.03144 1.93059 6.68802C2.11568 5.31137 2.50272 4.21911 3.36091 3.36091C4.21911 2.50272 5.31137 2.11568 6.68802 1.93059C8.03144 1.74998 9.75212 1.74999 11.9428 1.75H12.0572Z" fill="currentColor" />
+                <path d="M15.25 8C15.25 7.58579 15.5858 7.25 16 7.25C17.0473 7.25 17.8655 8.11469 17.8655 9.14286V10.3838C17.8655 10.4937 17.9083 10.5956 17.979 10.668L18.3733 11.0721C18.8756 11.5866 18.8755 12.4134 18.3733 12.9279L17.979 13.332C17.9083 13.4043 17.8655 13.5063 17.8655 13.6162V14.8571C17.8655 15.8853 17.0473 16.75 16 16.75C15.5858 16.75 15.25 16.4142 15.25 16C15.25 15.5858 15.5858 15.25 16 15.25C16.1849 15.25 16.3655 15.0913 16.3655 14.8571V13.6162C16.3655 13.12 16.5578 12.6405 16.9055 12.2843L17.183 12L16.9055 11.7157C16.5578 11.3595 16.3655 10.88 16.3655 10.3838V9.14286C16.3655 8.90866 16.1849 8.75 16 8.75C15.5858 8.75 15.25 8.41421 15.25 8Z" fill="currentColor" />
+                <path d="M8.75 8C8.75 7.58579 8.41421 7.25 8 7.25C6.95269 7.25 6.13448 8.11469 6.13448 9.14286V10.3838C6.13448 10.4937 6.09167 10.5956 6.02105 10.668L5.62665 11.0721C5.12445 11.5866 5.12445 12.4134 5.62665 12.9279L6.02105 13.332C6.09167 13.4043 6.13448 13.5063 6.13448 13.6162V14.8571C6.13448 15.8853 6.95269 16.75 8 16.75C8.41421 16.75 8.75 16.4142 8.75 16C8.75 15.5858 8.41421 15.25 8 15.25C7.81515 15.25 7.63448 15.0913 7.63448 14.8571V13.6162C7.63448 13.12 7.44224 12.6405 7.09447 12.2843L6.81702 12L7.09447 11.7157C7.44224 11.3595 7.63448 10.88 7.63448 10.3838V9.14286C7.63448 8.90866 7.81515 8.75 8 8.75C8.41421 8.75 8.75 8.41421 8.75 8Z" fill="currentColor" />
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M9 12C9 11.4477 9.44772 11 10 11H10.009C10.5612 11 11.009 11.4477 11.009 12C11.009 12.5523 10.5612 13 10.009 13H10C9.44772 13 9 12.5523 9 12ZM12.991 12C12.991 11.4477 13.4388 11 13.991 11H14C14.5523 11 15 11.4477 15 12C15 12.5523 14.5523 13 14 13H13.991C13.4388 13 12.991 12.5523 12.991 12Z" fill="currentColor" />
+              </svg>
+              <span>CSS</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+
+      <div id="panel-options-tabs">
+        <div class="windowSettings html" data-panel="html">
+          <section>
+  <h3>Language</h3>
+  <ul class="multiRadioCont commonActions smallActions">
+      <li>
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_html"
+          data-panel_id="id_code_html"
+          data-panel="html"
+          data-panel-name="HTML"
+          data-editor-language="html"
+          value="0" checked>
+          <span>HTML</span>
+        </label>
+      </li>
+      <li>
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_html"
+          data-panel_id="id_code_html"
+          data-panel="html"
+          data-panel-name="HAML"
+          data-editor-language="html"
+          value="1" >
+          <span>HAML</span>
+        </label>
+      </li>
+  </ul> <!-- /multiRadioCont -->
+</section>
+
+<section>
+  <h3>Doctype</h3>
+  <div class="selectCont">
+    <select name="doctype">
+        <option  id="dtd_XHTML 1.0 Strict" value="1">XHTML 1.0 Strict</option>
+        <option  id="dtd_XHTML 1.0 Transitional" value="2">XHTML 1.0 Transitional</option>
+        <option selected id="dtd_HTML 5" value="3">HTML 5</option>
+        <option  id="dtd_HTML 4.01 Strict" value="4">HTML 4.01 Strict</option>
+        <option  id="dtd_HTML 4.01 Transitional" value="5">HTML 4.01 Transitional</option>
+        <option  id="dtd_HTML 4.01 Frameset" value="6">HTML 4.01 Frameset</option>
+    </select>
+    <label>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+    </label>
+  </div>
+</section>
+
+<section>
+  <h3>Body tag</h3>
+  <div class="fieldCont">
+    <input id="id_body_tag" type="text" name="body_tag" maxlength="255" value="">
+  </div>
+</section>
+
+<input id="id_body_tag" type="hidden" name="body_tag" maxlength="255" value="">
+        </div> <!-- /windowSettings -->
+
+        <div class="windowSettings js" data-panel="js">
+          <section>
+  <h3>Language</h3>
+  <ul class="multiRadioCont commonActions smallActions">
+      <li >
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_js"
+          data-panel_id="id_code_js"
+          data-panel="js"
+          data-panel-name="JavaScript"
+          data-editor-language="javascript"
+          value="0" checked>
+          <span>JavaScript</span>
+        </label>
+      </li>
+      <li >
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_js"
+          data-panel_id="id_code_js"
+          data-panel="js"
+          data-panel-name="CoffeeScript"
+          data-editor-language="coffeescript"
+          value="1" >
+          <span>CoffeeScript</span>
+        </label>
+      </li>
+      <li style=display:none>
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_js"
+          data-panel_id="id_code_js"
+          data-panel="js"
+          data-panel-name="JavaScript 1.7"
+          data-editor-language="javascript"
+          value="2" >
+          <span>JavaScript 1.7</span>
+        </label>
+      </li>
+      <li >
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_js"
+          data-panel_id="id_code_js"
+          data-panel="js"
+          data-panel-name="Babel + JSX"
+          data-editor-language="javascript"
+          value="3" >
+          <span>Babel + JSX</span>
+        </label>
+      </li>
+      <li >
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_js"
+          data-panel_id="id_code_js"
+          data-panel="js"
+          data-panel-name="TypeScript"
+          data-editor-language="typescript"
+          value="4" >
+          <span>TypeScript</span>
+        </label>
+      </li>
+      <li >
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_js"
+          data-panel_id="id_code_js"
+          data-panel="js"
+          data-panel-name="CoffeeScript 2"
+          data-editor-language="coffeescript"
+          value="5" >
+          <span>CoffeeScript 2</span>
+        </label>
+      </li>
+      <li >
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_js"
+          data-panel_id="id_code_js"
+          data-panel="js"
+          data-panel-name="Vue"
+          data-editor-language="javascript"
+          value="6" >
+          <span>Vue</span>
+        </label>
+      </li>
+      <li >
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_js"
+          data-panel_id="id_code_js"
+          data-panel="js"
+          data-panel-name="React"
+          data-editor-language="javascript"
+          value="7" >
+          <span>React</span>
+        </label>
+      </li>
+      <li >
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_js"
+          data-panel_id="id_code_js"
+          data-panel="js"
+          data-panel-name="Preact"
+          data-editor-language="javascript"
+          value="8" >
+          <span>Preact</span>
+        </label>
+      </li>
+  </ul> <!-- /multiRadioCont -->
+</section>
+
+<section>
+  <h3>Extensions</h3>
+  <div class="panelExtrasChoice">
+    <div class="selectCont">
+      <select name="js_lib" id="js_lib">
+          <optgroup label="Alpine.js">
+            <option value="409" >Alpine.js 2.1.2</option>
+          <optgroup label="AngularJS">
+            <option value="137" >AngularJS 1.1.1</option>
+            <option value="180" >AngularJS 1.2.1</option>
+            <option value="283" >AngularJS 1.4.8</option>
+            <option value="281" >AngularJS 2.0.0-alpha.47</option>
+          <optgroup label="Bonsai">
+            <option value="120" >Bonsai 0.4.1</option>
+          <optgroup label="Brick">
+            <option value="176" >Brick edge</option>
+          <optgroup label="CreateJS">
+            <option value="170" >CreateJS 2013.09.25</option>
+            <option value="279" >CreateJS 2015.05.21</option>
+          <optgroup label="D3">
+            <option value="134" >D3 3.x</option>
+            <option value="386" >D3 4.13.0</option>
+            <option value="397" >D3 5.9.2</option>
+          <optgroup label="Dojo">
+            <option value="87" >Dojo (nightly)</option>
+            <option value="372" >Dojo 1.4.8</option>
+            <option value="370" >Dojo 1.5.6</option>
+            <option value="368" >Dojo 1.6.5</option>
+            <option value="366" >Dojo 1.7.12</option>
+            <option value="364" >Dojo 1.8.14</option>
+            <option value="362" >Dojo 1.9.11</option>
+            <option value="360" >Dojo 1.10.8</option>
+            <option value="358" >Dojo 1.11.4</option>
+            <option value="356" >Dojo 1.12.2</option>
+          <optgroup label="Ember">
+            <option value="190" >Ember (latest)</option>
+          <optgroup label="Enyo">
+            <option value="115" >Enyo (nightly)</option>
+            <option value="116" >Enyo 2.0.1</option>
+            <option value="121" >Enyo 2.1</option>
+            <option value="145" >Enyo 2.2.0</option>
+            <option value="214" >Enyo 2.4.0</option>
+            <option value="238" >Enyo 2.5.1</option>
+            <option value="299" >Enyo 2.7.0</option>
+          <optgroup label="ExtJS">
+            <option value="23" >ExtJS 3.1.0</option>
+            <option value="109" >ExtJS 3.4.0</option>
+            <option value="107" >ExtJS 4.1.0</option>
+            <option value="80" >ExtJS 4.1.1</option>
+            <option value="147" >ExtJS 4.2.0</option>
+            <option value="258" >ExtJS 5.0.0</option>
+            <option value="256" >ExtJS 5.1.0</option>
+            <option value="338" >ExtJS 6.2.0</option>
+          <optgroup label="FabricJS">
+            <option value="250" >FabricJS 1.5.0</option>
+            <option value="342" >FabricJS 1.7.7</option>
+            <option value="378" >FabricJS 1.7.15</option>
+            <option value="380" >FabricJS 1.7.20</option>
+          <optgroup label="Glow">
+          <optgroup label="Inferno">
+            <option value="336" >Inferno 1.0.0-beta9</option>
+          <optgroup label="JSBlocks">
+            <option value="252" >JSBlocks (edge)</option>
+          <optgroup label="KineticJS">
+            <option value="124" >KineticJS 4.0.5</option>
+            <option value="139" >KineticJS 4.3.1</option>
+          <optgroup label="Knockout.js">
+            <option value="104" >Knockout.js 2.0.0</option>
+            <option value="117" >Knockout.js 2.1.0</option>
+            <option value="122" >Knockout.js 2.2.1</option>
+            <option value="163" >Knockout.js 2.3.0</option>
+            <option value="172" >Knockout.js 3.0.0</option>
+            <option value="388" >Knockout.js 3.4.2</option>
+          <optgroup label="Lo-Dash">
+            <option value="167" >Lo-Dash 2.2.1</option>
+          <optgroup label="Minified">
+            <option value="164" >Minified 1.0 beta1</option>
+          <optgroup label="MithrilJS">
+            <option value="273" >MithrilJS 0.2.0</option>
+            <option value="390" >MithrilJS 1.1.6</option>
+          <optgroup label="Mootools">
+            <option value="59" >Mootools (nightly)</option>
+            <option value="62" >Mootools 1.3.2</option>
+            <option value="63" >Mootools 1.3.2 (compat)</option>
+            <option value="95" >Mootools 1.4.5</option>
+            <option value="96" >Mootools 1.4.5 (compat)</option>
+            <option value="216" >Mootools 1.5.1</option>
+            <option value="263" >Mootools 1.5.2</option>
+            <option value="329" >Mootools 1.5.2 (compat)</option>
+            <option value="325" >Mootools 1.6.0</option>
+            <option value="327" >Mootools 1.6.0 (compat)</option>
+          <optgroup label="No-Library">
+            <option value="11" selected>No-Library (pure JS)</option>
+          <optgroup label="OpenUI5">
+            <option value="271" >OpenUI5 (latest, mobile)</option>
+          <optgroup label="Paper.js">
+            <option value="158" >Paper.js 0.22</option>
+          <optgroup label="Pixi">
+            <option value="315" >Pixi 3.0.11</option>
+            <option value="331" >Pixi 4.0.0</option>
+          <optgroup label="Processing.js">
+            <option value="67" >Processing.js 1.2.3</option>
+            <option value="81" >Processing.js 1.3.6</option>
+            <option value="135" >Processing.js 1.4.1</option>
+            <option value="206" >Processing.js 1.4.7</option>
+          <optgroup label="Prototype">
+            <option value="4" >Prototype 1.6.1.0</option>
+            <option value="265" >Prototype 1.7.3</option>
+          <optgroup label="RactiveJS">
+            <option value="287" >RactiveJS 0.7.3</option>
+          <optgroup label="Raphael">
+            <option value="30" >Raphael 1.4</option>
+            <option value="36" >Raphael 1.5.2</option>
+            <option value="76" >Raphael 2.1.0</option>
+          <optgroup label="React">
+            <option value="159" >React 0.3.2</option>
+            <option value="166" >React 0.4.0</option>
+            <option value="184" >React 0.8.0</option>
+            <option value="192" >React 0.9.0</option>
+            <option value="285" >React 0.14.3</option>
+          <optgroup label="RightJS">
+            <option value="45" >RightJS 2.1.1</option>
+            <option value="136" >RightJS 2.3.1</option>
+          <optgroup label="Riot">
+            <option value="382" >Riot 3.7.4</option>
+          <optgroup label="Shipyard">
+            <option value="99" >Shipyard (nightly)</option>
+            <option value="105" >Shipyard 0.2</option>
+          <optgroup label="Thorax">
+            <option value="143" >Thorax 2.0.0rc3</option>
+            <option value="174" >Thorax 2.0.0rc6</option>
+          <optgroup label="Three.js">
+            <option value="82" >Three.js r54</option>
+            <option value="399" >Three.js 105</option>
+          <optgroup label="Underscore">
+            <option value="111" >Underscore 1.3.3</option>
+            <option value="133" >Underscore 1.4.3</option>
+            <option value="160" >Underscore 1.4.4</option>
+            <option value="267" >Underscore 1.8.3</option>
+          <optgroup label="Vue">
+            <option value="236" >Vue (edge)</option>
+            <option value="289" >Vue 1.0.12</option>
+            <option value="344" >Vue 2.2.1</option>
+          <optgroup label="WebApp Install">
+            <option value="142" >WebApp Install 0.1</option>
+          <optgroup label="XTK">
+            <option value="106" >XTK edge</option>
+          <optgroup label="YUI">
+            <option value="9" >YUI 2.8.0r4</option>
+            <option value="102" >YUI 3.5.0</option>
+            <option value="118" >YUI 3.6.0</option>
+            <option value="123" >YUI 3.7.3</option>
+            <option value="130" >YUI 3.8.0</option>
+            <option value="153" >YUI 3.10.1</option>
+            <option value="182" >YUI 3.14.0</option>
+            <option value="204" >YUI 3.16.0</option>
+            <option value="230" >YUI 3.17.2</option>
+          <optgroup label="Zepto">
+            <option value="90" >Zepto 1.0rc1</option>
+          <optgroup label="jQuery">
+            <option value="46" >jQuery (edge)</option>
+            <option value="131" >jQuery 1.9.1</option>
+            <option value="248" >jQuery 2.1.3</option>
+            <option value="319" >jQuery 2.2.4</option>
+            <option value="376" >jQuery 3.2.1</option>
+            <option value="384" >jQuery 3.3.1</option>
+            <option value="401" >jQuery 3.4.1</option>
+          <optgroup label="jQuery Slim">
+            <option value="407" >jQuery Slim 3.2.1</option>
+            <option value="405" >jQuery Slim 3.3.1</option>
+            <option value="403" >jQuery Slim 3.4.1</option>
+          <optgroup label="jTypes">
+            <option value="165" >jTypes 2.1.0</option>
+          <optgroup label="qooxdoo">
+            <option value="127" >qooxdoo 2.0.3</option>
+            <option value="126" >qooxdoo 2.1</option>
+          <optgroup label="svg.js">
+            <option value="395" >svg.js 2.6.5</option>
+            <option value="393" >svg.js 2.7.1</option>
+            <option value="391" >svg.js 3.0.5</option>
+      </select>
+      <label>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+      </label>
+    </div>
+
+    <ul id="js_dependency">
+      
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h3><code>script</code> attribute</h3>
+  <label>
+    <div class="fieldCont">
+      <input id="id_js_lib_option" type="text" name="js_lib_option" maxlength="255" placeholder='ie. data-type=""' value="">
+    </div>
+  </label>
+</section>
+
+        </div> <!-- /windowSettings -->
+
+        <div class="windowSettings css" data-panel="css">
+          <section>
+  <h3>Language</h3>
+  <ul class="multiRadioCont commonActions smallActions">
+      <li>
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_css"
+          data-panel_id="id_code_css"
+          data-panel="html"
+          data-panel-name="CSS"
+          data-editor-language="css"
+          value="0" checked>
+          <span>CSS</span>
+        </label>
+      </li>
+      <li>
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_css"
+          data-panel_id="id_code_css"
+          data-panel="html"
+          data-panel-name="SCSS"
+          data-editor-language="scss"
+          value="1" >
+          <span>SCSS</span>
+        </label>
+      </li>
+      <li>
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_css"
+          data-panel_id="id_code_css"
+          data-panel="html"
+          data-panel-name="SASS"
+          data-editor-language="scss"
+          value="2" >
+          <span>SASS</span>
+        </label>
+      </li>
+      <li>
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_css"
+          data-panel_id="id_code_css"
+          data-panel="html"
+          data-panel-name="PostCSS (Stage 0+)"
+          data-editor-language="scss"
+          value="4" >
+          <span>PostCSS (Stage 0+)</span>
+        </label>
+      </li>
+      <li>
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_css"
+          data-panel_id="id_code_css"
+          data-panel="html"
+          data-panel-name="PostCSS (Stage 3+)"
+          data-editor-language="scss"
+          value="5" >
+          <span>PostCSS (Stage 3+)</span>
+        </label>
+      </li>
+      <li>
+        <label class="fxLink">
+          <input class="panelChoice" type="radio" name="panel_css"
+          data-panel_id="id_code_css"
+          data-panel="html"
+          data-panel-name="Tailwind CSS"
+          data-editor-language="css"
+          value="6" >
+          <span>Tailwind CSS</span>
+        </label>
+      </li>
+  </ul> <!-- /multiRadioCont -->
+</section>
+
+<section>
+  <!-- <h3>Options</h3> -->
+  <h3>Reset CSS</h3>
+  <label class="checkboxCont">
+    <input type="checkbox" name="normalize_css" id="id_normalize_css" value="1" />
+    <span class="checkbox"></span>
+  </label>
+</section>
+
+
+        </div> <!-- /windowSettings -->
+      </div>
+    </main>
+    <a class="closeModal" data-act-as="close-modal" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linecap="round" class="nc-icon-wrapper" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></g></svg></a>
+  </div>
+</div>
+
+      <div id="code-all" style="position:absolute;bottom:0;right:0;display:none">
+        <textarea name="code_html" id="textarea-code-html">&lt;div class=&quot;well&quot;&gt;
+  &lt;form action=&quot;/person.php&quot; method=&quot;post&quot;&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+      &lt;label for=&quot;firstname&quot;&gt;First Name&lt;/label&gt;
+      &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;firstname&quot; placeholder=&quot;Enter your first name&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+      &lt;label for=&quot;lastname&quot;&gt;Last Name&lt;/label&gt;
+      &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;lastname&quot; placeholder=&quot;Enter your last name&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+      &lt;label&gt;Gender&lt;/label&gt;
+      &lt;label class=&quot;checkbox-inline&quot;&gt;
+        &lt;input type=&quot;radio&quot; name=&quot;gender&quot; id=&quot;male&quot; value=&quot;male&quot;&gt;
+        Male
+      &lt;/label&gt;
+      &lt;label class=&quot;checkbox-inline&quot;&gt;
+        &lt;input type=&quot;radio&quot; name=&quot;gender&quot; id=&quot;female&quot; value=&quot;female&quot;&gt;
+        Female
+      &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;input type=&quot;submit&quot; class=&quot;btn btn-primary&quot; value=&quot;Submit&quot;&gt;
+  &lt;/form&gt;
+&lt;/div&gt;</textarea>
+        <textarea name="code_css" id="textarea-code-css"></textarea>
+        <textarea name="code_js" id="textarea-code-js"></textarea>
+      </div>
+    </form>
+
+    
+    <ul id="flash-messages" class="draft hidden">
+  <li class="warning">
+    <?xml version="1.0" encoding="UTF-8"?><svg version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke-linecap="round" stroke-width="2" fill="none" stroke-linejoin="round"><polyline points="23,4 23,10 17,10"></polyline><path d="M20.49 15l8.16053e-09-2.30983e-08c-1.65578 4.68667-6.79735 7.1437-11.484 5.48792 -4.68667-1.65578-7.1437-6.79735-5.48792-11.484 1.65578-4.68667 6.79735-7.1437 11.484-5.48792 1.26714.447675 2.41794 1.17344 3.36792 2.12402l4.63 4.36"></path></g></svg>
+    This fiddle has previously unsaved changes.
+    <span class="flashActions">
+      <a id="apply-draft" href="#">Apply changes</a>
+      <a id="discard-draft" href="#">Discard</a>
+    </span>
+  </li>
+</ul>
+
+
+    <div id="modal-overlay"></div>
+
+    <div class="modalBody hasHeader" id="modal-cpg">
+  <div class="modalApp">
+    <header>
+      <h1>Color Palette Generator</h1>
+      <h2>Generate a cool color palette with a few clicks</h2>
+      <div class="loader-linear"></div>
+    </header>
+    <main class="modalContent">
+      <iframe frameborder="0"
+        allowtransparency="true"
+        sandbox="allow-downloads allow-forms allow-modals allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-clipboard-read allow-clipboard-write"
+        sandbox="allow-scripts allow-same-origin"></iframe>
+    </main>
+    <a class="external" href="https://jsfiddle.net/color-palette-generator" target="_blank" data-tippy-simple-content="Open in a new tab"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" color="currentColor" fill="none">
+      <path d="M11.1004 3.00208C7.4515 3.00864 5.54073 3.09822 4.31962 4.31931C3.00183 5.63706 3.00183 7.75796 3.00183 11.9997C3.00183 16.2415 3.00183 18.3624 4.31962 19.6801C5.6374 20.9979 7.75836 20.9979 12.0003 20.9979C16.2421 20.9979 18.3631 20.9979 19.6809 19.6801C20.902 18.4591 20.9916 16.5484 20.9982 12.8996" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M20.4803 3.51751L14.931 9.0515M20.4803 3.51751C19.9863 3.023 16.6587 3.0691 15.9552 3.0791M20.4803 3.51751C20.9742 4.01202 20.9282 7.34329 20.9182 8.04754" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg></a>
+    <a class="closeModal" data-act-as="close-modal" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linecap="round" class="nc-icon-wrapper" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></g></svg></a>
+  </div>
+</div>
+
+    <div class="modalBody hasHeader" id="modal-flexbox">
+  <div class="modalApp">
+    <header>
+      <h1>CSS Flexbox Generator</h1>
+      <h2>Generate your CSS Flexbox layout in the simplest of ways</h2>
+      <div class="loader-linear"></div>
+    </header>
+    <main class="modalContent">
+      <iframe frameborder="0"
+        allowtransparency="true"
+        sandbox="allow-downloads allow-forms allow-modals allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-clipboard-read allow-clipboard-write"
+        sandbox="allow-scripts allow-same-origin"></iframe>
+    </main>
+    <a class="external" href="https://jsfiddle.net/css-flexbox-generator" target="_blank" data-tippy-simple-content="Open in a new tab"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" color="currentColor" fill="none">
+      <path d="M11.1004 3.00208C7.4515 3.00864 5.54073 3.09822 4.31962 4.31931C3.00183 5.63706 3.00183 7.75796 3.00183 11.9997C3.00183 16.2415 3.00183 18.3624 4.31962 19.6801C5.6374 20.9979 7.75836 20.9979 12.0003 20.9979C16.2421 20.9979 18.3631 20.9979 19.6809 19.6801C20.902 18.4591 20.9916 16.5484 20.9982 12.8996" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M20.4803 3.51751L14.931 9.0515M20.4803 3.51751C19.9863 3.023 16.6587 3.0691 15.9552 3.0791M20.4803 3.51751C20.9742 4.01202 20.9282 7.34329 20.9182 8.04754" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg></a>
+    <a class="closeModal" data-act-as="close-modal" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linecap="round" class="nc-icon-wrapper" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></g></svg></a>
+  </div>
+</div>
+
+    <div class="modalBody hasHeader" id="modal-coderfonts">
+  <div class="modalApp">
+    <header>
+      <h1>Coder Fonts</h1>
+      <h2>Curated list of quality monospace fonts for coders</h2>
+      <div class="loader-linear"></div>
+    </header>
+    <main class="modalContent">
+      <iframe frameborder="0"
+        allowtransparency="true"
+        sandbox="allow-downloads allow-forms allow-modals allow-same-origin allow-scripts allow-top-navigation-by-user-activation allow-clipboard-read allow-clipboard-write"
+        sandbox="allow-scripts allow-same-origin"></iframe>
+    </main>
+    <a class="external" href="https://jsfiddle.net/coderfonts" target="_blank" data-tippy-simple-content="Open in a new tab"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" color="currentColor" fill="none">
+      <path d="M11.1004 3.00208C7.4515 3.00864 5.54073 3.09822 4.31962 4.31931C3.00183 5.63706 3.00183 7.75796 3.00183 11.9997C3.00183 16.2415 3.00183 18.3624 4.31962 19.6801C5.6374 20.9979 7.75836 20.9979 12.0003 20.9979C16.2421 20.9979 18.3631 20.9979 19.6809 19.6801C20.902 18.4591 20.9916 16.5484 20.9982 12.8996" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M20.4803 3.51751L14.931 9.0515M20.4803 3.51751C19.9863 3.023 16.6587 3.0691 15.9552 3.0791M20.4803 3.51751C20.9742 4.01202 20.9282 7.34329 20.9182 8.04754" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg></a>
+    <a class="closeModal" data-act-as="close-modal" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linecap="round" class="nc-icon-wrapper" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></g></svg></a>
+  </div>
+</div>
+
+    <div class="modalBody hasHeader commonLayout" id="modal-embed">
+  <div class="modalApp">
+    <header>
+      <h1>Share or embed fiddle</h1>
+      <h2>Customize the embeddable experience for websites</h2>
+    </header>
+    <main class="modalContent">
+      <div id="embed-creator">
+        <div id="creator">
+          <section class="ecTabs">
+            <h3>Tabs:</h3>
+            <div class="inlineFields">
+              <label class="inputCont_checkbox checkboxCont">
+                <input type="checkbox" name="tabs" value="js" checked>
+                <span class="checkbox"><i class="bts bt-check"></i></span> JavaScript
+              </label>
+              <label class="inputCont_checkbox checkboxCont">
+                <input type="checkbox" name="tabs" value="html" checked>
+                <span class="checkbox"><i class="bts bt-check"></i></span> HTML
+              </label>
+              <label class="inputCont_checkbox checkboxCont">
+                <input type="checkbox" name="tabs" value="css" checked>
+                <span class="checkbox"><i class="bts bt-check"></i></span> CSS
+              </label>
+              <label class="inputCont_checkbox checkboxCont">
+                <input type="checkbox" name="tabs" value="result" checked>
+                <span class="checkbox"><i class="bts bt-check"></i></span> Result
+              </label>
+            </div> <!-- /inlineFields -->
+          </section>
+
+          <section class="ecVisuals">
+            <h3>Visual:</h3>
+            <div class="inlineFields">
+              <label class="inputCont_checkbox checkboxCont">
+                <input type="radio" name="skin" value="light" checked>
+                <span class="radio"></span> Light
+              </label>
+              <label class="inputCont_checkbox checkboxCont">
+                <input type="radio" name="skin" value="dark">
+                <span class="radio"></span> Dark
+              </label>
+            </div> <!-- /inlineFields -->
+            <div class="colorFields">
+              <label class="inputCont_text">
+                <input type="text" name="accentColor" maxlength="7" placeholder="Accent color">
+              </label>
+              <label class="inputCont_text">
+                <input type="text" name="fontColor" maxlength="7" placeholder="Font color">
+              </label>
+              <label class="inputCont_text">
+                <input type="text" name="menuColor" maxlength="7" placeholder="Menu background">
+              </label>
+              <label class="inputCont_text">
+                <input type="text" name="bodyColor" maxlength="7" placeholder="Code background">
+              </label>
+            </div>
+          </section>
+
+          <section class="ecSnippet">
+            <h3>
+              Embed snippet
+              <a href="#" class="codeTypeToggle">Prefer iframe?</a>:
+            </h3>
+            <div class="embedCodeWrap">
+    <textarea class="embedCode" data-view="embed" data-pattern-value='<script async src="{embedSrc}"></script>' readonly>
+<script async src="{embedSrc}"></script>
+    </textarea>
+            </div> <!-- /embedCodeWrap -->
+
+            <div class="embedCodeWrap hidden">
+    <textarea class="embedCode" data-view="embedded" data-pattern-value='<iframe width="100%" height="300" src="{embedSrc}" frameborder="0" loading="lazy" allowtransparency="true" allowfullscreen="true"></iframe>' readonly>
+<iframe width="100%" height="300" src="{embedSrc}" frameborder="0" loading="lazy" allowtransparency="true" allowfullscreen="true"></iframe>
+    </textarea>
+              <p><strong>No autoresizing</strong> to fit the code</p><p><strong>Render blocking</strong> of the parent page</p>
+            </div> <!-- /embedCodeWrap -->
+          </section>
+        </div> <!-- /creator -->
+
+        <div id="preview"></div> <!-- /preview -->
+
+      </div>
+    </main>
+    <a class="closeModal" data-act-as="close-modal" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linecap="round" class="nc-icon-wrapper" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></g></svg></a>
+  </div>
+</div>
+
+    <div class="modalBody hasHeader commonLayout" id="modal-editor-settings">
+  <div class="modalApp">
+    <header>
+      <h1>Editor settings</h1>
+      <h2>Customize the behavior and feel of the editor</h2>
+    </header>
+    <main class="modalContent">
+
+      <div id="editor-options">
+        <section>
+          <h3>Behavior</h3>
+          <div class="fieldsCont">
+            <p>
+                <label class="checkboxCont disabled" data-title="Log in to use auto-running">
+                  <input type="checkbox" name="autoRun" disabled>
+                  <span class="checkbox"></span>
+                  Auto-run code
+                </label>
+            </p>
+            <p>
+                <label class="checkboxCont disabled" data-title="Log in to use auto-running">
+                  <input type="checkbox" name="autoRunValid" disabled>
+                  <span class="checkbox"></span>
+                  Only auto-run code that validates
+                </label>
+            </p>
+            <p>
+                <label class="checkboxCont disabled" data-title="Log in to use auto-saving">
+                  <input type="checkbox" name="autoSave" disabled>
+                  <span class="checkbox"></span>
+                  Auto-save code
+                </label>
+            </p>
+            <p>
+              <label class="checkboxCont">
+                <input type="checkbox" name="renderValidationDecorations" checked>
+                <span class="checkbox"></span>
+                Live code validation
+              </label>
+            </p>
+            <p>
+              <label class="checkboxCont">
+                <input type="checkbox" name="hotreloadCss" checked>
+                <span class="checkbox"></span>
+                Hot reload CSS
+              </label>
+            </p>
+            <p>
+              <label class="checkboxCont">
+                <input type="checkbox" name="hotreloadHtml" checked>
+                <span class="checkbox"></span>
+                Hot reload HTML
+              </label>
+            </p>
+          </div> <!-- /fieldsCont -->
+        </section>
+
+        <section>
+          <h3>General</h3>
+          <div class="fieldsCont">
+            <p>
+              <label class="checkboxCont">
+                <input type="checkbox" name="lineNumbers" checked>
+                <span class="checkbox"></span>
+                Line numbers
+              </label>
+            </p>
+            <p>
+              <label class="checkboxCont">
+                <input type="checkbox" name="wordWrap" checked>
+                <span class="checkbox"></span>
+                Wrap lines
+              </label>
+            </p>
+            <p>
+              <label class="checkboxCont">
+                <input type="checkbox" name="insertSpaces" checked>
+                <span class="checkbox"></span>
+                <span class="translation_missing" title="translation missing: en.editor.settings.indent_with_spaces">Indent With Spaces</span>
+              </label>
+            </p>
+            <p>
+              <label class="checkboxCont">
+                <input type="checkbox" name="quickSuggestions" checked>
+                <span class="checkbox"></span>
+                <span class="translation_missing" title="translation missing: en.editor.settings.code_autocomplete">Code Autocomplete</span>
+              </label>
+            </p>
+          </div> <!-- /fieldsCont -->
+
+          <div class="selectPairs">
+            <div class="selectPair">
+              <span class="label">Indent size:</span>
+              <div class="selectCont">
+                <select name="tabSize">
+                  <option value="2">2 spaces</option>
+                  <option value="4">4 spaces</option>
+                </select>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
+                  <path d="M18 9.00005C18 9.00005 13.5811 15 12 15C10.4188 15 6 9 6 9" />
+                </svg>
+              </div>
+            </div> <!-- /selectPair -->
+            <div class="selectPair">
+              <span class="label">Font size:</span>
+              <div class="selectCont">
+                <select name="fontSize">
+                  <option value="10">10px</option>
+                  <option value="11">11px</option>
+                  <option value="12" selected>12px</option>
+                  <option value="13">13px</option>
+                  <option value="14">14px</option>
+                  <option value="15">15px</option>
+                  <option value="16">16px</option>
+                  <option value="17">17px</option>
+                  <option value="18">18px</option>
+                  <option value="19">19px</option>
+                  <option value="20">20px</option>
+                </select>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
+                  <path d="M18 9.00005C18 9.00005 13.5811 15 12 15C10.4188 15 6 9 6 9" />
+                </svg>
+              </div>
+            </div> <!-- /selectPair -->
+            <div class="selectPair">
+              <span class="label">Font family:</span>
+              <div class="selectCont fontPicker showModalTrigger" data-modal-source="/coderfonts" data-modal-id="modal-coderfonts">
+                <input type="text" name="fontFamily">
+              </div>
+            </div> <!-- /selectPair -->
+          </div> <!-- /selectPairs -->
+        </section>
+
+        <section>
+          <h3>Console</h3>
+          <div class="fieldsCont">
+            <p class="proBadge">
+              <label class="checkboxCont ">
+                <input type="checkbox" name="editorConsole">
+                <span class="checkbox"></span>
+                Console in the editor
+              </label>
+            </p>
+            <p>
+              <label class="checkboxCont">
+                <input type="checkbox" name="clearConsole">
+                <span class="checkbox"></span>
+                Clear console on run
+              </label>
+            </p>
+          </div> <!-- /fieldsCont -->
+        </section>
+      </div> <!-- /editor-options -->
+    </main>
+
+    <a class="closeModal" data-act-as="close-modal" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linecap="round" class="nc-icon-wrapper" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></g></svg></a>
+  </div>
+</div>
+
+    <div class="modalBody hasHeader commonLayout" id="modal-your-fiddles">
+  <div class="modalApp">
+    <header>
+      <h1>Your recent fiddles</h1>
+      <h2>Recently created fiddles, including ones created while logged out</h2>
+      <div class="loader-linear"></div>
+    </header>
+    <main class="modalContent">
+      <iframe frameborder="0"></iframe>
+    </main>
+    <a class="closeModal" data-act-as="close-modal" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linecap="round" class="nc-icon-wrapper" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></g></svg></a>
+  </div>
+</div>
+
+    <div class="modalBody hasHeader commonLayout" id="modal-changelog">
+  <div class="modalApp">
+    <header>
+      <h1>JSFiddle changelog</h1>
+      <h2>A log of all the changes made to JSFiddle – big and small.</h2>
+    </header>
+    <main class="modalContent">
+      <ul id="app-updates">
+        <li data-update-id="37" class="au_new">
+          <h3>Curated list of monospace coder fonts</h3>
+          <div class="content">
+            <p>You can now use different monospace fonts in the editor &minus; we now have a curated list of pretty awesome fonts available including premium ones. Just open the <strong>Coder Fonts</strong> mini-app from the sidebar or from <strong>Editor settings</strong>. My current favorites are <code>Input</code> and <code>Commit Mono</code>.</p>
+          </div>
+        </li>
+        <li data-update-id="36" class="au_new">
+          <h3>CSS Flexbox generator as a JSFiddle app</h3>
+          <div class="content">
+            <p>Our CSS Flexbox generator lets you create a layout, and skip knowing the confusing properties and value names (let's be honest the W3C did not make a good job here). Not gonna lie, this was heavily inspired by flexer.dev but coded completely from scratch.</p>
+          </div>
+        </li>
+        <li data-update-id="35" class="au_change">
+          <h3>Behavior change for External Resources</h3>
+          <div class="content">
+            <p>Adding External Resources will no longer create a list of resources in the sidebar but will be injected as a <strong>LINK</strong> or <strong>SCRIPT</strong> tag inside of the HTML panel.</p>
+          </div>
+        </li>
+        <li data-update-id="34" class="au_change">
+          <h3>Code Completion with additional context</h3>
+          <div class="content">
+            <p>The Code Completion will now also have the context of all panels before suggesting code to you - so if for example you
+            have some CSS or JS, the HTML panel will suggest code based on the other two panels.</p>
+          </div>
+        </li>
+        <li data-update-id="33" class="au_new">
+          <h3>🦄 AI Code Completion (beta)</h3>
+          <div class="content">
+            <p>Introducing some AI sprinkle in the editor - Code Completion based on the <strong>Codestral</strong> model (by <strong>Mistral</strong>).</p>
+            <p>For now it's a BYOK implmentation which means you need to provide your own API Key &minus; you <strong>can get it for free</strong>.</p>
+          </div>
+        </li>
+        <li data-update-id="32" class="au_new">
+          <h3>Editor switch from CodeMirror to Monaco (same as VSCode)</h3>
+          <div class="content">
+            <p>After much deliberation I've decided to make the switch from <strong>CodeMirror to Monaco</strong>.</p>
+            <p>There's a few reasons for this. CodeMirror 5 is no longer being developed, and the switch to 6 would be a huge
+            rewrite since there's not much compatibility between the two versions.</p>
+            <p>Monaco itself has lots of features already built-in, things that took quite a few external plugins to get
+            into the CodeMirror implementation.</p>
+            <p><strong>I'm incredibly thankful to Marijn for his work on CodeMirror</strong>, it has served well for many years.</p>
+          </div>
+        </li>
+        <li data-update-id="31" class="au_change">
+          <h3>JSFiddle will load faster</h3>
+          <div class="content">
+            <p>Technical debt is a drag man. Remember the time when <strong>MooTools</strong> was state-of-art JS framework? We do and so much of JSFiddle was still dependant on it till this day, but since almost all MooTools features are now
+            available in native JS it was high-time to strip it out of the codebase.</p>
+            <p>This took around a week of work, lots of testing, but it's now done. And the final package of our
+            JS bundle is <strong>~30% smaller</strong>.</p>
+          </div>
+        </li>
+      </ul>
+    </main>
+
+    <a class="closeModal" data-act-as="close-modal" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linecap="round" class="nc-icon-wrapper" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></g></svg></a>
+  </div>
+</div>
+
+<script>
+  const UpdatesWidget = function(options){
+
+    let element = {
+      trigger: document.querySelector(".sidebarItem.si_changelog"),
+      updates: document.querySelector("#app-updates li")
+    }
+
+    let latestUpdateId   = element.updates.dataset.updateId
+    let lastSeenUpdateId = window.localStorage.getItem("JSFIDDLE_last_seen_update")
+
+    let dismissUpdate = function(){
+      window.localStorage.setItem("JSFIDDLE_last_seen_update", latestUpdateId)
+      element.trigger.classList.add("hidden")
+    }
+
+    // remove hidden class if user hasn't seen the latest update
+    if (lastSeenUpdateId !== latestUpdateId){
+      element.trigger.classList.remove("hidden")
+    }
+
+    element.trigger.addEventListener("click", dismissUpdate)
+  }
+
+  window.addEventListener("DOMContentLoaded", UpdatesWidget)
+</script>
+
+    <div class="modalBody hasHeader commonLayout tinyModal" id="modal-add-group">
+  <div class="modalApp">
+    <header>
+      <h1>Add a new collection</h1>
+      <h2>Collect your fiddles in collections</h2>
+      <div class="loader-linear"></div>
+    </header>
+    <main class="modalContent">
+      <iframe frameborder="0"></iframe>
+    </main>
+    <a class="closeModal" data-act-as="close-modal" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linecap="round" class="nc-icon-wrapper" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></g></svg></a>
+  </div>
+</div>
+    <div class="modalBody hasHeader commonLayout" id="modal-mistral-howto">
+  <div class="modalApp">
+    <header>
+      <h1>Get a Mistral API Key</h1>
+      <h2>A short guide to getting a free Mistral API Key.</h2>
+    </header>
+    <main class="modalContent">
+      <svg style="flex:none;line-height:1" viewBox="0 0 24 24"><path d="M3.428 3.4h3.429v3.428H3.428V3.4zm13.714 0h3.43v3.428h-3.43V3.4z" fill="gold"></path><path d="M3.428 6.828h6.857v3.429H3.429V6.828zm10.286 0h6.857v3.429h-6.857V6.828z" fill="#FFAF00"></path><path d="M3.428 10.258h17.144v3.428H3.428v-3.428z" fill="#FF8205"></path><path d="M3.428 13.686h3.429v3.428H3.428v-3.428zm6.858 0h3.429v3.428h-3.429v-3.428zm6.856 0h3.43v3.428h-3.43v-3.428z" fill="#FA500F"></path><path d="M0 17.114h10.286v3.429H0v-3.429zm13.714 0H24v3.429H13.714v-3.429z" fill="#E10500"></path></svg>
+      <ul id="steps">
+        <li><p><a href="https://mistral.ai/signup">Sign up</a> for a <strong>Mistral</strong> account, and pick the <strong>free Experiment</strong> subscription plan.</a></p></li>
+        <li><p>Log in, and go to your organization's <a href="https://console.mistral.ai/api-keys">API Keys</a> section.</p></li>
+        <li><p>Click <strong>Create new key</strong>, fill "JSFiddle" as the name for the API key, and save.</p></li>
+        <li><p>Copy the key, and paste it into JSFiddle &minus; under the <strong>AI Code Completion</strong> in the Sidebar.</p></li>
+        <li><p><strong>Done</strong>! AI Code Completion should now be working.</p></li>
+      </ul>
+    </main>
+
+    <a class="closeModal" data-act-as="close-modal" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linecap="round" class="nc-icon-wrapper" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></g></svg></a>
+  </div>
+</div>
+
+    <div id="dropdown-switch-grid">
+  <form id="layout">
+    <input style="display: none;" name="layout" type="radio" value="grid_invisible_hack">
+
+    <label>
+      <input name="layout" type="radio" value="1" checked>
+      <span class="gridMode grid_1"></span>
+      Classic
+    </label>
+    <label>
+      <input name="layout" type="radio" value="2">
+      <span class="gridMode grid_2"></span>
+      Columns
+    </label>
+    <label>
+      <input name="layout" type="radio" value="3">
+      <span class="gridMode grid_3"></span>
+      Bottom results
+    </label>
+    <label>
+      <input name="layout" type="radio" value="4">
+      <span class="gridMode grid_4"></span>
+      Right results
+    </label>
+    <label>
+      <input name="layout" type="radio" value="5">
+      <span class="gridMode grid_5"></span>
+      Tabs (columns)
+    </label>
+    <label>
+      <input name="layout" type="radio" value="6">
+      <span class="gridMode grid_6"></span>
+      Tabs (rows)
+    </label>
+  </form>
+</div>
+
+    <div id="dropdown-switch-theme">
+  <form id="theme">
+    <label>
+      <input type="radio" name="themeMode" value="1">
+      <span class="themeMode theme_1"></span>
+      System
+    </label>
+    <label>
+      <input type="radio" name="themeMode" value="2">
+      <span class="themeMode theme_2"></span>
+      Light
+    </label>
+    <label>
+      <input type="radio" name="themeMode" value="3" checked>
+      <span class="themeMode theme_3"></span>
+      Dark
+    </label>
+  </form>
+</div>
+
+    <div id="dropdown-set-expiration">
+  <h5>Set fiddle expiration</h5>
+  <form id="expiration">
+      <label>
+        <input type="radio"
+               name="faux_expiration_days"
+               value="1"
+               >
+        1 day
+      </label>
+      <label>
+        <input type="radio"
+               name="faux_expiration_days"
+               value="10"
+               >
+        10 days
+      </label>
+      <label>
+        <input type="radio"
+               name="faux_expiration_days"
+               value="30"
+               >
+         1 month
+      </label>
+      <label>
+        <input type="radio"
+               name="faux_expiration_days"
+               value="180"
+               >
+        6 months
+      </label>
+      <label>
+        <input type="radio"
+               name="faux_expiration_days"
+               value="365"
+               >
+         1 year
+      </label>
+      <label>
+        <input type="radio"
+               name="faux_expiration_days"
+               value=""
+               checked>
+        Keep forever
+      </label>
+  </form>
+</div>
+
+    <div class="modalBody unblockRequest" id="modal-whitelist">
+  <div class="modalApp">
+    <main class="modalContent">
+      <main>
+        <h2>Please <strong>Whitelist</strong> JSFiddle in your content blocker.</h2>
+
+        <div class="helpCont">
+          <p>Help keep JSFiddle free for always by one of two ways:</p>
+          <ul>
+            <li><strong class='whitelist'>Whitelist JSFiddle</strong> in your content blocker (two clicks)</li>
+            <li><a href="/pro/" target="_blank">Go PRO</a> and get access to additional PRO features →</li>
+          </ul>
+        </div>
+      </main>
+
+      <aside>
+        <ul class="perks">
+          <li>
+            <em>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18.9905 19H19M18.9905 19C18.3678 19.6175 17.2393 19.4637 16.4479 19.4637C15.4765 19.4637 15.0087 19.6537 14.3154 20.347C13.7251 20.9374 12.9337 22 12 22C11.0663 22 10.2749 20.9374 9.68457 20.347C8.99128 19.6537 8.52349 19.4637 7.55206 19.4637C6.76068 19.4637 5.63218 19.6175 5.00949 19C4.38181 18.3776 4.53628 17.2444 4.53628 16.4479C4.53628 15.4414 4.31616 14.9786 3.59938 14.2618C2.53314 13.1956 2.00002 12.6624 2 12C2.00001 11.3375 2.53312 10.8044 3.59935 9.73817C4.2392 9.09832 4.53628 8.46428 4.53628 7.55206C4.53628 6.76065 4.38249 5.63214 5 5.00944C5.62243 4.38178 6.7556 4.53626 7.55208 4.53626C8.46427 4.53626 9.09832 4.2392 9.73815 3.59937C10.8044 2.53312 11.3375 2 12 2C12.6625 2 13.1956 2.53312 14.2618 3.59937C14.9015 4.23907 15.5355 4.53626 16.4479 4.53626C17.2393 4.53626 18.3679 4.38247 18.9906 5C19.6182 5.62243 19.4637 6.75559 19.4637 7.55206C19.4637 8.55858 19.6839 9.02137 20.4006 9.73817C21.4669 10.8044 22 11.3375 22 12C22 12.6624 21.4669 13.1956 20.4006 14.2618C19.6838 14.9786 19.4637 15.4414 19.4637 16.4479C19.4637 17.2444 19.6182 18.3776 18.9905 19Z" />
+                <path d="M9 12.8929C9 12.8929 10.2 13.5447 10.8 14.5C10.8 14.5 12.6 10.75 15 9.5" />
+              </svg>
+            </em>
+            <section>
+              <h3>Ad-free</h3>
+              <p>All ads in the editor and listing pages are turned completely off.</p>
+            </section>
+          </li>
+          <li>
+            <em>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15.8785 3L10.2827 3C7.32099 3 5.84015 3 4.92007 3.87868C4 4.75736 4 6.17157 4 9L4.10619 15L15.8785 15C18.1016 15 19.2131 15 19.6847 14.4255C19.8152 14.2666 19.9108 14.0841 19.9656 13.889C20.1639 13.184 19.497 12.3348 18.1631 10.6364L18.1631 10.6364C17.6083 9.92985 17.3309 9.57659 17.2814 9.1751C17.2671 9.05877 17.2671 8.94123 17.2814 8.8249C17.3309 8.42341 17.6083 8.07015 18.1631 7.36364L18.1631 7.36364C19.497 5.66521 20.1639 4.816 19.9656 4.11098C19.9108 3.91591 19.8152 3.73342 19.6847 3.57447C19.2131 3 18.1016 3 15.8785 3L15.8785 3Z" />
+                <path d="M4 21L4 8" />
+              </svg>
+            </em>
+            <section>
+              <h3>Use pre-released features</h3>
+              <p>You get to try and use features (like the Palette Color Generator) months before everyone else.</p>
+            </section>
+          </li>
+          <li>
+            <em>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16.9017 6.12874C18 7.25748 18 9.07416 18 12.7075V14.2925C18 17.9258 18 19.7425 16.9017 20.8713C15.8033 22 14.0355 22 10.5 22C6.96447 22 5.1967 22 4.09835 20.8713C3 19.7425 3 17.9258 3 14.2925V12.7075C3 9.07416 3 7.25748 4.09835 6.12874C5.1967 5 6.96447 5 10.5 5C14.0355 5 15.8033 5 16.9017 6.12874Z" />
+                <path d="M7.5 5.5V10.3693C7.5 11.3046 7.5 11.7722 7.78982 11.9396C8.35105 12.2638 9.4038 11.1823 9.90375 10.8567C10.1937 10.6678 10.3387 10.5734 10.5 10.5734C10.6613 10.5734 10.8063 10.6678 11.0962 10.8567C11.5962 11.1823 12.6489 12.2638 13.2102 11.9396C13.5 11.7722 13.5 11.3046 13.5 10.3693V5.5" />
+                <path d="M9 2H11C15.714 2 18.0711 2 19.5355 3.46447C21 4.92893 21 7.28595 21 12V18" />
+              </svg>
+            </em>
+            <section>
+              <h3>Fiddle collections</h3>
+              <p>Sort and categorize your Fiddles into multiple collections.</p>
+            </section>
+          </li>
+          <li>
+            <em>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4.26781 18.8447C4.49269 20.515 5.87613 21.8235 7.55966 21.9009C8.97627 21.966 10.4153 22 12 22C13.5847 22 15.0237 21.966 16.4403 21.9009C18.1239 21.8235 19.5073 20.515 19.7322 18.8447C19.879 17.7547 20 16.6376 20 15.5C20 14.3624 19.879 13.2453 19.7322 12.1553C19.5073 10.485 18.1239 9.17649 16.4403 9.09909C15.0237 9.03397 13.5847 9 12 9C10.4153 9 8.97627 9.03397 7.55966 9.09909C5.87613 9.17649 4.49269 10.485 4.26781 12.1553C4.12105 13.2453 4 14.3624 4 15.5C4 16.6376 4.12105 17.7547 4.26781 18.8447Z" />
+                <path d="M7.5 9V6.5C7.5 4.01472 9.51472 2 12 2C14.4853 2 16.5 4.01472 16.5 6.5V9" />
+                <path d="M12.125 15.5H12M12.25 15.5C12.25 15.6381 12.1381 15.75 12 15.75C11.8619 15.75 11.75 15.6381 11.75 15.5C11.75 15.3619 11.8619 15.25 12 15.25C12.1381 15.25 12.25 15.3619 12.25 15.5Z" />
+                <path d="M8.125 15.5H8M8.25 15.5C8.25 15.6381 8.13807 15.75 8 15.75C7.86193 15.75 7.75 15.6381 7.75 15.5C7.75 15.3619 7.86193 15.25 8 15.25C8.13807 15.25 8.25 15.3619 8.25 15.5Z" />
+                <path d="M16.125 15.5H16M16.25 15.5C16.25 15.6381 16.1381 15.75 16 15.75C15.8619 15.75 15.75 15.6381 15.75 15.5C15.75 15.3619 15.8619 15.25 16 15.25C16.1381 15.25 16.25 15.3619 16.25 15.5Z" />
+              </svg>
+            </em>
+            <section>
+              <h3>Private collections and fiddles</h3>
+              <p>You can make as many Private Fiddles, and Private Collections as you wish!</p>
+            </section>
+          </li>
+          <li>
+            <em>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 7L8.22654 8.05719C8.74218 8.50163 9 8.72386 9 9C9 9.27614 8.74218 9.49836 8.22654 9.94281L7 11" />
+                <path d="M11 11H14" />
+                <path d="M12 21C15.7497 21 17.6246 21 18.9389 20.0451C19.3634 19.7367 19.7367 19.3634 20.0451 18.9389C21 17.6246 21 15.7497 21 12C21 8.25027 21 6.3754 20.0451 5.06107C19.7367 4.6366 19.3634 4.26331 18.9389 3.95491C17.6246 3 15.7497 3 12 3C8.25027 3 6.3754 3 5.06107 3.95491C4.6366 4.26331 4.26331 4.6366 3.95491 5.06107C3 6.3754 3 8.25027 3 12C3 15.7497 3 17.6246 3.95491 18.9389C4.26331 19.3634 4.6366 19.7367 5.06107 20.0451C6.3754 21 8.25027 21 12 21Z" />
+              </svg>
+            </em>
+            <section>
+              <h3>Console</h3>
+              <p>Debug your Fiddle with a minimal built-in JavaScript console.</p>
+            </section>
+          </li>
+        </ul>
+      </aside>
+    </main>
+    <!-- <svg class="loader animate" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><g stroke-linecap="round" class="nc-icon-wrapper" fill="none" stroke="#222" stroke-width="2" stroke-linejoin="round"><path d="M12 2v4"></path><path d="M12 18v4"></path><path d="M4.93 4.93l2.83 2.83"></path><path d="M16.24 16.24l2.83 2.83"></path><path d="M2 12h4"></path><path d="M18 12h4"></path><path d="M4.93 19.07l2.83-2.83"></path><path d="M16.24 7.76l2.83-2.83"></path></g></svg> -->
+    <a class="closeModal" data-act-as="close-modal" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linecap="round" class="nc-icon-wrapper" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></g></svg></a>
+  </div>
+</div>
+
+    <script type="text/javascript" src="https://unpkg.com/external-svg-loader@latest/svg-loader.min.js" async></script>
+
+<div class="modalBody goPro" id="modal-pro">
+  <div class="modalApp">
+    <main class="modalContent">
+      <main>
+        <h2>Join the 4+ million users, and keep the JSFiddle dream alive.</h2>
+
+        <ul class="perks">
+          <li>
+            <em>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18.9905 19H19M18.9905 19C18.3678 19.6175 17.2393 19.4637 16.4479 19.4637C15.4765 19.4637 15.0087 19.6537 14.3154 20.347C13.7251 20.9374 12.9337 22 12 22C11.0663 22 10.2749 20.9374 9.68457 20.347C8.99128 19.6537 8.52349 19.4637 7.55206 19.4637C6.76068 19.4637 5.63218 19.6175 5.00949 19C4.38181 18.3776 4.53628 17.2444 4.53628 16.4479C4.53628 15.4414 4.31616 14.9786 3.59938 14.2618C2.53314 13.1956 2.00002 12.6624 2 12C2.00001 11.3375 2.53312 10.8044 3.59935 9.73817C4.2392 9.09832 4.53628 8.46428 4.53628 7.55206C4.53628 6.76065 4.38249 5.63214 5 5.00944C5.62243 4.38178 6.7556 4.53626 7.55208 4.53626C8.46427 4.53626 9.09832 4.2392 9.73815 3.59937C10.8044 2.53312 11.3375 2 12 2C12.6625 2 13.1956 2.53312 14.2618 3.59937C14.9015 4.23907 15.5355 4.53626 16.4479 4.53626C17.2393 4.53626 18.3679 4.38247 18.9906 5C19.6182 5.62243 19.4637 6.75559 19.4637 7.55206C19.4637 8.55858 19.6839 9.02137 20.4006 9.73817C21.4669 10.8044 22 11.3375 22 12C22 12.6624 21.4669 13.1956 20.4006 14.2618C19.6838 14.9786 19.4637 15.4414 19.4637 16.4479C19.4637 17.2444 19.6182 18.3776 18.9905 19Z" />
+                <path d="M9 12.8929C9 12.8929 10.2 13.5447 10.8 14.5C10.8 14.5 12.6 10.75 15 9.5" />
+              </svg>
+            </em>
+            <section>
+              <h3>Ad-free</h3>
+              <p>All ads in the editor and listing pages are turned completely off.</p>
+            </section>
+          </li>
+          <li>
+            <em>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15.8785 3L10.2827 3C7.32099 3 5.84015 3 4.92007 3.87868C4 4.75736 4 6.17157 4 9L4.10619 15L15.8785 15C18.1016 15 19.2131 15 19.6847 14.4255C19.8152 14.2666 19.9108 14.0841 19.9656 13.889C20.1639 13.184 19.497 12.3348 18.1631 10.6364L18.1631 10.6364C17.6083 9.92985 17.3309 9.57659 17.2814 9.1751C17.2671 9.05877 17.2671 8.94123 17.2814 8.8249C17.3309 8.42341 17.6083 8.07015 18.1631 7.36364L18.1631 7.36364C19.497 5.66521 20.1639 4.816 19.9656 4.11098C19.9108 3.91591 19.8152 3.73342 19.6847 3.57447C19.2131 3 18.1016 3 15.8785 3L15.8785 3Z" />
+                <path d="M4 21L4 8" />
+              </svg>
+            </em>
+            <section>
+              <h3>Use pre-released features</h3>
+              <p>You get to try and use features (like the Palette Color Generator) months before everyone else.</p>
+            </section>
+          </li>
+          <li>
+            <em>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16.9017 6.12874C18 7.25748 18 9.07416 18 12.7075V14.2925C18 17.9258 18 19.7425 16.9017 20.8713C15.8033 22 14.0355 22 10.5 22C6.96447 22 5.1967 22 4.09835 20.8713C3 19.7425 3 17.9258 3 14.2925V12.7075C3 9.07416 3 7.25748 4.09835 6.12874C5.1967 5 6.96447 5 10.5 5C14.0355 5 15.8033 5 16.9017 6.12874Z" />
+                <path d="M7.5 5.5V10.3693C7.5 11.3046 7.5 11.7722 7.78982 11.9396C8.35105 12.2638 9.4038 11.1823 9.90375 10.8567C10.1937 10.6678 10.3387 10.5734 10.5 10.5734C10.6613 10.5734 10.8063 10.6678 11.0962 10.8567C11.5962 11.1823 12.6489 12.2638 13.2102 11.9396C13.5 11.7722 13.5 11.3046 13.5 10.3693V5.5" />
+                <path d="M9 2H11C15.714 2 18.0711 2 19.5355 3.46447C21 4.92893 21 7.28595 21 12V18" />
+              </svg>
+            </em>
+            <section>
+              <h3>Fiddle collections</h3>
+              <p>Sort and categorize your Fiddles into multiple collections.</p>
+            </section>
+          </li>
+          <li>
+            <em>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4.26781 18.8447C4.49269 20.515 5.87613 21.8235 7.55966 21.9009C8.97627 21.966 10.4153 22 12 22C13.5847 22 15.0237 21.966 16.4403 21.9009C18.1239 21.8235 19.5073 20.515 19.7322 18.8447C19.879 17.7547 20 16.6376 20 15.5C20 14.3624 19.879 13.2453 19.7322 12.1553C19.5073 10.485 18.1239 9.17649 16.4403 9.09909C15.0237 9.03397 13.5847 9 12 9C10.4153 9 8.97627 9.03397 7.55966 9.09909C5.87613 9.17649 4.49269 10.485 4.26781 12.1553C4.12105 13.2453 4 14.3624 4 15.5C4 16.6376 4.12105 17.7547 4.26781 18.8447Z" />
+                <path d="M7.5 9V6.5C7.5 4.01472 9.51472 2 12 2C14.4853 2 16.5 4.01472 16.5 6.5V9" />
+                <path d="M12.125 15.5H12M12.25 15.5C12.25 15.6381 12.1381 15.75 12 15.75C11.8619 15.75 11.75 15.6381 11.75 15.5C11.75 15.3619 11.8619 15.25 12 15.25C12.1381 15.25 12.25 15.3619 12.25 15.5Z" />
+                <path d="M8.125 15.5H8M8.25 15.5C8.25 15.6381 8.13807 15.75 8 15.75C7.86193 15.75 7.75 15.6381 7.75 15.5C7.75 15.3619 7.86193 15.25 8 15.25C8.13807 15.25 8.25 15.3619 8.25 15.5Z" />
+                <path d="M16.125 15.5H16M16.25 15.5C16.25 15.6381 16.1381 15.75 16 15.75C15.8619 15.75 15.75 15.6381 15.75 15.5C15.75 15.3619 15.8619 15.25 16 15.25C16.1381 15.25 16.25 15.3619 16.25 15.5Z" />
+              </svg>
+            </em>
+            <section>
+              <h3>Private collections and fiddles</h3>
+              <p>You can make as many Private Fiddles, and Private Collections as you wish!</p>
+            </section>
+          </li>
+          <li>
+            <em>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 7L8.22654 8.05719C8.74218 8.50163 9 8.72386 9 9C9 9.27614 8.74218 9.49836 8.22654 9.94281L7 11" />
+                <path d="M11 11H14" />
+                <path d="M12 21C15.7497 21 17.6246 21 18.9389 20.0451C19.3634 19.7367 19.7367 19.3634 20.0451 18.9389C21 17.6246 21 15.7497 21 12C21 8.25027 21 6.3754 20.0451 5.06107C19.7367 4.6366 19.3634 4.26331 18.9389 3.95491C17.6246 3 15.7497 3 12 3C8.25027 3 6.3754 3 5.06107 3.95491C4.6366 4.26331 4.26331 4.6366 3.95491 5.06107C3 6.3754 3 8.25027 3 12C3 15.7497 3 17.6246 3.95491 18.9389C4.26331 19.3634 4.6366 19.7367 5.06107 20.0451C6.3754 21 8.25027 21 12 21Z" />
+              </svg>
+            </em>
+            <section>
+              <h3>Console</h3>
+              <p>Debug your Fiddle with a minimal built-in JavaScript console.</p>
+            </section>
+          </li>
+        </ul>
+      </main>
+      <aside>
+        <div class="brandsCont">
+          <p>JSFiddle is used by you and 4+ million other developers, in many companies ...</p>
+
+          <div class="segment">
+            <svg data-src="/svg/logo1.svg" data-loading="lazy" height="30"></svg>
+            <svg data-src="/svg/logo2.svg" data-loading="lazy" height="30"></svg>
+            <svg data-src="/svg/logo3.svg" data-loading="lazy" height="30"></svg>
+            <svg data-src="/svg/logo4.svg" data-loading="lazy" height="30"></svg>
+            <svg data-src="/svg/logo5.svg" data-loading="lazy" height="30"></svg>
+            <svg data-src="/svg/logo6.svg" data-loading="lazy" height="30"></svg>
+            <svg data-src="/svg/logo7.svg" data-loading="lazy" height="30"></svg>
+            <svg data-src="/svg/logo8.svg" data-loading="lazy" height="30"></svg>
+            <svg data-src="/svg/logo9.svg" data-loading="lazy" height="30"></svg>
+            <svg data-src="/svg/logo10.svg" data-loading="lazy" height="30"></svg>
+            <svg data-src="/svg/logo11.svg" data-loading="lazy" height="30"></svg>
+            <svg data-src="/svg/logo12.svg" data-loading="lazy" height="30"></svg>
+          </div> <!-- /segment -->
+
+          <p>... and top educational institutions:</p>
+
+          <div class="segment edu">
+            <svg data-src="/svg/edu1.svg" data-loading="lazy" width="" height="30"></svg>
+            <svg data-src="/svg/edu2.svg" data-loading="lazy" width="" height="30"></svg>
+            <svg data-src="/svg/edu3.svg" data-loading="lazy" width="" height="30"></svg>
+            <svg data-src="/svg/edu4.svg" data-loading="lazy" width="" height="30"></svg>
+          </div> <!-- /segment.edu -->
+        </div> <!-- /brandsCont -->
+
+        <div class="proActionCont">
+          <ul>
+  <li><label><input type="radio" name="payment_type" value="monthly" checked>Monthly</label></li>
+  <li><label><input type="radio" name="payment_type" value="one_time">One-time (1 year)</label></li>
+</ul>
+  <a href="/user/login/?return_to=%2Fpro%2F" class="button proSwitch_monthly">Join JSFiddle PRO <span id='amount-mode'>(&euro;8 per month)</span></a>
+  <a href="/user/login/?return_to=%2Fpro%2F" class="button proSwitch_one_time">Buy JSFiddle PRO <span id='amount-mode'>(One-time &euro;80 for 1 year)</span></a>
+
+        </div> <!-- /proActionCont -->
+      </aside>
+
+    </main>
+    <a class="closeModal" data-act-as="close-modal" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g stroke-linecap="round" class="nc-icon-wrapper" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></g></svg></a>
+  </div>
+</div>
+
+
+      <script type="application/ld+json">
+    {
+      "@context": "http://schema.org/",
+      "@type": "Code",
+      "name": "Basic HTML Form",
+      "description": "Basic HTML Form",
+      "url": "jsfiddle.net//travistidwell/e3uh9xrd/",
+      "dateCreated": "",
+        "author": {
+          "@type": "Person",
+          "name": "Travis Tidwell",
+            "homeLocation": "Dallas, TX",
+            "worksFor": "Form.IO"
+        },
+      "codeSampleType": [
+        {
+          "@type": "SoftwareSourceCode",
+          "programmingLanguage": "javascript",
+          "text": ""
+        },
+        {
+          "@type": "SoftwareSourceCode",
+          "programmingLanguage": "html",
+          "text": "&lt;div class=&quot;well&quot;&gt;
+  &lt;form action=&quot;/person.php&quot; method=&quot;post&quot;&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+      &lt;label for=&quot;firstname&quot;&gt;First Name&lt;/label&gt;
+      &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;firstname&quot; placeholder=&quot;Enter your first name&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+      &lt;label for=&quot;lastname&quot;&gt;Last Name&lt;/label&gt;
+      &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;lastname&quot; placeholder=&quot;Enter your last name&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+      &lt;label&gt;Gender&lt;/label&gt;
+      &lt;label class=&quot;checkbox-inline&quot;&gt;
+        &lt;input type=&quot;radio&quot; name=&quot;gender&quot; id=&quot;male&quot; value=&quot;male&quot;&gt;
+        Male
+      &lt;/label&gt;
+      &lt;label class=&quot;checkbox-inline&quot;&gt;
+        &lt;input type=&quot;radio&quot; name=&quot;gender&quot; id=&quot;female&quot; value=&quot;female&quot;&gt;
+        Female
+      &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;input type=&quot;submit&quot; class=&quot;btn btn-primary&quot; value=&quot;Submit&quot;&gt;
+  &lt;/form&gt;
+&lt;/div&gt;"
+        },
+        {
+          "@type": "SoftwareSourceCode",
+          "programmingLanguage": "css",
+          "text": ""
+        }
+      ]
+    }
+  </script>
+
+
+      <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+      <script>
+      (function() {
+        if (typeof _bsa !== 'undefined' && _bsa) {
+          _bsa.init('stickybox', 'CKYD52JI', 'placement:jsfiddlenet-custom');
+        }
+      })();
+      </script>
+
+    
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"0ab02cedda344e8e92c485f151ebe080","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a168f8c62b83c198',t:'MTc4MzI4MTc5Mg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

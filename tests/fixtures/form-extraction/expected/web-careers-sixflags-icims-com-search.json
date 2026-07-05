@@ -1,0 +1,2728 @@
+{
+  "id": "web-careers-sixflags-icims-com-search",
+  "min_fields": 120,
+  "exact_field_count": 120,
+  "fields": [
+    {
+      "question": "search jobs by keyword search jobs by keyword keyword(s) or job title/category",
+      "field_type": "search",
+      "max_chars": 150,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "advanced-search-keyword-8d834d68ce",
+        "name": "k",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Keyword(s) or Job Title/Category",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "city city",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select One",
+        "Agawam",
+        "Allentown",
+        "Arlington",
+        "Austell",
+        "Buena Park",
+        "Charlotte",
+        "Cherry Valley",
+        "Concord",
+        "Corfu",
+        "Doswell",
+        "Glendale",
+        "Gurnee",
+        "Jackson",
+        "Marietta",
+        "Mason",
+        "New Braunfels",
+        "Oklahoma City",
+        "San Antonio",
+        "Sandusky",
+        "Santa Clara",
+        "Spring",
+        "Valencia",
+        "Vallejo",
+        "Vaughan"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "advanced-search-city-location-8d834d68ce",
+        "name": "City",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "state/province state/province",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select One",
+        "Arizona",
+        "California",
+        "Georgia",
+        "Illinois",
+        "Massachusetts",
+        "New Jersey",
+        "New York",
+        "North Carolina",
+        "Ohio",
+        "Oklahoma",
+        "Ontario",
+        "Pennsylvania",
+        "Texas",
+        "Virginia"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "advanced-search-state-location-8d834d68ce",
+        "name": "State",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location name location name",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select",
+        "California's Great America",
+        "Canada's Wonderland",
+        "Carowinds",
+        "Cedar Point",
+        "Dorney Park",
+        "Frontier City",
+        "Hurricane Harbor Arlington",
+        "Hurricane Harbor Concord",
+        "Hurricane Harbor Oklahoma City",
+        "Hurricane Harbor Phoenix",
+        "Hurricane Harbor Rockford",
+        "Hurricane Harbor Splashtown",
+        "Kings Dominion",
+        "Kings Island",
+        "Knott's Berry Farm",
+        "Park Support Offices",
+        "Sawmill Creek Resort",
+        "Schlitterbahn New Braunfels",
+        "Six Flags Darien Lake",
+        "Six Flags Discovery Kingdom",
+        "Six Flags Fiesta Texas",
+        "Six Flags Great Adventure, Hurricane Harbor & Wild Safari Adventure",
+        "Six Flags Great America & Hurricane Harbor",
+        "Six Flags Magic Mountain & Hurricane Harbor",
+        "Six Flags New England",
+        "Six Flags Over Georgia",
+        "Six Flags Over Texas",
+        "Six Flags White Water"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "advanced-search-customFacet-custom_fields.ParkLocationName-8d834d68ce",
+        "name": "custom_fields.ParkLocationName",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "keyword keyword refine search",
+      "field_type": "text",
+      "max_chars": 150,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "keyword-tag",
+        "name": "keyword-tag",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Refine Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "lifeguard aquatics ajd 15 lifeguard aquatics ajd 15",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Lifeguard Aquatics AJD 15"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_ajdtype-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "california's great america 15 california's great america 15",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "California's Great America 15"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "canada's wonderland 14 canada's wonderland 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Canada's Wonderland 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "carowinds 39 carowinds 39",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Carowinds 39"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cedar point 68 cedar point 68",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Cedar Point 68"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "dorney park 14 dorney park 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Dorney Park 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "frontier city 12 frontier city 12",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Frontier City 12"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hurricane harbor arlington 13 hurricane harbor arlington 13",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hurricane Harbor Arlington 13"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hurricane harbor concord 4 hurricane harbor concord 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hurricane Harbor Concord 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hurricane harbor oklahoma city 2 hurricane harbor oklahoma city 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hurricane Harbor Oklahoma City 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hurricane harbor phoenix 4 hurricane harbor phoenix 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hurricane Harbor Phoenix 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hurricane harbor rockford 1 hurricane harbor rockford 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hurricane Harbor Rockford 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hurricane harbor splashtown 3 hurricane harbor splashtown 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hurricane Harbor Splashtown 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "kings dominion 14 kings dominion 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Kings Dominion 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "kings island 12 kings island 12",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Kings Island 12"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "knott's berry farm 37 knott's berry farm 37",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Knott's Berry Farm 37"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "park support offices 3 park support offices 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Park Support Offices 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "sawmill creek resort 20 sawmill creek resort 20",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Sawmill Creek Resort 20"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "schlitterbahn new braunfels 3 schlitterbahn new braunfels 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Schlitterbahn New Braunfels 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "six flags darien lake 23 six flags darien lake 23",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Six Flags Darien Lake 23"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "six flags discovery kingdom 39 six flags discovery kingdom 39",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Six Flags Discovery Kingdom 39"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "six flags fiesta texas 38 six flags fiesta texas 38",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Six Flags Fiesta Texas 38"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "six flags great adventure, hurricane harbor & wild safari adventure 21 six flags great adventure, hurricane harbor & wild safari adventure 21",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Six Flags Great Adventure, Hurricane Harbor & Wild Safari Adventure 21"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "six flags great america & hurricane harbor 11 six flags great america & hurricane harbor 11",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Six Flags Great America & Hurricane Harbor 11"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "six flags magic mountain & hurricane harbor 39 six flags magic mountain & hurricane harbor 39",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Six Flags Magic Mountain & Hurricane Harbor 39"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "six flags new england 12 six flags new england 12",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Six Flags New England 12"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "six flags over georgia 20 six flags over georgia 20",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Six Flags Over Georgia 20"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "six flags over texas 41 six flags over texas 41",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Six Flags Over Texas 41"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "six flags white water 12 six flags white water 12",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Six Flags White Water 12"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_parklocationname-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "east 3 east 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "East 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_area-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "midwest 2 midwest 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Midwest 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_area-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "northeast 1 northeast 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Northeast 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_area-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "west 1 west 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "West 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_area-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "agawam, massachusetts 12 agawam, massachusetts 12",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Agawam, Massachusetts 12"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "allentown, pennsylvania 14 allentown, pennsylvania 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Allentown, Pennsylvania 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "arlington, texas 55 arlington, texas 55",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Arlington, Texas 55"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "austell, georgia 20 austell, georgia 20",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Austell, Georgia 20"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "buena park, california 37 buena park, california 37",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Buena Park, California 37"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "charlotte, north carolina 39 charlotte, north carolina 39",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Charlotte, North Carolina 39"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cherry valley, illinois 1 cherry valley, illinois 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Cherry Valley, Illinois 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "concord, california 4 concord, california 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Concord, California 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "corfu, new york 23 corfu, new york 23",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Corfu, New York 23"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "doswell, virginia 14 doswell, virginia 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Doswell, Virginia 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "glendale, arizona 4 glendale, arizona 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Glendale, Arizona 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gurnee, illinois 11 gurnee, illinois 11",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Gurnee, Illinois 11"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "jackson, new jersey 21 jackson, new jersey 21",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Jackson, New Jersey 21"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "marietta, georgia 12 marietta, georgia 12",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Marietta, Georgia 12"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "mason, ohio 13 mason, ohio 13",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Mason, Ohio 13"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "new braunfels, texas 3 new braunfels, texas 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "New Braunfels, Texas 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "oklahoma city, oklahoma 16 oklahoma city, oklahoma 16",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Oklahoma City, Oklahoma 16"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "san antonio, texas 38 san antonio, texas 38",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "San Antonio, Texas 38"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "sandusky, ohio 69 sandusky, ohio 69",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Sandusky, Ohio 69"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "santa clara, california 15 santa clara, california 15",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Santa Clara, California 15"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "spring, texas 3 spring, texas 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Spring, Texas 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "valencia, california 39 valencia, california 39",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Valencia, California 39"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "vallejo, california 39 vallejo, california 39",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Vallejo, California 39"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "vaughan, ontario 1 vaughan, ontario 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Vaughan, Ontario 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multiloc-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "sandusky, ohio 68 sandusky, ohio 68",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Sandusky, Ohio 68"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_cityandstate-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "vaughan, ontario 14 vaughan, ontario 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Vaughan, Ontario 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_cityandstate-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cedar point 48 cedar point 48",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Cedar Point 48"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multicompanyvalue-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "frontier city 14 frontier city 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Frontier City 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multicompanyvalue-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "kings island 13 kings island 13",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Kings Island 13"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multicompanyvalue-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "park support offices 1 park support offices 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Park Support Offices 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multicompanyvalue-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "six flags - arlington 1 six flags - arlington 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Six Flags - Arlington 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multicompanyvalue-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "six flags - sandusky 1 six flags - sandusky 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Six Flags - Sandusky 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multicompanyvalue-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "six flags corporate office 1 six flags corporate office 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Six Flags Corporate Office 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "custom_fields_multicompanyvalue-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "associate 15 associate 15",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Associate 15"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "job_level-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "intern 2 intern 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Intern 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "job_type-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "regular full-time 98 regular full-time 98",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Regular Full-Time 98"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "job_type-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "regular part-time 78 regular part-time 78",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Regular Part-Time 78"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "job_type-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "seasonal 297 seasonal 297",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Seasonal 297"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "job_type-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "union full-time 14 union full-time 14",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Union Full-time 14"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "job_type-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "union part-time 11 union part-time 11",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Union Part-time 11"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "job_type-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "union seasonal 15 union seasonal 15",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Union Seasonal 15"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "job_type-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "no 54 no 54",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "No 54"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_time-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "yes 15 yes 15",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes 15"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "salary_time-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "accounting/finance 2 accounting/finance 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Accounting/Finance 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "administration/management 6 administration/management 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Administration/Management 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "admissions/guest services 17 admissions/guest services 17",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Admissions/Guest Services 17"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "animal care 8 animal care 8",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Animal Care 8"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "aquatics/lifeguards 15 aquatics/lifeguards 15",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Aquatics/Lifeguards 15"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "custodial/janitorial 32 custodial/janitorial 32",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Custodial/Janitorial 32"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "education 1 education 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Education 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "entertainment shows/performers 45 entertainment shows/performers 45",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Entertainment Shows/Performers 45"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "entertainment tech 15 entertainment tech 15",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Entertainment Tech 15"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "food & beverage 54 food & beverage 54",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Food & Beverage 54"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "games 5 games 5",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Games 5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "group sales 6 group sales 6",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Group Sales 6"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "health & safety 15 health & safety 15",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Health & Safety 15"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hiring event 2 hiring event 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hiring Event 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hotel operations 35 hotel operations 35",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hotel Operations 35"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "human resources 10 human resources 10",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Human Resources 10"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "information technology 3 information technology 3",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Information Technology 3"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "internships/co-ops/apprenticeships 1 internships/co-ops/apprenticeships 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Internships/Co-Ops/Apprenticeships 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "maintenance/trades 126 maintenance/trades 126",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Maintenance/Trades 126"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "marina 1 marina 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Marina 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "marketing/public relations 5 marketing/public relations 5",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Marketing/Public Relations 5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "merchandise/retail 22 merchandise/retail 22",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Merchandise/Retail 22"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "office/clerical 1 office/clerical 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Office/Clerical 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "resort food & beverage 4 resort food & beverage 4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Resort Food & Beverage 4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "returning associates 1 returning associates 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Returning Associates 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ride operations 12 ride operations 12",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Ride Operations 12"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "security & loss prevention 49 security & loss prevention 49",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Security & Loss Prevention 49"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "transportation 2 transportation 2",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Transportation 2"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "waitlist 1 waitlist 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Waitlist 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "wardrobe 1 wardrobe 1",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Wardrobe 1"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "warehouse 13 warehouse 13",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Warehouse 13"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "workforce management/scheduling 5 workforce management/scheduling 5",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Workforce Management/Scheduling 5"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "category-filters-section",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "first name first name",
+      "field_type": "text",
+      "max_chars": 25,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "form-field-ae40664e49",
+        "name": "FirstName",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "last name last name",
+      "field_type": "text",
+      "max_chars": 25,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "form-field-8fc0f1c558",
+        "name": "LastName",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email email name@domain.com",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "form-field-3c2b8edf2a",
+        "name": "EmailAddress",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Name@domain.com",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number phone number 123-456-7890",
+      "field_type": "tel",
+      "max_chars": 15,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "form-field-5ba0f04d21",
+        "name": "MobilePhone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "123-456-7890",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "interested in",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select a Job Category",
+        "Accounting/Finance",
+        "Administration/Management",
+        "Admissions/Guest Services",
+        "Animal Care",
+        "Aquatics/Lifeguards",
+        "Custodial/Janitorial",
+        "Education",
+        "Entertainment Shows/Performers",
+        "Entertainment Tech",
+        "Food & Beverage",
+        "Games",
+        "Group Sales",
+        "Health & Safety",
+        "Hiring Event",
+        "Hotel Operations",
+        "Human Resources",
+        "Information Technology",
+        "Internships/Co-Ops/Apprenticeships",
+        "Maintenance/Trades",
+        "Marina",
+        "Marketing/Public Relations",
+        "Merchandise/Retail",
+        "Office/Clerical",
+        "Resort Food & Beverage",
+        "Returning Associates",
+        "Ride Operations",
+        "Security & Loss Prevention",
+        "Transportation",
+        "Waitlist"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "form-field-47fc5bf8f7-category",
+        "name": "Category",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "confirm email confirm email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "form-field-5",
+        "name": "EmailConfirm",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "type your message...",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Type your message...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

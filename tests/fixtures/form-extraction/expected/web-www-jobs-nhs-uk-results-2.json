@@ -1,0 +1,97 @@
+{
+  "id": "web-www-jobs-nhs-uk-results-2",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "search for jobs in the nhs",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "location",
+        "name": "location",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "additional search options",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "jobReference",
+        "name": "jobReference",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "refine your search",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Show only Coronavirus (COVID-19) related jobs"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "covidJobsOnly",
+        "name": "covidJobsOnly",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "sort by sort by",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Best Match",
+        "Closing Date",
+        "Date Posted (newest)",
+        "Salary lowest to highest",
+        "Salary highest to lowest"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "sort",
+        "name": "sort",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

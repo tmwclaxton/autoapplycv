@@ -1,0 +1,49 @@
+{
+  "id": "web-www-bamboohr-com-job-posting-requirements",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "work email work email",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "Email_925347",
+        "name": "Email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "select language select language",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "trustarc-lang-select",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

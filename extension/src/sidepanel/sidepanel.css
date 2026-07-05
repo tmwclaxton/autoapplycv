@@ -568,8 +568,10 @@ body {
 .pending-field-actions {
     display: flex;
     justify-content: flex-end;
+    gap: 8px;
 }
 
+.pending-field-reject-btn,
 .pending-field-save-btn {
     width: auto;
     min-width: 120px;
@@ -689,23 +691,26 @@ body {
 
 .assist-composer-actions {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 8px;
     align-items: stretch;
     margin-top: 10px;
 }
 
 .assist-composer-actions .postbox-btn {
-    flex: 1 1 6rem;
+    flex: 2 1 0;
     min-width: 0;
     width: auto;
 }
 
 .assist-composer-actions .assist-clear-btn {
-    flex: 0 1 auto;
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
     padding: 0.5rem 0.75rem;
     font-size: 12px;
-    white-space: nowrap;
+    text-align: center;
+    white-space: normal;
 }
 
 .assist-inline-btn {

@@ -108,6 +108,7 @@ class ProfileFieldRegistry
             'structured_data.soft_skills.*' => ['string', 'max:255'],
             'structured_data.additional_sections' => ['sometimes', 'nullable', 'array'],
             ...ApplicationSettings::validationRules(),
+            ...ApplicationAnswers::validationRules(),
         ];
     }
 

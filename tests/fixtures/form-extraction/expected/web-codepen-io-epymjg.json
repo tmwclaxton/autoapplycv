@@ -1,0 +1,175 @@
+{
+  "id": "web-codepen-io-epymjg",
+  "min_fields": 8,
+  "exact_field_count": 8,
+  "fields": [
+    {
+      "question": "add class(es) to <html> add class(es) to <html> e.g. single post post-1234",
+      "field_type": "text",
+      "max_chars": 250,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "html-classes",
+        "name": "html-classes",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. single post post-1234",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "stuff for <head> stuff for <head> e.g. <meta>, <link>, <script>",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "head-content",
+        "name": "head-content",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "e.g. <meta>, <link>, <script>",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "autoprefixer autoprefixer",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Autoprefixer",
+        "Prefixfree",
+        "Neither"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "prefix-autoprefixer",
+        "name": "prefix",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search for resources (bootstrap, foundation, animate.css...)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "external-css-search",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search for resources (Bootstrap, Foundation, Animate.css...)",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search cdnjs (jquery, lodash, react, angular, vue.js, ember...)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "external-js-search",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search CDNjs (jQuery, Lodash, React, Angular, Vue.js, Ember...)",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search npm and add a package...",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "packages-search",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search npm and add a package...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "format_on_save format_on_save",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "format_on_save",
+        "name": "format_on_save",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "close this, use anyway. close this, use anyway.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Close this, use anyway."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "modal-closing-trick",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -51,7 +51,7 @@ export function initPendingFieldsPanel({ showMessage }) {
                 ? `Saved to your profile as ${field.profile_label.toLowerCase()}.`
                 : 'Saved to your profile when you submit.';
         } else {
-            hint.textContent = 'Saved for similar questions on future applications.';
+            hint.textContent = 'Saved to Application Q&A on your dashboard for future forms.';
         }
 
         const input = document.createElement(field.field_type === 'textarea' ? 'textarea' : 'input');
@@ -65,10 +65,47 @@ export function initPendingFieldsPanel({ showMessage }) {
         const actions = document.createElement('div');
         actions.className = 'pending-field-actions';
 
+        const rejectBtn = document.createElement('button');
+        rejectBtn.type = 'button';
+        rejectBtn.className = 'postbox-btn-outline pending-field-reject-btn';
+        rejectBtn.textContent = 'Not for profile';
+
         const saveBtn = document.createElement('button');
         saveBtn.type = 'button';
         saveBtn.className = 'postbox-btn pending-field-save-btn';
         saveBtn.textContent = 'Save & fill';
+
+        rejectBtn.addEventListener('click', async () => {
+            if (savingRef) {
+                return;
+            }
+
+            savingRef = field.ref;
+            rejectBtn.disabled = true;
+            saveBtn.disabled = true;
+            rejectBtn.textContent = 'Dismissing…';
+
+            try {
+                const response = await chrome.runtime.sendMessage({
+                    type: 'DISMISS_PENDING_FIELD',
+                    field,
+                });
+
+                if (response?.error) {
+                    throw new Error(response.error);
+                }
+
+                fields = response.fields || [];
+                render();
+            } catch (error) {
+                showMessage(error.message, 'error');
+                rejectBtn.disabled = false;
+                saveBtn.disabled = false;
+                rejectBtn.textContent = 'Not for profile';
+            } finally {
+                savingRef = null;
+            }
+        });
 
         saveBtn.addEventListener('click', async () => {
             const answer = input.value.trim();
@@ -110,6 +147,7 @@ export function initPendingFieldsPanel({ showMessage }) {
             }
         });
 
+        actions.appendChild(rejectBtn);
         actions.appendChild(saveBtn);
         card.appendChild(question);
         card.appendChild(hint);

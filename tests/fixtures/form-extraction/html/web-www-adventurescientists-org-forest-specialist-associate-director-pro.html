@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="pingback" href="https://www.adventurescientists.org/xmlrpc.php" />
+
+	<script type="text/javascript">
+		document.documentElement.className = 'js';
+	</script>
+	
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><script id="diviarea-loader">window.DiviPopupData=window.DiviAreaConfig={"zIndex":1000000,"animateSpeed":400,"triggerClassPrefix":"show-popup-","idAttrib":"data-popup","modalIndicatorClass":"is-modal","blockingIndicatorClass":"is-blocking","defaultShowCloseButton":true,"withCloseClass":"with-close","noCloseClass":"no-close","triggerCloseClass":"close","singletonClass":"single","darkModeClass":"dark","noShadowClass":"no-shadow","altCloseClass":"close-alt","popupSelector":".et_pb_section.popup","initializeOnEvent":"et_pb_after_init_modules","popupWrapperClass":"area-outer-wrap","fullHeightClass":"full-height","openPopupClass":"da-overlay-visible","overlayClass":"da-overlay","exitIndicatorClass":"on-exit","hoverTriggerClass":"on-hover","clickTriggerClass":"on-click","onExitDelay":2000,"notMobileClass":"not-mobile","notTabletClass":"not-tablet","notDesktopClass":"not-desktop","baseContext":"body","activePopupClass":"is-open","closeButtonClass":"da-close","withLoaderClass":"with-loader","debug":false,"ajaxUrl":"https:\/\/www.adventurescientists.org\/wp-admin\/admin-ajax.php","sys":[]};var divimode_loader=function(){"use strict";!function(t){t.DiviArea=t.DiviPopup={loaded:!1};var n=t.DiviArea,i=n.Hooks={},o={};function r(t,n,i){var r,e,c;if("string"==typeof t)if(o[t]){if(n)if((r=o[t])&&i)for(c=r.length;c--;)(e=r[c]).callback===n&&e.context===i&&(r[c]=!1);else for(c=r.length;c--;)r[c].callback===n&&(r[c]=!1)}else o[t]=[]}function e(t,n,i,r){if("string"==typeof t){var e={callback:n,priority:i,context:r},c=o[t];c?(c.push(e),c=function(t){var n,i,o,r,e=t.length;for(r=1;r<e;r++)for(n=t[r],i=r;i>0;i--)(o=t[i-1]).priority>n.priority&&(t[i]=o,t[i-1]=n);return t}(c)):c=[e],o[t]=c}}function c(t,n,i){"string"==typeof n&&(n=[n]);var r,e,c=[];for(r=0;r<n.length;r++)Array.prototype.push.apply(c,o[n[r]]);for(e=0;e<c.length;e++){var a=void 0;c[e]&&"function"==typeof c[e].callback&&("filter"===t?void 0!==(a=c[e].callback.apply(c[e].context,i))&&(i[0]=a):c[e].callback.apply(c[e].context,i))}if("filter"===t)return i[0]}i.silent=function(){return i},n.removeFilter=i.removeFilter=function(t,n){r(t,n)},n.removeAction=i.removeAction=function(t,n){r(t,n)},n.applyFilters=i.applyFilters=function(t){for(var n=[],i=arguments.length-1;i-- >0;)n[i]=arguments[i+1];return c("filter",t,n)},n.doAction=i.doAction=function(t){for(var n=[],i=arguments.length-1;i-- >0;)n[i]=arguments[i+1];c("action",t,n)},n.addFilter=i.addFilter=function(n,i,o,r){e(n,i,parseInt(o||10,10),r||t)},n.addAction=i.addAction=function(n,i,o,r){e(n,i,parseInt(o||10,10),r||t)},n.addActionOnce=i.addActionOnce=function(n,i,o,c){e(n,i,parseInt(o||10,10),c||t),e(n,(function(){r(n,i)}),1+parseInt(o||10,10),c||t)}}(window);return{}}();
+</script><style id="et-divi-userfonts">@font-face { font-family: "avenir-light"; font-display: swap;  src: url("https://www.adventurescientists.org/wp-content/uploads/et-fonts/Avenir-Light-07.ttf") format("truetype"); }</style><style id="et-builder-googlefonts-cached-inline">/* Original: https://fonts.googleapis.com/css?family=Montserrat:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic|Lato:100,100italic,300,300italic,regular,italic,700,700italic,900,900italic&#038;subset=latin,latin-ext&#038;display=swap *//* User Agent: Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/538.1 (KHTML, like Gecko) Safari/538.1 Daum/4.1 */@font-face {font-family: 'Lato';font-style: italic;font-weight: 100;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u-w4BMUTPHjxsIPx-mPCc.ttf) format('truetype');}@font-face {font-family: 'Lato';font-style: italic;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u_w4BMUTPHjxsI9w2_FQfo.ttf) format('truetype');}@font-face {font-family: 'Lato';font-style: italic;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u8w4BMUTPHjxsAUi-v.ttf) format('truetype');}@font-face {font-family: 'Lato';font-style: italic;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u_w4BMUTPHjxsI5wq_FQfo.ttf) format('truetype');}@font-face {font-family: 'Lato';font-style: italic;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u_w4BMUTPHjxsI3wi_FQfo.ttf) format('truetype');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 100;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u8w4BMUTPHh30AUi-v.ttf) format('truetype');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u9w4BMUTPHh7USSwaPHA.ttf) format('truetype');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6uyw4BMUTPHjxAwWw.ttf) format('truetype');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u9w4BMUTPHh6UVSwaPHA.ttf) format('truetype');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u9w4BMUTPHh50XSwaPHA.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 100;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq6R8WXZ0ow.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 200;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqyR9WXZ0ow.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq_p9WXZ0ow.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq6R9WXZ0ow.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 500;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq5Z9WXZ0ow.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 600;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq3p6WXZ0ow.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq0N6WXZ0ow.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 800;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqyR6WXZ0ow.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqw16WXZ0ow.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 100;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Xw3aX8.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 200;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvr6Hw3aX8.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCs16Hw3aX8.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw3aX8.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 500;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtZ6Hw3aX8.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 600;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCu173w3aX8.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w3aX8.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 800;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvr73w3aX8.ttf) format('truetype');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvC73w3aX8.ttf) format('truetype');}/* User Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0 */@font-face {font-family: 'Lato';font-style: italic;font-weight: 100;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u-w4BMUTPHjxsIPx-mPCQ.woff) format('woff');}@font-face {font-family: 'Lato';font-style: italic;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u_w4BMUTPHjxsI9w2_FQfr.woff) format('woff');}@font-face {font-family: 'Lato';font-style: italic;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u8w4BMUTPHjxsAUi-s.woff) format('woff');}@font-face {font-family: 'Lato';font-style: italic;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u_w4BMUTPHjxsI5wq_FQfr.woff) format('woff');}@font-face {font-family: 'Lato';font-style: italic;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u_w4BMUTPHjxsI3wi_FQfr.woff) format('woff');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 100;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u8w4BMUTPHh30AUi-s.woff) format('woff');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u9w4BMUTPHh7USSwaPHw.woff) format('woff');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6uyw4BMUTPHjxAwWA.woff) format('woff');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u9w4BMUTPHh6UVSwaPHw.woff) format('woff');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u9w4BMUTPHh50XSwaPHw.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 100;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq6R8WXZ0oA.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 200;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqyR9WXZ0oA.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq_p9WXZ0oA.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq6R9WXZ0oA.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 500;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq5Z9WXZ0oA.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 600;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq3p6WXZ0oA.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq0N6WXZ0oA.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 800;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqyR6WXZ0oA.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqw16WXZ0oA.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 100;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Xw3aXw.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 200;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvr6Hw3aXw.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCs16Hw3aXw.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw3aXw.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 500;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtZ6Hw3aXw.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 600;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCu173w3aXw.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w3aXw.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 800;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvr73w3aXw.woff) format('woff');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvC73w3aXw.woff) format('woff');}/* User Agent: Mozilla/5.0 (Windows NT 6.3; rv:39.0) Gecko/20100101 Firefox/39.0 */@font-face {font-family: 'Lato';font-style: italic;font-weight: 100;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u-w4BMUTPHjxsIPx-mPCI.woff2) format('woff2');}@font-face {font-family: 'Lato';font-style: italic;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u_w4BMUTPHjxsI9w2_FQft.woff2) format('woff2');}@font-face {font-family: 'Lato';font-style: italic;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u8w4BMUTPHjxsAUi-q.woff2) format('woff2');}@font-face {font-family: 'Lato';font-style: italic;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u_w4BMUTPHjxsI5wq_FQft.woff2) format('woff2');}@font-face {font-family: 'Lato';font-style: italic;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u_w4BMUTPHjxsI3wi_FQft.woff2) format('woff2');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 100;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u8w4BMUTPHh30AUi-q.woff2) format('woff2');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u9w4BMUTPHh7USSwaPGQ.woff2) format('woff2');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6uyw4BMUTPHjxAwXg.woff2) format('woff2');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u9w4BMUTPHh6UVSwaPGQ.woff2) format('woff2');}@font-face {font-family: 'Lato';font-style: normal;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/lato/v25/S6u9w4BMUTPHh50XSwaPGQ.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 100;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq6R8WXZ0pg.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 200;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqyR9WXZ0pg.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq_p9WXZ0pg.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq6R9WXZ0pg.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 500;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq5Z9WXZ0pg.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 600;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq3p6WXZ0pg.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq0N6WXZ0pg.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 800;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqyR6WXZ0pg.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: italic;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jqw16WXZ0pg.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 100;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Xw3aXo.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 200;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvr6Hw3aXo.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCs16Hw3aXo.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw3aXo.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 500;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtZ6Hw3aXo.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 600;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCu173w3aXo.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w3aXo.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 800;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvr73w3aXo.woff2) format('woff2');}@font-face {font-family: 'Montserrat';font-style: normal;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCvC73w3aXo.woff2) format('woff2');}</style><meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+<script type="text/javascript">
+			let jqueryParams=[],jQuery=function(r){return jqueryParams=[...jqueryParams,r],jQuery},$=function(r){return jqueryParams=[...jqueryParams,r],$};window.jQuery=jQuery,window.$=jQuery;let customHeadScripts=!1;jQuery.fn=jQuery.prototype={},$.fn=jQuery.prototype={},jQuery.noConflict=function(r){if(window.jQuery)return jQuery=window.jQuery,$=window.jQuery,customHeadScripts=!0,jQuery.noConflict},jQuery.ready=function(r){jqueryParams=[...jqueryParams,r]},$.ready=function(r){jqueryParams=[...jqueryParams,r]},jQuery.load=function(r){jqueryParams=[...jqueryParams,r]},$.load=function(r){jqueryParams=[...jqueryParams,r]},jQuery.fn.ready=function(r){jqueryParams=[...jqueryParams,r]},$.fn.ready=function(r){jqueryParams=[...jqueryParams,r]};</script>
+	<!-- This site is optimized with the Yoast SEO plugin v19.9 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Forest Specialist Associate Director Project Creation Job Application - Adventure Scientists</title>
+	<link rel="canonical" href="https://www.adventurescientists.org/forest-specialist-associate-director-project-creation-job-application.html" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Forest Specialist Associate Director Project Creation Job Application - Adventure Scientists" />
+	<meta property="og:url" content="https://www.adventurescientists.org/forest-specialist-associate-director-project-creation-job-application.html" />
+	<meta property="og:site_name" content="Adventure Scientists" />
+	<meta property="article:modified_time" content="2022-11-15T00:13:16+00:00" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Est. reading time" />
+	<meta name="twitter:data1" content="5 minutes" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.adventurescientists.org/forest-specialist-associate-director-project-creation-job-application.html","url":"https://www.adventurescientists.org/forest-specialist-associate-director-project-creation-job-application.html","name":"Forest Specialist Associate Director Project Creation Job Application - Adventure Scientists","isPartOf":{"@id":"https://www.adventurescientists.org/#website"},"datePublished":"2022-11-03T16:38:33+00:00","dateModified":"2022-11-15T00:13:16+00:00","breadcrumb":{"@id":"https://www.adventurescientists.org/forest-specialist-associate-director-project-creation-job-application.html#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://www.adventurescientists.org/forest-specialist-associate-director-project-creation-job-application.html"]}]},{"@type":"BreadcrumbList","@id":"https://www.adventurescientists.org/forest-specialist-associate-director-project-creation-job-application.html#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.adventurescientists.org/"},{"@type":"ListItem","position":2,"name":"Forest Specialist Associate Director Project Creation Job Application"}]},{"@type":"WebSite","@id":"https://www.adventurescientists.org/#website","url":"https://www.adventurescientists.org/","name":"Adventure Scientists","description":"Addressing critical challenges to the environment and human health","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.adventurescientists.org/?s={search_term_string}"},"query-input":"required name=search_term_string"}],"inLanguage":"en-US"}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='//www.googletagmanager.com' />
+<link rel="alternate" type="application/rss+xml" title="Adventure Scientists &raquo; Feed" href="https://www.adventurescientists.org/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Adventure Scientists &raquo; Comments Feed" href="https://www.adventurescientists.org/comments/feed/" />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://www.adventurescientists.org/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.adventurescientists.org%2Fforest-specialist-associate-director-project-creation-job-application.html" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://www.adventurescientists.org/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.adventurescientists.org%2Fforest-specialist-associate-director-project-creation-job-application.html&#038;format=xml" />
+<meta content="Divi v.4.17.3" name="generator"/><style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id="classic-theme-styles-inline-css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(body) { margin: 0; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel='stylesheet' id='swipe-style-css' href='https://www.adventurescientists.org/wp-content/plugins/dg-divi-carousel//styles/swiper.min.css?ver=7.0' media='all' />
+<link rel='stylesheet' id='css-divi-area-css' href='https://www.adventurescientists.org/wp-content/plugins/popups-for-divi/styles/front.min.css?ver=3.0.9' media='all' />
+<style id="css-divi-area-inline-css">
+.et_pb_section.popup{display:none}
+/*# sourceURL=css-divi-area-inline-css */
+</style>
+<link rel='stylesheet' id='dg-blog-module-styles-css' href='https://www.adventurescientists.org/wp-content/plugins/dg-blog-module/styles/style.min.css?ver=1.0.11' media='all' />
+<link rel='stylesheet' id='divi-carousel-styles-css' href='https://www.adventurescientists.org/wp-content/plugins/dg-divi-carousel/styles/style.min.css?ver=1.0.0' media='all' />
+<link rel='stylesheet' id='divi-style-css' href='https://www.adventurescientists.org/wp-content/themes/Divi/style-static.min.css?ver=4.17.3' media='all' />
+<script id="jquery-core-js" src="https://www.adventurescientists.org/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
+<script id="jquery-migrate-js" src="https://www.adventurescientists.org/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"></script>
+<script id="jquery-js-after">
+jqueryParams.length&&$.each(jqueryParams,function(e,r){if("function"==typeof r){var n=String(r);n.replace("$","jQuery");var a=new Function("return "+n)();$(document).ready(a)}});
+//# sourceURL=jquery-js-after
+</script>
+<script id="dap-ie-js" src="https://www.adventurescientists.org/wp-content/plugins/popups-for-divi/scripts/ie-compat.min.js?ver=3.0.9"></script>
+<link rel="https://api.w.org/" href="https://www.adventurescientists.org/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://www.adventurescientists.org/wp-json/wp/v2/pages/13060" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.adventurescientists.org/xmlrpc.php?rsd" />
+<link rel='shortlink' href='https://www.adventurescientists.org/?p=13060' />
+<meta name="generator" content="Site Kit by Google 1.173.0" /><!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5RCKKPW');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Mailchimp Code -->
+<script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/f6f7a8b4e2ebbcc2d266bb8b1/52f5609191ef4435534d6a3fe.js");</script>
+<!-- End Mailchimp Code --><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style id="custom-background-css">
+body.custom-background { background-color: #ffffff; }
+</style>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LLCM6WNGSD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LLCM6WNGSD');
+</script>
+
+<script>
+jQuery(document).ready(function(){
+var totalheight = 0;
+jQuery(".et-l--header .et_builder_inner_content .et_pb_section").each(function(){
+totalheight = totalheight + jQuery(this).outerHeight();
+});
+totalheight = totalheight + "px";
+jQuery("#et-main-area").css("padding-top",totalheight);
+});
+</script>
+
+<script>
+jQuery(document).ready(function() { jQuery('.et_pb_module.et_pb_accordion.my_accordion .et_pb_accordion_item.et_pb_toggle_open').addClass('et_pb_toggle_close').removeClass('et_pb_toggle_open');
+ });
+</script>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1071811887629439');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1071811887629439&amp;ev=PageView&amp;noscript=1"></noscript>
+<!-- End Meta Pixel Code -->
+
+<!-- Elegant Theme Lightbox Code -->
+<script>
+(function($) {
+  $(document).ready(function() {
+	 $('<span class="et-lb-close">M</span>').prependTo('body:not(.et-fb-root-ancestor) [class*="lb-content"]  > .et_pb_row:first-child');
+
+	if ($('body:not(.et-fb-root-ancestor)').has('#et-boc').length) {
+		$('body:not(.et-fb-root-ancestor) [class*="et-lb-content"]').wrapAll('<div id="et-boc" class="et-lb-wrapper"><div class="et-l"></div></div>')
+		$('.et-lb-wrapper').appendTo('#et-main-area');
+	} else {
+		$('body:not(.et-fb-root-ancestor) [class*="et-lb-content"] ').appendTo('#et-main-area');
+	}
+	  
+    $("[class*='et-lb-btn']").each(function(index, element) {
+      var classes = $(element).attr('class').match(/et-lb-btn\-(\w*)/);
+      if (classes !== null) {
+          $(element).on('click', function(e){
+            e.preventDefault();
+            $('.et-lb-content-' + classes[1]).toggleClass('et-lb-open');
+          });
+		  $('.et-lb-close').click(function(){
+			  $("[class*='et-lb-content']").removeClass('et-lb-open');
+		  });
+      }
+    });
+  });
+})(jQuery);
+</script>
+
+<!-- End Elegant Theme Lightbox Code --><link rel="icon" href="https://www.adventurescientists.org/wp-content/uploads/2021/11/cropped-as-mark-gr_1-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://www.adventurescientists.org/wp-content/uploads/2021/11/cropped-as-mark-gr_1-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://www.adventurescientists.org/wp-content/uploads/2021/11/cropped-as-mark-gr_1-180x180.png" />
+<meta name="msapplication-TileImage" content="https://www.adventurescientists.org/wp-content/uploads/2021/11/cropped-as-mark-gr_1-270x270.png" />
+<link rel="stylesheet" id="et-core-unified-tb-13998-13060-cached-inline-styles" href="https://www.adventurescientists.org/wp-content/et-cache/13060/et-core-unified-tb-13998-13060.min.css?ver=1781831458" /><link rel="stylesheet" id="et-core-unified-13060-cached-inline-styles" href="https://www.adventurescientists.org/wp-content/et-cache/13060/et-core-unified-13060.min.css?ver=1781831458" /><style id="divi-toolbox-inline-style">	
+body{font-weight:400}body.et_pb_button_helper_class .et_pb_button{font-weight:500}#footer-info{letter-spacing:0;text-transform:none;font-variant:normal}.pulse,.grow,.shrink,.buzz,.move_down,.move_up{transform:perspective(1px) translateZ(0);transition:all .3s ease-in-out!important}.jello:hover{animation:jello .9s both}.wobble:hover{animation:wobble .82s cubic-bezier(.36,.07,.19,.97) both}.heartbeat:hover{animation:heartbeat 1.5s ease-in-out infinite both}.pulse:hover{animation:pulse 1s ease-in-out infinite both}.grow:hover{transform:scale(1.1)}.shrink:hover{transform:scale(.9)}.move_up:hover{transform:translateY(-8px)}.move_down:hover{transform:translateY(8px)}@keyframes jello{0%,100%{transform:scale3d(1,1,1)}30%{transform:scale3d(1.25,.75,1)}40%{transform:scale3d(.75,1.25,1)}50%{transform:scale3d(1.15,.85,1)}65%{transform:scale3d(.95,1.05,1)}75%{transform:scale3d(1.05,.95,1)}}@keyframes wobble{16.65%{transform:translateX(5px)}33.3%{transform:translateX(-4px)}49.95%{transform:translateX(3px)}66.6%{transform:translateX(-2px)}83.25%{transform:translateX(1px)}100%{transform:translateX(0)}}@keyframes heartbeat{from{transform:scale(1);transform-origin:center center;animation-timing-function:ease-out}10%{transform:scale(.91);animation-timing-function:ease-in}17%{transform:scale(.98);animation-timing-function:ease-out}33%{transform:scale(.87);animation-timing-function:ease-in}45%{transform:scale(1);animation-timing-function:ease-out}}@keyframes pulse{25%{transform:scale(1.1)}75%{transform:scale(.9)}}.et-social-icon a.move_up:hover{transform:translateY(-2px)}.et-social-icon a.move_down:hover{transform:translateY(2px)}@media only screen and (min-width:981px) and (max-width:980px){#logo,.logo_container,#main-header,.container{transition:all .4s ease-in-out}#et_mobile_nav_menu{display:none!important}#top-menu,nav#top-menu-nav{display:block}#et-secondary-nav,#et-secondary-menu,#et-info .et-social-icons{display:inline-block!important}#et-info{padding-top:0}#top-header .container{padding-top:.75em}.et_fixed_nav #page-container #main-header,.et_fixed_nav #page-container #top-header{position:fixed}.et_hide_primary_logo #main-header:not(.et-fixed-header) .centered-inline-logo-wrap,.et_hide_fixed_logo #main-header.et-fixed-header .centered-inline-logo-wrap,.et_header_style_centered.et_hide_primary_logo #main-header:not(.et-fixed-header) .logo_container,.et_header_style_centered.et_hide_fixed_logo #main-header.et-fixed-header .logo_container,.et_header_style_split.et_hide_primary_logo #main-header:not(.et-fixed-header) .logo_container,.et_header_style_split.et_hide_fixed_logo #main-header.et-fixed-header .logo_container{height:0;padding:0;opacity:0}.et_pb_fullwidth_menu.dtb-menu .et_pb_menu__menu,.et_pb_menu.dtb-menu .et_pb_menu__menu{display:flex}.dtb-menu .et_mobile_nav_menu{display:none;float:right}.et_pb_fullwidth_menu--style-inline_centered_logo.dtb-menu>div>.et_pb_menu__logo-wrap,.et_pb_menu--style-inline_centered_logo.dtb-menu>div>.et_pb_menu__logo-wrap{display:none}.et_hide_primary_logo #main-header:not(.et-fixed-header) .logo_container,.et_hide_fixed_logo #main-header.et-fixed-header .logo_container{height:0;opacity:0;transition:all .4s ease-in-out}}.et_pb_fullwidth_menu--without-logo.dtb-menu .et_pb_menu__menu>nav>ul>li,.et_pb_menu--without-logo.dtb-menu .et_pb_menu__menu>nav>ul>li{margin-top:0}.dtb-menu.et_pb_module{z-index:3}#main-header{box-shadow:none!important;box-shadow:0 1px 0 rgba(0,0,0,.1)!important}#page-container #main-header.et-fixed-header{box-shadow:none!important;box-shadow:0 0 7px rgba(0,0,0,.1)!important}#top-header{box-shadow:none}#et-info-email,#et-info-phone,.et-cart-info span,#et-secondary-nav>li>a{font-weight:600;letter-spacing:0;text-transform:none;font-variant:normal;font-family:Montserrat}#et-info a,#et-secondary-menu>ul>li>a{color:#fff;position:relative}#et-info a:hover,#et-secondary-menu>ul>li>a:hover{opacity:1;color:#fff}#et-info a:after,#et-secondary-menu>ul:not(.et-social-icons)>li>a:before{content:'';display:block;position:absolute;top:-.8em;bottom:0;right:-.75em;left:-.75em;transition:all .3s ease-in-out;z-index:-1}#et-info a:after{bottom:-.65em}#et-info a:hover:after,#et-secondary-menu>ul>li>a:hover:before{background:rgba(0,0,0,0)}@media (min-width:981px){#main-header{transition:all .3s ease-in-out;height:auto}#wpadminbar{z-index:200001}#main-header.et-fixed-header{top:0!important;z-index:200000}#top-header.et-fixed-header{top:0!important;box-shadow:none}.admin-bar #main-header.et-fixed-header{top:32px!important}.et_header_style_left.et-fixed-header #et-top-navigation{padding-top:30px!important}}#main-header,#top-header{transition:all .3s ease-in-out!important}.et_link_content,.et_audio_content,.et_pb_audio_module_content,.et_quote_content{width:100%}.dtb_layout_placeholder{height:150px;display:flex;align-items:center;justify-content:center;background:#ccc;color:white}.dtb_layout_placeholder>h3{color:white}div[class^=count-]{display:inline-block}</style>
+</head>
+<body class="wp-singular page-template-default page page-id-13060 custom-background wp-theme-Divi et-tb-has-template et-tb-has-footer dtb_blog_default et_button_no_icon et_button_custom_icon et_pb_button_helper_class et_fullwidth_nav et_non_fixed_nav et_show_nav et_primary_nav_dropdown_animation_fade et_secondary_nav_dropdown_animation_fade et_header_style_left et_cover_background et_pb_gutter et_pb_gutters3 et_pb_pagebuilder_layout et_no_sidebar et_divi_theme et-db fat-gallery-move">
+	<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5RCKKPW"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) --><div id="page-container">
+<div id="et-boc" class="et-boc">
+			
+		
+
+	<header id="main-header" data-height-onload="66">
+		<div class="container clearfix et_menu_container">
+					<div class="logo_container">
+				<span class="logo_helper"></span>
+				<a href="https://www.adventurescientists.org/">
+				<img src="https://www.adventurescientists.org/wp-content/uploads/2026/02/Long-15-Year-Logo-for-Web-Nav-Bar-1.png" width="1219" height="188" alt="Adventure Scientists" id="logo" data-height-percentage="80" />
+				</a>
+			</div>
+					<div id="et-top-navigation" data-height="66" data-fixed-height="40">
+									<nav id="top-menu-nav">
+					<ul id="top-menu" class="nav"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-13952"><a href="#">About Us</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-14234"><a href="https://www.adventurescientists.org/our-impact.html">Our Impact</a></li>
+	<li class="sub-menu menu-item menu-item-type-post_type menu-item-object-page menu-item-13956"><a href="https://www.adventurescientists.org/purpose-and-values.html">Purpose and Values</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13974"><a href="https://www.adventurescientists.org/history-and-model.html">The Backstory</a></li>
+	<li class="sub-menu menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-13953"><a href="https://www.adventurescientists.org/our-team.html">Who We Are</a>
+	<ul class="sub-menu">
+		<li class="sub-menu menu-item menu-item-type-post_type menu-item-object-page menu-item-13954"><a href="https://www.adventurescientists.org/staff.html">Staff</a></li>
+		<li class="sub-menu menu-item menu-item-type-post_type menu-item-object-page menu-item-13955"><a href="https://www.adventurescientists.org/board-and-advisors.html">Board and Advisors</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13971"><a href="https://www.adventurescientists.org/join-our-team.html">Join Our Team</a></li>
+	</ul>
+</li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-13967"><a href="https://www.adventurescientists.org/our-services.html">Our Partners</a>
+	<ul class="sub-menu">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15437"><a href="https://www.adventurescientists.org/scientific-partners.html">Scientific Partners</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-14054"><a href="https://www.adventurescientists.org/corporate-partners.html">Corporate Partners</a></li>
+	</ul>
+</li>
+	<li class="sub-menu menu-item menu-item-type-post_type menu-item-object-page menu-item-13959"><a href="https://www.adventurescientists.org/annual-reports-and-financials.html">Annual Reports and Financials</a></li>
+	<li class="sub-menu menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-13961"><a href="#">Media</a>
+	<ul class="sub-menu">
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13964"><a href="https://www.adventurescientists.org/films.html">Films</a></li>
+		<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-14604"><a href="https://www.adventurescientists.org/writing.html">Press and Papers</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-13965"><a href="#">Take Action</a>
+<ul class="sub-menu">
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14088"><a href="https://www.adventurescientists.org/our-services.html">Launch a Project</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13966"><a href="https://www.adventurescientists.org/our-volunteers.html">Volunteer With Us</a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13970"><a href="https://www.adventurescientists.org/access-datasets.html">Use Our Data</a></li>
+	<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14061"><a href="https://funraise.org/give/Adventure-Scientists/b4082896-ffbb-482a-9080-45a37cfcf0a3">Donate</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-14064"><a href="#">Our Projects</a>
+<ul class="sub-menu">
+	<li class="sub-menu menu-item menu-item-type-post_type menu-item-object-page menu-item-13958"><a href="https://www.adventurescientists.org/our-projects.html">Featured Projects</a></li>
+	<li class="sub-menu menu-item menu-item-type-post_type menu-item-object-page menu-item-13960"><a href="https://www.adventurescientists.org/project-reports-and-scientific-publications.html">Project Reports and Publications</a></li>
+	<li class="sub-menu menu-item menu-item-type-custom menu-item-object-custom menu-item-13957"><a href="https://www.adventurescientists.org/impact-areas.html">Impact Areas</a></li>
+</ul>
+</li>
+<li class="divi-life-cta-menu menu-item menu-item-type-custom menu-item-object-custom menu-item-13973"><a href="https://donate.adventurescientists.org/?utm_source=menu-button&#038;utm_medium=website&#038;utm_campaign=general">Donate</a></li>
+</ul>					</nav>
+				
+				
+				
+				
+				<div id="et_mobile_nav_menu">
+				<div class="mobile_nav closed">
+					<span class="select_page">Select Page</span>
+					<span class="mobile_menu_bar mobile_menu_bar_toggle"></span>
+				</div>
+			</div>			</div> <!-- #et-top-navigation -->
+		</div> <!-- .container -->
+			</header> <!-- #main-header -->
+<div id="et-main-area">
+	
+<div id="main-content">
+
+
+			
+				<article id="post-13060" class="post-13060 page type-page status-publish hentry">
+
+				
+					<div class="entry-content">
+					<div class="et-l et-l--post">
+			<div class="et_builder_inner_content et_pb_gutters3">
+		<div class="et_pb_section et_pb_section_0 et_section_regular" >
+				
+				
+				
+				
+				
+				
+				<div class="et_pb_row et_pb_row_0">
+				<div class="et_pb_column et_pb_column_4_4 et_pb_column_0  et_pb_css_mix_blend_mode_passthrough et-last-child">
+				
+				
+				
+				
+				<div class="et_pb_module et_pb_text et_pb_text_0  et_pb_text_align_left et_pb_bg_layout_light">
+				
+				
+				
+				
+				<div class="et_pb_text_inner"><h1>Forest Specialist: Associate Director, Project Creation<br />​ Job Description and Application</h1>
+<p>&nbsp;</p>
+<p style="text-align: center;">Job Description Below Application</p></div>
+			</div><div class="et_pb_module et_pb_code et_pb_code_0">
+				
+				
+				
+				
+				<div class="et_pb_code_inner"><!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+
+    <title>Forest Specialist: Associate Director, Project Creation Application</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="referrer" content="no-referrer-when-downgrade">
+            <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function(){
+            const FORM_TIME_START = Math.floor((new Date).getTime()/1000);
+            let formElement = document.getElementById("tfa_0");
+            if (null === formElement) {
+                formElement = document.getElementById("0");
+            }
+            let appendJsTimerElement = function(){
+                let formTimeDiff = Math.floor((new Date).getTime()/1000) - FORM_TIME_START;
+                let cumulatedTimeElement = document.getElementById("tfa_dbCumulatedTime");
+                if (null !== cumulatedTimeElement) {
+                    let cumulatedTime = parseInt(cumulatedTimeElement.value);
+                    if (null !== cumulatedTime && cumulatedTime > 0) {
+                        formTimeDiff += cumulatedTime;
+                    }
+                }
+                let jsTimeInput = document.createElement("input");
+                jsTimeInput.setAttribute("type", "hidden");
+                jsTimeInput.setAttribute("value", formTimeDiff.toString());
+                jsTimeInput.setAttribute("name", "tfa_dbElapsedJsTime");
+                jsTimeInput.setAttribute("id", "tfa_dbElapsedJsTime");
+                jsTimeInput.setAttribute("autocomplete", "off");
+                if (null !== formElement) {
+                    formElement.appendChild(jsTimeInput);
+                }
+            };
+            if (null !== formElement) {
+                if(formElement.addEventListener){
+                    formElement.addEventListener('submit', appendJsTimerElement, false);
+                } else if(formElement.attachEvent){
+                    formElement.attachEvent('onsubmit', appendJsTimerElement);
+                }
+            }
+        });
+    </script>
+
+    <link href="https://www.tfaforms.com/dist/form-builder/5.0.0/wforms-layout.css?v=1667491166" rel="stylesheet" type="text/css" />
+
+    <link href="https://www.tfaforms.com/uploads/themes/theme-55334.css" rel="stylesheet" type="text/css" />
+    <link href="https://www.tfaforms.com/dist/form-builder/5.0.0/wforms-jsonly.css?v=1667491166" rel="alternate stylesheet" title="This stylesheet activated by javascript" type="text/css" />
+    <script type="text/javascript" src="https://www.tfaforms.com/wForms/3.11/js/wforms.js?v=1667491166"></script>
+    <script type="text/javascript">
+        wFORMS.behaviors.prefill.skip = false;
+    </script>
+        <link rel="stylesheet" type="text/css" href="https://www.tfaforms.com/css/kalendae.css" />
+	<script type="text/javascript" src="https://www.tfaforms.com/js/kalendae/kalendae.standalone.min.js" ></script>
+	<script type="text/javascript" src="https://www.tfaforms.com/wForms/3.11/js/wforms_calendar.js"></script>
+    <script type="text/javascript" src="https://www.tfaforms.com/wForms/3.11/js/localization-en_US.js?v=1667491166"></script>
+
+            
+    
+</head>
+<body class="default wFormWebPage" >
+
+
+    <div id="tfaContent">
+        <div class="wFormContainer" >
+    <div class="wFormHeader"></div>
+    <style type="text/css">
+                #tfa_870,
+                *[id^="tfa_870["] {
+                    width: 170px !important;
+                }
+                #tfa_870-D,
+                *[id^="tfa_870["][class~="field-container-D"] {
+                    width: auto !important;
+                }
+            
+                #tfa_886,
+                *[id^="tfa_886["] {
+                    width: 100% !important;
+                }
+                #tfa_886-D,
+                *[id^="tfa_886["][class~="field-container-D"] {
+                    width: auto !important;
+                }
+            </style><div class=""><div class="wForm" id="5018460-WRPR" dir="ltr">
+<div class="codesection" id="code-5018460"></div>
+<h3 class="wFormTitle" data-testid="form-title" id="5018460-T">Forest Specialist: Associate Director, Project Creation Application</h3>
+<form method="post" action="https://www.tfaforms.com/api_v2/workflow/processor" class="hintsBelow labelsAbove" id="5018460" role="form" enctype="multipart/form-data">
+<div class="wfPage" id="wfPgIndex-1"><div class="section pageSection" id="tfa_940">
+<div class="htmlSection" id="tfa_933"><div class="htmlContent" id="tfa_933-HTML"></div></div>
+<fieldset id="tfa_891" class="section">
+<legend id="tfa_891-L">General Information</legend>
+<div id="tfa_892" class="section inline group">
+<div class="oneField field-container-D    " id="tfa_1-D">
+<label id="tfa_1-L" class="label preField reqMark" for="tfa_1">First Name</label><br /><div class="inputWrapper"><input aria-required="true" type="text" id="tfa_1" name="tfa_1" value="" title="First Name" class="required"></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_2-D">
+<label id="tfa_2-L" class="label preField reqMark" for="tfa_2">Last Name</label><br /><div class="inputWrapper"><input aria-required="true" type="text" id="tfa_2" name="tfa_2" value="" title="Last Name" class="required"></div>
+</div>
+</div>
+<div id="tfa_932" class="section inline group">
+<div class="oneField field-container-D    " id="tfa_4-D">
+<label id="tfa_4-L" class="label preField reqMark" for="tfa_4">Email</label><br /><div class="inputWrapper"><input aria-required="true" type="text" id="tfa_4" name="tfa_4" value="" title="Email" class="required"></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_935-D">
+<label id="tfa_935-L" class="label preField reqMark" for="tfa_935">Mailing Address</label><br /><div class="inputWrapper"><input aria-required="true" type="text" id="tfa_935" name="tfa_935" value="" title="Mailing Address" class="required"></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_937-D">
+<label id="tfa_937-L" class="label preField reqMark" for="tfa_937">City</label><br /><div class="inputWrapper"><input aria-required="true" type="text" id="tfa_937" name="tfa_937" value="" title="City" class="required"></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_939-D">
+<label id="tfa_939-L" class="label preField reqMark" for="tfa_939">State</label><br /><div class="inputWrapper"><input aria-required="true" type="text" id="tfa_939" name="tfa_939" value="" title="State" class="required"></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_931-D">
+<label id="tfa_931-L" class="label preField reqMark" for="tfa_931">Phone Number</label><br /><div class="inputWrapper"><input aria-required="true" type="text" id="tfa_931" name="tfa_931" value="" title="Phone Number" class="validate-integer required"></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_870-D">
+<label id="tfa_870-L" class="label preField reqMark" for="tfa_870">Available Start Date</label><br /><div class="inputWrapper"><input aria-required="true" type="text" id="tfa_870" name="tfa_870" value="" autocomplete="off" title="Available Start Date" class="validate-datecal required"></div>
+</div>
+</div>
+<div id="tfa_895" class="section inline group">
+<div class="oneField field-container-D    " id="tfa_897-D">
+<label id="tfa_897-L" class="label preField reqMark" for="tfa_897">Cover Letter</label><br /><div class="inputWrapper">
+<input type="file" aria-required="true" id="tfa_897" name="tfa_897" size="" title="Cover Letter" class="required"><span class="field-hint-inactive" id="tfa_897-H"><span id="tfa_897-HH" class="hint">.pdf format is preferred</span></span>
+</div>
+</div>
+<div class="oneField field-container-D    " id="tfa_5-D">
+<label id="tfa_5-L" class="label preField reqMark" for="tfa_5">Resume</label><br /><div class="inputWrapper">
+<input type="file" aria-required="true" id="tfa_5" name="tfa_5" size="" title="Resume" class="required"><span class="field-hint-inactive" id="tfa_5-H"><span id="tfa_5-HH" class="hint">.pdf format is preferred</span></span>
+</div>
+</div>
+</div>
+</fieldset>
+<div id="tfa_887" class="section group">
+<label class="label preField" id="tfa_887-L">Professional References</label><br /><fieldset id="tfa_898" class="section">
+<legend id="tfa_898-L">Reference 1</legend>
+<div id="tfa_899" class="section inline group">
+<div class="oneField field-container-D    " id="tfa_872-D">
+<label id="tfa_872-L" class="label preField " for="tfa_872">Name</label><br /><div class="inputWrapper"><input type="text" id="tfa_872" name="tfa_872" value="" title="Name" class=""></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_878-D">
+<label id="tfa_878-L" class="label preField " for="tfa_878">Relationship</label><br /><div class="inputWrapper"><input type="text" id="tfa_878" name="tfa_878" value="" title="Relationship" class=""></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_901-D">
+<label id="tfa_901-L" class="label preField " for="tfa_901">Phone Number</label><br /><div class="inputWrapper"><input type="text" id="tfa_901" name="tfa_901" value="" title="Phone Number" class=""></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_903-D">
+<label id="tfa_903-L" class="label preField " for="tfa_903">Email</label><br /><div class="inputWrapper"><input type="text" id="tfa_903" name="tfa_903" value="" title="Email" class="validate-email"></div>
+</div>
+</div>
+</fieldset>
+<fieldset id="tfa_910" class="section">
+<legend id="tfa_910-L">Reference 2</legend>
+<div id="tfa_911" class="section inline group">
+<div class="oneField field-container-D    " id="tfa_912-D">
+<label id="tfa_912-L" class="label preField " for="tfa_912">Name</label><br /><div class="inputWrapper"><input type="text" id="tfa_912" name="tfa_912" value="" title="Name" class=""></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_913-D">
+<label id="tfa_913-L" class="label preField " for="tfa_913">Relationship</label><br /><div class="inputWrapper"><input type="text" id="tfa_913" name="tfa_913" value="" title="Relationship" class=""></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_914-D">
+<label id="tfa_914-L" class="label preField " for="tfa_914">Phone Number</label><br /><div class="inputWrapper"><input type="text" id="tfa_914" name="tfa_914" value="" title="Phone Number" class=""></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_915-D">
+<label id="tfa_915-L" class="label preField " for="tfa_915">Email</label><br /><div class="inputWrapper"><input type="text" id="tfa_915" name="tfa_915" value="" title="Email" class="validate-email"></div>
+</div>
+</div>
+</fieldset>
+<fieldset id="tfa_922" class="section">
+<legend id="tfa_922-L">Reference 3</legend>
+<div id="tfa_923" class="section inline group">
+<div class="oneField field-container-D    " id="tfa_924-D">
+<label id="tfa_924-L" class="label preField " for="tfa_924">Name</label><br /><div class="inputWrapper"><input type="text" id="tfa_924" name="tfa_924" value="" title="Name" class=""></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_925-D">
+<label id="tfa_925-L" class="label preField " for="tfa_925">Relationship</label><br /><div class="inputWrapper"><input type="text" id="tfa_925" name="tfa_925" value="" title="Relationship" class=""></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_926-D">
+<label id="tfa_926-L" class="label preField " for="tfa_926">Phone Number</label><br /><div class="inputWrapper"><input type="text" id="tfa_926" name="tfa_926" value="" title="Phone Number" class=""></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_927-D">
+<label id="tfa_927-L" class="label preField " for="tfa_927">Email</label><br /><div class="inputWrapper"><input type="text" id="tfa_927" name="tfa_927" value="" title="Email" class="validate-email"></div>
+</div>
+</div>
+</fieldset>
+</div>
+<fieldset id="tfa_928" class="section"><div class="oneField field-container-D    " id="tfa_886-D">
+<label id="tfa_886-L" class="label preField reqMark" for="tfa_886">How did you hear about this job opening?</label><br /><div class="inputWrapper"><textarea aria-required="true" cols="100%" id="tfa_886" name="tfa_886" title="How did you hear about this job opening?" class="required"></textarea></div>
+</div></fieldset>
+</div></div>
+<div class="wfPage" id="wfPgIndex-2"><div class="section pageSection" id="tfa_941">
+<h4 id="tfa_941-T">U.S. Equal Employment Opportunity Information (Completion is Voluntary)</h4>
+<div class="htmlSection" id="tfa_942"><div class="htmlContent" id="tfa_942-HTML"><div><span style="font-size: 14.4px;">Individuals seeking employment at Adventure Scientists are considered without regard to race, color, religion, sex, sexual orientation, gender identification, national origin, age, marital status, ancestry, physical or mental disability, or veteran status. You are being given the opportunity to provide the following information in order to help us comply with federal and state Equal Employment Opportunity record keeping, reporting, and other legal requirements.</span></div><div><span style="font-size: 14.4px;"><br /></span></div><div><span style="font-size: 14.4px;">Completion of the form is entirely voluntary. Whatever your decision, it will not be considered in the hiring process or thereafter. Any information that you do provide will be recorded and maintained in a confidential file.</span></div><div><span style="font-size: 14.4px;"> </span></div><div><span style="font-size: 14.4px;">For government reporting purposes, we ask candidates to respond to a self-identification survey. Completion of this form is entirely voluntary and will not be considered in the hiring process or thereafter. Any information that you do provide will be recorded and maintained in a confidential file.</span></div><div><span style="font-size: 14.4px;"><br /></span></div><div><span style="font-size: 14.4px;">As set forth in Adventure Scientists Equal Employment Opportunity policy, we do not discriminate on the basis of any protected group status under any applicable law.</span></div><div><span style="font-size: 14.4px;"><br /></span></div><div><span style="font-size: 14.4px;">Race & Ethnicity Definitions</span></div><div><span style="font-size: 14.4px;"><br /></span></div><div><span style="font-size: 14.4px;">If you believe you belong to any of the categories of protected veterans listed below, please indicate by making the appropriate selection. As a government contractor subject to the Vietnam Era Veterans Readjustment Assistance Act (VEVRAA), we request this information in order to measure the effectiveness of the outreach and positive recruitment efforts we undertake pursuant to VEVRAA. Classification of protected categories is as follows:</span></div><div><span style="font-size: 14.4px;"><br /></span></div><div><span style="font-size: 14.4px;">A "disabled veteran" is one of the following: a veteran of the U.S. military, ground, naval or air service who is entitled to compensation (or who but for the receipt of military retired pay would be entitled to compensation) under laws administered by the Secretary of Veterans Affairs; or a person who was discharged or released from active duty because of a service-connected disability.</span></div><div><span style="font-size: 14.4px;"><br /></span></div><div><span style="font-size: 14.4px;">A "recently separated veteran" means any veteran during the three-year period beginning on the date of such veteran's discharge or release from active duty in the U.S. military, ground, naval, or air service.</span></div><div><span style="font-size: 14.4px;"><br /></span></div><div><span style="font-size: 14.4px;">An "active duty wartime or campaign badge veteran" means a veteran who served on active duty in the U.S. military, ground, naval or air service during a war, or in a campaign or expedition for which a campaign badge has been authorized under the laws administered by the Department of Defense.</span></div><div><span style="font-size: 14.4px;"><br /></span></div><div><span style="font-size: 14.4px;">An "Armed forces service medal veteran" means a veteran who, while serving on active duty in the U.S. military, ground, naval or air service, participated in a United States military operation for which an Armed Forces service medal was awarded pursuant to Executive Order 12985.</span></div><div><br /></div></div></div>
+<div class="oneField field-container-D    " id="tfa_943-D" role="radiogroup" aria-labelledby="tfa_943-L" data-tfa-labelledby="-L tfa_943-L">
+<label id="tfa_943-L" class="label preField ">U.S Citizen</label><br /><div class="inputWrapper"><span id="tfa_943" class="choices vertical "><span class="oneChoice"><input type="radio" value="tfa_944" class="" id="tfa_944" name="tfa_943" aria-labelledby="tfa_944-L" data-tfa-labelledby="tfa_943-L tfa_944-L"><label class="label postField" id="tfa_944-L" for="tfa_944"><span class="input-radio-faux"></span>Yes</label></span><span class="oneChoice"><input type="radio" value="tfa_945" class="" id="tfa_945" name="tfa_943" aria-labelledby="tfa_945-L" data-tfa-labelledby="tfa_943-L tfa_945-L"><label class="label postField" id="tfa_945-L" for="tfa_945"><span class="input-radio-faux"></span>No</label></span></span></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_1001-D" role="radiogroup" aria-labelledby="tfa_1001-L" data-tfa-labelledby="-L tfa_1001-L">
+<label id="tfa_1001-L" class="label preField ">Are you currently eligible to work in the U.S?</label><br /><div class="inputWrapper"><span id="tfa_1001" class="choices vertical "><span class="oneChoice"><input type="radio" value="tfa_1002" class="" id="tfa_1002" name="tfa_1001" aria-labelledby="tfa_1002-L" data-tfa-labelledby="tfa_1001-L tfa_1002-L"><label class="label postField" id="tfa_1002-L" for="tfa_1002"><span class="input-radio-faux"></span>Yes</label></span><span class="oneChoice"><input type="radio" value="tfa_1003" class="" id="tfa_1003" name="tfa_1001" aria-labelledby="tfa_1003-L" data-tfa-labelledby="tfa_1001-L tfa_1003-L"><label class="label postField" id="tfa_1003-L" for="tfa_1003"><span class="input-radio-faux"></span>No</label></span></span></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_949-D" role="radiogroup" aria-labelledby="tfa_949-L" data-tfa-labelledby="-L tfa_949-L">
+<label id="tfa_949-L" class="label preField ">Will you now or in the future require <a target="_blank" href="https://internationalcenter.umich.edu/fsis/work-eligibility-questions" rel="noopener">sponsorship</a> to work in the U.S?</label><br /><div class="inputWrapper"><span id="tfa_949" class="choices vertical "><span class="oneChoice"><input type="radio" value="tfa_950" class="" id="tfa_950" name="tfa_949" aria-labelledby="tfa_950-L" data-tfa-labelledby="tfa_949-L tfa_950-L"><label class="label postField" id="tfa_950-L" for="tfa_950"><span class="input-radio-faux"></span>Yes</label></span><span class="oneChoice"><input type="radio" value="tfa_951" class="" id="tfa_951" name="tfa_949" aria-labelledby="tfa_951-L" data-tfa-labelledby="tfa_949-L tfa_951-L"><label class="label postField" id="tfa_951-L" for="tfa_951"><span class="input-radio-faux"></span>No</label></span></span></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_952-D" role="group" aria-labelledby="tfa_952-L" data-tfa-labelledby="-L tfa_952-L">
+<label id="tfa_952-L" class="label preField ">Which of the following most accurately describe(s) you?</label><br /><div class="inputWrapper">
+<span id="tfa_952" class="choices vertical "><span class="oneChoice"><input type="checkbox" value="tfa_953" class="" id="tfa_953" name="tfa_953" aria-labelledby="tfa_953-L" data-tfa-labelledby="tfa_952-L tfa_953-L" aria-describedby="tfa_952-HH"><label class="label postField" id="tfa_953-L" for="tfa_953"><span class="input-checkbox-faux"></span>Male</label></span><span class="oneChoice"><input type="checkbox" value="tfa_954" class="" id="tfa_954" name="tfa_954" aria-labelledby="tfa_954-L" data-tfa-labelledby="tfa_952-L tfa_954-L" aria-describedby="tfa_952-HH"><label class="label postField" id="tfa_954-L" for="tfa_954"><span class="input-checkbox-faux"></span>Female</label></span><span class="oneChoice"><input type="checkbox" value="tfa_955" class="" id="tfa_955" name="tfa_955" aria-labelledby="tfa_955-L" data-tfa-labelledby="tfa_952-L tfa_955-L" aria-describedby="tfa_952-HH"><label class="label postField" id="tfa_955-L" for="tfa_955"><span class="input-checkbox-faux"></span>Non-binary</label></span><span class="oneChoice"><input type="checkbox" value="tfa_956" class="" id="tfa_956" name="tfa_956" aria-labelledby="tfa_956-L" data-tfa-labelledby="tfa_952-L tfa_956-L" aria-describedby="tfa_952-HH"><label class="label postField" id="tfa_956-L" for="tfa_956"><span class="input-checkbox-faux"></span>Transgender</label></span><span class="oneChoice"><input type="checkbox" value="tfa_957" class="" id="tfa_957" name="tfa_957" aria-labelledby="tfa_957-L" data-tfa-labelledby="tfa_952-L tfa_957-L" aria-describedby="tfa_952-HH"><label class="label postField" id="tfa_957-L" for="tfa_957"><span class="input-checkbox-faux"></span>Intersex</label></span><span class="oneChoice"><input type="checkbox" value="tfa_958" class="" id="tfa_958" name="tfa_958" aria-labelledby="tfa_958-L" data-tfa-labelledby="tfa_952-L tfa_958-L" aria-describedby="tfa_952-HH"><label class="label postField" id="tfa_958-L" for="tfa_958"><span class="input-checkbox-faux"></span>I prefer not to say</label></span><span class="oneChoice"><input type="checkbox" value="tfa_959" class="" id="tfa_959" name="tfa_959" aria-labelledby="tfa_959-L" data-tfa-labelledby="tfa_952-L tfa_959-L" aria-describedby="tfa_952-HH"><label class="label postField" id="tfa_959-L" for="tfa_959"><span class="input-checkbox-faux"></span>Decline to Answer</label></span></span><span class="field-hint-inactive" id="tfa_952-H"><span id="tfa_952-HH" class="hint">Choose as many as you like</span></span>
+</div>
+</div>
+<div class="oneField field-container-D    " id="tfa_997-D">
+<label id="tfa_997-L" class="label preField " for="tfa_997">What are your pronouns?</label><br /><div class="inputWrapper"><input type="text" id="tfa_997" name="tfa_997" value="" title="What are your pronouns?" class=""></div>
+</div>
+<div class="oneField field-container-D    " id="tfa_964-D">
+<label id="tfa_964-L" class="label preField " for="tfa_964">Race:</label><br /><div class="inputWrapper"><select id="tfa_964" name="tfa_964" title="Race:" class=""><option value="">Please select...</option>
+<option value="tfa_965" id="tfa_965" class="">American Indian or Alaskan Native</option>
+<option value="tfa_966" id="tfa_966" class="">Asian</option>
+<option value="tfa_967" id="tfa_967" class="">Black, African, or African American</option>
+<option value="tfa_968" id="tfa_968" class="">Hispanic or Latino</option>
+<option value="tfa_969" id="tfa_969" class="">White</option>
+<option value="tfa_970" id="tfa_970" class="">Native Hawian or Pacific Islander</option>
+<option value="tfa_971" id="tfa_971" class="">Two or more races</option>
+<option value="tfa_972" id="tfa_972" class="">Decline to Self Identify</option></select></div>
+</div>
+<div class="htmlSection" id="tfa_986"><div class="htmlContent" id="tfa_986-HTML"><div><span style="font-size: 14.4px;"><b><br /></b></span></div><div><span style="font-size: 14.4px;"><b><br /></b></span></div><div><span style="font-size: 14.4px;"><b>Disability</b></span></div><div><span style="font-size: 14.4px;">Autism</span></div><div><span style="font-size: 14.4px;">Autoimmune disorder, for example, lupus, fibromyalgia, rheumatoid arthritis, or HIV/AID</span></div><div><span style="font-size: 14.4px;">Blind or low vision</span></div><div><span style="font-size: 14.4px;">Cancer</span></div><div><span style="font-size: 14.4px;">Cardiovascular or heart disease</span></div><div><span style="font-size: 14.4px;">Celiac disease</span></div><div><span style="font-size: 14.4px;">Cerebral palsy</span></div><div><span style="font-size: 14.4px;">Deaf or hard of hearing</span></div><div><span style="font-size: 14.4px;">Depression or anxiety</span></div><div><span style="font-size: 14.4px;">Diabetes</span></div><div><span style="font-size: 14.4px;">Epilepsy</span></div><div><span style="font-size: 14.4px;">Gastrointestinal disorders, for example, Crohn's Disease, or irritable bowel syndrome</span></div><div><span style="font-size: 14.4px;">Intellectual disability</span></div><div><span style="font-size: 14.4px;">Missing limbs or partially missing limbs</span></div><div><span style="font-size: 14.4px;">Nervous system condition for example, migraine headaches, Parkinson’s disease, or Multiple sclerosis (MS)</span></div><div><span style="font-size: 14.4px;">Psychiatric condition, for example, bipolar disorder, schizophrenia, PTSD, or major depression</span></div></div></div>
+<div class="oneField field-container-D    " id="tfa_982-D">
+<label id="tfa_982-L" class="label preField " for="tfa_982">Select One:</label><br /><div class="inputWrapper"><select id="tfa_982" name="tfa_982" title="Select One:" class=""><option value="">Please select...</option>
+<option value="tfa_983" id="tfa_983" class="">Yes, I have a disability, or have a history/record of having a disability</option>
+<option value="tfa_984" id="tfa_984" class="">No, I don't have a disability, or a history/record of having a disability</option>
+<option value="tfa_985" id="tfa_985" class="">I don't wish to answer</option></select></div>
+</div>
+<div class="htmlSection" id="tfa_988"><div class="htmlContent" id="tfa_988-HTML"><div><div><span style="font-size: 14.4px;"><b><br /></b></span></div><div><span style="font-size: 14.4px;"><b><br /></b></span></div><div><span style="font-size: 14.4px;"><b><br /></b></span></div><div><span style="font-size: 14.4px;"><b>Veteran</b>:</span></div><div><span style="font-size: 14.4px;">Special Disabled Veteran </span></div><div><span style="font-size: 14.4px;">Vietnam Era Veteran</span></div><div><span style="font-size: 14.4px;">Newly Separated Veteran</span></div><div><span style="font-size: 14.4px;">Other Protected Veteran</span></div><div><span style="font-size: 14.4px;">Not a Veteran</span></div><div><span style="font-size: 14.4px;">Decline to Self Identify</span></div><div><span style="font-size: 14.4px;">Veteran</span></div><div><span style="font-size: 14.4px;">Disabled Veteran</span></div><div><span style="font-size: 14.4px;">Veteran Other</span></div><div><span style="font-size: 14.4px;">Armed Forces service medal veteran </span></div><div><span style="font-size: 14.4px;">Recently separated veteran</span></div></div></div></div>
+<div class="oneField field-container-D    " id="tfa_993-D">
+<label id="tfa_993-L" class="label preField " for="tfa_993">Select One:</label><br /><div class="inputWrapper"><select id="tfa_993" name="tfa_993" title="Select One:" class=""><option value="">Please select...</option>
+<option value="tfa_994" id="tfa_994" class="">I am not a protected veteran </option>
+<option value="tfa_995" id="tfa_995" class="">I identify as one or more of the classifications of a protected veteran </option>
+<option value="tfa_996" id="tfa_996" class="">I don't wish to answer</option></select></div>
+</div>
+</div></div>
+<div class="actions" id="5018460-A"><input type="submit" data-label="Submit" class="primaryAction" id="submit_button" value="Submit"></div>
+<div style="clear:both"></div>
+<input type="hidden" value="5018460" name="tfa_dbFormId" id="tfa_dbFormId"><input type="hidden" value="" name="tfa_dbResponseId" id="tfa_dbResponseId"><input type="hidden" value="86328bdd7829364f4baf344fa709b901" name="tfa_dbControl" id="tfa_dbControl"><input type="hidden" value="" name="tfa_dbWorkflowSessionUuid" id="tfa_dbWorkflowSessionUuid"><input type="hidden" value="9" name="tfa_dbVersionId" id="tfa_dbVersionId"><input type="hidden" value="" name="tfa_switchedoff" id="tfa_switchedoff">
+</form>
+</div></div><div class="wFormFooter"><p class="supportInfo"><br /></p> </div>
+  <p class="supportInfo" >
+      </p> 
+ </div>
+    </div>
+
+        <script src='https://www.tfaforms.com/js/iframe_message_helper_internal.js?v=2'></script>
+
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a168f866dd97dd7d',t:'MTc4MzI4MTc3Nw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+</div>
+			</div>
+			</div>
+				
+				
+				
+				
+			</div>
+				
+				
+			</div><div class="et_pb_section et_pb_section_1 et_pb_with_background et_section_regular" >
+				
+				
+				
+				
+				
+				
+				<div class="et_pb_row et_pb_row_1">
+				<div class="et_pb_column et_pb_column_4_4 et_pb_column_1  et_pb_css_mix_blend_mode_passthrough et-last-child">
+				
+				
+				
+				
+				<div class="et_pb_module et_pb_code et_pb_code_1">
+				
+				
+				
+				
+				<div class="et_pb_code_inner"><p  style=" margin: 12px auto 6px auto; font-family: Helvetica,Arial,Sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; display: block;">   </p> <iframe class="scribd_iframe_embed" title="Forest Specialist: Associate Director, Project Creation" src="https://www.scribd.com/embeds/606368321/content?start_page=1&#038;view_mode=scroll&#038;access_key=key-CChAbDath80WtNjzR3ce" data-auto-height="true" data-aspect-ratio="0.7729220222793488" scrolling="no" id="doc_57949" width="100%" height="600" frameborder="0"></iframe><script type="text/javascript">(function() { var scribd = document.createElement("script"); scribd.type = "text/javascript"; scribd.async = true; scribd.src = "https://www.scribd.com/javascripts/embed_code/inject.js"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(scribd, s); })();</script></div>
+			</div>
+			</div>
+				
+				
+				
+				
+			</div>
+				
+				
+			</div>		</div>
+	</div>
+						</div>
+
+				
+				</article>
+
+			
+
+</div>
+
+	<footer class="et-l et-l--footer">
+			<div class="et_builder_inner_content et_pb_gutters3"><div class="et_pb_with_border et_pb_section et_pb_section_0_tb_footer et_section_regular" >
+				
+				
+				
+				
+				
+				
+				<div class="et_pb_row et_pb_row_0_tb_footer">
+				<div class="et_pb_column et_pb_column_1_3 et_pb_column_0_tb_footer  et_pb_css_mix_blend_mode_passthrough">
+				
+				
+				
+				
+				<div class="et_pb_button_module_wrapper et_pb_button_0_tb_footer_wrapper et_pb_button_alignment_center et_pb_module ">
+				<a class="et_pb_button et_pb_button_0_tb_footer et_pb_bg_layout_light" href="https://donate.adventurescientists.org/?utm_source=footer-button&#038;utm_medium=website&#038;utm_campaign=general" target="_blank">DONATE NOW</a>
+			</div>
+			</div><div class="et_pb_column et_pb_column_1_3 et_pb_column_1_tb_footer  et_pb_css_mix_blend_mode_passthrough">
+				
+				
+				
+				
+				<div class="et_pb_button_module_wrapper et_pb_button_1_tb_footer_wrapper et_pb_button_alignment_center et_pb_module ">
+				<a class="et_pb_button et_pb_button_1_tb_footer et_pb_bg_layout_light" href="https://www.adventurescientists.org/subscribe/" target="_blank">SUBSCRIBE</a>
+			</div>
+			</div><div class="et_pb_column et_pb_column_1_3 et_pb_column_2_tb_footer  et_pb_css_mix_blend_mode_passthrough et-last-child">
+				
+				
+				
+				
+				<div class="et_pb_module et_pb_search et_pb_search_0_tb_footer ds-icon-search  et_pb_text_align_left et_pb_bg_layout_light">
+				
+				
+				
+				
+				<form role="search" method="get" class="et_pb_searchform" action="https://www.adventurescientists.org/">
+					<div>
+						<label class="screen-reader-text" for="s">Search for:</label>
+						<input type="text" name="s" placeholder="Search Adventure Scientists" class="et_pb_s" />
+						<input type="hidden" name="et_pb_searchform_submit" value="et_search_proccess" />
+						
+						<input type="hidden" name="et_pb_include_posts" value="yes" />
+						<input type="hidden" name="et_pb_include_pages" value="yes" />
+						<input type="submit" value="Search" class="et_pb_searchsubmit">
+					</div>
+				</form>
+			</div>
+			</div>
+				
+				
+				
+				
+			</div><div class="et_pb_row et_pb_row_1_tb_footer">
+				<div class="et_pb_column et_pb_column_4_4 et_pb_column_3_tb_footer  et_pb_css_mix_blend_mode_passthrough et-last-child">
+				
+				
+				
+				
+				<ul class="et_pb_module et_pb_social_media_follow et_pb_social_media_follow_0_tb_footer clearfix  et_pb_text_align_center et_pb_bg_layout_light">
+				
+				
+				
+				
+				<li
+            class='et_pb_social_media_follow_network_0_tb_footer et_pb_social_icon et_pb_social_network_link  et-social-facebook'><a
+              href='https://www.facebook.com/AdventureScientists'
+              class='icon et_pb_with_border'
+              title='Follow on Facebook'
+               target="_blank"><span
+                class='et_pb_social_media_follow_network_name'
+                aria-hidden='true'
+                >Follow</span></a></li><li
+            class='et_pb_social_media_follow_network_1_tb_footer et_pb_social_icon et_pb_social_network_link  et-social-instagram'><a
+              href='https://www.instagram.com/adventurescientists/'
+              class='icon et_pb_with_border'
+              title='Follow on Instagram'
+               target="_blank"><span
+                class='et_pb_social_media_follow_network_name'
+                aria-hidden='true'
+                >Follow</span></a></li><li
+            class='et_pb_social_media_follow_network_2_tb_footer et_pb_social_icon et_pb_social_network_link  et-social-linkedin'><a
+              href='https://www.linkedin.com/company/adventurescientists/'
+              class='icon et_pb_with_border'
+              title='Follow on LinkedIn'
+               target="_blank"><span
+                class='et_pb_social_media_follow_network_name'
+                aria-hidden='true'
+                >Follow</span></a></li><li
+            class='et_pb_social_media_follow_network_3_tb_footer et_pb_social_icon et_pb_social_network_link  et-social-youtube'><a
+              href='https://www.youtube.com/c/AdventureScientists'
+              class='icon et_pb_with_border'
+              title='Follow on Youtube'
+               target="_blank"><span
+                class='et_pb_social_media_follow_network_name'
+                aria-hidden='true'
+                >Follow</span></a></li><li
+            class='et_pb_social_media_follow_network_4_tb_footer et_pb_social_icon et_pb_social_network_link  et-social-vimeo'><a
+              href='https://vimeo.com/adventurescientists'
+              class='icon et_pb_with_border'
+              title='Follow on Vimeo'
+               target="_blank"><span
+                class='et_pb_social_media_follow_network_name'
+                aria-hidden='true'
+                >Follow</span></a></li>
+			</ul><div class="et_pb_module et_pb_image et_pb_image_0_tb_footer">
+				
+				
+				
+				
+				<span class="et_pb_image_wrap "><img loading="lazy" decoding="async" width="1080" height="1080" src="https://www.adventurescientists.org/wp-content/uploads/2026/02/PNG-Final-Blue.png" alt="Adventure Scientists celebrates over 15 years of conservation impact, managing over 130 projects that directly impact sustainability and conservation. Our projects have influenced land management decisions, supported endangered species protections, and helped scientists answer questions that once felt out of reach." title="PNG Final Blue" srcset="https://www.adventurescientists.org/wp-content/uploads/2026/02/PNG-Final-Blue.png 1080w, https://www.adventurescientists.org/wp-content/uploads/2026/02/PNG-Final-Blue-980x980.png 980w, https://www.adventurescientists.org/wp-content/uploads/2026/02/PNG-Final-Blue-480x480.png 480w" sizes="auto, (min-width: 0px) and (max-width: 480px) 480px, (min-width: 481px) and (max-width: 980px) 980px, (min-width: 981px) 1080px, 100vw" class="wp-image-15310" /></span>
+			</div><div class="et_pb_module et_pb_text et_pb_text_0_tb_footer  et_pb_text_align_center et_pb_bg_layout_light">
+				
+				
+				
+				
+				<div class="et_pb_text_inner"><p>Adventure Scientists®<br />​PO Box 1834, Bozeman, MT 59771<br />406.624.3320   <span style="text-decoration: underline; color: #000000;"><a href="mailto:info@adventurescientists.org" target="_blank" rel="noopener" style="color: #000000; text-decoration: underline;">info@adventurescientists.org</a></span></p></div>
+			</div>
+			</div>
+				
+				
+				
+				
+			</div><div class="et_pb_row et_pb_row_2_tb_footer">
+				<div class="et_pb_column et_pb_column_1_4 et_pb_column_4_tb_footer  et_pb_css_mix_blend_mode_passthrough">
+				
+				
+				
+				
+				<div class="et_pb_module et_pb_text et_pb_text_1_tb_footer  et_pb_text_align_left et_pb_bg_layout_light">
+				
+				
+				
+				
+				<div class="et_pb_text_inner"><h4>About</h4>
+<p><a href="https://www.adventurescientists.org/mission-and-values.html">Mission and Values</a></p>
+<p><a href="https://www.adventurescientists.org/history-and-model.html">The Backstory</a></p>
+<p><a href="https://www.adventurescientists.org/our-team.html">Who We Are</a></p>
+<p><a href="https://www.adventurescientists.org/our-services.html"></a><a href="https://www.adventurescientists.org/our-partners.html">Scientific Partners</a></p>
+<p><a href="https://www.adventurescientists.org/corporate-partners.html">Corporate Partners</a></p>
+<p><a href="https://www.adventurescientists.org/annual-reports-and-financials.html">Annual Reports and Financials</a></p></div>
+			</div>
+			</div><div class="et_pb_column et_pb_column_1_4 et_pb_column_5_tb_footer  et_pb_css_mix_blend_mode_passthrough">
+				
+				
+				
+				
+				<div class="et_pb_module et_pb_text et_pb_text_2_tb_footer  et_pb_text_align_left et_pb_bg_layout_light">
+				
+				
+				
+				
+				<div class="et_pb_text_inner"><h4>Take Action</h4>
+<p><a href="https://www.adventurescientists.org/our-services.html">Launch a Project</a></p>
+<p><a href="https://www.adventurescientists.org/our-volunteers.html">Volunteer With Us</a></p>
+<p><a href="https://www.adventurescientists.org/access-datasets.html">Use Our Data</a></p>
+<p><a href="https://donate.adventurescientists.org/?utm_source=footer-link&amp;utm_medium=website&amp;utm_campaign=general">Donate</a></p></div>
+			</div>
+			</div><div class="et_pb_column et_pb_column_1_4 et_pb_column_6_tb_footer  et_pb_css_mix_blend_mode_passthrough">
+				
+				
+				
+				
+				<div class="et_pb_module et_pb_text et_pb_text_3_tb_footer  et_pb_text_align_left et_pb_bg_layout_light">
+				
+				
+				
+				
+				<div class="et_pb_text_inner"><h4>Our Projects</h4>
+<p><a href="https://www.adventurescientists.org/our-projects.html">Current Projects</a></p>
+<p><a href="https://www.adventurescientists.org/past-projects.html">Completed Projects</a></p>
+<p><a href="https://www.adventurescientists.org/impact-areas.html">Impact Areas</a></p></div>
+			</div>
+			</div><div class="et_pb_column et_pb_column_1_4 et_pb_column_7_tb_footer  et_pb_css_mix_blend_mode_passthrough et-last-child">
+				
+				
+				
+				
+				<div class="et_pb_module et_pb_text et_pb_text_4_tb_footer  et_pb_text_align_left et_pb_bg_layout_light">
+				
+				
+				
+				
+				<div class="et_pb_text_inner"><h4>Media</h4>
+<p><a href="https://www.adventurescientists.org/press.html">Press and Papers</a></p>
+<p><a href="https://www.adventurescientists.org/blog.html">Blog</a></p>
+<p><a href="https://www.adventurescientists.org/films.html">Films</a></p></div>
+			</div>
+			</div>
+				
+				
+				
+				
+			</div><div class="et_pb_row et_pb_row_3_tb_footer">
+				<div class="et_pb_column et_pb_column_4_4 et_pb_column_8_tb_footer  et_pb_css_mix_blend_mode_passthrough et-last-child">
+				
+				
+				
+				
+				<div class="et_pb_module et_pb_text et_pb_text_5_tb_footer  et_pb_text_align_left et_pb_bg_layout_light">
+				
+				
+				
+				
+				<div class="et_pb_text_inner"><p style="text-align: left;">Adventure Scientists ® Since 2011</p></div>
+			</div>
+			</div>
+				
+				
+				
+				
+			</div>
+				
+				
+			</div>		</div>
+	</footer>
+		</div>
+
+			
+		</div>
+		</div>
+
+			<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/Divi/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<div class="gtranslate_wrapper" id="gt-wrapper-34748531"></div><script>
+(function () {
+  let locked = false;
+  let scrollY = 0;
+
+  function lightboxIsOpen() {
+    // Divi marks the open lightbox content with et-lb-open
+    return !!document.querySelector('.et-lb-open');
+  }
+
+  function lockBody() {
+    if (locked) return;
+    locked = true;
+
+    scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
+  }
+
+  function unlockBody() {
+    if (!locked) return;
+    locked = false;
+
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+
+    window.scrollTo(0, scrollY);
+  }
+
+  // Watch for the lightbox opening/closing
+  const obs = new MutationObserver(() => {
+    if (lightboxIsOpen()) lockBody();
+    else unlockBody();
+  });
+
+  obs.observe(document.documentElement, { childList: true, subtree: true, attributes: true });
+
+})();
+</script>
+<script id="swipe-script-js" src="https://www.adventurescientists.org/wp-content/plugins/dg-divi-carousel//scripts/swiper.min.js?ver=1.0.0"></script>
+<script id="js-divi-area-js" src="https://www.adventurescientists.org/wp-content/plugins/popups-for-divi/scripts/front.min.js?ver=3.0.9"></script>
+<script id="divi-custom-script-js-extra">
+var DIVI = {"item_count":"%d Item","items_count":"%d Items"};
+var et_builder_utils_params = {"condition":{"diviTheme":true,"extraTheme":false},"scrollLocations":["app","top"],"builderScrollLocations":{"desktop":"app","tablet":"app","phone":"app"},"onloadScrollLocation":"app","builderType":"fe"};
+var et_frontend_scripts = {"builderCssContainerPrefix":"#et-boc","builderCssLayoutPrefix":"#et-boc .et-l"};
+var et_pb_custom = {"ajaxurl":"https://www.adventurescientists.org/wp-admin/admin-ajax.php","images_uri":"https://www.adventurescientists.org/wp-content/themes/Divi/images","builder_images_uri":"https://www.adventurescientists.org/wp-content/themes/Divi/includes/builder/images","et_frontend_nonce":"c8b9899283","subscription_failed":"Please, check the fields below to make sure you entered the correct information.","et_ab_log_nonce":"b0412a6ae2","fill_message":"Please, fill in the following fields:","contact_error_message":"Please, fix the following errors:","invalid":"Invalid email","captcha":"Captcha","prev":"Prev","previous":"Previous","next":"Next","wrong_captcha":"You entered the wrong number in captcha.","wrong_checkbox":"Checkbox","ignore_waypoints":"no","is_divi_theme_used":"1","widget_search_selector":".widget_search","ab_tests":[],"is_ab_testing_active":"","page_id":"13060","unique_test_id":"","ab_bounce_rate":"5","is_cache_plugin_active":"yes","is_shortcode_tracking":"","tinymce_uri":"https://www.adventurescientists.org/wp-content/themes/Divi/includes/builder/frontend-builder/assets/vendors","waypoints_options":[]};
+var et_pb_box_shadow_elements = [];
+//# sourceURL=divi-custom-script-js-extra
+</script>
+<script id="divi-custom-script-js" src="https://www.adventurescientists.org/wp-content/themes/Divi/js/scripts.min.js?ver=4.17.3"></script>
+<script id="dg-blog-module-frontend-bundle-js" src="https://www.adventurescientists.org/wp-content/plugins/dg-blog-module/scripts/frontend-bundle.min.js?ver=1.0.11"></script>
+<script id="divi-carousel-frontend-bundle-js" src="https://www.adventurescientists.org/wp-content/plugins/dg-divi-carousel/scripts/frontend-bundle.min.js?ver=1.0.0"></script>
+<script id="et-core-common-js" src="https://www.adventurescientists.org/wp-content/themes/Divi/core/admin/js/common.js?ver=4.17.3"></script>
+<script id="divi-toolbox-scripts-js-extra">
+var toolbox_values = {"dtb_enable_popup":"","dtb_enable_typing":"","dtb_mobile_parallax":"","dtb_popup_number":"1","dtb_readmore_text_enable":"","dtb_readmore_text":"Read More","dtb_comments_text":"Submit a Comment","dtb_sec_btn_class":"dtb-button","dtb_sticky_footer":"","dtb_social_enable":"","dtb_social_links":"","dtb_instagram_url":"","dtb_youtube_url":"","dtb_linkedin_url":"","dtb_pinterest_url":"","dtb_tumblr_url":"","dtb_flickr_url":"","dtb_dribble_url":"","dtb_vimeo_url":"","dtb_skype_url":"","dtb_social_target":"","dtb_social_move":"","dtb_social_mobile_add":"","dtb_btt":"","dtb_btt_link":"","dtb_btt_url":"#","social_head_hover":"","social_foot_hover":"","dtb_fixed_logo":"","dtb_fixed_logo_url":"","dtb_mobile_logo":"","dtb_mobile_logo_url":"","dtb_mobile_breakpoint":"980","cta_hover_style":"","dtb_cta_link":"","dtb_cta_link_type":"","dtb_mobile_nested":"","dtb_mobile_enable":"","dtb_enable_custom_m_menu":"","dtb_custom_m_menu":"","dtb_m_m_animation_page":"","dtb_m_m_animation_type":"","dtb_m_m_width":"","dtb_m_m_width_max":"240","dtb_m_m_hamburger_show":"1","dtb_m_mobile_trigger":"","dtb_m_m_fixed":"","dtb_sidebar_search":"","dtb_post_meta":"","dtb_post_author":"","dtb_single_after_content_layout":"","dtb_post_related":"","dtb_post_prev_next":"","dtb_archive_button":"1","dtb_archive_btn_hover":"","dtb_archive_styles":"","dtb_blog_layout":"","dtb_comments_styles":"","dtb_comments_btn_hover":"","dtb_hide_post_title":"","dtb_footer_reveal":"","dtb_footer_reveal_mobile_off":"","dtb_testimonial_photo":"","dtb_enable_equal_height":"","dtb_equal_height_blurb":"","dtb_equal_height_pricing":"","dtb_equal_height_quote":"","dtb_equal_height_breakpoint":"479","dtb_enable_sticky":"","dtb_buttons_hover":"","dtb_sec_btn_hover":"","dtb_follow_the_mouse":"","dtb_fixed_scroll":"","dtb_fixed_scroll_offset":"100","dtb_move_page_below_header":"","dtb_equal_archive_img":"","dtb_equal_archive_boxed":"","dtb_vb_enabled":""};
+//# sourceURL=divi-toolbox-scripts-js-extra
+</script>
+<script id="divi-toolbox-scripts-js" src="https://www.adventurescientists.org/wp-content/plugins/divi-toolbox/assets/js/toolbox-scripts.js?ver=1.6.14"></script>
+<script id="gt_widget_script_34748531-js-before">
+window.gtranslateSettings = /* document.write */ window.gtranslateSettings || {};window.gtranslateSettings['34748531'] = {"default_language":"en","languages":["en","es"],"url_structure":"none","flag_style":"2d","wrapper_selector":"#gt-wrapper-34748531","alt_flags":{"en":"usa","es":"mexico"},"float_switcher_open_direction":"bottom","switcher_horizontal_position":"left","switcher_vertical_position":"bottom","flags_location":"\/wp-content\/plugins\/gtranslate\/flags\/"};
+//# sourceURL=gt_widget_script_34748531-js-before
+</script><script src="https://www.adventurescientists.org/wp-content/plugins/gtranslate/js/float.js?ver=7.0" data-no-optimize="1" data-no-minify="1" data-gt-orig-url="/forest-specialist-associate-director-project-creation-job-application.html" data-gt-orig-domain="www.adventurescientists.org" data-gt-widget-id="34748531" defer></script><script id="fitvids-js" src="https://www.adventurescientists.org/wp-content/plugins/dg-blog-module/scripts/lib/fitvids.js?ver=1.0.11"></script>
+	
+	</body>
+</html>

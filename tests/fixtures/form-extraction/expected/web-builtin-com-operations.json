@@ -1,0 +1,131 @@
+{
+  "id": "web-builtin-com-operations",
+  "min_fields": 6,
+  "exact_field_count": 6,
+  "fields": [
+    {
+      "question": "search",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "header-search-input",
+        "name": "search jobs input",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "job title, company or keyword job title, company or keyword job title, company or keyword",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "searchJobsInput",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Job Title, Company or Keyword",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location location",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "locationDropdownInput-JobBoard",
+        "name": "location",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Location",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "type to filter...",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Type to filter...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "early applicant early applicant",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Early Applicant"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "earlyApplicantSwitch",
+        "name": null,
+        "data_testid": null,
+        "role": "switch",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "find company find company find company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "companySearchInput",
+        "name": "companySearch",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Find Company",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

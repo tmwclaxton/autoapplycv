@@ -13,6 +13,7 @@ use App\Services\CvExtractionService;
 use App\Services\CvParserService;
 use App\Services\CvProfileDocumentService;
 use App\Services\ExtensionNanoGptUsageService;
+use App\Support\ApplicationAnswers;
 use App\Support\ApplicationSettings;
 use App\Support\CvExtractionProfileMerge;
 use App\Support\CvExtractionSchema;
@@ -125,11 +126,18 @@ class CvUploadController extends Controller
             'formatted_cv_text' => 'nullable|string',
             'extra_context' => 'nullable|string',
             ...ApplicationSettings::validationRules(),
+            ...ApplicationAnswers::validationRules(),
         ]);
 
         if (array_key_exists('application_settings', $validated)) {
             $validated['application_settings'] = ApplicationSettings::merge($validated['application_settings']);
         }
+
+        if (array_key_exists('application_answers', $validated)) {
+            $validated['application_answers'] = ApplicationAnswers::normalize($validated['application_answers']);
+        }
+
+        unset($validated['application_answers_append'], $validated['application_answers_remove_id']);
 
         $profile = CvProfile::updateOrCreate(
             ['user_id' => $request->user()->id],

@@ -10,6 +10,7 @@ import { buildSnapshotFromHtml } from './lib/snapshot-runner.mjs';
 const limit = Number(process.argv.find((arg) => arg.startsWith('--limit='))?.split('=')[1] || 40);
 const minFields = Number(process.argv.find((arg) => arg.startsWith('--min-fields='))?.split('=')[1] || 2);
 const firecrawlDelayMs = Number(process.argv.find((arg) => arg.startsWith('--delay='))?.split('=')[1] || 1200);
+const maxAttempts = Number(process.argv.find((arg) => arg.startsWith('--max-attempts='))?.split('=')[1] || Math.max(limit * 80, 400));
 const directOnlyFlag = process.argv.includes('--direct-only');
 let directOnly = directOnlyFlag;
 const maxConsecutiveCreditFailures = 8;
@@ -88,6 +89,11 @@ for (const row of candidateUrls) {
         break;
     }
 
+    if (scraped >= maxAttempts) {
+        console.log(`Stopping early: reached max attempts (${maxAttempts}) with ${accepted}/${limit} accepted.`);
+        break;
+    }
+
     const url = row.url;
     let normalizedUrl = url;
 
@@ -158,6 +164,7 @@ for (const row of candidateUrls) {
         });
         existingUrls.add(normalizedUrl);
         accepted += 1;
+        saveManifest(manifest);
         console.log(`  accepted: ${snapshot.elements.length} fields → ${id}`);
     } catch (error) {
         const message = error.message || String(error);

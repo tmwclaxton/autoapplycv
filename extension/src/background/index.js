@@ -53,6 +53,8 @@ import {
     partitionBatchAnswers,
     pendingFieldsStorageKey,
     resolveIdentityProfileAnswer,
+    resolveProfileMappingForLabel,
+    shouldSaveToApplicationAnswers,
 } from './pending-fields.js';
 import { createPerfTimer } from './perf-timer.js';
 import {
@@ -720,6 +722,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         return true;
     }
+
+    if (message.type === 'DISMISS_PENDING_FIELD') {
+        resolveActiveTabId(sender.tab?.id)
+            .then((tabId) => dismissPendingField(tabId, message.field))
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
 });
 
 chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
@@ -889,14 +900,24 @@ async function savePendingFieldAnswer(tabId, field, answer) {
         throw new Error('Enter an answer first.');
     }
 
-    if (field.profile_path) {
-        const pathParts = field.profile_path.split('.');
+    const mapping = field.profile_path
+        ? { path: field.profile_path, label: field.profile_label ?? null }
+        : resolveProfileMappingForLabel(field.label || field.question || '', await getProfile(), field.dom || null);
+
+    if (shouldSaveToApplicationAnswers(field, mapping)) {
+        await appendApplicationAnswer(field.label || field.question, trimmed);
+    } else if (mapping?.path) {
+        const pathParts = mapping.path.split('.');
         const fieldKey = pathParts[pathParts.length - 1];
         const profileData = await getProfile();
-        const profileValue = formatProfileSaveValue(field, trimmed, profileData);
+        const profileValue = formatProfileSaveValue(
+            { ...field, profile_path: mapping.path },
+            trimmed,
+            profileData,
+        );
 
         await applyProfileUpdate({
-            path: field.profile_path,
+            path: mapping.path,
             field: fieldKey,
             value: profileValue,
         });
@@ -926,6 +947,17 @@ async function savePendingFieldAnswer(tabId, field, answer) {
     await savePendingFields(tabId, pending);
 
     return { success: true, applied, fields: pending };
+}
+
+async function dismissPendingField(tabId, field) {
+    if (!field?.ref) {
+        throw new Error('Missing field reference.');
+    }
+
+    const pending = (await loadPendingFields(tabId)).filter((item) => item.ref !== field.ref);
+    await savePendingFields(tabId, pending);
+
+    return { success: true, fields: pending };
 }
 
 function inventoryFieldsToDraftShape(inventoryFields) {
@@ -1834,6 +1866,65 @@ async function getProfile() {
     const data = await response.json();
     cachedProfile = data;
     cacheTimestamp = now;
+    await syncQuestionMemoFromApplicationAnswers(data.profile?.application_answers ?? []);
+
+    return data;
+}
+
+async function syncQuestionMemoFromApplicationAnswers(applicationAnswers) {
+    if (!Array.isArray(applicationAnswers) || applicationAnswers.length === 0) {
+        return;
+    }
+
+    const { questionMemo = {} } = await chrome.storage.local.get(['questionMemo']);
+    const merged = { ...questionMemo };
+
+    for (const entry of applicationAnswers) {
+        const question = String(entry?.question || '').trim();
+        const answer = String(entry?.answer || '').trim();
+
+        if (!question || !answer) {
+            continue;
+        }
+
+        merged[question] = answer;
+    }
+
+    await chrome.storage.local.set({ questionMemo: merged });
+}
+
+async function appendApplicationAnswer(question, answer) {
+    const apiToken = await getApiToken();
+    const apiBase = await getStoredApiBase();
+
+    const response = await fetch(`${apiBase}/api/profile`, {
+        method: 'PATCH',
+        headers: {
+            Authorization: `Bearer ${apiToken}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            application_answers_append: {
+                question,
+                answer,
+            },
+        }),
+    });
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        if (response.status === 401) {
+            await clearConnection();
+
+            throw new Error('Session expired. Please log in again.');
+        }
+
+        throw new Error(apiErrorMessage(data, 'Could not save application answer.'));
+    }
+
+    invalidateProfileCache();
 
     return data;
 }
