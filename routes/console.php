@@ -1,6 +1,11 @@
 <?php
 
+use App\Jobs\WorkerHeartbeatJob;
 use Illuminate\Support\Facades\Schedule;
+
+Schedule::job(new WorkerHeartbeatJob)
+    ->everyMinute()
+    ->withoutOverlapping();
 
 Schedule::command('blog:generate')
     ->weeklyOn(1, '9:00')

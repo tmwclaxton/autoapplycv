@@ -18,6 +18,7 @@ use App\Services\ApplicationDraftOrchestratorService;
 use App\Services\ApplicationFieldInventoryService;
 use App\Services\ApplicationJobContextService;
 use App\Services\AutofillAnalyticsService;
+use App\Services\ExtensionNanoGptUsageService;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -30,6 +31,7 @@ class ApplicationAssistantController extends Controller
         private readonly ApplicationJobContextService $jobContext,
         private readonly AiTokenService $usage,
         private readonly AutofillAnalyticsService $analytics,
+        private readonly ExtensionNanoGptUsageService $nanoGptUsage,
     ) {}
 
     public function answerQuestions(AssistApplicationQuestionsRequest $request): JsonResponse
@@ -69,6 +71,7 @@ class ApplicationAssistantController extends Controller
 
         $this->usage->recordAutofill($user, $cost);
         $this->analytics->recordExtensionQuestions($cost);
+        $this->nanoGptUsage->record($user, 'assist.questions', $answers['usage'], $cost);
 
         return response()->json([
             'success' => true,
@@ -115,6 +118,7 @@ class ApplicationAssistantController extends Controller
         if (($result['source'] ?? 'llm') === 'llm') {
             $this->usage->recordAutofill($user, $cost);
             $this->analytics->recordExtensionQuestions();
+            $this->nanoGptUsage->record($user, 'assist.inventory', $result['usage'] ?? null, $cost);
         }
 
         return response()->json([
@@ -163,6 +167,7 @@ class ApplicationAssistantController extends Controller
         }
 
         $this->usage->recordAutofill($user, $cost);
+        $this->nanoGptUsage->record($user, 'assist.job-context', $extracted['usage'], $cost);
 
         $pageUrl = filled($validated['page_url'] ?? null) ? (string) $validated['page_url'] : null;
 
@@ -219,6 +224,7 @@ class ApplicationAssistantController extends Controller
 
         $this->usage->recordAutofill($user, $cost);
         $this->analytics->recordExtensionQuestions();
+        $this->nanoGptUsage->record($user, 'assist.chat', $result['usage'] ?? null, $cost);
 
         return response()->json([
             'success' => true,
@@ -264,6 +270,7 @@ class ApplicationAssistantController extends Controller
             };
 
             try {
+                $streamUsage = null;
                 $ok = $this->assistant->streamChat(
                     $profile,
                     $validated['messages'],
@@ -272,6 +279,7 @@ class ApplicationAssistantController extends Controller
                         'focused_field' => $validated['focused_field'] ?? null,
                     ],
                     $emit,
+                    $streamUsage,
                 );
 
                 if (! $ok) {
@@ -285,6 +293,7 @@ class ApplicationAssistantController extends Controller
 
                 $this->usage->recordAutofill($user, $cost);
                 $this->analytics->recordExtensionQuestions();
+                $this->nanoGptUsage->record($user, 'assist.chat.stream', $streamUsage, $cost);
 
                 $emit([
                     'type' => 'usage',
@@ -349,6 +358,7 @@ class ApplicationAssistantController extends Controller
 
         $this->usage->recordAutofill($user, $cost);
         $this->analytics->recordExtensionQuestions();
+        $this->nanoGptUsage->record($user, 'assist.draft-field', $answers['usage'], $cost);
 
         return response()->json([
             'success' => true,
@@ -461,13 +471,13 @@ class ApplicationAssistantController extends Controller
         }
 
         $validated = $request->validated();
-        $coverLetter = $this->assistant->generateCoverLetter(
+        $coverLetterResult = $this->assistant->generateCoverLetter(
             $profile,
             $this->normalizeJob($validated['job']),
             $validated['tone'] ?? 'professional',
         );
 
-        if ($coverLetter === null) {
+        if ($coverLetterResult === null) {
             return response()->json([
                 'success' => false,
                 'error' => 'Could not generate a cover letter right now. Try again shortly.',
@@ -475,10 +485,11 @@ class ApplicationAssistantController extends Controller
         }
 
         $this->usage->recordAutofill($user, $cost);
+        $this->nanoGptUsage->record($user, 'assist.cover-letter', $coverLetterResult['usage'], $cost);
 
         return response()->json([
             'success' => true,
-            'cover_letter' => $coverLetter,
+            'cover_letter' => $coverLetterResult['content'],
             'autofill_cost' => $cost,
             'subscription' => $this->usage->summary($user),
         ]);
@@ -505,13 +516,13 @@ class ApplicationAssistantController extends Controller
 
         $validated = $request->validated();
         $template = $validated['template'] ?? 'modern';
-        $resume = $this->assistant->generateTailoredResume(
+        $resumeResult = $this->assistant->generateTailoredResume(
             $profile,
             $this->normalizeJob($validated['job']),
             $template,
         );
 
-        if ($resume === null) {
+        if ($resumeResult === null) {
             return response()->json([
                 'success' => false,
                 'error' => 'Could not generate a tailored resume right now. Try again shortly.',
@@ -519,10 +530,11 @@ class ApplicationAssistantController extends Controller
         }
 
         $this->usage->recordAutofill($user, $cost);
+        $this->nanoGptUsage->record($user, 'assist.tailored-resume', $resumeResult['usage'], $cost);
 
         return response()->json([
             'success' => true,
-            'resume' => $resume,
+            'resume' => $resumeResult['content'],
             'template' => $template,
             'autofill_cost' => $cost,
             'subscription' => $this->usage->summary($user),
@@ -559,6 +571,9 @@ class ApplicationAssistantController extends Controller
         }
 
         $this->usage->recordAutofill($user, $cost);
+        $this->nanoGptUsage->record($user, 'assist.ats-score', $result['usage'], $cost);
+
+        unset($result['usage']);
 
         return response()->json([
             'success' => true,

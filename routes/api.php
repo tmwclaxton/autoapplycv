@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ApplicationAssistantController;
 use App\Http\Controllers\Api\AutofillController;
 use App\Http\Controllers\Api\ExtensionCvUploadController;
+use App\Http\Controllers\Api\ExtensionPageCaptureController;
 use App\Http\Controllers\Api\ExtensionProfileDocumentController;
 use App\Http\Controllers\Api\ExtensionTokenController;
 use App\Http\Controllers\Api\ProfileController;
@@ -16,6 +17,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/profile/documents/{profileDocument}', [ExtensionProfileDocumentController::class, 'destroy'])->name('api.profile.documents.destroy');
     Route::get('/profile/documents/{profileDocument}/download', [ExtensionProfileDocumentController::class, 'download'])->name('api.profile.documents.download');
     Route::post('/autofill', [AutofillController::class, 'store'])->name('api.autofill');
+    Route::post('/extension/page-captures', [ExtensionPageCaptureController::class, 'store'])->name('api.extension.page-captures.store');
     Route::post('/applications/assist/questions', [ApplicationAssistantController::class, 'answerQuestions'])->name('api.applications.assist.questions');
     Route::post('/applications/assist/inventory', [ApplicationAssistantController::class, 'inventory'])->name('api.applications.assist.inventory');
     Route::post('/applications/assist/job-context', [ApplicationAssistantController::class, 'jobContext'])->name('api.applications.assist.job-context');

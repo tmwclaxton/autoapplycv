@@ -31,6 +31,7 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $user,
+                'is_admin' => $user?->isAdmin() ?? false,
             ],
             'subscription' => $user
                 ? app(AiTokenService::class)->summary($user)
