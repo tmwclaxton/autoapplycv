@@ -41,7 +41,7 @@ const DEFAULT_BATCH_URLS = [
         ats: 'greenhouse',
     },
     {
-        url: 'https://boards.greenhouse.io/discord/jobs/7070870',
+        url: 'https://job-boards.greenhouse.io/discord/jobs/8571766002',
         ats: 'greenhouse',
     },
     {

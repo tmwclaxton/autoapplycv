@@ -155,8 +155,8 @@ async function fillResumeFileInput() {
             return;
         }
 
-        for (const entry of doc.querySelectorAll('[data-field-path*="resume"], [data-field-path*="Resume"], .ashby-application-form-field-entry')) {
-            if (!/resume|cv/i.test(entry.textContent || '')) {
+        for (const entry of doc.querySelectorAll('[data-field-path*="resume"], [data-field-path*="Resume"], .ashby-application-form-field-entry, [aria-labelledby="upload-label-resume"], [id="upload-label-resume"]')) {
+            if (!/resume|cv/i.test(entry.textContent || entry.id || '')) {
                 continue;
             }
 
@@ -169,7 +169,8 @@ async function fillResumeFileInput() {
             }
         }
 
-        fileInput = doc.querySelector('input[type="file"]:not([disabled])');
+        fileInput = doc.querySelector('#resume, input[type="file"][id*="resume" i]:not([disabled])')
+            || doc.querySelector('input[type="file"]:not([disabled])');
     });
 
     if (!fileInput || fileInput.files?.length > 0 || fileInput.value) {

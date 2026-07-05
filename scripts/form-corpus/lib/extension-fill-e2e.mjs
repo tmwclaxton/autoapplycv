@@ -8,6 +8,7 @@ import {
     parseDraftAllAnswers,
     summarizeDomVerifyReport,
     verifyDomFieldsInPage,
+    verifyRequiredVisibleFieldsInPage,
 } from './dom-fill-verify.mjs';
 import { startE2eMockServer, usesLocalFixtureUrl } from './e2e-mock-server.mjs';
 import { detectFormErrorsInPage } from './fill-error-detector.mjs';
@@ -285,6 +286,7 @@ export async function runScenario(context, getServiceWorker, mockServer, scenari
         const draftAnswers = parseDraftAllAnswers(loadMock(scenarioId, 'draft-all.ndjson'));
         const verifyItems = buildVerifyItems(draftAnswers, inventory.fields);
         const domVerify = await verifyDomFieldsInPage(page, verifyItems);
+        const requiredVerify = await verifyRequiredVisibleFieldsInPage(page);
         const minApplied = (meta.plan_count ?? inventory.fields?.length ?? 0) > 0;
         const applyReportedSuccess = Boolean(startResult?.success);
         const domEmptyAfterSuccess = applyReportedSuccess
@@ -305,6 +307,7 @@ export async function runScenario(context, getServiceWorker, mockServer, scenari
                 && errorBanner.passed
                 && minApplied
                 && domVerify.failures.length === 0
+                && requiredVerify.failures.length === 0
                 && !domEmptyAfterSuccess,
             startResult,
             domFailures,
@@ -312,6 +315,7 @@ export async function runScenario(context, getServiceWorker, mockServer, scenari
                 ...domVerify,
                 ...summarizeDomVerifyReport(domVerify.rows),
             },
+            requiredVerify,
             errorBanner,
             logAnalysis,
             logSummary: logExport?.summary ?? null,

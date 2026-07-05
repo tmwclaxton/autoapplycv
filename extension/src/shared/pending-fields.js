@@ -121,6 +121,29 @@ const PLACEHOLDER_ANSWER_PATTERNS = [
     /^not applicable$/i,
 ];
 
+const EEO_QUESTION_PATTERNS = [
+    /\bgender identity\b/i,
+    /\bgender\b/i,
+    /\brace(?:\s+or\s+|\s+and\s+)ethnicity\b/i,
+    /\bveteran status\b/i,
+    /\bdisability status\b/i,
+    /\blgbtq\+?\b/i,
+    /\bsexual orientation\b/i,
+    /\bdecline to self identify\b/i,
+    /\bprefer not to say\b/i,
+    /\beeoc\b/i,
+];
+
+const EDUCATION_QUESTION_PATTERNS = [
+    /\bschool\b/i,
+    /\bdegree\b/i,
+    /\bdiscipline\b/i,
+    /\buniversity\b/i,
+    /\bcollege\b/i,
+    /\bgraduation\b/i,
+    /\beducation\b/i,
+];
+
 const SALARY_FALLBACK_PATHS = [
     'application_settings.expected_salary_yearly',
     'application_settings.expected_salary_monthly',
@@ -285,12 +308,179 @@ export function splitFullName(fullName) {
     };
 }
 
+function keywordMatchesNormalized(keyword, normalized) {
+    const escaped = String(keyword).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    return new RegExp(`(?:^|\\s)${escaped}(?:\\s|$)`, 'i').test(` ${normalized} `);
+}
+
 function mappingMatchesLabel(mapping, normalized) {
     if (mapping.exactLabels?.some((label) => normalized === normalizeQuestionLabel(label))) {
         return true;
     }
 
-    return mapping.keywords.some((keyword) => normalized.includes(keyword));
+    return mapping.keywords.some((keyword) => keywordMatchesNormalized(keyword, normalized));
+}
+
+export function dedupeQuestionLabelForDisplay(label) {
+    const text = String(label || '').trim();
+
+    if (!text) {
+        return '';
+    }
+
+    const decontaminated = trimContaminatedQuestionLabel(text);
+    const tokens = decontaminated.split(/\s+/);
+
+    if (tokens.length <= 1) {
+        return decontaminated;
+    }
+
+    for (let phraseLen = 1; phraseLen <= Math.floor(tokens.length / 2); phraseLen += 1) {
+        if (tokens.length % phraseLen !== 0) {
+            continue;
+        }
+
+        const phraseTokens = tokens.slice(0, phraseLen);
+        const phraseNorm = normalizeQuestionLabel(phraseTokens.join(' '));
+        let repeats = true;
+
+        for (let index = phraseLen; index < tokens.length; index += phraseLen) {
+            const chunkNorm = normalizeQuestionLabel(tokens.slice(index, index + phraseLen).join(' '));
+
+            if (chunkNorm !== phraseNorm) {
+                repeats = false;
+                break;
+            }
+        }
+
+        if (repeats) {
+            return phraseTokens.join(' ');
+        }
+    }
+
+    return decontaminated;
+}
+
+function trimContaminatedQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+    const cutIndex = contaminatedLabelCutIndex(normalized);
+
+    if (cutIndex === null) {
+        return label;
+    }
+
+    const originalWords = label.split(/\s+/);
+
+    return originalWords.slice(0, cutIndex).join(' ');
+}
+
+const QUESTION_LABEL_GROUPS = [
+    ['first name', 'preferred first name'],
+    ['last name'],
+    ['email'],
+    ['phone'],
+    ['location', 'city', 'town'],
+    ['school'],
+    ['degree', 'discipline'],
+    ['gender'],
+    ['race', 'ethnicity'],
+    ['veteran'],
+    ['disability'],
+    ['linkedin'],
+    ['why do you'],
+    ['how did you hear'],
+];
+
+function questionLabelGroupIndexes(normalized) {
+    const matches = [];
+
+    for (let groupIndex = 0; groupIndex < QUESTION_LABEL_GROUPS.length; groupIndex += 1) {
+        let earliestIndex = null;
+
+        for (const keyword of QUESTION_LABEL_GROUPS[groupIndex]) {
+            const index = normalized.indexOf(keyword);
+
+            if (index < 0) {
+                continue;
+            }
+
+            earliestIndex = earliestIndex === null ? index : Math.min(earliestIndex, index);
+        }
+
+        if (earliestIndex !== null) {
+            matches.push({ groupIndex, index: earliestIndex });
+        }
+    }
+
+    return matches
+        .sort((left, right) => left.index - right.index)
+        .map((match) => match.groupIndex);
+}
+
+function contaminatedLabelCutIndex(normalized) {
+    const groupIndexes = questionLabelGroupIndexes(normalized);
+
+    if (groupIndexes.length <= 1) {
+        return null;
+    }
+
+    const normWords = normalized.split(' ');
+    const firstGroupKeywords = QUESTION_LABEL_GROUPS[groupIndexes[0]];
+    const secondGroupKeywords = QUESTION_LABEL_GROUPS[groupIndexes[1]];
+    const firstKeyword = firstGroupKeywords
+        .map((keyword) => ({ keyword, index: normalized.indexOf(keyword) }))
+        .filter((match) => match.index >= 0)
+        .sort((left, right) => left.index - right.index)[0]?.keyword;
+    const secondKeyword = secondGroupKeywords
+        .map((keyword) => ({ keyword, index: normalized.indexOf(keyword) }))
+        .filter((match) => match.index >= 0)
+        .sort((left, right) => left.index - right.index)[0]?.keyword;
+
+    if (!firstKeyword || !secondKeyword) {
+        return null;
+    }
+
+    const firstKeywordStart = normWords.indexOf(firstKeyword.split(' ')[0]);
+
+    if (firstKeywordStart < 0) {
+        return null;
+    }
+
+    const searchStart = firstKeywordStart + firstKeyword.split(' ').length;
+    const secondKeywordStart = normWords.indexOf(secondKeyword.split(' ')[0], searchStart);
+
+    if (secondKeywordStart <= 0) {
+        return null;
+    }
+
+    return secondKeywordStart;
+}
+
+function isContaminatedQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    return contaminatedLabelCutIndex(normalized) !== null;
+}
+
+export function isEeoQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    return EEO_QUESTION_PATTERNS.some((pattern) => pattern.test(normalized));
+}
+
+export function isEducationQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    return EDUCATION_QUESTION_PATTERNS.some((pattern) => pattern.test(normalized));
 }
 
 export function isOpenEndedQuestionLabel(label) {
@@ -307,6 +497,10 @@ export function isCityLocationQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
     if (!normalized) {
+        return false;
+    }
+
+    if (/\b(?:first name|last name|race|ethnicity|gender|school|degree|discipline)\b/.test(normalized)) {
         return false;
     }
 
@@ -414,6 +608,10 @@ export function resolveProfileMappingForLabel(label, profileData = null) {
         return null;
     }
 
+    if (isContaminatedQuestionLabel(label)) {
+        return null;
+    }
+
     if (isSalaryQuestionLabel(label)) {
         return resolveSalaryMapping(label, profileData);
     }
@@ -447,6 +645,12 @@ export function isUserSpecificQuestion(label) {
 export function readProfileValue(profileData, path) {
     if (!profileData || !path) {
         return '';
+    }
+
+    if (path === 'full_name.first' || path === 'full_name.last') {
+        const split = splitFullName(readProfileValue(profileData, 'full_name'));
+
+        return path === 'full_name.first' ? split.first : split.last;
     }
 
     if (path === 'computed_earliest_start') {
@@ -507,65 +711,97 @@ export function formatPhoneForForm(profileData, phone) {
     return `${code}${normalized.replace(/^0+/, '')}`;
 }
 
+export function shouldPromptUserForField(field, profileData) {
+    const label = field?.label || field?.question || '';
+
+    if (isAvailabilityQuestionLabel(label)) {
+        if (isMeaningfulAnswer(readProfileValue(profileData, 'computed_earliest_start'))) {
+            return false;
+        }
+
+        return !isMeaningfulAnswer(readProfileValue(profileData, 'application_settings.notice_period'));
+    }
+
+    if (isEeoQuestionLabel(label) || isEducationQuestionLabel(label) || isOpenEndedQuestionLabel(label)) {
+        return false;
+    }
+
+    if (!isUserSpecificQuestion(label)) {
+        return false;
+    }
+
+    const mapping = resolveProfileMappingForLabel(label, profileData);
+
+    if (!mapping) {
+        return true;
+    }
+
+    return !isMeaningfulAnswer(readProfileValue(profileData, mapping.path));
+}
+
+function profileValueForApply(mapping, profileData) {
+    const value = readProfileValue(profileData, mapping.path);
+
+    if (!isMeaningfulAnswer(value)) {
+        return '';
+    }
+
+    if (mapping.path === 'phone') {
+        return formatPhoneForForm(profileData, value);
+    }
+
+    if (mapping.path === 'city' || mapping.path === 'location') {
+        return resolveConciseLocationValue(profileData, { preferCity: mapping.path === 'city' });
+    }
+
+    return String(value).trim();
+}
+
+function resolveProfileFallbackAnswer(field, profileData) {
+    const mapping = resolveProfileMappingForLabel(field.label || field.question || '', profileData);
+
+    if (!mapping) {
+        return '';
+    }
+
+    return profileValueForApply(mapping, profileData);
+}
+
+function resolvePendingProfileMapping(field, profileData) {
+    const label = field?.label || field?.question || '';
+
+    if (isAvailabilityQuestionLabel(label)) {
+        return profileMappingByPath('application_settings.notice_period');
+    }
+
+    return resolveProfileMappingForLabel(label, profileData);
+}
+
 export function buildPendingFieldsFromProfileGaps(fields, profileData) {
     const pending = [];
 
     for (const field of fields || []) {
-        if (isAvailabilityQuestionLabel(field.label)) {
-            const computed = readProfileValue(profileData, 'computed_earliest_start');
-
-            if (isMeaningfulAnswer(computed)) {
-                continue;
-            }
-
-            const noticePeriod = readProfileValue(profileData, 'application_settings.notice_period');
-
-            if (!isMeaningfulAnswer(noticePeriod)) {
-                pending.push(createPendingField(
-                    field,
-                    profileMappingByPath('application_settings.notice_period'),
-                    'missing_profile_data',
-                ));
-            }
-
+        if (!shouldPromptUserForField(field, profileData)) {
             continue;
         }
 
-        const mapping = resolveProfileMappingForLabel(field.label, profileData);
-
-        if (!mapping) {
-            if (isUserSpecificQuestion(field.label)) {
-                pending.push(createPendingField(field, mapping, 'missing_profile_data'));
-            }
-
-            continue;
-        }
-
-        const value = readProfileValue(profileData, mapping.path);
-
-        if (isMeaningfulAnswer(value)) {
-            continue;
-        }
-
-        if (mapping.path === 'computed_earliest_start') {
-            continue;
-        }
-
-        if (mapping.path === 'phone' || mapping.path.startsWith('application_settings.') || isUserSpecificQuestion(field.label)) {
-            pending.push(createPendingField(field, mapping, 'missing_profile_data'));
-        }
+        pending.push(createPendingField(
+            field,
+            resolvePendingProfileMapping(field, profileData),
+            'missing_profile_data',
+        ));
     }
 
     return pending;
 }
 
 function createPendingField(field, mapping, reason) {
-    const label = field.label || field.question || '';
+    const label = dedupeQuestionLabelForDisplay(field.label || field.question || '');
 
     return {
         ref: field.ref,
         label,
-        question: field.question || field.label || label,
+        question: label,
         field_type: field.field_type || 'text',
         options: field.options ?? null,
         profile_path: mapping?.path ?? null,
@@ -594,18 +830,34 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
             field_type: answer.field_type,
             options: answer.options,
         };
+        let resolvedAnswer = answer.answer;
 
-        if (shouldSkipAiDraftAnswer(field, answer.answer, profileData)) {
-            pending.push(createPendingField(
-                field,
-                resolveProfileMappingForLabel(field.label || answer.label || '', profileData),
-                !isMeaningfulAnswer(answer.answer) ? 'missing_answer' : 'needs_user_input',
-            ));
+        if (!isMeaningfulAnswer(resolvedAnswer)) {
+            const profileFallback = resolveProfileFallbackAnswer(field, profileData);
+
+            if (isMeaningfulAnswer(profileFallback)) {
+                resolvedAnswer = profileFallback;
+            }
+        }
+
+        if (isMeaningfulAnswer(resolvedAnswer)) {
+            toApply.push({
+                ...answer,
+                answer: resolvedAnswer,
+            });
 
             continue;
         }
 
-        toApply.push(answer);
+        if (!shouldPromptUserForField(field, profileData)) {
+            continue;
+        }
+
+        pending.push(createPendingField(
+            field,
+            resolvePendingProfileMapping(field, profileData),
+            'missing_answer',
+        ));
     }
 
     return { toApply, pending };

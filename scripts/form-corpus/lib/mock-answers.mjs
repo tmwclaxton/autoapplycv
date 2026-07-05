@@ -27,6 +27,21 @@ function shouldSkipFillVerifyField(field) {
     return false;
 }
 
+function shouldSkipE2eDraftField(field) {
+    const domId = field.dom?.id || '';
+    const question = String(field.question || '').trim().toLowerCase();
+
+    if (COOKIE_BANNER_INPUT_IDS.has(domId)) {
+        return true;
+    }
+
+    if (question === 'analytics analytics' || question === 'marketing marketing') {
+        return true;
+    }
+
+    return false;
+}
+
 export function mockAnswerForField(field, index) {
     const type = field.field_type || 'text';
 
@@ -48,8 +63,24 @@ export function mockAnswerForField(field, index) {
         case 'textarea':
             return `FillVerify-textarea-${index}`;
         case 'select':
-        case 'radio':
+        case 'radio': {
+            const domId = field.dom?.id || '';
+            const question = String(field.question || '').toLowerCase();
+
+            if (domId === 'country' || question.includes('country')) {
+                return 'United States';
+            }
+
+            if (domId === 'candidate-location' || question.includes('location (city)')) {
+                return 'San Francisco, California, United States';
+            }
+
+            if (/gender|race|ethnicity|veteran|disability|lgbtq/i.test(question)) {
+                return field.options?.[0] ?? 'Decline to self-identify';
+            }
+
             return field.options?.[0] ?? 'Yes';
+        }
         case 'checkbox':
             return field.options?.[0] ?? 'Yes';
         default:
@@ -127,7 +158,56 @@ export function buildFillPlan(expected, snapshot) {
     const plan = [];
 
     for (const [index, expectedField] of expectedFields.entries()) {
+        if (expectedField.required === false) {
+            continue;
+        }
+
         if (shouldSkipFieldType(expectedField.field_type) || shouldSkipFillVerifyField(expectedField)) {
+            continue;
+        }
+
+        const answer = mockAnswerForField(expectedField, index);
+
+        if (!answer) {
+            continue;
+        }
+
+        const matched = findMatchingSnapshotField(expectedField, snapshotElements, usedIndices);
+
+        if (!matched?.ref) {
+            continue;
+        }
+
+        plan.push({
+            ref: matched.ref,
+            field: expectedField,
+            answer,
+            dom: matched.dom || expectedField.dom || null,
+        });
+    }
+
+    return plan;
+}
+
+/**
+ * E2E Draft All mocks include location comboboxes (fixture HTML has no live autocomplete).
+ *
+ * @param {{ fields?: Array<Record<string, unknown>> }} expected
+ * @param {{ elements?: Array<Record<string, unknown>> }} snapshot
+ * @returns {Array<{ ref: string, field: Record<string, unknown>, answer: string, dom: Record<string, unknown>|null }>}
+ */
+export function buildE2eDraftPlan(expected, snapshot) {
+    const expectedFields = expected.fields || [];
+    const snapshotElements = snapshot.elements || [];
+    const usedIndices = new Set();
+    const plan = [];
+
+    for (const [index, expectedField] of expectedFields.entries()) {
+        if (expectedField.required === false) {
+            continue;
+        }
+
+        if (shouldSkipFieldType(expectedField.field_type) || shouldSkipE2eDraftField(expectedField)) {
             continue;
         }
 

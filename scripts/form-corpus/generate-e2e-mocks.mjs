@@ -8,7 +8,7 @@ import {
     resolveE2eScenarios,
 } from './lib/e2e-scenarios.mjs';
 import { loadManifest } from './lib/manifest.mjs';
-import { buildFillPlan } from './lib/mock-answers.mjs';
+import { buildE2eDraftPlan } from './lib/mock-answers.mjs';
 import { EXPECTED_DIR, HTML_DIR } from './lib/paths.mjs';
 import { buildFormDomContext } from './lib/snapshot-runner.mjs';
 
@@ -112,7 +112,7 @@ function generateMocksForScenario(scenario) {
     const pageTitle = scenario.page_title || 'Job Application';
     const html = readFileSync(htmlPath, 'utf8');
     const { snapshot } = buildFormDomContext({ html, pageUrl, pageTitle });
-    const plan = buildFillPlan(expected, snapshot);
+    const plan = buildE2eDraftPlan(expected, snapshot);
     const job = {
         title: pageTitle,
         company: scenario.id.split('-').slice(1, 3).join(' ') || 'Test Company',

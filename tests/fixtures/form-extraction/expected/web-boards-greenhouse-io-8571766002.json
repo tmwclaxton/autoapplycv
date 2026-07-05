@@ -1,0 +1,393 @@
+{
+  "id": "web-boards-greenhouse-io-8571766002",
+  "min_fields": 24,
+  "exact_field_count": 24,
+  "fields": [
+    {
+      "question": "first name first name first name first name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "first_name",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "last name last name last name last name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "last_name",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "preferred first name preferred first name preferred first name preferred first name",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "preferred_name",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "email email email email",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "email",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "country",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "country",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "phone",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "location (city) location (city) first name",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "candidate-location",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "school school",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "school--0",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "degree degree",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "degree--0",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "discipline discipline",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "discipline--0",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "why do you want to work at discord? why do you want to work at discord? why do you want to work at discord? why do you want to work at discord?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "question_36758311002",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "are you legally authorized to work in the united states for our company? are you legally authorized to work in the united states for our company? why do you want to work at discord?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36758315002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "are you currently based in or willing to relocate to the bay area for this position? are you currently based in or willing to relocate to the bay area for this position? why do you want to work at discord?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36758317002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "are you currently located in the us? are you currently located in the us? why do you want to work at discord?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36758316002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "how did you hear about this job? how did you hear about this job? how did you hear about this job? how did you hear about this job?",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36758314002",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "linkedin profile linkedin profile linkedin profile linkedin profile",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36758312002",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "website website website website",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_36758313002",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "gender gender",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4033064002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "race and ethnicity race and ethnicity",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4033065002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "veteran status veteran status",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4033066002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "disability status disability status",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4033067002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "gender identity (optional) gender identity (optional)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4033068002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "race or ethnicity (optional) race or ethnicity (optional)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4033069002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    },
+    {
+      "question": "i consider myself a member of the lgbtq+ community. (optional) i consider myself a member of the lgbtq+ community. (optional)",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4033070002",
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,3 +1,5 @@
+import { dedupeQuestionLabelForDisplay } from './pending-fields.js';
+
 export function initPendingFieldsPanel({ showMessage }) {
     const sectionEl = document.getElementById('pending-fields-section');
     const listEl = document.getElementById('pending-fields-list');
@@ -35,9 +37,11 @@ export function initPendingFieldsPanel({ showMessage }) {
         card.className = 'pending-field-card postbox-panel';
         card.dataset.ref = field.ref;
 
+        const displayLabel = dedupeQuestionLabelForDisplay(field.question || field.label || '');
+
         const question = document.createElement('p');
         question.className = 'pending-field-question';
-        question.textContent = field.question || field.label;
+        question.textContent = displayLabel || field.question || field.label;
 
         const hint = document.createElement('p');
         hint.className = 'postbox-hint pending-field-hint';

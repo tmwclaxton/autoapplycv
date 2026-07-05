@@ -486,6 +486,46 @@ const AutoCVApplyFormHeuristics = (() => {
         return false;
     }
 
+    function readReactSelectValue(element) {
+        if (!element || element.getAttribute?.('role') !== 'combobox') {
+            return null;
+        }
+
+        const shell = element.closest('.select-shell, .select__container');
+        const control = element.closest('.select__control') || shell?.querySelector('.select__control');
+
+        if (control) {
+            const singleValue = control.querySelector('.select__single-value, .select__multi-value__label');
+
+            if (singleValue?.textContent?.trim()) {
+                return singleValue.textContent.replace(/\s+/g, ' ').trim();
+            }
+        }
+
+        const hiddenValue = shell?.querySelector('input[tabindex="-1"][aria-hidden="true"]');
+
+        if (hiddenValue?.value?.trim()) {
+            return hiddenValue.value.trim();
+        }
+
+        const typed = String(element.value || '').trim();
+
+        return typed || null;
+    }
+
+    function openReactSelectDropdown(element) {
+        const control = element.closest('.select__control');
+        const toggle = control?.querySelector('.select__indicators button, button[aria-label="Toggle flyout"]');
+
+        if (toggle) {
+            dispatchPointerClick(toggle);
+
+            return;
+        }
+
+        dispatchPointerClick(element);
+    }
+
     function fillReactTextControl(element, value) {
         const stringValue = String(value);
 
@@ -559,6 +599,45 @@ const AutoCVApplyFormHeuristics = (() => {
         });
     }
 
+    function isGreenhouseLocationCombobox(element) {
+        if (!element) {
+            return false;
+        }
+
+        const id = element.id || '';
+
+        if (id === 'candidate-location') {
+            return true;
+        }
+
+        const label = getFieldLabel(element);
+
+        return /\blocation\s*\(\s*city\b/i.test(label)
+            || (/\blocation\b/i.test(label) && /\b(?:city|town)\b/i.test(label));
+    }
+
+    function commitGreenhouseLocationValue(element, value) {
+        const stringValue = String(value).trim();
+        const typedValue = stringValue.split(',')[0].trim() || stringValue;
+
+        fillReactTextControl(element, typedValue);
+
+        const shell = element.closest('.select-shell, .select__container');
+        const hiddenValue = shell?.querySelector('input[tabindex="-1"][aria-hidden="true"]');
+
+        if (hiddenValue) {
+            setNativeValue(hiddenValue, typedValue);
+            hiddenValue.dispatchEvent(new Event('input', { bubbles: true }));
+            hiddenValue.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+
+        return valueMatchesAnswer(readReactSelectValue(element), typedValue)
+            || valueMatchesAnswer(element.value, typedValue)
+            || valueMatchesAnswer(hiddenValue?.value, typedValue);
+    }
+
     async function setAshbyComboboxValue(element, value) {
         if (!element || value === null || value === undefined || value === '') {
             heuristicsLog('warn', 'apply.combobox', 'Combobox fill skipped - empty value or element', {});
@@ -575,11 +654,21 @@ const AutoCVApplyFormHeuristics = (() => {
         const stringValue = String(value);
 
         element.focus();
-        dispatchPointerClick(element);
-        fillReactTextControl(element, stringValue);
+        openReactSelectDropdown(element);
+
+        const isYesNoAnswer = /^(yes|no)\b/i.test(stringValue.trim());
+
+        if (!isYesNoAnswer) {
+            fillReactTextControl(element, stringValue);
+        }
 
         const normalizedAnswer = normalizeOption(stringValue);
         let options = await waitForComboboxOptions(doc, element);
+
+        if (options.length === 0 && !isYesNoAnswer) {
+            openReactSelectDropdown(element);
+            options = await waitForComboboxOptions(doc, element, 1200);
+        }
 
         heuristicsLog('debug', 'apply.combobox', 'Combobox options collected', {
             optionCount: options.length,
@@ -594,7 +683,8 @@ const AutoCVApplyFormHeuristics = (() => {
                 dispatchPointerClick(option);
                 element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
 
-                return true;
+                return valueMatchesAnswer(readReactSelectValue(element), stringValue)
+                    || valueMatchesAnswer(element.value, stringValue);
             }
         }
 
@@ -604,12 +694,34 @@ const AutoCVApplyFormHeuristics = (() => {
             dispatchPointerClick(options[0]);
             element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
 
-            return true;
+            return valueMatchesAnswer(readReactSelectValue(element), fallbackText)
+                || valueMatchesAnswer(readReactSelectValue(element), stringValue);
+        }
+
+        if (isGreenhouseLocationCombobox(element)) {
+            const committed = commitGreenhouseLocationValue(element, stringValue);
+            heuristicsLog(committed ? 'info' : 'warn', 'apply.combobox', committed
+                ? 'Greenhouse location typed value committed'
+                : 'Greenhouse location fill failed', {
+                typedValue: element.value?.slice(0, 80),
+            });
+
+            return committed;
         }
 
         element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
 
-        const typedOnly = valueMatchesAnswer(element.value, stringValue);
+        const shell = element.closest('.select-shell, .select__container');
+        const hiddenValue = shell?.querySelector('input[tabindex="-1"][aria-hidden="true"]');
+
+        if (hiddenValue) {
+            setNativeValue(hiddenValue, stringValue);
+            hiddenValue.dispatchEvent(new Event('input', { bubbles: true }));
+            hiddenValue.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        const selectedValue = readReactSelectValue(element);
+        const typedOnly = valueMatchesAnswer(selectedValue || element.value, stringValue);
         heuristicsLog(typedOnly ? 'info' : 'warn', 'apply.combobox', typedOnly ? 'Combobox typed value only' : 'Combobox fill failed', {
             typedValue: element.value?.slice(0, 80),
         });
@@ -637,6 +749,12 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function getQuestionLabel(element) {
+        const phoneInputLabel = getPhoneInputFieldLabel(element);
+
+        if (phoneInputLabel) {
+            return phoneInputLabel;
+        }
+
         const ashbyTitle = getAshbyQuestionTitle(element);
 
         if (ashbyTitle.length >= 3) {
@@ -652,7 +770,9 @@ const AutoCVApplyFormHeuristics = (() => {
                 return normalize(testLabel.textContent);
             }
 
-            const legend = container.querySelector('legend');
+            const legend = container.classList?.contains('phone-input')
+                ? null
+                : container.querySelector('legend');
 
             if (legend) {
                 return normalize(legend.textContent);
@@ -1326,7 +1446,44 @@ const AutoCVApplyFormHeuristics = (() => {
         return false;
     }
 
+    function isGreenhouseHiddenSelectInput(element) {
+        return element.tagName?.toLowerCase() === 'input'
+            && element.tabIndex === -1
+            && element.getAttribute('aria-hidden') === 'true'
+            && element.closest('.select-shell, .select__container') !== null;
+    }
+
+    function getPhoneInputFieldLabel(element) {
+        const fieldset = element.closest('fieldset.phone-input');
+
+        if (!fieldset) {
+            return null;
+        }
+
+        const id = element.getAttribute('id');
+
+        if (!id) {
+            return null;
+        }
+
+        const doc = element.ownerDocument || document;
+        const escapedId = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(id) : id.replace(/"/g, '\\"');
+        const explicit = doc.querySelector(`label[for="${escapedId}"]`);
+
+        if (explicit) {
+            return normalize(explicit.textContent);
+        }
+
+        return null;
+    }
+
     function getFieldLabel(element) {
+        const phoneInputLabel = getPhoneInputFieldLabel(element);
+
+        if (phoneInputLabel) {
+            return phoneInputLabel;
+        }
+
         const ashbyTitle = getAshbyQuestionTitle(element);
 
         if (ashbyTitle.length >= 3) {
@@ -1513,7 +1670,7 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         if (element.getAttribute?.('role') === 'combobox') {
-            return element.value?.trim() || element.textContent?.replace(/\s+/g, ' ').trim() || null;
+            return readReactSelectValue(element);
         }
 
         if (element.tagName?.toLowerCase() === 'select') {
@@ -1821,6 +1978,10 @@ const AutoCVApplyFormHeuristics = (() => {
     function collectFillableElements(root) {
         return Array.from(root.querySelectorAll('input, textarea, select')).filter((element) => {
             if (isAshbyHiddenYesNoInput(element)) {
+                return false;
+            }
+
+            if (isGreenhouseHiddenSelectInput(element)) {
                 return false;
             }
 

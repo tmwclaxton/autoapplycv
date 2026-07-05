@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-05T08:54:46.990Z",
+  "generated_at": "2026-07-05T14:26:37.332Z",
   "api_base": "http://localhost:8000",
   "results": [
     {
@@ -9,6 +9,8 @@
       "ats": "ashby",
       "fields_expected": 6,
       "dom_verified": 6,
+      "required_checked": 3,
+      "required_filled": 3,
       "failures": [],
       "pass_rate": 1,
       "passed": true,
@@ -17,11 +19,13 @@
     },
     {
       "mode": "fixture",
-      "form": "Greenhouse",
-      "id": "web-boards-greenhouse-io-8614025002",
+      "form": "Greenhouse (Discord)",
+      "id": "web-boards-greenhouse-io-8571766002",
       "ats": "greenhouse",
-      "fields_expected": 41,
-      "dom_verified": 41,
+      "fields_expected": 14,
+      "dom_verified": 14,
+      "required_checked": 15,
+      "required_filled": 15,
       "failures": [],
       "pass_rate": 1,
       "passed": true,
@@ -35,6 +39,8 @@
       "ats": "teamtailor",
       "fields_expected": 14,
       "dom_verified": 12,
+      "required_checked": 6,
+      "required_filled": 6,
       "failures": [
         {
           "ref": "f14",
@@ -59,5 +65,5 @@
       "fix": "Check stale ref re-resolution or apply-before-DOM-ready timing"
     }
   ],
-  "table": "form\texpected\tverified\tfailed\tpass_rate\nAshby (Capi Money)\t6\t6\t0\t100%\nGreenhouse\t41\t41\t0\t100%\nTeamtailor\t14\t12\t2\t86%"
+  "table": "form\texpected\tverified\tfailed\tpass_rate\nAshby (Capi Money)\t6\t6\t0\t100%\nGreenhouse (Discord)\t14\t14\t0\t100%\nTeamtailor\t14\t12\t2\t86%"
 }

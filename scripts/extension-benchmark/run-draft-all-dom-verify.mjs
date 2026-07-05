@@ -18,6 +18,7 @@ import {
     formatDomVerifyTable,
     summarizeDomVerifyReport,
     verifyDomFieldsInPage,
+    verifyRequiredVisibleFieldsInPage,
 } from '../form-corpus/lib/dom-fill-verify.mjs';
 import {
     createExtensionContext,
@@ -39,8 +40,8 @@ const FIXTURE_SCENARIOS = [
         ats: 'ashby',
     },
     {
-        id: 'web-boards-greenhouse-io-8614025002',
-        label: 'Greenhouse',
+        id: 'web-boards-greenhouse-io-8571766002',
+        label: 'Greenhouse (Discord)',
         ats: 'greenhouse',
     },
     {
@@ -57,7 +58,7 @@ const LIVE_TARGETS = [
         ats: 'ashby',
     },
     {
-        url: 'https://boards.greenhouse.io/discord/jobs/7070870',
+        url: 'https://job-boards.greenhouse.io/discord/jobs/8571766002',
         label: 'Greenhouse (Discord live)',
         ats: 'greenhouse',
     },
@@ -132,6 +133,12 @@ async function runFixtureVerification() {
                     console.log(`  - ${failure.ref} (${failure.label}): expected "${failure.expected}", got "${failure.actual ?? 'empty'}"`);
                 }
             }
+
+            if (result.requiredVerify?.failures?.length) {
+                for (const failure of result.requiredVerify.failures.slice(0, 5)) {
+                    console.log(`  - REQUIRED ${failure.ref} (${failure.label}): got "${failure.actual ?? 'empty'}"`);
+                }
+            }
         },
     });
 
@@ -146,7 +153,9 @@ async function runFixtureVerification() {
             ats: entry.ats || '?',
             fields_expected: dom.checked ?? result.plan_count ?? 0,
             dom_verified: dom.filled ?? 0,
-            failures: result.domVerify?.failures || [],
+            required_checked: result.requiredVerify?.checked ?? 0,
+            required_filled: result.requiredVerify?.filled ?? 0,
+            failures: [...(result.domVerify?.failures || []), ...(result.requiredVerify?.failures || [])],
             pass_rate: dom.checked ? (dom.filled ?? 0) / dom.checked : 0,
             passed: result.passed,
             root_cause: result.passed ? null : inferRootCause(result),
@@ -252,6 +261,7 @@ async function runLiveVerification() {
                 const appliedAnswers = extractAppliedAnswersFromLogs(logExport);
                 const verifyItems = buildVerifyItems(appliedAnswers);
                 const domVerify = await verifyDomFieldsInPage(page, verifyItems);
+                const requiredVerify = await verifyRequiredVisibleFieldsInPage(page);
 
                 const row = {
                     mode: 'live',
@@ -260,10 +270,17 @@ async function runLiveVerification() {
                     ats: target.ats,
                     fields_expected: verifyItems.length,
                     dom_verified: domVerify.filled,
-                    failures: domVerify.failures,
+                    required_checked: requiredVerify.checked,
+                    required_filled: requiredVerify.filled,
+                    failures: [...domVerify.failures, ...requiredVerify.failures],
                     pass_rate: domVerify.checked ? domVerify.filled / domVerify.checked : 0,
-                    passed: Boolean(startResult?.success) && domVerify.failures.length === 0 && domVerify.filled > 0,
+                    passed: Boolean(startResult?.success)
+                        && domVerify.failures.length === 0
+                        && requiredVerify.failures.length === 0
+                        && domVerify.filled > 0,
                     startResult,
+                    domVerify,
+                    requiredVerify,
                     root_cause: null,
                     fix: null,
                 };
@@ -275,7 +292,13 @@ async function runLiveVerification() {
 
                 results.push(row);
 
-                console.log(`[${row.passed ? 'PASS' : 'FAIL'}] ${target.label}: ${domVerify.filled}/${domVerify.checked} DOM verified`);
+                console.log(`[${row.passed ? 'PASS' : 'FAIL'}] ${target.label}: ${domVerify.filled}/${domVerify.checked} DOM verified, ${requiredVerify.filled}/${requiredVerify.checked} required filled`);
+
+                if (requiredVerify.failures.length) {
+                    for (const failure of requiredVerify.failures.slice(0, 8)) {
+                        console.log(`  - REQUIRED ${failure.ref} (${failure.label}): got "${failure.actual ?? 'empty'}"`);
+                    }
+                }
             } finally {
                 await page.close();
             }

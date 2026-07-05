@@ -64,7 +64,35 @@ export function startE2eMockServer(mocksByScenario, htmlByScenario = {}) {
         }
 
         if (url.pathname === '/api/profile' && request.method === 'GET') {
-            sendJson(200, mocks.profile);
+            const profile = structuredClone(mocks.profile);
+            const host = request.headers.host || url.host;
+            profile.documents = [
+                {
+                    id: 'e2e-cv',
+                    category: 'cv',
+                    title: 'E2E CV',
+                    original_filename: 'e2e-cv.pdf',
+                    mime_type: 'application/pdf',
+                    download_url: `http://${host}/api/e2e/cv.pdf`,
+                },
+            ];
+
+            sendJson(200, profile);
+
+            return;
+        }
+
+        if (url.pathname === '/api/e2e/cv.pdf' && request.method === 'GET') {
+            const pdf = Buffer.from(
+                'JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMiAwIFI+PgplbmRvYmoKMiAwIG9iago8PC9UeXBlL1BhZ2VzL0tpZHNbMyAwIFJdL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL1BhZ2UvTWVkaWFCb3hbMCAwIDYxMiA3OTJdPj4KZW5kb2JqCnhyZWYKMCAKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDA5IDAwMDAwIG4gCjAwMDAwMDAwNTggMDAwMDAgbiAKMDAwMDAwMDExNSAwMDAwMCBuIAp0cmFpbGVyCjw8L1NpemUgNC9Sb290IDEgMCBSL0luZm8gNCAwIFI+PgpzdGFydHhrefQplDYwIDAgNjEyIDc5MiB9CmVuZG9iago0IDAgb2JqCjw8L1Byb2R1Y2VyIChBdXRvQ1ZBcHBseSBFMkUpPj4KZW5kb2JqCnhyZWYK',
+                'base64',
+            );
+
+            response.writeHead(200, {
+                'Content-Type': 'application/pdf',
+                'Access-Control-Allow-Origin': '*',
+            });
+            response.end(pdf);
 
             return;
         }

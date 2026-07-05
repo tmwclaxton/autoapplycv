@@ -1,14 +1,19 @@
 #!/usr/bin/env node
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import {
     appendContextualProfileAnswer,
     buildPendingFieldsFromProfileGaps,
     dedupeLocationParts,
+    dedupeQuestionLabelForDisplay,
     defaultSalaryFallbackPath,
     formatProfileSaveValue,
     formatContextualProfileLine,
     formatPhoneForForm,
     isAvailabilityQuestionLabel,
     isCityLocationQuestionLabel,
+    isEeoQuestionLabel,
+    isEducationQuestionLabel,
     isMeaningfulAnswer,
     isNoticePeriodQuestionLabel,
     isOpenEndedQuestionLabel,
@@ -17,6 +22,7 @@ import {
     resolveProfileMappingForLabel,
     resolveSalaryPeriodPath,
     shouldDeferFieldToAiDraft,
+    shouldPromptUserForField,
     shouldSkipAiDraftAnswer,
     splitFullName,
 } from '../../extension/src/shared/pending-fields.js';
@@ -275,13 +281,23 @@ assert(
 );
 
 assert(
-    isCityLocationQuestionLabel('location (city) location (city) first name'),
-    'Greenhouse location (city) labels should be treated as city fields',
+    isCityLocationQuestionLabel('location (city)'),
+    'clean Greenhouse location (city) labels should be treated as city fields',
 );
 
 assert(
-    resolveProfileMappingForLabel('location (city) location (city) first name')?.path === 'city',
+    !isCityLocationQuestionLabel('location (city) location (city) first name'),
+    'contaminated location labels should not map to city',
+);
+
+assert(
+    resolveProfileMappingForLabel('location (city)')?.path === 'city',
     'location (city) should map to city profile field',
+);
+
+assert(
+    resolveProfileMappingForLabel('location (city) location (city) first name') === null,
+    'contaminated location labels should not resolve to city profile field',
 );
 
 assert(
@@ -313,6 +329,97 @@ assert(
     splitFullName('Toby Claxton').first === 'Toby'
         && splitFullName('Toby Claxton').last === 'Claxton',
     'splitFullName should split first and last names',
+);
+
+assert(
+    resolveProfileMappingForLabel('race and ethnicity race and ethnicity') === null,
+    'race and ethnicity should not map to city via substring match',
+);
+
+assert(
+    dedupeQuestionLabelForDisplay('first name first name first name first name') === 'first name',
+    'dedupeQuestionLabelForDisplay should collapse repeated labels',
+);
+
+assert(
+    dedupeQuestionLabelForDisplay('location (city) location (city) first name')
+        === 'location (city)',
+    'dedupeQuestionLabelForDisplay should trim contaminated labels',
+);
+
+assert(
+    isEeoQuestionLabel('race and ethnicity race and ethnicity'),
+    'EEO labels should be detected',
+);
+
+assert(
+    isEducationQuestionLabel('school school'),
+    'education labels should be detected',
+);
+
+assert(
+    !shouldPromptUserForField({ label: 'first name first name first name first name' }, {
+        profile: { full_name: 'Toby Claxton', email: 'user@example.com' },
+    }),
+    'filled profile fields should not prompt in sidebar',
+);
+
+const discordFullProfile = {
+    profile: {
+        full_name: 'Toby Claxton',
+        email: 'user@example.com',
+        phone: '7912345678',
+        linkedin_url: 'https://linkedin.com/in/toby',
+        city: 'Belfast',
+        country: 'United Kingdom',
+        location: 'Belfast, United Kingdom',
+    },
+    application_settings: {
+        phone_country_code: '+44',
+        expected_salary_yearly: '£120000',
+        notice_period: '2 weeks',
+        legally_authorized: 'Yes',
+        willing_to_relocate: 'Yes',
+    },
+    computed_earliest_start: '19 July 2026',
+};
+
+const discordFixturePath = join(process.cwd(), 'tests/fixtures/form-extraction/expected/web-boards-greenhouse-io-8571766002.json');
+const discordFixture = JSON.parse(readFileSync(discordFixturePath, 'utf8'));
+const discordFields = discordFixture.fields.map((field, index) => ({
+    ref: `f${index}`,
+    label: field.question,
+    question: field.question,
+    field_type: field.field_type,
+    options: field.options,
+}));
+
+const discordProfileGaps = buildPendingFieldsFromProfileGaps(discordFields, discordFullProfile);
+assert(
+    discordProfileGaps.length === 0,
+    `Discord GH fixture with full profile should have 0 profile-gap pending fields, got ${discordProfileGaps.length}`,
+);
+
+const discordFieldsByRef = new Map(discordFields.map((field) => [field.ref, field]));
+const nullAiAnswers = discordFields.map((field) => ({
+    ref: field.ref,
+    label: field.label,
+    answer: null,
+}));
+const { toApply: discordApply, pending: discordPending } = partitionBatchAnswers(
+    nullAiAnswers,
+    discordFieldsByRef,
+    discordFullProfile,
+);
+
+assert(
+    discordPending.length === 0,
+    `Discord GH fixture with full profile and null AI answers should have 0 pending, got ${discordPending.length}`,
+);
+
+assert(
+    discordApply.length >= 5,
+    'Discord GH fixture should apply profile fallbacks for standard fields when AI returns null',
 );
 
 console.log('pending-fields tests passed');

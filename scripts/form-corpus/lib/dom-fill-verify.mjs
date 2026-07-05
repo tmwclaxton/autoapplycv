@@ -126,6 +126,33 @@ function valuesMatch(fieldType, expectedAnswer, actual) {
 export function domReadbackEvaluator(items) {
     const normalize = (value) => String(value || '').replace(/\s+/g, ' ').trim().toLowerCase();
 
+    function readReactSelectValue(element) {
+        if (!element || element.getAttribute?.('role') !== 'combobox') {
+            return null;
+        }
+
+        const shell = element.closest('.select-shell, .select__container');
+        const control = element.closest('.select__control') || shell?.querySelector('.select__control');
+
+        if (control) {
+            const singleValue = control.querySelector('.select__single-value, .select__multi-value__label');
+
+            if (singleValue?.textContent?.trim()) {
+                return singleValue.textContent.replace(/\s+/g, ' ').trim();
+            }
+        }
+
+        const hiddenValue = shell?.querySelector('input[tabindex="-1"][aria-hidden="true"]');
+
+        if (hiddenValue?.value?.trim()) {
+            return hiddenValue.value.trim();
+        }
+
+        const typed = String(element.value || '').trim();
+
+        return typed || null;
+    }
+
     function readYesNo(dataFieldPath) {
         const scope = dataFieldPath
             ? document.querySelector(`[data-field-path="${dataFieldPath}"]`)
@@ -286,6 +313,12 @@ export function domReadbackEvaluator(items) {
         const role = element.getAttribute?.('role');
 
         if (role === 'combobox') {
+            const selected = readReactSelectValue(element);
+
+            if (selected) {
+                return { kind: 'option', value: selected };
+            }
+
             const typed = String(element.value || element.textContent || '').trim();
 
             return typed ? { kind: 'text', value: typed } : null;
@@ -462,6 +495,208 @@ export function formatDomVerifyTable(results) {
     }
 
     return lines.join('\n');
+}
+
+/**
+ * Browser-side scan for required visible fields still empty after Draft All.
+ */
+export function collectRequiredVisibleFieldsEvaluator() {
+    const normalize = (value) => String(value || '').replace(/\s+/g, ' ').trim().toLowerCase();
+
+    function isVisible(element) {
+        if (!element || element.disabled) {
+            return false;
+        }
+
+        if (element.type === 'hidden' || element.getAttribute('aria-hidden') === 'true') {
+            return false;
+        }
+
+        const style = window.getComputedStyle(element);
+
+        return style.display !== 'none' && style.visibility !== 'hidden' && element.offsetParent !== null;
+    }
+
+    function labelFor(element) {
+        const id = element.getAttribute('id');
+
+        if (id) {
+            const label = document.querySelector(`label[for="${CSS.escape(id)}"]`);
+
+            if (label) {
+                return label.textContent.replace(/\s+/g, ' ').trim();
+            }
+        }
+
+        return (
+            element.getAttribute('aria-label')
+            || element.closest('.field-wrapper, .select__container, .input-wrapper')?.querySelector('label, legend, .label')?.textContent?.replace(/\s+/g, ' ').trim()
+            || id
+            || element.getAttribute('name')
+            || 'unknown field'
+        );
+    }
+
+    function isRequired(element) {
+        if (element.getAttribute('aria-required') === 'true' || element.required) {
+            return true;
+        }
+
+        const id = element.getAttribute('id');
+
+        if (id) {
+            const label = document.querySelector(`label[for="${CSS.escape(id)}"]`);
+
+            if (label && /[*\u2731]/.test(label.textContent)) {
+                return true;
+            }
+        }
+
+        const uploadGroup = element.closest('[role="group"][aria-required="true"]');
+
+        return Boolean(uploadGroup);
+    }
+
+    function readReactSelectValue(element) {
+        const shell = element.closest('.select-shell, .select__container');
+        const control = element.closest('.select__control') || shell?.querySelector('.select__control');
+        const singleValue = control?.querySelector('.select__single-value, .select__multi-value__label');
+
+        if (singleValue?.textContent?.trim()) {
+            return singleValue.textContent.replace(/\s+/g, ' ').trim();
+        }
+
+        const hiddenValue = shell?.querySelector('input[tabindex="-1"][aria-hidden="true"]');
+
+        if (hiddenValue?.value?.trim()) {
+            return hiddenValue.value.trim();
+        }
+
+        return String(element.value || '').trim() || null;
+    }
+
+    function readValue(element) {
+        const role = element.getAttribute('role');
+        const tag = element.tagName?.toLowerCase();
+
+        if (role === 'combobox') {
+            return readReactSelectValue(element);
+        }
+
+        if (tag === 'select') {
+            const selected = element.selectedOptions?.[0];
+
+            return (selected?.textContent || selected?.value || '').replace(/\s+/g, ' ').trim() || null;
+        }
+
+        if (element.type === 'checkbox' || element.type === 'radio') {
+            const groupName = element.name;
+
+            if (!groupName) {
+                return element.checked ? 'checked' : null;
+            }
+
+            const checked = Array.from(document.querySelectorAll(`input[type="${element.type}"][name="${CSS.escape(groupName)}"]`))
+                .filter((input) => input.checked);
+
+            return checked.length > 0 ? 'checked' : null;
+        }
+
+        if (element.type === 'file') {
+            return element.files?.length ? element.files[0].name : null;
+        }
+
+        return String(element.value ?? '').trim() || null;
+    }
+
+    function isFileGroupFilled(group) {
+        const fileInput = group.querySelector('input[type="file"]');
+
+        if (fileInput?.files?.length) {
+            return true;
+        }
+
+        const manualText = group.querySelector('textarea, input[type="text"]:not(.visually-hidden)');
+
+        return Boolean(manualText?.value?.trim());
+    }
+
+    const rows = [];
+    const seen = new Set();
+    const form = document.querySelector('#application-form, form.application--form, form[action*="jobs"]');
+    const scope = form || document;
+
+    for (const element of scope.querySelectorAll('input, textarea, select, [role="combobox"]')) {
+        if (!isVisible(element) || !isRequired(element)) {
+            continue;
+        }
+
+        if (element.type === 'file') {
+            continue;
+        }
+
+        const ref = element.id || element.name || element.getAttribute('data-field-path') || labelFor(element);
+        const dedupeKey = `${element.tagName}:${ref}`;
+
+        if (seen.has(dedupeKey)) {
+            continue;
+        }
+
+        seen.add(dedupeKey);
+
+        const actual = readValue(element);
+        const filled = Boolean(actual && !/^select(\.\.\.)?$/i.test(actual));
+
+        rows.push({
+            ref,
+            label: labelFor(element),
+            field_type: element.getAttribute('role') === 'combobox' ? 'select' : (element.type || element.tagName.toLowerCase()),
+            actual: actual || null,
+            filled,
+        });
+    }
+
+    for (const group of scope.querySelectorAll('[role="group"][aria-required="true"]')) {
+        if (!isVisible(group)) {
+            continue;
+        }
+
+        const label = group.getAttribute('aria-labelledby')
+            ? document.getElementById(group.getAttribute('aria-labelledby'))?.textContent?.replace(/\s+/g, ' ').trim()
+            : group.querySelector('.label, legend')?.textContent?.replace(/\s+/g, ' ').trim();
+        const ref = group.getAttribute('aria-labelledby') || label || 'file-group';
+        const dedupeKey = `group:${ref}`;
+
+        if (seen.has(dedupeKey)) {
+            continue;
+        }
+
+        seen.add(dedupeKey);
+
+        const filled = isFileGroupFilled(group);
+
+        rows.push({
+            ref,
+            label: label || ref,
+            field_type: 'file',
+            actual: filled ? 'attached' : null,
+            filled,
+        });
+    }
+
+    return rows;
+}
+
+export async function verifyRequiredVisibleFieldsInPage(page) {
+    const rows = await page.evaluate(collectRequiredVisibleFieldsEvaluator);
+    const failures = rows.filter((row) => !row.filled);
+
+    return {
+        checked: rows.length,
+        filled: rows.filter((row) => row.filled).length,
+        failures,
+        rows,
+    };
 }
 
 /**
