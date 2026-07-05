@@ -63,26 +63,6 @@ const computedEarliestStart = computed(() =>
 
         <div class="grid gap-4 sm:grid-cols-2">
             <div>
-                <label for="field-phone-country-code" class="postbox-label"
-                    >Phone country code</label
-                >
-                <select
-                    id="field-phone-country-code"
-                    v-model="applicationSettings.phone_country_code"
-                    name="tel-country-code"
-                    autocomplete="tel-country-code"
-                    class="postbox-input mt-2"
-                >
-                    <option value="+44">United Kingdom (+44)</option>
-                    <option value="+1">United States / Canada (+1)</option>
-                    <option value="+353">Ireland (+353)</option>
-                    <option value="+33">France (+33)</option>
-                    <option value="+49">Germany (+49)</option>
-                    <option value="+61">Australia (+61)</option>
-                </select>
-            </div>
-
-            <div>
                 <label for="field-years-of-experience" class="postbox-label"
                     >Years of experience</label
                 >

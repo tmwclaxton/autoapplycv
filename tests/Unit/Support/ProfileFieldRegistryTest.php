@@ -43,5 +43,7 @@ class ProfileFieldRegistryTest extends TestCase
         $this->assertArrayHasKey('application_settings.job_preferences', $definitions);
         $this->assertArrayHasKey('application_settings.notice_period', $definitions);
         $this->assertSame('Notice period', $definitions['application_settings.notice_period']['label']);
+        $this->assertSame('profile', $definitions['application_settings.phone_country_code']['tab']);
+        $this->assertSame('field-phone-country-code', $definitions['application_settings.phone_country_code']['anchor']);
     }
 }

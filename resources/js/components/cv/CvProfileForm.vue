@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Plus, Trash2, X } from 'lucide-vue-next';
 import { ref } from 'vue';
+import PhoneInput from '@/components/cv/PhoneInput.vue';
 import ProfileDocumentsPanel from '@/components/cv/ProfileDocumentsPanel.vue';
 import {
     createEmptyProfile,
@@ -281,14 +282,11 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                 </div>
                 <div>
                     <label for="field-phone" class="postbox-label">Phone</label>
-                    <input
-                        id="field-phone"
-                        v-model="profile.phone"
-                        name="tel"
-                        type="tel"
-                        autocomplete="tel"
-                        class="postbox-input"
-                        placeholder="+44 7700 000000"
+                    <PhoneInput
+                        v-model:phone="profile.phone"
+                        v-model:country-code="
+                            profile.application_settings.phone_country_code
+                        "
                     />
                 </div>
                 <div>
