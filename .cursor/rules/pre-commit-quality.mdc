@@ -1,5 +1,5 @@
 ---
-description: Run format, lint, and Pint before committing
+description: Run format, lint, and Pint before committing; same checks before push
 alwaysApply: true
 ---
 
@@ -20,6 +20,18 @@ vendor/bin/pint --dirty --format agent
 ```
 
 Only commit when all applicable checks pass. If you auto-fixed issues, mention what was fixed in the commit message or summary.
+
+## Before push
+
+Do not push to the remote until the same checks pass locally with exit code 0 (matches the GitHub linter/quality workflow):
+
+```bash
+npm run lint:check
+npm run format:check
+npm run em-dash:check
+```
+
+If any check fails, fix it (e.g. `npm run lint`, `npm run format`, `npm run em-dash:fix`) and re-run all three until they pass.
 
 ## Git hook (optional)
 
