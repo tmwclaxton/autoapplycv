@@ -51,11 +51,21 @@ If any check fails, fix it (e.g. `npm run lint`, `npm run format`, `npm run em-d
 
 ## Git hook (optional)
 
-To run the em-dash check automatically on every commit:
+To run the same checks as CI before every commit:
 
 ```bash
 git config core.hooksPath .githooks
 chmod +x .githooks/pre-commit
 ```
 
-The hook runs `npm run em-dash:check` and blocks the commit when em dashes are found.
+The hook runs `npm run pre-commit:check`, which inspects staged files and runs:
+
+- `npm run em-dash:check` when staged `.php`, `.js`, `.vue`, `.md`, or `.mdc` files change
+- `npm run format:check` and `npm run lint:check:ci` when staged frontend files change (includes ESLint import order without local Wayfinder output)
+- `vendor/bin/pint --dirty --test` when staged `.php` files change
+
+Run the hook checks manually anytime:
+
+```bash
+npm run pre-commit:check
+```
