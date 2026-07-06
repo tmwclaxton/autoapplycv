@@ -68,7 +68,7 @@ class ApplicationDraftOrchestratorService
 
         $affordableBatchCount = min(
             $batchCount,
-            intdiv($this->usage->autofillsRemaining($user), $this->batchCost()),
+            intdiv($this->usage->creditsRemaining($user), $this->batchCost()),
         );
 
         if ($affordableBatchCount < 1) {

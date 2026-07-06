@@ -4,9 +4,9 @@ import { computed } from 'vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
 import { useConfirm } from '@/composables/useConfirm';
 import { creditNotice } from '@/lib/creditNotice';
+import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
 import { dashboard } from '@/routes';
 import billingRoutes from '@/routes/billing';
-import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
 
 setLayoutProps({
     tagline: 'Extension credits reset monthly.',
