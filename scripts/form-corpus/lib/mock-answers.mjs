@@ -115,6 +115,10 @@ export function mockAnswerForField(field, index) {
                 return 'Yes';
             }
 
+            if (/where did you hear|how did you hear|referral source/i.test(question)) {
+                return 'LinkedIn';
+            }
+
             return firstMeaningfulOption(field.options) ?? 'Yes';
         }
         case 'checkbox':

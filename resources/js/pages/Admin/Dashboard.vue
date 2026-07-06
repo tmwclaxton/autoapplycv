@@ -137,6 +137,25 @@ interface NanoGptUsageSeries {
     }>;
 }
 
+interface AutofillMetricSummary {
+    label: string;
+    total: number;
+    period_total: number;
+    series: Array<{
+        date: string;
+        count: number;
+    }>;
+}
+
+interface AutofillAnalyticsSummary {
+    days: number;
+    metrics: {
+        answers_autofilled: AutofillMetricSummary;
+        extension_questions: AutofillMetricSummary;
+        cvs_parsed: AutofillMetricSummary;
+    };
+}
+
 interface PowerUser {
     id: number;
     name: string;
@@ -266,6 +285,7 @@ defineProps<{
     recent_credit_grants: CreditGrantRow[];
     nanogpt_usage_stats: NanoGptUsageStats;
     nanogpt_usage_series: NanoGptUsageSeries;
+    autofill_analytics: AutofillAnalyticsSummary;
     power_users: PowerUser[];
     auto_apply_stats: AutoApplyStats;
     auto_apply_session_series: AutoApplySeries;
@@ -1440,6 +1460,17 @@ function autoApplySessionStatusClass(status: string): string {
                 :days="nanogpt_usage_series.days"
                 unit-label="tokens"
                 bar-class="fill-postbox-red/85 hover:fill-postbox-red"
+            />
+
+            <DailyMetricChart
+                title="Questions filled over time"
+                :description="`Daily application questions autofilled across all users over the last ${autofill_analytics.days} days. ${formatNumber(autofill_analytics.metrics.answers_autofilled.period_total)} in this period, ${formatNumber(autofill_analytics.metrics.answers_autofilled.total)} all time.`"
+                empty-title="No questions filled yet"
+                empty-description="Totals appear here when users autofilled application questions from the extension."
+                :series="autofill_analytics.metrics.answers_autofilled.series"
+                :days="autofill_analytics.days"
+                unit-label="questions"
+                bar-class="fill-postbox-navy/75 hover:fill-postbox-navy"
             />
 
             <div class="postbox-panel overflow-hidden">

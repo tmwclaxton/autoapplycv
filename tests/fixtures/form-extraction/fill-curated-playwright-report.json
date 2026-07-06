@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-05T17:49:04.828Z",
+  "generated_at": "2026-07-06T15:27:15.131Z",
   "totals": {
     "scenarios": 1,
     "evaluated": 1,
@@ -12,31 +12,35 @@
   },
   "results": [
     {
-      "id": "web-jobs-micro1-ai-59336643",
-      "platform": "micro1",
+      "id": "web-oraclecloud-apply-flow-itv",
+      "platform": "oracle",
       "priority": "critical",
       "passed": true,
-      "plan_count": 1,
+      "plan_count": 3,
       "apply_failures": 0,
-      "readback_failures": 1,
+      "readback_failures": 0,
       "a11y_failures": 0,
       "error_banner_count": 0,
       "failures": [],
-      "readback_failures_detail": [
-        {
-          "stage": "verify",
-          "field": "phone number",
-          "ref": "f3",
-          "expected": "+15550000003",
-          "actual": null
-        }
-      ],
+      "readback_failures_detail": [],
       "readbacks": [
         {
-          "ref": "f3",
-          "expected": "+15550000003",
-          "actual": null,
-          "fieldType": "tel"
+          "ref": "f6",
+          "expected": "LinkedIn",
+          "actual": "LinkedIn",
+          "fieldType": "select"
+        },
+        {
+          "ref": "f7",
+          "expected": "No",
+          "actual": "checked",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f8",
+          "expected": "FillVerify-8",
+          "actual": "FillVerify-8",
+          "fieldType": "text"
         }
       ],
       "checks": {
@@ -58,7 +62,7 @@
     "overall_pass_rate": 1
   },
   "by_platform": {
-    "micro1": {
+    "oracle": {
       "total": 1,
       "passed": 1,
       "failed": 0,

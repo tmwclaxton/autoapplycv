@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-05T22:51:52.158Z",
+  "generated_at": "2026-07-06T15:27:26.607Z",
   "description": "Per-platform Playwright smoke tier - one critical scenario per ATS/platform.",
   "thresholds": {
     "critical_pass_rate": 1,
@@ -82,6 +82,21 @@
         "checkbox"
       ],
       "field_count": 13,
+      "priority": "critical",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
+    },
+    {
+      "id": "web-oraclecloud-apply-flow-itv",
+      "platform": "oracle",
+      "reason": "Representative oracle form (9 fields, radio+select+combobox)",
+      "field_types": [
+        "radio",
+        "text",
+        "select"
+      ],
+      "field_count": 9,
       "priority": "critical",
       "verify_engine": "playwright",
       "playwright": true,

@@ -59,6 +59,8 @@ class AdminDashboardTest extends TestCase
                 ->has('recent_credit_grants')
                 ->has('nanogpt_usage_stats')
                 ->has('nanogpt_usage_series')
+                ->has('autofill_analytics')
+                ->has('autofill_analytics.metrics.answers_autofilled.series')
                 ->has('power_users')
                 ->has('auto_apply_stats')
                 ->has('auto_apply_session_series')

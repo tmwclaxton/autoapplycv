@@ -258,7 +258,7 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         return element.closest(
-            'fieldset[data-testid^="input-q_"], [data-testid^="input-q_"], .ia-Questions-item, fieldset[name^="q_"], fieldset, [data-field-path], .ashby-application-form-field-entry',
+            'fieldset[data-testid^="input-q_"], [data-testid^="input-q_"], .ia-Questions-item, fieldset[name^="q_"], fieldset, [data-field-path], .ashby-application-form-field-entry, .input-row, .apply-flow-block',
         );
     }
 
@@ -288,6 +288,50 @@ const AutoCVApplyFormHeuristics = (() => {
         return (element.type === 'radio' || element.type === 'checkbox')
             && getAshbyFieldEntry(element) !== null
             && !isAshbyHiddenYesNoInput(element);
+    }
+
+    function getOracleApplyFlowFieldRow(element) {
+        return element.closest('.input-row, .input-row--radiogroup, [role="radiogroup"].input-row');
+    }
+
+    function getOracleApplyFlowQuestionLabel(element) {
+        const row = getOracleApplyFlowFieldRow(element);
+
+        if (!row) {
+            return '';
+        }
+
+        const labelledBy = row.getAttribute('aria-labelledby');
+
+        if (labelledBy) {
+            const doc = element.ownerDocument || document;
+
+            for (const id of labelledBy.split(/\s+/)) {
+                const labelEl = doc.getElementById(id);
+                const linebreak = labelEl?.querySelector?.('.input-row__linebreak') || labelEl;
+
+                if (linebreak?.textContent?.trim()) {
+                    return normalize(linebreak.textContent);
+                }
+            }
+        }
+
+        const linebreak = row.querySelector('.input-row__label .input-row__linebreak, .input-row__label');
+
+        if (linebreak?.textContent?.trim()) {
+            return normalize(linebreak.textContent);
+        }
+
+        return '';
+    }
+
+    function isOracleApplyFlowStyledChoiceInput(element) {
+        return (element.type === 'radio' || element.type === 'checkbox')
+            && (
+                element.classList.contains('input-row__hidden-control')
+                || element.classList.contains('apply-flow-input-radio-control')
+                || element.closest('.input-row--radiogroup') !== null
+            );
     }
 
     function resolveAshbyChoiceClickTargets(input) {
@@ -534,6 +578,78 @@ const AutoCVApplyFormHeuristics = (() => {
         return fields;
     }
 
+    function collectOracleSelectPillFields(root) {
+        const fields = [];
+        const seen = new Set();
+
+        for (const container of root.querySelectorAll('.cx-select-pills-container, ul.cx-select-pills-container')) {
+            const row = container.closest('.input-row');
+            const buttons = Array.from(
+                container.querySelectorAll('button.cx-select-pill-section, button[class*="cx-select-pill"]'),
+            ).filter(isVisible);
+
+            if (buttons.length < 2) {
+                continue;
+            }
+
+            const label = container.getAttribute('aria-label')
+                || getOracleApplyFlowQuestionLabel(container)
+                || (row ? getOracleApplyFlowQuestionLabel(row) : '');
+
+            if (label.length < 3) {
+                continue;
+            }
+
+            const key = row?.getAttribute('data-qa') || container.getAttribute('aria-label') || label;
+
+            if (seen.has(key)) {
+                continue;
+            }
+
+            seen.add(key);
+
+            fields.push({
+                container,
+                row,
+                buttons,
+                label,
+                optionLabels: buttons
+                    .map((button) => button.textContent.replace(/\s+/g, ' ').trim())
+                    .filter((text) => text.length > 0),
+            });
+        }
+
+        return fields;
+    }
+
+    function isOracleSelectPillAnswered(buttons) {
+        return buttons.some((button) => button.getAttribute('aria-pressed') === 'true');
+    }
+
+    function setOracleSelectPillValue(buttons, answer) {
+        for (const button of buttons) {
+            const optionText = button.textContent.replace(/\s+/g, ' ').trim();
+
+            if (optionMatchesAnswer(optionText, answer)) {
+                button.scrollIntoView?.({ block: 'center', inline: 'nearest' });
+                nativeClick(button);
+                button.setAttribute('aria-pressed', 'true');
+
+                for (const sibling of buttons) {
+                    if (sibling !== button) {
+                        sibling.setAttribute('aria-pressed', 'false');
+                    }
+                }
+
+                clearValidationState(button);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     function isAshbyYesNoAnswered(buttons, dataFieldPath = null, root = document) {
         const anchor = Array.isArray(buttons) ? buttons[0] : buttons;
 
@@ -576,6 +692,16 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         dispatchPointerClick(element);
+    }
+
+    function clearValidationState(element) {
+        if (!element) {
+            return;
+        }
+
+        element.removeAttribute('aria-invalid');
+        element.classList?.remove('cx-select-input--invalid', 'fb-dash-form-element__error-field');
+        element.closest('.input-row')?.classList.remove('input-row--invalid');
     }
 
     function clickAshbyYesNoButton(button) {
@@ -1041,8 +1167,14 @@ const AutoCVApplyFormHeuristics = (() => {
                 dispatchPointerClick(option);
                 element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
 
-                return valueMatchesAnswer(readReactSelectValue(element), stringValue)
+                const matched = valueMatchesAnswer(readReactSelectValue(element), stringValue)
                     || valueMatchesAnswer(element.value, stringValue);
+
+                if (matched) {
+                    clearValidationState(element);
+                }
+
+                return matched;
             }
         }
 
@@ -1084,6 +1216,10 @@ const AutoCVApplyFormHeuristics = (() => {
             typedValue: element.value?.slice(0, 80),
         });
 
+        if (typedOnly) {
+            clearValidationState(element);
+        }
+
         return typedOnly;
     }
 
@@ -1123,6 +1259,12 @@ const AutoCVApplyFormHeuristics = (() => {
 
         if (ashbyTitle.length >= 3) {
             return ashbyTitle;
+        }
+
+        const oracleLabel = getOracleApplyFlowQuestionLabel(element);
+
+        if (oracleLabel.length >= 3) {
+            return oracleLabel;
         }
 
         const container = getQuestionContainer(element);
@@ -1185,7 +1327,11 @@ const AutoCVApplyFormHeuristics = (() => {
             const selector = `input[type="${element.type}"][name="${escapeSelectorValue(element.name)}"]`;
 
             return Array.from((container || doc).querySelectorAll(selector))
-                .filter((input) => input.type !== 'hidden' && isVisible(input));
+                .filter((input) => input.type !== 'hidden' && (
+                    isAshbyStyledChoiceInput(input)
+                    || isOracleApplyFlowStyledChoiceInput(input)
+                    || isVisible(input)
+                ));
         }
 
         return [element].filter(isVisible);
@@ -2650,6 +2796,10 @@ const AutoCVApplyFormHeuristics = (() => {
             actualPreview: String(element.value || '').slice(0, 80),
         });
 
+        if (filled) {
+            clearValidationState(element);
+        }
+
         return filled;
     }
 
@@ -2667,7 +2817,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 return false;
             }
 
-            if (isAshbyStyledChoiceInput(element)) {
+            if (isAshbyStyledChoiceInput(element) || isOracleApplyFlowStyledChoiceInput(element)) {
                 return true;
             }
 
@@ -2823,7 +2973,9 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function elementNeedsDraft(element) {
-        if (!isVisible(element) || element.type === 'file') {
+        const styledChoice = isAshbyStyledChoiceInput(element) || isOracleApplyFlowStyledChoiceInput(element);
+
+        if ((!isVisible(element) && !styledChoice) || element.type === 'file') {
             return false;
         }
 
@@ -2865,6 +3017,28 @@ const AutoCVApplyFormHeuristics = (() => {
             }
 
             if (isAshbyYesNoAnswered(buttons, dataFieldPath, root)) {
+                continue;
+            }
+
+            seen.add(label);
+
+            callback({
+                id,
+                label,
+                field_type: 'radio',
+                max_chars: undefined,
+                options: optionLabels,
+            }, buttons, buttons);
+
+            id += 1;
+        }
+
+        for (const { buttons, label, optionLabels } of collectOracleSelectPillFields(root)) {
+            if (label.length < 3 || seen.has(label)) {
+                continue;
+            }
+
+            if (isOracleSelectPillAnswered(buttons)) {
                 continue;
             }
 
@@ -3039,6 +3213,16 @@ const AutoCVApplyFormHeuristics = (() => {
             }
 
             if (await setAshbyYesNoValue(buttons, answer, { dataFieldPath, root })) {
+                return true;
+            }
+        }
+
+        for (const { buttons, label: pillLabel } of collectOracleSelectPillFields(root)) {
+            if (!labelsMatch(pillLabel, normalizedTarget)) {
+                continue;
+            }
+
+            if (setOracleSelectPillValue(buttons, answer)) {
                 return true;
             }
         }

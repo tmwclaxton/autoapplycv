@@ -5,6 +5,10 @@ import {
     normalizeLoginEndpoint,
     parseConnectionInput,
 } from './connection.js';
+import {
+    buildCoverLetterPdfFileName,
+    downloadCoverLetterPdf,
+} from './cover-letter-pdf.js';
 import { createRemoteLogger } from './debug-log.js';
 import { initDocumentsPanel } from './documents.js';
 import { drainDraftChatQueue } from './draft-batch-chat.js';
@@ -167,21 +171,9 @@ export function switchToTab(tabKey) {
 
 function playAutoApplyPauseSound() {
     try {
-        const context = new AudioContext();
-        const playTone = (frequency, startOffset, duration) => {
-            const oscillator = context.createOscillator();
-            const gain = context.createGain();
-            oscillator.type = 'sine';
-            oscillator.frequency.value = frequency;
-            gain.gain.value = 0.12;
-            oscillator.connect(gain);
-            gain.connect(context.destination);
-            oscillator.start(context.currentTime + startOffset);
-            oscillator.stop(context.currentTime + startOffset + duration);
-        };
-
-        playTone(880, 0, 0.12);
-        playTone(1174, 0.16, 0.18);
+        const audio = new Audio(chrome.runtime.getURL('sound/ping.mp3'));
+        audio.volume = 0.65;
+        void audio.play().catch(() => {});
     } catch {
         // Audio may be blocked until user interaction.
     }
@@ -245,16 +237,16 @@ async function copyOutput(textareaId) {
     showMessage('Copied to clipboard.', 'success');
 }
 
-function setAiOutputVisible(outputId, copyButtonId, visible) {
+function setAiOutputVisible(outputId, actionContainerId, visible) {
     const output = document.getElementById(outputId);
-    const copyButton = document.getElementById(copyButtonId);
+    const actionContainer = document.getElementById(actionContainerId);
 
     if (output) {
         output.hidden = !visible;
     }
 
-    if (copyButton) {
-        copyButton.hidden = !visible;
+    if (actionContainer) {
+        actionContainer.hidden = !visible;
     }
 }
 
@@ -400,7 +392,7 @@ document.getElementById('ai-cover-letter-btn').addEventListener('click', async (
     const statusEl = document.getElementById('cover-status');
     const outputEl = document.getElementById('cover-output');
 
-    setAiOutputVisible('cover-output', 'cover-copy-btn', false);
+    setAiOutputVisible('cover-output', 'cover-actions', false);
     statusEl.textContent = 'Working…';
 
     try {
@@ -413,7 +405,7 @@ document.getElementById('ai-cover-letter-btn').addEventListener('click', async (
         }, statusEl);
 
         outputEl.value = response.cover_letter;
-        setAiOutputVisible('cover-output', 'cover-copy-btn', true);
+        setAiOutputVisible('cover-output', 'cover-actions', true);
         statusEl.textContent = 'Cover letter generated.';
         showMessage('Cover letter generated.', 'success');
     } catch (error) {
@@ -424,6 +416,34 @@ document.getElementById('ai-cover-letter-btn').addEventListener('click', async (
 
 document.getElementById('ats-copy-btn').addEventListener('click', () => copyOutput('ats-output'));
 document.getElementById('cover-copy-btn').addEventListener('click', () => copyOutput('cover-output'));
+document.getElementById('cover-pdf-btn').addEventListener('click', async () => {
+    const output = document.getElementById('cover-output');
+
+    if (!output?.value.trim()) {
+        showMessage('Nothing to download yet.', 'error');
+
+        return;
+    }
+
+    try {
+        const job = buildJobPayload();
+        const profileData = await loadProfile();
+        const profile = profileData?.profile ?? null;
+
+        downloadCoverLetterPdf({
+            text: output.value,
+            fileName: buildCoverLetterPdfFileName({
+                jobTitle: job.title,
+                company: job.company,
+            }),
+            profile,
+            job,
+        });
+        showMessage('PDF download started.', 'success');
+    } catch (error) {
+        showMessage(error.message, 'error');
+    }
+});
 
 document.getElementById('workos-login-btn').addEventListener('click', async () => {
     try {

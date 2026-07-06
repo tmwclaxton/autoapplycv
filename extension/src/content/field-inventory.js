@@ -57,7 +57,7 @@ const AutoCVApplyFieldInventory = (() => {
         const ashbyEntry = rep?.closest?.('[data-field-path], .ashby-application-form-field-entry');
 
         if (Array.isArray(target) && target[0]?.tagName?.toLowerCase() === 'button') {
-            scope = target[0].closest('[data-field-path], .ashby-application-form-field-entry')
+            scope = target[0].closest('[data-field-path], .ashby-application-form-field-entry, .input-row')
                 || target[0].closest('[class*="_yesno_"]')
                 || target[0];
             rep = target[0];

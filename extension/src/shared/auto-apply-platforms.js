@@ -6,32 +6,66 @@ import {
 
 /** @typedef {{ id: string, label: string, enabled: boolean, comingSoon?: boolean }} PlatformDefinition */
 
-/** @type {Record<string, PlatformDefinition>} */
-export const AUTO_APPLY_PLATFORMS = {
-    [LINKEDIN_PLATFORM_ID]: {
+/**
+ * Keep in sync with SUPPORTED_PLATFORMS in resources/js/lib/site.ts.
+ * LinkedIn is the only enabled auto-apply platform today; others are listed as coming soon.
+ *
+ * @type {PlatformDefinition[]}
+ */
+export const AUTO_APPLY_PLATFORM_LIST = [
+    {
         id: LINKEDIN_PLATFORM_ID,
         label: 'LinkedIn',
         enabled: true,
     },
-    greenhouse: {
+    {
+        id: 'workday',
+        label: 'Workday',
+        enabled: false,
+        comingSoon: true,
+    },
+    {
         id: 'greenhouse',
         label: 'Greenhouse',
         enabled: false,
         comingSoon: true,
     },
-    lever: {
+    {
         id: 'lever',
         label: 'Lever',
         enabled: false,
         comingSoon: true,
     },
-    ashby: {
+    {
         id: 'ashby',
         label: 'Ashby',
         enabled: false,
         comingSoon: true,
     },
-};
+    {
+        id: 'smartrecruiters',
+        label: 'SmartRecruiters',
+        enabled: false,
+        comingSoon: true,
+    },
+    {
+        id: 'teamtailor',
+        label: 'Teamtailor',
+        enabled: false,
+        comingSoon: true,
+    },
+    {
+        id: 'indeed',
+        label: 'Indeed',
+        enabled: false,
+        comingSoon: true,
+    },
+];
+
+/** @type {Record<string, PlatformDefinition>} */
+export const AUTO_APPLY_PLATFORMS = Object.fromEntries(
+    AUTO_APPLY_PLATFORM_LIST.map((platform) => [platform.id, platform]),
+);
 
 /**
  * @param {string} platformId

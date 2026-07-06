@@ -16,11 +16,12 @@ export const SUPPORTED_PLATFORMS = [
     'LinkedIn',
 ] as const;
 
-export const AUTO_APPLY_COMING_SOON_PLATFORMS = [
-    'Greenhouse',
-    'Lever',
-    'Ashby',
-] as const;
+export const AUTO_APPLY_COMING_SOON_PLATFORMS = SUPPORTED_PLATFORMS.filter(
+    (
+        platform,
+    ): platform is Exclude<(typeof SUPPORTED_PLATFORMS)[number], 'LinkedIn'> =>
+        platform !== 'LinkedIn',
+);
 
 export const PLATFORM_MARKETING_LINE =
     'Most major ATS and employer career sites - including Workday, Greenhouse, Lever, Ashby, SmartRecruiters, and many more.';

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-05T22:51:52.157Z",
+  "generated_at": "2026-07-06T15:27:26.606Z",
   "description": "Curated fill verification tier prioritizing platform diversity and verification depth over corpus quantity.",
   "thresholds": {
     "jsdom": {
@@ -160,6 +160,21 @@
       "verify_engine": "jsdom",
       "playwright": false,
       "playwright_priority": false
+    },
+    {
+      "id": "web-oraclecloud-apply-flow-itv",
+      "platform": "oracle",
+      "reason": "Representative oracle form (9 fields, radio+select+combobox)",
+      "field_types": [
+        "radio",
+        "text",
+        "select"
+      ],
+      "field_count": 9,
+      "priority": "critical",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": true
     },
     {
       "id": "web-job-boards-greenhouse-io-5025215008",
@@ -725,6 +740,46 @@
       "priority": "standard",
       "verify_engine": "jsdom",
       "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-fa-ewlq-saasfaprod1-fa-ocs-oraclecloud-com-jobs",
+      "platform": "oracle",
+      "reason": "Oracle HCM apply-flow representative",
+      "field_types": [
+        "text",
+        "textarea"
+      ],
+      "field_count": 9,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-efds-fa-em5-oraclecloud-com-jobs",
+      "platform": "oracle",
+      "reason": "Oracle HCM apply-flow representative",
+      "field_types": [
+        "text"
+      ],
+      "field_count": 8,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
+      "playwright_priority": false
+    },
+    {
+      "id": "web-fa-etyi-saasfaprod1-fa-ocs-oraclecloud-com-jobs",
+      "platform": "oracle",
+      "reason": "Oracle HCM apply-flow representative",
+      "field_types": [
+        "text"
+      ],
+      "field_count": 6,
+      "priority": "standard",
+      "verify_engine": "playwright",
+      "playwright": true,
       "playwright_priority": false
     },
     {

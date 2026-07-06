@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Oracle HCM Apply Flow - ITV</title>
+<style>
+.input-row__hidden-control {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.apply-flow-section[style*="display: none"] { display: none !important; }
+</style>
+</head>
+<body>
+<form class="apply-flow__content apply-flow__content-form standard-apply-flow" method="post">
+<div class="apply-flow-section" data-section-number="1">
+<ul class="apply-flow-page-list"><li>
+<div class="apply-flow-block apply-flow-block--personal-information-basic">
+<div class="apply-flow-block__form-list">
+<div class="input-row input-row--text input-row--filled">
+<label class="input-row__label input-row__label--required" for="lastName-32">
+<span class="input-row__linebreak" id="labelText-lastName-32">Last Name</span>
+</label>
+<input class="input-row__control" id="lastName-32" name="lastName" autocomplete="family-name" aria-required="true" value="Claxton">
+</div>
+<div class="input-row input-row--text input-row--filled">
+<label class="input-row__label" for="firstName-33">
+<span class="input-row__linebreak" id="labelText-firstName-33">First Name</span>
+</label>
+<input class="input-row__control" id="firstName-33" name="firstName" autocomplete="given-name" value="Toby">
+</div>
+<div class="input-row input-row--has-picker">
+<label class="input-row__label" for="title-34">
+<span class="input-row__linebreak" id="labelText-title-34">Title</span>
+</label>
+<div class="input-row__control-container" data-qa="title">
+<ul role="list" aria-label="Title" class="cx-select-pills-container">
+<li role="listitem"><button type="button" aria-pressed="false" class="cx-select-pill-section"><span class="cx-select-pill-name">Mr.</span></button></li>
+<li role="listitem"><button type="button" aria-pressed="false" class="cx-select-pill-section"><span class="cx-select-pill-name">Ms.</span></button></li>
+</ul>
+</div>
+</div>
+<div class="input-row input-row--text">
+<label class="input-row__label" for="middleNames-35">
+<span class="input-row__linebreak" id="labelText-middleNames-35">Middle Name</span>
+</label>
+<input class="input-row__control" id="middleNames-35" name="middleNames" autocomplete="additional-name">
+</div>
+<div class="input-row communication-channel__email">
+<label class="input-row__label input-row__label--disabled" for="email-36">
+<span class="input-row__linebreak" id="labelText-email-36">Email Address</span>
+</label>
+<input class="input-row__control communication-channel__email-control" id="email-36" name="email" type="email" readonly="readonly" autocomplete="email" value="applicant@example.com">
+</div>
+<div class="input-row input-row--with-placeholder input-row--has-picker">
+<label class="input-row__label" for="country-codes-dropdownphoneNumber" id="phoneNumberGroupLabel">
+<span class="input-row__linebreak" id="labelText-phoneNumber-37">Phone Number</span>
+</label>
+<div class="input-row-composite__inputs phone-row" role="group" aria-labelledby="phoneNumberGroupLabel">
+<div class="phone-row__prefix">
+<input autocomplete="none" name="phoneNumber" id="country-codes-dropdownphoneNumber" type="text" role="combobox" aria-label="Country code" class="cx-select-input">
+</div>
+<div class="phone-row__number">
+<input type="tel" class="input-row__control phone-row__input" aria-label="Phone Number">
+</div>
+</div>
+</div>
+</div>
+</div>
+</li></ul>
+</div>
+
+<div class="apply-flow-section" data-section-number="3">
+<ul class="apply-flow-page-list"><li>
+<div class="apply-flow-block apply-flow-block--disqualification-questions">
+<div class="apply-flow-block__form-list">
+<div class="input-row input-row--radiogroup" role="radiogroup" aria-labelledby="300002592043553-20-label">
+<label class="input-row__label input-row__label--required" id="300002592043553-20-label">
+<span class="input-row__linebreak" id="labelText-300002592043553-20">Do you currently have the legal right to work in the UK?</span>
+</label>
+<div class="input-row__control-container">
+<input type="radio" class="input-row__hidden-control apply-flow-input-radio-control" value="300002753175483" id="300002592043553-20-300002753175483" name="300002592043553-20" required="true">
+<label class="apply-flow-input-radio" for="300002592043553-20-300002753175483"><span class="apply-flow-input-radio__label">No - I do not currently have the right to work in the UK</span></label>
+<input type="radio" class="input-row__hidden-control apply-flow-input-radio-control" value="300002753175484" id="300002592043553-20-300002592043484" name="300002592043553-20" required="true">
+<label class="apply-flow-input-radio" for="300002592043553-20-300002592043484"><span class="apply-flow-input-radio__label">Yes - but it has some restrictions</span></label>
+<input type="radio" class="input-row__hidden-control apply-flow-input-radio-control" value="300002753175485" id="300002592043553-20-300002592043485" name="300002592043553-20" required="true" checked>
+<label class="apply-flow-input-radio" for="300002592043553-20-300002592043485"><span class="apply-flow-input-radio__label">Yes - I have full right to work in the UK</span></label>
+</div>
+</div>
+
+<div class="input-row input-row--radiogroup" role="radiogroup" aria-labelledby="300002592043582-21-label">
+<label class="input-row__label input-row__label--required" id="300002592043582-21-label">
+<span class="input-row__linebreak" id="labelText-300002592043582-21">Please indicate your salary expectations:</span>
+</label>
+<div class="input-row__control-container">
+<input type="radio" class="input-row__hidden-control apply-flow-input-radio-control" value="300002592093416" id="300002592043582-21-300002592093416" name="300002592043582-21" required="true">
+<label class="apply-flow-input-radio" for="300002592043582-21-300002592093416"><span class="apply-flow-input-radio__label">Under £20,000</span></label>
+<input type="radio" class="input-row__hidden-control apply-flow-input-radio-control" value="300002592093428" id="300002592043582-21-300002592093428" name="300002592043582-21" required="true" checked>
+<label class="apply-flow-input-radio" for="300002592043582-21-300002592093428"><span class="apply-flow-input-radio__label">£40,000 - £45,000</span></label>
+</div>
+</div>
+
+<div class="input-row input-row--radiogroup" role="radiogroup" aria-labelledby="300002592043576-22-label">
+<label class="input-row__label input-row__label--required" id="300002592043576-22-label">
+<span class="input-row__linebreak" id="labelText-300002592043576-22">What is your notice period?</span>
+</label>
+<div class="input-row__control-container">
+<input type="radio" class="input-row__hidden-control apply-flow-input-radio-control" value="300002592073694" id="300002592043576-22-300002592073694" name="300002592043576-22" required="true">
+<label class="apply-flow-input-radio" for="300002592043576-22-300002592073694"><span class="apply-flow-input-radio__label">None/Available Immediately</span></label>
+<input type="radio" class="input-row__hidden-control apply-flow-input-radio-control" value="300002592073693" id="300002592043576-22-300002592073693" name="300002592043576-22" required="true" checked>
+<label class="apply-flow-input-radio" for="300002592043576-22-300002592073693"><span class="apply-flow-input-radio__label">1 month</span></label>
+</div>
+</div>
+
+<div class="input-row input-row--has-picker input-row--invalid">
+<label class="input-row__label input-row__label--required" for="300002870498815-24">
+<span class="input-row__linebreak" id="labelText-300002870498815-24">Can you work in the White City office at least 1 day a week?</span>
+</label>
+<div class="input-row__control-container" data-qa="300002870498815">
+<ul role="list" aria-label="Can you work in the White City office at least 1 day a week?" class="cx-select-pills-container">
+<li role="listitem"><button type="button" aria-pressed="false" class="cx-select-pill-section"><span class="cx-select-pill-name">Yes</span></button></li>
+<li role="listitem"><button type="button" aria-pressed="false" class="cx-select-pill-section"><span class="cx-select-pill-name">No</span></button></li>
+</ul>
+</div>
+</div>
+
+<div class="input-row input-row--has-picker input-row--invalid">
+<label class="input-row__label input-row__label--required" for="300002635448215-25">
+<span class="input-row__linebreak" id="labelText-300002635448215-25">Do your salary expectations align with what has been advertised as the hiring range on this vacancy?</span>
+</label>
+<div class="input-row__control-container" data-qa="300002635448215">
+<ul role="list" aria-label="Do your salary expectations align with what has been advertised as the hiring range on this vacancy?" class="cx-select-pills-container">
+<li role="listitem"><button type="button" aria-pressed="false" class="cx-select-pill-section"><span class="cx-select-pill-name">Yes, my salary expectations align with the vacancy advertised hiring range</span></button></li>
+<li role="listitem"><button type="button" aria-pressed="false" class="cx-select-pill-section"><span class="cx-select-pill-name">No, my salary expectations would be higher than what has been advertised</span></button></li>
+</ul>
+</div>
+</div>
+
+<div class="input-row input-row--has-picker input-row--invalid">
+<label class="input-row__label input-row__label--required" for="300002859557008-26">
+<span class="input-row__linebreak" id="labelText-300002859557008-26">Where did you hear about this opportunity?</span>
+</label>
+<div class="input-row__control-container" data-qa="300002859557008">
+<input autocomplete="none" name="300002859557008" id="300002859557008-26" type="text" role="combobox" aria-required="true" aria-invalid="true" class="cx-select-input cx-select-input--invalid">
+</div>
+</div>
+
+<div class="input-row input-row--has-picker input-row--invalid">
+<label class="input-row__label input-row__label--required" for="300002870498799-27">
+<span class="input-row__linebreak" id="labelText-300002870498799-27">Do you have 1+ years experience in operating a cloud platform in production for a company?</span>
+</label>
+<div class="input-row__control-container" data-qa="300002870498799">
+<ul role="list" aria-label="Do you have 1+ years experience in operating a cloud platform in production for a company?" class="cx-select-pills-container">
+<li role="listitem"><button type="button" aria-pressed="false" class="cx-select-pill-section"><span class="cx-select-pill-name">Yes</span></button></li>
+<li role="listitem"><button type="button" aria-pressed="false" class="cx-select-pill-section"><span class="cx-select-pill-name">No</span></button></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</li></ul>
+</div>
+
+<div class="apply-flow-section" data-section-number="5">
+<div class="input-row input-row--radiogroup input-row--invalid" role="radiogroup" aria-labelledby="GB-STANDARD-ORA_DISABILITY_STATUS-STANDARD-19-label">
+<label class="input-row__label input-row__label--required" id="GB-STANDARD-ORA_DISABILITY_STATUS-STANDARD-19-label">
+<span class="input-row__linebreak" id="labelText-GB-STANDARD-ORA_DISABILITY_STATUS-STANDARD-19">Do you have a disability?</span>
+</label>
+<input type="radio" class="input-row__hidden-control apply-flow-input-radio-control" value="ORA_PER_NO_GB" id="GB-STANDARD-ORA_DISABILITY_STATUS-STANDARD-19-ORA_PER_NO_GB" name="GB-STANDARD-ORA_DISABILITY_STATUS-STANDARD-19" required="true">
+<label class="apply-flow-input-radio" for="GB-STANDARD-ORA_DISABILITY_STATUS-STANDARD-19-ORA_PER_NO_GB"><span class="apply-flow-input-radio__label">No</span></label>
+<input type="radio" class="input-row__hidden-control apply-flow-input-radio-control" value="ORA_PER_YES_GB" id="GB-STANDARD-ORA_DISABILITY_STATUS-STANDARD-19-ORA_PER_YES_GB" name="GB-STANDARD-ORA_DISABILITY_STATUS-STANDARD-19" required="true">
+<label class="apply-flow-input-radio" for="GB-STANDARD-ORA_DISABILITY_STATUS-STANDARD-19-ORA_PER_YES_GB"><span class="apply-flow-input-radio__label">Yes</span></label>
+</div>
+<div class="input-row input-row--text input-row--invalid">
+<label class="input-row__label input-row__label--required" for="fullName-5">
+<span class="input-row__linebreak" id="labelText-fullName-5">Full Name</span>
+</label>
+<input class="input-row__control" id="fullName-5" name="fullName" autocomplete="off" aria-required="true" aria-invalid="true">
+</div>
+</div>
+</form>
+</body>
+</html>

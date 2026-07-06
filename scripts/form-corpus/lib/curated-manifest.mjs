@@ -32,6 +32,10 @@ export function detectPlatform(scenario) {
         return 'workday';
     }
 
+    if (hay.includes('oraclecloud') || hay.includes('apply-flow-itv') || hay.includes('oracle-apply-flow')) {
+        return 'oracle';
+    }
+
     if (hay.includes('teamtailor')) {
         return 'teamtailor';
     }
@@ -340,6 +344,7 @@ const CRITICAL_IDS = new Set([
     'syn-fw-ashby-001',
     'syn-fw-wd-001',
     'syn-fw-lever-001',
+    'web-oraclecloud-apply-flow-itv',
 ]);
 
 const PLAYWRIGHT_IDS = new Set([
@@ -357,6 +362,7 @@ const PLAYWRIGHT_IDS = new Set([
     'web-wpforms-com-employment-agency-application-form-template',
     'web-apply-workable-com-apply-7',
     'web-dupont-wd5-myworkdayjobs-com-applymanually',
+    'web-oraclecloud-apply-flow-itv',
 ]);
 
 export function buildCuratedManifest() {
@@ -422,6 +428,10 @@ export function buildCuratedManifest() {
 
     for (const pick of pickBest(workdayPool, 5, usedIds)) {
         addAnalysis(pick);
+    }
+
+    for (const pick of pickBest(byPlatform.oracle || [], 3, usedIds)) {
+        addAnalysis(pick, { playwright: true, reason: 'Oracle HCM apply-flow representative' });
     }
 
     for (const pick of pickBest(byPlatform.teamtailor || [], 5, usedIds)) {
@@ -535,6 +545,7 @@ const SMOKE_PLATFORM_PICKS = [
     { platform: 'micro1', id: 'web-jobs-micro1-ai-59336643' },
     { platform: 'smartrecruiters', id: 'web-jobs-smartrecruiters-com-99cf550a-4a3b-47f8-b682-449cc524d98f' },
     { platform: 'workday', id: 'web-dupont-wd5-myworkdayjobs-com-applymanually' },
+    { platform: 'oracle', id: 'web-oraclecloud-apply-flow-itv' },
     { platform: 'teamtailor', id: 'web-vekst-teamtailor-com-new-3' },
     { platform: 'wordpress', id: 'web-wpforms-com-employment-agency-application-form-template' },
     { platform: 'syn-fw', id: 'syn-fw-ashby-001' },

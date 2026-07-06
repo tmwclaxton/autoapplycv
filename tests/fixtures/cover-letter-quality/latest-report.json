@@ -1,0 +1,1208 @@
+{
+    "generated_at": "2026-07-06T15:26:42+00:00",
+    "model": "deepseek\/deepseek-v4-flash:throughput",
+    "scenario_count": 12,
+    "summary": {
+        "total": 12,
+        "passed": 0,
+        "failed": 12,
+        "pass_rate": 0,
+        "dimension_averages": {
+            "grounding": 1,
+            "specificity": 1,
+            "human_tone": 1,
+            "terminology": 1,
+            "language": 1,
+            "conciseness": 1,
+            "honesty": 1
+        }
+    },
+    "worst_scenarios": [
+        {
+            "id": "laravel-portfolio-github::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "laravel-portfolio-github",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi there,\n\nI'm James Mitchell, a Senior Laravel Developer based in Bristol. I've been following StackForge for a while, and I'd love to join your team as a Senior Laravel Engineer.\n\nRight now, I'm at Riverbank Systems, where I've been leading the migration of a monolithic application into Laravel 11 microservices. That system handles around 40,000 daily users, so I've learned a lot about building APIs that are both performant and reliable. I also built out an internal admin tool using Vue 3 and Inertia, which gave me a solid feel for tying a Vue frontend to a Laravel backend. Before that, at Coastal Digital, I spent a few years maintaining legacy PHP apps and introducing PHPUnit coverage, which taught me the value of clean, testable code.\n\nOn the database side, I work mostly with PostgreSQL and Redis, and I use Docker daily for local development and deployment. I'm comfortable owning the full stack when needed, but I really enjoy focusing on the backend and API layer.\n\nI know you're asking for a GitHub or portfolio link. Most of my recent work is inside private repos at Riverbank Systems, so I don't have a public portfolio to point to. But I'd be happy to walk through my approach to building APIs, structuring microservices, or setting up a Laravel app with Vue in an interview.\n\nI'd love to chat about how my experience could help StackForge.\n\nBest,\nJames Mitchell"
+        },
+        {
+            "id": "marketing-motivation::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "marketing-motivation",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi there,\n\nI have been following RevLoop for a while and noticed you are looking for a Demand Generation Manager. That role feels like it was written for my current work at BrightWave Analytics. Right now, I own the inbound pipeline for our B2B SaaS product, and I have been focused on exactly the mix of ABM and SEO you are describing.\n\nAt BrightWave, I increased inbound SQLs by 38% through a combination of SEO-driven content and targeted webinar programs. That was not a vanity metric - it directly tied to sales pipeline and closed deals. I also built and ran ABM campaigns aimed at enterprise finance buyers, which meant coordinating with sales on account selection, crafting custom content, and measuring what actually moved the needle.\n\nOn the SEO side, I have been working with HubSpot and Google Analytics daily for years. Before BrightWave, I was at Northline SaaS, where I launched their entire blog and case study program from scratch. I know how to create content that ranks and converts, not just fills pages.\n\nI am drawn to RevLoop because the job is not asking for generic demand gen - it is asking for someone who can mix ABM strategy with SEO execution. That is exactly what I have been doing. I would love to bring that approach to your team.\n\nThanks for considering me.\n\nBest,  \nSarah Chen"
+        },
+        {
+            "id": "secops-domain::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "secops-domain",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi, I'm Marcus Webb. I've been working as a Security Operations Analyst at SecureNet Defence in Manchester since 2019, and I'm writing to you about the SecOps Engineer role at ShieldPoint because it sounds like a natural next step for me.\n\nRight now, I'm the one triaging over 200 alerts every week in Splunk ES, usually hitting a 15-minute SLA. That kind of pace teaches you to separate real threats from noise fast. I've also co-authored the runbooks our team uses for phishing and ransomware incidents, which means I've had to think through the whole response process, not just my piece of it. I spend a lot of time tuning SIEM rules to reduce false positives and make sure we're catching what matters.\n\nOn the threat hunting side, I use MITRE ATT&CK to map adversary behaviors and write Python scripts to automate repetitive parts of the investigation. I'm comfortable with CrowdStrike too, but Splunk is really my home base.\n\nI'm looking for a role where I can focus more deeply on SIEM tuning and incident response, and ShieldPoint's description lines up exactly with what I do every day. I'd love to bring that experience to your team."
+        },
+        {
+            "id": "swedish-motivation::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "swedish-motivation",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi, I'm Elin Andersson. I've been working as a Senior UX Designer at Nordic Flow AB in Stockholm since 2019, and I'm writing because your role at Vekst sounds like a natural fit for what I do best: building design systems and making B2B products accessible.\n\nAt Nordic Flow, I led the redesign of our onboarding flow, which cut support tickets by 22%. That success came from a deep focus on user research and accessibility. I also built a Figma component library from scratch that now serves 12 product teams. It keeps our designs consistent and speeds up development, which is exactly what a growing B2B company needs.\n\nYour description mentions design system and accessibility for a B2B product. That's my daily work. I know how to create patterns that scale across teams and how to test them with real users. I speak Swedish natively and work professionally in English, so I can collaborate with any team.\n\nI'd love to bring my experience with prototyping, UX research, and design systems to Vekst. Let's talk about how I can help your team build a product that works for everyone."
+        },
+        {
+            "id": "career-change-motivation::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "career-change-motivation",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi there,\n\nI'm David Okonkwo, and I'm applying for the Junior Full Stack Developer role at LearnBridge. I saw that you're looking for someone early in their career, and that's exactly where I am right now. After 12 weeks in a coding bootcamp, I jumped straight into a startup environment at Bridge Labs, where I've been working as a junior developer since January 2024.\n\nAt Bridge Labs, I shipped customer dashboard features in React, often pair programming with senior developers on REST API integrations. That hands-on experience taught me how to write clean, maintainable code and how to ask the right questions when I'm stuck. I'm comfortable with JavaScript, React, Node.js, HTML, and CSS, and I'm always looking to learn more.\n\nBefore tech, I spent seven years as a maths teacher at West Yorkshire Academy, teaching GCSE and A-level classes of 30 students. That role taught me how to break down complex problems into clear steps, how to communicate clearly, and how to stay patient when things don't work the first time. Those skills transfer directly into debugging and collaborating on a dev team.\n\nI'm looking for a supportive team where I can keep growing, and LearnBridge sounds like that kind of place. I'd love to bring my blend of teaching patience and real startup experience to your team.\n\nThanks for your time.\n\nDavid Okonkwo"
+        },
+        {
+            "id": "frontend-portfolio::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "frontend-portfolio",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi there,\n\nI'm a frontend developer who builds accessible React interfaces for agency clients, and I think my background lines up well with what you're looking for at WebCraft.\n\nRight now I'm at Pixel Orchard Agency, where I've delivered six client sites using React and headless CMS integrations. One thing I'm especially proud of is how I've pushed Lighthouse accessibility scores to 95 and above on two of those launches. That kind of work matters to me because I believe good frontend development means everyone can actually use what you build.\n\nI work daily with React, TypeScript, and Tailwind CSS, and I'm comfortable moving fast across different client needs. Agency work has taught me how to balance clean code with tight deadlines, and how to make sure each project feels solid from the user's perspective.\n\nI'd love to bring that experience to WebCraft. If you're looking for someone who can jump into React and TypeScript projects and keep accessibility front and center, let's talk.\n\nThanks for your time.\n\nPriya Patel"
+        },
+        {
+            "id": "devops-k8s::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "devops-k8s",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi there,\n\nI saw the Platform Engineer opening at ShipFast and wanted to reach out. The focus on Kubernetes on AWS, Terraform, and GitHub Actions lines up exactly with what I've been doing day in and day out at CloudSpan Iberia in Barcelona.\n\nOver the past few years, I've been deep in the weeds on AWS and Kubernetes. One project I'm proud of was migrating 30 services to EKS with zero-downtime cutovers. That kind of work takes careful planning and a lot of testing, but it paid off. I also took our deploy time from 45 minutes down to 8 minutes by reworking our CI\/CD pipelines with GitHub Actions. That freed up the team to ship faster and with less stress.\n\nI use Terraform to manage infrastructure as code, and Prometheus to keep an eye on things once they're running. I'm not just about setting things up and walking away. I care about making sure systems stay stable and teams can move quickly without breaking things.\n\nShipFast sounds like a place where that kind of practical, hands-on experience would be useful. I'd love to talk about how I could help your team keep building and shipping reliably.\n\nThanks for your time.\n\nTomás Rivera"
+        },
+        {
+            "id": "data-sql::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "data-sql",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi, I'm Fiona Walsh. I saw your Analytics Engineer opening at RetailIQ, and it jumped out at me. SQL, dbt, Snowflake, dashboards for executives - that's exactly what I've been building day in and day out at Emerald Retail Group.\n\nIn my current role as a Data Analyst in Dublin, I own the whole pipeline from warehouse to decision. I use SQL to pull and shape store-level margin data, then model it in dbt before loading into Snowflake. The final layer is a Tableau suite I built from scratch that tracks margin trends across all our locations. It's the single source of truth for store managers and our VP of Operations.\n\nOne thing I'm proud of: I automated a set of weekly SQL reports that used to eat up six hours of analyst time. That freed the team to actually ask deeper questions about the data instead of just pulling it. I know how much wasted time a messy pipeline can cause, and I get a real kick out of cleaning that up so people can focus on insights.\n\nI'm looking to step into a role that's built around that transformation work - moving from raw data to trusted, accessible models. RetailIQ feels like the right place to do that. I'd love to talk about how my work with Snowflake and dbt at Emerald could translate to your stack and your stakeholders."
+        },
+        {
+            "id": "nurse-motivation::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "nurse-motivation",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi, I'm Rachel Brooks. I've been a Staff Nurse at Royal North Hospital in Newcastle for the past nine years, working on a busy 28-bed medical ward. Over that time, I've moved from focusing on patient care into taking on real ward leadership responsibilities. I lead our shift handovers every day, making sure the whole team knows what's happening with each patient and what needs priority. It's a role that demands clear communication, quick thinking, and a steady hand when things get hectic.\n\nI also championed our infection control audits, and we hit 98% compliance. That wasn't just about ticking boxes - it meant building a culture where everyone on the ward took ownership of safety. I worked closely with the team to spot gaps, improve our processes, and keep patients safe.\n\nI'm drawn to the Ward Manager role at CareNorth because it feels like the natural next step. I already handle the day-to-day leadership on my ward, and I'm ready to take on the full responsibility of managing a team, overseeing patient flow, and driving quality improvements. I know acute medical wards inside out - the pressures, the pace, and what it takes to keep things running smoothly.\n\nI'd love to bring my experience to CareNorth and help lead your ward with the same focus on patient safety and team support that I've built my career on."
+        },
+        {
+            "id": "sales-motivation::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "sales-motivation",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi there,\n\nI'm Chris Novak, and I'm writing about the Enterprise AE role at CloseWin. I've been an Account Executive at PipelineHQ in Chicago since March 2019, and I think there's a real fit here.\n\nAt PipelineHQ, I've been closing mid-market SaaS deals with a consultative approach. Last year, I closed $1.2M in new ARR across 14 accounts, and I've exceeded my quota three years running. That consistency comes from doing the hard work upfront -- asking good questions during discovery, understanding what the buyer actually needs, and then negotiating a deal that works for both sides. I live in Salesforce, track everything, and I'm not afraid to walk away from a bad fit.\n\nWhat draws me to CloseWin is the focus on mid-market SaaS. I know that space well. It's not about spraying and praying -- it's about finding the right accounts, building real relationships, and closing deals that stick. I've done that at PipelineHQ, and I'd love to bring that same approach to your team.\n\nI'd be happy to talk more about how I can help CloseWin hit its targets. Thanks for your time.\n\nBest,\nChris Novak"
+        }
+    ],
+    "scenarios": [
+        {
+            "scenario_id": "laravel-portfolio-github",
+            "profile_fixture": "senior_laravel_dev",
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge",
+                "description_snippet": "Build APIs with Laravel, Vue, PostgreSQL. GitHub or portfolio required."
+            },
+            "usage": {
+                "prompt_tokens": 969,
+                "completion_tokens": 303,
+                "total_tokens": 1272,
+                "credits": 0.00019999625625,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "cover_letter": "Hi there,\n\nI'm James Mitchell, a Senior Laravel Developer based in Bristol. I've been following StackForge for a while, and I'd love to join your team as a Senior Laravel Engineer.\n\nRight now, I'm at Riverbank Systems, where I've been leading the migration of a monolithic application into Laravel 11 microservices. That system handles around 40,000 daily users, so I've learned a lot about building APIs that are both performant and reliable. I also built out an internal admin tool using Vue 3 and Inertia, which gave me a solid feel for tying a Vue frontend to a Laravel backend. Before that, at Coastal Digital, I spent a few years maintaining legacy PHP apps and introducing PHPUnit coverage, which taught me the value of clean, testable code.\n\nOn the database side, I work mostly with PostgreSQL and Redis, and I use Docker daily for local development and deployment. I'm comfortable owning the full stack when needed, but I really enjoy focusing on the backend and API layer.\n\nI know you're asking for a GitHub or portfolio link. Most of my recent work is inside private repos at Riverbank Systems, so I don't have a public portfolio to point to. But I'd be happy to walk through my approach to building APIs, structuring microservices, or setting up a Laravel app with Vue in an interview.\n\nI'd love to chat about how my experience could help StackForge.\n\nBest,\nJames Mitchell",
+            "scores": [
+                {
+                    "id": "laravel-portfolio-github::cover-letter",
+                    "scores": {
+                        "grounding": 1,
+                        "specificity": 1,
+                        "human_tone": 1,
+                        "terminology": 1,
+                        "language": 1,
+                        "conciseness": 1,
+                        "honesty": 1
+                    },
+                    "average": 1,
+                    "passed": false,
+                    "mechanical": {
+                        "must_mention_ok": true,
+                        "must_not_mention_ok": true,
+                        "ai_phrases_ok": true,
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null
+                    },
+                    "notes": "NanoGPT returned no score.",
+                    "scenario_id": "laravel-portfolio-github",
+                    "question_ref": "cover-letter",
+                    "question_label": "Cover letter",
+                    "answer": "Hi there,\n\nI'm James Mitchell, a Senior Laravel Developer based in Bristol. I've been following StackForge for a while, and I'd love to join your team as a Senior Laravel Engineer.\n\nRight now, I'm at Riverbank Systems, where I've been leading the migration of a monolithic application into Laravel 11 microservices. That system handles around 40,000 daily users, so I've learned a lot about building APIs that are both performant and reliable. I also built out an internal admin tool using Vue 3 and Inertia, which gave me a solid feel for tying a Vue frontend to a Laravel backend. Before that, at Coastal Digital, I spent a few years maintaining legacy PHP apps and introducing PHPUnit coverage, which taught me the value of clean, testable code.\n\nOn the database side, I work mostly with PostgreSQL and Redis, and I use Docker daily for local development and deployment. I'm comfortable owning the full stack when needed, but I really enjoy focusing on the backend and API layer.\n\nI know you're asking for a GitHub or portfolio link. Most of my recent work is inside private repos at Riverbank Systems, so I don't have a public portfolio to point to. But I'd be happy to walk through my approach to building APIs, structuring microservices, or setting up a Laravel app with Vue in an interview.\n\nI'd love to chat about how my experience could help StackForge.\n\nBest,\nJames Mitchell"
+                }
+            ],
+            "passed": false,
+            "average": 1,
+            "human_tone": 1
+        },
+        {
+            "scenario_id": "marketing-motivation",
+            "profile_fixture": "marketing_manager",
+            "job_context": {
+                "title": "Demand Generation Manager",
+                "company": "RevLoop",
+                "description_snippet": "Own pipeline for B2B SaaS with ABM and SEO."
+            },
+            "usage": {
+                "prompt_tokens": 867,
+                "completion_tokens": 271,
+                "total_tokens": 1138,
+                "credits": 0.00017891728575000003,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "cover_letter": "Hi there,\n\nI have been following RevLoop for a while and noticed you are looking for a Demand Generation Manager. That role feels like it was written for my current work at BrightWave Analytics. Right now, I own the inbound pipeline for our B2B SaaS product, and I have been focused on exactly the mix of ABM and SEO you are describing.\n\nAt BrightWave, I increased inbound SQLs by 38% through a combination of SEO-driven content and targeted webinar programs. That was not a vanity metric - it directly tied to sales pipeline and closed deals. I also built and ran ABM campaigns aimed at enterprise finance buyers, which meant coordinating with sales on account selection, crafting custom content, and measuring what actually moved the needle.\n\nOn the SEO side, I have been working with HubSpot and Google Analytics daily for years. Before BrightWave, I was at Northline SaaS, where I launched their entire blog and case study program from scratch. I know how to create content that ranks and converts, not just fills pages.\n\nI am drawn to RevLoop because the job is not asking for generic demand gen - it is asking for someone who can mix ABM strategy with SEO execution. That is exactly what I have been doing. I would love to bring that approach to your team.\n\nThanks for considering me.\n\nBest,  \nSarah Chen",
+            "scores": [
+                {
+                    "id": "marketing-motivation::cover-letter",
+                    "scores": {
+                        "grounding": 1,
+                        "specificity": 1,
+                        "human_tone": 1,
+                        "terminology": 1,
+                        "language": 1,
+                        "conciseness": 1,
+                        "honesty": 1
+                    },
+                    "average": 1,
+                    "passed": false,
+                    "mechanical": {
+                        "must_mention_ok": true,
+                        "must_not_mention_ok": true,
+                        "ai_phrases_ok": true,
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null
+                    },
+                    "notes": "NanoGPT returned no score.",
+                    "scenario_id": "marketing-motivation",
+                    "question_ref": "cover-letter",
+                    "question_label": "Cover letter",
+                    "answer": "Hi there,\n\nI have been following RevLoop for a while and noticed you are looking for a Demand Generation Manager. That role feels like it was written for my current work at BrightWave Analytics. Right now, I own the inbound pipeline for our B2B SaaS product, and I have been focused on exactly the mix of ABM and SEO you are describing.\n\nAt BrightWave, I increased inbound SQLs by 38% through a combination of SEO-driven content and targeted webinar programs. That was not a vanity metric - it directly tied to sales pipeline and closed deals. I also built and ran ABM campaigns aimed at enterprise finance buyers, which meant coordinating with sales on account selection, crafting custom content, and measuring what actually moved the needle.\n\nOn the SEO side, I have been working with HubSpot and Google Analytics daily for years. Before BrightWave, I was at Northline SaaS, where I launched their entire blog and case study program from scratch. I know how to create content that ranks and converts, not just fills pages.\n\nI am drawn to RevLoop because the job is not asking for generic demand gen - it is asking for someone who can mix ABM strategy with SEO execution. That is exactly what I have been doing. I would love to bring that approach to your team.\n\nThanks for considering me.\n\nBest,  \nSarah Chen"
+                }
+            ],
+            "passed": false,
+            "average": 1,
+            "human_tone": 1
+        },
+        {
+            "scenario_id": "secops-domain",
+            "profile_fixture": "cybersecurity_analyst",
+            "job_context": {
+                "title": "SecOps Engineer",
+                "company": "ShieldPoint",
+                "description_snippet": "SIEM tuning, incident response, Splunk experience required."
+            },
+            "usage": {
+                "prompt_tokens": 845,
+                "completion_tokens": 249,
+                "total_tokens": 1094,
+                "credits": 0.00017053649025,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "cover_letter": "Hi, I'm Marcus Webb. I've been working as a Security Operations Analyst at SecureNet Defence in Manchester since 2019, and I'm writing to you about the SecOps Engineer role at ShieldPoint because it sounds like a natural next step for me.\n\nRight now, I'm the one triaging over 200 alerts every week in Splunk ES, usually hitting a 15-minute SLA. That kind of pace teaches you to separate real threats from noise fast. I've also co-authored the runbooks our team uses for phishing and ransomware incidents, which means I've had to think through the whole response process, not just my piece of it. I spend a lot of time tuning SIEM rules to reduce false positives and make sure we're catching what matters.\n\nOn the threat hunting side, I use MITRE ATT&CK to map adversary behaviors and write Python scripts to automate repetitive parts of the investigation. I'm comfortable with CrowdStrike too, but Splunk is really my home base.\n\nI'm looking for a role where I can focus more deeply on SIEM tuning and incident response, and ShieldPoint's description lines up exactly with what I do every day. I'd love to bring that experience to your team.",
+            "scores": [
+                {
+                    "id": "secops-domain::cover-letter",
+                    "scores": {
+                        "grounding": 1,
+                        "specificity": 1,
+                        "human_tone": 1,
+                        "terminology": 1,
+                        "language": 1,
+                        "conciseness": 1,
+                        "honesty": 1
+                    },
+                    "average": 1,
+                    "passed": false,
+                    "mechanical": {
+                        "must_mention_ok": true,
+                        "must_not_mention_ok": true,
+                        "ai_phrases_ok": true,
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null
+                    },
+                    "notes": "NanoGPT returned no score.",
+                    "scenario_id": "secops-domain",
+                    "question_ref": "cover-letter",
+                    "question_label": "Cover letter",
+                    "answer": "Hi, I'm Marcus Webb. I've been working as a Security Operations Analyst at SecureNet Defence in Manchester since 2019, and I'm writing to you about the SecOps Engineer role at ShieldPoint because it sounds like a natural next step for me.\n\nRight now, I'm the one triaging over 200 alerts every week in Splunk ES, usually hitting a 15-minute SLA. That kind of pace teaches you to separate real threats from noise fast. I've also co-authored the runbooks our team uses for phishing and ransomware incidents, which means I've had to think through the whole response process, not just my piece of it. I spend a lot of time tuning SIEM rules to reduce false positives and make sure we're catching what matters.\n\nOn the threat hunting side, I use MITRE ATT&CK to map adversary behaviors and write Python scripts to automate repetitive parts of the investigation. I'm comfortable with CrowdStrike too, but Splunk is really my home base.\n\nI'm looking for a role where I can focus more deeply on SIEM tuning and incident response, and ShieldPoint's description lines up exactly with what I do every day. I'd love to bring that experience to your team."
+                }
+            ],
+            "passed": false,
+            "average": 1,
+            "human_tone": 1
+        },
+        {
+            "scenario_id": "swedish-motivation",
+            "profile_fixture": "swedish_product_designer",
+            "job_context": {
+                "title": "Senior UX Designer",
+                "company": "Vekst",
+                "description_snippet": "Design system och tillgänglighet för B2B-produkt."
+            },
+            "usage": {
+                "prompt_tokens": 897,
+                "completion_tokens": 233,
+                "total_tokens": 1130,
+                "credits": 0.00017307612525,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "cover_letter": "Hi, I'm Elin Andersson. I've been working as a Senior UX Designer at Nordic Flow AB in Stockholm since 2019, and I'm writing because your role at Vekst sounds like a natural fit for what I do best: building design systems and making B2B products accessible.\n\nAt Nordic Flow, I led the redesign of our onboarding flow, which cut support tickets by 22%. That success came from a deep focus on user research and accessibility. I also built a Figma component library from scratch that now serves 12 product teams. It keeps our designs consistent and speeds up development, which is exactly what a growing B2B company needs.\n\nYour description mentions design system and accessibility for a B2B product. That's my daily work. I know how to create patterns that scale across teams and how to test them with real users. I speak Swedish natively and work professionally in English, so I can collaborate with any team.\n\nI'd love to bring my experience with prototyping, UX research, and design systems to Vekst. Let's talk about how I can help your team build a product that works for everyone.",
+            "scores": [
+                {
+                    "id": "swedish-motivation::cover-letter",
+                    "scores": {
+                        "grounding": 1,
+                        "specificity": 1,
+                        "human_tone": 1,
+                        "terminology": 1,
+                        "language": 1,
+                        "conciseness": 1,
+                        "honesty": 1
+                    },
+                    "average": 1,
+                    "passed": false,
+                    "mechanical": {
+                        "must_mention_ok": true,
+                        "must_not_mention_ok": true,
+                        "ai_phrases_ok": true,
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null
+                    },
+                    "notes": "NanoGPT returned no score.",
+                    "scenario_id": "swedish-motivation",
+                    "question_ref": "cover-letter",
+                    "question_label": "Cover letter",
+                    "answer": "Hi, I'm Elin Andersson. I've been working as a Senior UX Designer at Nordic Flow AB in Stockholm since 2019, and I'm writing because your role at Vekst sounds like a natural fit for what I do best: building design systems and making B2B products accessible.\n\nAt Nordic Flow, I led the redesign of our onboarding flow, which cut support tickets by 22%. That success came from a deep focus on user research and accessibility. I also built a Figma component library from scratch that now serves 12 product teams. It keeps our designs consistent and speeds up development, which is exactly what a growing B2B company needs.\n\nYour description mentions design system and accessibility for a B2B product. That's my daily work. I know how to create patterns that scale across teams and how to test them with real users. I speak Swedish natively and work professionally in English, so I can collaborate with any team.\n\nI'd love to bring my experience with prototyping, UX research, and design systems to Vekst. Let's talk about how I can help your team build a product that works for everyone."
+                }
+            ],
+            "passed": false,
+            "average": 1,
+            "human_tone": 1
+        },
+        {
+            "scenario_id": "career-change-motivation",
+            "profile_fixture": "career_changer_teacher",
+            "job_context": {
+                "title": "Junior Full Stack Developer",
+                "company": "LearnBridge",
+                "description_snippet": "Supportive team for early-career developers."
+            },
+            "usage": {
+                "prompt_tokens": 867,
+                "completion_tokens": 281,
+                "total_tokens": 1148,
+                "credits": 0.00018145692074999999,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "cover_letter": "Hi there,\n\nI'm David Okonkwo, and I'm applying for the Junior Full Stack Developer role at LearnBridge. I saw that you're looking for someone early in their career, and that's exactly where I am right now. After 12 weeks in a coding bootcamp, I jumped straight into a startup environment at Bridge Labs, where I've been working as a junior developer since January 2024.\n\nAt Bridge Labs, I shipped customer dashboard features in React, often pair programming with senior developers on REST API integrations. That hands-on experience taught me how to write clean, maintainable code and how to ask the right questions when I'm stuck. I'm comfortable with JavaScript, React, Node.js, HTML, and CSS, and I'm always looking to learn more.\n\nBefore tech, I spent seven years as a maths teacher at West Yorkshire Academy, teaching GCSE and A-level classes of 30 students. That role taught me how to break down complex problems into clear steps, how to communicate clearly, and how to stay patient when things don't work the first time. Those skills transfer directly into debugging and collaborating on a dev team.\n\nI'm looking for a supportive team where I can keep growing, and LearnBridge sounds like that kind of place. I'd love to bring my blend of teaching patience and real startup experience to your team.\n\nThanks for your time.\n\nDavid Okonkwo",
+            "scores": [
+                {
+                    "id": "career-change-motivation::cover-letter",
+                    "scores": {
+                        "grounding": 1,
+                        "specificity": 1,
+                        "human_tone": 1,
+                        "terminology": 1,
+                        "language": 1,
+                        "conciseness": 1,
+                        "honesty": 1
+                    },
+                    "average": 1,
+                    "passed": false,
+                    "mechanical": {
+                        "must_mention_ok": true,
+                        "must_not_mention_ok": true,
+                        "ai_phrases_ok": true,
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null
+                    },
+                    "notes": "NanoGPT returned no score.",
+                    "scenario_id": "career-change-motivation",
+                    "question_ref": "cover-letter",
+                    "question_label": "Cover letter",
+                    "answer": "Hi there,\n\nI'm David Okonkwo, and I'm applying for the Junior Full Stack Developer role at LearnBridge. I saw that you're looking for someone early in their career, and that's exactly where I am right now. After 12 weeks in a coding bootcamp, I jumped straight into a startup environment at Bridge Labs, where I've been working as a junior developer since January 2024.\n\nAt Bridge Labs, I shipped customer dashboard features in React, often pair programming with senior developers on REST API integrations. That hands-on experience taught me how to write clean, maintainable code and how to ask the right questions when I'm stuck. I'm comfortable with JavaScript, React, Node.js, HTML, and CSS, and I'm always looking to learn more.\n\nBefore tech, I spent seven years as a maths teacher at West Yorkshire Academy, teaching GCSE and A-level classes of 30 students. That role taught me how to break down complex problems into clear steps, how to communicate clearly, and how to stay patient when things don't work the first time. Those skills transfer directly into debugging and collaborating on a dev team.\n\nI'm looking for a supportive team where I can keep growing, and LearnBridge sounds like that kind of place. I'd love to bring my blend of teaching patience and real startup experience to your team.\n\nThanks for your time.\n\nDavid Okonkwo"
+                }
+            ],
+            "passed": false,
+            "average": 1,
+            "human_tone": 1
+        },
+        {
+            "scenario_id": "frontend-portfolio",
+            "profile_fixture": "junior_frontend_dev",
+            "job_context": {
+                "title": "Frontend Developer",
+                "company": "WebCraft",
+                "description_snippet": "React, TypeScript, accessibility-focused agency work."
+            },
+            "usage": {
+                "prompt_tokens": 815,
+                "completion_tokens": 211,
+                "total_tokens": 1026,
+                "credits": 0.00015707642475,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "cover_letter": "Hi there,\n\nI'm a frontend developer who builds accessible React interfaces for agency clients, and I think my background lines up well with what you're looking for at WebCraft.\n\nRight now I'm at Pixel Orchard Agency, where I've delivered six client sites using React and headless CMS integrations. One thing I'm especially proud of is how I've pushed Lighthouse accessibility scores to 95 and above on two of those launches. That kind of work matters to me because I believe good frontend development means everyone can actually use what you build.\n\nI work daily with React, TypeScript, and Tailwind CSS, and I'm comfortable moving fast across different client needs. Agency work has taught me how to balance clean code with tight deadlines, and how to make sure each project feels solid from the user's perspective.\n\nI'd love to bring that experience to WebCraft. If you're looking for someone who can jump into React and TypeScript projects and keep accessibility front and center, let's talk.\n\nThanks for your time.\n\nPriya Patel",
+            "scores": [
+                {
+                    "id": "frontend-portfolio::cover-letter",
+                    "scores": {
+                        "grounding": 1,
+                        "specificity": 1,
+                        "human_tone": 1,
+                        "terminology": 1,
+                        "language": 1,
+                        "conciseness": 1,
+                        "honesty": 1
+                    },
+                    "average": 1,
+                    "passed": false,
+                    "mechanical": {
+                        "must_mention_ok": true,
+                        "must_not_mention_ok": true,
+                        "ai_phrases_ok": true,
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null
+                    },
+                    "notes": "NanoGPT returned no score.",
+                    "scenario_id": "frontend-portfolio",
+                    "question_ref": "cover-letter",
+                    "question_label": "Cover letter",
+                    "answer": "Hi there,\n\nI'm a frontend developer who builds accessible React interfaces for agency clients, and I think my background lines up well with what you're looking for at WebCraft.\n\nRight now I'm at Pixel Orchard Agency, where I've delivered six client sites using React and headless CMS integrations. One thing I'm especially proud of is how I've pushed Lighthouse accessibility scores to 95 and above on two of those launches. That kind of work matters to me because I believe good frontend development means everyone can actually use what you build.\n\nI work daily with React, TypeScript, and Tailwind CSS, and I'm comfortable moving fast across different client needs. Agency work has taught me how to balance clean code with tight deadlines, and how to make sure each project feels solid from the user's perspective.\n\nI'd love to bring that experience to WebCraft. If you're looking for someone who can jump into React and TypeScript projects and keep accessibility front and center, let's talk.\n\nThanks for your time.\n\nPriya Patel"
+                }
+            ],
+            "passed": false,
+            "average": 1,
+            "human_tone": 1
+        },
+        {
+            "scenario_id": "devops-k8s",
+            "profile_fixture": "devops_engineer",
+            "job_context": {
+                "title": "Platform Engineer",
+                "company": "ShipFast",
+                "description_snippet": "Kubernetes on AWS, Terraform, GitHub Actions."
+            },
+            "usage": {
+                "prompt_tokens": 848,
+                "completion_tokens": 249,
+                "total_tokens": 1097,
+                "credits": 0.0001709174355,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "cover_letter": "Hi there,\n\nI saw the Platform Engineer opening at ShipFast and wanted to reach out. The focus on Kubernetes on AWS, Terraform, and GitHub Actions lines up exactly with what I've been doing day in and day out at CloudSpan Iberia in Barcelona.\n\nOver the past few years, I've been deep in the weeds on AWS and Kubernetes. One project I'm proud of was migrating 30 services to EKS with zero-downtime cutovers. That kind of work takes careful planning and a lot of testing, but it paid off. I also took our deploy time from 45 minutes down to 8 minutes by reworking our CI\/CD pipelines with GitHub Actions. That freed up the team to ship faster and with less stress.\n\nI use Terraform to manage infrastructure as code, and Prometheus to keep an eye on things once they're running. I'm not just about setting things up and walking away. I care about making sure systems stay stable and teams can move quickly without breaking things.\n\nShipFast sounds like a place where that kind of practical, hands-on experience would be useful. I'd love to talk about how I could help your team keep building and shipping reliably.\n\nThanks for your time.\n\nTomás Rivera",
+            "scores": [
+                {
+                    "id": "devops-k8s::cover-letter",
+                    "scores": {
+                        "grounding": 1,
+                        "specificity": 1,
+                        "human_tone": 1,
+                        "terminology": 1,
+                        "language": 1,
+                        "conciseness": 1,
+                        "honesty": 1
+                    },
+                    "average": 1,
+                    "passed": false,
+                    "mechanical": {
+                        "must_mention_ok": true,
+                        "must_not_mention_ok": true,
+                        "ai_phrases_ok": true,
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null
+                    },
+                    "notes": "NanoGPT returned no score.",
+                    "scenario_id": "devops-k8s",
+                    "question_ref": "cover-letter",
+                    "question_label": "Cover letter",
+                    "answer": "Hi there,\n\nI saw the Platform Engineer opening at ShipFast and wanted to reach out. The focus on Kubernetes on AWS, Terraform, and GitHub Actions lines up exactly with what I've been doing day in and day out at CloudSpan Iberia in Barcelona.\n\nOver the past few years, I've been deep in the weeds on AWS and Kubernetes. One project I'm proud of was migrating 30 services to EKS with zero-downtime cutovers. That kind of work takes careful planning and a lot of testing, but it paid off. I also took our deploy time from 45 minutes down to 8 minutes by reworking our CI\/CD pipelines with GitHub Actions. That freed up the team to ship faster and with less stress.\n\nI use Terraform to manage infrastructure as code, and Prometheus to keep an eye on things once they're running. I'm not just about setting things up and walking away. I care about making sure systems stay stable and teams can move quickly without breaking things.\n\nShipFast sounds like a place where that kind of practical, hands-on experience would be useful. I'd love to talk about how I could help your team keep building and shipping reliably.\n\nThanks for your time.\n\nTomás Rivera"
+                }
+            ],
+            "passed": false,
+            "average": 1,
+            "human_tone": 1
+        },
+        {
+            "scenario_id": "data-sql",
+            "profile_fixture": "data_analyst",
+            "job_context": {
+                "title": "Analytics Engineer",
+                "company": "RetailIQ",
+                "description_snippet": "SQL, dbt, Snowflake, executive dashboards."
+            },
+            "usage": {
+                "prompt_tokens": 812,
+                "completion_tokens": 274,
+                "total_tokens": 1086,
+                "credits": 0.00017269518,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "cover_letter": "Hi, I'm Fiona Walsh. I saw your Analytics Engineer opening at RetailIQ, and it jumped out at me. SQL, dbt, Snowflake, dashboards for executives - that's exactly what I've been building day in and day out at Emerald Retail Group.\n\nIn my current role as a Data Analyst in Dublin, I own the whole pipeline from warehouse to decision. I use SQL to pull and shape store-level margin data, then model it in dbt before loading into Snowflake. The final layer is a Tableau suite I built from scratch that tracks margin trends across all our locations. It's the single source of truth for store managers and our VP of Operations.\n\nOne thing I'm proud of: I automated a set of weekly SQL reports that used to eat up six hours of analyst time. That freed the team to actually ask deeper questions about the data instead of just pulling it. I know how much wasted time a messy pipeline can cause, and I get a real kick out of cleaning that up so people can focus on insights.\n\nI'm looking to step into a role that's built around that transformation work - moving from raw data to trusted, accessible models. RetailIQ feels like the right place to do that. I'd love to talk about how my work with Snowflake and dbt at Emerald could translate to your stack and your stakeholders.",
+            "scores": [
+                {
+                    "id": "data-sql::cover-letter",
+                    "scores": {
+                        "grounding": 1,
+                        "specificity": 1,
+                        "human_tone": 1,
+                        "terminology": 1,
+                        "language": 1,
+                        "conciseness": 1,
+                        "honesty": 1
+                    },
+                    "average": 1,
+                    "passed": false,
+                    "mechanical": {
+                        "must_mention_ok": true,
+                        "must_not_mention_ok": true,
+                        "ai_phrases_ok": true,
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null
+                    },
+                    "notes": "NanoGPT returned no score.",
+                    "scenario_id": "data-sql",
+                    "question_ref": "cover-letter",
+                    "question_label": "Cover letter",
+                    "answer": "Hi, I'm Fiona Walsh. I saw your Analytics Engineer opening at RetailIQ, and it jumped out at me. SQL, dbt, Snowflake, dashboards for executives - that's exactly what I've been building day in and day out at Emerald Retail Group.\n\nIn my current role as a Data Analyst in Dublin, I own the whole pipeline from warehouse to decision. I use SQL to pull and shape store-level margin data, then model it in dbt before loading into Snowflake. The final layer is a Tableau suite I built from scratch that tracks margin trends across all our locations. It's the single source of truth for store managers and our VP of Operations.\n\nOne thing I'm proud of: I automated a set of weekly SQL reports that used to eat up six hours of analyst time. That freed the team to actually ask deeper questions about the data instead of just pulling it. I know how much wasted time a messy pipeline can cause, and I get a real kick out of cleaning that up so people can focus on insights.\n\nI'm looking to step into a role that's built around that transformation work - moving from raw data to trusted, accessible models. RetailIQ feels like the right place to do that. I'd love to talk about how my work with Snowflake and dbt at Emerald could translate to your stack and your stakeholders."
+                }
+            ],
+            "passed": false,
+            "average": 1,
+            "human_tone": 1
+        },
+        {
+            "scenario_id": "nurse-motivation",
+            "profile_fixture": "nurse_healthcare",
+            "job_context": {
+                "title": "Ward Manager",
+                "company": "CareNorth",
+                "description_snippet": "Leadership on acute medical wards."
+            },
+            "usage": {
+                "prompt_tokens": 814,
+                "completion_tokens": 274,
+                "total_tokens": 1088,
+                "credits": 0.0001729491435,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "cover_letter": "Hi, I'm Rachel Brooks. I've been a Staff Nurse at Royal North Hospital in Newcastle for the past nine years, working on a busy 28-bed medical ward. Over that time, I've moved from focusing on patient care into taking on real ward leadership responsibilities. I lead our shift handovers every day, making sure the whole team knows what's happening with each patient and what needs priority. It's a role that demands clear communication, quick thinking, and a steady hand when things get hectic.\n\nI also championed our infection control audits, and we hit 98% compliance. That wasn't just about ticking boxes - it meant building a culture where everyone on the ward took ownership of safety. I worked closely with the team to spot gaps, improve our processes, and keep patients safe.\n\nI'm drawn to the Ward Manager role at CareNorth because it feels like the natural next step. I already handle the day-to-day leadership on my ward, and I'm ready to take on the full responsibility of managing a team, overseeing patient flow, and driving quality improvements. I know acute medical wards inside out - the pressures, the pace, and what it takes to keep things running smoothly.\n\nI'd love to bring my experience to CareNorth and help lead your ward with the same focus on patient safety and team support that I've built my career on.",
+            "scores": [
+                {
+                    "id": "nurse-motivation::cover-letter",
+                    "scores": {
+                        "grounding": 1,
+                        "specificity": 1,
+                        "human_tone": 1,
+                        "terminology": 1,
+                        "language": 1,
+                        "conciseness": 1,
+                        "honesty": 1
+                    },
+                    "average": 1,
+                    "passed": false,
+                    "mechanical": {
+                        "must_mention_ok": true,
+                        "must_not_mention_ok": true,
+                        "ai_phrases_ok": true,
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null
+                    },
+                    "notes": "NanoGPT returned no score.",
+                    "scenario_id": "nurse-motivation",
+                    "question_ref": "cover-letter",
+                    "question_label": "Cover letter",
+                    "answer": "Hi, I'm Rachel Brooks. I've been a Staff Nurse at Royal North Hospital in Newcastle for the past nine years, working on a busy 28-bed medical ward. Over that time, I've moved from focusing on patient care into taking on real ward leadership responsibilities. I lead our shift handovers every day, making sure the whole team knows what's happening with each patient and what needs priority. It's a role that demands clear communication, quick thinking, and a steady hand when things get hectic.\n\nI also championed our infection control audits, and we hit 98% compliance. That wasn't just about ticking boxes - it meant building a culture where everyone on the ward took ownership of safety. I worked closely with the team to spot gaps, improve our processes, and keep patients safe.\n\nI'm drawn to the Ward Manager role at CareNorth because it feels like the natural next step. I already handle the day-to-day leadership on my ward, and I'm ready to take on the full responsibility of managing a team, overseeing patient flow, and driving quality improvements. I know acute medical wards inside out - the pressures, the pace, and what it takes to keep things running smoothly.\n\nI'd love to bring my experience to CareNorth and help lead your ward with the same focus on patient safety and team support that I've built my career on."
+                }
+            ],
+            "passed": false,
+            "average": 1,
+            "human_tone": 1
+        },
+        {
+            "scenario_id": "sales-motivation",
+            "profile_fixture": "sales_executive",
+            "job_context": {
+                "title": "Enterprise AE",
+                "company": "CloseWin",
+                "description_snippet": "Mid-market SaaS quota carrier."
+            },
+            "usage": {
+                "prompt_tokens": 815,
+                "completion_tokens": 244,
+                "total_tokens": 1059,
+                "credits": 0.00016545722025,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "cover_letter": "Hi there,\n\nI'm Chris Novak, and I'm writing about the Enterprise AE role at CloseWin. I've been an Account Executive at PipelineHQ in Chicago since March 2019, and I think there's a real fit here.\n\nAt PipelineHQ, I've been closing mid-market SaaS deals with a consultative approach. Last year, I closed $1.2M in new ARR across 14 accounts, and I've exceeded my quota three years running. That consistency comes from doing the hard work upfront -- asking good questions during discovery, understanding what the buyer actually needs, and then negotiating a deal that works for both sides. I live in Salesforce, track everything, and I'm not afraid to walk away from a bad fit.\n\nWhat draws me to CloseWin is the focus on mid-market SaaS. I know that space well. It's not about spraying and praying -- it's about finding the right accounts, building real relationships, and closing deals that stick. I've done that at PipelineHQ, and I'd love to bring that same approach to your team.\n\nI'd be happy to talk more about how I can help CloseWin hit its targets. Thanks for your time.\n\nBest,\nChris Novak",
+            "scores": [
+                {
+                    "id": "sales-motivation::cover-letter",
+                    "scores": {
+                        "grounding": 1,
+                        "specificity": 1,
+                        "human_tone": 1,
+                        "terminology": 1,
+                        "language": 1,
+                        "conciseness": 1,
+                        "honesty": 1
+                    },
+                    "average": 1,
+                    "passed": false,
+                    "mechanical": {
+                        "must_mention_ok": true,
+                        "must_not_mention_ok": true,
+                        "ai_phrases_ok": true,
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null
+                    },
+                    "notes": "NanoGPT returned no score.",
+                    "scenario_id": "sales-motivation",
+                    "question_ref": "cover-letter",
+                    "question_label": "Cover letter",
+                    "answer": "Hi there,\n\nI'm Chris Novak, and I'm writing about the Enterprise AE role at CloseWin. I've been an Account Executive at PipelineHQ in Chicago since March 2019, and I think there's a real fit here.\n\nAt PipelineHQ, I've been closing mid-market SaaS deals with a consultative approach. Last year, I closed $1.2M in new ARR across 14 accounts, and I've exceeded my quota three years running. That consistency comes from doing the hard work upfront -- asking good questions during discovery, understanding what the buyer actually needs, and then negotiating a deal that works for both sides. I live in Salesforce, track everything, and I'm not afraid to walk away from a bad fit.\n\nWhat draws me to CloseWin is the focus on mid-market SaaS. I know that space well. It's not about spraying and praying -- it's about finding the right accounts, building real relationships, and closing deals that stick. I've done that at PipelineHQ, and I'd love to bring that same approach to your team.\n\nI'd be happy to talk more about how I can help CloseWin hit its targets. Thanks for your time.\n\nBest,\nChris Novak"
+                }
+            ],
+            "passed": false,
+            "average": 1,
+            "human_tone": 1
+        },
+        {
+            "scenario_id": "ux-portfolio-private",
+            "profile_fixture": "freelance_ux",
+            "job_context": {
+                "title": "Product Designer",
+                "company": "StealthPay",
+                "description_snippet": "Fintech product design, portfolio review required."
+            },
+            "usage": {
+                "prompt_tokens": 880,
+                "completion_tokens": 267,
+                "total_tokens": 1147,
+                "credits": 0.0001795521945,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "cover_letter": "Hi there,\n\nI've been following StealthPay for a while now, and I'd love to talk about the Product Designer role. I'm a UX consultant based in London, and for the past four years I've been working directly with fintech and health clients on product design challenges.\n\nAt Harbour FinTech, I shipped mobile banking onboarding flows that had to balance security with a smooth user experience. That project taught me a lot about designing for financial products where every click matters. More recently, I've been running UX audits for two fintech clients under NDA, and I redesigned checkout flows for a health startup. These projects were all about making complex processes feel simple and trustworthy.\n\nI work mainly in Figma for wireframing and prototyping, and I lean heavily on user interviews to understand what people actually need. I'm comfortable working under NDA and handling sensitive product details.\n\nI know you're asking for a portfolio review. Most of my recent fintech work is under NDA, so I can't share it publicly. But I'd be happy to walk through my process and the outcomes from those projects in a conversation. I can also show you the onboarding flows I shipped at Harbour FinTech.\n\nI'd love to hear more about what StealthPay is building and how I might contribute.\n\nBest,\nAmira Hassan",
+            "scores": [
+                {
+                    "id": "ux-portfolio-private::cover-letter",
+                    "scores": {
+                        "grounding": 1,
+                        "specificity": 1,
+                        "human_tone": 1,
+                        "terminology": 1,
+                        "language": 1,
+                        "conciseness": 1,
+                        "honesty": 1
+                    },
+                    "average": 1,
+                    "passed": false,
+                    "mechanical": {
+                        "must_mention_ok": true,
+                        "must_not_mention_ok": true,
+                        "ai_phrases_ok": true,
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null
+                    },
+                    "notes": "NanoGPT returned no score.",
+                    "scenario_id": "ux-portfolio-private",
+                    "question_ref": "cover-letter",
+                    "question_label": "Cover letter",
+                    "answer": "Hi there,\n\nI've been following StealthPay for a while now, and I'd love to talk about the Product Designer role. I'm a UX consultant based in London, and for the past four years I've been working directly with fintech and health clients on product design challenges.\n\nAt Harbour FinTech, I shipped mobile banking onboarding flows that had to balance security with a smooth user experience. That project taught me a lot about designing for financial products where every click matters. More recently, I've been running UX audits for two fintech clients under NDA, and I redesigned checkout flows for a health startup. These projects were all about making complex processes feel simple and trustworthy.\n\nI work mainly in Figma for wireframing and prototyping, and I lean heavily on user interviews to understand what people actually need. I'm comfortable working under NDA and handling sensitive product details.\n\nI know you're asking for a portfolio review. Most of my recent fintech work is under NDA, so I can't share it publicly. But I'd be happy to walk through my process and the outcomes from those projects in a conversation. I can also show you the onboarding flows I shipped at Harbour FinTech.\n\nI'd love to hear more about what StealthPay is building and how I might contribute.\n\nBest,\nAmira Hassan"
+                }
+            ],
+            "passed": false,
+            "average": 1,
+            "human_tone": 1
+        },
+        {
+            "scenario_id": "german-motivation",
+            "profile_fixture": "german_engineer",
+            "job_context": {
+                "title": "Backend-Entwickler",
+                "company": "LogistikTech",
+                "description_snippet": "Java, Spring Boot, Kafka in Industrie 4.0."
+            },
+            "usage": {
+                "prompt_tokens": 873,
+                "completion_tokens": 232,
+                "total_tokens": 1105,
+                "credits": 0.00016977459975000002,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "cover_letter": "Hi, I'm Lukas Müller. I saw your opening for a Backend-Entwickler at LogistikTech and wanted to reach out directly.\n\nI have been working as a Software Engineer at IndustrieWerk GmbH in Berlin since 2018, and my day-to-day work centers on exactly the stack you mentioned: Java, Spring Boot, and Kafka. At IndustrieWerk, I built event pipelines with Kafka to handle production data from the factory floor. I also maintain REST APIs for our internal logistics tools. That experience feels like a natural fit for what you are doing in Industrie 4.0.\n\nWhat I like about your description is that it gets straight to the point. You need someone who can work with these tools in an industrial setting, and that is what I have been doing for the past several years. I know how to keep data moving reliably between systems and how to build APIs that people actually use.\n\nI am based in Berlin and speak German natively, with professional English. I would be happy to talk more about how my background with Kafka pipelines and Spring Boot services could help LogistikTech. Thanks for your time.",
+            "scores": [
+                {
+                    "id": "german-motivation::cover-letter",
+                    "scores": {
+                        "grounding": 1,
+                        "specificity": 1,
+                        "human_tone": 1,
+                        "terminology": 1,
+                        "language": 1,
+                        "conciseness": 1,
+                        "honesty": 1
+                    },
+                    "average": 1,
+                    "passed": false,
+                    "mechanical": {
+                        "must_mention_ok": true,
+                        "must_not_mention_ok": true,
+                        "ai_phrases_ok": true,
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null
+                    },
+                    "notes": "NanoGPT returned no score.",
+                    "scenario_id": "german-motivation",
+                    "question_ref": "cover-letter",
+                    "question_label": "Cover letter",
+                    "answer": "Hi, I'm Lukas Müller. I saw your opening for a Backend-Entwickler at LogistikTech and wanted to reach out directly.\n\nI have been working as a Software Engineer at IndustrieWerk GmbH in Berlin since 2018, and my day-to-day work centers on exactly the stack you mentioned: Java, Spring Boot, and Kafka. At IndustrieWerk, I built event pipelines with Kafka to handle production data from the factory floor. I also maintain REST APIs for our internal logistics tools. That experience feels like a natural fit for what you are doing in Industrie 4.0.\n\nWhat I like about your description is that it gets straight to the point. You need someone who can work with these tools in an industrial setting, and that is what I have been doing for the past several years. I know how to keep data moving reliably between systems and how to build APIs that people actually use.\n\nI am based in Berlin and speak German natively, with professional English. I would be happy to talk more about how my background with Kafka pipelines and Spring Boot services could help LogistikTech. Thanks for your time."
+                }
+            ],
+            "passed": false,
+            "average": 1,
+            "human_tone": 1
+        }
+    ],
+    "scores": [
+        {
+            "id": "laravel-portfolio-github::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "laravel-portfolio-github",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi there,\n\nI'm James Mitchell, a Senior Laravel Developer based in Bristol. I've been following StackForge for a while, and I'd love to join your team as a Senior Laravel Engineer.\n\nRight now, I'm at Riverbank Systems, where I've been leading the migration of a monolithic application into Laravel 11 microservices. That system handles around 40,000 daily users, so I've learned a lot about building APIs that are both performant and reliable. I also built out an internal admin tool using Vue 3 and Inertia, which gave me a solid feel for tying a Vue frontend to a Laravel backend. Before that, at Coastal Digital, I spent a few years maintaining legacy PHP apps and introducing PHPUnit coverage, which taught me the value of clean, testable code.\n\nOn the database side, I work mostly with PostgreSQL and Redis, and I use Docker daily for local development and deployment. I'm comfortable owning the full stack when needed, but I really enjoy focusing on the backend and API layer.\n\nI know you're asking for a GitHub or portfolio link. Most of my recent work is inside private repos at Riverbank Systems, so I don't have a public portfolio to point to. But I'd be happy to walk through my approach to building APIs, structuring microservices, or setting up a Laravel app with Vue in an interview.\n\nI'd love to chat about how my experience could help StackForge.\n\nBest,\nJames Mitchell"
+        },
+        {
+            "id": "marketing-motivation::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "marketing-motivation",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi there,\n\nI have been following RevLoop for a while and noticed you are looking for a Demand Generation Manager. That role feels like it was written for my current work at BrightWave Analytics. Right now, I own the inbound pipeline for our B2B SaaS product, and I have been focused on exactly the mix of ABM and SEO you are describing.\n\nAt BrightWave, I increased inbound SQLs by 38% through a combination of SEO-driven content and targeted webinar programs. That was not a vanity metric - it directly tied to sales pipeline and closed deals. I also built and ran ABM campaigns aimed at enterprise finance buyers, which meant coordinating with sales on account selection, crafting custom content, and measuring what actually moved the needle.\n\nOn the SEO side, I have been working with HubSpot and Google Analytics daily for years. Before BrightWave, I was at Northline SaaS, where I launched their entire blog and case study program from scratch. I know how to create content that ranks and converts, not just fills pages.\n\nI am drawn to RevLoop because the job is not asking for generic demand gen - it is asking for someone who can mix ABM strategy with SEO execution. That is exactly what I have been doing. I would love to bring that approach to your team.\n\nThanks for considering me.\n\nBest,  \nSarah Chen"
+        },
+        {
+            "id": "secops-domain::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "secops-domain",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi, I'm Marcus Webb. I've been working as a Security Operations Analyst at SecureNet Defence in Manchester since 2019, and I'm writing to you about the SecOps Engineer role at ShieldPoint because it sounds like a natural next step for me.\n\nRight now, I'm the one triaging over 200 alerts every week in Splunk ES, usually hitting a 15-minute SLA. That kind of pace teaches you to separate real threats from noise fast. I've also co-authored the runbooks our team uses for phishing and ransomware incidents, which means I've had to think through the whole response process, not just my piece of it. I spend a lot of time tuning SIEM rules to reduce false positives and make sure we're catching what matters.\n\nOn the threat hunting side, I use MITRE ATT&CK to map adversary behaviors and write Python scripts to automate repetitive parts of the investigation. I'm comfortable with CrowdStrike too, but Splunk is really my home base.\n\nI'm looking for a role where I can focus more deeply on SIEM tuning and incident response, and ShieldPoint's description lines up exactly with what I do every day. I'd love to bring that experience to your team."
+        },
+        {
+            "id": "swedish-motivation::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "swedish-motivation",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi, I'm Elin Andersson. I've been working as a Senior UX Designer at Nordic Flow AB in Stockholm since 2019, and I'm writing because your role at Vekst sounds like a natural fit for what I do best: building design systems and making B2B products accessible.\n\nAt Nordic Flow, I led the redesign of our onboarding flow, which cut support tickets by 22%. That success came from a deep focus on user research and accessibility. I also built a Figma component library from scratch that now serves 12 product teams. It keeps our designs consistent and speeds up development, which is exactly what a growing B2B company needs.\n\nYour description mentions design system and accessibility for a B2B product. That's my daily work. I know how to create patterns that scale across teams and how to test them with real users. I speak Swedish natively and work professionally in English, so I can collaborate with any team.\n\nI'd love to bring my experience with prototyping, UX research, and design systems to Vekst. Let's talk about how I can help your team build a product that works for everyone."
+        },
+        {
+            "id": "career-change-motivation::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "career-change-motivation",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi there,\n\nI'm David Okonkwo, and I'm applying for the Junior Full Stack Developer role at LearnBridge. I saw that you're looking for someone early in their career, and that's exactly where I am right now. After 12 weeks in a coding bootcamp, I jumped straight into a startup environment at Bridge Labs, where I've been working as a junior developer since January 2024.\n\nAt Bridge Labs, I shipped customer dashboard features in React, often pair programming with senior developers on REST API integrations. That hands-on experience taught me how to write clean, maintainable code and how to ask the right questions when I'm stuck. I'm comfortable with JavaScript, React, Node.js, HTML, and CSS, and I'm always looking to learn more.\n\nBefore tech, I spent seven years as a maths teacher at West Yorkshire Academy, teaching GCSE and A-level classes of 30 students. That role taught me how to break down complex problems into clear steps, how to communicate clearly, and how to stay patient when things don't work the first time. Those skills transfer directly into debugging and collaborating on a dev team.\n\nI'm looking for a supportive team where I can keep growing, and LearnBridge sounds like that kind of place. I'd love to bring my blend of teaching patience and real startup experience to your team.\n\nThanks for your time.\n\nDavid Okonkwo"
+        },
+        {
+            "id": "frontend-portfolio::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "frontend-portfolio",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi there,\n\nI'm a frontend developer who builds accessible React interfaces for agency clients, and I think my background lines up well with what you're looking for at WebCraft.\n\nRight now I'm at Pixel Orchard Agency, where I've delivered six client sites using React and headless CMS integrations. One thing I'm especially proud of is how I've pushed Lighthouse accessibility scores to 95 and above on two of those launches. That kind of work matters to me because I believe good frontend development means everyone can actually use what you build.\n\nI work daily with React, TypeScript, and Tailwind CSS, and I'm comfortable moving fast across different client needs. Agency work has taught me how to balance clean code with tight deadlines, and how to make sure each project feels solid from the user's perspective.\n\nI'd love to bring that experience to WebCraft. If you're looking for someone who can jump into React and TypeScript projects and keep accessibility front and center, let's talk.\n\nThanks for your time.\n\nPriya Patel"
+        },
+        {
+            "id": "devops-k8s::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "devops-k8s",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi there,\n\nI saw the Platform Engineer opening at ShipFast and wanted to reach out. The focus on Kubernetes on AWS, Terraform, and GitHub Actions lines up exactly with what I've been doing day in and day out at CloudSpan Iberia in Barcelona.\n\nOver the past few years, I've been deep in the weeds on AWS and Kubernetes. One project I'm proud of was migrating 30 services to EKS with zero-downtime cutovers. That kind of work takes careful planning and a lot of testing, but it paid off. I also took our deploy time from 45 minutes down to 8 minutes by reworking our CI\/CD pipelines with GitHub Actions. That freed up the team to ship faster and with less stress.\n\nI use Terraform to manage infrastructure as code, and Prometheus to keep an eye on things once they're running. I'm not just about setting things up and walking away. I care about making sure systems stay stable and teams can move quickly without breaking things.\n\nShipFast sounds like a place where that kind of practical, hands-on experience would be useful. I'd love to talk about how I could help your team keep building and shipping reliably.\n\nThanks for your time.\n\nTomás Rivera"
+        },
+        {
+            "id": "data-sql::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "data-sql",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi, I'm Fiona Walsh. I saw your Analytics Engineer opening at RetailIQ, and it jumped out at me. SQL, dbt, Snowflake, dashboards for executives - that's exactly what I've been building day in and day out at Emerald Retail Group.\n\nIn my current role as a Data Analyst in Dublin, I own the whole pipeline from warehouse to decision. I use SQL to pull and shape store-level margin data, then model it in dbt before loading into Snowflake. The final layer is a Tableau suite I built from scratch that tracks margin trends across all our locations. It's the single source of truth for store managers and our VP of Operations.\n\nOne thing I'm proud of: I automated a set of weekly SQL reports that used to eat up six hours of analyst time. That freed the team to actually ask deeper questions about the data instead of just pulling it. I know how much wasted time a messy pipeline can cause, and I get a real kick out of cleaning that up so people can focus on insights.\n\nI'm looking to step into a role that's built around that transformation work - moving from raw data to trusted, accessible models. RetailIQ feels like the right place to do that. I'd love to talk about how my work with Snowflake and dbt at Emerald could translate to your stack and your stakeholders."
+        },
+        {
+            "id": "nurse-motivation::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "nurse-motivation",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi, I'm Rachel Brooks. I've been a Staff Nurse at Royal North Hospital in Newcastle for the past nine years, working on a busy 28-bed medical ward. Over that time, I've moved from focusing on patient care into taking on real ward leadership responsibilities. I lead our shift handovers every day, making sure the whole team knows what's happening with each patient and what needs priority. It's a role that demands clear communication, quick thinking, and a steady hand when things get hectic.\n\nI also championed our infection control audits, and we hit 98% compliance. That wasn't just about ticking boxes - it meant building a culture where everyone on the ward took ownership of safety. I worked closely with the team to spot gaps, improve our processes, and keep patients safe.\n\nI'm drawn to the Ward Manager role at CareNorth because it feels like the natural next step. I already handle the day-to-day leadership on my ward, and I'm ready to take on the full responsibility of managing a team, overseeing patient flow, and driving quality improvements. I know acute medical wards inside out - the pressures, the pace, and what it takes to keep things running smoothly.\n\nI'd love to bring my experience to CareNorth and help lead your ward with the same focus on patient safety and team support that I've built my career on."
+        },
+        {
+            "id": "sales-motivation::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "sales-motivation",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi there,\n\nI'm Chris Novak, and I'm writing about the Enterprise AE role at CloseWin. I've been an Account Executive at PipelineHQ in Chicago since March 2019, and I think there's a real fit here.\n\nAt PipelineHQ, I've been closing mid-market SaaS deals with a consultative approach. Last year, I closed $1.2M in new ARR across 14 accounts, and I've exceeded my quota three years running. That consistency comes from doing the hard work upfront -- asking good questions during discovery, understanding what the buyer actually needs, and then negotiating a deal that works for both sides. I live in Salesforce, track everything, and I'm not afraid to walk away from a bad fit.\n\nWhat draws me to CloseWin is the focus on mid-market SaaS. I know that space well. It's not about spraying and praying -- it's about finding the right accounts, building real relationships, and closing deals that stick. I've done that at PipelineHQ, and I'd love to bring that same approach to your team.\n\nI'd be happy to talk more about how I can help CloseWin hit its targets. Thanks for your time.\n\nBest,\nChris Novak"
+        },
+        {
+            "id": "ux-portfolio-private::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "ux-portfolio-private",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi there,\n\nI've been following StealthPay for a while now, and I'd love to talk about the Product Designer role. I'm a UX consultant based in London, and for the past four years I've been working directly with fintech and health clients on product design challenges.\n\nAt Harbour FinTech, I shipped mobile banking onboarding flows that had to balance security with a smooth user experience. That project taught me a lot about designing for financial products where every click matters. More recently, I've been running UX audits for two fintech clients under NDA, and I redesigned checkout flows for a health startup. These projects were all about making complex processes feel simple and trustworthy.\n\nI work mainly in Figma for wireframing and prototyping, and I lean heavily on user interviews to understand what people actually need. I'm comfortable working under NDA and handling sensitive product details.\n\nI know you're asking for a portfolio review. Most of my recent fintech work is under NDA, so I can't share it publicly. But I'd be happy to walk through my process and the outcomes from those projects in a conversation. I can also show you the onboarding flows I shipped at Harbour FinTech.\n\nI'd love to hear more about what StealthPay is building and how I might contribute.\n\nBest,\nAmira Hassan"
+        },
+        {
+            "id": "german-motivation::cover-letter",
+            "scores": {
+                "grounding": 1,
+                "specificity": 1,
+                "human_tone": 1,
+                "terminology": 1,
+                "language": 1,
+                "conciseness": 1,
+                "honesty": 1
+            },
+            "average": 1,
+            "passed": false,
+            "mechanical": {
+                "must_mention_ok": true,
+                "must_not_mention_ok": true,
+                "ai_phrases_ok": true,
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "german-motivation",
+            "question_ref": "cover-letter",
+            "question_label": "Cover letter",
+            "answer": "Hi, I'm Lukas Müller. I saw your opening for a Backend-Entwickler at LogistikTech and wanted to reach out directly.\n\nI have been working as a Software Engineer at IndustrieWerk GmbH in Berlin since 2018, and my day-to-day work centers on exactly the stack you mentioned: Java, Spring Boot, and Kafka. At IndustrieWerk, I built event pipelines with Kafka to handle production data from the factory floor. I also maintain REST APIs for our internal logistics tools. That experience feels like a natural fit for what you are doing in Industrie 4.0.\n\nWhat I like about your description is that it gets straight to the point. You need someone who can work with these tools in an industrial setting, and that is what I have been doing for the past several years. I know how to keep data moving reliably between systems and how to build APIs that people actually use.\n\nI am based in Berlin and speak German natively, with professional English. I would be happy to talk more about how my background with Kafka pipelines and Spring Boot services could help LogistikTech. Thanks for your time."
+        }
+    ]
+}

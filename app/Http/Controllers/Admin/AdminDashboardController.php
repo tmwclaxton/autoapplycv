@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Services\AdminCreditAwardService;
 use App\Services\AdminHealthService;
+use App\Services\AutofillAnalyticsService;
 use App\Services\ExtensionAutoApplyAnalyticsService;
 use App\Services\ExtensionNanoGptUsageService;
 use App\Services\ExtensionPageCaptureService;
@@ -18,6 +19,7 @@ class AdminDashboardController extends Controller
         private readonly ExtensionPageCaptureService $captures,
         private readonly ExtensionAutoApplyAnalyticsService $autoApply,
         private readonly ExtensionNanoGptUsageService $nanoGptUsage,
+        private readonly AutofillAnalyticsService $autofillAnalytics,
         private readonly AdminHealthService $health,
         private readonly AdminCreditAwardService $creditAwards,
     ) {}
@@ -34,6 +36,9 @@ class AdminDashboardController extends Controller
             ...$this->captures->adminDashboardData($queryAppends),
             ...$this->autoApply->adminDashboardData($queryAppends),
             ...$this->nanoGptUsage->adminDashboardData(),
+            'autofill_analytics' => $this->autofillAnalytics->publicSummary(
+                (int) config('admin.dashboard_chart_days', 30),
+            ),
             ...$this->health->adminDashboardData(),
             'credit_packages' => config('admin.credit_packages', []),
             'credit_award_max' => (int) config('admin.credit_award_max_per_request', 50_000),

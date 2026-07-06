@@ -3,7 +3,7 @@ import {
     shouldShowAutoApplyActivityControls,
 } from './auto-apply-activity-ui.js';
 import { buildAutoApplyPauseBannerMessage } from './auto-apply-pause-ui.js';
-import { AUTO_APPLY_PLATFORMS, LINKEDIN_PLATFORM_ID } from './auto-apply-platforms.js';
+import { AUTO_APPLY_PLATFORM_LIST, LINKEDIN_PLATFORM_ID } from './auto-apply-platforms.js';
 import { isActiveAutoApplyStatus, isTerminalAutoApplyStatus } from './auto-apply-session.js';
 
 const platformSelect = document.getElementById('auto-apply-platform');
@@ -38,7 +38,7 @@ function extensionContext() {
 function renderPlatformOptions() {
     platformSelect.innerHTML = '';
 
-    for (const platform of Object.values(AUTO_APPLY_PLATFORMS)) {
+    for (const platform of AUTO_APPLY_PLATFORM_LIST) {
         const option = document.createElement('option');
         option.value = platform.id;
         option.textContent = platform.comingSoon

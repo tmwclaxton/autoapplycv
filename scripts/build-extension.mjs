@@ -217,6 +217,7 @@ copyFileSync(join(SRC, 'shared/application-settings.js'), join(DIST, 'applicatio
 copyFileSync(join(SRC, 'shared/postbox-theme.css'), join(DIST, 'postbox-theme.css'));
 copyFileSync(join(SRC, 'shared/form-frame-messaging.js'), join(DIST, 'form-frame-messaging.js'));
 copyFileSync(join(SRC, 'shared/file-transfer.js'), join(DIST, 'file-transfer.js'));
+copyFileSync(join(SRC, 'shared/cover-letter-pdf.js'), join(DIST, 'cover-letter-pdf.js'));
 copyFileSync(join(SRC, 'shared/extension-context.js'), join(DIST, 'extension-context.js'));
 copyFileSync(join(SRC, 'shared/debug-log.js'), join(DIST, 'debug-log.js'));
 copyFileSync(join(SRC, 'shared/debug-log-client.js'), join(DIST, 'debug-log-client.js'));
@@ -303,6 +304,16 @@ function ensureExtensionIcons() {
 
 ensureExtensionIcons();
 cpSync(iconsDir, distIconsDir, { recursive: true });
+
+const pingSoundSource = join(ROOT, 'public/sound/ping.mp3');
+const distSoundDir = join(DIST, 'sound');
+
+if (!existsSync(pingSoundSource)) {
+    throw new Error('Missing extension pause sound at public/sound/ping.mp3');
+}
+
+mkdirSync(distSoundDir, { recursive: true });
+copyFileSync(pingSoundSource, join(distSoundDir, 'ping.mp3'));
 
 const missingDistIcons = requiredIcons.filter((icon) => !existsSync(join(distIconsDir, icon)));
 
