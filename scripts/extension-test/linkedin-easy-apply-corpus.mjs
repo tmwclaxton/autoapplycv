@@ -568,6 +568,38 @@ runCase('job detail fixture exposes top-card Easy Apply button', async () => {
     assert.match(api.readApplyButtonState(api.readTopCardApplyButton()).label, /easy apply/i);
 });
 
+runCase('SDUI job view page exposes Easy Apply anchor link', async () => {
+    const html = readFileSync(join(ROOT, 'tests/fixtures/auto-apply/linkedin-job-view-sdui-easy-apply.html'), 'utf8');
+    const { api } = loadLinkedInApi(html, 'https://www.linkedin.com/jobs/view/4429243381/');
+
+    const button = api.readTopCardApplyButton();
+    const state = api.readApplyButtonState(button);
+
+    assert.ok(button, 'expected SDUI Easy Apply anchor');
+    assert.equal(button.tagName, 'A', 'expected anchor element for SDUI apply control');
+    assert.equal(state.easyApply, true, 'expected Easy Apply state for SDUI anchor');
+    assert.match(state.label, /easy apply/i);
+    assert.match(button.getAttribute('href') || '', /openSDUIApplyFlow=true/);
+
+    const ready = await api.waitForJobDetailReady('4429243381');
+    assert.equal(ready.success, true);
+});
+
+runCase('live SDUI job view capture exposes Easy Apply anchor link', () => {
+    const html = readFileSync(
+        join(CAPTURED_DIR, 'software-engineer-unity-talent-solutions-4432793928-job-view-page.html'),
+        'utf8',
+    );
+    const { api } = loadLinkedInApi(html, 'https://www.linkedin.com/jobs/view/4432793928/');
+
+    const button = api.readTopCardApplyButton();
+    const state = api.readApplyButtonState(button);
+
+    assert.ok(button, 'expected Easy Apply control in live SDUI job view capture');
+    assert.equal(state.easyApply, true, 'expected Easy Apply state in live SDUI capture');
+    assert.match(button.getAttribute('href') || button.getAttribute('aria-label') || '', /openSDUIApplyFlow|Easy Apply/i);
+});
+
 console.log(`\nLinkedIn Easy Apply corpus (${manifest.primarySource}): ${summary.passed} passed, ${summary.failed} failed.`);
 
 if (summary.failed > 0) {

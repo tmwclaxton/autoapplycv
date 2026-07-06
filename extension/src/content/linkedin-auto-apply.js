@@ -41,6 +41,11 @@ const AutoCVApplyLinkedInAutoApply = (() => {
     const STANDALONE_JOB_VIEW_PATTERN = /\/jobs\/view\/(\d+)/;
 
     const APPLY_BUTTON_SELECTORS = [
+        'a[aria-label*="Easy Apply"][href*="/apply/"]',
+        'a[aria-label*="Easy Apply"]',
+        'a[href*="/apply/"][href*="openSDUIApplyFlow"]',
+        'a[href*="openSDUIApplyFlow"]',
+        'a.jobs-apply-button[href*="openSDUIApplyFlow"]',
         '.jobs-apply-button--top-card button.jobs-apply-button',
         '.jobs-apply-button--top-card button',
         'button.jobs-apply-button--top-card',
@@ -60,7 +65,6 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         'button[aria-label*="LinkedIn Apply"]',
         'button[aria-label*="Apply to"]',
         'button[aria-label*="Apply"]',
-        'a.jobs-apply-button[href*="openSDUIApplyFlow"]',
     ];
 
     function normalize(text) {
@@ -82,9 +86,37 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             || /^apply\b/i.test(label);
     }
 
+    function isAnchorElement(element) {
+        return element instanceof HTMLElement && element.tagName === 'A';
+    }
+
+    function isSduiEasyApplyAnchor(element) {
+        if (!isAnchorElement(element)) {
+            return false;
+        }
+
+        const href = element.getAttribute('href') || '';
+
+        if (href.includes('openSDUIApplyFlow') || (href.includes('/apply/') && isEasyApplyButtonLabel(element.getAttribute('aria-label') || ''))) {
+            return true;
+        }
+
+        const label = normalize(element.textContent || element.getAttribute('aria-label') || '');
+
+        return isEasyApplyButtonLabel(label);
+    }
+
+    function isEasyApplyApplyControl(element) {
+        return element.matches('.jobs-apply-button, a.jobs-apply-button')
+            || isSduiEasyApplyAnchor(element);
+    }
+
     function readApplyButtonSearchRoot() {
         if (isStandaloneJobViewPage()) {
             const standaloneRoots = [
+                'main#workspace',
+                '[data-testid="lazy-column"]',
+                '[data-sdui-component*="jobsee"]',
                 '.job-view-layout',
                 '.jobs-unified-top-card',
                 '.jobs-details-top-card',
@@ -199,11 +231,18 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return null;
         }
 
-        if (element.matches('button, a.jobs-apply-button')) {
+        if (element.matches([
+            'button',
+            'a.jobs-apply-button',
+            'a[aria-label*="Easy Apply"]',
+            'a[href*="openSDUIApplyFlow"]',
+        ].join(', '))) {
             return element;
         }
 
         const nestedButton = element.querySelector([
+            'a[aria-label*="Easy Apply"][href*="/apply/"]',
+            'a[href*="/apply/"][href*="openSDUIApplyFlow"]',
             'button.jobs-apply-button',
             'button[aria-label*="Easy Apply"]',
             'button[aria-label*="LinkedIn Apply"]',
@@ -212,6 +251,28 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         ].join(', '));
 
         return nestedButton instanceof HTMLElement ? nestedButton : element;
+    }
+
+    function findEasyApplyAnchorByText(root) {
+        for (const anchor of root.querySelectorAll('a[href]')) {
+            if (!isAnchorElement(anchor) || isInsideJobCard(anchor)) {
+                continue;
+            }
+
+            const label = normalize(anchor.textContent || anchor.getAttribute('aria-label') || '');
+
+            if (!isEasyApplyButtonLabel(label)) {
+                continue;
+            }
+
+            const href = anchor.getAttribute('href') || '';
+
+            if (href.includes('/apply/') || href.includes('openSDUIApplyFlow') || /\beasy\s+apply\b/i.test(label)) {
+                return anchor;
+            }
+        }
+
+        return null;
     }
 
     function readApplyButtonFromRoot(root) {
@@ -234,9 +295,15 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 continue;
             }
 
-            if (isElementVisible(button) || button.matches('.jobs-apply-button, a.jobs-apply-button')) {
+            if (isElementVisible(button) || isEasyApplyApplyControl(button)) {
                 return button;
             }
+        }
+
+        const textAnchor = findEasyApplyAnchorByText(root);
+
+        if (textAnchor instanceof HTMLElement && !isInsideJobCard(textAnchor)) {
+            return textAnchor;
         }
 
         return null;
@@ -624,7 +691,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         return {
             present: true,
             label,
-            easyApply: isEasyApplyButtonLabel(label) || button.matches('.jobs-apply-button, a.jobs-apply-button'),
+            easyApply: isEasyApplyButtonLabel(label) || isEasyApplyApplyControl(button),
             alreadyApplied: /\bapplied\b/i.test(label) && !isEasyApplyButtonLabel(label),
             disabled: button.disabled || button.getAttribute('aria-disabled') === 'true',
         };
@@ -711,6 +778,39 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         return { dismissed: false };
     }
 
+    async function openEasyApplyFromControl(control) {
+        clickElement(control);
+        let modal = await waitForEasyApplyModal(10_000);
+
+        if (modal) {
+            return modal;
+        }
+
+        await dismissSaveApplicationDialog().catch(() => {});
+        await dismissBlockingModal().catch(() => {});
+        clickElement(control);
+        modal = await waitForEasyApplyModal(6000);
+
+        if (modal || !isAnchorElement(control)) {
+            return modal;
+        }
+
+        const href = control.href || control.getAttribute('href') || '';
+
+        if (!href.includes('openSDUIApplyFlow') && !href.includes('/apply/')) {
+            return null;
+        }
+
+        if (control.getAttribute('aria-disabled') === 'true') {
+            return null;
+        }
+
+        window.location.assign(href);
+        modal = await waitForEasyApplyModal(12_000);
+
+        return modal;
+    }
+
     async function clickEasyApply() {
         await acceptCookieConsent();
         await dismissSaveApplicationDialog();
@@ -747,15 +847,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             };
         }
 
-        clickElement(button);
-        let modal = await waitForEasyApplyModal(10_000);
-
-        if (!modal) {
-            await dismissSaveApplicationDialog().catch(() => {});
-            await dismissBlockingModal().catch(() => {});
-            clickElement(button);
-            modal = await waitForEasyApplyModal(6000);
-        }
+        const modal = await openEasyApplyFromControl(button);
 
         if (!modal) {
             return {
@@ -1394,6 +1486,79 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         };
     }
 
+    function findBlockedFieldControl(modal, { label, dom } = {}) {
+        if (!modal) {
+            return null;
+        }
+
+        if (dom?.id) {
+            const byId = modal.querySelector(`#${CSS.escape(dom.id)}`);
+
+            if (byId) {
+                return byId;
+            }
+        }
+
+        const normalizedLabel = normalize(label || '');
+
+        if (!normalizedLabel) {
+            return null;
+        }
+
+        for (const formElement of modal.querySelectorAll('[data-test-form-element]')) {
+            const labelEl = formElement.querySelector(
+                '[data-test-single-typeahead-entity-form-title], [data-test-text-entity-list-form-title], .fb-dash-form-element__label, label',
+            );
+            const candidateLabel = normalize(labelEl?.textContent || '');
+
+            if (candidateLabel !== normalizedLabel) {
+                continue;
+            }
+
+            return formElement.querySelector('input[role="combobox"], select, textarea, input:not([type="hidden"])');
+        }
+
+        return null;
+    }
+
+    function dispatchBubbledEvent(element, type) {
+        const view = element.ownerDocument?.defaultView || window;
+        const EventConstructor = view.Event || Event;
+
+        element.dispatchEvent(new EventConstructor(type, { bubbles: true }));
+    }
+
+    async function validateBlockedFieldAfterFill({ label, dom } = {}) {
+        const modal = readEasyApplyModal();
+
+        if (!modal) {
+            return {
+                open: false,
+                valid: true,
+                validationError: null,
+                ...getEasyApplyModalState(),
+            };
+        }
+
+        const control = findBlockedFieldControl(modal, { label, dom });
+
+        if (control) {
+            control.focus();
+            dispatchBubbledEvent(control, 'input');
+            dispatchBubbledEvent(control, 'change');
+            control.blur();
+            await sleep(350);
+        }
+
+        const state = getEasyApplyModalState();
+
+        return {
+            ...state,
+            valid: (state.validationErrors?.length || 0) === 0 && (state.invalidFields?.length || 0) === 0,
+            validationError: state.validationErrors?.[0] || null,
+        };
+    }
+
     function readEasyApplyModalErrors() {
         const modal = readEasyApplyModal();
 
@@ -1478,6 +1643,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         findCookieConsentAlert,
         acceptCookieConsent,
         exportEasyApplyModalDebug,
+        validateBlockedFieldAfterFill,
     };
 })();
 
