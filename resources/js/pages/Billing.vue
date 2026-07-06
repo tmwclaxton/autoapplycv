@@ -2,11 +2,11 @@
 import { Head, Link, router, setLayoutProps, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
-import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
 import { useConfirm } from '@/composables/useConfirm';
 import { creditNotice } from '@/lib/creditNotice';
 import { dashboard } from '@/routes';
 import billingRoutes from '@/routes/billing';
+import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
 
 setLayoutProps({
     tagline: 'Extension credits reset monthly.',

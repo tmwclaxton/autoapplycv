@@ -1,7 +1,7 @@
-import type { InertiaLinkProps } from '@inertiajs/vue3';
 import { clsx } from 'clsx';
-import type { ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import type { InertiaLinkProps } from '@inertiajs/vue3';
+import type { ClassValue } from 'clsx';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));

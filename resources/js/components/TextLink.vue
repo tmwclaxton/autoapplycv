@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { LinkComponentBaseProps, Method } from '@inertiajs/core';
 import { Link } from '@inertiajs/vue3';
+import type { LinkComponentBaseProps, Method } from '@inertiajs/core';
 
 type Props = {
     href: LinkComponentBaseProps['href'];

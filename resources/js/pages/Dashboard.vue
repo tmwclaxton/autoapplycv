@@ -24,13 +24,13 @@ import ApplicationQaPanel from '@/components/cv/ApplicationQaPanel.vue';
 import CvParsingOverlay from '@/components/cv/CvParsingOverlay.vue';
 import CvProfileForm from '@/components/cv/CvProfileForm.vue';
 import ExtensionUsagePanel from '@/components/cv/ExtensionUsagePanel.vue';
-import type { ExtensionUsageSummary } from '@/components/cv/ExtensionUsagePanel.vue';
 import ProfileDocumentsPanel from '@/components/cv/ProfileDocumentsPanel.vue';
 import ExtensionDownloadPanel from '@/components/extension/ExtensionDownloadPanel.vue';
 import { cvAcceptAttribute, validateCvUpload } from '@/lib/upload-validation';
 import billing from '@/routes/billing';
 import { useToastStore } from '@/stores/toastStore';
 import { normalizeCvProfile } from '@/types/cvProfile';
+import type { ExtensionUsageSummary } from '@/components/cv/ExtensionUsagePanel.vue';
 import type { CvProfile, CvProfileSection } from '@/types/cvProfile';
 import type {
     DocumentCategoryOption,
