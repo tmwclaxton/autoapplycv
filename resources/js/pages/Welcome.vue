@@ -15,7 +15,7 @@ defineProps<{
 </script>
 
 <template>
-    <Head title="AutoCVApply - Stop retyping your CV" />
+    <Head title="AutoCVApply - Autofill job applications" />
 
     <PostboxMarketingLayout tagline="Stop retyping your life story.">
         <template #nav>
@@ -31,15 +31,16 @@ defineProps<{
             <h1
                 class="text-3xl leading-[1.1] font-bold tracking-tight text-balance text-postbox-navy sm:text-5xl"
             >
-                Upload once.<br />
-                Apply everywhere.
+                One profile.<br />
+                Autofill every form.
             </h1>
 
             <p
                 class="mt-5 text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
             >
                 Job forms ask the same questions again and again. AutoCVApply
-                stores your CV profile and stamps answers onto
+                stores your CV profile once and autofills contact details,
+                experience, and screening answers on
                 {{ PLATFORM_MARKETING_INLINE }} - without the copy-paste
                 marathon.
             </p>
@@ -47,9 +48,10 @@ defineProps<{
             <p
                 class="mt-4 text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
             >
-                The browser extension autofills one field or the whole form. You
-                review, tweak if needed, and submit - apply faster without
-                retyping your life story.
+                Install the browser extension to fill one field or stamp the
+                whole form with Draft All. Review, tweak if needed, and submit.
+                LinkedIn Easy Apply Auto Apply is supported today - more
+                platform support coming soon.
             </p>
 
             <div
@@ -74,7 +76,7 @@ defineProps<{
             <h2
                 class="text-xl font-bold tracking-tight text-balance text-postbox-navy sm:text-2xl"
             >
-                Less typing. More applying.
+                Autofill first. Apply faster.
             </h2>
 
             <div class="mt-6 grid gap-4 sm:grid-cols-2">
@@ -136,20 +138,20 @@ defineProps<{
                         <Bot class="size-5 text-postbox-red" />
                     </div>
                     <h3 class="text-base font-bold text-postbox-navy">
-                        LinkedIn Easy Apply Auto Apply
+                        Auto Apply
                     </h3>
                     <p
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
                         Search, open, fill, and submit end-to-end from the
-                        extension sidebar - including LinkedIn Easy Apply. More
-                        platforms coming soon.
+                        extension sidebar. LinkedIn Easy Apply is supported
+                        today - more platforms coming soon.
                     </p>
                 </div>
             </div>
         </section>
 
-        <PostboxPlatformBadges class="mt-12" />
+        <PostboxPlatformBadges class="mt-12" show-auto-apply-platforms />
 
         <PostboxDraftAllDemo />
 
