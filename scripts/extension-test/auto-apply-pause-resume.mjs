@@ -14,7 +14,12 @@ import {
 } from '../../extension/src/shared/auto-apply-blockers.js';
 import {
     buildAutoApplyPauseAssistantMessage,
+    buildAutoApplyPauseBannerMessage,
+    buildAutoApplyPauseMessageFingerprint,
+    isAutoApplyPauseBlockerField,
     resolveAutoApplyPauseComposerValue,
+    resolveAutoApplyPendingFieldDisplayLabel,
+    resolveAutoApplyPendingFieldHint,
 } from '../../extension/src/shared/auto-apply-pause-ui.js';
 import {
     appendAutoApplyLog,
@@ -245,6 +250,53 @@ assert(
 assert(
     buildAutoApplyPauseAssistantMessage(firstPauseContext).includes('Auto Apply paused on'),
     'first pause should include pause guidance in Assist chat',
+);
+
+const locationField = {
+    ref: 'f-location',
+    label: 'Location (city)',
+    question: 'Location (city)',
+    field_type: 'select',
+};
+
+const locationPauseContext = {
+    blockerField: locationField,
+    clarifyingQuestion: buildAutoApplyPauseQuestion(locationField),
+    questionText: buildAutoApplyPauseQuestion(locationField),
+};
+
+assert(
+    resolveAutoApplyPauseComposerValue(locationPauseContext) === '',
+    'location pause should not prefill Assist composer',
+);
+assert(
+    buildAutoApplyPauseAssistantMessage(locationPauseContext).includes('Location (city)'),
+    'location pause question should appear in Assist chat',
+);
+assert(
+    buildAutoApplyPauseBannerMessage(locationPauseContext).includes('Location (city)'),
+    'location pause banner should reference field label only',
+);
+assert(
+    resolveAutoApplyPendingFieldDisplayLabel(locationField, locationPauseContext) === 'Location (city)',
+    'pending fields should show field label during Auto Apply pause',
+);
+assert(
+    resolveAutoApplyPendingFieldDisplayLabel(locationField, locationPauseContext)
+        !== buildAutoApplyPauseAssistantMessage(locationPauseContext),
+    'pending fields should not duplicate Assist clarifying message',
+);
+assert(
+    resolveAutoApplyPendingFieldHint(locationField, locationPauseContext)?.includes('Assist'),
+    'pending fields should point users to Assist during Auto Apply pause',
+);
+assert(
+    isAutoApplyPauseBlockerField(locationField, locationPauseContext),
+    'location field should match active Auto Apply pause blocker',
+);
+assert(
+    buildAutoApplyPauseMessageFingerprint(locationPauseContext).includes('f-location'),
+    'pause fingerprint should include blocker ref',
 );
 
 let session = createInitialSession({

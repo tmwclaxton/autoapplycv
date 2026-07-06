@@ -29,6 +29,8 @@ let documentsPanel = null;
 let assistChat = null;
 let autoApplyPanel = null;
 let pendingFieldsPanel = null;
+/** @type {object|null} */
+let currentAutoApplyPauseContext = null;
 let connectedApiBase = null;
 let sidePanelPresencePort = null;
 const pendingDraftBatchAnswers = [];
@@ -532,6 +534,7 @@ chrome.runtime.onMessage.addListener((message) => {
     }
 
     if (message.type === 'AUTO_APPLY_PAUSED' && message.pauseContext) {
+        currentAutoApplyPauseContext = message.pauseContext;
         playAutoApplyPauseSound();
         switchToTab('assist');
         assistChat?.handleAutoApplyPaused?.(message.pauseContext);
@@ -542,14 +545,38 @@ chrome.runtime.onMessage.addListener((message) => {
     }
 
     if (message.type === 'AUTO_APPLY_RESUMED') {
+        currentAutoApplyPauseContext = null;
         switchToTab('auto-apply');
         assistChat?.clearAutoApplyPauseContext?.();
+
+        if (pendingFieldsPanel?.refreshPendingFields) {
+            void pendingFieldsPanel.refreshPendingFields().catch(() => {});
+        }
 
         if (autoApplyPanel?.refreshStatus) {
             void autoApplyPanel.refreshStatus().catch(() => {});
         }
     }
 });
+
+async function restoreAutoApplyPauseUi() {
+    const response = await new Promise((resolve) => {
+        chrome.runtime.sendMessage({ type: 'AUTO_APPLY_STATUS' }, resolve);
+    });
+
+    if (response?.session?.status !== 'paused_for_input' || !response.session.pauseContext) {
+        currentAutoApplyPauseContext = null;
+
+        return;
+    }
+
+    currentAutoApplyPauseContext = response.session.pauseContext;
+    assistChat?.handleAutoApplyPaused?.(response.session.pauseContext, { restore: true });
+
+    if (pendingFieldsPanel?.refreshPendingFields) {
+        await pendingFieldsPanel.refreshPendingFields().catch(() => {});
+    }
+}
 
 function setupShellMarkFallback() {
     const shellMark = document.querySelector('.shell-mark');
@@ -600,7 +627,10 @@ async function init() {
     void drainQueuedDraftBatchAnswers().catch(() => {});
 
     if (!pendingFieldsPanel) {
-        pendingFieldsPanel = initPendingFieldsPanel({ showMessage });
+        pendingFieldsPanel = initPendingFieldsPanel({
+            showMessage,
+            getAutoApplyPauseContext: () => currentAutoApplyPauseContext,
+        });
     }
 
     if (!autoApplyPanel) {
@@ -636,6 +666,8 @@ async function init() {
         } catch {
             // Pending fields are optional until Draft All runs.
         }
+
+        await restoreAutoApplyPauseUi();
     } else {
         authState.classList.remove('is-visible');
         unauthState.classList.add('is-visible');

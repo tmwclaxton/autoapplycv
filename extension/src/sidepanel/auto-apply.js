@@ -2,6 +2,7 @@ import {
     isAutoApplyActivityPanelExpanded,
     shouldShowAutoApplyActivityControls,
 } from './auto-apply-activity-ui.js';
+import { buildAutoApplyPauseBannerMessage } from './auto-apply-pause-ui.js';
 import { AUTO_APPLY_PLATFORMS, LINKEDIN_PLATFORM_ID } from './auto-apply-platforms.js';
 import { isActiveAutoApplyStatus, isTerminalAutoApplyStatus } from './auto-apply-session.js';
 
@@ -70,9 +71,8 @@ function renderPauseBanner(session) {
         return;
     }
 
-    const fieldLabel = pauseContext.blockerField?.label || 'a required field';
     pauseBannerEl.hidden = false;
-    pauseMessageEl.textContent = `Waiting for your answer in Assist for "${fieldLabel}". Stop still works if you want to cancel this run.`;
+    pauseMessageEl.textContent = buildAutoApplyPauseBannerMessage(pauseContext);
 }
 
 function renderStatusLine(session) {

@@ -1,5 +1,7 @@
 import {
     buildAutoApplyPauseAssistantMessage,
+    buildAutoApplyPauseMessageFingerprint,
+    resolveAutoApplyPauseClarifyingQuestion,
     resolveAutoApplyPauseComposerValue,
 } from './auto-apply-pause-ui.js';
 import { buildDraftBatchChatHeading } from './draft-batch-chat.js';
@@ -19,6 +21,7 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
     let requestInProgress = false;
     /** @type {object|null} */
     let autoApplyPauseContext = null;
+    let autoApplyPauseMessageFingerprint = '';
 
     function scrollMessagesToBottom() {
         if (!messagesScrollEl) {
@@ -122,6 +125,7 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
 
     function clearAutoApplyPauseContext() {
         autoApplyPauseContext = null;
+        autoApplyPauseMessageFingerprint = '';
     }
 
     async function submitAutoApplyBlockerAnswer(answer) {
@@ -146,13 +150,6 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
                 handleAutoApplyPaused(response.pauseContext);
             }
 
-            showMessage(
-                response.maxRetriesReached
-                    ? 'Answer rejected. Maximum retries reached - enter a valid answer or stop Auto Apply.'
-                    : 'Answer rejected by LinkedIn validation. Enter a corrected answer in Assist.',
-                'warn',
-            );
-
             return false;
         }
 
@@ -172,20 +169,31 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         return '';
     }
 
-    function handleAutoApplyPaused(pauseContext) {
+    function handleAutoApplyPaused(pauseContext, { restore = false } = {}) {
         autoApplyPauseContext = pauseContext || null;
 
         if (!pauseContext) {
             return;
         }
 
+        const fingerprint = buildAutoApplyPauseMessageFingerprint(pauseContext);
+        const assistantMessage = buildAutoApplyPauseAssistantMessage(pauseContext);
+
         inputEl.value = resolveAutoApplyPauseComposerValue(pauseContext);
+
+        if (restore && fingerprint === autoApplyPauseMessageFingerprint) {
+            inputEl.focus();
+
+            return;
+        }
+
+        autoApplyPauseMessageFingerprint = fingerprint;
         inputEl.focus();
         scrollMessagesToBottom();
 
         appendMessage(
             'assistant',
-            buildAutoApplyPauseAssistantMessage(pauseContext),
+            assistantMessage,
             {},
             { recordHistory: false },
         );
@@ -199,11 +207,9 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         const draftAnswer = result?.draft_answer
             || extractDraftAnswerFromActions(result?.actions || []);
 
-        const clarifyingQuestion = String(autoApplyPauseContext.clarifyingQuestion
-            || autoApplyPauseContext.questionText
-            || '').trim();
-        const directAnswer = userContent.startsWith('Auto Apply needs your help:')
-            || userContent.startsWith('Auto Apply needs a corrected answer for')
+        const assistantMessage = buildAutoApplyPauseAssistantMessage(autoApplyPauseContext);
+        const clarifyingQuestion = resolveAutoApplyPauseClarifyingQuestion(autoApplyPauseContext).trim();
+        const directAnswer = userContent === assistantMessage.trim()
             || (clarifyingQuestion !== '' && userContent === clarifyingQuestion)
             ? ''
             : userContent;

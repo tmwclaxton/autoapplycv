@@ -1,6 +1,9 @@
-import { dedupeQuestionLabelForDisplay } from './pending-fields.js';
+import {
+    resolveAutoApplyPendingFieldDisplayLabel,
+    resolveAutoApplyPendingFieldHint,
+} from './auto-apply-pause-ui.js';
 
-export function initPendingFieldsPanel({ showMessage }) {
+export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext = () => null }) {
     const sectionEl = document.getElementById('pending-fields-section');
     const listEl = document.getElementById('pending-fields-list');
     const summaryEl = document.getElementById('pending-fields-summary');
@@ -22,31 +25,42 @@ export function initPendingFieldsPanel({ showMessage }) {
             return;
         }
 
+        const pauseContext = getAutoApplyPauseContext();
+        const autoApplyPauseCount = pauseContext?.blockerField?.ref
+            ? fields.filter((field) => field.ref === pauseContext.blockerField.ref).length
+            : 0;
+
         sectionEl.hidden = false;
-        summaryEl.textContent = fields.length === 1
-            ? '1 question still needs your answer.'
-            : `${fields.length} questions still need your answers.`;
+        summaryEl.textContent = autoApplyPauseCount > 0
+            ? 'Auto Apply is paused. Answer in Assist, or use Save & fill here.'
+            : fields.length === 1
+                ? '1 question still needs your answer.'
+                : `${fields.length} questions still need your answers.`;
 
         for (const field of fields) {
-            listEl.appendChild(createPendingFieldCard(field));
+            listEl.appendChild(createPendingFieldCard(field, pauseContext));
         }
     }
 
-    function createPendingFieldCard(field) {
+    function createPendingFieldCard(field, pauseContext) {
         const card = document.createElement('article');
         card.className = 'pending-field-card postbox-panel';
         card.dataset.ref = field.ref;
 
-        const displayLabel = dedupeQuestionLabelForDisplay(field.question || field.label || '');
+        const displayLabel = resolveAutoApplyPendingFieldDisplayLabel(field, pauseContext);
 
         const question = document.createElement('p');
         question.className = 'pending-field-question';
-        question.textContent = displayLabel || field.question || field.label;
+        question.textContent = displayLabel || field.label || field.question;
 
         const hint = document.createElement('p');
         hint.className = 'postbox-hint pending-field-hint';
 
-        if (field.profile_path) {
+        const autoApplyHint = resolveAutoApplyPendingFieldHint(field, pauseContext);
+
+        if (autoApplyHint) {
+            hint.textContent = autoApplyHint;
+        } else if (field.profile_path) {
             hint.textContent = field.profile_label
                 ? `Saved to your profile as ${field.profile_label.toLowerCase()}.`
                 : 'Saved to your profile when you submit.';
