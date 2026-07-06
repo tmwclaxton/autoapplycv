@@ -717,22 +717,6 @@ MIT - use it, fork it, ship it.
 
 ---
 
-## Assets we need from you
-
-These polish items couldn't be copied from competitors without your input:
-
-| Asset | Why we need it |
-|-------|----------------|
-| **Demo video** (YouTube URL + thumbnail) | Replace the "coming soon" note in [See it in action](#see-it-in-action) |
-| **Chrome Web Store listing URL** | Enable Option A store badge and install table links |
-| **Firefox Add-ons listing URL** | Complete the browser install table |
-| **Before/after time stats** | Only if you have real user data - we avoided inventing "50+ apps/day" claims |
-| **Testimonial quotes** | Social proof section (optional) |
-| **Twitter/X or LinkedIn handle** | Links table and footer badges |
-| **Personal application tracker** | Backend model exists; UI not shipped - remove roadmap note once live |
-
----
-
 <p align="center">
   <strong><a href="https://autocvapply.com">Get started free at autocvapply.com</a></strong><br />
   <sub>Built for people who'd rather apply to jobs than retype their CV.<br />
