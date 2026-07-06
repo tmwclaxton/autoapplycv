@@ -56,8 +56,8 @@ import { GITHUB_REPOSITORY_URL, PLATFORM_MARKETING_INLINE } from '@/lib/site';
                 >
                     PolyForm Noncommercial License 1.0.0</a
                 >. Personal and non-commercial use is free; commercial use
-                requires permission. Contributions, issues, and pull requests are
-                welcome.
+                requires permission. Contributions, issues, and pull requests
+                are welcome.
             </p>
 
             <h2>Who runs it</h2>
