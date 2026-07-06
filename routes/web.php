@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminPageCaptureController;
+use App\Http\Controllers\Admin\AdminUserCreditController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\Api\ExtensionTokenController;
 use App\Http\Controllers\BillingController;
@@ -58,6 +59,8 @@ Route::middleware(['auth', ValidateSessionWithWorkOS::class])->group(function ()
 
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/users/lookup', [AdminUserCreditController::class, 'lookup'])->name('users.lookup');
+        Route::post('/users/award-credits', [AdminUserCreditController::class, 'store'])->name('users.award-credits');
         Route::get('/page-captures/{extensionPageCapture}', [AdminPageCaptureController::class, 'show'])
             ->name('page-captures.show');
         Route::get('/page-captures/{extensionPageCapture}/download', [AdminPageCaptureController::class, 'download'])

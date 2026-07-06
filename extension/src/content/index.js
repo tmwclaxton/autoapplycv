@@ -11,6 +11,55 @@ let cachedAuthenticated = false;
 let pendingSidePanelOpen = undefined;
 let lastMutationRefreshAt = 0;
 let lastFormContentSignature = '';
+let mutationObserver = null;
+let overlayRefreshIntervalId = null;
+
+function extensionContext() {
+    return typeof AutoCVApplyExtensionContext !== 'undefined'
+        ? AutoCVApplyExtensionContext
+        : null;
+}
+
+function isExtensionContextValid() {
+    const ctx = extensionContext();
+
+    return ctx ? ctx.isExtensionContextValid() : false;
+}
+
+function teardownContentScriptOnInvalidContext() {
+    if (overlayRefreshTimer) {
+        clearTimeout(overlayRefreshTimer);
+        overlayRefreshTimer = null;
+    }
+
+    if (overlayRefreshIntervalId) {
+        clearInterval(overlayRefreshIntervalId);
+        overlayRefreshIntervalId = null;
+    }
+
+    if (mutationObserver) {
+        mutationObserver.disconnect();
+        mutationObserver = null;
+    }
+
+    if (typeof AutoCVApplyPortalBar !== 'undefined') {
+        AutoCVApplyPortalBar.destroy();
+    }
+
+    if (typeof AutoCVApplyFieldHighlighter !== 'undefined') {
+        AutoCVApplyFieldHighlighter.clearHighlights();
+    }
+}
+
+function ensureExtensionContextOrTeardown() {
+    if (isExtensionContextValid()) {
+        return true;
+    }
+
+    teardownContentScriptOnInvalidContext();
+
+    return false;
+}
 
 function computeFormContentSignature() {
     if (typeof AutoCVApplyFormContentSignature !== 'undefined') {
@@ -24,19 +73,32 @@ function computeFormContentSignature() {
 }
 
 function notifyFormContentSignatureChanged(signature) {
-    if (window !== window.top) {
+    if (window !== window.top || !ensureExtensionContextOrTeardown()) {
         return;
     }
 
-    chrome.runtime.sendMessage({
-        type: 'FORM_CONTENT_SIGNATURE_CHANGED',
-        pageUrl: window.location.href.split('?')[0],
-        signature,
-    }).catch(() => {});
+    const ctx = extensionContext();
+
+    if (!ctx) {
+        teardownContentScriptOnInvalidContext();
+
+        return;
+    }
+
+    try {
+        void ctx.safeRuntimeSend({
+            type: 'FORM_CONTENT_SIGNATURE_CHANGED',
+            pageUrl: window.location.href.split('?')[0],
+            signature,
+        });
+    } catch {
+        ctx.markContextInvalidated();
+        teardownContentScriptOnInvalidContext();
+    }
 }
 
 function contentLog(level, phase, message, data) {
-    if (typeof AutoCVApplyDebugLog === 'undefined') {
+    if (!ensureExtensionContextOrTeardown() || typeof AutoCVApplyDebugLog === 'undefined') {
         return;
     }
 
@@ -224,14 +286,27 @@ async function fillResumeFileInput() {
     }
 
     try {
+        const ctx = extensionContext();
         const result = await new Promise((resolve, reject) => {
-            chrome.runtime.sendMessage({ type: 'GET_CV_DOCUMENT' }, (response) => {
-                if (chrome.runtime.lastError) {
-                    reject(new Error(chrome.runtime.lastError.message));
-                } else if (response?.error) {
+            const onResponse = (response) => {
+                if (response?.error) {
                     reject(new Error(response.error));
                 } else {
                     resolve(response);
+                }
+            };
+
+            if (ctx) {
+                ctx.safeRuntimeSendCallback({ type: 'GET_CV_DOCUMENT' }, onResponse);
+
+                return;
+            }
+
+            chrome.runtime.sendMessage({ type: 'GET_CV_DOCUMENT' }, (response) => {
+                if (chrome.runtime.lastError) {
+                    reject(new Error(chrome.runtime.lastError.message));
+                } else {
+                    onResponse(response);
                 }
             });
         });
@@ -273,15 +348,34 @@ async function fillResumeFileInput() {
 }
 
 async function loadProfile() {
+    if (!ensureExtensionContextOrTeardown()) {
+        profile = null;
+
+        return;
+    }
+
     try {
+        const ctx = extensionContext();
         profile = await new Promise((resolve, reject) => {
-            chrome.runtime.sendMessage({ type: 'GET_PROFILE' }, (response) => {
-                if (chrome.runtime.lastError) {
-                    reject(new Error(chrome.runtime.lastError.message));
-                } else if (response?.error) {
+            const onResponse = (response) => {
+                if (response?.error) {
                     reject(new Error(response.error));
                 } else {
                     resolve(response);
+                }
+            };
+
+            if (ctx) {
+                ctx.safeRuntimeSendCallback({ type: 'GET_PROFILE' }, onResponse);
+
+                return;
+            }
+
+            chrome.runtime.sendMessage({ type: 'GET_PROFILE' }, (response) => {
+                if (chrome.runtime.lastError) {
+                    reject(new Error(chrome.runtime.lastError.message));
+                } else {
+                    onResponse(response);
                 }
             });
         });
@@ -317,7 +411,14 @@ async function runFullFill() {
         return { ok: false, message: '⚠ Monthly limit reached' };
     }
 
+    const ctx = extensionContext();
     const draftResult = await new Promise((resolve) => {
+        if (ctx) {
+            ctx.safeRuntimeSendCallback({ type: 'START_DRAFT_ALL' }, resolve);
+
+            return;
+        }
+
         chrome.runtime.sendMessage({ type: 'START_DRAFT_ALL' }, resolve);
     });
 
@@ -364,13 +465,17 @@ async function init() {
         }
     });
 
-    window.setInterval(() => {
+    overlayRefreshIntervalId = window.setInterval(() => {
         if (document.visibilityState === 'visible') {
             scheduleOverlayRefresh();
         }
     }, 4000);
 
-    const observer = new MutationObserver(() => {
+    mutationObserver = new MutationObserver(() => {
+        if (!ensureExtensionContextOrTeardown()) {
+            return;
+        }
+
         const now = Date.now();
         const signature = computeFormContentSignature();
         const signatureChanged = signature !== lastFormContentSignature;
@@ -390,7 +495,7 @@ async function init() {
 
     lastFormContentSignature = computeFormContentSignature();
 
-    observer.observe(document.documentElement, { childList: true, subtree: true });
+    mutationObserver.observe(document.documentElement, { childList: true, subtree: true });
 
     if (typeof AutoCVApplyFocusTracker !== 'undefined') {
         AutoCVApplyFocusTracker.bindFocusTracking(document);
@@ -398,8 +503,15 @@ async function init() {
 }
 
 async function isSidePanelOpen() {
+    if (!ensureExtensionContextOrTeardown()) {
+        return false;
+    }
+
     try {
-        const response = await chrome.runtime.sendMessage({ type: 'GET_SIDE_PANEL_STATE' });
+        const ctx = extensionContext();
+        const response = ctx
+            ? await ctx.safeRuntimeSend({ type: 'GET_SIDE_PANEL_STATE' })
+            : await chrome.runtime.sendMessage({ type: 'GET_SIDE_PANEL_STATE' });
 
         return response?.sidePanelOpen === true;
     } catch {
@@ -408,8 +520,15 @@ async function isSidePanelOpen() {
 }
 
 async function isAuthenticated() {
+    if (!ensureExtensionContextOrTeardown()) {
+        return false;
+    }
+
     try {
-        const response = await chrome.runtime.sendMessage({ type: 'GET_AUTH_STATUS' });
+        const ctx = extensionContext();
+        const response = ctx
+            ? await ctx.safeRuntimeSend({ type: 'GET_AUTH_STATUS' })
+            : await chrome.runtime.sendMessage({ type: 'GET_AUTH_STATUS' });
 
         if (response?.isAuthenticated === true) {
             cachedAuthenticated = true;
@@ -426,6 +545,10 @@ async function isAuthenticated() {
 }
 
 function scheduleOverlayRefresh(sidePanelOpen = undefined) {
+    if (!ensureExtensionContextOrTeardown()) {
+        return;
+    }
+
     if (typeof sidePanelOpen === 'boolean') {
         pendingSidePanelOpen = sidePanelOpen;
     }
@@ -439,7 +562,7 @@ function scheduleOverlayRefresh(sidePanelOpen = undefined) {
         pendingSidePanelOpen = undefined;
         overlayRefreshTimer = null;
         void refreshFillButtonVisibility(explicitSidePanelOpen);
-        void refreshFieldHighlights();
+        void refreshFieldHighlights(explicitSidePanelOpen);
     }, 350);
 }
 
@@ -491,7 +614,7 @@ async function runOverlayRefresh(explicitSidePanelOpen) {
     }
 }
 
-async function refreshFieldHighlights() {
+async function refreshFieldHighlights(explicitSidePanelOpen) {
     if (fieldHighlightRefreshInFlight) {
         return;
     }
@@ -499,13 +622,13 @@ async function refreshFieldHighlights() {
     fieldHighlightRefreshInFlight = true;
 
     try {
-        await runFieldHighlightRefresh();
+        await runFieldHighlightRefresh(explicitSidePanelOpen);
     } finally {
         fieldHighlightRefreshInFlight = false;
     }
 }
 
-async function runFieldHighlightRefresh() {
+async function runFieldHighlightRefresh(explicitSidePanelOpen) {
     if (typeof AutoCVApplyFieldHighlighter === 'undefined') {
         return;
     }
@@ -540,10 +663,11 @@ async function runFieldHighlightRefresh() {
             settings,
             {},
         );
-        const isFormHost = AutoCVApplyFormHeuristics.frameHasApplicationForm(document) || count > 0;
-        const sidePanelOpen = window === window.top ? await isSidePanelOpen() : false;
+        const sidePanelOpen = typeof explicitSidePanelOpen === 'boolean'
+            ? explicitSidePanelOpen
+            : await isSidePanelOpen();
 
-        if (count === 0 || (!sidePanelOpen && !isFormHost)) {
+        if (count === 0 || !sidePanelOpen) {
             AutoCVApplyFieldHighlighter.clearHighlights();
 
             return;
@@ -592,8 +716,12 @@ async function collectDraftContext(injectedProfile = null) {
     };
 }
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+const contentMessageListener = (message, sender, sendResponse) => {
     (async () => {
+        if (!ensureExtensionContextOrTeardown()) {
+            return;
+        }
+
         contentLog('debug', 'message.received', `Handler: ${message.type}`, {
             type: message.type,
             ref: message.ref,
@@ -688,7 +816,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             return;
         }
 
-        if (message.type === 'APPLY_DRAFT_ANSWER') {
+        if (message.type === 'APPLY_DRAFT_ANSWER' || message.type === 'APPLY_ANSWER_TO_FIELD') {
             let filled = false;
             let method = null;
 
@@ -747,6 +875,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'RELOAD_CONTENT_PROFILE') {
+            profile = null;
+            await loadProfile();
+            sendResponse({ success: Boolean(profile?.profile) });
+
+            return;
+        }
+
         if (message.type === 'GET_PAGE_HTML') {
             sendResponse(buildPageHtmlCapturePayload());
 
@@ -792,7 +928,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             return;
         }
 
-        if (message.type === 'LINKEDIN_CLICK_EASY_APPLY') {
+        if (message.type === 'LINKEDIN_WAIT_FOR_JOB_DETAIL') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyLinkedInAutoApply.waitForJobDetailReady(message.jobId));
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_CLICK_EASY_APPLY' || message.type === 'LINKEDIN_OPEN_EASY_APPLY') {
             if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
                 sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
 
@@ -816,14 +964,43 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             return;
         }
 
-        if (message.type === 'LINKEDIN_ADVANCE_EASY_APPLY') {
+        if (message.type === 'LINKEDIN_PREFILL_CONTACT') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ filled: 0, success: false, skipped: true, errors: [] });
+
+                return;
+            }
+
+            const profileData = await ensureProfileLoaded();
+
+            sendResponse(AutoCVApplyLinkedInAutoApply.prefillContactInfo(profileData));
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_ADVANCE_EASY_APPLY' || message.type === 'LINKEDIN_FILL_AND_ADVANCE') {
             if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
                 sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
 
                 return;
             }
 
+            const profileData = await ensureProfileLoaded();
+            AutoCVApplyLinkedInAutoApply.prefillContactInfo(profileData);
+
             sendResponse(await AutoCVApplyLinkedInAutoApply.clickNextOrSubmit());
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_VERIFY_SUBMITTED') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ submitted: false, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplyLinkedInAutoApply.verifySubmitted());
 
             return;
         }
@@ -852,6 +1029,66 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'LINKEDIN_SCAN_PAGE_HEALTH') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ ok: true, issues: [], blocking: [], primary: null });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyLinkedInAutoApply.scanPageHealth(message.options || {}));
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_ACCEPT_COOKIE_CONSENT') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ accepted: false });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyLinkedInAutoApply.acceptCookieConsent());
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_DISMISS_BLOCKING_MODAL') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ dismissed: false });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyLinkedInAutoApply.dismissBlockingModal());
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_DISMISS_SAVE_DIALOG') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ dismissed: false });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyLinkedInAutoApply.dismissSaveApplicationDialog());
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_EXPORT_EASY_APPLY_MODAL') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ html: null, diagnostics: null, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplyLinkedInAutoApply.exportEasyApplyModalDebug());
+
+            return;
+        }
+
         if (message.type === 'AUTOFILL_VISIBILITY_CHANGED' || message.type === 'AUTH_STATE_CHANGED') {
             scheduleOverlayRefresh(
                 typeof message.sidePanelOpen === 'boolean' ? message.sidePanelOpen : undefined,
@@ -863,7 +1100,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     })();
 
     return true;
-});
+};
+
+if (extensionContext()?.safeOnMessageAddListener(contentMessageListener) !== true) {
+    try {
+        chrome.runtime.onMessage.addListener(contentMessageListener);
+    } catch {
+        // Ignore listener registration when the extension was reloaded.
+    }
+}
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

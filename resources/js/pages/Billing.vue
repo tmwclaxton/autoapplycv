@@ -24,6 +24,8 @@ interface SubscriptionSummary {
     plan_description: string;
     features: string[];
     monthly_autofills: number;
+    bonus_autofills?: number;
+    total_autofill_allowance?: number;
     autofills_used: number;
     autofills_remaining: number;
     can_autofill: boolean;
@@ -63,17 +65,21 @@ const flashError = computed(
     () => page.props.flash?.error as string | undefined,
 );
 
+const usageAllowance = computed(
+    () =>
+        props.subscription.total_autofill_allowance ??
+        props.subscription.monthly_autofills,
+);
+
 const usagePercent = computed(() => {
-    if (props.subscription.monthly_autofills === 0) {
+    if (usageAllowance.value === 0) {
         return 0;
     }
 
     return Math.min(
         100,
         Math.round(
-            (props.subscription.autofills_used /
-                props.subscription.monthly_autofills) *
-                100,
+            (props.subscription.autofills_used / usageAllowance.value) * 100,
         ),
     );
 });
@@ -227,8 +233,8 @@ async function cancelSubscription(): Promise<void> {
                     used
                 </span>
                 <span class="text-muted-foreground">
-                    {{ formatAutofills(subscription.monthly_autofills) }}
-                    / month
+                    {{ formatAutofills(usageAllowance) }}
+                    available
                 </span>
             </div>
             <div class="h-3 overflow-hidden rounded-full bg-postbox-navy/10">
@@ -240,6 +246,14 @@ async function cancelSubscription(): Promise<void> {
             <p class="mt-2 text-sm text-muted-foreground">
                 {{ formatAutofills(subscription.autofills_remaining) }}
                 autofills remaining this month.
+            </p>
+            <p
+                v-if="(subscription.bonus_autofills ?? 0) > 0"
+                class="mt-1 text-xs text-muted-foreground"
+            >
+                Includes
+                {{ formatAutofills(subscription.bonus_autofills ?? 0) }}
+                bonus autofills on top of your plan allowance.
             </p>
         </div>
 

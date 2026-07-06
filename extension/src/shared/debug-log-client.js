@@ -3,7 +3,7 @@
  */
 const AutoCVApplyDebugLog = (() => {
     function send(level, source, phase, message, data, tabId) {
-        chrome.runtime.sendMessage({
+        const entry = {
             type: 'DEBUG_LOG',
             entry: {
                 timestamp: new Date().toISOString(),
@@ -14,7 +14,23 @@ const AutoCVApplyDebugLog = (() => {
                 data,
                 tabId: tabId ?? null,
             },
-        }).catch(() => {});
+        };
+
+        if (typeof AutoCVApplyExtensionContext !== 'undefined') {
+            if (!AutoCVApplyExtensionContext.isExtensionContextValid()) {
+                return;
+            }
+
+            AutoCVApplyExtensionContext.safeRuntimeSend(entry);
+
+            return;
+        }
+
+        try {
+            chrome.runtime.sendMessage(entry).catch(() => {});
+        } catch {
+            // Ignore invalidated extension context.
+        }
     }
 
     return {

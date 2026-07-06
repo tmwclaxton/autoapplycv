@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ApplicationAssistantController;
 use App\Http\Controllers\Api\AutofillController;
+use App\Http\Controllers\Api\ExtensionAutoApplyController;
 use App\Http\Controllers\Api\ExtensionCvUploadController;
 use App\Http\Controllers\Api\ExtensionPageCaptureController;
 use App\Http\Controllers\Api\ExtensionProfileDocumentController;
@@ -18,6 +19,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/profile/documents/{profileDocument}/download', [ExtensionProfileDocumentController::class, 'download'])->name('api.profile.documents.download');
     Route::post('/autofill', [AutofillController::class, 'store'])->name('api.autofill');
     Route::post('/extension/page-captures', [ExtensionPageCaptureController::class, 'store'])->name('api.extension.page-captures.store');
+    Route::post('/extension/auto-apply/sessions', [ExtensionAutoApplyController::class, 'storeSession'])->name('api.extension.auto-apply.sessions.store');
+    Route::patch('/extension/auto-apply/sessions/{extensionAutoApplySession}', [ExtensionAutoApplyController::class, 'updateSession'])->name('api.extension.auto-apply.sessions.update');
+    Route::post('/extension/auto-apply/events', [ExtensionAutoApplyController::class, 'storeEvent'])->name('api.extension.auto-apply.events.store');
     Route::post('/applications/assist/questions', [ApplicationAssistantController::class, 'answerQuestions'])->name('api.applications.assist.questions');
     Route::post('/applications/assist/inventory', [ApplicationAssistantController::class, 'inventory'])->name('api.applications.assist.inventory');
     Route::post('/applications/assist/job-context', [ApplicationAssistantController::class, 'jobContext'])->name('api.applications.assist.job-context');

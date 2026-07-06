@@ -1,0 +1,580 @@
+{
+    "generated_at": "2026-07-06T11:29:33+00:00",
+    "model": "deepseek\/deepseek-v4-flash:throughput",
+    "scenario_count": 5,
+    "response_count": 5,
+    "summary": {
+        "total": 5,
+        "passed": 0,
+        "failed": 5,
+        "pass_rate": 0,
+        "average_score_100": 78,
+        "dimension_averages": {
+            "quality": 4,
+            "answered_question": 4,
+            "non_ai_phrasing": 3.4,
+            "tone_match": 4,
+            "grounding": 4,
+            "conciseness": 4
+        }
+    },
+    "failure_patterns": [
+        {
+            "pattern": "Missing required mention: Riverbank Systems",
+            "count": 2
+        },
+        {
+            "pattern": "Empty response",
+            "count": 2
+        },
+        {
+            "pattern": "Low quality score",
+            "count": 1
+        },
+        {
+            "pattern": "Low answered_question score",
+            "count": 1
+        },
+        {
+            "pattern": "Low non_ai_phrasing score",
+            "count": 1
+        },
+        {
+            "pattern": "Low tone_match score",
+            "count": 1
+        },
+        {
+            "pattern": "Low grounding score",
+            "count": 1
+        },
+        {
+            "pattern": "Low conciseness score",
+            "count": 1
+        },
+        {
+            "pattern": "Missing required mention: 65000",
+            "count": 1
+        },
+        {
+            "pattern": "Exceeded max words (47 > 40)",
+            "count": 1
+        }
+    ],
+    "worst_scenarios": [
+        {
+            "id": "laravel-why-company-brief",
+            "scores": {
+                "quality": 2,
+                "answered_question": 2,
+                "non_ai_phrasing": 1,
+                "tone_match": 2,
+                "grounding": 2,
+                "conciseness": 2
+            },
+            "average": 1.83,
+            "score_100": 37,
+            "passed": false,
+            "mechanical": {
+                "passed": true,
+                "failure_reasons": [],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [
+                    "cutting-edge"
+                ],
+                "ai_phrase_reason": "Overused AI word(s): cutting-edge",
+                "ai_phrases_ok": true
+            },
+            "notes": "Overused AI word(s): cutting-edge",
+            "scenario_id": "laravel-why-company-brief",
+            "user_question": "In one sentence, why StackForge? Application form, UK English.",
+            "response": "StackForge is the ideal choice for your application form because it seamlessly combines cutting-edge technology with a user-friendly interface, ensuring a streamlined and efficient process."
+        },
+        {
+            "id": "laravel-salary-numeric",
+            "scores": {
+                "quality": 3,
+                "answered_question": 3,
+                "non_ai_phrasing": 3,
+                "tone_match": 3,
+                "grounding": 3,
+                "conciseness": 3
+            },
+            "average": 3,
+            "score_100": 60,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Missing required mention: 65000",
+                    "Exceeded max words (47 > 40)"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null,
+                "ai_phrases_ok": true
+            },
+            "notes": "Mechanical: Missing required mention: 65000; Exceeded max words (47 > 40)",
+            "scenario_id": "laravel-salary-numeric",
+            "user_question": "What should I put for salary expectations on this UK form?",
+            "response": "For salary expectations on a UK form, research the role's typical range using sites like Glassdoor, Indeed, or Prospects. If the field is mandatory, provide a range (e.g., '£30,000-£35,000') or 'negotiable'. If optional, consider leaving blank or stating 'flexible based on experience and benefits'."
+        },
+        {
+            "id": "laravel-motivation-uk-formal",
+            "scores": {
+                "quality": 5,
+                "answered_question": 5,
+                "non_ai_phrasing": 3,
+                "tone_match": 5,
+                "grounding": 5,
+                "conciseness": 5
+            },
+            "average": 4.67,
+            "score_100": 93,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Missing required mention: Riverbank Systems"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [
+                    "dynamic",
+                    "cutting-edge"
+                ],
+                "ai_phrase_reason": "Overused AI word(s): dynamic, cutting-edge",
+                "ai_phrases_ok": true
+            },
+            "notes": "Overused AI word(s): dynamic, cutting-edge Mechanical: Missing required mention: Riverbank Systems",
+            "scenario_id": "laravel-motivation-uk-formal",
+            "user_question": "Draft an answer for \"Why are you interested in this role?\" for StackForge. Keep it formal and paste-ready.",
+            "response": "I am interested in this role at StackForge because it aligns with my professional expertise in software development and my passion for building scalable, innovative solutions. StackForge's reputation for leveraging cutting-edge technologies to solve complex problems resonates with my career goals, and I am eager to contribute to a team that values technical excellence and collaborative growth. The opportunity to work on impactful projects in a dynamic environment further motivates me to bring my skills and dedication to this position."
+        },
+        {
+            "id": "laravel-notice-period",
+            "scores": {
+                "quality": 5,
+                "answered_question": 5,
+                "non_ai_phrasing": 5,
+                "tone_match": 5,
+                "grounding": 5,
+                "conciseness": 5
+            },
+            "average": 5,
+            "score_100": 100,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Empty response",
+                    "Missing required mention: 1 month"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null,
+                "ai_phrases_ok": true
+            },
+            "notes": "Mechanical: Empty response; Missing required mention: 1 month",
+            "scenario_id": "laravel-notice-period",
+            "user_question": "Draft my notice period answer for an employer form.",
+            "response": null
+        },
+        {
+            "id": "laravel-laravel-experience",
+            "scores": {
+                "quality": 5,
+                "answered_question": 5,
+                "non_ai_phrasing": 5,
+                "tone_match": 5,
+                "grounding": 5,
+                "conciseness": 5
+            },
+            "average": 5,
+            "score_100": 100,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Empty response",
+                    "Missing required mention: Riverbank Systems"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null,
+                "ai_phrases_ok": true
+            },
+            "notes": "Mechanical: Empty response; Missing required mention: Riverbank Systems",
+            "scenario_id": "laravel-laravel-experience",
+            "user_question": "Describe my Laravel production experience for this application - paste-ready, first person.",
+            "response": null
+        }
+    ],
+    "scenarios": [
+        {
+            "scenario_id": "laravel-motivation-uk-formal",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "open_text",
+            "response_style": "form_answer",
+            "usage": {
+                "prompt_tokens": 50,
+                "completion_tokens": 98,
+                "total_tokens": 148,
+                "credits": 3.1237510500000006e-5,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "message": "I am interested in this role at StackForge because it aligns with my professional expertise in software development and my passion for building scalable, innovative solutions. StackForge's reputation for leveraging cutting-edge technologies to solve complex problems resonates with my career goals, and I am eager to contribute to a team that values technical excellence and collaborative growth. The opportunity to work on impactful projects in a dynamic environment further motivates me to bring my skills and dedication to this position.",
+            "draft_answer": null,
+            "response": "I am interested in this role at StackForge because it aligns with my professional expertise in software development and my passion for building scalable, innovative solutions. StackForge's reputation for leveraging cutting-edge technologies to solve complex problems resonates with my career goals, and I am eager to contribute to a team that values technical excellence and collaborative growth. The opportunity to work on impactful projects in a dynamic environment further motivates me to bring my skills and dedication to this position.",
+            "scores": [
+                {
+                    "id": "laravel-motivation-uk-formal",
+                    "scores": {
+                        "quality": 5,
+                        "answered_question": 5,
+                        "non_ai_phrasing": 3,
+                        "tone_match": 5,
+                        "grounding": 5,
+                        "conciseness": 5
+                    },
+                    "average": 4.67,
+                    "score_100": 93,
+                    "passed": false,
+                    "mechanical": {
+                        "passed": false,
+                        "failure_reasons": [
+                            "Missing required mention: Riverbank Systems"
+                        ],
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [
+                            "dynamic",
+                            "cutting-edge"
+                        ],
+                        "ai_phrase_reason": "Overused AI word(s): dynamic, cutting-edge",
+                        "ai_phrases_ok": true
+                    },
+                    "notes": "Overused AI word(s): dynamic, cutting-edge Mechanical: Missing required mention: Riverbank Systems",
+                    "scenario_id": "laravel-motivation-uk-formal",
+                    "user_question": "Draft an answer for \"Why are you interested in this role?\" for StackForge. Keep it formal and paste-ready.",
+                    "response": "I am interested in this role at StackForge because it aligns with my professional expertise in software development and my passion for building scalable, innovative solutions. StackForge's reputation for leveraging cutting-edge technologies to solve complex problems resonates with my career goals, and I am eager to contribute to a team that values technical excellence and collaborative growth. The opportunity to work on impactful projects in a dynamic environment further motivates me to bring my skills and dedication to this position."
+                }
+            ],
+            "passed": false
+        },
+        {
+            "scenario_id": "laravel-why-company-brief",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "open_text",
+            "response_style": "brief",
+            "usage": {
+                "prompt_tokens": 39,
+                "completion_tokens": 38,
+                "total_tokens": 77,
+                "credits": 1.4602901250000002e-5,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "message": "StackForge is the ideal choice for your application form because it seamlessly combines cutting-edge technology with a user-friendly interface, ensuring a streamlined and efficient process.",
+            "draft_answer": null,
+            "response": "StackForge is the ideal choice for your application form because it seamlessly combines cutting-edge technology with a user-friendly interface, ensuring a streamlined and efficient process.",
+            "scores": [
+                {
+                    "id": "laravel-why-company-brief",
+                    "scores": {
+                        "quality": 2,
+                        "answered_question": 2,
+                        "non_ai_phrasing": 1,
+                        "tone_match": 2,
+                        "grounding": 2,
+                        "conciseness": 2
+                    },
+                    "average": 1.83,
+                    "score_100": 37,
+                    "passed": false,
+                    "mechanical": {
+                        "passed": true,
+                        "failure_reasons": [],
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [
+                            "cutting-edge"
+                        ],
+                        "ai_phrase_reason": "Overused AI word(s): cutting-edge",
+                        "ai_phrases_ok": true
+                    },
+                    "notes": "Overused AI word(s): cutting-edge",
+                    "scenario_id": "laravel-why-company-brief",
+                    "user_question": "In one sentence, why StackForge? Application form, UK English.",
+                    "response": "StackForge is the ideal choice for your application form because it seamlessly combines cutting-edge technology with a user-friendly interface, ensuring a streamlined and efficient process."
+                }
+            ],
+            "passed": false
+        },
+        {
+            "scenario_id": "laravel-salary-numeric",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "salary",
+            "response_style": "form_answer",
+            "usage": {
+                "prompt_tokens": 36,
+                "completion_tokens": 79,
+                "total_tokens": 115,
+                "credits": 2.4634459500000002e-5,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "message": "For salary expectations on a UK form, research the role's typical range using sites like Glassdoor, Indeed, or Prospects. If the field is mandatory, provide a range (e.g., '£30,000-£35,000') or 'negotiable'. If optional, consider leaving blank or stating 'flexible based on experience and benefits'.",
+            "draft_answer": null,
+            "response": "For salary expectations on a UK form, research the role's typical range using sites like Glassdoor, Indeed, or Prospects. If the field is mandatory, provide a range (e.g., '£30,000-£35,000') or 'negotiable'. If optional, consider leaving blank or stating 'flexible based on experience and benefits'.",
+            "scores": [
+                {
+                    "id": "laravel-salary-numeric",
+                    "scores": {
+                        "quality": 3,
+                        "answered_question": 3,
+                        "non_ai_phrasing": 3,
+                        "tone_match": 3,
+                        "grounding": 3,
+                        "conciseness": 3
+                    },
+                    "average": 3,
+                    "score_100": 60,
+                    "passed": false,
+                    "mechanical": {
+                        "passed": false,
+                        "failure_reasons": [
+                            "Missing required mention: 65000",
+                            "Exceeded max words (47 > 40)"
+                        ],
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null,
+                        "ai_phrases_ok": true
+                    },
+                    "notes": "Mechanical: Missing required mention: 65000; Exceeded max words (47 > 40)",
+                    "scenario_id": "laravel-salary-numeric",
+                    "user_question": "What should I put for salary expectations on this UK form?",
+                    "response": "For salary expectations on a UK form, research the role's typical range using sites like Glassdoor, Indeed, or Prospects. If the field is mandatory, provide a range (e.g., '£30,000-£35,000') or 'negotiable'. If optional, consider leaving blank or stating 'flexible based on experience and benefits'."
+                }
+            ],
+            "passed": false
+        },
+        {
+            "scenario_id": "laravel-notice-period",
+            "error": "ApplicationAssistantService returned null",
+            "response": null,
+            "scores": [
+                {
+                    "id": "laravel-notice-period",
+                    "scores": {
+                        "quality": 5,
+                        "answered_question": 5,
+                        "non_ai_phrasing": 5,
+                        "tone_match": 5,
+                        "grounding": 5,
+                        "conciseness": 5
+                    },
+                    "average": 5,
+                    "score_100": 100,
+                    "passed": false,
+                    "mechanical": {
+                        "passed": false,
+                        "failure_reasons": [
+                            "Empty response",
+                            "Missing required mention: 1 month"
+                        ],
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null,
+                        "ai_phrases_ok": true
+                    },
+                    "notes": "Mechanical: Empty response; Missing required mention: 1 month",
+                    "scenario_id": "laravel-notice-period",
+                    "user_question": "Draft my notice period answer for an employer form.",
+                    "response": null
+                }
+            ],
+            "passed": false
+        },
+        {
+            "scenario_id": "laravel-laravel-experience",
+            "error": "ApplicationAssistantService returned null",
+            "response": null,
+            "scores": [
+                {
+                    "id": "laravel-laravel-experience",
+                    "scores": {
+                        "quality": 5,
+                        "answered_question": 5,
+                        "non_ai_phrasing": 5,
+                        "tone_match": 5,
+                        "grounding": 5,
+                        "conciseness": 5
+                    },
+                    "average": 5,
+                    "score_100": 100,
+                    "passed": false,
+                    "mechanical": {
+                        "passed": false,
+                        "failure_reasons": [
+                            "Empty response",
+                            "Missing required mention: Riverbank Systems"
+                        ],
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null,
+                        "ai_phrases_ok": true
+                    },
+                    "notes": "Mechanical: Empty response; Missing required mention: Riverbank Systems",
+                    "scenario_id": "laravel-laravel-experience",
+                    "user_question": "Describe my Laravel production experience for this application - paste-ready, first person.",
+                    "response": null
+                }
+            ],
+            "passed": false
+        }
+    ],
+    "scores": [
+        {
+            "id": "laravel-motivation-uk-formal",
+            "scores": {
+                "quality": 5,
+                "answered_question": 5,
+                "non_ai_phrasing": 3,
+                "tone_match": 5,
+                "grounding": 5,
+                "conciseness": 5
+            },
+            "average": 4.67,
+            "score_100": 93,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Missing required mention: Riverbank Systems"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [
+                    "dynamic",
+                    "cutting-edge"
+                ],
+                "ai_phrase_reason": "Overused AI word(s): dynamic, cutting-edge",
+                "ai_phrases_ok": true
+            },
+            "notes": "Overused AI word(s): dynamic, cutting-edge Mechanical: Missing required mention: Riverbank Systems",
+            "scenario_id": "laravel-motivation-uk-formal",
+            "user_question": "Draft an answer for \"Why are you interested in this role?\" for StackForge. Keep it formal and paste-ready.",
+            "response": "I am interested in this role at StackForge because it aligns with my professional expertise in software development and my passion for building scalable, innovative solutions. StackForge's reputation for leveraging cutting-edge technologies to solve complex problems resonates with my career goals, and I am eager to contribute to a team that values technical excellence and collaborative growth. The opportunity to work on impactful projects in a dynamic environment further motivates me to bring my skills and dedication to this position."
+        },
+        {
+            "id": "laravel-why-company-brief",
+            "scores": {
+                "quality": 2,
+                "answered_question": 2,
+                "non_ai_phrasing": 1,
+                "tone_match": 2,
+                "grounding": 2,
+                "conciseness": 2
+            },
+            "average": 1.83,
+            "score_100": 37,
+            "passed": false,
+            "mechanical": {
+                "passed": true,
+                "failure_reasons": [],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [
+                    "cutting-edge"
+                ],
+                "ai_phrase_reason": "Overused AI word(s): cutting-edge",
+                "ai_phrases_ok": true
+            },
+            "notes": "Overused AI word(s): cutting-edge",
+            "scenario_id": "laravel-why-company-brief",
+            "user_question": "In one sentence, why StackForge? Application form, UK English.",
+            "response": "StackForge is the ideal choice for your application form because it seamlessly combines cutting-edge technology with a user-friendly interface, ensuring a streamlined and efficient process."
+        },
+        {
+            "id": "laravel-salary-numeric",
+            "scores": {
+                "quality": 3,
+                "answered_question": 3,
+                "non_ai_phrasing": 3,
+                "tone_match": 3,
+                "grounding": 3,
+                "conciseness": 3
+            },
+            "average": 3,
+            "score_100": 60,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Missing required mention: 65000",
+                    "Exceeded max words (47 > 40)"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null,
+                "ai_phrases_ok": true
+            },
+            "notes": "Mechanical: Missing required mention: 65000; Exceeded max words (47 > 40)",
+            "scenario_id": "laravel-salary-numeric",
+            "user_question": "What should I put for salary expectations on this UK form?",
+            "response": "For salary expectations on a UK form, research the role's typical range using sites like Glassdoor, Indeed, or Prospects. If the field is mandatory, provide a range (e.g., '£30,000-£35,000') or 'negotiable'. If optional, consider leaving blank or stating 'flexible based on experience and benefits'."
+        },
+        {
+            "id": "laravel-notice-period",
+            "scores": {
+                "quality": 5,
+                "answered_question": 5,
+                "non_ai_phrasing": 5,
+                "tone_match": 5,
+                "grounding": 5,
+                "conciseness": 5
+            },
+            "average": 5,
+            "score_100": 100,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Empty response",
+                    "Missing required mention: 1 month"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null,
+                "ai_phrases_ok": true
+            },
+            "notes": "Mechanical: Empty response; Missing required mention: 1 month",
+            "scenario_id": "laravel-notice-period",
+            "user_question": "Draft my notice period answer for an employer form.",
+            "response": null
+        },
+        {
+            "id": "laravel-laravel-experience",
+            "scores": {
+                "quality": 5,
+                "answered_question": 5,
+                "non_ai_phrasing": 5,
+                "tone_match": 5,
+                "grounding": 5,
+                "conciseness": 5
+            },
+            "average": 5,
+            "score_100": 100,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Empty response",
+                    "Missing required mention: Riverbank Systems"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null,
+                "ai_phrases_ok": true
+            },
+            "notes": "Mechanical: Empty response; Missing required mention: Riverbank Systems",
+            "scenario_id": "laravel-laravel-experience",
+            "user_question": "Describe my Laravel production experience for this application - paste-ready, first person.",
+            "response": null
+        }
+    ]
+}

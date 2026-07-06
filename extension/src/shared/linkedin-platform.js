@@ -5,6 +5,30 @@ const JOB_CARD_SELECTORS = [
     'li.jobs-search-results__list-item',
     'div.job-card-container[data-job-id]',
     'li[data-occludable-job-id]',
+    '.jobs-search-results-list__item',
+    'div.job-card-list__entity-lockup',
+];
+
+const JOB_TITLE_SELECTORS = [
+    '.job-card-list__title-link strong',
+    '.job-card-list__title strong',
+    '.job-card-list__title-link',
+    '.job-card-list__title',
+    '.base-search-card__title',
+    'a[data-control-name="job_card_title"]',
+    '.job-card-container__link-wrapper a',
+    'a[href*="/jobs/view/"] span[aria-hidden="true"]',
+    'a[href*="/jobs/view/"]',
+];
+
+const JOB_COMPANY_SELECTORS = [
+    '.artdeco-entity-lockup__subtitle',
+    '.artdeco-entity-lockup__caption',
+    '.job-card-container__company-name',
+    '.job-card-container__primary-description',
+    '[data-test-job-card-company-name]',
+    '.base-search-card__subtitle',
+    '.job-card-container__company-name a',
 ];
 
 const EASY_APPLY_TEXT = /\beasy\s+apply\b/i;
@@ -50,6 +74,45 @@ export function isLinkedInJobsSearchUrl(url) {
 }
 
 /**
+ * @param {string} url
+ * @returns {boolean}
+ */
+export function isLinkedInJobViewUrl(url) {
+    try {
+        const parsed = new URL(url);
+
+        return parsed.hostname.replace(/^www\./, '') === 'linkedin.com'
+            && parsed.pathname.startsWith('/jobs/view/');
+    } catch {
+        return false;
+    }
+}
+
+/**
+ * Prefer split-view search URLs on the jobs search page; otherwise open the job view page.
+ *
+ * @param {string} jobId
+ * @param {{ currentUrl?: string|null }} [options]
+ * @returns {string}
+ */
+export function buildLinkedInJobOpenUrl(jobId, { currentUrl = null } = {}) {
+    const normalizedJobId = String(jobId || '').trim();
+
+    if (!normalizedJobId) {
+        throw new Error('Job id is required.');
+    }
+
+    if (currentUrl && isLinkedInJobsSearchUrl(currentUrl)) {
+        const params = new URLSearchParams(new URL(currentUrl).search);
+        params.set('currentJobId', normalizedJobId);
+
+        return `https://www.linkedin.com/jobs/search/?${params.toString()}`;
+    }
+
+    return `https://www.linkedin.com/jobs/view/${normalizedJobId}/`;
+}
+
+/**
  * @param {ParentNode} root
  * @returns {string|null}
  */
@@ -82,11 +145,31 @@ export function readJobIdFromCard(root) {
  * @returns {string}
  */
 export function readJobTitleFromCard(root) {
-    const titleEl = root.querySelector(
-        '.job-card-list__title, .job-card-list__title-link, a[data-control-name="job_card_title"], a[href*="/jobs/view/"]',
-    );
+    for (const selector of JOB_TITLE_SELECTORS) {
+        const titleEl = root.querySelector(selector);
+        const text = titleEl?.textContent?.replace(/\s+/g, ' ').trim();
 
-    return titleEl?.textContent?.replace(/\s+/g, ' ').trim() || 'Unknown role';
+        if (text && text.length > 1 && !/^\d+$/.test(text)) {
+            return text;
+        }
+    }
+
+    const link = root.querySelector('a[href*="/jobs/view/"]');
+    const ariaLabel = link?.getAttribute('aria-label')?.replace(/\s+/g, ' ').trim();
+
+    if (ariaLabel) {
+        const fromLabel = ariaLabel
+            .replace(/\s+with\s+verification.*$/i, '')
+            .replace(/\s+in\s+.+$/i, '')
+            .replace(/\s+·.*$/i, '')
+            .trim();
+
+        if (fromLabel.length > 1) {
+            return fromLabel;
+        }
+    }
+
+    return 'Unknown role';
 }
 
 /**
@@ -94,11 +177,16 @@ export function readJobTitleFromCard(root) {
  * @returns {string}
  */
 export function readCompanyFromCard(root) {
-    const companyEl = root.querySelector(
-        '.artdeco-entity-lockup__subtitle, .artdeco-entity-lockup__caption, .job-card-container__company-name, .job-card-container__primary-description, [data-test-job-card-company-name]',
-    );
+    for (const selector of JOB_COMPANY_SELECTORS) {
+        const companyEl = root.querySelector(selector);
+        const text = companyEl?.textContent?.replace(/\s+/g, ' ').trim();
 
-    return companyEl?.textContent?.replace(/\s+/g, ' ').trim() || 'Unknown company';
+        if (text && text.length > 1) {
+            return text;
+        }
+    }
+
+    return 'Unknown company';
 }
 
 /**

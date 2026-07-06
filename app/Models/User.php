@@ -66,6 +66,11 @@ class User extends Authenticatable
         return $this->hasMany(ExtensionPageCapture::class);
     }
 
+    public function creditGrants(): HasMany
+    {
+        return $this->hasMany(CreditGrant::class);
+    }
+
     public function isAdmin(): bool
     {
         return in_array($this->email, config('admin.allowed_emails', []), true);

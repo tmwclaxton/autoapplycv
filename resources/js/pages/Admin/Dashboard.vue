@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { Head, Link, setLayoutProps } from '@inertiajs/vue3';
+import { Head, Link, setLayoutProps, useForm, usePage } from '@inertiajs/vue3';
 import {
     Activity,
     BarChart3,
+    Bot,
+    ChevronDown,
+    ChevronRight,
     Download,
     ExternalLink,
+    Gift,
     Globe,
     HeartPulse,
     LayoutDashboard,
@@ -13,7 +17,7 @@ import {
     Users,
     Zap,
 } from 'lucide-vue-next';
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import DailyMetricChart from '@/components/analytics/DailyMetricChart.vue';
 import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
 
@@ -75,6 +79,41 @@ interface PlanStat extends PricingPlan {
     user_count: number;
 }
 
+interface CreditPackage {
+    label: string;
+    amount: number;
+}
+
+interface CreditGrantRow {
+    id: number;
+    amount: number;
+    note: string | null;
+    created_at: string | null;
+    user: {
+        id: number;
+        name: string;
+        email: string;
+    };
+    awarded_by: {
+        id: number;
+        name: string;
+        email: string;
+    };
+}
+
+interface CreditUserSummary {
+    id: number;
+    name: string;
+    email: string;
+    subscription_tier: string;
+    subscription_status: string;
+    monthly_autofills: number;
+    bonus_autofills: number;
+    total_autofill_allowance: number;
+    autofills_used: number;
+    autofills_remaining: number;
+}
+
 interface NanoGptUsageStats {
     total_tokens: number;
     total_prompt_tokens: number;
@@ -110,6 +149,70 @@ interface PowerUser {
     nanogpt_credits: number;
     api_calls: number;
     is_power_user: boolean;
+}
+
+interface AutoApplyStats {
+    total_sessions: number;
+    period_sessions: number;
+    total_applications: number;
+    period_applications: number;
+    active_auto_apply_users: number;
+    sessions_today: number;
+}
+
+interface AutoApplySeries {
+    days: number;
+    series: Array<{
+        date: string;
+        count: number;
+    }>;
+}
+
+interface AutoApplyEventRow {
+    id: number;
+    event_type: string;
+    job_title: string | null;
+    company: string | null;
+    job_url: string | null;
+    fields_filled_count: number;
+    metadata: Record<string, unknown> | null;
+    page_capture_id: number | null;
+    created_at: string | null;
+}
+
+interface AutoApplySessionRow {
+    id: number;
+    platform: string;
+    role_description: string;
+    status: string;
+    status_label: string;
+    max_applications: number;
+    jobs_found: number;
+    applied_count: number;
+    skipped_count: number;
+    error_count: number;
+    fields_filled_count: number;
+    started_at: string | null;
+    stopped_at: string | null;
+    last_error: string | null;
+    user: {
+        id: number;
+        name: string;
+        email: string;
+    };
+    events: AutoApplyEventRow[];
+}
+
+interface PaginatedAutoApplySessions {
+    data: AutoApplySessionRow[];
+    current_page: number;
+    last_page: number;
+    total: number;
+    links: Array<{
+        url: string | null;
+        label: string;
+        active: boolean;
+    }>;
 }
 
 type HealthStatus = 'ok' | 'warning' | 'error';
@@ -158,19 +261,103 @@ defineProps<{
     recent_signups: RecentSignup[];
     plan_stats: PlanStat[];
     plans: PricingPlan[];
+    credit_packages: Record<string, CreditPackage>;
+    credit_award_max: number;
+    recent_credit_grants: CreditGrantRow[];
     nanogpt_usage_stats: NanoGptUsageStats;
     nanogpt_usage_series: NanoGptUsageSeries;
     power_users: PowerUser[];
+    auto_apply_stats: AutoApplyStats;
+    auto_apply_session_series: AutoApplySeries;
+    auto_apply_application_series: AutoApplySeries;
+    auto_apply_sessions: PaginatedAutoApplySessions;
     health: HealthData;
 }>();
 
-const activeTab = ref<'overview' | 'captures' | 'usage' | 'users' | 'health'>(
-    'overview',
+const activeTab = ref<
+    'overview' | 'captures' | 'auto-apply' | 'usage' | 'users' | 'health'
+>('overview');
+
+const page = usePage();
+const creditAwardSuccess = computed(
+    () => page.props.flash?.credit_award_success as string | undefined,
 );
+
+const lookupEmail = ref('');
+const lookupUser = ref<CreditUserSummary | null>(null);
+const lookupError = ref('');
+const lookupLoading = ref(false);
+
+const awardForm = useForm({
+    email: '',
+    amount: 500,
+    note: '',
+    package_key: 'starter',
+});
+
+async function lookupUserByEmail(): Promise<void> {
+    const email = lookupEmail.value.trim();
+
+    if (!email) {
+        lookupError.value = 'Enter an email address.';
+        lookupUser.value = null;
+
+        return;
+    }
+
+    lookupLoading.value = true;
+    lookupError.value = '';
+    lookupUser.value = null;
+
+    try {
+        const response = await fetch(
+            `/admin/users/lookup?email=${encodeURIComponent(email)}`,
+            {
+                headers: { Accept: 'application/json' },
+            },
+        );
+
+        if (!response.ok) {
+            const data = (await response.json()) as { message?: string };
+            lookupError.value = data.message ?? 'User not found.';
+
+            return;
+        }
+
+        const data = (await response.json()) as { user: CreditUserSummary };
+        lookupUser.value = data.user;
+        awardForm.email = data.user.email;
+    } catch {
+        lookupError.value = 'Lookup failed. Try again.';
+    } finally {
+        lookupLoading.value = false;
+    }
+}
+
+function selectCreditPackage(key: string, amount: number): void {
+    awardForm.package_key = key;
+    awardForm.amount = amount;
+}
+
+function submitCreditAward(): void {
+    awardForm.email = lookupUser.value?.email ?? lookupEmail.value.trim();
+
+    awardForm.post('/admin/users/award-credits', {
+        preserveScroll: true,
+        onSuccess: () => {
+            lookupUser.value = null;
+            lookupEmail.value = '';
+            awardForm.reset();
+            awardForm.amount = 500;
+            awardForm.package_key = 'starter';
+        },
+    });
+}
 
 const tabs = [
     { key: 'overview' as const, label: 'Overview', icon: LayoutDashboard },
     { key: 'captures' as const, label: 'Page captures', icon: Globe },
+    { key: 'auto-apply' as const, label: 'Auto Apply', icon: Bot },
     { key: 'usage' as const, label: 'Usage', icon: Sparkles },
     { key: 'users' as const, label: 'Users & plans', icon: Users },
     { key: 'health' as const, label: 'Health', icon: HeartPulse },
@@ -299,6 +486,53 @@ function logLevelClass(level: string): string {
 
     return 'border-amber-200 bg-amber-50 text-amber-900';
 }
+
+const autoApplyVisibleJobEvents = 2;
+const expandedAutoApplySessionIds = ref<Set<number>>(new Set());
+
+function isAutoApplySessionExpanded(sessionId: number): boolean {
+    return expandedAutoApplySessionIds.value.has(sessionId);
+}
+
+function toggleAutoApplySessionJobs(sessionId: number): void {
+    const next = new Set(expandedAutoApplySessionIds.value);
+
+    if (next.has(sessionId)) {
+        next.delete(sessionId);
+    } else {
+        next.add(sessionId);
+    }
+
+    expandedAutoApplySessionIds.value = next;
+}
+
+function autoApplySessionJobEvents(
+    session: AutoApplySessionRow,
+): AutoApplyEventRow[] {
+    if (
+        isAutoApplySessionExpanded(session.id) ||
+        session.events.length <= autoApplyVisibleJobEvents
+    ) {
+        return session.events;
+    }
+
+    return session.events.slice(0, autoApplyVisibleJobEvents);
+}
+
+function autoApplySessionStatusClass(status: string): string {
+    switch (status) {
+        case 'running':
+            return 'border-blue-200 bg-blue-50 text-blue-800';
+        case 'completed':
+            return 'border-emerald-200 bg-emerald-50 text-emerald-800';
+        case 'stopped':
+            return 'border-amber-200 bg-amber-50 text-amber-900';
+        case 'error':
+            return 'border-red-200 bg-red-50 text-red-800';
+        default:
+            return 'border-border bg-muted/30 text-muted-foreground';
+    }
+}
 </script>
 
 <template>
@@ -318,8 +552,8 @@ function logLevelClass(level: string): string {
                 Admin dashboard
             </h1>
             <p class="mt-2 max-w-3xl text-sm text-muted-foreground">
-                Monitor extension captures, NanoGPT usage, signups, plans, and
-                platform health.
+                Monitor extension captures, Auto Apply runs, NanoGPT usage,
+                signups, plans, and platform health.
             </p>
         </div>
 
@@ -714,6 +948,395 @@ function logLevelClass(level: string): string {
             </div>
         </div>
 
+        <div v-else-if="activeTab === 'auto-apply'" class="space-y-8">
+            <p class="max-w-3xl text-sm text-muted-foreground">
+                Session drill-down for Auto Apply runs. Autofill counts, page
+                captures, and NanoGPT usage from Auto Apply appear in the Usage
+                and Captures tabs - the same pipelines as manual extension use.
+            </p>
+
+            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                <div class="postbox-panel p-5">
+                    <div
+                        class="mb-2 flex items-center gap-2 text-sm text-muted-foreground"
+                    >
+                        <Bot class="size-4" />
+                        Total sessions
+                    </div>
+                    <p class="text-3xl font-semibold text-postbox-navy">
+                        {{ formatNumber(auto_apply_stats.total_sessions) }}
+                    </p>
+                </div>
+
+                <div class="postbox-panel p-5">
+                    <div class="mb-2 text-sm text-muted-foreground">
+                        Last 30 days
+                    </div>
+                    <p class="text-3xl font-semibold text-postbox-navy">
+                        {{ formatNumber(auto_apply_stats.period_sessions) }}
+                    </p>
+                </div>
+
+                <div class="postbox-panel p-5">
+                    <div class="mb-2 text-sm text-muted-foreground">
+                        Applications
+                    </div>
+                    <p class="text-3xl font-semibold text-postbox-navy">
+                        {{ formatNumber(auto_apply_stats.period_applications) }}
+                    </p>
+                </div>
+
+                <div class="postbox-panel p-5">
+                    <div
+                        class="mb-2 flex items-center gap-2 text-sm text-muted-foreground"
+                    >
+                        <Users class="size-4" />
+                        Active users
+                    </div>
+                    <p class="text-3xl font-semibold text-postbox-navy">
+                        {{
+                            formatNumber(
+                                auto_apply_stats.active_auto_apply_users,
+                            )
+                        }}
+                    </p>
+                </div>
+
+                <div class="postbox-panel p-5">
+                    <div class="mb-2 text-sm text-muted-foreground">Today</div>
+                    <p class="text-3xl font-semibold text-postbox-navy">
+                        {{ formatNumber(auto_apply_stats.sessions_today) }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid gap-8 xl:grid-cols-2">
+                <DailyMetricChart
+                    title="Auto Apply sessions over time"
+                    :description="`Daily extension Auto Apply sessions over the last ${auto_apply_session_series.days} days.`"
+                    empty-title="No Auto Apply sessions yet"
+                    empty-description="Sessions appear here when users run Auto Apply from the extension."
+                    :series="auto_apply_session_series.series"
+                    :days="auto_apply_session_series.days"
+                    unit-label="sessions"
+                    bar-class="fill-postbox-navy/70 hover:fill-postbox-navy"
+                />
+
+                <DailyMetricChart
+                    title="Applications submitted over time"
+                    :description="`Daily submitted applications over the last ${auto_apply_application_series.days} days.`"
+                    empty-title="No applications yet"
+                    empty-description="Submitted applications appear here after Auto Apply runs complete."
+                    :series="auto_apply_application_series.series"
+                    :days="auto_apply_application_series.days"
+                    unit-label="applications"
+                    bar-class="fill-postbox-red/80 hover:fill-postbox-red"
+                />
+            </div>
+
+            <div class="postbox-panel overflow-hidden">
+                <div class="border-b border-border/70 px-5 py-4">
+                    <h2 class="postbox-label">Recent Auto Apply sessions</h2>
+                    <p class="text-sm text-muted-foreground">
+                        {{ formatNumber(auto_apply_sessions.total) }} total
+                        records
+                    </p>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead
+                            class="bg-muted/30 text-left text-xs text-muted-foreground"
+                        >
+                            <tr>
+                                <th class="px-5 py-3 font-medium">When</th>
+                                <th class="px-5 py-3 font-medium">User</th>
+                                <th class="px-5 py-3 font-medium">Platform</th>
+                                <th class="px-5 py-3 font-medium">Role</th>
+                                <th class="px-5 py-3 font-medium">Results</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template
+                                v-for="session in auto_apply_sessions.data"
+                                :key="session.id"
+                            >
+                                <tr class="border-t border-border/60 align-top">
+                                    <td class="px-5 py-3 whitespace-nowrap">
+                                        <div class="text-muted-foreground">
+                                            {{
+                                                formatDateTime(
+                                                    session.started_at,
+                                                )
+                                            }}
+                                        </div>
+                                        <span
+                                            class="mt-1 inline-flex rounded-full border px-2 py-0.5 text-xs font-medium"
+                                            :class="
+                                                autoApplySessionStatusClass(
+                                                    session.status,
+                                                )
+                                            "
+                                        >
+                                            {{ session.status_label }}
+                                        </span>
+                                    </td>
+                                    <td class="px-5 py-3">
+                                        <div
+                                            class="max-w-[12rem] truncate font-medium text-postbox-navy sm:max-w-none"
+                                            :title="session.user.name"
+                                        >
+                                            {{ session.user.name }}
+                                        </div>
+                                        <div
+                                            class="max-w-[12rem] truncate text-xs text-muted-foreground sm:max-w-none"
+                                            :title="session.user.email"
+                                        >
+                                            {{ session.user.email }}
+                                        </div>
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 whitespace-nowrap capitalize"
+                                    >
+                                        {{ session.platform }}
+                                    </td>
+                                    <td class="px-5 py-3">
+                                        <div
+                                            class="max-w-xs truncate font-medium text-postbox-navy"
+                                            :title="session.role_description"
+                                        >
+                                            {{ session.role_description }}
+                                        </div>
+                                        <div
+                                            class="text-xs text-muted-foreground"
+                                        >
+                                            Max
+                                            {{
+                                                formatNumber(
+                                                    session.max_applications,
+                                                )
+                                            }}
+                                            · Found
+                                            {{
+                                                formatNumber(session.jobs_found)
+                                            }}
+                                        </div>
+                                        <p
+                                            v-if="session.last_error"
+                                            class="mt-1 line-clamp-2 text-xs text-red-700"
+                                            :title="session.last_error"
+                                        >
+                                            {{ session.last_error }}
+                                        </p>
+                                    </td>
+                                    <td class="px-5 py-3">
+                                        <dl
+                                            class="inline-grid min-w-[7rem] grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-xs"
+                                        >
+                                            <dt class="text-muted-foreground">
+                                                Applied
+                                            </dt>
+                                            <dd
+                                                class="text-right font-medium text-postbox-navy tabular-nums"
+                                            >
+                                                {{
+                                                    formatNumber(
+                                                        session.applied_count,
+                                                    )
+                                                }}
+                                            </dd>
+                                            <dt class="text-muted-foreground">
+                                                Skipped
+                                            </dt>
+                                            <dd class="text-right tabular-nums">
+                                                {{
+                                                    formatNumber(
+                                                        session.skipped_count,
+                                                    )
+                                                }}
+                                            </dd>
+                                            <dt class="text-muted-foreground">
+                                                Errors
+                                            </dt>
+                                            <dd
+                                                class="text-right tabular-nums"
+                                                :class="
+                                                    session.error_count > 0
+                                                        ? 'font-medium text-red-700'
+                                                        : ''
+                                                "
+                                            >
+                                                {{
+                                                    formatNumber(
+                                                        session.error_count,
+                                                    )
+                                                }}
+                                            </dd>
+                                            <dt class="text-muted-foreground">
+                                                Filled
+                                            </dt>
+                                            <dd class="text-right tabular-nums">
+                                                {{
+                                                    formatNumber(
+                                                        session.fields_filled_count,
+                                                    )
+                                                }}
+                                            </dd>
+                                        </dl>
+                                    </td>
+                                </tr>
+                                <tr
+                                    v-if="session.events.length > 0"
+                                    class="border-t border-border/40 bg-muted/10"
+                                >
+                                    <td colspan="5" class="px-5 py-2.5">
+                                        <div
+                                            class="flex flex-wrap items-start gap-x-4 gap-y-2"
+                                        >
+                                            <span
+                                                class="shrink-0 pt-0.5 text-xs font-medium text-muted-foreground"
+                                            >
+                                                Jobs ({{
+                                                    formatNumber(
+                                                        session.events.length,
+                                                    )
+                                                }})
+                                            </span>
+                                            <ul
+                                                class="min-w-0 flex-1 space-y-1.5"
+                                            >
+                                                <li
+                                                    v-for="event in autoApplySessionJobEvents(
+                                                        session,
+                                                    )"
+                                                    :key="event.id"
+                                                    class="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-0.5 text-xs"
+                                                >
+                                                    <span
+                                                        class="truncate font-medium text-postbox-navy"
+                                                        :title="
+                                                            event.job_title ||
+                                                            event.event_type
+                                                        "
+                                                    >
+                                                        {{
+                                                            event.job_title ||
+                                                            event.event_type
+                                                        }}
+                                                    </span>
+                                                    <span
+                                                        v-if="event.company"
+                                                        class="truncate text-muted-foreground"
+                                                        :title="event.company"
+                                                    >
+                                                        {{ event.company }}
+                                                    </span>
+                                                    <span
+                                                        class="rounded border border-border/60 px-1.5 py-0 text-[10px] text-muted-foreground"
+                                                    >
+                                                        {{ event.event_type }}
+                                                    </span>
+                                                    <a
+                                                        v-if="
+                                                            event.page_capture_id
+                                                        "
+                                                        :href="`/admin/page-captures/${event.page_capture_id}`"
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        class="inline-flex shrink-0 items-center gap-0.5 text-postbox-red hover:underline"
+                                                    >
+                                                        View HTML
+                                                        <ExternalLink
+                                                            class="size-3"
+                                                        />
+                                                    </a>
+                                                    <a
+                                                        v-else-if="
+                                                            event.job_url
+                                                        "
+                                                        :href="event.job_url"
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        class="inline-flex shrink-0 items-center gap-0.5 text-postbox-red hover:underline"
+                                                    >
+                                                        View
+                                                        <ExternalLink
+                                                            class="size-3"
+                                                        />
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <button
+                                                v-if="
+                                                    session.events.length >
+                                                    autoApplyVisibleJobEvents
+                                                "
+                                                type="button"
+                                                class="inline-flex shrink-0 items-center gap-1 text-xs text-postbox-red hover:underline"
+                                                @click="
+                                                    toggleAutoApplySessionJobs(
+                                                        session.id,
+                                                    )
+                                                "
+                                            >
+                                                <ChevronDown
+                                                    v-if="
+                                                        isAutoApplySessionExpanded(
+                                                            session.id,
+                                                        )
+                                                    "
+                                                    class="size-3"
+                                                />
+                                                <ChevronRight
+                                                    v-else
+                                                    class="size-3"
+                                                />
+                                                {{
+                                                    isAutoApplySessionExpanded(
+                                                        session.id,
+                                                    )
+                                                        ? 'Show fewer'
+                                                        : `+${formatNumber(session.events.length - autoApplyVisibleJobEvents)} more`
+                                                }}
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            <tr v-if="auto_apply_sessions.data.length === 0">
+                                <td
+                                    colspan="5"
+                                    class="px-5 py-10 text-center text-muted-foreground"
+                                >
+                                    No Auto Apply sessions recorded yet.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div
+                    v-if="auto_apply_sessions.last_page > 1"
+                    class="flex flex-wrap gap-2 border-t border-border/70 px-5 py-4"
+                >
+                    <Link
+                        v-for="link in auto_apply_sessions.links"
+                        :key="`${link.label}-${link.url}`"
+                        :href="link.url || '#'"
+                        class="rounded-md border px-3 py-1 text-xs"
+                        :class="
+                            link.active
+                                ? 'border-postbox-red bg-postbox-grey text-postbox-navy'
+                                : 'border-border text-muted-foreground hover:border-postbox-navy'
+                        "
+                        :preserve-scroll="true"
+                    >
+                        <span v-html="link.label" />
+                    </Link>
+                </div>
+            </div>
+        </div>
+
         <div v-else-if="activeTab === 'usage'" class="space-y-8">
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
                 <div class="postbox-panel p-5">
@@ -894,6 +1517,263 @@ function logLevelClass(level: string): string {
         </div>
 
         <div v-else-if="activeTab === 'users'" class="space-y-6">
+            <div
+                v-if="creditAwardSuccess"
+                class="postbox-panel border-postbox-red/30 bg-[#f0fdf4] px-5 py-4 text-sm text-[#166534]"
+            >
+                {{ creditAwardSuccess }}
+            </div>
+
+            <div class="postbox-panel overflow-hidden">
+                <div
+                    class="flex flex-wrap items-start justify-between gap-3 border-b border-border/70 px-5 py-4"
+                >
+                    <div>
+                        <h2 class="postbox-label flex items-center gap-2">
+                            <Gift class="size-4" />
+                            Award credit package
+                        </h2>
+                        <p class="mt-1 text-sm text-muted-foreground">
+                            Grant bonus autofills so a user can use AI tools
+                            without upgrading their plan.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="space-y-5 px-5 py-5">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-end">
+                        <div class="min-w-0 flex-1">
+                            <label
+                                for="credit-lookup-email"
+                                class="postbox-label"
+                            >
+                                User email
+                            </label>
+                            <input
+                                id="credit-lookup-email"
+                                v-model="lookupEmail"
+                                type="email"
+                                class="postbox-input mt-1"
+                                placeholder="user@example.com"
+                                @keydown.enter.prevent="lookupUserByEmail"
+                            />
+                        </div>
+                        <button
+                            type="button"
+                            class="postbox-btn-outline shrink-0"
+                            :disabled="lookupLoading"
+                            @click="lookupUserByEmail"
+                        >
+                            {{ lookupLoading ? 'Looking up…' : 'Look up user' }}
+                        </button>
+                    </div>
+
+                    <p v-if="lookupError" class="text-sm text-destructive">
+                        {{ lookupError }}
+                    </p>
+
+                    <div
+                        v-if="lookupUser"
+                        class="grid gap-3 rounded-lg border border-border/60 bg-muted/20 p-4 sm:grid-cols-2 xl:grid-cols-4"
+                    >
+                        <div>
+                            <p class="text-xs text-muted-foreground">User</p>
+                            <p class="font-medium text-postbox-navy">
+                                {{ lookupUser.name }}
+                            </p>
+                            <p class="text-xs text-muted-foreground">
+                                {{ lookupUser.email }}
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-muted-foreground">Plan</p>
+                            <p class="font-medium text-postbox-navy">
+                                {{ lookupUser.subscription_tier }}
+                            </p>
+                            <p class="text-xs text-muted-foreground">
+                                {{ lookupUser.subscription_status }}
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-muted-foreground">Usage</p>
+                            <p class="font-medium text-postbox-navy">
+                                {{ formatNumber(lookupUser.autofills_used) }}
+                                /
+                                {{
+                                    formatNumber(
+                                        lookupUser.total_autofill_allowance,
+                                    )
+                                }}
+                            </p>
+                            <p class="text-xs text-muted-foreground">
+                                {{
+                                    formatNumber(lookupUser.autofills_remaining)
+                                }}
+                                remaining
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-muted-foreground">
+                                Bonus balance
+                            </p>
+                            <p class="font-medium text-postbox-navy">
+                                {{ formatNumber(lookupUser.bonus_autofills) }}
+                            </p>
+                            <p class="text-xs text-muted-foreground">
+                                {{ formatNumber(lookupUser.monthly_autofills) }}
+                                plan allowance/mo
+                            </p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="postbox-label mb-2">Credit packages</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button
+                                v-for="(creditPackage, key) in credit_packages"
+                                :key="key"
+                                type="button"
+                                class="postbox-btn-outline text-sm"
+                                :class="
+                                    awardForm.package_key === key
+                                        ? 'border-postbox-red bg-postbox-grey'
+                                        : ''
+                                "
+                                @click="
+                                    selectCreditPackage(
+                                        String(key),
+                                        creditPackage.amount,
+                                    )
+                                "
+                            >
+                                {{ creditPackage.label }}
+                                ({{ formatNumber(creditPackage.amount) }})
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div>
+                            <label
+                                for="credit-award-amount"
+                                class="postbox-label"
+                            >
+                                Autofills to award
+                            </label>
+                            <input
+                                id="credit-award-amount"
+                                v-model.number="awardForm.amount"
+                                type="number"
+                                min="1"
+                                :max="credit_award_max"
+                                class="postbox-input mt-1"
+                            />
+                            <p
+                                v-if="awardForm.errors.amount"
+                                class="mt-1 text-xs text-destructive"
+                            >
+                                {{ awardForm.errors.amount }}
+                            </p>
+                        </div>
+                        <div>
+                            <label
+                                for="credit-award-note"
+                                class="postbox-label"
+                            >
+                                Note (optional)
+                            </label>
+                            <input
+                                id="credit-award-note"
+                                v-model="awardForm.note"
+                                type="text"
+                                maxlength="500"
+                                class="postbox-input mt-1"
+                                placeholder="Beta tester, support goodwill, etc."
+                            />
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3">
+                        <button
+                            type="button"
+                            class="postbox-btn"
+                            :disabled="
+                                awardForm.processing ||
+                                awardForm.amount < 1 ||
+                                (!lookupUser && lookupEmail.trim().length === 0)
+                            "
+                            @click="submitCreditAward"
+                        >
+                            {{
+                                awardForm.processing
+                                    ? 'Awarding…'
+                                    : 'Award credits'
+                            }}
+                        </button>
+                        <p class="text-xs text-muted-foreground">
+                            Max {{ formatNumber(credit_award_max) }} per award.
+                            Bonus credits do not expire when the month resets.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="postbox-panel overflow-hidden">
+                <div class="border-b border-border/70 px-5 py-4">
+                    <h2 class="postbox-label">Recent credit awards</h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead class="border-b border-border/60 text-left">
+                            <tr>
+                                <th class="px-5 py-3 font-medium">When</th>
+                                <th class="px-5 py-3 font-medium">User</th>
+                                <th class="px-5 py-3 font-medium">Amount</th>
+                                <th class="px-5 py-3 font-medium">
+                                    Awarded by
+                                </th>
+                                <th class="px-5 py-3 font-medium">Note</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-border/60">
+                            <tr
+                                v-for="grant in recent_credit_grants"
+                                :key="grant.id"
+                            >
+                                <td class="px-5 py-3 text-muted-foreground">
+                                    {{ formatDateTime(grant.created_at) }}
+                                </td>
+                                <td class="px-5 py-3">
+                                    <div class="font-medium text-postbox-navy">
+                                        {{ grant.user.name }}
+                                    </div>
+                                    <div class="text-xs text-muted-foreground">
+                                        {{ grant.user.email }}
+                                    </div>
+                                </td>
+                                <td class="px-5 py-3 font-medium">
+                                    +{{ formatNumber(grant.amount) }}
+                                </td>
+                                <td class="px-5 py-3 text-muted-foreground">
+                                    {{ grant.awarded_by.email }}
+                                </td>
+                                <td class="px-5 py-3 text-muted-foreground">
+                                    {{ grant.note || '-' }}
+                                </td>
+                            </tr>
+                            <tr v-if="recent_credit_grants.length === 0">
+                                <td
+                                    colspan="5"
+                                    class="px-5 py-8 text-center text-muted-foreground"
+                                >
+                                    No credit awards yet.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div class="grid gap-6 xl:grid-cols-2">
                 <div class="postbox-panel overflow-hidden">
                     <div class="border-b border-border/70 px-5 py-4">

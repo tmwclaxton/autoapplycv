@@ -641,6 +641,47 @@ body {
     cursor: not-allowed;
 }
 
+.assist-message-assistant-inner {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.assist-message-assistant-inner .assist-message-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.assist-message-copy-btn {
+    all: unset;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--postbox-navy);
+    background: var(--postbox-surface);
+    color: var(--postbox-navy);
+    cursor: pointer;
+}
+
+.assist-message-copy-btn:hover:not(:disabled) {
+    background: var(--postbox-grey);
+}
+
+.assist-message-copy-btn:disabled {
+    opacity: 0.55;
+    cursor: wait;
+}
+
+.assist-message-copy-btn.is-copied {
+    border-color: rgb(21 128 61 / 45%);
+    color: rgb(21 128 61);
+    background: rgb(21 128 61 / 8%);
+}
+
 .assist-message-assistant .assist-message-content {
     border: 2px solid var(--postbox-navy);
     background: var(--postbox-surface);
@@ -981,9 +1022,27 @@ body {
     min-height: 0;
 }
 
+#auto-apply-role {
+    min-height: 72px;
+    resize: vertical;
+}
+
 .auto-apply-actions {
     display: flex;
     gap: 8px;
+}
+
+.auto-apply-activity-toggle {
+    align-self: flex-start;
+    width: auto;
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.auto-apply-activity-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .auto-apply-stats {
@@ -1027,4 +1086,21 @@ body {
 
 .auto-apply-log-warn {
     color: #92400e;
+}
+
+.auto-apply-pause-banner {
+    margin-top: 10px;
+    padding: 12px;
+    border-left: 4px solid #92400e;
+    background: #fff7ed;
+}
+
+.auto-apply-pause-banner strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #92400e;
+}
+
+.auto-apply-pause-message {
+    margin: 0;
 }

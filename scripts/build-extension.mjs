@@ -217,6 +217,7 @@ copyFileSync(join(SRC, 'shared/application-settings.js'), join(DIST, 'applicatio
 copyFileSync(join(SRC, 'shared/postbox-theme.css'), join(DIST, 'postbox-theme.css'));
 copyFileSync(join(SRC, 'shared/form-frame-messaging.js'), join(DIST, 'form-frame-messaging.js'));
 copyFileSync(join(SRC, 'shared/file-transfer.js'), join(DIST, 'file-transfer.js'));
+copyFileSync(join(SRC, 'shared/extension-context.js'), join(DIST, 'extension-context.js'));
 copyFileSync(join(SRC, 'shared/debug-log.js'), join(DIST, 'debug-log.js'));
 copyFileSync(join(SRC, 'shared/debug-log-client.js'), join(DIST, 'debug-log-client.js'));
 copyFileSync(join(SRC, 'shared/perf-timer.js'), join(DIST, 'perf-timer.js'));
@@ -229,7 +230,11 @@ copyFileSync(join(SRC, 'shared/side-panel-state.js'), join(DIST, 'side-panel-sta
 copyFileSync(join(SRC, 'shared/linkedin-platform.js'), join(DIST, 'linkedin-platform.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-platforms.js'), join(DIST, 'auto-apply-platforms.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-session.js'), join(DIST, 'auto-apply-session.js'));
+copyFileSync(join(SRC, 'shared/auto-apply-activity-ui.js'), join(DIST, 'auto-apply-activity-ui.js'));
+copyFileSync(join(SRC, 'shared/auto-apply-blockers.js'), join(DIST, 'auto-apply-blockers.js'));
+copyFileSync(join(SRC, 'shared/auto-apply-analytics.js'), join(DIST, 'auto-apply-analytics.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-orchestrator.js'), join(DIST, 'auto-apply-orchestrator.js'));
+copyFileSync(join(SRC, 'shared/auto-apply-blockers.js'), join(DIST, 'auto-apply-blockers.js'));
 copyFileSync(join(SRC, 'debug/debug.html'), join(DIST, 'debug.html'));
 copyFileSync(join(SRC, 'debug/debug.js'), join(DIST, 'debug.js'));
 copyFileSync(join(SRC, 'background/index.js'), join(DIST, 'background.js'));
@@ -237,6 +242,8 @@ copyFileSync(join(SRC, 'content/form-content-signature.js'), join(DIST, 'form-co
 copyFileSync(join(SRC, 'content/form-heuristics.js'), join(DIST, 'form-heuristics.js'));
 copyFileSync(join(SRC, 'content/field-inventory.js'), join(DIST, 'field-inventory.js'));
 copyFileSync(join(SRC, 'content/linkedin-parser.js'), join(DIST, 'linkedin-parser.js'));
+copyFileSync(join(SRC, 'content/linkedin-page-health.js'), join(DIST, 'linkedin-page-health.js'));
+copyFileSync(join(SRC, 'content/linkedin-easy-apply-fields.js'), join(DIST, 'linkedin-easy-apply-fields.js'));
 copyFileSync(join(SRC, 'content/linkedin-auto-apply.js'), join(DIST, 'linkedin-auto-apply.js'));
 copyFileSync(join(SRC, 'content/focus-tracker.js'), join(DIST, 'focus-tracker.js'));
 copyFileSync(join(SRC, 'content/field-highlighter.js'), join(DIST, 'field-highlighter.js'));
@@ -249,9 +256,6 @@ copyFileSync(join(SRC, 'sidepanel/assist.js'), join(DIST, 'assist.js'));
 copyFileSync(join(SRC, 'sidepanel/documents.js'), join(DIST, 'documents.js'));
 copyFileSync(join(SRC, 'sidepanel/auto-apply.js'), join(DIST, 'auto-apply.js'));
 copyFileSync(join(SRC, 'sidepanel/pending-fields.js'), join(DIST, 'pending-fields-panel.js'));
-
-patchManifest(apiBase);
-verifyDistImports();
 
 const iconsDir = join(ROOT, 'extension/icons');
 const distIconsDir = join(DIST, 'icons');
@@ -304,6 +308,9 @@ const missingDistIcons = requiredIcons.filter((icon) => !existsSync(join(distIco
 if (missingDistIcons.length > 0) {
     throw new Error(`Extension build is missing icons in dist: ${missingDistIcons.join(', ')}`);
 }
+
+patchManifest(apiBase);
+verifyDistImports();
 
 function embedSidepanelIcon() {
     const sidepanelHtmlPath = join(DIST, 'sidepanel.html');

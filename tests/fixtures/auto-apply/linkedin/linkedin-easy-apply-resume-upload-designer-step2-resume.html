@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>LinkedIn Easy Apply - Resume</title>
+</head>
+<body>
+<div
+    class="jobs-easy-apply-modal artdeco-modal"
+    data-test-modal=""
+    role="dialog"
+    aria-labelledby="easy-apply-modal-title"
+    style="position: fixed; inset: 40px; z-index: 9999; background: #fff; display: block;"
+>
+    <button type="button" class="artdeco-modal__dismiss" aria-label="Dismiss">&times;</button>
+    <div class="jobs-easy-apply-content">
+        <p class="jobs-easy-apply-content__subtitle">Product Designer at Design Co</p>
+        <div class="artdeco-stepper__indicator">Step 2 of 4</div>
+        <h2 id="easy-apply-modal-title" class="jobs-easy-apply-form-section__title">Resume</h2>
+        
+        <form class="jobs-easy-apply-form">
+            
+            <div class="jobs-easy-apply-form-section__group">
+                
+        <div class="fb-dash-form-element">
+            <label class="fb-dash-form-element__label" for="resume-upload">Upload resume (PDF, DOC, DOCX)</label>
+            <input id="resume-upload" type="file" name="resume" accept=".pdf,.doc,.docx" />
+            
+            
+        </div>
+                <p class="jobs-easy-apply-form-section__helper-text">Be sure to include an updated resume.</p>
+            </div>
+        </form>
+        
+    </div>
+    
+    <footer class="jobs-easy-apply-footer artdeco-modal__actionbar">
+        <button type="button" class="artdeco-button artdeco-button--2 artdeco-button--muted">Back</button>
+        <button type="button" class="artdeco-button artdeco-button--2 artdeco-button--secondary">Cancel</button>
+        
+        <button
+            type="button"
+            class="artdeco-button artdeco-button--2 artdeco-button--primary"
+            aria-label="Continue to next step"
+             data-easy-apply-next-button="" data-live-test-easy-apply-next-button=""
+            
+        >
+            Continue to next step
+        </button>
+    </footer>
+</div>
+</body>
+</html>

@@ -29,20 +29,67 @@ const AutoCVApplyLinkedInParser = (() => {
         return match?.[1] || null;
     }
 
-    function readJobTitleFromCard(root) {
-        const titleEl = root.querySelector(
-            '.job-card-list__title, .job-card-list__title-link, a[data-control-name="job_card_title"], a[href*="/jobs/view/"]',
-        );
+    const JOB_TITLE_SELECTORS = [
+        '.job-card-list__title-link strong',
+        '.job-card-list__title strong',
+        '.job-card-list__title-link',
+        '.job-card-list__title',
+        '.base-search-card__title',
+        'a[data-control-name="job_card_title"]',
+        '.job-card-container__link-wrapper a',
+        'a[href*="/jobs/view/"] span[aria-hidden="true"]',
+        'a[href*="/jobs/view/"]',
+    ];
 
-        return titleEl?.textContent?.replace(/\s+/g, ' ').trim() || 'Unknown role';
+    const JOB_COMPANY_SELECTORS = [
+        '.artdeco-entity-lockup__subtitle',
+        '.artdeco-entity-lockup__caption',
+        '.job-card-container__company-name',
+        '.job-card-container__primary-description',
+        '[data-test-job-card-company-name]',
+        '.base-search-card__subtitle',
+        '.job-card-container__company-name a',
+    ];
+
+    function readJobTitleFromCard(root) {
+        for (const selector of JOB_TITLE_SELECTORS) {
+            const titleEl = root.querySelector(selector);
+            const text = titleEl?.textContent?.replace(/\s+/g, ' ').trim();
+
+            if (text && text.length > 1 && !/^\d+$/.test(text)) {
+                return text;
+            }
+        }
+
+        const link = root.querySelector('a[href*="/jobs/view/"]');
+        const ariaLabel = link?.getAttribute('aria-label')?.replace(/\s+/g, ' ').trim();
+
+        if (ariaLabel) {
+            const fromLabel = ariaLabel
+                .replace(/\s+with\s+verification.*$/i, '')
+                .replace(/\s+in\s+.+$/i, '')
+                .replace(/\s+·.*$/i, '')
+                .trim();
+
+            if (fromLabel.length > 1) {
+                return fromLabel;
+            }
+        }
+
+        return 'Unknown role';
     }
 
     function readCompanyFromCard(root) {
-        const companyEl = root.querySelector(
-            '.artdeco-entity-lockup__subtitle, .artdeco-entity-lockup__caption, .job-card-container__company-name, .job-card-container__primary-description, [data-test-job-card-company-name]',
-        );
+        for (const selector of JOB_COMPANY_SELECTORS) {
+            const companyEl = root.querySelector(selector);
+            const text = companyEl?.textContent?.replace(/\s+/g, ' ').trim();
 
-        return companyEl?.textContent?.replace(/\s+/g, ' ').trim() || 'Unknown company';
+            if (text && text.length > 1) {
+                return text;
+            }
+        }
+
+        return 'Unknown company';
     }
 
     function jobCardHasEasyApply(root) {

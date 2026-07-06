@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class ExtensionPageCaptureService
 {
+    public function __construct(
+        private readonly ExtensionPageCaptureRedactionService $redaction,
+    ) {}
+
     public function store(User $user, string $url, string $pageTitle, string $html): ExtensionPageCapture
     {
         $domain = $this->extractDomain($url);
@@ -20,7 +24,7 @@ class ExtensionPageCaptureService
             'page_title' => $pageTitle,
             'domain' => $domain,
             'platform' => $this->detectPlatform($domain),
-            'html' => $html,
+            'html' => $this->redaction->redactForUser($user, $html),
         ]);
     }
 
@@ -87,7 +91,11 @@ class ExtensionPageCaptureService
         return ExtensionPageCapture::query()
             ->with('user:id,name,email')
             ->latest()
-            ->paginate((int) config('admin.page_captures_per_page', 25))
+            ->paginate(
+                (int) config('admin.page_captures_per_page', 25),
+                ['*'],
+                'captures_page',
+            )
             ->appends($queryAppends)
             ->through(fn (ExtensionPageCapture $capture): array => $capture->toAdminArray());
     }

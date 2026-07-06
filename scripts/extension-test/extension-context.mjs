@@ -1,0 +1,187 @@
+#!/usr/bin/env node
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT = join(__dirname, '..', '..');
+const EXTENSION_CONTEXT_PATH = join(ROOT, 'extension/src/shared/extension-context.js');
+
+function loadExtensionContext(chromeMock) {
+    const code = readFileSync(EXTENSION_CONTEXT_PATH, 'utf8');
+    const sandbox = {
+        chrome: chromeMock,
+        globalThis: {},
+        window: {},
+    };
+
+    sandbox.globalThis = sandbox;
+    sandbox.window = sandbox;
+
+    vm.runInNewContext(code, sandbox);
+
+    return sandbox.AutoCVApplyExtensionContext || sandbox.globalThis.AutoCVApplyExtensionContext;
+}
+
+function runtimeThrowsInvalidated() {
+    throw new Error('Extension context invalidated.');
+}
+
+const cases = [
+    {
+        name: 'isExtensionContextValid returns true when runtime.id exists',
+        fn: () => {
+            const ctx = loadExtensionContext({ runtime: { id: 'abc123' } });
+            assert.equal(ctx.isExtensionContextValid(), true);
+        },
+    },
+    {
+        name: 'isExtensionContextValid returns false when runtime.id is missing',
+        fn: () => {
+            const ctx = loadExtensionContext({ runtime: {} });
+            assert.equal(ctx.isExtensionContextValid(), false);
+        },
+    },
+    {
+        name: 'isExtensionContextValid returns false when chrome.runtime throws',
+        fn: () => {
+            const ctx = loadExtensionContext({
+                get runtime() {
+                    throw new Error('Extension context invalidated.');
+                },
+            });
+            assert.equal(ctx.isExtensionContextValid(), false);
+        },
+    },
+    {
+        name: 'safeRuntimeSend resolves null without calling sendMessage when invalid',
+        fn: async () => {
+            let called = false;
+            const ctx = loadExtensionContext({
+                runtime: {
+                    sendMessage() {
+                        called = true;
+
+                        return Promise.resolve({});
+                    },
+                },
+            });
+
+            const response = await ctx.safeRuntimeSend({ type: 'TEST' });
+
+            assert.equal(response, null);
+            assert.equal(called, false);
+        },
+    },
+    {
+        name: 'safeRuntimeSend catches synchronous invalidated errors',
+        fn: async () => {
+            const ctx = loadExtensionContext({
+                runtime: {
+                    id: 'abc123',
+                    sendMessage: runtimeThrowsInvalidated,
+                },
+            });
+
+            const response = await ctx.safeRuntimeSend({ type: 'TEST' });
+
+            assert.equal(response, null);
+            assert.equal(ctx.isExtensionContextValid(), false);
+        },
+    },
+    {
+        name: 'safeRuntimeSend catches rejected invalidated promises',
+        fn: async () => {
+            const ctx = loadExtensionContext({
+                runtime: {
+                    id: 'abc123',
+                    sendMessage() {
+                        return Promise.reject(new Error('Extension context invalidated.'));
+                    },
+                },
+            });
+
+            const response = await ctx.safeRuntimeSend({ type: 'TEST' });
+
+            assert.equal(response, null);
+            assert.equal(ctx.isExtensionContextValid(), false);
+        },
+    },
+    {
+        name: 'markContextInvalidated short-circuits while runtime.id still exists',
+        fn: () => {
+            const ctx = loadExtensionContext({ runtime: { id: 'abc123' } });
+
+            assert.equal(ctx.isExtensionContextValid(), true);
+            ctx.markContextInvalidated();
+            assert.equal(ctx.isExtensionContextValid(), false);
+        },
+    },
+    {
+        name: 'safeRuntimeSendCallback survives lastError access after invalidation',
+        fn: () => {
+            let callbackValue = 'pending';
+            const ctx = loadExtensionContext({
+                runtime: {
+                    id: 'abc123',
+                    sendMessage(_message, callback) {
+                        callback(undefined);
+                    },
+                    get lastError() {
+                        throw new Error('Extension context invalidated.');
+                    },
+                },
+            });
+
+            ctx.safeRuntimeSendCallback({ type: 'TEST' }, (response) => {
+                callbackValue = response;
+            });
+
+            assert.equal(callbackValue, null);
+            assert.equal(ctx.isExtensionContextValid(), false);
+        },
+    },
+    {
+        name: 'safeRuntimeSendCallback invokes callback with null when invalid',
+        fn: () => {
+            let called = false;
+            const ctx = loadExtensionContext({ runtime: {} });
+
+            ctx.safeRuntimeSendCallback({ type: 'TEST' }, () => {
+                called = true;
+            });
+
+            assert.equal(called, true);
+        },
+    },
+    {
+        name: 'safeStorageSessionSet returns false when context is invalid',
+        fn: async () => {
+            const ctx = loadExtensionContext({ runtime: {} });
+            const ok = await ctx.safeStorageSessionSet({ key: 'value' });
+
+            assert.equal(ok, false);
+        },
+    },
+];
+
+let failed = 0;
+
+for (const testCase of cases) {
+    try {
+        await testCase.fn();
+        console.log(`ok - ${testCase.name}`);
+    } catch (error) {
+        failed += 1;
+        console.error(`FAIL - ${testCase.name}`);
+        console.error(error);
+    }
+}
+
+if (failed > 0) {
+    process.exit(1);
+}
+
+console.log(`\n${cases.length} extension-context tests passed.`);

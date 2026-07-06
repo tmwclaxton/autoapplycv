@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "AutoCVApply",
-    "version": "2.23.0",
+    "version": "2.24.7",
     "description": "Auto-fill job application forms on any site and draft answers, cover letters, and tailored resumes from the sidebar.",
     "permissions": ["storage", "tabs", "scripting", "sidePanel", "contextMenus", "webNavigation"],
     "host_permissions": ["<all_urls>"],
@@ -41,11 +41,14 @@
                 "https://autocvapply.com/*"
             ],
             "js": [
+                "extension-context.js",
                 "debug-log-client.js",
                 "form-content-signature.js",
                 "form-heuristics.js",
                 "field-inventory.js",
                 "linkedin-parser.js",
+                "linkedin-page-health.js",
+                "linkedin-easy-apply-fields.js",
                 "linkedin-auto-apply.js",
                 "focus-tracker.js",
                 "field-highlighter.js",

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>LinkedIn - Save this application?</title>
+</head>
+<body>
+<div class="jobs-details">
+    <h1>Software Engineer</h1>
+    <p>Acme Labs</p>
+    <button
+        type="button"
+        class="jobs-apply-button artdeco-button artdeco-button--2"
+        aria-label="Easy Apply to Software Engineer at Acme Labs"
+        style="display: inline-block; position: absolute; width: 120px; height: 40px;"
+    >
+        Easy Apply
+    </button>
+</div>
+<div
+    data-test-modal=""
+    role="alertdialog"
+    aria-labelledby="save-application-dialog-title"
+    class="artdeco-modal artdeco-modal--layer-confirmation"
+    style="position: fixed; inset: 0; z-index: 10000; display: block; background: rgba(0, 0, 0, 0.6);"
+>
+    <div class="artdeco-modal__content" style="position: fixed; inset: 80px; background: #fff; padding: 24px;">
+        <button
+            data-test-modal-close-btn=""
+            type="button"
+            class="artdeco-modal__dismiss"
+            aria-label="Dismiss"
+            style="position: absolute; top: 12px; right: 12px;"
+        >
+            &times;
+        </button>
+        <h2 id="save-application-dialog-title" data-test-dialog-title="">Save this application?</h2>
+        <p>Save to return to this application later. Your progress will be stored as a draft.</p>
+        <div class="artdeco-modal__actionbar">
+            <button
+                data-test-dialog-secondary-btn=""
+                type="button"
+                class="artdeco-button artdeco-button--2 artdeco-button--secondary"
+            >
+                Discard
+            </button>
+            <button
+                data-test-dialog-primary-btn=""
+                type="button"
+                class="artdeco-button artdeco-button--2 artdeco-button--primary"
+            >
+                Save
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

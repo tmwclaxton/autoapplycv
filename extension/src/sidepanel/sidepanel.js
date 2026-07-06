@@ -138,24 +138,57 @@ function setJobContextVisible(tabKey) {
     jobContextEl.hidden = !aiTabs.has(tabKey);
 }
 
+export function switchToTab(tabKey) {
+    const tab = document.querySelector(`.tab[data-tab="${tabKey}"]`);
+    const panel = document.getElementById(`${tabKey}-tab`);
+
+    if (!tab || !panel) {
+        return;
+    }
+
+    document.querySelectorAll('.tab').forEach((item) => item.classList.remove('postbox-tab-active'));
+    document.querySelectorAll('.tab-panel').forEach((item) => item.classList.remove('active'));
+    tab.classList.add('postbox-tab-active');
+    panel.classList.add('active');
+    setJobContextVisible(tabKey);
+
+    if (tabKey === 'documents' && documentsPanel) {
+        documentsPanel.refreshDocuments({ force: true }).catch((error) => {
+            showMessage(error.message, 'error');
+        });
+    }
+
+    if (tabKey === 'auto-apply' && autoApplyPanel?.refreshStatus) {
+        autoApplyPanel.refreshStatus().catch(() => {});
+    }
+}
+
+function playAutoApplyPauseSound() {
+    try {
+        const context = new AudioContext();
+        const playTone = (frequency, startOffset, duration) => {
+            const oscillator = context.createOscillator();
+            const gain = context.createGain();
+            oscillator.type = 'sine';
+            oscillator.frequency.value = frequency;
+            gain.gain.value = 0.12;
+            oscillator.connect(gain);
+            gain.connect(context.destination);
+            oscillator.start(context.currentTime + startOffset);
+            oscillator.stop(context.currentTime + startOffset + duration);
+        };
+
+        playTone(880, 0, 0.12);
+        playTone(1174, 0.16, 0.18);
+    } catch {
+        // Audio may be blocked until user interaction.
+    }
+}
+
 function setupTabs() {
     document.querySelectorAll('.tab').forEach((tab) => {
         tab.addEventListener('click', () => {
-            document.querySelectorAll('.tab').forEach((item) => item.classList.remove('postbox-tab-active'));
-            document.querySelectorAll('.tab-panel').forEach((panel) => panel.classList.remove('active'));
-            tab.classList.add('postbox-tab-active');
-            document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
-            setJobContextVisible(tab.dataset.tab);
-
-            if (tab.dataset.tab === 'documents' && documentsPanel) {
-                documentsPanel.refreshDocuments({ force: true }).catch((error) => {
-                    showMessage(error.message, 'error');
-                });
-            }
-
-            if (tab.dataset.tab === 'auto-apply' && autoApplyPanel?.refreshStatus) {
-                autoApplyPanel.refreshStatus().catch(() => {});
-            }
+            switchToTab(tab.dataset.tab);
         });
     });
 }
@@ -276,18 +309,27 @@ async function drainQueuedDraftBatchAnswers() {
     flushPendingDraftBatchAnswers();
 }
 
+function handleSidePanelHidden() {
+    autoApplyPanel?.resetAutoApplyUiOnPanelHidden?.();
+}
+
 function startSidePanelHeartbeat() {
     const markOpen = () => {
         chrome.runtime.sendMessage({ type: 'SIDE_PANEL_HEARTBEAT' }).catch(() => {});
     };
 
     const markClosed = () => {
+        handleSidePanelHidden();
         chrome.runtime.sendMessage({ type: 'SIDE_PANEL_CLOSED' }).catch(() => {});
     };
 
     const syncOpenWhenVisible = () => {
         if (document.visibilityState === 'visible') {
             markOpen();
+
+            if (autoApplyPanel?.refreshStatus) {
+                void autoApplyPanel.refreshStatus().catch(() => {});
+            }
         }
     };
 
@@ -310,7 +352,13 @@ function startSidePanelHeartbeat() {
     }
 
     syncOpenWhenVisible();
-    document.addEventListener('visibilitychange', syncOpenWhenVisible);
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+            handleSidePanelHidden();
+        } else {
+            syncOpenWhenVisible();
+        }
+    });
     window.addEventListener('pageshow', markOpen);
     window.addEventListener('pagehide', markClosed);
 
@@ -483,8 +531,23 @@ chrome.runtime.onMessage.addListener((message) => {
         }
     }
 
-    if (message.type === 'AUTO_APPLY_STATUS' && autoApplyPanel?.refreshStatus) {
-        void autoApplyPanel.refreshStatus().catch(() => {});
+    if (message.type === 'AUTO_APPLY_PAUSED' && message.pauseContext) {
+        playAutoApplyPauseSound();
+        switchToTab('assist');
+        assistChat?.handleAutoApplyPaused?.(message.pauseContext);
+
+        if (pendingFieldsPanel?.refreshPendingFields) {
+            void pendingFieldsPanel.refreshPendingFields().catch(() => {});
+        }
+    }
+
+    if (message.type === 'AUTO_APPLY_RESUMED') {
+        switchToTab('auto-apply');
+        assistChat?.clearAutoApplyPauseContext?.();
+
+        if (autoApplyPanel?.refreshStatus) {
+            void autoApplyPanel.refreshStatus().catch(() => {});
+        }
     }
 });
 

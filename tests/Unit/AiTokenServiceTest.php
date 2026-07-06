@@ -135,4 +135,44 @@ class AiTokenServiceTest extends TestCase
         $this->assertSame('quota_exhausted', $this->service->autofillBlockReason($user));
         $this->assertFalse($this->service->canAutofill($user));
     }
+
+    public function test_bonus_autofills_increase_total_allowance_and_survive_month_reset(): void
+    {
+        Carbon::setTestNow('2026-05-15 12:00:00');
+
+        $user = User::factory()->create([
+            'ai_tokens_used' => 250,
+            'bonus_autofills' => 500,
+            'ai_tokens_period_start' => '2026-05-01 00:00:00',
+        ]);
+
+        $this->assertSame(750, $this->service->totalAutofillAllowance($user));
+        $this->assertSame(500, $this->service->autofillsRemaining($user));
+        $this->assertTrue($this->service->canAutofill($user));
+
+        Carbon::setTestNow('2026-06-02 12:00:00');
+
+        $this->service->ensureCurrentPeriod($user->fresh());
+
+        $user = $user->fresh();
+
+        $this->assertSame(0, $user->ai_tokens_used);
+        $this->assertSame(500, $user->bonus_autofills);
+        $this->assertSame(750, $this->service->autofillsRemaining($user));
+    }
+
+    public function test_summary_includes_bonus_autofill_fields(): void
+    {
+        $user = User::factory()->create([
+            'bonus_autofills' => 1_000,
+            'ai_tokens_used' => 50,
+            'ai_tokens_period_start' => now()->startOfMonth(),
+        ]);
+
+        $summary = $this->service->summary($user);
+
+        $this->assertSame(1_000, $summary['bonus_autofills']);
+        $this->assertSame(1_250, $summary['total_autofill_allowance']);
+        $this->assertSame(1_200, $summary['autofills_remaining']);
+    }
 }

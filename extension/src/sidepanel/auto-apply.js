@@ -1,4 +1,9 @@
+import {
+    isAutoApplyActivityPanelExpanded,
+    shouldShowAutoApplyActivityControls,
+} from './auto-apply-activity-ui.js';
 import { AUTO_APPLY_PLATFORMS, LINKEDIN_PLATFORM_ID } from './auto-apply-platforms.js';
+import { isActiveAutoApplyStatus, isTerminalAutoApplyStatus } from './auto-apply-session.js';
 
 const platformSelect = document.getElementById('auto-apply-platform');
 const roleInput = document.getElementById('auto-apply-role');
@@ -6,11 +11,28 @@ const maxApplicationsInput = document.getElementById('auto-apply-max');
 const startBtn = document.getElementById('auto-apply-start-btn');
 const stopBtn = document.getElementById('auto-apply-stop-btn');
 const statusEl = document.getElementById('auto-apply-status');
+const pauseBannerEl = document.getElementById('auto-apply-pause-banner');
+const pauseMessageEl = document.getElementById('auto-apply-pause-message');
+const activityToggleEl = document.getElementById('auto-apply-activity-toggle');
+const activityPanelEl = document.getElementById('auto-apply-activity-panel');
 const statsEl = document.getElementById('auto-apply-stats');
 const logEl = document.getElementById('auto-apply-log');
 
 /** @type {ReturnType<typeof setInterval>|null} */
 let pollTimer = null;
+let allowTerminalDisplay = false;
+let stopPending = false;
+let activityPanelManuallyHidden = false;
+/** @type {((text: string, tone?: string) => void)|null} */
+let notifyUser = null;
+/** @type {import('./auto-apply-session.js').AutoApplySession|null} */
+let lastRenderedSession = null;
+
+function extensionContext() {
+    return typeof AutoCVApplyExtensionContext !== 'undefined'
+        ? AutoCVApplyExtensionContext
+        : null;
+}
 
 function renderPlatformOptions() {
     platformSelect.innerHTML = '';
@@ -34,6 +56,25 @@ function formatStats(session) {
     return `Found ${stats.found} · Applied ${stats.applied} · Skipped ${stats.skipped} · Errors ${stats.errors}`;
 }
 
+function renderPauseBanner(session) {
+    if (!pauseBannerEl || !pauseMessageEl) {
+        return;
+    }
+
+    const pauseContext = session?.pauseContext;
+
+    if (session?.status !== 'paused_for_input' || !pauseContext) {
+        pauseBannerEl.hidden = true;
+        pauseMessageEl.textContent = '';
+
+        return;
+    }
+
+    const fieldLabel = pauseContext.blockerField?.label || 'a required field';
+    pauseBannerEl.hidden = false;
+    pauseMessageEl.textContent = `Waiting for your answer in Assist for "${fieldLabel}". Stop still works if you want to cancel this run.`;
+}
+
 function renderStatusLine(session) {
     if (!session) {
         statusEl.textContent = 'Ready. Choose a platform and role description.';
@@ -43,7 +84,8 @@ function renderStatusLine(session) {
 
     const labels = {
         idle: 'Idle',
-        running: 'Running',
+        running: session.stopRequested ? 'Stopping…' : 'Running',
+        paused_for_input: 'Paused - waiting for your answer in Assist',
         stopped: 'Stopped',
         completed: 'Completed',
         error: 'Error',
@@ -62,11 +104,6 @@ function renderLog(session) {
     const entries = session?.log || [];
 
     if (entries.length === 0) {
-        const empty = document.createElement('p');
-        empty.className = 'postbox-hint auto-apply-log-empty';
-        empty.textContent = 'Status updates will appear here.';
-        logEl.appendChild(empty);
-
         return;
     }
 
@@ -85,25 +122,155 @@ function renderLog(session) {
     logEl.scrollTop = logEl.scrollHeight;
 }
 
-function setControlsRunning(isRunning) {
-    startBtn.disabled = isRunning;
-    stopBtn.disabled = !isRunning;
-    platformSelect.disabled = isRunning;
-    roleInput.disabled = isRunning;
-    maxApplicationsInput.disabled = isRunning;
+function setControlsRunning(isRunning, { stopping = false } = {}) {
+    startBtn.disabled = isRunning || stopping;
+    stopBtn.disabled = !isRunning || stopping;
+    platformSelect.disabled = isRunning || stopping;
+    roleInput.disabled = isRunning || stopping;
+    maxApplicationsInput.disabled = isRunning || stopping;
+}
+
+function resetActivityPanelVisibility() {
+    activityPanelManuallyHidden = false;
+}
+
+function renderActivityVisibility(session) {
+    const showControls = shouldShowAutoApplyActivityControls(session);
+    const panelExpanded = isAutoApplyActivityPanelExpanded(session, activityPanelManuallyHidden);
+
+    activityToggleEl.hidden = !showControls;
+    activityPanelEl.hidden = !panelExpanded;
+    activityToggleEl.textContent = panelExpanded ? 'Hide activity' : 'Show activity';
+    activityToggleEl.setAttribute('aria-expanded', panelExpanded ? 'true' : 'false');
+}
+
+function renderCleanState() {
+    allowTerminalDisplay = false;
+    stopPending = false;
+    lastRenderedSession = null;
+    resetActivityPanelVisibility();
+    renderStatusLine(null);
+    renderPauseBanner(null);
+    statsEl.textContent = '';
+    renderLog(null);
+    renderActivityVisibility(null);
+    setControlsRunning(false);
+}
+
+function handleTerminalSession(session) {
+    stopPending = false;
+    setControlsRunning(false);
+
+    if (!notifyUser) {
+        return;
+    }
+
+    if (session?.status === 'stopped') {
+        notifyUser('Auto Apply stopped.', 'success');
+    } else if (session?.status === 'completed') {
+        notifyUser('Auto Apply finished.', 'success');
+    } else if (session?.status === 'error') {
+        notifyUser(session.lastError || 'Auto Apply failed.', 'error');
+    }
 }
 
 function renderSession(session) {
+    const wasStopPending = stopPending;
+    lastRenderedSession = session;
+
+    if (session && isTerminalAutoApplyStatus(session.status)) {
+        allowTerminalDisplay = true;
+
+        if (wasStopPending) {
+            handleTerminalSession(session);
+        } else {
+            stopPending = false;
+        }
+    } else if (!session || isActiveAutoApplyStatus(session.status)) {
+        allowTerminalDisplay = false;
+
+        if (session?.stopRequested) {
+            stopPending = true;
+        }
+    }
+
     renderStatusLine(session);
-    statsEl.textContent = formatStats(session);
-    renderLog(session);
-    setControlsRunning(session?.status === 'running');
+    renderPauseBanner(session);
+
+    if (shouldShowAutoApplyActivityControls(session)) {
+        statsEl.textContent = formatStats(session);
+        renderLog(session);
+    } else {
+        statsEl.textContent = '';
+        renderLog(null);
+    }
+
+    renderActivityVisibility(session);
+
+    const isRunning = session?.status === 'running' || session?.status === 'paused_for_input';
+    setControlsRunning(isRunning, { stopping: Boolean(session?.stopRequested && session?.status === 'running') });
 }
 
 async function fetchStatus() {
+    const ctx = extensionContext();
+
+    if (ctx) {
+        return ctx.safeRuntimeSend({ type: 'AUTO_APPLY_STATUS' });
+    }
+
     return new Promise((resolve) => {
-        chrome.runtime.sendMessage({ type: 'AUTO_APPLY_STATUS' }, resolve);
+        chrome.runtime.sendMessage({ type: 'AUTO_APPLY_STATUS' }, (response) => {
+            if (chrome.runtime.lastError) {
+                resolve(null);
+
+                return;
+            }
+
+            resolve(response);
+        });
     });
+}
+
+async function dismissFinishedSession() {
+    const ctx = extensionContext();
+
+    if (ctx) {
+        await ctx.safeRuntimeSend({ type: 'AUTO_APPLY_DISMISS' });
+
+        return;
+    }
+
+    await new Promise((resolve) => {
+        chrome.runtime.sendMessage({ type: 'AUTO_APPLY_DISMISS' }, () => resolve());
+    });
+}
+
+async function refreshStatus() {
+    const response = await fetchStatus();
+    const session = response?.session || null;
+
+    if (session && isTerminalAutoApplyStatus(session.status)) {
+        if (allowTerminalDisplay) {
+            renderSession(session);
+            stopPolling();
+
+            return;
+        }
+
+        await dismissFinishedSession();
+        renderCleanState();
+
+        return;
+    }
+
+    if (session && isActiveAutoApplyStatus(session.status)) {
+        renderSession(session);
+        startPolling();
+
+        return;
+    }
+
+    renderCleanState();
 }
 
 function startPolling() {
@@ -112,6 +279,10 @@ function startPolling() {
     }
 
     pollTimer = window.setInterval(() => {
+        if (document.visibilityState !== 'visible') {
+            return;
+        }
+
         void fetchStatus().then((response) => {
             if (response?.session) {
                 renderSession(response.session);
@@ -129,8 +300,24 @@ function stopPolling() {
     pollTimer = null;
 }
 
+function resetAutoApplyUiOnPanelHidden() {
+    allowTerminalDisplay = false;
+    stopPolling();
+    renderCleanState();
+}
+
+function expandActivityPanelForRun() {
+    resetActivityPanelVisibility();
+}
+
 export function initAutoApplyPanel({ showMessage }) {
+    notifyUser = showMessage;
     renderPlatformOptions();
+
+    activityToggleEl.addEventListener('click', () => {
+        activityPanelManuallyHidden = !activityPanelManuallyHidden;
+        renderActivityVisibility(lastRenderedSession);
+    });
 
     startBtn.addEventListener('click', async () => {
         const roleDescription = roleInput.value.trim();
@@ -145,17 +332,26 @@ export function initAutoApplyPanel({ showMessage }) {
         startBtn.disabled = true;
 
         try {
-            const response = await chrome.runtime.sendMessage({
-                type: 'AUTO_APPLY_START',
-                platform: platformSelect.value,
-                roleDescription,
-                maxApplications,
-            });
+            const ctx = extensionContext();
+            const response = ctx
+                ? await ctx.safeRuntimeSend({
+                    type: 'AUTO_APPLY_START',
+                    platform: platformSelect.value,
+                    roleDescription,
+                    maxApplications,
+                })
+                : await chrome.runtime.sendMessage({
+                    type: 'AUTO_APPLY_START',
+                    platform: platformSelect.value,
+                    roleDescription,
+                    maxApplications,
+                });
 
             if (response?.error) {
                 throw new Error(response.error);
             }
 
+            expandActivityPanelForRun();
             renderSession(response.session);
             startPolling();
             showMessage('Auto Apply started.', 'success');
@@ -166,20 +362,24 @@ export function initAutoApplyPanel({ showMessage }) {
     });
 
     stopBtn.addEventListener('click', async () => {
-        stopBtn.disabled = true;
+        stopPending = true;
+        setControlsRunning(true, { stopping: true });
 
         try {
-            const response = await chrome.runtime.sendMessage({ type: 'AUTO_APPLY_STOP' });
+            const ctx = extensionContext();
+            const response = ctx
+                ? await ctx.safeRuntimeSend({ type: 'AUTO_APPLY_STOP' })
+                : await chrome.runtime.sendMessage({ type: 'AUTO_APPLY_STOP' });
 
             if (response?.error) {
                 throw new Error(response.error);
             }
 
             renderSession(response.session);
-            showMessage('Stopping Auto Apply…', 'success');
         } catch (error) {
+            stopPending = false;
             showMessage(error.message, 'error');
-            stopBtn.disabled = false;
+            void refreshStatus();
         }
     });
 
@@ -187,24 +387,30 @@ export function initAutoApplyPanel({ showMessage }) {
         if (message.type === 'AUTO_APPLY_STATUS' && message.session) {
             renderSession(message.session);
 
-            if (message.session.status !== 'running') {
+            if (!isActiveAutoApplyStatus(message.session.status)) {
                 stopPolling();
             }
         }
-    });
 
-    void fetchStatus().then((response) => {
-        renderSession(response?.session || null);
+        if (message.type === 'AUTO_APPLY_PAUSED' && message.pauseContext) {
+            void fetchStatus().then((response) => {
+                if (response?.session) {
+                    renderSession(response.session);
+                }
+            });
+        }
 
-        if (response?.session?.status === 'running') {
-            startPolling();
+        if (message.type === 'AUTO_APPLY_RESUMED') {
+            void fetchStatus().then((response) => {
+                renderSession(response?.session || null);
+            });
         }
     });
 
+    void refreshStatus();
+
     return {
-        refreshStatus: async () => {
-            const response = await fetchStatus();
-            renderSession(response?.session || null);
-        },
+        refreshStatus,
+        resetAutoApplyUiOnPanelHidden,
     };
 }

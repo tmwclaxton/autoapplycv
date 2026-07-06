@@ -33,6 +33,16 @@ class AiTokenService
         return max(0, $user->subscriptionTier()->monthlyAutofills());
     }
 
+    public function bonusAutofills(User $user): int
+    {
+        return max(0, (int) $user->bonus_autofills);
+    }
+
+    public function totalAutofillAllowance(User $user): int
+    {
+        return $this->monthlyAutofillAllowance($user) + $this->bonusAutofills($user);
+    }
+
     public function autofillsUsed(User $user): int
     {
         $this->ensureCurrentPeriod($user);
@@ -42,7 +52,7 @@ class AiTokenService
 
     public function autofillsRemaining(User $user): int
     {
-        return max(0, $this->monthlyAutofillAllowance($user) - $this->autofillsUsed($user));
+        return max(0, $this->totalAutofillAllowance($user) - $this->autofillsUsed($user));
     }
 
     public function canAutofill(User $user, int $count = 1): bool
@@ -160,6 +170,8 @@ class AiTokenService
      *     plan_description: string,
      *     features: array<int, string>,
      *     monthly_autofills: int,
+     *     bonus_autofills: int,
+     *     total_autofill_allowance: int,
      *     autofills_used: int,
      *     autofills_remaining: int,
      *     can_autofill: bool,
@@ -202,6 +214,8 @@ class AiTokenService
             ? Carbon::parse($user->ai_tokens_period_start)
             : now()->startOfMonth();
         $allowance = max(0, $allowanceTier->monthlyAutofills());
+        $bonusAutofills = $this->bonusAutofills($user);
+        $totalAllowance = $allowance + $bonusAutofills;
         $used = $this->autofillsUsed($user);
 
         return [
@@ -218,8 +232,10 @@ class AiTokenService
             'plan_description' => $displayTier->description(),
             'features' => $displayTier->features(),
             'monthly_autofills' => $allowance,
+            'bonus_autofills' => $bonusAutofills,
+            'total_autofill_allowance' => $totalAllowance,
             'autofills_used' => $used,
-            'autofills_remaining' => max(0, $allowance - $used),
+            'autofills_remaining' => max(0, $totalAllowance - $used),
             'can_autofill' => $this->canAutofill($user),
             'autofill_block_reason' => $blockReason,
             'checkout_in_progress' => $checkoutInProgress,

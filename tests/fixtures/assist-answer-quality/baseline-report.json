@@ -1,0 +1,560 @@
+{
+    "generated_at": "2026-07-06T11:26:32+00:00",
+    "model": "deepseek\/deepseek-v4-flash:throughput",
+    "scenario_count": 5,
+    "response_count": 5,
+    "summary": {
+        "total": 5,
+        "passed": 0,
+        "failed": 5,
+        "pass_rate": 0,
+        "average_score_100": 20,
+        "dimension_averages": {
+            "quality": 1,
+            "answered_question": 1,
+            "non_ai_phrasing": 1,
+            "tone_match": 1,
+            "grounding": 1,
+            "conciseness": 1
+        }
+    },
+    "failure_patterns": [
+        {
+            "pattern": "Low quality score",
+            "count": 5
+        },
+        {
+            "pattern": "Low answered_question score",
+            "count": 5
+        },
+        {
+            "pattern": "Low non_ai_phrasing score",
+            "count": 5
+        },
+        {
+            "pattern": "Low tone_match score",
+            "count": 5
+        },
+        {
+            "pattern": "Low grounding score",
+            "count": 5
+        },
+        {
+            "pattern": "Low conciseness score",
+            "count": 5
+        },
+        {
+            "pattern": "Empty response",
+            "count": 3
+        },
+        {
+            "pattern": "Missing required mention: Riverbank Systems",
+            "count": 2
+        },
+        {
+            "pattern": "Missing required mention: 65000",
+            "count": 1
+        },
+        {
+            "pattern": "Missing required mention: 1 month",
+            "count": 1
+        }
+    ],
+    "worst_scenarios": [
+        {
+            "id": "laravel-motivation-uk-formal",
+            "scores": {
+                "quality": 1,
+                "answered_question": 1,
+                "non_ai_phrasing": 1,
+                "tone_match": 1,
+                "grounding": 1,
+                "conciseness": 1
+            },
+            "average": 1,
+            "score_100": 20,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Missing required mention: Riverbank Systems"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [
+                    "robust"
+                ],
+                "ai_phrase_reason": "Overused AI word(s): robust",
+                "ai_phrases_ok": true
+            },
+            "notes": "NanoGPT returned no score. Overused AI word(s): robust Mechanical: Missing required mention: Riverbank Systems",
+            "scenario_id": "laravel-motivation-uk-formal",
+            "user_question": "Draft an answer for \"Why are you interested in this role?\" for StackForge. Keep it formal and paste-ready.",
+            "response": "I am drawn to StackForge because of its reputation for developing robust, scalable cloud-native solutions that empower developers to build and deploy applications efficiently. The role aligns perfectly with my technical expertise in software engineering and my passion for creating tools that simplify complex infrastructure challenges. I am particularly excited about the opportunity to contribute to a team that values innovation and collaboration, and I am confident that my experience in designing and implementing distributed systems will enable me to make immediate and impactful contributions to StackForge's mission."
+        },
+        {
+            "id": "laravel-why-company-brief",
+            "scores": {
+                "quality": 1,
+                "answered_question": 1,
+                "non_ai_phrasing": 1,
+                "tone_match": 1,
+                "grounding": 1,
+                "conciseness": 1
+            },
+            "average": 1,
+            "score_100": 20,
+            "passed": false,
+            "mechanical": {
+                "passed": true,
+                "failure_reasons": [],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null,
+                "ai_phrases_ok": true
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "laravel-why-company-brief",
+            "user_question": "In one sentence, why StackForge? Application form, UK English.",
+            "response": "StackForge accelerates development and delivery by providing a unified, battle-tested platform that eliminates integration friction, ensuring your team can focus on building world-class products."
+        },
+        {
+            "id": "laravel-salary-numeric",
+            "scores": {
+                "quality": 1,
+                "answered_question": 1,
+                "non_ai_phrasing": 1,
+                "tone_match": 1,
+                "grounding": 1,
+                "conciseness": 1
+            },
+            "average": 1,
+            "score_100": 20,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Empty response",
+                    "Missing required mention: 65000"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null,
+                "ai_phrases_ok": true
+            },
+            "notes": "NanoGPT returned no score. Mechanical: Empty response; Missing required mention: 65000",
+            "scenario_id": "laravel-salary-numeric",
+            "user_question": "What should I put for salary expectations on this UK form?",
+            "response": null
+        },
+        {
+            "id": "laravel-notice-period",
+            "scores": {
+                "quality": 1,
+                "answered_question": 1,
+                "non_ai_phrasing": 1,
+                "tone_match": 1,
+                "grounding": 1,
+                "conciseness": 1
+            },
+            "average": 1,
+            "score_100": 20,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Empty response",
+                    "Missing required mention: 1 month"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null,
+                "ai_phrases_ok": true
+            },
+            "notes": "NanoGPT returned no score. Mechanical: Empty response; Missing required mention: 1 month",
+            "scenario_id": "laravel-notice-period",
+            "user_question": "Draft my notice period answer for an employer form.",
+            "response": null
+        },
+        {
+            "id": "laravel-laravel-experience",
+            "scores": {
+                "quality": 1,
+                "answered_question": 1,
+                "non_ai_phrasing": 1,
+                "tone_match": 1,
+                "grounding": 1,
+                "conciseness": 1
+            },
+            "average": 1,
+            "score_100": 20,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Empty response",
+                    "Missing required mention: Riverbank Systems"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null,
+                "ai_phrases_ok": true
+            },
+            "notes": "NanoGPT returned no score. Mechanical: Empty response; Missing required mention: Riverbank Systems",
+            "scenario_id": "laravel-laravel-experience",
+            "user_question": "Describe my Laravel production experience for this application - paste-ready, first person.",
+            "response": null
+        }
+    ],
+    "scenarios": [
+        {
+            "scenario_id": "laravel-motivation-uk-formal",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "open_text",
+            "response_style": "form_answer",
+            "usage": {
+                "prompt_tokens": 50,
+                "completion_tokens": 106,
+                "total_tokens": 156,
+                "credits": 3.3269218500000004e-5,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "message": "I am drawn to StackForge because of its reputation for developing robust, scalable cloud-native solutions that empower developers to build and deploy applications efficiently. The role aligns perfectly with my technical expertise in software engineering and my passion for creating tools that simplify complex infrastructure challenges. I am particularly excited about the opportunity to contribute to a team that values innovation and collaboration, and I am confident that my experience in designing and implementing distributed systems will enable me to make immediate and impactful contributions to StackForge's mission.",
+            "draft_answer": null,
+            "response": "I am drawn to StackForge because of its reputation for developing robust, scalable cloud-native solutions that empower developers to build and deploy applications efficiently. The role aligns perfectly with my technical expertise in software engineering and my passion for creating tools that simplify complex infrastructure challenges. I am particularly excited about the opportunity to contribute to a team that values innovation and collaboration, and I am confident that my experience in designing and implementing distributed systems will enable me to make immediate and impactful contributions to StackForge's mission.",
+            "scores": [
+                {
+                    "id": "laravel-motivation-uk-formal",
+                    "scores": {
+                        "quality": 1,
+                        "answered_question": 1,
+                        "non_ai_phrasing": 1,
+                        "tone_match": 1,
+                        "grounding": 1,
+                        "conciseness": 1
+                    },
+                    "average": 1,
+                    "score_100": 20,
+                    "passed": false,
+                    "mechanical": {
+                        "passed": false,
+                        "failure_reasons": [
+                            "Missing required mention: Riverbank Systems"
+                        ],
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [
+                            "robust"
+                        ],
+                        "ai_phrase_reason": "Overused AI word(s): robust",
+                        "ai_phrases_ok": true
+                    },
+                    "notes": "NanoGPT returned no score. Overused AI word(s): robust Mechanical: Missing required mention: Riverbank Systems",
+                    "scenario_id": "laravel-motivation-uk-formal",
+                    "user_question": "Draft an answer for \"Why are you interested in this role?\" for StackForge. Keep it formal and paste-ready.",
+                    "response": "I am drawn to StackForge because of its reputation for developing robust, scalable cloud-native solutions that empower developers to build and deploy applications efficiently. The role aligns perfectly with my technical expertise in software engineering and my passion for creating tools that simplify complex infrastructure challenges. I am particularly excited about the opportunity to contribute to a team that values innovation and collaboration, and I am confident that my experience in designing and implementing distributed systems will enable me to make immediate and impactful contributions to StackForge's mission."
+                }
+            ],
+            "passed": false
+        },
+        {
+            "scenario_id": "laravel-why-company-brief",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "open_text",
+            "response_style": "brief",
+            "usage": {
+                "prompt_tokens": 39,
+                "completion_tokens": 37,
+                "total_tokens": 76,
+                "credits": 1.4348937750000002e-5,
+                "model": "deepseek\/deepseek-v4-flash:throughput"
+            },
+            "message": "StackForge accelerates development and delivery by providing a unified, battle-tested platform that eliminates integration friction, ensuring your team can focus on building world-class products.",
+            "draft_answer": null,
+            "response": "StackForge accelerates development and delivery by providing a unified, battle-tested platform that eliminates integration friction, ensuring your team can focus on building world-class products.",
+            "scores": [
+                {
+                    "id": "laravel-why-company-brief",
+                    "scores": {
+                        "quality": 1,
+                        "answered_question": 1,
+                        "non_ai_phrasing": 1,
+                        "tone_match": 1,
+                        "grounding": 1,
+                        "conciseness": 1
+                    },
+                    "average": 1,
+                    "score_100": 20,
+                    "passed": false,
+                    "mechanical": {
+                        "passed": true,
+                        "failure_reasons": [],
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null,
+                        "ai_phrases_ok": true
+                    },
+                    "notes": "NanoGPT returned no score.",
+                    "scenario_id": "laravel-why-company-brief",
+                    "user_question": "In one sentence, why StackForge? Application form, UK English.",
+                    "response": "StackForge accelerates development and delivery by providing a unified, battle-tested platform that eliminates integration friction, ensuring your team can focus on building world-class products."
+                }
+            ],
+            "passed": false
+        },
+        {
+            "scenario_id": "laravel-salary-numeric",
+            "error": "ApplicationAssistantService returned null",
+            "response": null,
+            "scores": [
+                {
+                    "id": "laravel-salary-numeric",
+                    "scores": {
+                        "quality": 1,
+                        "answered_question": 1,
+                        "non_ai_phrasing": 1,
+                        "tone_match": 1,
+                        "grounding": 1,
+                        "conciseness": 1
+                    },
+                    "average": 1,
+                    "score_100": 20,
+                    "passed": false,
+                    "mechanical": {
+                        "passed": false,
+                        "failure_reasons": [
+                            "Empty response",
+                            "Missing required mention: 65000"
+                        ],
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null,
+                        "ai_phrases_ok": true
+                    },
+                    "notes": "NanoGPT returned no score. Mechanical: Empty response; Missing required mention: 65000",
+                    "scenario_id": "laravel-salary-numeric",
+                    "user_question": "What should I put for salary expectations on this UK form?",
+                    "response": null
+                }
+            ],
+            "passed": false
+        },
+        {
+            "scenario_id": "laravel-notice-period",
+            "error": "ApplicationAssistantService returned null",
+            "response": null,
+            "scores": [
+                {
+                    "id": "laravel-notice-period",
+                    "scores": {
+                        "quality": 1,
+                        "answered_question": 1,
+                        "non_ai_phrasing": 1,
+                        "tone_match": 1,
+                        "grounding": 1,
+                        "conciseness": 1
+                    },
+                    "average": 1,
+                    "score_100": 20,
+                    "passed": false,
+                    "mechanical": {
+                        "passed": false,
+                        "failure_reasons": [
+                            "Empty response",
+                            "Missing required mention: 1 month"
+                        ],
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null,
+                        "ai_phrases_ok": true
+                    },
+                    "notes": "NanoGPT returned no score. Mechanical: Empty response; Missing required mention: 1 month",
+                    "scenario_id": "laravel-notice-period",
+                    "user_question": "Draft my notice period answer for an employer form.",
+                    "response": null
+                }
+            ],
+            "passed": false
+        },
+        {
+            "scenario_id": "laravel-laravel-experience",
+            "error": "ApplicationAssistantService returned null",
+            "response": null,
+            "scores": [
+                {
+                    "id": "laravel-laravel-experience",
+                    "scores": {
+                        "quality": 1,
+                        "answered_question": 1,
+                        "non_ai_phrasing": 1,
+                        "tone_match": 1,
+                        "grounding": 1,
+                        "conciseness": 1
+                    },
+                    "average": 1,
+                    "score_100": 20,
+                    "passed": false,
+                    "mechanical": {
+                        "passed": false,
+                        "failure_reasons": [
+                            "Empty response",
+                            "Missing required mention: Riverbank Systems"
+                        ],
+                        "ai_phrase_hard": [],
+                        "ai_phrase_soft": [],
+                        "ai_phrase_reason": null,
+                        "ai_phrases_ok": true
+                    },
+                    "notes": "NanoGPT returned no score. Mechanical: Empty response; Missing required mention: Riverbank Systems",
+                    "scenario_id": "laravel-laravel-experience",
+                    "user_question": "Describe my Laravel production experience for this application - paste-ready, first person.",
+                    "response": null
+                }
+            ],
+            "passed": false
+        }
+    ],
+    "scores": [
+        {
+            "id": "laravel-motivation-uk-formal",
+            "scores": {
+                "quality": 1,
+                "answered_question": 1,
+                "non_ai_phrasing": 1,
+                "tone_match": 1,
+                "grounding": 1,
+                "conciseness": 1
+            },
+            "average": 1,
+            "score_100": 20,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Missing required mention: Riverbank Systems"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [
+                    "robust"
+                ],
+                "ai_phrase_reason": "Overused AI word(s): robust",
+                "ai_phrases_ok": true
+            },
+            "notes": "NanoGPT returned no score. Overused AI word(s): robust Mechanical: Missing required mention: Riverbank Systems",
+            "scenario_id": "laravel-motivation-uk-formal",
+            "user_question": "Draft an answer for \"Why are you interested in this role?\" for StackForge. Keep it formal and paste-ready.",
+            "response": "I am drawn to StackForge because of its reputation for developing robust, scalable cloud-native solutions that empower developers to build and deploy applications efficiently. The role aligns perfectly with my technical expertise in software engineering and my passion for creating tools that simplify complex infrastructure challenges. I am particularly excited about the opportunity to contribute to a team that values innovation and collaboration, and I am confident that my experience in designing and implementing distributed systems will enable me to make immediate and impactful contributions to StackForge's mission."
+        },
+        {
+            "id": "laravel-why-company-brief",
+            "scores": {
+                "quality": 1,
+                "answered_question": 1,
+                "non_ai_phrasing": 1,
+                "tone_match": 1,
+                "grounding": 1,
+                "conciseness": 1
+            },
+            "average": 1,
+            "score_100": 20,
+            "passed": false,
+            "mechanical": {
+                "passed": true,
+                "failure_reasons": [],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null,
+                "ai_phrases_ok": true
+            },
+            "notes": "NanoGPT returned no score.",
+            "scenario_id": "laravel-why-company-brief",
+            "user_question": "In one sentence, why StackForge? Application form, UK English.",
+            "response": "StackForge accelerates development and delivery by providing a unified, battle-tested platform that eliminates integration friction, ensuring your team can focus on building world-class products."
+        },
+        {
+            "id": "laravel-salary-numeric",
+            "scores": {
+                "quality": 1,
+                "answered_question": 1,
+                "non_ai_phrasing": 1,
+                "tone_match": 1,
+                "grounding": 1,
+                "conciseness": 1
+            },
+            "average": 1,
+            "score_100": 20,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Empty response",
+                    "Missing required mention: 65000"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null,
+                "ai_phrases_ok": true
+            },
+            "notes": "NanoGPT returned no score. Mechanical: Empty response; Missing required mention: 65000",
+            "scenario_id": "laravel-salary-numeric",
+            "user_question": "What should I put for salary expectations on this UK form?",
+            "response": null
+        },
+        {
+            "id": "laravel-notice-period",
+            "scores": {
+                "quality": 1,
+                "answered_question": 1,
+                "non_ai_phrasing": 1,
+                "tone_match": 1,
+                "grounding": 1,
+                "conciseness": 1
+            },
+            "average": 1,
+            "score_100": 20,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Empty response",
+                    "Missing required mention: 1 month"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null,
+                "ai_phrases_ok": true
+            },
+            "notes": "NanoGPT returned no score. Mechanical: Empty response; Missing required mention: 1 month",
+            "scenario_id": "laravel-notice-period",
+            "user_question": "Draft my notice period answer for an employer form.",
+            "response": null
+        },
+        {
+            "id": "laravel-laravel-experience",
+            "scores": {
+                "quality": 1,
+                "answered_question": 1,
+                "non_ai_phrasing": 1,
+                "tone_match": 1,
+                "grounding": 1,
+                "conciseness": 1
+            },
+            "average": 1,
+            "score_100": 20,
+            "passed": false,
+            "mechanical": {
+                "passed": false,
+                "failure_reasons": [
+                    "Empty response",
+                    "Missing required mention: Riverbank Systems"
+                ],
+                "ai_phrase_hard": [],
+                "ai_phrase_soft": [],
+                "ai_phrase_reason": null,
+                "ai_phrases_ok": true
+            },
+            "notes": "NanoGPT returned no score. Mechanical: Empty response; Missing required mention: Riverbank Systems",
+            "scenario_id": "laravel-laravel-experience",
+            "user_question": "Describe my Laravel production experience for this application - paste-ready, first person.",
+            "response": null
+        }
+    ]
+}

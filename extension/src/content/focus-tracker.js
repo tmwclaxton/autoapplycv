@@ -57,9 +57,42 @@ const AutoCVApplyFocusTracker = (() => {
             || host === '127.0.0.1';
     }
 
+    function extensionContext() {
+        return typeof AutoCVApplyExtensionContext !== 'undefined'
+            ? AutoCVApplyExtensionContext
+            : null;
+    }
+
+    function ensureExtensionContextOrTeardown() {
+        const ctx = extensionContext();
+
+        if (!ctx) {
+            hideQuickDraftButton();
+
+            return false;
+        }
+
+        if (ctx.isExtensionContextValid()) {
+            return true;
+        }
+
+        hideQuickDraftButton();
+
+        return false;
+    }
+
     async function checkAuthenticated() {
+        if (!ensureExtensionContextOrTeardown()) {
+            authenticated = false;
+
+            return false;
+        }
+
         try {
-            const response = await chrome.runtime.sendMessage({ type: 'GET_AUTH_STATUS' });
+            const ctx = extensionContext();
+            const response = ctx
+                ? await ctx.safeRuntimeSend({ type: 'GET_AUTH_STATUS' })
+                : await chrome.runtime.sendMessage({ type: 'GET_AUTH_STATUS' });
             authenticated = response?.isAuthenticated === true;
 
             return authenticated;
@@ -71,15 +104,33 @@ const AutoCVApplyFocusTracker = (() => {
     }
 
     async function loadProfilePayload() {
+        if (!ensureExtensionContextOrTeardown()) {
+            return null;
+        }
+
         try {
+            const ctx = extensionContext();
+
             return await new Promise((resolve, reject) => {
-                chrome.runtime.sendMessage({ type: 'GET_PROFILE' }, (response) => {
-                    if (chrome.runtime.lastError) {
-                        reject(new Error(chrome.runtime.lastError.message));
-                    } else if (response?.error) {
+                const onResponse = (response) => {
+                    if (response?.error) {
                         reject(new Error(response.error));
                     } else {
                         resolve(response);
+                    }
+                };
+
+                if (ctx) {
+                    ctx.safeRuntimeSendCallback({ type: 'GET_PROFILE' }, onResponse);
+
+                    return;
+                }
+
+                chrome.runtime.sendMessage({ type: 'GET_PROFILE' }, (response) => {
+                    if (chrome.runtime.lastError) {
+                        reject(new Error(chrome.runtime.lastError.message));
+                    } else {
+                        onResponse(response);
                     }
                 });
             });
@@ -223,7 +274,14 @@ const AutoCVApplyFocusTracker = (() => {
             draftButton.textContent = 'Drafting…';
 
             try {
-                const response = await chrome.runtime.sendMessage({ type: 'QUICK_ANSWER_FOCUSED' });
+                if (!ensureExtensionContextOrTeardown()) {
+                    return;
+                }
+
+                const ctx = extensionContext();
+                const response = ctx
+                    ? await ctx.safeRuntimeSend({ type: 'QUICK_ANSWER_FOCUSED' })
+                    : await chrome.runtime.sendMessage({ type: 'QUICK_ANSWER_FOCUSED' });
 
                 if (response?.error) {
                     draftButton.textContent = 'Try again';
@@ -307,14 +365,30 @@ const AutoCVApplyFocusTracker = (() => {
         const payload = await buildFieldPayload(element);
 
         try {
+            const ctx = extensionContext();
+
             if (!payload) {
-                await chrome.storage.session.remove(FOCUSED_FIELD_KEY);
+                if (ctx) {
+                    await ctx.safeStorageSessionRemove(FOCUSED_FIELD_KEY);
+                } else {
+                    await chrome.storage.session.remove(FOCUSED_FIELD_KEY);
+                }
+
                 hideQuickDraftButton();
 
                 return;
             }
 
-            await chrome.storage.session.set({ [FOCUSED_FIELD_KEY]: payload });
+            const stored = ctx
+                ? await ctx.safeStorageSessionSet({ [FOCUSED_FIELD_KEY]: payload })
+                : await chrome.storage.session.set({ [FOCUSED_FIELD_KEY]: payload });
+
+            if (ctx && !stored) {
+                hideQuickDraftButton();
+
+                return;
+            }
+
             activeElement = element;
             positionQuickDraftButton(element);
         } catch {
@@ -371,7 +445,7 @@ const AutoCVApplyFocusTracker = (() => {
         window.addEventListener('scroll', reposition, true);
         window.addEventListener('resize', reposition, true);
 
-        chrome.runtime.onMessage.addListener((message) => {
+        const authMessageListener = (message) => {
             if (message.type === 'AUTH_STATE_CHANGED') {
                 void checkAuthenticated().then((isAuthenticated) => {
                     if (!isAuthenticated) {
@@ -379,7 +453,15 @@ const AutoCVApplyFocusTracker = (() => {
                     }
                 });
             }
-        });
+        };
+
+        if (extensionContext()?.safeOnMessageAddListener(authMessageListener) !== true) {
+            try {
+                chrome.runtime.onMessage.addListener(authMessageListener);
+            } catch {
+                // Ignore listener registration when the extension was reloaded.
+            }
+        }
     }
 
     return { bindFocusTracking, FOCUSED_FIELD_KEY };

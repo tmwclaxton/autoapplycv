@@ -13,6 +13,8 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
     const chatHistory = [];
     let activeStreamPort = null;
     let requestInProgress = false;
+    /** @type {object|null} */
+    let autoApplyPauseContext = null;
 
     function scrollMessagesToBottom() {
         if (!messagesScrollEl) {
@@ -114,6 +116,86 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         return readValueAtPath(response, path);
     }
 
+    function clearAutoApplyPauseContext() {
+        autoApplyPauseContext = null;
+    }
+
+    async function submitAutoApplyBlockerAnswer(answer) {
+        const trimmed = String(answer || '').trim();
+
+        if (!trimmed || !autoApplyPauseContext?.blockerField) {
+            return false;
+        }
+
+        const response = await chrome.runtime.sendMessage({
+            type: 'AUTO_APPLY_SUBMIT_BLOCKER_ANSWER',
+            answer: trimmed,
+            field: autoApplyPauseContext.blockerField,
+        });
+
+        if (response?.error) {
+            throw new Error(response.error);
+        }
+
+        clearAutoApplyPauseContext();
+        showMessage(response.applied ? 'Answer applied. Resuming Auto Apply…' : 'Answer saved. Resuming Auto Apply…', 'success');
+
+        return true;
+    }
+
+    function extractDraftAnswerFromActions(actions = []) {
+        for (const action of actions) {
+            if (action?.type === 'copy_draft' && action.value) {
+                return String(action.value).trim();
+            }
+        }
+
+        return '';
+    }
+
+    function handleAutoApplyPaused(pauseContext) {
+        autoApplyPauseContext = pauseContext || null;
+
+        if (!pauseContext) {
+            return;
+        }
+
+        const questionText = pauseContext.questionText
+            || `Auto Apply needs your help: ${pauseContext.blockerField?.label || 'required field'}`;
+
+        inputEl.value = questionText;
+        inputEl.focus();
+
+        appendMessage(
+            'assistant',
+            `Auto Apply paused on "${pauseContext.blockerField?.label || 'a required field'}". `
+            + 'Send your answer here, or use Save & fill in the pending fields section above.',
+            {},
+            { recordHistory: false },
+        );
+    }
+
+    async function maybeSubmitAutoApplyAnswerFromAssist(result, userContent) {
+        if (!autoApplyPauseContext) {
+            return;
+        }
+
+        const draftAnswer = result?.draft_answer
+            || extractDraftAnswerFromActions(result?.actions || []);
+
+        const directAnswer = userContent.startsWith('Auto Apply needs your help:')
+            ? ''
+            : userContent;
+
+        const answer = draftAnswer || directAnswer;
+
+        if (!answer) {
+            return;
+        }
+
+        await submitAutoApplyBlockerAnswer(answer);
+    }
+
     function createDraftAnswerCopyButton(answerText) {
         const copyBtn = document.createElement('button');
         copyBtn.type = 'button';
@@ -135,6 +217,67 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         });
 
         return copyBtn;
+    }
+
+    const ASSIST_COPY_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+    const ASSIST_COPIED_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
+    function createAssistantCopyButton(getText) {
+        const copyBtn = document.createElement('button');
+        copyBtn.type = 'button';
+        copyBtn.className = 'assist-message-copy-btn';
+        copyBtn.setAttribute('aria-label', 'Copy response');
+        copyBtn.title = 'Copy response';
+        copyBtn.innerHTML = ASSIST_COPY_ICON;
+
+        let resetTimer = null;
+
+        copyBtn.addEventListener('click', async () => {
+            const text = typeof getText === 'function' ? getText() : String(getText ?? '');
+            const trimmed = text.trim();
+
+            if (trimmed === '') {
+                return;
+            }
+
+            copyBtn.disabled = true;
+
+            if (resetTimer) {
+                clearTimeout(resetTimer);
+                resetTimer = null;
+            }
+
+            try {
+                await navigator.clipboard.writeText(trimmed);
+                copyBtn.classList.add('is-copied');
+                copyBtn.innerHTML = ASSIST_COPIED_ICON;
+                copyBtn.setAttribute('aria-label', 'Copied');
+                showMessage('Copied to clipboard.', 'success');
+
+                resetTimer = setTimeout(() => {
+                    copyBtn.classList.remove('is-copied');
+                    copyBtn.innerHTML = ASSIST_COPY_ICON;
+                    copyBtn.setAttribute('aria-label', 'Copy response');
+                    copyBtn.disabled = false;
+                    resetTimer = null;
+                }, 2000);
+            } catch (error) {
+                showMessage(error.message || 'Could not copy response.', 'error');
+                copyBtn.disabled = false;
+            }
+        });
+
+        return copyBtn;
+    }
+
+    function appendAssistantBubbleShell(contentBox, getCopyText) {
+        const inner = document.createElement('div');
+        inner.className = 'assist-message-assistant-inner';
+
+        inner.appendChild(contentBox);
+        inner.appendChild(createAssistantCopyButton(getCopyText));
+
+        return inner;
     }
 
     function appendDraftBatchAnswers({ batchNumber = 1, answers = [] } = {}) {
@@ -188,7 +331,12 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         contentBox.appendChild(header);
         contentBox.appendChild(hint);
         contentBox.appendChild(list);
-        bubble.appendChild(contentBox);
+
+        bubble.appendChild(appendAssistantBubbleShell(contentBox, () => {
+            return entries
+                .map((entry) => `${entry.label}\n${entry.answer}`)
+                .join('\n\n');
+        }));
 
         messagesEl.appendChild(bubble);
         scrollMessagesToBottom();
@@ -479,7 +627,7 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         text.textContent = content;
 
         contentBox.appendChild(text);
-        bubble.appendChild(contentBox);
+        bubble.appendChild(appendAssistantBubbleShell(contentBox, () => text.textContent));
 
         return { bubble, text, contentBox };
     }
@@ -617,10 +765,15 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         const bubble = document.createElement('div');
         bubble.className = 'assist-message assist-message-assistant assist-message-welcome';
 
+        const contentBox = document.createElement('div');
+        contentBox.className = 'assist-message-content';
+
         const text = document.createElement('div');
         text.className = 'assist-message-text';
         text.textContent = WELCOME_MESSAGE;
-        bubble.appendChild(text);
+
+        contentBox.appendChild(text);
+        bubble.appendChild(appendAssistantBubbleShell(contentBox, () => text.textContent));
 
         messagesEl.appendChild(bubble);
     }
@@ -696,7 +849,7 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         text.className = 'assist-message-text';
         text.textContent = '';
         contentBox.appendChild(text);
-        bubble.appendChild(contentBox);
+        bubble.appendChild(appendAssistantBubbleShell(contentBox, () => text.textContent));
 
         messagesEl.appendChild(bubble);
         scrollMessagesToBottom();
@@ -822,6 +975,7 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
                 finalMessage: result.message,
             });
             streamMessage = null;
+            await maybeSubmitAutoApplyAnswerFromAssist(result, chatHistory[chatHistory.length - 2]?.content || '');
             await refreshUsage();
         } catch (error) {
             if (streamMessage) {
@@ -865,5 +1019,11 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
 
     appendWelcomeMessage();
 
-    return { appendMessage, appendDraftBatchAnswers, clearChat };
+    return {
+        appendMessage,
+        appendDraftBatchAnswers,
+        clearChat,
+        handleAutoApplyPaused,
+        clearAutoApplyPauseContext,
+    };
 }

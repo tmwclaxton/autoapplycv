@@ -78,7 +78,8 @@ class AutofillAnalyticsTest extends TestCase
             ->assertInertia(fn ($page) => $page
                 ->component('Analytics')
                 ->where('analytics.metrics.answers_autofilled.total', 55)
-                ->where('analytics.metrics.answers_autofilled.period_total', 55));
+                ->where('analytics.metrics.answers_autofilled.period_total', 55)
+                ->missing('auto_apply'));
     }
 
     public function test_analytics_page_is_publicly_accessible(): void
@@ -105,7 +106,8 @@ class AutofillAnalyticsTest extends TestCase
                 ->where('analytics.metrics.answers_autofilled.period_total', 20)
                 ->where('analytics.metrics.extension_questions.total', 7)
                 ->where('analytics.metrics.cvs_parsed.total', 3)
-                ->has('analytics.metrics.answers_autofilled.series', 30));
+                ->has('analytics.metrics.answers_autofilled.series', 30)
+                ->missing('auto_apply'));
     }
 
     public function test_public_summary_fills_missing_days_with_zero(): void

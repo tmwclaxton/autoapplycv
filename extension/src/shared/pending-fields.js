@@ -80,6 +80,8 @@ const PROFILE_FIELD_MAPPINGS = [
     { path: 'full_name', label: 'Full name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['full name', 'applicant name', 'your name', 'candidate name'], exactLabels: ['name'] },
     { path: 'full_name.first', label: 'First name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['first name', 'given name', 'forename', 'fornamn', 'förnamn'] },
     { path: 'full_name.last', label: 'Last name', dashboard_tab: 'profile', dashboard_anchor: 'field-full-name', keywords: ['last name', 'surname', 'family name', 'efternamn'] },
+    { path: '_phone_country_dial', label: 'Phone country code', dashboard_tab: 'profile', dashboard_anchor: 'field-phone', keywords: ['phone country code', 'country code', 'dial code'] },
+    { path: '_phone_national', label: 'Mobile phone number', dashboard_tab: 'profile', dashboard_anchor: 'field-phone', keywords: ['mobile phone number', 'mobile phone', 'mobile number', 'national number'] },
     { path: 'email', label: 'Email', dashboard_tab: 'profile', dashboard_anchor: 'field-email', keywords: ['email', 'e-mail', 'personal email', 'e post', 'epost'] },
     { path: 'phone', label: 'Phone', dashboard_tab: 'profile', dashboard_anchor: 'field-phone', keywords: ['phone', 'mobile', 'telephone', 'contact number', 'cell', 'telefon'] },
     { path: 'linkedin_url', label: 'LinkedIn', dashboard_tab: 'profile', dashboard_anchor: 'field-linkedin-url', keywords: ['linkedin'] },
@@ -887,6 +889,36 @@ export function formatPhoneForForm(profileData, phone) {
     return `${code}${normalized.replace(/^0+/, '')}`;
 }
 
+function resolvePhoneDialCodeForApply(profileData) {
+    const explicit = phoneCountryCode(profileData).replace(/\s/g, '');
+
+    if (explicit) {
+        return explicit.startsWith('+') ? explicit : `+${explicit}`;
+    }
+
+    const formatted = formatPhoneForForm(profileData, readProfileValue(profileData, 'phone'));
+    const match = formatted.match(/^\+(\d{1,3})/);
+
+    return match ? `+${match[1]}` : '';
+}
+
+function resolvePhoneNationalForApply(profileData) {
+    const formatted = formatPhoneForForm(profileData, readProfileValue(profileData, 'phone'));
+
+    if (!formatted) {
+        return '';
+    }
+
+    const dialCode = resolvePhoneDialCodeForApply(profileData).replace(/\D/g, '');
+    let digits = formatted.replace(/\D/g, '');
+
+    if (dialCode && digits.startsWith(dialCode)) {
+        digits = digits.slice(dialCode.length);
+    }
+
+    return digits.replace(/^0+/, '');
+}
+
 export function shouldPromptUserForField(field, profileData) {
     const label = field?.label || field?.question || '';
 
@@ -958,6 +990,14 @@ function profileValueForApply(mapping, profileData) {
 
     if (mapping.path === 'phone') {
         return formatPhoneForForm(profileData, value);
+    }
+
+    if (mapping.path === '_phone_country_dial') {
+        return resolvePhoneDialCodeForApply(profileData);
+    }
+
+    if (mapping.path === '_phone_national') {
+        return resolvePhoneNationalForApply(profileData);
     }
 
     if (mapping.path === 'city' || mapping.path === 'location') {

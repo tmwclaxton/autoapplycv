@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
     'user_id',
@@ -24,6 +25,14 @@ class ExtensionPageCapture extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return HasMany<ExtensionAutoApplyEvent, $this>
+     */
+    public function autoApplyEvents(): HasMany
+    {
+        return $this->hasMany(ExtensionAutoApplyEvent::class, 'extension_page_capture_id');
     }
 
     /**

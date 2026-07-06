@@ -8,21 +8,50 @@ import { fileURLToPath } from 'node:url';
 import { findSecretMatches } from './form-corpus/lib/redact-secrets.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const HTML_DIR = join(ROOT, 'tests/fixtures/form-extraction/html');
+const FIXTURE_DIRS = [
+    join(ROOT, 'tests/fixtures/form-extraction/html'),
+    join(ROOT, 'tests/fixtures/auto-apply/linkedin/captured'),
+];
+
+async function collectHtmlFixtures() {
+    /** @type {{ dirLabel: string, filename: string, path: string }[]} */
+    const files = [];
+
+    for (const dir of FIXTURE_DIRS) {
+        let entries = [];
+
+        try {
+            entries = await readdir(dir);
+        } catch {
+            continue;
+        }
+
+        const dirLabel = dir.replace(`${ROOT}/`, '');
+
+        for (const filename of entries.filter((name) => name.endsWith('.html')).sort()) {
+            files.push({
+                dirLabel,
+                filename,
+                path: join(dir, filename),
+            });
+        }
+    }
+
+    return files;
+}
 
 async function main() {
-    const entries = await readdir(HTML_DIR);
-    const htmlFiles = entries.filter((name) => name.endsWith('.html')).sort();
+    const htmlFiles = await collectHtmlFixtures();
 
     /** @type {{ file: string, label: string, match: string }[]} */
     const violations = [];
 
-    for (const filename of htmlFiles) {
-        const content = await readFile(join(HTML_DIR, filename), 'utf8');
+    for (const entry of htmlFiles) {
+        const content = await readFile(entry.path, 'utf8');
 
         for (const { label, match } of findSecretMatches(content)) {
             violations.push({
-                file: filename,
+                file: `${entry.dirLabel}/${entry.filename}`,
                 label,
                 match: match.length > 48 ? `${match.slice(0, 48)}…` : match,
             });

@@ -45,7 +45,7 @@ function formatNumber(value: number): string {
         <PostboxPageHeader
             badge="Analytics"
             title="Product usage over time."
-            description="A public, aggregate view of autofilled answers, extension questions, and CV parses across all users. No personal data - just daily totals."
+            description="A public, aggregate view of autofilled answers, extension questions, and CV parses across all users. Auto Apply runs use the same Draft All and page capture pipelines - no separate product metrics. No personal data - just daily totals."
         />
 
         <div class="mb-8 grid gap-4 lg:grid-cols-3">
@@ -175,6 +175,11 @@ function formatNumber(value: number): string {
                     </p>
                     <p>
                         CV parses count successful AI extractions after upload.
+                        Auto Apply uses the same Draft All and page capture
+                        flows as manual extension use - those totals appear in
+                        the charts above, not as separate headline numbers.
+                    </p>
+                    <p>
                         Totals are aggregated globally - we do not publish
                         per-user stats on this page.
                     </p>

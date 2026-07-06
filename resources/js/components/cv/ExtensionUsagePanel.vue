@@ -12,6 +12,8 @@ interface SubscriptionSummary {
     autofills_used: number;
     autofills_remaining: number;
     monthly_autofills: number;
+    bonus_autofills?: number;
+    total_autofill_allowance?: number;
     period_resets_at: string;
 }
 
@@ -98,13 +100,27 @@ function formatDate(value: string): string {
                     <p class="text-3xl font-semibold tracking-tight">
                         {{ formatNumber(subscription.autofills_used) }}
                         <span class="text-lg font-normal text-muted-foreground">
-                            / {{ formatNumber(subscription.monthly_autofills) }}
+                            /
+                            {{
+                                formatNumber(
+                                    subscription.total_autofill_allowance ??
+                                        subscription.monthly_autofills,
+                                )
+                            }}
                         </span>
                     </p>
                     <p class="mt-1 text-sm text-muted-foreground">
                         {{ formatNumber(subscription.autofills_remaining) }}
                         remaining · resets
                         {{ formatDate(subscription.period_resets_at) }}
+                    </p>
+                    <p
+                        v-if="(subscription.bonus_autofills ?? 0) > 0"
+                        class="mt-1 text-xs text-muted-foreground"
+                    >
+                        Includes
+                        {{ formatNumber(subscription.bonus_autofills ?? 0) }}
+                        bonus autofills on top of your plan allowance.
                     </p>
                 </div>
             </div>

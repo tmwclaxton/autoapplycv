@@ -215,11 +215,21 @@ const AutoCVApplyPortalBar = (() => {
         fillRunning = false;
     }
 
-    chrome.runtime.onMessage.addListener((message) => {
+    const draftProgressListener = (message) => {
         if (message.type === 'DRAFT_ALL_PROGRESS' && fillRunning) {
             setStatus(message.message || '');
         }
-    });
+    };
+
+    if (typeof AutoCVApplyExtensionContext !== 'undefined') {
+        AutoCVApplyExtensionContext.safeOnMessageAddListener(draftProgressListener);
+    } else {
+        try {
+            chrome.runtime.onMessage.addListener(draftProgressListener);
+        } catch {
+            // Ignore listener registration when the extension was reloaded.
+        }
+    }
 
     return { configure, destroy, hide, setStatus, update };
 })();

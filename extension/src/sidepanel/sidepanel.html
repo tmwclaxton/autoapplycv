@@ -152,12 +152,29 @@
                             </div>
 
                             <div id="auto-apply-status" class="status-line">Ready. Choose a platform and role description.</div>
-                            <div id="auto-apply-stats" class="auto-apply-stats postbox-hint">Found 0 · Applied 0 · Skipped 0 · Errors 0</div>
+                            <div id="auto-apply-pause-banner" class="auto-apply-pause-banner postbox-panel" hidden>
+                                <strong>Paused</strong>
+                                <p id="auto-apply-pause-message" class="postbox-hint auto-apply-pause-message"></p>
+                            </div>
+                            <button
+                                type="button"
+                                id="auto-apply-activity-toggle"
+                                class="auto-apply-activity-toggle postbox-btn-outline"
+                                hidden
+                                aria-expanded="false"
+                                aria-controls="auto-apply-activity-panel"
+                            >
+                                Show activity
+                            </button>
 
-                            <section class="auto-apply-log postbox-panel" aria-live="polite">
-                                <h2 class="auto-apply-log-title">Activity log</h2>
-                                <div id="auto-apply-log" class="auto-apply-log-body"></div>
-                            </section>
+                            <div id="auto-apply-activity-panel" class="auto-apply-activity-panel" hidden>
+                                <div id="auto-apply-stats" class="auto-apply-stats postbox-hint"></div>
+
+                                <section class="auto-apply-log postbox-panel" aria-live="polite">
+                                    <h2 class="auto-apply-log-title">Activity log</h2>
+                                    <div id="auto-apply-log" class="auto-apply-log-body"></div>
+                                </section>
+                            </div>
                         </div>
                     </div>
 

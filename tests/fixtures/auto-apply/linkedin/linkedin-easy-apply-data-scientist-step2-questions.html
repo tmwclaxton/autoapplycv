@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>LinkedIn Easy Apply - Additional Questions</title>
+</head>
+<body>
+<div
+    class="jobs-easy-apply-modal artdeco-modal"
+    data-test-modal=""
+    role="dialog"
+    aria-labelledby="easy-apply-modal-title"
+    style="position: fixed; inset: 40px; z-index: 9999; background: #fff; display: block;"
+>
+    <button type="button" class="artdeco-modal__dismiss" aria-label="Dismiss">&times;</button>
+    <div class="jobs-easy-apply-content">
+        <p class="jobs-easy-apply-content__subtitle">Data Scientist at Insight Analytics</p>
+        <div class="artdeco-stepper__indicator">Step 2 of 4</div>
+        <h2 id="easy-apply-modal-title" class="jobs-easy-apply-form-section__title">Additional Questions</h2>
+        
+        <form class="jobs-easy-apply-form">
+            <div class="jobs-easy-apply-form-section__group">
+        <fieldset class="fb-dash-form-element">
+            <legend class="jobs-easy-apply-form-section__title">How many years of experience do you have with this role?</legend>
+            
+            <label class="fb-dash-form-element__label">
+                <input type="radio" name="experience_years" value="0-1" />
+                Less than 1 year
+            </label>
+            <label class="fb-dash-form-element__label">
+                <input type="radio" name="experience_years" value="1-3" />
+                1-3 years
+            </label>
+            <label class="fb-dash-form-element__label">
+                <input type="radio" name="experience_years" value="3-5" />
+                3-5 years
+            </label>
+            <label class="fb-dash-form-element__label">
+                <input type="radio" name="experience_years" value="5+" />
+                5+ years
+            </label>
+            
+            
+        </fieldset>
+        <div class="fb-dash-form-element">
+            <label class="fb-dash-form-element__label" for="work-location">Are you willing to work on-site?</label>
+            <select id="work-location" name="work_location" class="fb-dash-form-element__select">
+                <option value="">Select an option</option>
+                
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+                <option value="hybrid">Hybrid</option>
+            </select>
+            
+            
+        </div>
+        <div class="fb-dash-form-element ">
+            <label class="fb-dash-form-element__label" for="salary-expectation">What is your expected salary (GBP)?</label>
+            <input
+                id="salary-expectation"
+                class="fb-dash-form-element__input artdeco-text-input--input"
+                type="text"
+                name="salary"
+                value="65000"
+                 required aria-required="true"
+            />
+            
+            
+        </div>
+        <fieldset class="fb-dash-form-element">
+            <legend class="jobs-easy-apply-form-section__title">Are you legally authorized to work in the United Kingdom?</legend>
+            
+            <label class="fb-dash-form-element__label">
+                <input type="radio" name="work_authorization" value="yes" />
+                Yes
+            </label>
+            <label class="fb-dash-form-element__label">
+                <input type="radio" name="work_authorization" value="no" />
+                No
+            </label>
+            
+            
+        </fieldset></div>
+        </form>
+        
+    </div>
+    
+    <footer class="jobs-easy-apply-footer artdeco-modal__actionbar">
+        <button type="button" class="artdeco-button artdeco-button--2 artdeco-button--muted">Back</button>
+        <button type="button" class="artdeco-button artdeco-button--2 artdeco-button--secondary">Cancel</button>
+        
+        <button
+            type="button"
+            class="artdeco-button artdeco-button--2 artdeco-button--primary"
+            aria-label="Continue to next step"
+             data-easy-apply-next-button="" data-live-test-easy-apply-next-button=""
+            
+        >
+            Continue to next step
+        </button>
+    </footer>
+</div>
+</body>
+</html>

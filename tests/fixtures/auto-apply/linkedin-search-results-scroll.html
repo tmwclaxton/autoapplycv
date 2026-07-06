@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>LinkedIn Jobs Search Scroll Fixture</title>
+    <style>
+        .jobs-search-results-list {
+            height: 240px;
+            overflow-y: auto;
+        }
+
+        .job-card-spacer {
+            height: 900px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="jobs-search-results-list">
+            <ul class="jobs-search-results__list">
+                <li class="scaffold-layout__list-item" data-occludable-job-id="100001">
+                    <div class="job-card-container">
+                        <a class="job-card-list__title-link" href="/jobs/view/100001">Visible Engineer</a>
+                        <div class="artdeco-entity-lockup__subtitle">Visible Co</div>
+                        <span class="job-card-container__apply-method">Easy Apply</span>
+                    </div>
+                </li>
+                <li class="job-card-spacer" aria-hidden="true"></li>
+                <li class="scaffold-layout__list-item" data-occludable-job-id="4375167862">
+                    <div class="job-card-container">
+                        <a class="job-card-list__title-link" href="/jobs/view/4375167862">Junior Software Engineer</a>
+                        <div class="artdeco-entity-lockup__subtitle">Homey</div>
+                        <span class="job-card-container__apply-method">Easy Apply</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <section class="jobs-details">
+            <h1>Select a job</h1>
+        </section>
+    </main>
+</body>
+</html>

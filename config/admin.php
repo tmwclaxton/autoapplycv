@@ -15,6 +15,8 @@ return [
 
     'page_captures_per_page' => 25,
 
+    'auto_apply_sessions_per_page' => 25,
+
     'power_user_top_limit' => 10,
 
     'power_user_token_threshold' => 50_000,
@@ -32,5 +34,28 @@ return [
     'worker_heartbeat_stale_minutes' => 5,
 
     'worker_pending_job_stale_minutes' => 10,
+
+    'credit_packages' => [
+        'starter' => [
+            'label' => 'Starter pack',
+            'amount' => 500,
+        ],
+        'standard' => [
+            'label' => 'Standard pack',
+            'amount' => 2_500,
+        ],
+        'pro' => [
+            'label' => 'Pro pack',
+            'amount' => 10_000,
+        ],
+        'unlimited_month' => [
+            'label' => 'Heavy month',
+            'amount' => 25_000,
+        ],
+    ],
+
+    'credit_award_max_per_request' => 50_000,
+
+    'recent_credit_grants_limit' => 15,
 
 ];

@@ -1,0 +1,2511 @@
+{
+    "version": 1,
+    "generated_at": "2026-07-06T11:24:00+00:00",
+    "scenario_count": 83,
+    "profile_personas": {
+        "senior_laravel_dev": {
+            "full_name": "James Mitchell",
+            "headline": "Senior Laravel Developer",
+            "email": "james.mitchell@example.com",
+            "phone": "+447700900123",
+            "city": "Bristol",
+            "location": "Bristol, United Kingdom",
+            "country": "United Kingdom",
+            "summary": "Backend engineer specialising in Laravel APIs, Vue frontends, and PostgreSQL at scale.",
+            "skills": [
+                "PHP",
+                "Laravel",
+                "Vue",
+                "PostgreSQL",
+                "Redis",
+                "Docker"
+            ],
+            "experience": [
+                {
+                    "title": "Senior Software Engineer",
+                    "company": "Riverbank Systems",
+                    "location": "Bristol",
+                    "start_date": "2021-03",
+                    "end_date": "Present",
+                    "is_current": true,
+                    "highlights": [
+                        "Led migration of monolith to Laravel 11 microservices serving 40k daily users",
+                        "Built internal admin tooling with Vue 3 and Inertia"
+                    ],
+                    "technologies": [
+                        "Laravel",
+                        "Vue",
+                        "PostgreSQL"
+                    ]
+                },
+                {
+                    "title": "PHP Developer",
+                    "company": "Coastal Digital",
+                    "location": "Cardiff",
+                    "start_date": "2018-06",
+                    "end_date": "2021-02",
+                    "highlights": [
+                        "Maintained legacy PHP apps and introduced PHPUnit coverage"
+                    ],
+                    "technologies": [
+                        "PHP",
+                        "MySQL"
+                    ]
+                }
+            ],
+            "education": [
+                {
+                    "degree": "BSc Computer Science",
+                    "institution": "University of Bristol",
+                    "end_date": "2018"
+                }
+            ],
+            "structured_data": {
+                "projects": [
+                    {
+                        "name": "Payments dashboard",
+                        "description": "Internal Laravel reporting tool"
+                    }
+                ],
+                "languages": [
+                    {
+                        "language": "English",
+                        "proficiency": "Native"
+                    }
+                ]
+            },
+            "application_settings": {
+                "expected_salary_yearly": "65000",
+                "notice_period": "1 month",
+                "willing_to_relocate": "no"
+            }
+        },
+        "marketing_manager": {
+            "full_name": "Sarah Chen",
+            "headline": "B2B Marketing Manager",
+            "email": "sarah.chen@example.com",
+            "phone": "+14155550123",
+            "city": "San Francisco",
+            "location": "San Francisco, CA",
+            "country": "United States",
+            "summary": "Demand generation and content marketing for SaaS products with measurable pipeline impact.",
+            "skills": [
+                "HubSpot",
+                "SEO",
+                "Content strategy",
+                "Google Analytics",
+                "ABM"
+            ],
+            "experience": [
+                {
+                    "title": "Marketing Manager",
+                    "company": "BrightWave Analytics",
+                    "location": "San Francisco",
+                    "start_date": "2020-01",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Increased inbound SQLs by 38% through SEO and webinar programmes",
+                        "Owned ABM campaigns targeting enterprise finance buyers"
+                    ]
+                },
+                {
+                    "title": "Content Marketer",
+                    "company": "Northline SaaS",
+                    "location": "Oakland",
+                    "start_date": "2017-04",
+                    "end_date": "2019-12",
+                    "highlights": [
+                        "Launched company blog and case study programme"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "95000",
+                "notice_period": "2 weeks"
+            }
+        },
+        "cybersecurity_analyst": {
+            "full_name": "Marcus Webb",
+            "headline": "Security Operations Analyst",
+            "email": "marcus.webb@example.com",
+            "phone": "+447911123456",
+            "city": "Manchester",
+            "location": "Manchester, United Kingdom",
+            "country": "United Kingdom",
+            "summary": "SOC analyst with SIEM tuning, incident triage, and threat hunting experience.",
+            "skills": [
+                "Splunk",
+                "SIEM",
+                "Incident response",
+                "MITRE ATT&CK",
+                "Python"
+            ],
+            "experience": [
+                {
+                    "title": "Security Operations Analyst",
+                    "company": "SecureNet Defence",
+                    "location": "Manchester",
+                    "start_date": "2019-08",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Triaged 200+ alerts weekly in Splunk ES with 15-minute SLA",
+                        "Co-authored runbooks for phishing and ransomware playbooks"
+                    ],
+                    "technologies": [
+                        "Splunk",
+                        "CrowdStrike",
+                        "Python"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "52000",
+                "notice_period": "1 month"
+            }
+        },
+        "swedish_product_designer": {
+            "full_name": "Elin Andersson",
+            "headline": "Produktdesigner",
+            "email": "elin.andersson@example.se",
+            "phone": "+46701234567",
+            "city": "Stockholm",
+            "location": "Stockholm, Sweden",
+            "country": "Sweden",
+            "summary": "UX-designer med fokus på tillgänglighet och design systems för B2B-produkter.",
+            "skills": [
+                "Figma",
+                "UX research",
+                "Design systems",
+                "Prototyping"
+            ],
+            "experience": [
+                {
+                    "title": "Senior UX Designer",
+                    "company": "Nordic Flow AB",
+                    "location": "Stockholm",
+                    "start_date": "2019-01",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Ledde omdesign av onboarding som minskade supportärenden med 22%",
+                        "Byggde Figma-bibliotek för 12 produktteam"
+                    ]
+                }
+            ],
+            "structured_data": {
+                "languages": [
+                    {
+                        "language": "Swedish",
+                        "proficiency": "Native"
+                    },
+                    {
+                        "language": "English",
+                        "proficiency": "Professional"
+                    }
+                ]
+            },
+            "application_settings": {
+                "expected_salary_yearly": "720000",
+                "notice_period": "3 months"
+            }
+        },
+        "career_changer_teacher": {
+            "full_name": "David Okonkwo",
+            "headline": "Junior Full Stack Developer",
+            "email": "david.okonkwo@example.com",
+            "phone": "+447700900456",
+            "city": "Leeds",
+            "location": "Leeds, United Kingdom",
+            "country": "United Kingdom",
+            "summary": "Former secondary maths teacher who completed a coding bootcamp and joined a startup as a junior developer.",
+            "skills": [
+                "JavaScript",
+                "React",
+                "Node.js",
+                "HTML",
+                "CSS"
+            ],
+            "experience": [
+                {
+                    "title": "Junior Developer",
+                    "company": "Bridge Labs",
+                    "location": "Leeds",
+                    "start_date": "2024-01",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Shipped customer dashboard features in React after 12-week bootcamp",
+                        "Pair programmed with seniors on REST API integrations"
+                    ]
+                },
+                {
+                    "title": "Maths Teacher",
+                    "company": "West Yorkshire Academy",
+                    "location": "Leeds",
+                    "start_date": "2016-09",
+                    "end_date": "2023-07",
+                    "highlights": [
+                        "Taught GCSE and A-level classes of 30 students"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "32000",
+                "notice_period": "2 weeks"
+            }
+        },
+        "junior_frontend_dev": {
+            "full_name": "Priya Patel",
+            "headline": "Frontend Developer",
+            "email": "priya.patel@example.com",
+            "phone": "+447700900789",
+            "city": "Birmingham",
+            "location": "Birmingham, United Kingdom",
+            "country": "United Kingdom",
+            "summary": "Frontend developer building accessible React interfaces for agency clients.",
+            "skills": [
+                "React",
+                "TypeScript",
+                "Tailwind CSS",
+                "Accessibility"
+            ],
+            "experience": [
+                {
+                    "title": "Frontend Developer",
+                    "company": "Pixel Orchard Agency",
+                    "location": "Birmingham",
+                    "start_date": "2022-06",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Delivered 6 client sites with React and headless CMS integrations",
+                        "Improved Lighthouse accessibility scores to 95+ on two launches"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "38000"
+            }
+        },
+        "devops_engineer": {
+            "full_name": "Tomás Rivera",
+            "headline": "DevOps Engineer",
+            "email": "tomas.rivera@example.com",
+            "phone": "+34600123456",
+            "city": "Barcelona",
+            "location": "Barcelona, Spain",
+            "country": "Spain",
+            "summary": "Platform engineer focused on AWS, Kubernetes, and CI\/CD pipelines.",
+            "skills": [
+                "AWS",
+                "Kubernetes",
+                "Terraform",
+                "GitHub Actions",
+                "Prometheus"
+            ],
+            "experience": [
+                {
+                    "title": "DevOps Engineer",
+                    "company": "CloudSpan Iberia",
+                    "location": "Barcelona",
+                    "start_date": "2020-05",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Migrated 30 services to EKS with zero-downtime cutovers",
+                        "Reduced deploy time from 45 to 8 minutes via GitHub Actions"
+                    ],
+                    "technologies": [
+                        "AWS",
+                        "Kubernetes",
+                        "Terraform"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "55000"
+            }
+        },
+        "data_analyst": {
+            "full_name": "Fiona Walsh",
+            "headline": "Data Analyst",
+            "email": "fiona.walsh@example.com",
+            "phone": "+353871234567",
+            "city": "Dublin",
+            "location": "Dublin, Ireland",
+            "country": "Ireland",
+            "summary": "Analyst turning warehouse data into dashboards and executive insights.",
+            "skills": [
+                "SQL",
+                "Python",
+                "Tableau",
+                "dbt",
+                "Snowflake"
+            ],
+            "experience": [
+                {
+                    "title": "Data Analyst",
+                    "company": "Emerald Retail Group",
+                    "location": "Dublin",
+                    "start_date": "2021-02",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Built Tableau suite tracking store-level margin trends",
+                        "Automated weekly SQL reports saving 6 analyst hours"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "48000"
+            }
+        },
+        "nurse_healthcare": {
+            "full_name": "Rachel Brooks",
+            "headline": "Registered Nurse",
+            "email": "rachel.brooks@example.nhs.uk",
+            "phone": "+447700900321",
+            "city": "Newcastle",
+            "location": "Newcastle upon Tyne, United Kingdom",
+            "country": "United Kingdom",
+            "summary": "Acute care nurse with ward leadership and patient safety audit experience.",
+            "skills": [
+                "Patient care",
+                "Ward management",
+                "Clinical documentation",
+                "CPD"
+            ],
+            "experience": [
+                {
+                    "title": "Staff Nurse",
+                    "company": "Royal North Hospital",
+                    "location": "Newcastle",
+                    "start_date": "2015-03",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Led shift handovers on a 28-bed medical ward",
+                        "Championed infection control audits with 98% compliance"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "35000"
+            }
+        },
+        "sales_executive": {
+            "full_name": "Chris Novak",
+            "headline": "Enterprise Account Executive",
+            "email": "chris.novak@example.com",
+            "phone": "+12125550199",
+            "city": "Chicago",
+            "location": "Chicago, IL",
+            "country": "United States",
+            "summary": "B2B SaaS seller closing mid-market deals with consultative discovery.",
+            "skills": [
+                "SaaS sales",
+                "Salesforce",
+                "Discovery",
+                "Negotiation"
+            ],
+            "experience": [
+                {
+                    "title": "Account Executive",
+                    "company": "PipelineHQ",
+                    "location": "Chicago",
+                    "start_date": "2019-03",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Closed $1.2M ARR across 14 mid-market accounts in 2024",
+                        "Exceeded quota three consecutive years"
+                    ]
+                }
+            ],
+            "application_settings": {
+                "expected_salary_yearly": "85000"
+            }
+        },
+        "freelance_ux": {
+            "full_name": "Amira Hassan",
+            "headline": "Freelance UX Consultant",
+            "email": "amira.hassan@example.com",
+            "phone": "+447700900654",
+            "city": "London",
+            "location": "London, United Kingdom",
+            "country": "United Kingdom",
+            "summary": "Independent UX consultant for fintech and health clients with private client work.",
+            "skills": [
+                "UX audit",
+                "Wireframing",
+                "User interviews",
+                "Figma"
+            ],
+            "experience": [
+                {
+                    "title": "Freelance UX Consultant",
+                    "company": "Self-employed",
+                    "location": "London",
+                    "start_date": "2020-01",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Ran UX audits for two fintech clients under NDA",
+                        "Redesigned checkout flows for a health startup"
+                    ]
+                },
+                {
+                    "title": "Product Designer",
+                    "company": "Harbour FinTech",
+                    "location": "London",
+                    "start_date": "2017-06",
+                    "end_date": "2019-12",
+                    "highlights": [
+                        "Shipped mobile banking onboarding flows"
+                    ]
+                }
+            ],
+            "structured_data": {
+                "projects": [
+                    {
+                        "name": "Private fintech audit",
+                        "description": "NDA client work, not public"
+                    }
+                ]
+            },
+            "application_settings": {
+                "expected_salary_yearly": "60000"
+            }
+        },
+        "german_engineer": {
+            "full_name": "Lukas Müller",
+            "headline": "Softwareentwickler",
+            "email": "lukas.mueller@example.de",
+            "phone": "+4915123456789",
+            "city": "Berlin",
+            "location": "Berlin, Germany",
+            "country": "Germany",
+            "summary": "Backend-Entwickler mit Schwerpunkt auf Java und Spring Boot in Industrieprojekten.",
+            "skills": [
+                "Java",
+                "Spring Boot",
+                "Kafka",
+                "PostgreSQL"
+            ],
+            "experience": [
+                {
+                    "title": "Software Engineer",
+                    "company": "IndustrieWerk GmbH",
+                    "location": "Berlin",
+                    "start_date": "2018-09",
+                    "end_date": "Present",
+                    "highlights": [
+                        "Entwickelte Event-Pipelines mit Kafka für Produktionsdaten",
+                        "Betreute REST-APIs für interne Logistiktools"
+                    ]
+                }
+            ],
+            "structured_data": {
+                "languages": [
+                    {
+                        "language": "German",
+                        "proficiency": "Native"
+                    },
+                    {
+                        "language": "English",
+                        "proficiency": "Professional"
+                    }
+                ]
+            },
+            "application_settings": {
+                "expected_salary_yearly": "72000"
+            }
+        }
+    },
+    "scenarios": [
+        {
+            "id": "laravel-motivation-uk-formal",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft an answer for \"Why are you interested in this role?\" for StackForge. Keep it formal and paste-ready."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge",
+                "description_snippet": "Remote-first team modernising billing infrastructure with Laravel and Vue."
+            },
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "must_not_mention": [
+                "based on your profile",
+                "fintech"
+            ],
+            "max_words": 120
+        },
+        {
+            "id": "laravel-why-company-brief",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "In one sentence, why StackForge? Application form, UK English."
+                }
+            ],
+            "response_style": "brief",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge",
+                "description_snippet": "Remote-first team modernising billing infrastructure with Laravel and Vue."
+            },
+            "max_words": 35
+        },
+        {
+            "id": "laravel-salary-numeric",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "salary",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "What should I put for salary expectations on this UK form?"
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge",
+                "description_snippet": "Remote-first team modernising billing infrastructure with Laravel and Vue."
+            },
+            "must_mention": [
+                "65000"
+            ],
+            "max_words": 40
+        },
+        {
+            "id": "laravel-notice-period",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "notice_period",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft my notice period answer for an employer form."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "must_mention": [
+                "1 month"
+            ],
+            "max_words": 30
+        },
+        {
+            "id": "laravel-laravel-experience",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Describe my Laravel production experience for this application - paste-ready, first person."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge",
+                "description_snippet": "Remote-first team modernising billing infrastructure with Laravel and Vue."
+            },
+            "must_mention": [
+                "Riverbank Systems",
+                "Laravel"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "laravel-relocate-no",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "screening",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Are you willing to relocate? Yes or no with a short reason."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "must_mention": [
+                "no"
+            ],
+            "max_words": 40,
+            "screening_format": "yes_no"
+        },
+        {
+            "id": "laravel-right-to-work",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "screening",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Do you have the right to work in the UK? Form answer please."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "max_words": 35,
+            "screening_format": "yes_no"
+        },
+        {
+            "id": "marketing-motivation-us",
+            "profile_fixture": "marketing_manager",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Help me answer why I want to join RevLoop - casual but professional, US tone."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "casual",
+                "locale": "en-US",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Demand Generation Manager",
+                "company": "RevLoop",
+                "description_snippet": "B2B SaaS marketing team focused on pipeline growth in the US."
+            },
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "max_words": 110
+        },
+        {
+            "id": "marketing-salary-us",
+            "profile_fixture": "marketing_manager",
+            "category": "salary",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Salary expectations for this SF role - paste into the form."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-US",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Demand Generation Manager",
+                "company": "RevLoop",
+                "description_snippet": "B2B SaaS marketing team focused on pipeline growth in the US."
+            },
+            "must_mention": [
+                "95000"
+            ],
+            "max_words": 35
+        },
+        {
+            "id": "marketing-pipeline-impact",
+            "profile_fixture": "marketing_manager",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Describe a campaign that drove measurable pipeline results. First person, employer form."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-US",
+                "voice": "mid"
+            },
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "career-changer-motivation",
+            "profile_fixture": "career_changer_teacher",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft why I moved from teaching into software development - honest, UK form answer."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "must_mention": [
+                "Bridge Labs",
+                "teacher"
+            ],
+            "max_words": 120
+        },
+        {
+            "id": "career-changer-gap-honesty",
+            "profile_fixture": "career_changer_teacher",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "How do I explain my career change on a form without sounding generic? Give me paste-ready text."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "must_mention": [
+                "West Yorkshire Academy"
+            ],
+            "must_not_mention": [
+                "passionate about"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "junior-react-experience",
+            "profile_fixture": "junior_frontend_dev",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Write my React experience for an agency application - junior tone, UK."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "must_mention": [
+                "Pixel Orchard Agency",
+                "React"
+            ],
+            "max_words": 90
+        },
+        {
+            "id": "junior-portfolio-github",
+            "profile_fixture": "junior_frontend_dev",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Share GitHub or portfolio work relevant to frontend roles - paste-ready."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "must_mention": [
+                "Pixel Orchard"
+            ],
+            "max_words": 80
+        },
+        {
+            "id": "cyber-incident-response",
+            "profile_fixture": "cybersecurity_analyst",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Describe my incident response experience for a SOC role application."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "mid"
+            },
+            "must_mention": [
+                "SecureNet Defence",
+                "Splunk"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "cyber-salary-uk",
+            "profile_fixture": "cybersecurity_analyst",
+            "category": "salary",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Expected salary on this Manchester security role?"
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "mid"
+            },
+            "must_mention": [
+                "52000"
+            ],
+            "max_words": 30
+        },
+        {
+            "id": "swedish-motivation-sv",
+            "profile_fixture": "swedish_product_designer",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Skriv ett kort svar på varför jag vill jobba hos Nordic Flow AB - klistra in i formuläret."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "sv-SE",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Senior UX Designer",
+                "company": "Nordic Flow AB",
+                "description_snippet": "Design system och tillgänglighet för B2B-produkter."
+            },
+            "must_mention": [
+                "Nordic Flow"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "devops-kubernetes",
+            "profile_fixture": "devops_engineer",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Describe my Kubernetes and AWS experience for this platform role - first person."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "must_mention": [
+                "CloudSpan Iberia",
+                "Kubernetes"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "data-analyst-sql",
+            "profile_fixture": "data_analyst",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft an answer about my SQL and dashboard work for a retail analytics role."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-IE",
+                "voice": "mid"
+            },
+            "must_mention": [
+                "Emerald Retail Group",
+                "Tableau"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "nurse-clinical-care",
+            "profile_fixture": "nurse_healthcare",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Write a paste-ready answer about my ward leadership and patient safety experience."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "must_mention": [
+                "Royal North Hospital"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "diversity-optional-advice",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "advice",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "The form has an optional diversity monitoring section. What should I put if I prefer not to disclose?"
+                }
+            ],
+            "response_style": "advice",
+            "tone": {
+                "formality": "casual",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "max_words": 80
+        },
+        {
+            "id": "visa-sponsorship",
+            "profile_fixture": "devops_engineer",
+            "category": "screening",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Do you require visa sponsorship? Form answer for a UK employer."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "max_words": 40,
+            "screening_format": "yes_no"
+        },
+        {
+            "id": "competency-deadlines-star",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Give me a STAR-style answer about meeting a tight deadline - paste into competency question."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "max_words": 130
+        },
+        {
+            "id": "custom-employer-question",
+            "profile_fixture": "marketing_manager",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "RevLoop asks: \"Tell us about a time you turned content into revenue.\" Draft my answer."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-US",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Demand Generation Manager",
+                "company": "RevLoop",
+                "description_snippet": "B2B SaaS marketing team focused on pipeline growth in the US."
+            },
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "max_words": 120
+        },
+        {
+            "id": "advice-location-field",
+            "profile_fixture": "junior_frontend_dev",
+            "category": "advice",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "What should I put in the location field on UK employer forms?"
+                }
+            ],
+            "response_style": "advice",
+            "tone": {
+                "formality": "casual",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "max_words": 80
+        },
+        {
+            "id": "advice-notice-period-meaning",
+            "profile_fixture": "career_changer_teacher",
+            "category": "advice",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "What does notice period mean on application forms?"
+                }
+            ],
+            "response_style": "advice",
+            "tone": {
+                "formality": "casual",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "max_words": 70
+        },
+        {
+            "id": "advice-formal-tone",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "advice",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "How formal should application answers be for a bank compliance form?"
+                }
+            ],
+            "response_style": "advice",
+            "tone": {
+                "formality": "casual",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "max_words": 90
+        },
+        {
+            "id": "focused-field-context",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Help me answer this screening question."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "context": {
+                "focused_field": {
+                    "label": "Years of Laravel experience in production",
+                    "field_type": "text",
+                    "max_chars": 200
+                },
+                "job": {
+                    "title": "Senior Laravel Engineer",
+                    "company": "StackForge",
+                    "description_snippet": "Remote-first team modernising billing infrastructure with Laravel and Vue."
+                }
+            },
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "max_chars": 200
+        },
+        {
+            "id": "multi-turn-refine-motivation",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft a motivation answer for StackForge."
+                },
+                {
+                    "role": "assistant",
+                    "content": "I want to join StackForge because your billing modernisation work aligns with the Laravel APIs I have shipped at Riverbank Systems."
+                },
+                {
+                    "role": "user",
+                    "content": "Shorter please - under 40 words, still first person."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge",
+                "description_snippet": "Remote-first team modernising billing infrastructure with Laravel and Vue."
+            },
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "max_words": 40
+        },
+        {
+            "id": "expand-senior_laravel_dev-motivation",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft a motivation answer for this role - paste-ready."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge"
+            },
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "expand-senior_laravel_dev-salary",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "salary",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "What salary should I enter on the form?"
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge"
+            },
+            "must_mention": [
+                "65000"
+            ],
+            "max_words": 35
+        },
+        {
+            "id": "expand-senior_laravel_dev-notice",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "notice_period",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft my notice period for the employer form."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge"
+            },
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "max_words": 30
+        },
+        {
+            "id": "expand-senior_laravel_dev-why-company",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Why this company? One paragraph, first person."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge"
+            },
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "max_words": 90
+        },
+        {
+            "id": "expand-senior_laravel_dev-teamwork",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Help me answer a teamwork question without sounding generic."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge"
+            },
+            "must_mention": [
+                "Riverbank Systems"
+            ],
+            "max_words": 110
+        },
+        {
+            "id": "expand-senior_laravel_dev-advice-tone",
+            "profile_fixture": "senior_laravel_dev",
+            "category": "advice",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "How formal should I be on this application?"
+                }
+            ],
+            "response_style": "advice",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Senior Laravel Engineer",
+                "company": "StackForge"
+            },
+            "max_words": 70
+        },
+        {
+            "id": "expand-marketing_manager-motivation",
+            "profile_fixture": "marketing_manager",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft a motivation answer for this role - paste-ready."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "casual",
+                "locale": "en-US",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Marketing Manager",
+                "company": "RevLoop"
+            },
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "expand-marketing_manager-salary",
+            "profile_fixture": "marketing_manager",
+            "category": "salary",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "What salary should I enter on the form?"
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "casual",
+                "locale": "en-US",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Marketing Manager",
+                "company": "RevLoop"
+            },
+            "must_mention": [
+                "95000"
+            ],
+            "max_words": 35
+        },
+        {
+            "id": "expand-marketing_manager-notice",
+            "profile_fixture": "marketing_manager",
+            "category": "notice_period",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft my notice period for the employer form."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "casual",
+                "locale": "en-US",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Marketing Manager",
+                "company": "RevLoop"
+            },
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "max_words": 30
+        },
+        {
+            "id": "expand-marketing_manager-why-company",
+            "profile_fixture": "marketing_manager",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Why this company? One paragraph, first person."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "casual",
+                "locale": "en-US",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Marketing Manager",
+                "company": "RevLoop"
+            },
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "max_words": 90
+        },
+        {
+            "id": "expand-marketing_manager-teamwork",
+            "profile_fixture": "marketing_manager",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Help me answer a teamwork question without sounding generic."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "casual",
+                "locale": "en-US",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Marketing Manager",
+                "company": "RevLoop"
+            },
+            "must_mention": [
+                "BrightWave Analytics"
+            ],
+            "max_words": 110
+        },
+        {
+            "id": "expand-marketing_manager-advice-tone",
+            "profile_fixture": "marketing_manager",
+            "category": "advice",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "How formal should I be on this application?"
+                }
+            ],
+            "response_style": "advice",
+            "tone": {
+                "formality": "casual",
+                "locale": "en-US",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Marketing Manager",
+                "company": "RevLoop"
+            },
+            "max_words": 70
+        },
+        {
+            "id": "expand-cybersecurity_analyst-motivation",
+            "profile_fixture": "cybersecurity_analyst",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft a motivation answer for this role - paste-ready."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "SOC Analyst",
+                "company": "SecureNet Defence"
+            },
+            "must_mention": [
+                "SecureNet Defence"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "expand-cybersecurity_analyst-salary",
+            "profile_fixture": "cybersecurity_analyst",
+            "category": "salary",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "What salary should I enter on the form?"
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "SOC Analyst",
+                "company": "SecureNet Defence"
+            },
+            "must_mention": [
+                "52000"
+            ],
+            "max_words": 35
+        },
+        {
+            "id": "expand-cybersecurity_analyst-notice",
+            "profile_fixture": "cybersecurity_analyst",
+            "category": "notice_period",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft my notice period for the employer form."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "SOC Analyst",
+                "company": "SecureNet Defence"
+            },
+            "must_mention": [
+                "SecureNet Defence"
+            ],
+            "max_words": 30
+        },
+        {
+            "id": "expand-cybersecurity_analyst-why-company",
+            "profile_fixture": "cybersecurity_analyst",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Why this company? One paragraph, first person."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "SOC Analyst",
+                "company": "SecureNet Defence"
+            },
+            "must_mention": [
+                "SecureNet Defence"
+            ],
+            "max_words": 90
+        },
+        {
+            "id": "expand-cybersecurity_analyst-teamwork",
+            "profile_fixture": "cybersecurity_analyst",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Help me answer a teamwork question without sounding generic."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "SOC Analyst",
+                "company": "SecureNet Defence"
+            },
+            "must_mention": [
+                "SecureNet Defence"
+            ],
+            "max_words": 110
+        },
+        {
+            "id": "expand-cybersecurity_analyst-advice-tone",
+            "profile_fixture": "cybersecurity_analyst",
+            "category": "advice",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "How formal should I be on this application?"
+                }
+            ],
+            "response_style": "advice",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "SOC Analyst",
+                "company": "SecureNet Defence"
+            },
+            "max_words": 70
+        },
+        {
+            "id": "expand-swedish_product_designer-motivation",
+            "profile_fixture": "swedish_product_designer",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft a motivation answer for this role - paste-ready."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "sv-SE",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "UX Designer",
+                "company": "Nordic Flow AB"
+            },
+            "must_mention": [
+                "Nordic Flow AB"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "expand-swedish_product_designer-salary",
+            "profile_fixture": "swedish_product_designer",
+            "category": "salary",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "What salary should I enter on the form?"
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "sv-SE",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "UX Designer",
+                "company": "Nordic Flow AB"
+            },
+            "must_mention": [
+                "720000"
+            ],
+            "max_words": 35
+        },
+        {
+            "id": "expand-swedish_product_designer-notice",
+            "profile_fixture": "swedish_product_designer",
+            "category": "notice_period",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft my notice period for the employer form."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "sv-SE",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "UX Designer",
+                "company": "Nordic Flow AB"
+            },
+            "must_mention": [
+                "Nordic Flow AB"
+            ],
+            "max_words": 30
+        },
+        {
+            "id": "expand-swedish_product_designer-why-company",
+            "profile_fixture": "swedish_product_designer",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Why this company? One paragraph, first person."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "sv-SE",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "UX Designer",
+                "company": "Nordic Flow AB"
+            },
+            "must_mention": [
+                "Nordic Flow AB"
+            ],
+            "max_words": 90
+        },
+        {
+            "id": "expand-swedish_product_designer-teamwork",
+            "profile_fixture": "swedish_product_designer",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Help me answer a teamwork question without sounding generic."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "sv-SE",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "UX Designer",
+                "company": "Nordic Flow AB"
+            },
+            "must_mention": [
+                "Nordic Flow AB"
+            ],
+            "max_words": 110
+        },
+        {
+            "id": "expand-swedish_product_designer-advice-tone",
+            "profile_fixture": "swedish_product_designer",
+            "category": "advice",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "How formal should I be on this application?"
+                }
+            ],
+            "response_style": "advice",
+            "tone": {
+                "formality": "formal",
+                "locale": "sv-SE",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "UX Designer",
+                "company": "Nordic Flow AB"
+            },
+            "max_words": 70
+        },
+        {
+            "id": "expand-career_changer_teacher-motivation",
+            "profile_fixture": "career_changer_teacher",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft a motivation answer for this role - paste-ready."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "job_context": {
+                "title": "Junior Developer",
+                "company": "Bridge Labs"
+            },
+            "must_mention": [
+                "Bridge Labs"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "expand-career_changer_teacher-salary",
+            "profile_fixture": "career_changer_teacher",
+            "category": "salary",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "What salary should I enter on the form?"
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "job_context": {
+                "title": "Junior Developer",
+                "company": "Bridge Labs"
+            },
+            "must_mention": [
+                "32000"
+            ],
+            "max_words": 35
+        },
+        {
+            "id": "expand-career_changer_teacher-notice",
+            "profile_fixture": "career_changer_teacher",
+            "category": "notice_period",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft my notice period for the employer form."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "job_context": {
+                "title": "Junior Developer",
+                "company": "Bridge Labs"
+            },
+            "must_mention": [
+                "Bridge Labs"
+            ],
+            "max_words": 30
+        },
+        {
+            "id": "expand-career_changer_teacher-why-company",
+            "profile_fixture": "career_changer_teacher",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Why this company? One paragraph, first person."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "job_context": {
+                "title": "Junior Developer",
+                "company": "Bridge Labs"
+            },
+            "must_mention": [
+                "Bridge Labs"
+            ],
+            "max_words": 90
+        },
+        {
+            "id": "expand-career_changer_teacher-teamwork",
+            "profile_fixture": "career_changer_teacher",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Help me answer a teamwork question without sounding generic."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "job_context": {
+                "title": "Junior Developer",
+                "company": "Bridge Labs"
+            },
+            "must_mention": [
+                "Bridge Labs"
+            ],
+            "max_words": 110
+        },
+        {
+            "id": "expand-career_changer_teacher-advice-tone",
+            "profile_fixture": "career_changer_teacher",
+            "category": "advice",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "How formal should I be on this application?"
+                }
+            ],
+            "response_style": "advice",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "job_context": {
+                "title": "Junior Developer",
+                "company": "Bridge Labs"
+            },
+            "max_words": 70
+        },
+        {
+            "id": "expand-junior_frontend_dev-motivation",
+            "profile_fixture": "junior_frontend_dev",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft a motivation answer for this role - paste-ready."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "job_context": {
+                "title": "Frontend Developer",
+                "company": "Pixel Orchard Agency"
+            },
+            "must_mention": [
+                "Pixel Orchard Agency"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "expand-junior_frontend_dev-salary",
+            "profile_fixture": "junior_frontend_dev",
+            "category": "salary",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "What salary should I enter on the form?"
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "job_context": {
+                "title": "Frontend Developer",
+                "company": "Pixel Orchard Agency"
+            },
+            "must_mention": [
+                "38000"
+            ],
+            "max_words": 35
+        },
+        {
+            "id": "expand-junior_frontend_dev-notice",
+            "profile_fixture": "junior_frontend_dev",
+            "category": "notice_period",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft my notice period for the employer form."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "job_context": {
+                "title": "Frontend Developer",
+                "company": "Pixel Orchard Agency"
+            },
+            "must_mention": [
+                "Pixel Orchard Agency"
+            ],
+            "max_words": 30
+        },
+        {
+            "id": "expand-junior_frontend_dev-why-company",
+            "profile_fixture": "junior_frontend_dev",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Why this company? One paragraph, first person."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "job_context": {
+                "title": "Frontend Developer",
+                "company": "Pixel Orchard Agency"
+            },
+            "must_mention": [
+                "Pixel Orchard Agency"
+            ],
+            "max_words": 90
+        },
+        {
+            "id": "expand-junior_frontend_dev-teamwork",
+            "profile_fixture": "junior_frontend_dev",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Help me answer a teamwork question without sounding generic."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "job_context": {
+                "title": "Frontend Developer",
+                "company": "Pixel Orchard Agency"
+            },
+            "must_mention": [
+                "Pixel Orchard Agency"
+            ],
+            "max_words": 110
+        },
+        {
+            "id": "expand-junior_frontend_dev-advice-tone",
+            "profile_fixture": "junior_frontend_dev",
+            "category": "advice",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "How formal should I be on this application?"
+                }
+            ],
+            "response_style": "advice",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "junior"
+            },
+            "job_context": {
+                "title": "Frontend Developer",
+                "company": "Pixel Orchard Agency"
+            },
+            "max_words": 70
+        },
+        {
+            "id": "expand-devops_engineer-motivation",
+            "profile_fixture": "devops_engineer",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft a motivation answer for this role - paste-ready."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "DevOps Engineer",
+                "company": "CloudSpan Iberia"
+            },
+            "must_mention": [
+                "CloudSpan Iberia"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "expand-devops_engineer-salary",
+            "profile_fixture": "devops_engineer",
+            "category": "salary",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "What salary should I enter on the form?"
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "DevOps Engineer",
+                "company": "CloudSpan Iberia"
+            },
+            "must_mention": [
+                "55000"
+            ],
+            "max_words": 35
+        },
+        {
+            "id": "expand-devops_engineer-notice",
+            "profile_fixture": "devops_engineer",
+            "category": "notice_period",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft my notice period for the employer form."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "DevOps Engineer",
+                "company": "CloudSpan Iberia"
+            },
+            "must_mention": [
+                "CloudSpan Iberia"
+            ],
+            "max_words": 30
+        },
+        {
+            "id": "expand-devops_engineer-why-company",
+            "profile_fixture": "devops_engineer",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Why this company? One paragraph, first person."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "DevOps Engineer",
+                "company": "CloudSpan Iberia"
+            },
+            "must_mention": [
+                "CloudSpan Iberia"
+            ],
+            "max_words": 90
+        },
+        {
+            "id": "expand-devops_engineer-teamwork",
+            "profile_fixture": "devops_engineer",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Help me answer a teamwork question without sounding generic."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "DevOps Engineer",
+                "company": "CloudSpan Iberia"
+            },
+            "must_mention": [
+                "CloudSpan Iberia"
+            ],
+            "max_words": 110
+        },
+        {
+            "id": "expand-devops_engineer-advice-tone",
+            "profile_fixture": "devops_engineer",
+            "category": "advice",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "How formal should I be on this application?"
+                }
+            ],
+            "response_style": "advice",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "DevOps Engineer",
+                "company": "CloudSpan Iberia"
+            },
+            "max_words": 70
+        },
+        {
+            "id": "expand-data_analyst-motivation",
+            "profile_fixture": "data_analyst",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft a motivation answer for this role - paste-ready."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-IE",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Data Analyst",
+                "company": "Emerald Retail Group"
+            },
+            "must_mention": [
+                "Emerald Retail Group"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "expand-data_analyst-salary",
+            "profile_fixture": "data_analyst",
+            "category": "salary",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "What salary should I enter on the form?"
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-IE",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Data Analyst",
+                "company": "Emerald Retail Group"
+            },
+            "must_mention": [
+                "48000"
+            ],
+            "max_words": 35
+        },
+        {
+            "id": "expand-data_analyst-notice",
+            "profile_fixture": "data_analyst",
+            "category": "notice_period",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft my notice period for the employer form."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-IE",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Data Analyst",
+                "company": "Emerald Retail Group"
+            },
+            "must_mention": [
+                "Emerald Retail Group"
+            ],
+            "max_words": 30
+        },
+        {
+            "id": "expand-data_analyst-why-company",
+            "profile_fixture": "data_analyst",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Why this company? One paragraph, first person."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-IE",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Data Analyst",
+                "company": "Emerald Retail Group"
+            },
+            "must_mention": [
+                "Emerald Retail Group"
+            ],
+            "max_words": 90
+        },
+        {
+            "id": "expand-data_analyst-teamwork",
+            "profile_fixture": "data_analyst",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Help me answer a teamwork question without sounding generic."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-IE",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Data Analyst",
+                "company": "Emerald Retail Group"
+            },
+            "must_mention": [
+                "Emerald Retail Group"
+            ],
+            "max_words": 110
+        },
+        {
+            "id": "expand-data_analyst-advice-tone",
+            "profile_fixture": "data_analyst",
+            "category": "advice",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "How formal should I be on this application?"
+                }
+            ],
+            "response_style": "advice",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-IE",
+                "voice": "mid"
+            },
+            "job_context": {
+                "title": "Data Analyst",
+                "company": "Emerald Retail Group"
+            },
+            "max_words": 70
+        },
+        {
+            "id": "expand-nurse_healthcare-motivation",
+            "profile_fixture": "nurse_healthcare",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft a motivation answer for this role - paste-ready."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Staff Nurse",
+                "company": "Royal North Hospital"
+            },
+            "must_mention": [
+                "Royal North Hospital"
+            ],
+            "max_words": 100
+        },
+        {
+            "id": "expand-nurse_healthcare-salary",
+            "profile_fixture": "nurse_healthcare",
+            "category": "salary",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "What salary should I enter on the form?"
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Staff Nurse",
+                "company": "Royal North Hospital"
+            },
+            "must_mention": [
+                "35000"
+            ],
+            "max_words": 35
+        },
+        {
+            "id": "expand-nurse_healthcare-notice",
+            "profile_fixture": "nurse_healthcare",
+            "category": "notice_period",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Draft my notice period for the employer form."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Staff Nurse",
+                "company": "Royal North Hospital"
+            },
+            "must_mention": [
+                "Royal North Hospital"
+            ],
+            "max_words": 30
+        },
+        {
+            "id": "expand-nurse_healthcare-why-company",
+            "profile_fixture": "nurse_healthcare",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Why this company? One paragraph, first person."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Staff Nurse",
+                "company": "Royal North Hospital"
+            },
+            "must_mention": [
+                "Royal North Hospital"
+            ],
+            "max_words": 90
+        },
+        {
+            "id": "expand-nurse_healthcare-teamwork",
+            "profile_fixture": "nurse_healthcare",
+            "category": "open_text",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "Help me answer a teamwork question without sounding generic."
+                }
+            ],
+            "response_style": "form_answer",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Staff Nurse",
+                "company": "Royal North Hospital"
+            },
+            "must_mention": [
+                "Royal North Hospital"
+            ],
+            "max_words": 110
+        },
+        {
+            "id": "expand-nurse_healthcare-advice-tone",
+            "profile_fixture": "nurse_healthcare",
+            "category": "advice",
+            "conversation": [
+                {
+                    "role": "user",
+                    "content": "How formal should I be on this application?"
+                }
+            ],
+            "response_style": "advice",
+            "tone": {
+                "formality": "formal",
+                "locale": "en-GB",
+                "voice": "senior"
+            },
+            "job_context": {
+                "title": "Staff Nurse",
+                "company": "Royal North Hospital"
+            },
+            "max_words": 70
+        }
+    ]
+}

@@ -1,0 +1,634 @@
+{
+  "scenarios": [
+    {
+      "id": "linkedin-swe-simple-step1",
+      "file": "linkedin-easy-apply-swe-simple-step1-contact.html",
+      "flow_id": "swe-simple",
+      "step": 1,
+      "expects_validation_errors": false,
+      "required_fields": [
+        "email",
+        "phone"
+      ],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Simple contact-only flow with standard four-step progression. Step 1: contact."
+    },
+    {
+      "id": "linkedin-swe-simple-step2",
+      "file": "linkedin-easy-apply-swe-simple-step2-questions.html",
+      "flow_id": "swe-simple",
+      "step": 2,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Simple contact-only flow with standard four-step progression. Step 2: questions."
+    },
+    {
+      "id": "linkedin-swe-simple-step3",
+      "file": "linkedin-easy-apply-swe-simple-step3-review.html",
+      "flow_id": "swe-simple",
+      "step": 3,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "review",
+      "expects_submitted": false,
+      "notes": "Simple contact-only flow with standard four-step progression. Step 3: review."
+    },
+    {
+      "id": "linkedin-swe-simple-step4",
+      "file": "linkedin-easy-apply-swe-simple-step4-submitted.html",
+      "flow_id": "swe-simple",
+      "step": 4,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": null,
+      "expects_submitted": true,
+      "notes": "Simple contact-only flow with standard four-step progression. Step 4: submitted."
+    },
+    {
+      "id": "linkedin-backend-engineer-step1",
+      "file": "linkedin-easy-apply-backend-engineer-step1-contact.html",
+      "flow_id": "backend-engineer",
+      "step": 1,
+      "expects_validation_errors": false,
+      "required_fields": [
+        "email",
+        "phone"
+      ],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Multi-step flow with radio and select screening questions. Step 1: contact."
+    },
+    {
+      "id": "linkedin-backend-engineer-step2",
+      "file": "linkedin-easy-apply-backend-engineer-step2-questions.html",
+      "flow_id": "backend-engineer",
+      "step": 2,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Multi-step flow with radio and select screening questions. Step 2: questions."
+    },
+    {
+      "id": "linkedin-backend-engineer-step3",
+      "file": "linkedin-easy-apply-backend-engineer-step3-review.html",
+      "flow_id": "backend-engineer",
+      "step": 3,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "review",
+      "expects_submitted": false,
+      "notes": "Multi-step flow with radio and select screening questions. Step 3: review."
+    },
+    {
+      "id": "linkedin-backend-engineer-step4",
+      "file": "linkedin-easy-apply-backend-engineer-step4-submitted.html",
+      "flow_id": "backend-engineer",
+      "step": 4,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": null,
+      "expects_submitted": true,
+      "notes": "Multi-step flow with radio and select screening questions. Step 4: submitted."
+    },
+    {
+      "id": "linkedin-salary-analyst-step1",
+      "file": "linkedin-easy-apply-salary-analyst-step1-contact.html",
+      "flow_id": "salary-analyst",
+      "step": 1,
+      "expects_validation_errors": false,
+      "required_fields": [
+        "email",
+        "phone"
+      ],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Requires numeric salary expectation on step 2. Step 1: contact."
+    },
+    {
+      "id": "linkedin-salary-analyst-step2",
+      "file": "linkedin-easy-apply-salary-analyst-step2-questions.html",
+      "flow_id": "salary-analyst",
+      "step": 2,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Requires numeric salary expectation on step 2. Step 2: questions."
+    },
+    {
+      "id": "linkedin-salary-analyst-step3",
+      "file": "linkedin-easy-apply-salary-analyst-step3-review.html",
+      "flow_id": "salary-analyst",
+      "step": 3,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "review",
+      "expects_submitted": false,
+      "notes": "Requires numeric salary expectation on step 2. Step 3: review."
+    },
+    {
+      "id": "linkedin-salary-analyst-step4",
+      "file": "linkedin-easy-apply-salary-analyst-step4-submitted.html",
+      "flow_id": "salary-analyst",
+      "step": 4,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": null,
+      "expects_submitted": true,
+      "notes": "Requires numeric salary expectation on step 2. Step 4: submitted."
+    },
+    {
+      "id": "linkedin-selection-pm-step1",
+      "file": "linkedin-easy-apply-selection-pm-step1-contact.html",
+      "flow_id": "selection-pm",
+      "step": 1,
+      "expects_validation_errors": false,
+      "required_fields": [
+        "email",
+        "phone"
+      ],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Screening questions with required radio selections. Step 1: contact."
+    },
+    {
+      "id": "linkedin-selection-pm-step2",
+      "file": "linkedin-easy-apply-selection-pm-step2-questions.html",
+      "flow_id": "selection-pm",
+      "step": 2,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Screening questions with required radio selections. Step 2: questions."
+    },
+    {
+      "id": "linkedin-selection-pm-step3",
+      "file": "linkedin-easy-apply-selection-pm-step3-review.html",
+      "flow_id": "selection-pm",
+      "step": 3,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "review",
+      "expects_submitted": false,
+      "notes": "Screening questions with required radio selections. Step 3: review."
+    },
+    {
+      "id": "linkedin-selection-pm-step4",
+      "file": "linkedin-easy-apply-selection-pm-step4-submitted.html",
+      "flow_id": "selection-pm",
+      "step": 4,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": null,
+      "expects_submitted": true,
+      "notes": "Screening questions with required radio selections. Step 4: submitted."
+    },
+    {
+      "id": "linkedin-cover-letter-writer-step1",
+      "file": "linkedin-easy-apply-cover-letter-writer-step1-contact.html",
+      "flow_id": "cover-letter-writer",
+      "step": 1,
+      "expects_validation_errors": false,
+      "required_fields": [
+        "email",
+        "phone"
+      ],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Optional cover letter textarea on step 2. Step 1: contact."
+    },
+    {
+      "id": "linkedin-cover-letter-writer-step2",
+      "file": "linkedin-easy-apply-cover-letter-writer-step2-questions.html",
+      "flow_id": "cover-letter-writer",
+      "step": 2,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Optional cover letter textarea on step 2. Step 2: questions."
+    },
+    {
+      "id": "linkedin-cover-letter-writer-step3",
+      "file": "linkedin-easy-apply-cover-letter-writer-step3-review.html",
+      "flow_id": "cover-letter-writer",
+      "step": 3,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "review",
+      "expects_submitted": false,
+      "notes": "Optional cover letter textarea on step 2. Step 3: review."
+    },
+    {
+      "id": "linkedin-cover-letter-writer-step4",
+      "file": "linkedin-easy-apply-cover-letter-writer-step4-submitted.html",
+      "flow_id": "cover-letter-writer",
+      "step": 4,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": null,
+      "expects_submitted": true,
+      "notes": "Optional cover letter textarea on step 2. Step 4: submitted."
+    },
+    {
+      "id": "linkedin-resume-upload-designer-step1",
+      "file": "linkedin-easy-apply-resume-upload-designer-step1-contact.html",
+      "flow_id": "resume-upload-designer",
+      "step": 1,
+      "expects_validation_errors": false,
+      "required_fields": [
+        "email",
+        "phone"
+      ],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Resume upload step before review. Step 1: contact."
+    },
+    {
+      "id": "linkedin-resume-upload-designer-step2",
+      "file": "linkedin-easy-apply-resume-upload-designer-step2-resume.html",
+      "flow_id": "resume-upload-designer",
+      "step": 2,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Resume upload step before review. Step 2: resume."
+    },
+    {
+      "id": "linkedin-resume-upload-designer-step3",
+      "file": "linkedin-easy-apply-resume-upload-designer-step3-review.html",
+      "flow_id": "resume-upload-designer",
+      "step": 3,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "review",
+      "expects_submitted": false,
+      "notes": "Resume upload step before review. Step 3: review."
+    },
+    {
+      "id": "linkedin-resume-upload-designer-step4",
+      "file": "linkedin-easy-apply-resume-upload-designer-step4-submitted.html",
+      "flow_id": "resume-upload-designer",
+      "step": 4,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": null,
+      "expects_submitted": true,
+      "notes": "Resume upload step before review. Step 4: submitted."
+    },
+    {
+      "id": "linkedin-work-auth-engineer-step1",
+      "file": "linkedin-easy-apply-work-auth-engineer-step1-contact.html",
+      "flow_id": "work-auth-engineer",
+      "step": 1,
+      "expects_validation_errors": false,
+      "required_fields": [
+        "email",
+        "phone"
+      ],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Work authorization yes/no screening on step 2. Step 1: contact."
+    },
+    {
+      "id": "linkedin-work-auth-engineer-step2",
+      "file": "linkedin-easy-apply-work-auth-engineer-step2-questions.html",
+      "flow_id": "work-auth-engineer",
+      "step": 2,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Work authorization yes/no screening on step 2. Step 2: questions."
+    },
+    {
+      "id": "linkedin-work-auth-engineer-step3",
+      "file": "linkedin-easy-apply-work-auth-engineer-step3-review.html",
+      "flow_id": "work-auth-engineer",
+      "step": 3,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "review",
+      "expects_submitted": false,
+      "notes": "Work authorization yes/no screening on step 2. Step 3: review."
+    },
+    {
+      "id": "linkedin-work-auth-engineer-step4",
+      "file": "linkedin-easy-apply-work-auth-engineer-step4-submitted.html",
+      "flow_id": "work-auth-engineer",
+      "step": 4,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": null,
+      "expects_submitted": true,
+      "notes": "Work authorization yes/no screening on step 2. Step 4: submitted."
+    },
+    {
+      "id": "linkedin-data-scientist-step1",
+      "file": "linkedin-easy-apply-data-scientist-step1-contact.html",
+      "flow_id": "data-scientist",
+      "step": 1,
+      "expects_validation_errors": false,
+      "required_fields": [
+        "email",
+        "phone"
+      ],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Mixed screening questions with salary and work auth. Step 1: contact."
+    },
+    {
+      "id": "linkedin-data-scientist-step2",
+      "file": "linkedin-easy-apply-data-scientist-step2-questions.html",
+      "flow_id": "data-scientist",
+      "step": 2,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Mixed screening questions with salary and work auth. Step 2: questions."
+    },
+    {
+      "id": "linkedin-data-scientist-step3",
+      "file": "linkedin-easy-apply-data-scientist-step3-review.html",
+      "flow_id": "data-scientist",
+      "step": 3,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "review",
+      "expects_submitted": false,
+      "notes": "Mixed screening questions with salary and work auth. Step 3: review."
+    },
+    {
+      "id": "linkedin-data-scientist-step4",
+      "file": "linkedin-easy-apply-data-scientist-step4-submitted.html",
+      "flow_id": "data-scientist",
+      "step": 4,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": null,
+      "expects_submitted": true,
+      "notes": "Mixed screening questions with salary and work auth. Step 4: submitted."
+    },
+    {
+      "id": "linkedin-marketing-coordinator-step1",
+      "file": "linkedin-easy-apply-marketing-coordinator-step1-contact.html",
+      "flow_id": "marketing-coordinator",
+      "step": 1,
+      "expects_validation_errors": false,
+      "required_fields": [
+        "email",
+        "phone"
+      ],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Standard four-step flow with cover letter on step 2. Step 1: contact."
+    },
+    {
+      "id": "linkedin-marketing-coordinator-step2",
+      "file": "linkedin-easy-apply-marketing-coordinator-step2-questions.html",
+      "flow_id": "marketing-coordinator",
+      "step": 2,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "next",
+      "expects_submitted": false,
+      "notes": "Standard four-step flow with cover letter on step 2. Step 2: questions."
+    },
+    {
+      "id": "linkedin-marketing-coordinator-step3",
+      "file": "linkedin-easy-apply-marketing-coordinator-step3-review.html",
+      "flow_id": "marketing-coordinator",
+      "step": 3,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "review",
+      "expects_submitted": false,
+      "notes": "Standard four-step flow with cover letter on step 2. Step 3: review."
+    },
+    {
+      "id": "linkedin-marketing-coordinator-step4",
+      "file": "linkedin-easy-apply-marketing-coordinator-step4-submitted.html",
+      "flow_id": "marketing-coordinator",
+      "step": 4,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": null,
+      "expects_submitted": true,
+      "notes": "Standard four-step flow with cover letter on step 2. Step 4: submitted."
+    },
+    {
+      "id": "error-empty-email",
+      "file": "error-empty-email.html",
+      "flow_id": null,
+      "step": null,
+      "expects_validation_errors": true,
+      "required_fields": [
+        "email"
+      ],
+      "expected_errors": [
+        "Please enter a valid email address."
+      ],
+      "primary_action": "next",
+      "notes": "Validation error state: empty-email."
+    },
+    {
+      "id": "error-empty-phone",
+      "file": "error-empty-phone.html",
+      "flow_id": null,
+      "step": null,
+      "expects_validation_errors": true,
+      "required_fields": [
+        "phone"
+      ],
+      "expected_errors": [
+        "Please enter a valid phone number."
+      ],
+      "primary_action": "next",
+      "notes": "Validation error state: empty-phone."
+    },
+    {
+      "id": "error-invalid-email",
+      "file": "error-invalid-email.html",
+      "flow_id": null,
+      "step": null,
+      "expects_validation_errors": true,
+      "required_fields": [
+        "email"
+      ],
+      "expected_errors": [
+        "Please enter a valid email address."
+      ],
+      "primary_action": "next",
+      "notes": "Validation error state: invalid-email."
+    },
+    {
+      "id": "error-missing-radio",
+      "file": "error-missing-radio.html",
+      "flow_id": null,
+      "step": null,
+      "expects_validation_errors": true,
+      "required_fields": [
+        "experience_years"
+      ],
+      "expected_errors": [
+        "Please make a selection."
+      ],
+      "primary_action": "next",
+      "notes": "Validation error state: missing-radio."
+    },
+    {
+      "id": "error-salary-blank",
+      "file": "error-salary-blank.html",
+      "flow_id": null,
+      "step": null,
+      "expects_validation_errors": true,
+      "required_fields": [
+        "salary"
+      ],
+      "expected_errors": [
+        "Please enter a number."
+      ],
+      "primary_action": "next",
+      "notes": "Validation error state: salary-blank."
+    },
+    {
+      "id": "error-multiple-inline",
+      "file": "error-multiple-inline.html",
+      "flow_id": null,
+      "step": null,
+      "expects_validation_errors": true,
+      "required_fields": [
+        "email",
+        "phone"
+      ],
+      "expected_errors": [
+        "Please enter a valid email address.",
+        "Please enter a valid phone number."
+      ],
+      "primary_action": "next",
+      "notes": "Validation error state: multiple-inline."
+    },
+    {
+      "id": "error-please-make-selection",
+      "file": "error-please-make-selection.html",
+      "flow_id": null,
+      "step": null,
+      "expects_validation_errors": true,
+      "required_fields": [
+        "experience_years",
+        "work_authorization"
+      ],
+      "expected_errors": [
+        "Please make a selection."
+      ],
+      "primary_action": "next",
+      "notes": "Validation error state: please-make-selection."
+    },
+    {
+      "id": "error-required-textarea",
+      "file": "error-required-textarea.html",
+      "flow_id": null,
+      "step": null,
+      "expects_validation_errors": true,
+      "required_fields": [
+        "cover_letter"
+      ],
+      "expected_errors": [
+        "Please enter a response."
+      ],
+      "primary_action": "next",
+      "notes": "Validation error state: required-textarea."
+    },
+    {
+      "id": "error-work-auth-missing",
+      "file": "error-work-auth-missing.html",
+      "flow_id": null,
+      "step": null,
+      "expects_validation_errors": true,
+      "required_fields": [
+        "work_authorization"
+      ],
+      "expected_errors": [
+        "Please make a selection."
+      ],
+      "primary_action": "next",
+      "notes": "Validation error state: work-auth-missing."
+    },
+    {
+      "id": "edge-modal-spinner",
+      "file": "edge-modal-spinner.html",
+      "flow_id": null,
+      "step": null,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "next",
+      "expects_modal": true,
+      "expects_already_applied": false,
+      "expects_submitted": false,
+      "action_disabled": false,
+      "notes": "Edge case: modal-spinner."
+    },
+    {
+      "id": "edge-next-disabled",
+      "file": "edge-next-disabled.html",
+      "flow_id": null,
+      "step": null,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "next",
+      "expects_modal": true,
+      "expects_already_applied": false,
+      "expects_submitted": false,
+      "action_disabled": true,
+      "notes": "Edge case: next-disabled."
+    },
+    {
+      "id": "edge-already-applied",
+      "file": "edge-already-applied.html",
+      "flow_id": null,
+      "step": null,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "expects_modal": false,
+      "expects_already_applied": true,
+      "expects_submitted": false,
+      "action_disabled": false,
+      "notes": "Edge case: already-applied."
+    },
+    {
+      "id": "edge-single-step-submit",
+      "file": "edge-single-step-submit.html",
+      "flow_id": null,
+      "step": null,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": "submit",
+      "expects_modal": true,
+      "expects_already_applied": false,
+      "expects_submitted": false,
+      "action_disabled": false,
+      "notes": "Edge case: single-step-submit."
+    },
+    {
+      "id": "edge-success-submitted",
+      "file": "edge-success-submitted.html",
+      "flow_id": null,
+      "step": null,
+      "expects_validation_errors": false,
+      "required_fields": [],
+      "primary_action": null,
+      "expects_modal": true,
+      "expects_already_applied": false,
+      "expects_submitted": true,
+      "action_disabled": false,
+      "notes": "Edge case: success-submitted."
+    }
+  ]
+}

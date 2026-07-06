@@ -42,6 +42,118 @@ const AutoCVApplyFormHeuristics = (() => {
         return normalize(stripped).replace(/[^\w\s>\/-]/g, '').replace(/\s+/g, ' ').trim();
     }
 
+    const PLACEHOLDER_SELECT_OPTION_PATTERN = /^(select an option|choose an option|please select|select\.\.\.|--)$/i;
+
+    const PHONE_CALLING_CODE_TO_ISO = [
+        ['971', 'AE'], ['966', 'SA'], ['972', 'IL'], ['886', 'TW'], ['852', 'HK'],
+        ['353', 'IE'], ['351', 'PT'], ['358', 'FI'], ['420', 'CZ'], ['421', 'SK'],
+        ['44', 'GB'], ['49', 'DE'], ['33', 'FR'], ['39', 'IT'], ['34', 'ES'],
+        ['61', 'AU'], ['64', 'NZ'], ['91', 'IN'], ['81', 'JP'], ['86', 'CN'],
+        ['55', 'BR'], ['52', 'MX'], ['27', 'ZA'], ['65', 'SG'], ['31', 'NL'],
+        ['32', 'BE'], ['41', 'CH'], ['46', 'SE'], ['47', 'NO'], ['45', 'DK'],
+        ['48', 'PL'], ['1', 'US'],
+    ];
+
+    function isPlaceholderSelectOption(option) {
+        if (!option) {
+            return true;
+        }
+
+        const text = normalize(option.textContent);
+        const value = normalize(option.value);
+
+        return PLACEHOLDER_SELECT_OPTION_PATTERN.test(text)
+            || PLACEHOLDER_SELECT_OPTION_PATTERN.test(value)
+            || value === '';
+    }
+
+    function isSelectMeaningfullyFilled(select) {
+        if (select?.tagName?.toLowerCase() !== 'select') {
+            return Boolean(select?.value?.trim());
+        }
+
+        const selected = select.selectedOptions?.[0] || select.options?.[select.selectedIndex];
+
+        return Boolean(selected) && !isPlaceholderSelectOption(selected);
+    }
+
+    function extractDialCodeFromPhoneValue(value) {
+        const normalized = String(value || '').replace(/\s/g, '');
+
+        if (!normalized.startsWith('+')) {
+            return '';
+        }
+
+        const digits = normalized.replace(/\D/g, '');
+
+        for (const [code] of PHONE_CALLING_CODE_TO_ISO) {
+            if (digits.startsWith(code)) {
+                return code;
+            }
+        }
+
+        return '';
+    }
+
+    function findSelectOptionMatch(options, value) {
+        const validOptions = options.filter((option) => !isPlaceholderSelectOption(option));
+        const normalizedValue = String(value).toLowerCase().trim();
+
+        if (!normalizedValue || validOptions.length === 0) {
+            return null;
+        }
+
+        let match = validOptions.find((option) => {
+            const text = option.textContent.trim().toLowerCase();
+            const val = option.value.toLowerCase();
+
+            return val === normalizedValue || text === normalizedValue;
+        });
+
+        if (!match && normalizedValue.includes('@')) {
+            match = validOptions.find((option) => {
+                const text = option.textContent.trim().toLowerCase();
+                const val = option.value.toLowerCase();
+
+                return val === normalizedValue
+                    || text === normalizedValue
+                    || val.includes(normalizedValue)
+                    || normalizedValue.includes(val);
+            });
+        }
+
+        if (!match && /^\+?\d/.test(normalizedValue)) {
+            const dialDigits = extractDialCodeFromPhoneValue(
+                normalizedValue.startsWith('+') ? normalizedValue : `+${normalizedValue.replace(/\D/g, '')}`,
+            );
+
+            if (dialDigits) {
+                const dialPattern = new RegExp(`\\(\\+${dialDigits}\\)|\\+${dialDigits}\\b`);
+
+                match = validOptions.find((option) => {
+                    const text = option.textContent || '';
+                    const val = option.value || '';
+
+                    return dialPattern.test(text) || dialPattern.test(val);
+                });
+            }
+        }
+
+        if (!match) {
+            match = validOptions.find((option) => {
+                const text = option.textContent.trim().toLowerCase();
+                const val = option.value.toLowerCase();
+
+                return text.includes(normalizedValue)
+                    || normalizedValue.includes(text)
+                    || val.includes(normalizedValue)
+                    || normalizedValue.includes(val);
+            });
+        }
+
+        return match || null;
+    }
+
     function isSplCheckboxInput(input) {
         if (!(input instanceof HTMLInputElement) || input.type !== 'checkbox') {
             return false;
@@ -2206,16 +2318,6 @@ const AutoCVApplyFormHeuristics = (() => {
             || element.closest('.PhoneInput') !== null;
     }
 
-    const PHONE_CALLING_CODE_TO_ISO = [
-        ['971', 'AE'], ['966', 'SA'], ['972', 'IL'], ['886', 'TW'], ['852', 'HK'],
-        ['353', 'IE'], ['351', 'PT'], ['358', 'FI'], ['420', 'CZ'], ['421', 'SK'],
-        ['44', 'GB'], ['49', 'DE'], ['33', 'FR'], ['39', 'IT'], ['34', 'ES'],
-        ['61', 'AU'], ['64', 'NZ'], ['91', 'IN'], ['81', 'JP'], ['86', 'CN'],
-        ['55', 'BR'], ['52', 'MX'], ['27', 'ZA'], ['65', 'SG'], ['31', 'NL'],
-        ['32', 'BE'], ['41', 'CH'], ['46', 'SE'], ['47', 'NO'], ['45', 'DK'],
-        ['48', 'PL'], ['1', 'US'],
-    ];
-
     function resolveCountryIsoFromE164(e164, countrySelect) {
         if (!countrySelect || !String(e164).trim().startsWith('+')) {
             return null;
@@ -2353,15 +2455,8 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         if (tag === 'select') {
-            const normalizedValue = String(value).toLowerCase();
             const options = Array.from(element.options);
-
-            const match = options.find((option) => {
-                const text = option.textContent.trim().toLowerCase();
-                const val = option.value.toLowerCase();
-
-                return text === normalizedValue || val === normalizedValue || text.includes(normalizedValue);
-            }) || options.find((option) => option.value && option.value !== '');
+            const match = findSelectOptionMatch(options, value);
 
             if (!match) {
                 heuristicsLog('warn', 'apply.setFieldValue', 'Select option not found', {
@@ -2373,9 +2468,11 @@ const AutoCVApplyFormHeuristics = (() => {
             }
 
             element.value = match.value;
+            element.dispatchEvent(new Event('input', { bubbles: true }));
             element.dispatchEvent(new Event('change', { bubbles: true }));
+            element.classList?.remove('fb-dash-form-element__error-field');
 
-            return verifyFieldApplied(element, 'select', value);
+            return verifyFieldApplied(element, 'select', match.value);
         }
 
         if (element.type === 'checkbox' || element.type === 'radio') {
@@ -2549,7 +2646,11 @@ const AutoCVApplyFormHeuristics = (() => {
             return getQuestionLabel(element).length >= 3;
         }
 
-        if (element.value?.trim()) {
+        if (element.tagName?.toLowerCase() === 'select') {
+            if (isSelectMeaningfullyFilled(element)) {
+                return false;
+            }
+        } else if (element.value?.trim()) {
             if (element.type === 'tel' && isPhoneDialCodeOnlyValue(element.value)) {
                 // Treat dial-code-only phone widgets as unfilled.
             } else if (isMicro1DefaultNumberValue(element)) {

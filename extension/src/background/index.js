@@ -1,11 +1,15 @@
 import { mapApplicationSettingsForAssist } from './application-settings.js';
 import {
+    configureAutoApplyProfileLoader,
+    dismissFinishedAutoApplySession,
     getAutoApplyStatus,
     isAutoApplyRunning,
     resetAutoApplySession,
+    resumeAutoApplyFromPause,
     startAutoApply,
     stopAutoApply,
 } from './auto-apply-orchestrator.js';
+import { loadAutoApplySession } from './auto-apply-session.js';
 import {
     clearConnection,
     getApiToken,
@@ -71,6 +75,7 @@ import {
 import { validateCvUpload, validateDocumentUpload } from './upload-validation.js';
 
 void initDebugLog();
+configureAutoApplyProfileLoader(getProfile);
 
 let cachedProfile = null;
 let cacheTimestamp = 0;
@@ -640,21 +645,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             maxApplications: message.maxApplications,
             runDraftAll,
         })
-            .then((session) => sendResponse({ success: true, session: session ? {
-                status: session.status,
-                platform: session.platform,
-                roleDescription: session.roleDescription,
-                tabId: session.tabId,
-                maxApplications: session.maxApplications,
-                stats: session.stats,
-                currentIndex: session.currentIndex,
-                queueLength: session.queue?.length || 0,
-                log: session.log?.slice(-50) || [],
-                startedAt: session.startedAt,
-                finishedAt: session.finishedAt,
-                stopRequested: session.stopRequested,
-                lastError: session.lastError,
-            } : null }))
+            .then((session) => sendResponse({ success: true, session: session ? sanitizeAutoApplySessionResponse(session) : null }))
             .catch((err) => sendResponse({ error: err.message }));
 
         return true;
@@ -664,21 +655,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         stopAutoApply()
             .then((session) => sendResponse({
                 success: true,
-                session: session ? {
-                    status: session.status,
-                    platform: session.platform,
-                    roleDescription: session.roleDescription,
-                    tabId: session.tabId,
-                    maxApplications: session.maxApplications,
-                    stats: session.stats,
-                    currentIndex: session.currentIndex,
-                    queueLength: session.queue?.length || 0,
-                    log: session.log?.slice(-50) || [],
-                    startedAt: session.startedAt,
-                    finishedAt: session.finishedAt,
-                    stopRequested: session.stopRequested,
-                    lastError: session.lastError,
-                } : null,
+                session: session ? sanitizeAutoApplySessionResponse(session) : null,
             }))
             .catch((err) => sendResponse({ error: err.message }));
 
@@ -688,6 +665,22 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'AUTO_APPLY_STATUS') {
         getAutoApplyStatus()
             .then((session) => sendResponse({ session, running: isAutoApplyRunning() }))
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'AUTO_APPLY_DISMISS') {
+        dismissFinishedAutoApplySession()
+            .then((dismissed) => sendResponse({ success: true, dismissed }))
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'AUTO_APPLY_SUBMIT_BLOCKER_ANSWER') {
+        submitAutoApplyBlockerAnswer(message.answer, message.field || null)
+            .then(sendResponse)
             .catch((err) => sendResponse({ error: err.message }));
 
         return true;
@@ -1013,6 +1006,15 @@ async function savePendingFieldAnswer(tabId, field, answer) {
     const pending = (await loadPendingFields(tabId)).filter((item) => item.ref !== field.ref);
     await savePendingFields(tabId, pending);
 
+    const autoApplySession = await loadAutoApplySession();
+
+    if (
+        autoApplySession?.status === 'paused_for_input'
+        && autoApplySession.pauseContext?.blockerField?.ref === field.ref
+    ) {
+        await resumeAutoApplyFromPause();
+    }
+
     return { success: true, applied, fields: pending };
 }
 
@@ -1025,6 +1027,82 @@ async function dismissPendingField(tabId, field) {
     await savePendingFields(tabId, pending);
 
     return { success: true, fields: pending };
+}
+
+function sanitizeAutoApplySessionResponse(session) {
+    return {
+        status: session.status,
+        platform: session.platform,
+        roleDescription: session.roleDescription,
+        tabId: session.tabId,
+        maxApplications: session.maxApplications,
+        stats: session.stats,
+        currentIndex: session.currentIndex,
+        queueLength: session.queue?.length || 0,
+        log: session.log?.slice(-50) || [],
+        startedAt: session.startedAt,
+        finishedAt: session.finishedAt,
+        stopRequested: session.stopRequested,
+        lastError: session.lastError,
+        pauseContext: session.pauseContext
+            ? {
+                job: session.pauseContext.job,
+                stepFingerprint: session.pauseContext.stepFingerprint,
+                tabId: session.pauseContext.tabId,
+                blockerField: session.pauseContext.blockerField,
+                questionText: session.pauseContext.questionText,
+                resumeAt: session.pauseContext.resumeAt,
+            }
+            : null,
+    };
+}
+
+async function submitAutoApplyBlockerAnswer(answer, fieldOverride = null) {
+    const session = await loadAutoApplySession();
+
+    if (!session || session.status !== 'paused_for_input' || !session.pauseContext) {
+        throw new Error('Auto Apply is not waiting for your answer.');
+    }
+
+    const tabId = session.pauseContext.tabId || session.tabId;
+
+    if (!tabId) {
+        throw new Error('Auto Apply tab is unavailable.');
+    }
+
+    const field = fieldOverride || session.pauseContext.blockerField;
+
+    if (!field?.ref) {
+        throw new Error('Missing blocked field reference.');
+    }
+
+    const result = await savePendingFieldAnswer(tabId, field, answer);
+
+    return result;
+}
+
+function snapshotElementToDraftField(element) {
+    return {
+        ref: element.ref,
+        label: element.question || element.label,
+        question: element.question || element.label,
+        field_type: element.field_type || 'text',
+        options: element.options ?? null,
+        dom: element.dom ?? null,
+        required: element.required === true,
+    };
+}
+
+async function collectUnfilledRequiredFields(tabId, formFrameId) {
+    try {
+        const snapshotResponse = await collectSnapshotFromTab(tabId, formFrameId);
+
+        return (snapshotResponse?.snapshot?.elements || [])
+            .filter((element) => element.required)
+            .map(snapshotElementToDraftField);
+    } catch {
+        return [];
+    }
 }
 
 function inventoryFieldsToDraftShape(inventoryFields) {
@@ -1557,6 +1635,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
         const questionMemo = await loadQuestionMemo();
         const { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(fields, questionMemo);
+        let totalFieldsFilled = 0;
 
         if (memoAnswers.length > 0) {
             broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
@@ -1588,6 +1667,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 applied: memoApplyResult?.applied,
             }, tabId);
 
+            totalFieldsFilled += Number(memoApplyResult?.applied || memoAnswers.length || 0);
+
             pushDraftAnswersToSidepanelChat(0, memoToApply, fieldsByRef);
         }
 
@@ -1616,7 +1697,16 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 url: tab.url,
             });
 
-            return { success: true, message };
+            const unfilledRequiredFields = await collectUnfilledRequiredFields(tabId, formFrameId);
+
+            return {
+                success: true,
+                message,
+                fieldsFilled: totalFieldsFilled,
+                pendingFields,
+                pendingCount,
+                unfilledRequiredFields,
+            };
         }
 
         const draftFields = compactFieldsForDraft(remainingFields);
@@ -1695,6 +1785,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
                             success: applyResult?.success,
                             applied: applyResult?.applied,
                         }, tabId);
+
+                        totalFieldsFilled += Number(applyResult?.applied || toApply.length || 0);
 
                         return applyResult;
                     })
@@ -1831,7 +1923,16 @@ async function runDraftAll(tabId, e2eOptions = null) {
             usageBreakdown: usageEvents,
         });
 
-        return { success: true, message };
+        const unfilledRequiredFields = await collectUnfilledRequiredFields(tabId, formFrameId);
+
+        return {
+            success: true,
+            message,
+            fieldsFilled: totalFieldsFilled,
+            pendingFields,
+            pendingCount,
+            unfilledRequiredFields,
+        };
     } catch (error) {
         logDraftError('draft-all.error', 'Draft All unhandled error', error, tabId);
 
@@ -2094,6 +2195,8 @@ async function markSidePanelClosed() {
     if (wasOpen !== false) {
         await broadcastAutofillVisibility();
     }
+
+    await dismissFinishedAutoApplySession();
 }
 
 async function broadcastAutofillVisibility() {
@@ -2258,5 +2361,6 @@ self.__autocvapplyE2e = {
     startAutoApply: async (options) => startAutoApply({ ...options, runDraftAll }),
     stopAutoApply,
     getAutoApplyStatus,
+    getAutoApplySessionForE2e: () => loadAutoApplySession(),
     resetAutoApplySession,
 };
