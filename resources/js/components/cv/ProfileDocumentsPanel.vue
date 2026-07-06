@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { Download, FileText, Loader2, Trash2, Upload } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
+import {
+    destroy as deleteDocument,
+    store as storeDocument,
+} from '@/actions/App/Http/Controllers/ProfileDocumentController';
 import { useConfirm } from '@/composables/useConfirm';
 import {
     cvAcceptAttribute,
@@ -13,10 +17,6 @@ import type {
     DocumentCategoryOption,
     ProfileDocument,
 } from '@/types/profileDocument';
-import {
-    destroy as deleteDocument,
-    store as storeDocument,
-} from '@/actions/App/Http/Controllers/ProfileDocumentController';
 
 const documents = defineModel<ProfileDocument[]>('documents', {
     required: true,
