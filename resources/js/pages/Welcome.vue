@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { ArrowRight, Bot, FileUp, Stamp } from 'lucide-vue-next';
+import { ArrowRight, Bot, FileUp, Sparkles, Stamp, Zap } from 'lucide-vue-next';
 import PostboxCta from '@/components/postbox/PostboxCta.vue';
 import PostboxDraftAllDemo from '@/components/postbox/PostboxDraftAllDemo.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
@@ -23,16 +23,10 @@ defineProps<{
         </template>
 
         <section>
-            <div class="mb-5 flex flex-wrap gap-2">
-                <span class="postbox-badge inline-flex gap-1.5">
-                    <Bot class="size-3.5" />
-                    LinkedIn Easy Apply Auto Apply
-                </span>
-                <span class="postbox-badge inline-flex gap-1.5">
-                    <Stamp class="size-3.5" />
-                    Source available · Non-commercial use
-                </span>
-            </div>
+            <span class="postbox-badge mb-5 inline-flex gap-1.5">
+                <Stamp class="size-3.5" />
+                Source available · Non-commercial use
+            </span>
 
             <h1
                 class="text-3xl leading-[1.1] font-bold tracking-tight text-balance text-postbox-navy sm:text-5xl"
@@ -53,12 +47,9 @@ defineProps<{
             <p
                 class="mt-4 text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
             >
-                On LinkedIn Easy Apply, go further: open the extension sidebar
-                <strong class="font-semibold text-postbox-navy"
-                    >Auto Apply</strong
-                >
-                tab to search jobs, open each posting, fill every step, and
-                submit end-to-end. More platforms coming soon.
+                The browser extension autofills one field or the whole form. You
+                review, tweak if needed, and submit - apply faster without
+                retyping your life story.
             </p>
 
             <div
@@ -78,24 +69,84 @@ defineProps<{
             </div>
         </section>
 
-        <section class="postbox-panel-muted mt-12 p-5 sm:p-6">
-            <p class="postbox-label mb-2">Extension Auto Apply tab</p>
+        <section class="mt-12">
+            <p class="postbox-label mb-2">What you get</p>
             <h2
                 class="text-xl font-bold tracking-tight text-balance text-postbox-navy sm:text-2xl"
             >
-                LinkedIn Easy Apply, start to finish
+                Less typing. More applying.
             </h2>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                Run a job search from the sidebar, open Easy Apply listings,
-                fill contact info and screening questions from your profile, and
-                submit each application - search, open, fill, and submit without
-                clicking through every modal yourself.
-            </p>
-            <p class="mt-3 text-sm leading-relaxed text-muted-foreground">
-                Greenhouse, Ashby, Workday, and the rest still use one-click
-                autofill and Draft All - you review and submit. Full Auto Apply
-                for more platforms is on the way.
-            </p>
+
+            <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                <div class="postbox-panel p-4 sm:p-5">
+                    <div
+                        class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                    >
+                        <Zap class="size-5 text-postbox-red" />
+                    </div>
+                    <h3 class="text-base font-bold text-postbox-navy">
+                        One-click autofill
+                    </h3>
+                    <p
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
+                        Fill contact details, experience, and screening
+                        questions from your profile on supported job sites.
+                    </p>
+                </div>
+
+                <div class="postbox-panel p-4 sm:p-5">
+                    <div
+                        class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                    >
+                        <Sparkles class="size-5 text-postbox-red" />
+                    </div>
+                    <h3 class="text-base font-bold text-postbox-navy">
+                        Draft All
+                    </h3>
+                    <p
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
+                        Stamp an entire application in seconds, then review
+                        every field before you click Submit.
+                    </p>
+                </div>
+
+                <div class="postbox-panel p-4 sm:p-5">
+                    <div
+                        class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                    >
+                        <FileUp class="size-5 text-postbox-red" />
+                    </div>
+                    <h3 class="text-base font-bold text-postbox-navy">
+                        Profile from your CV
+                    </h3>
+                    <p
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
+                        Upload once. We extract the useful fields and keep them
+                        ready on your dashboard.
+                    </p>
+                </div>
+
+                <div class="postbox-panel p-4 sm:p-5">
+                    <div
+                        class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                    >
+                        <Bot class="size-5 text-postbox-red" />
+                    </div>
+                    <h3 class="text-base font-bold text-postbox-navy">
+                        LinkedIn Easy Apply Auto Apply
+                    </h3>
+                    <p
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
+                        Search, open, fill, and submit end-to-end from the
+                        extension sidebar - including LinkedIn Easy Apply. More
+                        platforms coming soon.
+                    </p>
+                </div>
+            </div>
         </section>
 
         <PostboxPlatformBadges class="mt-12" />
