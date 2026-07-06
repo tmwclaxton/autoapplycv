@@ -9,8 +9,8 @@ Before creating a git commit - or before finishing a task that changed JS, Vue, 
 
 ```bash
 npm run format:check    # if it fails: npm run format
-npm run lint:check      # if it fails: npm run lint
 npm run em-dash:check   # if it fails: npm run em-dash:fix
+npm run lint:check:ci   # if it fails: rm -rf resources/js/routes resources/js/actions && npm run lint -- --fix && php artisan wayfinder:generate
 ```
 
 For PHP changes, also run:
@@ -21,12 +21,28 @@ vendor/bin/pint --dirty --format agent
 
 Only commit when all applicable checks pass. If you auto-fixed issues, mention what was fixed in the commit message or summary.
 
+## ESLint and Wayfinder (matches GitHub)
+
+GitHub Actions runs `npm run lint:check` on a fresh checkout **without** gitignored Wayfinder output (`resources/js/routes`, `resources/js/actions`). When those folders exist locally, ESLint resolves `@/routes` / `@/actions` differently and `import/order` can pass locally while CI fails.
+
+Always verify lint with **`npm run lint:check:ci`**, which removes those dirs, runs `lint:check`, then runs `php artisan wayfinder:generate` to restore them.
+
+Manual equivalent:
+
+```bash
+rm -rf resources/js/routes resources/js/actions
+npm run lint:check
+php artisan wayfinder:generate
+```
+
+Do not rely on `npm run lint:check` alone before push if Wayfinder output is present.
+
 ## Before push
 
 Do not push to the remote until the same checks pass locally with exit code 0 (matches the GitHub linter/quality workflow):
 
 ```bash
-npm run lint:check
+npm run lint:check:ci
 npm run format:check
 npm run em-dash:check
 ```

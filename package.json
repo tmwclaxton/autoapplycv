@@ -87,7 +87,8 @@
         "test:auto-apply-pause-resume": "node scripts/extension-test/auto-apply-pause-resume.mjs",
         "test:auto-apply-activity-visibility": "node scripts/extension-test/auto-apply-activity-visibility.mjs",
         "discord:invite": "node scripts/discord/setup-server.mjs",
-        "discord:setup": "node scripts/discord/setup-server.mjs"
+        "discord:setup": "node scripts/discord/setup-server.mjs",
+        "lint:check:ci": "node scripts/lint-check-ci.mjs"
     },
     "devDependencies": {
         "@eslint/js": "^9.19.0",
