@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Drag drop upload</title></head>
+<body>
+<main><h1>Drag drop upload</h1>
+<form action="/apply" method="post" enctype="multipart/form-data">
+<label for="file_name">Name</label><input type="text" id="file_name" name="file_name">
+<div class="dropzone" onclick="document.getElementById('cv_upload').click()">
+<p>Drag and drop your CV here or click to browse</p>
+<input type="file" id="cv_upload" name="cv_upload" accept=".pdf,.doc,.docx" style="display:none">
+</div>
+<label for="file_email">Email</label><input type="email" id="file_email" name="file_email">
+</form>
+</main>
+</body>
+</html>

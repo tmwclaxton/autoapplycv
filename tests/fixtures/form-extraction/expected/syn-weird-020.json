@@ -1,0 +1,93 @@
+{
+  "id": "syn-weird-020",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "q7. if so, please share your portfolio url q7. if so, please share your portfolio url",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "q7_share",
+        "name": "q7_share",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": "Q7."
+      },
+      "fill_verify": true
+    },
+    {
+      "question": "q12. explain why you are interested in this role q12. explain why you are interested in this role",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "q12_explain",
+        "name": "q12_explain",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": "Q12."
+      },
+      "fill_verify": true
+    },
+    {
+      "question": "q3. full legal name q3. full legal name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "q3_name",
+        "name": "q3_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": "Q3."
+      },
+      "fill_verify": true
+    },
+    {
+      "question": "q3b. contact email q3b. contact email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "q3_email",
+        "name": "q3_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      },
+      "fill_verify": true
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

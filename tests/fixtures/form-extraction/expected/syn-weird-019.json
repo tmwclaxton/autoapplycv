@@ -1,0 +1,72 @@
+{
+  "id": "syn-weird-019",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "first namerequired first namerequired",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "tt_first",
+        "name": "tt_first",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      },
+      "fill_verify": true
+    },
+    {
+      "question": "last namerequired last namerequired",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "tt_last",
+        "name": "tt_last",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      },
+      "fill_verify": true
+    },
+    {
+      "question": "email addressrequired email addressrequired",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "tt_email",
+        "name": "tt_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      },
+      "fill_verify": true
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

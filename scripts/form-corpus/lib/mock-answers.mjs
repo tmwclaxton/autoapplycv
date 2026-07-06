@@ -50,6 +50,30 @@ function shouldIncludeInFillPlan(expectedField) {
     return expectedField.required !== false;
 }
 
+function isPlaceholderOption(option) {
+    const text = String(option || '').trim();
+
+    if (!text) {
+        return true;
+    }
+
+    return /^(select|choose|--|please select|pick one)/i.test(text);
+}
+
+function firstMeaningfulOption(options) {
+    if (!Array.isArray(options) || options.length === 0) {
+        return null;
+    }
+
+    for (const option of options) {
+        if (!isPlaceholderOption(option)) {
+            return option;
+        }
+    }
+
+    return options[options.length - 1];
+}
+
 export function mockAnswerForField(field, index) {
     const type = field.field_type || 'text';
 
@@ -75,7 +99,7 @@ export function mockAnswerForField(field, index) {
             const domId = field.dom?.id || '';
             const question = String(field.question || '').toLowerCase();
 
-            if (domId === 'country' || question.includes('country')) {
+            if (domId === 'country' || (/\bcountry\b/.test(question) && !/authorized|work in|right to work|this country|phone number country|dial code|phone country/i.test(question))) {
                 return 'United States';
             }
 
@@ -84,10 +108,14 @@ export function mockAnswerForField(field, index) {
             }
 
             if (/gender|race|ethnicity|veteran|disability|lgbtq/i.test(question)) {
-                return field.options?.[0] ?? 'Decline to self-identify';
+                return firstMeaningfulOption(field.options) ?? 'Decline to self-identify';
             }
 
-            return field.options?.[0] ?? 'Yes';
+            if (/driver'?s license|right to work|legally authorized|visa|sponsorship/i.test(question)) {
+                return 'Yes';
+            }
+
+            return firstMeaningfulOption(field.options) ?? 'Yes';
         }
         case 'checkbox':
             return field.options?.[0] ?? 'Yes';

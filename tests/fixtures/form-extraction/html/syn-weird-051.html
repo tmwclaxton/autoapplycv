@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Multiple select</title></head>
+<body>
+<main><h1>Multiple select</h1>
+<form action="/apply" method="post">
+<label for="ms_name">Name</label><input type="text" id="ms_name" name="ms_name">
+<label for="ms_skills">Select all skills that apply</label>
+<select id="ms_skills" name="ms_skills" multiple size="4">
+<option>JavaScript</option><option>TypeScript</option><option>Python</option><option>Go</option>
+</select>
+<label for="ms_email">Email</label><input type="email" id="ms_email" name="ms_email">
+</form>
+</main>
+</body>
+</html>

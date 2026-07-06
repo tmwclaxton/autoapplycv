@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Dialog form</title></head>
+<body>
+<main><h1>Dialog form</h1>
+<form action="/apply" method="post" id="outer-form">
+<label for="dlg_name">Name</label><input type="text" id="dlg_name" name="dlg_name">
+<button type="button" id="open-dialog" onclick="document.getElementById('apply-dialog').showModal()">Open application</button>
+<dialog id="apply-dialog">
+<label for="dlg_role">Why this role?</label><textarea id="dlg_role" name="dlg_role" rows="3" form="outer-form"></textarea>
+<button type="button" onclick="document.getElementById('apply-dialog').close()">Close</button>
+</dialog>
+</form>
+</main>
+</body>
+</html>

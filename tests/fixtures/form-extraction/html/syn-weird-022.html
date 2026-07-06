@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Custom dropdown</title></head>
+<body>
+<main><h1>Custom dropdown</h1>
+<form action="/apply" method="post">
+<label for="dd_name">Name</label><input type="text" id="dd_name" name="dd_name">
+<div class="custom-select">
+<span id="dd_loc_lbl">Preferred office location</span>
+<button type="button" role="combobox" aria-expanded="false" aria-controls="dd_loc_list" aria-labelledby="dd_loc_lbl" data-reveal="#dd_loc_list">Select location</button>
+<ul role="listbox" id="dd_loc_list" hidden style="display:none">
+<li role="option">London</li><li role="option">Berlin</li><li role="option">Remote</li>
+</ul>
+</div>
+<label for="dd_email">Email</label><input type="email" id="dd_email" name="dd_email">
+</form>
+</main>
+</body>
+</html>

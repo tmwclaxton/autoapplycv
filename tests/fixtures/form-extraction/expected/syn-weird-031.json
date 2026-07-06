@@ -1,0 +1,76 @@
+{
+  "id": "syn-weird-031",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "name name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "oth_name",
+        "name": "oth_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      },
+      "fill_verify": true
+    },
+    {
+      "question": "linkedin linkedin",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "LinkedIn",
+        "Friend",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "referral",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      },
+      "fill_verify": true
+    },
+    {
+      "question": "email email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "oth_email",
+        "name": "oth_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      },
+      "fill_verify": true
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

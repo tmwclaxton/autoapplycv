@@ -15,9 +15,13 @@ class FormE2eScoringAuditor
     /**
      * @return array<string, mixed>
      */
-    public function run(?int $limit = null, int $scoreBatchSize = 6): array
+    /**
+     * @param  array<string, mixed>|null  $manifestOverride
+     * @return array<string, mixed>
+     */
+    public function run(?int $limit = null, int $scoreBatchSize = 6, ?array $manifestOverride = null): array
     {
-        $manifest = FormE2eScoringManifest::load();
+        $manifest = $manifestOverride ?? FormE2eScoringManifest::load();
         $scenarios = $manifest['scenarios'];
 
         if ($limit !== null && $limit > 0) {

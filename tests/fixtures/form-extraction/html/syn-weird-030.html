@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Conditional radio</title></head>
+<body>
+<main><h1>Conditional radio</h1>
+<form action="/apply" method="post">
+<label for="cond_name">Name</label><input type="text" id="cond_name" name="cond_name">
+<p>Do you require visa sponsorship?</p>
+<label><input type="radio" name="visa_need" value="no"> No</label>
+<label><input type="radio" name="visa_need" value="yes" data-reveal="#visa_detail"> Yes</label>
+<div id="visa_detail" hidden style="display:none">
+<label for="visa_detail_text">Please describe your visa situation</label>
+<textarea id="visa_detail_text" name="visa_detail_text" rows="3"></textarea>
+</div>
+<label for="cond_email">Email</label><input type="email" id="cond_email" name="cond_email">
+</form>
+</main>
+</body>
+</html>

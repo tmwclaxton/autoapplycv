@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Lever file upload</title></head>
+<body>
+<main><h1>Lever file upload</h1>
+<form action="/apply" method="post" enctype="multipart/form-data">
+<label for="lev_name">Name</label><input type="text" id="lev_name" name="lev_name">
+<div class="lever-upload">
+<label for="lev_resume" class="lever-btn">Attach resume</label>
+<input type="file" id="lev_resume" name="lev_resume" accept=".pdf,.doc,.docx" style="opacity:0;position:absolute;width:1px;height:1px">
+</div>
+<label for="lev_email">Email</label><input type="email" id="lev_email" name="lev_email">
+<label for="lev_linkedin">LinkedIn profile</label><input type="url" id="lev_linkedin" name="lev_linkedin">
+</form>
+</main>
+</body>
+</html>

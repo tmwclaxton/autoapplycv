@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Details accordion</title></head>
+<body>
+<main><h1>Details accordion</h1>
+<form action="/apply" method="post">
+<label for="acc_name">Name</label><input type="text" id="acc_name" name="acc_name">
+<details>
+<summary>Additional questions (click to expand)</summary>
+<label for="acc_cover">Cover letter</label><textarea id="acc_cover" name="acc_cover" rows="4"></textarea>
+<label for="acc_visa">Do you need visa sponsorship?</label>
+<select id="acc_visa" name="acc_visa"><option value="">Select</option><option>Yes</option><option>No</option></select>
+</details>
+</form>
+</main>
+</body>
+</html>

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-05T17:45:43.990Z",
+  "generated_at": "2026-07-05T22:51:52.158Z",
   "description": "Per-platform Playwright smoke tier - one critical scenario per ATS/platform.",
   "thresholds": {
     "critical_pass_rate": 1,
@@ -164,6 +164,22 @@
         "email",
         "tel",
         "select"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-030",
+      "platform": "syn-weird",
+      "reason": "Conditional field revealed by radio change",
+      "field_types": [
+        "text",
+        "radio",
+        "textarea",
+        "email"
       ],
       "field_count": 4,
       "priority": "standard",

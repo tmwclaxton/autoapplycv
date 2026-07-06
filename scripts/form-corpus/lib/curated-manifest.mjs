@@ -64,6 +64,14 @@ export function detectPlatform(scenario) {
         return 'syn-mega';
     }
 
+    if (id.startsWith('syn-complex-500-')) {
+        return 'syn-complex';
+    }
+
+    if (id.startsWith('syn-weird-')) {
+        return 'syn-weird';
+    }
+
     if (id.startsWith('syn-corpus2-')) {
         if (hay.includes('teamtailor')) {
             return 'teamtailor';
@@ -276,6 +284,21 @@ const SYN_FW_PICKS = [
     { id: 'syn-fw-wizard-001', reason: 'Multi-step wizard navigation' },
 ];
 
+const SYN_WEIRD_PICKS = [
+    { id: 'syn-weird-006', reason: 'Fields inside closed details accordion' },
+    { id: 'syn-weird-007', reason: 'Application form inside native dialog' },
+    { id: 'syn-weird-008', reason: 'Multiple forms - detect job application vs newsletter' },
+    { id: 'syn-weird-013', reason: 'contenteditable div posing as text field' },
+    { id: 'syn-weird-014', reason: 'Fake div role=textbox custom component' },
+    { id: 'syn-weird-019', reason: 'Teamtailor-style concatenated label words' },
+    { id: 'syn-weird-022', reason: 'Custom div dropdown not native select' },
+    { id: 'syn-weird-029', reason: 'Multi-step wizard with CSS hidden steps' },
+    { id: 'syn-weird-030', reason: 'Conditional field revealed by radio change' },
+    { id: 'syn-weird-034', reason: 'Ashby-style yes/no button pair' },
+    { id: 'syn-weird-037', reason: 'micro1 Q-label dot separator pattern' },
+    { id: 'syn-weird-038', reason: 'react-phone dial code combobox split' },
+];
+
 const SYN_IX_PICKS = [
     'syn-ix-fw-001',
     'syn-ix-fw-002',
@@ -441,6 +464,14 @@ export function buildCuratedManifest() {
         addById(ixId, { playwright: false });
     }
 
+    for (const weirdPick of SYN_WEIRD_PICKS) {
+        addById(weirdPick.id, { reason: weirdPick.reason, priority: 'standard' });
+    }
+
+    for (const pick of pickBest(byPlatform['syn-weird'] || [], 8, usedIds)) {
+        addAnalysis(pick, { reason: `syn-weird additional edge case (${pick.fieldCount} fields)` });
+    }
+
     for (const megaCategory of SYN_MEGA_CATEGORIES) {
         const candidate = (byPlatform['syn-mega'] || [])
             .filter((item) => item.category === megaCategory && !usedIds.has(item.id))
@@ -509,6 +540,7 @@ const SMOKE_PLATFORM_PICKS = [
     { platform: 'syn-fw', id: 'syn-fw-ashby-001' },
     { platform: 'syn-ix', id: 'syn-ix-fw-001' },
     { platform: 'syn-mega', id: 'syn-mega-combobox-001' },
+    { platform: 'syn-weird', id: 'syn-weird-030' },
 ];
 
 export function listSmokeScenarios(curatedManifest) {

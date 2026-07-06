@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Datalist autocomplete</title></head>
+<body>
+<main><h1>Datalist autocomplete</h1>
+<form action="/apply" method="post">
+<label for="dl_ac_name">Name</label><input type="text" id="dl_ac_name" name="dl_ac_name">
+<label for="dl_ac_city">Current city</label>
+<input type="text" id="dl_ac_city" name="dl_ac_city" list="city_suggestions">
+<datalist id="city_suggestions"><option value="London"><option value="Manchester"><option value="Edinburgh"></datalist>
+<label for="dl_ac_email">Email</label><input type="email" id="dl_ac_email" name="dl_ac_email">
+</form>
+</main>
+</body>
+</html>

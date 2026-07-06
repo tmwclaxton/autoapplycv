@@ -1,4 +1,5 @@
 import { initAssistChat } from './assist.js';
+import { initAutoApplyPanel } from './auto-apply.js';
 import {
     DEFAULT_LOGIN_ENDPOINT,
     normalizeLoginEndpoint,
@@ -26,6 +27,7 @@ const aiTabs = new Set(['ats', 'cover']);
 
 let documentsPanel = null;
 let assistChat = null;
+let autoApplyPanel = null;
 let pendingFieldsPanel = null;
 let connectedApiBase = null;
 let sidePanelPresencePort = null;
@@ -150,6 +152,10 @@ function setupTabs() {
                     showMessage(error.message, 'error');
                 });
             }
+
+            if (tab.dataset.tab === 'auto-apply' && autoApplyPanel?.refreshStatus) {
+                autoApplyPanel.refreshStatus().catch(() => {});
+            }
         });
     });
 }
@@ -229,7 +235,7 @@ async function showOnboardingIfNeeded() {
     overlay.innerHTML = `
         <div class="onboarding-card postbox-panel">
             <h2>Welcome to AutoCVApply</h2>
-            <p>Use Assist to chat with AI, draft answers, and update your profile. ATS and Cover tabs handle scoring and cover letters. Upload files on Docs.</p>
+            <p>Use Assist to chat with AI, draft answers, and update your profile. Auto Apply runs LinkedIn Easy Apply batches. ATS and Cover tabs handle scoring and cover letters. Upload files on Docs.</p>
             <button type="button" class="postbox-btn" id="finish-onboarding-btn">Got it</button>
         </div>
     `;
@@ -476,6 +482,10 @@ chrome.runtime.onMessage.addListener((message) => {
             void pendingFieldsPanel.refreshPendingFields().catch(() => {});
         }
     }
+
+    if (message.type === 'AUTO_APPLY_STATUS' && autoApplyPanel?.refreshStatus) {
+        void autoApplyPanel.refreshStatus().catch(() => {});
+    }
 });
 
 function setupShellMarkFallback() {
@@ -528,6 +538,10 @@ async function init() {
 
     if (!pendingFieldsPanel) {
         pendingFieldsPanel = initPendingFieldsPanel({ showMessage });
+    }
+
+    if (!autoApplyPanel) {
+        autoApplyPanel = initAutoApplyPanel({ showMessage });
     }
 
     const auth = await checkAuth();

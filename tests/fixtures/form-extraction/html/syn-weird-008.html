@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Multiple forms</title></head>
+<body>
+<main><h1>Multiple forms</h1>
+<aside><form id="newsletter" action="/newsletter"><label>Newsletter email <input type="email" name="newsletter_email"></label><button type="submit">Subscribe</button></form></aside>
+<form id="application" action="/apply" method="post">
+<label for="app_name">Applicant name</label><input type="text" id="app_name" name="app_name" required>
+<label for="app_email">Applicant email</label><input type="email" id="app_email" name="app_email" required>
+<label for="app_phone">Phone number</label><input type="tel" id="app_phone" name="app_phone">
+<textarea name="app_motivation" id="app_motivation" placeholder="Why do you want to join us?" rows="4"></textarea>
+</form>
+</main>
+</body>
+</html>

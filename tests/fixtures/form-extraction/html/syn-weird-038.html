@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Dial code split</title></head>
+<body>
+<main><h1>Dial code split</h1>
+<form action="/apply" method="post">
+<label for="rp_name">Name</label><input type="text" id="rp_name" name="rp_name">
+<div class="PhoneInput">
+<button type="button" role="combobox" aria-label="Phone number country" aria-expanded="false" aria-controls="rp_dial_list">+44</button>
+<ul role="listbox" id="rp_dial_list" hidden style="display:none"><li role="option">+44</li><li role="option">+1</li></ul>
+<input type="tel" name="rp_phone" aria-label="Phone number" placeholder="Phone number">
+</div>
+<label for="rp_email">Email</label><input type="email" id="rp_email" name="rp_email">
+</form>
+</main>
+</body>
+</html>

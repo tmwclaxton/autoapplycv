@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Optgroup select</title></head>
+<body>
+<main><h1>Optgroup select</h1>
+<form action="/apply" method="post">
+<label for="og_name">Name</label><input type="text" id="og_name" name="og_name">
+<label for="og_dept">Preferred department</label>
+<select id="og_dept" name="og_dept"><option value="">Select department</option>
+<optgroup label="Engineering"><option>Backend</option><option>Frontend</option></optgroup>
+<optgroup label="Operations"><option>HR</option><option>Finance</option></optgroup>
+</select>
+<label for="og_email">Email</label><input type="email" id="og_email" name="og_email">
+</form>
+</main>
+</body>
+</html>

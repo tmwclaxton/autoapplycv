@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Aria-labelledby only</title></head>
+<body>
+<main><h1>Aria-labelledby only</h1>
+<form action="/apply" method="post">
+<span id="email-lbl" hidden>Work email address</span>
+<input type="email" name="work_email" aria-labelledby="email-lbl">
+<label for="phone_visible">Phone</label><input type="tel" id="phone_visible" name="phone_visible">
+</form>
+</main>
+</body>
+</html>

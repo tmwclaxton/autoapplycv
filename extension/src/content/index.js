@@ -753,6 +753,105 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'LINKEDIN_PREPARE_JOB_SEARCH') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyLinkedInAutoApply.prepareJobSearch());
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_COLLECT_JOB_CARDS') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse({
+                success: true,
+                jobs: AutoCVApplyLinkedInAutoApply.collectJobCards(),
+            });
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_SELECT_JOB') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyLinkedInAutoApply.selectJobById(message.jobId));
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_CLICK_EASY_APPLY') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyLinkedInAutoApply.clickEasyApply());
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_EASY_APPLY_STATE') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ open: false, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplyLinkedInAutoApply.getEasyApplyModalState());
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_ADVANCE_EASY_APPLY') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyLinkedInAutoApply.clickNextOrSubmit());
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_CLOSE_EASY_APPLY') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyLinkedInAutoApply.closeEasyApplyModal());
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_NEXT_SEARCH_PAGE') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyLinkedInAutoApply.goToNextSearchPage());
+
+            return;
+        }
+
         if (message.type === 'AUTOFILL_VISIBILITY_CHANGED' || message.type === 'AUTH_STATE_CHANGED') {
             scheduleOverlayRefresh(
                 typeof message.sidePanelOpen === 'boolean' ? message.sidePanelOpen : undefined,

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Greenhouse progress</title></head>
+<body>
+<main><h1>Greenhouse progress</h1>
+<form action="/apply" method="post">
+<nav aria-label="Application progress"><ol><li aria-current="step">Personal</li><li>Questions</li><li>Review</li></ol></nav>
+<section data-section="personal">
+<label for="gh_first">First name</label><input type="text" id="gh_first" name="gh_first">
+<label for="gh_last">Last name</label><input type="text" id="gh_last" name="gh_last">
+<label for="gh_email">Email</label><input type="email" id="gh_email" name="gh_email">
+</section>
+<section data-section="questions" hidden style="display:none">
+<label for="gh_why">Why do you want to work here?</label><textarea id="gh_why" name="gh_why" rows="4"></textarea>
+</section>
+</form>
+</main>
+</body>
+</html>

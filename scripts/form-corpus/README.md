@@ -150,6 +150,96 @@ Scrape tries direct fetch first, then Firecrawl for JS-heavy ATS hosts. Workday 
 
 Third-party API keys embedded in live page HTML (Google Maps, GoCardless widgets, etc.) are **redacted before fixtures are saved** via `lib/redact-secrets.mjs`. Re-run `npm run form-corpus:redact-secrets` if secrets slip into committed HTML; CI runs `npm run secrets:check-fixtures` to block regressions.
 
+## Corpus tiers
+
+| Prefix | Count | Purpose | Generation |
+| --- | --- | --- | --- |
+| `syn-complex-500-*` | 500 | Volume/regression for multi-section ATS-like forms | Parametric generator (`generate-complex-corpus-500.mjs`) - low structural diversity by design |
+| `syn-weird-*` | 60 | Intentional edge cases for DOM/label/control weirdness | Hand-crafted templates (`lib/weird-form-templates.mjs`) - each structurally distinct |
+| `syn-fw-*`, `syn-ix-*`, `syn-mega-*` | varies | Framework shells, interactive widgets, mega forms | Targeted generators |
+| `web-*` | varies | Real scraped ATS pages | Firecrawl scrape pipeline |
+
+**When to use which tier:**
+
+- **`syn-complex-500-*`** - bulk regression after heuristic changes; catches regressions across field type combinations at scale. Not useful for discovering new DOM patterns.
+- **`syn-weird-*`** - high-value edge cases that real parametric generators miss. Run `npm run form-corpus:fill-verify:weird` after changing form detection, label parsing, or fill logic. Curated subset (12 picks) is in fill-verify curated tier; `syn-weird-030` is in Playwright smoke.
+
+```bash
+# Generate weird fixtures + expectations + vet
+npm run form-corpus:generate-weird
+npm run form-corpus:propose -- --id-prefix=syn-weird- --force
+npm run form-corpus:vet -- --id-prefix=syn-weird-
+npm run form-corpus:validate-weird-corpus
+npm run form-corpus:fill-verify:weird
+npm run form-corpus:build-weird-scoring
+npm run form-corpus:build-curated
+```
+
+### syn-weird-* fixture reference (60 hand-crafted edge cases)
+
+| Fixture | Category | Weird behavior tested |
+| --- | --- | --- |
+| syn-weird-001 | weird-dom | Label without for wraps input three div levels deep |
+| syn-weird-002 | weird-label | Email field identified only via aria-labelledby pointing at hidden span |
+| syn-weird-003 | weird-label | No visible labels; fields use aria-label exclusively |
+| syn-weird-004 | weird-dom | Two distinct fields share the same name attribute (invalid but seen in the wild) |
+| syn-weird-005 | weird-dom | Two inputs share id="email" - tests disambiguation by name or DOM order |
+| syn-weird-006 | weird-interaction | Cover letter and visa fields hidden inside closed details element |
+| syn-weird-007 | weird-interaction | Application fields live inside a native dialog element |
+| syn-weird-008 | weird-dom | Newsletter signup form vs job application form - tests primary form detection |
+| syn-weird-009 | weird-dom | Fieldset inside fieldset inside fieldset with legends at each level |
+| syn-weird-010 | weird-dom | Text input has display:none but label is visible |
+| syn-weird-011 | weird-dom | Input uses visibility:hidden instead of display:none |
+| syn-weird-012 | weird-dom | Input positioned at -9999px off-screen (accessibility anti-pattern) |
+| syn-weird-013 | weird-control | contenteditable div poses as a text input for full name |
+| syn-weird-014 | weird-control | Custom component: div with role=textbox, no native input |
+| syn-weird-015 | weird-label | Labels contain flag emoji and unicode; Swedish field marked required |
+| syn-weird-016 | weird-label | Single field with 500-character label text |
+| syn-weird-017 | weird-label | Label text split across multiple span elements |
+| syn-weird-018 | weird-label | Empty label element; field identified only by placeholder attribute |
+| syn-weird-019 | weird-label | Teamtailor-style bug: "first namerequired" with no space before required |
+| syn-weird-020 | weird-label | Fields prefixed with Q7. Q12. style question numbers |
+| syn-weird-021 | weird-control | Standard native select for work arrangement alongside text fields |
+| syn-weird-022 | weird-control | Location picked from custom div dropdown, not native select |
+| syn-weird-023 | weird-control | Native radios hidden; visible pill buttons styled via CSS class |
+| syn-weird-024 | weird-control | Checkbox options as bare label>input pairs without fieldset or legend |
+| syn-weird-025 | weird-control | Country code select and local number in separate inputs |
+| syn-weird-026 | weird-control | Currency prefix span, range slider, and number input for salary |
+| syn-weird-027 | weird-control | Start date as three separate day/month/year select elements |
+| syn-weird-028 | weird-control | Hidden file input inside drag-and-drop zone with custom button |
+| syn-weird-029 | weird-interaction | Multi-step wizard with only one step visible via CSS class toggling |
+| syn-weird-030 | weird-interaction | Selecting Yes on sponsorship reveals follow-up textarea |
+| syn-weird-031 | weird-interaction | Referral source Other checkbox reveals free-text input |
+| syn-weird-032 | weird-label | Required marker asterisk lives in sibling span, not inside label text |
+| syn-weird-033 | weird-dom | Submit button outside form linked via form= attribute |
+| syn-weird-034 | weird-platform | Ashby-inspired yes/no as two styled buttons instead of native radio |
+| syn-weird-035 | weird-platform | Greenhouse-inspired multi-section form with progress indicator dots |
+| syn-weird-036 | weird-platform | Lever-inspired resume upload with visible custom button hiding native input |
+| syn-weird-037 | weird-platform | micro1-inspired step-2 labels like Q2.full name with dot separator |
+| syn-weird-038 | weird-platform | react-phone-number-input style: separate dial code combobox and national number |
+| syn-weird-039 | weird-dom | Form laid out as HTML table with labels in td cells |
+| syn-weird-040 | weird-dom | Fields structured as dl/dt/dd definition list pairs |
+| syn-weird-041 | weird-dom | Each field wrapped in li inside ul list structure |
+| syn-weird-042 | weird-dom | Input nested inside label which contains multiple inline spans |
+| syn-weird-043 | weird-label | Fields use aria-describedby for format hints separate from label |
+| syn-weird-044 | weird-dom | Grouped radios use div role=group instead of fieldset |
+| syn-weird-045 | weird-label | Label contains SVG icon; accessible name via aria-labelledby only |
+| syn-weird-046 | weird-control | Name field uses input type=search instead of text |
+| syn-weird-047 | weird-control | Location field uses input list= with datalist suggestions |
+| syn-weird-048 | weird-control | Years of experience via range input with output element display |
+| syn-weird-049 | weird-control | Self-assessment field uses meter element near text inputs |
+| syn-weird-050 | weird-dom | Department select uses optgroup for grouping options |
+| syn-weird-051 | weird-control | Skills field uses select multiple for multi-value selection |
+| syn-weird-052 | weird-control | Email input is readonly with prefilled value from profile import |
+| syn-weird-053 | weird-control | Disabled name field looks required but cannot be filled; active duplicate below |
+| syn-weird-054 | weird-control | Phone input has title hint for UK format (pattern attribute omitted so mock fill passes) |
+| syn-weird-055 | weird-control | Years of experience number input with min/max constraints |
+| syn-weird-056 | weird-label | One field has lang=sv with Swedish label among English fields |
+| syn-weird-057 | weird-interaction | Fields in inactive tab panel hidden until tab clicked |
+| syn-weird-058 | weird-dom | Input element appears before its label in DOM (float-right layout pattern) |
+| syn-weird-059 | weird-label | Field identified primarily via title attribute on input with minimal label |
+| syn-weird-060 | weird-interaction | Additional questions in collapsible section toggled by aria-expanded button |
+
 ## Curated verification tier
 
 The curated tier (`fill-verify-curated.json`) selects ~90 scenarios for **accuracy and variety** rather than running all 1800+ fixtures blindly.

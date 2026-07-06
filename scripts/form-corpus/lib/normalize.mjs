@@ -43,6 +43,10 @@ export function domReferenceKey(dom, fieldType = '') {
     const tag = String(dom.tag);
     const preferName = fieldType === 'radio' || fieldType === 'checkbox';
 
+    if (dom.id && dom.name) {
+        return `${tag}#${dom.id}[name=${dom.name}]`;
+    }
+
     if (preferName && dom.name) {
         return `${tag}[name=${dom.name}]`;
     }

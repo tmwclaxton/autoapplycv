@@ -1,0 +1,2119 @@
+{
+  "verify_engine": "jsdom",
+  "tier": "weird",
+  "generated_at": "2026-07-05T23:10:30.734Z",
+  "thresholds": {
+    "overall_pass_rate": 1
+  },
+  "known_gaps": [],
+  "totals": {
+    "total": 60,
+    "evaluated": 60,
+    "passed": 60,
+    "failed": 0,
+    "unexpected_failures": 0,
+    "pass_rate": 1
+  },
+  "results": [
+    {
+      "id": "syn-weird-001",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Label without for wraps input three div levels deep"
+    },
+    {
+      "id": "syn-weird-009",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Fieldset inside fieldset inside fieldset with legends at each level"
+    },
+    {
+      "id": "syn-weird-017",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Label text split across multiple span elements"
+    },
+    {
+      "id": "syn-weird-025",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Country code select and local number in separate inputs"
+    },
+    {
+      "id": "syn-weird-033",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Submit button outside form linked via form= attribute"
+    },
+    {
+      "id": "syn-weird-041",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Each field wrapped in li inside ul list structure"
+    },
+    {
+      "id": "syn-weird-049",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Self-assessment field uses meter element near text inputs"
+    },
+    {
+      "id": "syn-weird-057",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-interaction",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Fields in inactive tab panel hidden until tab clicked"
+    },
+    {
+      "id": "syn-weird-002",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Email field identified only via aria-labelledby pointing at hidden span"
+    },
+    {
+      "id": "syn-weird-010",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Text input has display:none but label is visible"
+    },
+    {
+      "id": "syn-weird-018",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Empty label element; field identified only by placeholder attribute"
+    },
+    {
+      "id": "syn-weird-026",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Currency prefix span, range slider, and number input for salary"
+    },
+    {
+      "id": "syn-weird-034",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-platform",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Ashby-inspired yes/no as two styled buttons instead of native radio"
+    },
+    {
+      "id": "syn-weird-042",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Input nested inside label which contains multiple inline spans"
+    },
+    {
+      "id": "syn-weird-050",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Department select uses optgroup for grouping options"
+    },
+    {
+      "id": "syn-weird-058",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Input element appears before its label in DOM (float-right layout pattern)"
+    },
+    {
+      "id": "syn-weird-003",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "No visible labels; fields use aria-label exclusively"
+    },
+    {
+      "id": "syn-weird-011",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Input uses visibility:hidden instead of display:none"
+    },
+    {
+      "id": "syn-weird-019",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Teamtailor-style bug: \"first namerequired\" with no space before required"
+    },
+    {
+      "id": "syn-weird-027",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Start date as three separate day/month/year select elements"
+    },
+    {
+      "id": "syn-weird-035",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-platform",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Greenhouse-inspired multi-section form with progress indicator dots"
+    },
+    {
+      "id": "syn-weird-043",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Fields use aria-describedby for format hints separate from label"
+    },
+    {
+      "id": "syn-weird-051",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Skills field uses select multiple for multi-value selection"
+    },
+    {
+      "id": "syn-weird-059",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Field identified primarily via title attribute on input with minimal label"
+    },
+    {
+      "id": "syn-weird-004",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Two distinct fields share the same name attribute (invalid but seen in the wild)"
+    },
+    {
+      "id": "syn-weird-012",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Input positioned at -9999px off-screen (accessibility anti-pattern)"
+    },
+    {
+      "id": "syn-weird-020",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Fields prefixed with Q7. Q12. style question numbers"
+    },
+    {
+      "id": "syn-weird-028",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Hidden file input inside drag-and-drop zone with custom button"
+    },
+    {
+      "id": "syn-weird-036",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-platform",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Lever-inspired resume upload with visible custom button hiding native input"
+    },
+    {
+      "id": "syn-weird-044",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Grouped radios use div role=group instead of fieldset"
+    },
+    {
+      "id": "syn-weird-052",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Email input is readonly with prefilled value from profile import"
+    },
+    {
+      "id": "syn-weird-060",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-interaction",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Additional questions in collapsible section toggled by aria-expanded button"
+    },
+    {
+      "id": "syn-weird-005",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Two inputs share id=\"email\" - tests disambiguation by name or DOM order"
+    },
+    {
+      "id": "syn-weird-013",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "contenteditable div poses as a text input for full name"
+    },
+    {
+      "id": "syn-weird-021",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Standard native select for work arrangement alongside text fields"
+    },
+    {
+      "id": "syn-weird-029",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-interaction",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Multi-step wizard with only one step visible via CSS class toggling"
+    },
+    {
+      "id": "syn-weird-037",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-platform",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "micro1-inspired step-2 labels like Q2.full name with dot separator"
+    },
+    {
+      "id": "syn-weird-045",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Label contains SVG icon; accessible name via aria-labelledby only"
+    },
+    {
+      "id": "syn-weird-053",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Disabled name field looks required but cannot be filled; active duplicate below"
+    },
+    {
+      "id": "syn-weird-006",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-interaction",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Cover letter and visa fields hidden inside closed details element"
+    },
+    {
+      "id": "syn-weird-014",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Custom component: div with role=textbox, no native input"
+    },
+    {
+      "id": "syn-weird-022",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Location picked from custom div dropdown, not native select"
+    },
+    {
+      "id": "syn-weird-030",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-interaction",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Selecting Yes on sponsorship reveals follow-up textarea"
+    },
+    {
+      "id": "syn-weird-038",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-platform",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "react-phone-number-input style: separate dial code combobox and national number"
+    },
+    {
+      "id": "syn-weird-046",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Name field uses input type=search instead of text"
+    },
+    {
+      "id": "syn-weird-054",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Phone input has title hint for UK format (pattern attribute omitted so mock fill passes)"
+    },
+    {
+      "id": "syn-weird-007",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-interaction",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Application fields live inside a native dialog element"
+    },
+    {
+      "id": "syn-weird-015",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Labels contain flag emoji and unicode; Swedish field marked required"
+    },
+    {
+      "id": "syn-weird-023",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Native radios hidden; visible pill buttons styled via CSS class"
+    },
+    {
+      "id": "syn-weird-031",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-interaction",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Referral source Other checkbox reveals free-text input"
+    },
+    {
+      "id": "syn-weird-039",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Form laid out as HTML table with labels in td cells"
+    },
+    {
+      "id": "syn-weird-047",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Location field uses input list= with datalist suggestions"
+    },
+    {
+      "id": "syn-weird-055",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Years of experience number input with min/max constraints"
+    },
+    {
+      "id": "syn-weird-008",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 2
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Newsletter signup form vs job application form - tests primary form detection"
+    },
+    {
+      "id": "syn-weird-016",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Single field with 500-character label text"
+    },
+    {
+      "id": "syn-weird-024",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Checkbox options as bare label>input pairs without fieldset or legend"
+    },
+    {
+      "id": "syn-weird-032",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Required marker asterisk lives in sibling span, not inside label text"
+    },
+    {
+      "id": "syn-weird-040",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Fields structured as dl/dt/dd definition list pairs"
+    },
+    {
+      "id": "syn-weird-048",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Years of experience via range input with output element display"
+    },
+    {
+      "id": "syn-weird-056",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "One field has lang=sv with Swedish label among English fields"
+    }
+  ]
+}

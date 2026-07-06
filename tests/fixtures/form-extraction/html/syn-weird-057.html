@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Tab panels</title></head>
+<body>
+<main><h1>Tab panels</h1>
+<form action="/apply" method="post">
+<div role="tablist">
+<button type="button" role="tab" aria-selected="true" id="tab-basic">Basic</button>
+<button type="button" role="tab" aria-selected="false" id="tab-details" data-reveal="#panel-details" data-hide="#panel-basic">Details</button>
+</div>
+<div role="tabpanel" id="panel-basic">
+<label for="tab_name">Name</label><input type="text" id="tab_name" name="tab_name">
+<label for="tab_email">Email</label><input type="email" id="tab_email" name="tab_email">
+</div>
+<div role="tabpanel" id="panel-details" hidden style="display:none">
+<label for="tab_cover">Cover letter</label><textarea id="tab_cover" name="tab_cover" rows="4"></textarea>
+<label for="tab_salary">Salary expectations</label><input type="text" id="tab_salary" name="tab_salary">
+</div>
+</form>
+</main>
+</body>
+</html>

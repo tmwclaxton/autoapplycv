@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Other option reveal</title></head>
+<body>
+<main><h1>Other option reveal</h1>
+<form action="/apply" method="post">
+<label for="oth_name">Name</label><input type="text" id="oth_name" name="oth_name">
+<p>How did you hear about us?</p>
+<label><input type="checkbox" name="referral" value="linkedin"> LinkedIn</label>
+<label><input type="checkbox" name="referral" value="friend"> Friend</label>
+<label><input type="checkbox" name="referral" value="other" data-reveal="#referral_other"> Other</label>
+<input type="text" id="referral_other" name="referral_other" placeholder="Please specify" hidden style="display:none">
+<label for="oth_email">Email</label><input type="email" id="oth_email" name="oth_email">
+</form>
+</main>
+</body>
+</html>

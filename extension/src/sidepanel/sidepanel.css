@@ -973,3 +973,58 @@ body {
         min-width: 0;
     }
 }
+
+.shell-auto-apply-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0;
+}
+
+.auto-apply-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.auto-apply-stats {
+    margin-top: -4px;
+}
+
+.auto-apply-log {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 180px;
+    max-height: 320px;
+}
+
+.auto-apply-log-title {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--postbox-navy);
+}
+
+.auto-apply-log-body {
+    overflow-y: auto;
+    font-size: 12px;
+    line-height: 1.45;
+    max-height: 260px;
+}
+
+.auto-apply-log-line {
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.auto-apply-log-success {
+    color: #166534;
+}
+
+.auto-apply-log-error {
+    color: var(--postbox-red);
+}
+
+.auto-apply-log-warn {
+    color: #92400e;
+}

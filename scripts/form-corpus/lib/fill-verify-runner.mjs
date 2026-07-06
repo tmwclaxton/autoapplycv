@@ -19,12 +19,11 @@ function resolveElement(document, dom, fieldType) {
 
     const isChoiceField = fieldType === 'radio' || fieldType === 'checkbox';
 
-    if (isChoiceField && dom.name) {
-        const byName = document.querySelector(`input[type="${fieldType}"][name="${escapeSelectorValue(dom.name)}"]`)
-            || document.querySelector(`input[name="${escapeSelectorValue(dom.name)}"]`);
+    if (fieldType === 'checkbox' && dom.id) {
+        const checkboxInput = document.querySelector(`input[type="checkbox"]#${escapeSelectorValue(dom.id)}`);
 
-        if (byName) {
-            return byName;
+        if (checkboxInput) {
+            return checkboxInput;
         }
     }
 
@@ -48,7 +47,9 @@ function resolveElement(document, dom, fieldType) {
                 }
             }
 
-            return byId;
+            if (!dom.name || byId.getAttribute('name') === dom.name || byId.name === dom.name) {
+                return byId;
+            }
         }
     }
 
@@ -273,7 +274,7 @@ function readDomValue(document, field, dom) {
     const fieldType = field.field_type || 'text';
     const domRole = dom?.role || null;
 
-    if (domRole === 'radiogroup' || (dom?.tag === 'div' && fieldType === 'radio' && domRole !== 'listbox')) {
+    if (domRole === 'radiogroup' || (fieldType === 'radio' && (dom?.tag === 'div' || dom?.tag === 'button') && domRole !== 'listbox')) {
         const roleValue = readRoleRadioSelection(document, dom);
 
         return roleValue === null ? null : { kind: 'option', value: roleValue };

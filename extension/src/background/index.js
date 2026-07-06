@@ -1,5 +1,12 @@
 import { mapApplicationSettingsForAssist } from './application-settings.js';
 import {
+    getAutoApplyStatus,
+    isAutoApplyRunning,
+    resetAutoApplySession,
+    startAutoApply,
+    stopAutoApply,
+} from './auto-apply-orchestrator.js';
+import {
     clearConnection,
     getApiToken,
     getStoredApiBase,
@@ -622,6 +629,66 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 logDraftError('draft-all.start', 'E2E Draft All failed', err, message.tabId);
                 sendResponse({ error: err.message });
             });
+
+        return true;
+    }
+
+    if (message.type === 'AUTO_APPLY_START') {
+        startAutoApply({
+            platform: message.platform,
+            roleDescription: message.roleDescription,
+            maxApplications: message.maxApplications,
+            runDraftAll,
+        })
+            .then((session) => sendResponse({ success: true, session: session ? {
+                status: session.status,
+                platform: session.platform,
+                roleDescription: session.roleDescription,
+                tabId: session.tabId,
+                maxApplications: session.maxApplications,
+                stats: session.stats,
+                currentIndex: session.currentIndex,
+                queueLength: session.queue?.length || 0,
+                log: session.log?.slice(-50) || [],
+                startedAt: session.startedAt,
+                finishedAt: session.finishedAt,
+                stopRequested: session.stopRequested,
+                lastError: session.lastError,
+            } : null }))
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'AUTO_APPLY_STOP') {
+        stopAutoApply()
+            .then((session) => sendResponse({
+                success: true,
+                session: session ? {
+                    status: session.status,
+                    platform: session.platform,
+                    roleDescription: session.roleDescription,
+                    tabId: session.tabId,
+                    maxApplications: session.maxApplications,
+                    stats: session.stats,
+                    currentIndex: session.currentIndex,
+                    queueLength: session.queue?.length || 0,
+                    log: session.log?.slice(-50) || [],
+                    startedAt: session.startedAt,
+                    finishedAt: session.finishedAt,
+                    stopRequested: session.stopRequested,
+                    lastError: session.lastError,
+                } : null,
+            }))
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'AUTO_APPLY_STATUS') {
+        getAutoApplyStatus()
+            .then((session) => sendResponse({ session, running: isAutoApplyRunning() }))
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -2188,4 +2255,8 @@ self.__autocvapplyE2e = {
         invalidateProfileCache();
     },
     runDraftAllWithMocks: async (tabId, { job, fields }) => runDraftAll(tabId, { job, fields }),
+    startAutoApply: async (options) => startAutoApply({ ...options, runDraftAll }),
+    stopAutoApply,
+    getAutoApplyStatus,
+    resetAutoApplySession,
 };

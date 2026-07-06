@@ -226,12 +226,18 @@ copyFileSync(join(SRC, 'shared/page-capture.js'), join(DIST, 'page-capture.js'))
 copyFileSync(join(SRC, 'shared/draft-batch-chat.js'), join(DIST, 'draft-batch-chat.js'));
 copyFileSync(join(SRC, 'shared/upload-validation.js'), join(DIST, 'upload-validation.js'));
 copyFileSync(join(SRC, 'shared/side-panel-state.js'), join(DIST, 'side-panel-state.js'));
+copyFileSync(join(SRC, 'shared/linkedin-platform.js'), join(DIST, 'linkedin-platform.js'));
+copyFileSync(join(SRC, 'shared/auto-apply-platforms.js'), join(DIST, 'auto-apply-platforms.js'));
+copyFileSync(join(SRC, 'shared/auto-apply-session.js'), join(DIST, 'auto-apply-session.js'));
+copyFileSync(join(SRC, 'shared/auto-apply-orchestrator.js'), join(DIST, 'auto-apply-orchestrator.js'));
 copyFileSync(join(SRC, 'debug/debug.html'), join(DIST, 'debug.html'));
 copyFileSync(join(SRC, 'debug/debug.js'), join(DIST, 'debug.js'));
 copyFileSync(join(SRC, 'background/index.js'), join(DIST, 'background.js'));
 copyFileSync(join(SRC, 'content/form-content-signature.js'), join(DIST, 'form-content-signature.js'));
 copyFileSync(join(SRC, 'content/form-heuristics.js'), join(DIST, 'form-heuristics.js'));
 copyFileSync(join(SRC, 'content/field-inventory.js'), join(DIST, 'field-inventory.js'));
+copyFileSync(join(SRC, 'content/linkedin-parser.js'), join(DIST, 'linkedin-parser.js'));
+copyFileSync(join(SRC, 'content/linkedin-auto-apply.js'), join(DIST, 'linkedin-auto-apply.js'));
 copyFileSync(join(SRC, 'content/focus-tracker.js'), join(DIST, 'focus-tracker.js'));
 copyFileSync(join(SRC, 'content/field-highlighter.js'), join(DIST, 'field-highlighter.js'));
 copyFileSync(join(SRC, 'content/portal-bar.js'), join(DIST, 'portal-bar.js'));
@@ -241,6 +247,7 @@ copyFileSync(join(SRC, 'sidepanel/sidepanel.css'), join(DIST, 'sidepanel.css'));
 copyFileSync(join(SRC, 'sidepanel/sidepanel.js'), join(DIST, 'sidepanel.js'));
 copyFileSync(join(SRC, 'sidepanel/assist.js'), join(DIST, 'assist.js'));
 copyFileSync(join(SRC, 'sidepanel/documents.js'), join(DIST, 'documents.js'));
+copyFileSync(join(SRC, 'sidepanel/auto-apply.js'), join(DIST, 'auto-apply.js'));
 copyFileSync(join(SRC, 'sidepanel/pending-fields.js'), join(DIST, 'pending-fields-panel.js'));
 
 patchManifest(apiBase);

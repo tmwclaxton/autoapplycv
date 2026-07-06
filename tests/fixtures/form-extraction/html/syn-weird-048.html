@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Output range</title></head>
+<body>
+<main><h1>Output range</h1>
+<form action="/apply" method="post">
+<label for="out_name">Name</label><input type="text" id="out_name" name="out_name">
+<label for="exp_range">Years of experience</label>
+<input type="range" id="exp_range" name="exp_range" min="0" max="30" value="5" oninput="document.getElementById('exp_out').value=this.value">
+<output id="exp_out" for="exp_range">5</output>
+<label for="out_email">Email</label><input type="email" id="out_email" name="out_email">
+</form>
+</main>
+</body>
+</html>

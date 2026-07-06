@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Collapsible section</title></head>
+<body>
+<main><h1>Collapsible section</h1>
+<form action="/apply" method="post">
+<label for="col_name">Name</label><input type="text" id="col_name" name="col_name">
+<label for="col_email">Email</label><input type="email" id="col_email" name="col_email">
+<button type="button" id="expand-more" aria-expanded="false" data-reveal="#col_extra">Show additional questions</button>
+<div id="col_extra" hidden style="display:none">
+<label for="col_why">Why do you want this role?</label><textarea id="col_why" name="col_why" rows="4"></textarea>
+<label for="col_referral">Referral source</label><input type="text" id="col_referral" name="col_referral">
+</div>
+</form>
+</main>
+</body>
+</html>

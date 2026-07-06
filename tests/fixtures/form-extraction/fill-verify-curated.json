@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-05T17:45:43.988Z",
+  "generated_at": "2026-07-05T22:51:52.157Z",
   "description": "Curated fill verification tier prioritizing platform diversity and verification depth over corpus quantity.",
   "thresholds": {
     "jsdom": {
@@ -1409,6 +1409,309 @@
         "textarea"
       ],
       "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-006",
+      "platform": "syn-weird",
+      "reason": "Fields inside closed details accordion",
+      "field_types": [
+        "text",
+        "textarea",
+        "select"
+      ],
+      "field_count": 3,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-007",
+      "platform": "syn-weird",
+      "reason": "Application form inside native dialog",
+      "field_types": [
+        "text",
+        "textarea"
+      ],
+      "field_count": 2,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-008",
+      "platform": "syn-weird",
+      "reason": "Multiple forms - detect job application vs newsletter",
+      "field_types": [
+        "email",
+        "text",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 5,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-013",
+      "platform": "syn-weird",
+      "reason": "contenteditable div posing as text field",
+      "field_types": [
+        "email",
+        "url"
+      ],
+      "field_count": 2,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-014",
+      "platform": "syn-weird",
+      "reason": "Fake div role=textbox custom component",
+      "field_types": [
+        "email",
+        "tel"
+      ],
+      "field_count": 2,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-019",
+      "platform": "syn-weird",
+      "reason": "Teamtailor-style concatenated label words",
+      "field_types": [
+        "text",
+        "email"
+      ],
+      "field_count": 3,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-022",
+      "platform": "syn-weird",
+      "reason": "Custom div dropdown not native select",
+      "field_types": [
+        "text",
+        "email",
+        "select"
+      ],
+      "field_count": 3,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-029",
+      "platform": "syn-weird",
+      "reason": "Multi-step wizard with CSS hidden steps",
+      "field_types": [
+        "text",
+        "email",
+        "textarea"
+      ],
+      "field_count": 3,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-030",
+      "platform": "syn-weird",
+      "reason": "Conditional field revealed by radio change",
+      "field_types": [
+        "text",
+        "radio",
+        "textarea",
+        "email"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-034",
+      "platform": "syn-weird",
+      "reason": "Ashby-style yes/no button pair",
+      "field_types": [
+        "text",
+        "email",
+        "radio"
+      ],
+      "field_count": 3,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-037",
+      "platform": "syn-weird",
+      "reason": "micro1 Q-label dot separator pattern",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-038",
+      "platform": "syn-weird",
+      "reason": "react-phone dial code combobox split",
+      "field_types": [
+        "text",
+        "tel",
+        "email",
+        "select"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-003",
+      "platform": "syn-weird",
+      "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-018",
+      "platform": "syn-weird",
+      "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-020",
+      "platform": "syn-weird",
+      "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "url",
+        "textarea",
+        "text",
+        "email"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-035",
+      "platform": "syn-weird",
+      "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-039",
+      "platform": "syn-weird",
+      "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-057",
+      "platform": "syn-weird",
+      "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-060",
+      "platform": "syn-weird",
+      "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea"
+      ],
+      "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-weird-015",
+      "platform": "syn-weird",
+      "reason": "syn-weird additional edge case (3 fields)",
+      "field_types": [
+        "text",
+        "select",
+        "email"
+      ],
+      "field_count": 3,
       "priority": "standard",
       "verify_engine": "jsdom",
       "playwright": false,

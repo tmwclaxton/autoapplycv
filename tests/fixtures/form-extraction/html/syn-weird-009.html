@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Nested fieldsets</title></head>
+<body>
+<main><h1>Nested fieldsets</h1>
+<form action="/apply" method="post">
+<fieldset><legend>Personal</legend>
+<fieldset><legend>Identity</legend>
+<fieldset><legend>Legal name</legend>
+<label for="nest_first">First name</label><input type="text" id="nest_first" name="nest_first">
+<label for="nest_last">Last name</label><input type="text" id="nest_last" name="nest_last">
+</fieldset></fieldset>
+<label for="nest_email">Email</label><input type="email" id="nest_email" name="nest_email">
+</fieldset></form>
+</main>
+</body>
+</html>

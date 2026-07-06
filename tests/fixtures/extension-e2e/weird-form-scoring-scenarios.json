@@ -1,0 +1,1238 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-05T22:54:31.254Z",
+  "description": "Hand-crafted edge-case form answer scoring scenarios (syn-weird-*). Sail-only live tier.",
+  "id_prefix": "syn-weird-",
+  "target_count": 25,
+  "scenario_count": 25,
+  "persona_count": 12,
+  "scenarios": [
+    {
+      "id": "syn-weird-060",
+      "platform": "syn-weird",
+      "edge_case": "Additional questions in collapsible section toggled by aria-expanded button",
+      "profile_persona": "senior_laravel_dev",
+      "field_count": 4,
+      "field_types": [
+        "email",
+        "text",
+        "textarea"
+      ],
+      "question_count": 3,
+      "questions": [
+        {
+          "label": "name name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "col_name",
+            "name": "col_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        },
+        {
+          "label": "why do you want this role? why do you want this role?",
+          "ref": "f2",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": "col_why",
+            "name": "col_why",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        },
+        {
+          "label": "referral source referral source",
+          "ref": "f3",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "col_referral",
+            "name": "col_referral",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Collapsible section animation",
+      "page_url": "https://example.test/forms/syn-weird-060"
+    },
+    {
+      "id": "syn-weird-003",
+      "platform": "syn-weird",
+      "edge_case": "No visible labels; fields use aria-label exclusively",
+      "profile_persona": "marketing_manager",
+      "field_count": 4,
+      "field_types": [
+        "email",
+        "text",
+        "textarea"
+      ],
+      "question_count": 3,
+      "questions": [
+        {
+          "label": "given name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": null,
+            "name": "given_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        },
+        {
+          "label": "family name",
+          "ref": "f1",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": null,
+            "name": "family_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        },
+        {
+          "label": "short biography",
+          "ref": "f3",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": null,
+            "name": "bio",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Aria-label only",
+      "page_url": "https://example.test/forms/syn-weird-003"
+    },
+    {
+      "id": "syn-weird-030",
+      "platform": "syn-weird",
+      "edge_case": "Selecting Yes on sponsorship reveals follow-up textarea",
+      "profile_persona": "cybersecurity_analyst",
+      "field_count": 4,
+      "field_types": [
+        "email",
+        "radio",
+        "text",
+        "textarea"
+      ],
+      "question_count": 2,
+      "questions": [
+        {
+          "label": "name name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "cond_name",
+            "name": "cond_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        },
+        {
+          "label": "please describe your visa situation please describe your visa situation",
+          "ref": "f2",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": "visa_detail_text",
+            "name": "visa_detail_text",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Conditional radio reveal",
+      "page_url": "https://example.test/forms/syn-weird-030"
+    },
+    {
+      "id": "syn-weird-057",
+      "platform": "syn-weird",
+      "edge_case": "Fields in inactive tab panel hidden until tab clicked",
+      "profile_persona": "swedish_product_designer",
+      "field_count": 4,
+      "field_types": [
+        "email",
+        "text",
+        "textarea"
+      ],
+      "question_count": 2,
+      "questions": [
+        {
+          "label": "name name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "tab_name",
+            "name": "tab_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        },
+        {
+          "label": "cover letter cover letter",
+          "ref": "f2",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": "tab_cover",
+            "name": "tab_cover",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Tab panel hidden fields",
+      "page_url": "https://example.test/forms/syn-weird-057"
+    },
+    {
+      "id": "syn-weird-006",
+      "platform": "syn-weird",
+      "edge_case": "Cover letter and visa fields hidden inside closed details element",
+      "profile_persona": "career_changer_teacher",
+      "field_count": 3,
+      "field_types": [
+        "select",
+        "text",
+        "textarea"
+      ],
+      "question_count": 2,
+      "questions": [
+        {
+          "label": "name name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "acc_name",
+            "name": "acc_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        },
+        {
+          "label": "cover letter cover letter",
+          "ref": "f1",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": "acc_cover",
+            "name": "acc_cover",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Fields inside details accordion",
+      "page_url": "https://example.test/forms/syn-weird-006"
+    },
+    {
+      "id": "syn-weird-007",
+      "platform": "syn-weird",
+      "edge_case": "Application fields live inside a native dialog element",
+      "profile_persona": "junior_frontend_dev",
+      "field_count": 2,
+      "field_types": [
+        "text",
+        "textarea"
+      ],
+      "question_count": 2,
+      "questions": [
+        {
+          "label": "name name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "dlg_name",
+            "name": "dlg_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        },
+        {
+          "label": "why this role? why this role?",
+          "ref": "f1",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": "dlg_role",
+            "name": "dlg_role",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Form inside dialog",
+      "page_url": "https://example.test/forms/syn-weird-007"
+    },
+    {
+      "id": "syn-weird-008",
+      "platform": "syn-weird",
+      "edge_case": "Newsletter signup form vs job application form - tests primary form detection",
+      "profile_persona": "devops_engineer",
+      "field_count": 5,
+      "field_types": [
+        "email",
+        "tel",
+        "text",
+        "textarea"
+      ],
+      "question_count": 2,
+      "questions": [
+        {
+          "label": "applicant name applicant name",
+          "ref": "f1",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "app_name",
+            "name": "app_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        },
+        {
+          "label": "why do you want to join us?",
+          "ref": "f4",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": "app_motivation",
+            "name": "app_motivation",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": "Why do you want to join us?",
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Multiple forms on page",
+      "page_url": "https://example.test/forms/syn-weird-008"
+    },
+    {
+      "id": "syn-weird-020",
+      "platform": "syn-weird",
+      "edge_case": "Fields prefixed with Q7. Q12. style question numbers",
+      "profile_persona": "data_analyst",
+      "field_count": 4,
+      "field_types": [
+        "email",
+        "text",
+        "textarea",
+        "url"
+      ],
+      "question_count": 2,
+      "questions": [
+        {
+          "label": "q12. explain why you are interested in this role q12. explain why you are interested in this role",
+          "ref": "f1",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": "q12_explain",
+            "name": "q12_explain",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": "Q12."
+          }
+        },
+        {
+          "label": "q3. full legal name q3. full legal name",
+          "ref": "f2",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "q3_name",
+            "name": "q3_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": "Q3."
+          }
+        }
+      ],
+      "page_title": "Question number prefixes",
+      "page_url": "https://example.test/forms/syn-weird-020"
+    },
+    {
+      "id": "syn-weird-004",
+      "platform": "syn-weird",
+      "edge_case": "Two distinct fields share the same name attribute (invalid but seen in the wild)",
+      "profile_persona": "nurse_healthcare",
+      "field_count": 3,
+      "field_types": [
+        "email",
+        "text"
+      ],
+      "question_count": 2,
+      "questions": [
+        {
+          "label": "preferred name preferred name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "pref_name",
+            "name": "full_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        },
+        {
+          "label": "legal name legal name",
+          "ref": "f1",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "legal_name",
+            "name": "full_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Duplicate name attributes",
+      "page_url": "https://example.test/forms/syn-weird-004"
+    },
+    {
+      "id": "syn-weird-011",
+      "platform": "syn-weird",
+      "edge_case": "Input uses visibility:hidden instead of display:none",
+      "profile_persona": "sales_executive",
+      "field_count": 3,
+      "field_types": [
+        "tel",
+        "text"
+      ],
+      "question_count": 2,
+      "questions": [
+        {
+          "label": "internal reference internal reference",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "vis_hidden",
+            "name": "vis_hidden",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        },
+        {
+          "label": "your name your name",
+          "ref": "f1",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "vis_name",
+            "name": "vis_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Visibility hidden input",
+      "page_url": "https://example.test/forms/syn-weird-011"
+    },
+    {
+      "id": "syn-weird-033",
+      "platform": "syn-weird",
+      "edge_case": "Submit button outside form linked via form= attribute",
+      "profile_persona": "freelance_ux",
+      "field_count": 3,
+      "field_types": [
+        "email",
+        "text",
+        "textarea"
+      ],
+      "question_count": 2,
+      "questions": [
+        {
+          "label": "name name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "ext_name",
+            "name": "ext_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        },
+        {
+          "label": "why this company? why this company?",
+          "ref": "f2",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": "ext_motivation",
+            "name": "ext_motivation",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Submit outside form",
+      "page_url": "https://example.test/forms/syn-weird-033"
+    },
+    {
+      "id": "syn-weird-047",
+      "platform": "syn-weird",
+      "edge_case": "Location field uses input list= with datalist suggestions",
+      "profile_persona": "german_engineer",
+      "field_count": 3,
+      "field_types": [
+        "email",
+        "text"
+      ],
+      "question_count": 2,
+      "questions": [
+        {
+          "label": "name name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "dl_ac_name",
+            "name": "dl_ac_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        },
+        {
+          "label": "current city current city",
+          "ref": "f1",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "dl_ac_city",
+            "name": "dl_ac_city",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Datalist autocomplete",
+      "page_url": "https://example.test/forms/syn-weird-047"
+    },
+    {
+      "id": "syn-weird-052",
+      "platform": "syn-weird",
+      "edge_case": "Email input is readonly with prefilled value from profile import",
+      "profile_persona": "senior_laravel_dev",
+      "field_count": 3,
+      "field_types": [
+        "tel",
+        "text",
+        "textarea"
+      ],
+      "question_count": 2,
+      "questions": [
+        {
+          "label": "name name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "ro_name",
+            "name": "ro_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        },
+        {
+          "label": "cover letter cover letter",
+          "ref": "f2",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": "ro_cover",
+            "name": "ro_cover",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Readonly prefilled email",
+      "page_url": "https://example.test/forms/syn-weird-052"
+    },
+    {
+      "id": "syn-weird-029",
+      "platform": "syn-weird",
+      "edge_case": "Multi-step wizard with only one step visible via CSS class toggling",
+      "profile_persona": "marketing_manager",
+      "field_count": 3,
+      "field_types": [
+        "email",
+        "text",
+        "textarea"
+      ],
+      "question_count": 1,
+      "questions": [
+        {
+          "label": "cover letter cover letter",
+          "ref": "f2",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": "wiz_cover",
+            "name": "wiz_cover",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "CSS hidden wizard steps",
+      "page_url": "https://example.test/forms/syn-weird-029"
+    },
+    {
+      "id": "syn-weird-031",
+      "platform": "syn-weird",
+      "edge_case": "Referral source Other checkbox reveals free-text input",
+      "profile_persona": "cybersecurity_analyst",
+      "field_count": 3,
+      "field_types": [
+        "checkbox",
+        "email",
+        "text"
+      ],
+      "question_count": 1,
+      "questions": [
+        {
+          "label": "name name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "oth_name",
+            "name": "oth_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Other option reveal",
+      "page_url": "https://example.test/forms/syn-weird-031"
+    },
+    {
+      "id": "syn-weird-035",
+      "platform": "syn-weird",
+      "edge_case": "Greenhouse-inspired multi-section form with progress indicator dots",
+      "profile_persona": "swedish_product_designer",
+      "field_count": 4,
+      "field_types": [
+        "email",
+        "text",
+        "textarea"
+      ],
+      "question_count": 1,
+      "questions": [
+        {
+          "label": "why do you want to work here? why do you want to work here?",
+          "ref": "f3",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": "gh_why",
+            "name": "gh_why",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Greenhouse progress dots",
+      "page_url": "https://example.test/forms/syn-weird-035"
+    },
+    {
+      "id": "syn-weird-037",
+      "platform": "syn-weird",
+      "edge_case": "micro1-inspired step-2 labels like Q2.full name with dot separator",
+      "profile_persona": "career_changer_teacher",
+      "field_count": 4,
+      "field_types": [
+        "email",
+        "tel",
+        "text",
+        "textarea"
+      ],
+      "question_count": 1,
+      "questions": [
+        {
+          "label": "q5.why are you interested in this role? q5.why are you interested in this role?",
+          "ref": "f3",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": "m1_q5_why",
+            "name": "m1_q5_why",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": "Q5."
+          }
+        }
+      ],
+      "page_title": "Micro1 Q label pattern",
+      "page_url": "https://example.test/forms/syn-weird-037"
+    },
+    {
+      "id": "syn-weird-038",
+      "platform": "syn-weird",
+      "edge_case": "react-phone-number-input style: separate dial code combobox and national number",
+      "profile_persona": "junior_frontend_dev",
+      "field_count": 4,
+      "field_types": [
+        "email",
+        "select",
+        "tel",
+        "text"
+      ],
+      "question_count": 1,
+      "questions": [
+        {
+          "label": "name name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "rp_name",
+            "name": "rp_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "React phone dial code only",
+      "page_url": "https://example.test/forms/syn-weird-038"
+    },
+    {
+      "id": "syn-weird-034",
+      "platform": "syn-weird",
+      "edge_case": "Ashby-inspired yes/no as two styled buttons instead of native radio",
+      "profile_persona": "devops_engineer",
+      "field_count": 3,
+      "field_types": [
+        "email",
+        "radio",
+        "text"
+      ],
+      "question_count": 1,
+      "questions": [
+        {
+          "label": "name name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "ash_name",
+            "name": "ash_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Ashby yes no buttons",
+      "page_url": "https://example.test/forms/syn-weird-034"
+    },
+    {
+      "id": "syn-weird-036",
+      "platform": "syn-weird",
+      "edge_case": "Lever-inspired resume upload with visible custom button hiding native input",
+      "profile_persona": "data_analyst",
+      "field_count": 3,
+      "field_types": [
+        "email",
+        "text",
+        "url"
+      ],
+      "question_count": 1,
+      "questions": [
+        {
+          "label": "name name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "lev_name",
+            "name": "lev_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Lever custom file button",
+      "page_url": "https://example.test/forms/syn-weird-036"
+    },
+    {
+      "id": "syn-weird-018",
+      "platform": "syn-weird",
+      "edge_case": "Empty label element; field identified only by placeholder attribute",
+      "profile_persona": "nurse_healthcare",
+      "field_count": 4,
+      "field_types": [
+        "email",
+        "tel",
+        "text",
+        "textarea"
+      ],
+      "question_count": 1,
+      "questions": [
+        {
+          "label": "cover letter",
+          "ref": "f3",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": null,
+            "name": "ph_cover",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": "Cover letter",
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Placeholder-only identification",
+      "page_url": "https://example.test/forms/syn-weird-018"
+    },
+    {
+      "id": "syn-weird-039",
+      "platform": "syn-weird",
+      "edge_case": "Form laid out as HTML table with labels in td cells",
+      "profile_persona": "sales_executive",
+      "field_count": 4,
+      "field_types": [
+        "email",
+        "tel",
+        "text",
+        "textarea"
+      ],
+      "question_count": 1,
+      "questions": [
+        {
+          "label": "cover letter cover letter",
+          "ref": "f3",
+          "field_type": "textarea",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "textarea",
+            "type": "textarea",
+            "id": "tbl_cover",
+            "name": "tbl_cover",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Table layout form",
+      "page_url": "https://example.test/forms/syn-weird-039"
+    },
+    {
+      "id": "syn-weird-012",
+      "platform": "syn-weird",
+      "edge_case": "Input positioned at -9999px off-screen (accessibility anti-pattern)",
+      "profile_persona": "freelance_ux",
+      "field_count": 3,
+      "field_types": [
+        "email",
+        "text"
+      ],
+      "question_count": 1,
+      "questions": [
+        {
+          "label": "employee referral code employee referral code",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "offscreen_ref",
+            "name": "offscreen_ref",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Off-screen positioned input",
+      "page_url": "https://example.test/forms/syn-weird-012"
+    },
+    {
+      "id": "syn-weird-021",
+      "platform": "syn-weird",
+      "edge_case": "Standard native select for work arrangement alongside text fields",
+      "profile_persona": "german_engineer",
+      "field_count": 3,
+      "field_types": [
+        "email",
+        "select",
+        "text"
+      ],
+      "question_count": 1,
+      "questions": [
+        {
+          "label": "name name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "sel_name",
+            "name": "sel_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Native select baseline",
+      "page_url": "https://example.test/forms/syn-weird-021"
+    },
+    {
+      "id": "syn-weird-022",
+      "platform": "syn-weird",
+      "edge_case": "Location picked from custom div dropdown, not native select",
+      "profile_persona": "senior_laravel_dev",
+      "field_count": 3,
+      "field_types": [
+        "email",
+        "select",
+        "text"
+      ],
+      "question_count": 1,
+      "questions": [
+        {
+          "label": "name name",
+          "ref": "f0",
+          "field_type": "text",
+          "max_chars": null,
+          "options": null,
+          "dom": {
+            "tag": "input",
+            "type": "text",
+            "id": "dd_name",
+            "name": "dd_name",
+            "data_testid": null,
+            "role": null,
+            "data_field_path": null,
+            "placeholder": null,
+            "min": null,
+            "max": null,
+            "question_prefix": null
+          }
+        }
+      ],
+      "page_title": "Custom div dropdown",
+      "page_url": "https://example.test/forms/syn-weird-022"
+    }
+  ]
+}

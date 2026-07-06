@@ -74,6 +74,7 @@
 
                 <nav class="tabs">
                     <button class="tab postbox-tab-active" data-tab="assist">Assist</button>
+                    <button class="tab" data-tab="auto-apply">Auto Apply</button>
                     <button class="tab" data-tab="ats">ATS</button>
                     <button class="tab" data-tab="cover">Cover</button>
                     <button class="tab" data-tab="documents">Docs</button>
@@ -122,6 +123,41 @@
                                     </button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-panel" id="auto-apply-tab">
+                        <div class="shell-scroll shell-auto-apply-panel">
+                            <p class="postbox-hint">
+                                Search a job platform and apply to matching Easy Apply roles using your saved profile and Draft All.
+                            </p>
+
+                            <label class="postbox-label" for="auto-apply-platform">Platform</label>
+                            <select id="auto-apply-platform" class="postbox-input"></select>
+
+                            <label class="postbox-label" for="auto-apply-role">Role description</label>
+                            <textarea
+                                id="auto-apply-role"
+                                class="postbox-input"
+                                rows="3"
+                                placeholder="software engineer remote UK"
+                            ></textarea>
+
+                            <label class="postbox-label" for="auto-apply-max">Max applications this run</label>
+                            <input id="auto-apply-max" class="postbox-input" type="number" min="1" max="25" value="3" />
+
+                            <div class="auto-apply-actions stack">
+                                <button type="button" class="postbox-btn" id="auto-apply-start-btn">Start Auto Apply</button>
+                                <button type="button" class="postbox-btn-outline" id="auto-apply-stop-btn" disabled>Stop</button>
+                            </div>
+
+                            <div id="auto-apply-status" class="status-line">Ready. Choose a platform and role description.</div>
+                            <div id="auto-apply-stats" class="auto-apply-stats postbox-hint">Found 0 · Applied 0 · Skipped 0 · Errors 0</div>
+
+                            <section class="auto-apply-log postbox-panel" aria-live="polite">
+                                <h2 class="auto-apply-log-title">Activity log</h2>
+                                <div id="auto-apply-log" class="auto-apply-log-body"></div>
+                            </section>
                         </div>
                     </div>
 

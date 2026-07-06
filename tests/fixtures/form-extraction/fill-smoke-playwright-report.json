@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-07-05T21:09:38.257Z",
+  "generated_at": "2026-07-05T23:10:27.770Z",
   "totals": {
-    "scenarios": 11,
-    "evaluated": 8,
-    "passed": 6,
-    "failed": 2,
-    "pass_rate": 0.75,
+    "scenarios": 12,
+    "evaluated": 9,
+    "passed": 9,
+    "failed": 0,
+    "pass_rate": 1,
     "critical_total": 5,
-    "critical_passed": 4,
-    "critical_pass_rate": 0.8,
+    "critical_passed": 5,
+    "critical_pass_rate": 1,
     "ashby_widget_passed": 2,
     "ashby_widget_total": 2
   },
@@ -618,8 +618,8 @@
         },
         {
           "ref": "f25",
-          "expected": "Please select an option",
-          "actual": "Please select an option",
+          "expected": "Yes",
+          "actual": "Yes",
           "fieldType": "select"
         }
       ],
@@ -710,19 +710,13 @@
       "id": "web-jobs-smartrecruiters-com-99cf550a-4a3b-47f8-b682-449cc524d98f",
       "platform": "smartrecruiters",
       "priority": "critical",
-      "passed": false,
+      "passed": true,
       "plan_count": 5,
-      "apply_failures": 1,
+      "apply_failures": 0,
       "readback_failures": 0,
       "a11y_failures": 1,
       "error_banner_count": 0,
       "failures": [
-        {
-          "stage": "apply",
-          "field": "nopolicy",
-          "ref": "f12",
-          "expected": "*"
-        },
         {
           "stage": "a11yState",
           "field": "nopolicy",
@@ -757,6 +751,12 @@
           "expected": "fillverify3@test.example",
           "actual": "fillverify3@test.example",
           "fieldType": "email"
+        },
+        {
+          "ref": "f12",
+          "expected": "*",
+          "actual": "*\n                    \n                        \n                    \n                \n            \n        \n        \n\n                \n                    \n            \n        \n\n                    \n                \n                \n            \n        Please be informed that your application to this job offer will trigger some processing of your personal data by the recruiting company, the data controller. SmartRecruiters, the data processor, has no control over such personal data processing. For more information on these personal data processing, please refer to the recruiting company’s privacy notice.",
+          "fieldType": "checkbox"
         }
       ],
       "checks": {
@@ -942,67 +942,78 @@
       "tier": "smoke"
     },
     {
-      "id": "web-apply-workable-com-apply-7",
-      "platform": "generic-web",
+      "id": "syn-weird-030",
+      "platform": "syn-weird",
       "priority": "standard",
-      "passed": false,
-      "plan_count": 10,
-      "apply_failures": 3,
+      "passed": true,
+      "plan_count": 3,
+      "apply_failures": 0,
       "readback_failures": 0,
-      "a11y_failures": 4,
+      "a11y_failures": 1,
       "error_banner_count": 0,
       "failures": [
         {
-          "stage": "apply",
-          "field": "do you have a driver's license?",
-          "ref": "f61",
-          "expected": "SVGs not supported by this browser. YES"
-        },
-        {
-          "stage": "apply",
-          "field": "do you have current right to work in the uk?",
-          "ref": "f62",
-          "expected": "SVGs not supported by this browser. YES"
-        },
-        {
-          "stage": "apply",
-          "field": "will you require sponsorship within the next 12 months?",
-          "ref": "f74",
-          "expected": "SVGs not supported by this browser. YES"
-        },
-        {
           "stage": "a11yState",
-          "field": "svgs not supported by this browser. yes svgs not supported by this browser. yes",
-          "ref": "f24",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "do you have a driver's license?",
-          "ref": "f61",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "do you have current right to work in the uk?",
-          "ref": "f62",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "will you require sponsorship within the next 12 months?",
-          "ref": "f74",
+          "field": "no no",
+          "ref": "f1",
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
         }
       ],
+      "readback_failures_detail": [],
+      "readbacks": [
+        {
+          "ref": "f0",
+          "expected": "FillVerify-0",
+          "actual": "FillVerify-0",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f1",
+          "expected": "No",
+          "actual": "checked",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f2",
+          "expected": "fillverify3@test.example",
+          "actual": "fillverify3@test.example",
+          "fieldType": "email"
+        }
+      ],
+      "checks": {
+        "a11yState": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "no no",
+              "ref": "f1",
+              "reason": "radioGroupSelectionCount",
+              "expected": 1,
+              "actual": 0
+            }
+          ]
+        },
+        "errorBanner": {
+          "passed": true,
+          "error_count": 0
+        }
+      },
+      "verify_engine": "playwright",
+      "tier": "smoke"
+    },
+    {
+      "id": "web-apply-workable-com-apply-7",
+      "platform": "generic-web",
+      "priority": "standard",
+      "passed": true,
+      "plan_count": 10,
+      "apply_failures": 0,
+      "readback_failures": 0,
+      "a11y_failures": 0,
+      "error_banner_count": 0,
+      "failures": [],
       "readback_failures_detail": [],
       "readbacks": [
         {
@@ -1046,41 +1057,30 @@
           "expected": "SVGs not supported by this browser. YES",
           "actual": "checked",
           "fieldType": "radio"
+        },
+        {
+          "ref": "f61",
+          "expected": "Yes",
+          "actual": "SVGs not supported by this browser. YES",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f62",
+          "expected": "Yes",
+          "actual": "SVGs not supported by this browser. YES",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f74",
+          "expected": "Yes",
+          "actual": "SVGs not supported by this browser. YES",
+          "fieldType": "radio"
         }
       ],
       "checks": {
         "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "svgs not supported by this browser. yes svgs not supported by this browser. yes",
-              "ref": "f24",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "do you have a driver's license?",
-              "ref": "f61",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "do you have current right to work in the uk?",
-              "ref": "f62",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "will you require sponsorship within the next 12 months?",
-              "ref": "f74",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            }
-          ]
+          "passed": true,
+          "failures": []
         },
         "errorBanner": {
           "passed": true,
@@ -1136,12 +1136,12 @@
     },
     "smartrecruiters": {
       "total": 1,
-      "passed": 0,
-      "failed": 1,
+      "passed": 1,
+      "failed": 0,
       "critical_total": 1,
-      "critical_passed": 0,
-      "pass_rate": 0,
-      "critical_pass_rate": 0
+      "critical_passed": 1,
+      "pass_rate": 1,
+      "critical_pass_rate": 1
     },
     "teamtailor": {
       "total": 1,
@@ -1161,13 +1161,22 @@
       "pass_rate": 1,
       "critical_pass_rate": 0
     },
-    "generic-web": {
+    "syn-weird": {
       "total": 1,
-      "passed": 0,
-      "failed": 1,
+      "passed": 1,
+      "failed": 0,
       "critical_total": 0,
       "critical_passed": 0,
-      "pass_rate": 0,
+      "pass_rate": 1,
+      "critical_pass_rate": 0
+    },
+    "generic-web": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "critical_total": 0,
+      "critical_passed": 0,
+      "pass_rate": 1,
       "critical_pass_rate": 0
     }
   },

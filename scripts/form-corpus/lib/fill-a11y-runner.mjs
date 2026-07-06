@@ -157,6 +157,35 @@ export function checkA11yState(document, plan) {
         const fieldLabel = item.field.question || item.ref || 'unknown';
 
         if (fieldType === 'radio' || domRole === 'radiogroup') {
+            const roleGroup = scope?.getAttribute?.('role') === 'radiogroup'
+                ? scope
+                : scope?.closest?.('[role="radiogroup"]')
+                || (domRole === 'radiogroup' ? document.querySelector('[role="radiogroup"]') : null);
+
+            if (roleGroup?.querySelector?.('[role="radio"]')) {
+                const role = readRoleRadioGroup(roleGroup);
+
+                if (role.checkedCount !== 1) {
+                    failures.push({
+                        field: fieldLabel,
+                        ref: item.ref,
+                        reason: 'radioGroupSelectionCount',
+                        expected: 1,
+                        actual: role.checkedCount,
+                    });
+                } else if (!optionMatchesAnswer(role.labels[0], item.answer)) {
+                    failures.push({
+                        field: fieldLabel,
+                        ref: item.ref,
+                        reason: 'radioGroupSelectionMismatch',
+                        expected: item.answer,
+                        actual: role.labels[0],
+                    });
+                }
+
+                continue;
+            }
+
             const yesNoContainer = scope?.querySelector?.('[class*="_yesno_"]');
 
             if (yesNoContainer || item.dom?.tag === 'button') {

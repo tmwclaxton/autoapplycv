@@ -36,7 +36,19 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function normalizeOption(text) {
-        return normalize(text).replace(/[^\w\s>\/-]/g, '').replace(/\s+/g, ' ').trim();
+        const stripped = String(text || '')
+            .replace(/^svgs not supported by this browser\.\s*/i, '');
+
+        return normalize(stripped).replace(/[^\w\s>\/-]/g, '').replace(/\s+/g, ' ').trim();
+    }
+
+    function isSplCheckboxInput(input) {
+        if (!(input instanceof HTMLInputElement) || input.type !== 'checkbox') {
+            return false;
+        }
+
+        return input.classList.contains('c-spl-checkbox__input')
+            || input.closest('spl-checkbox') !== null;
     }
 
     function escapeSelectorValue(value) {
@@ -1023,7 +1035,7 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         add(input.labels?.[0]);
-        add(input.closest('.c-spl-checkbox-wrapper, .c-spl-checkbox, .choice-input-wrapper, .wpforms-field-label-inline'));
+        add(input.closest('spl-checkbox, .c-spl-checkbox-wrapper, .c-spl-checkbox, .choice-input-wrapper, .wpforms-field-label-inline'));
 
         if (isMicro1YesNoRadio(input)) {
             add(input.closest('[role="button"]'));
@@ -1086,6 +1098,25 @@ const AutoCVApplyFormHeuristics = (() => {
             });
 
             return checked;
+        }
+
+        if (isSplCheckboxInput(input)) {
+            for (const target of resolveCheckboxClickTargets(input)) {
+                nativeClick(target);
+
+                if (input.checked) {
+                    input.dispatchEvent(new Event('input', { bubbles: true }));
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+
+                    return true;
+                }
+            }
+
+            const host = input.closest('spl-checkbox');
+
+            if (host instanceof HTMLElement) {
+                nativeClick(host);
+            }
         }
 
         if (input.checked) {
@@ -1486,13 +1517,36 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function setRoleListboxValue(listbox, answer) {
+        const doc = listbox.ownerDocument || document;
+
+        if (listbox.hasAttribute('hidden')) {
+            listbox.removeAttribute('hidden');
+        }
+
+        if (listbox.style?.display === 'none') {
+            listbox.style.display = '';
+        }
+
         for (const option of listbox.querySelectorAll('[role="option"]')) {
             const optionText = (option.textContent || option.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
             const optionValue = String(option.getAttribute('data-value') || option.getAttribute('value') || '');
 
             if (optionMatchesAnswer(optionText, answer) || optionMatchesAnswer(optionValue, answer)) {
+                listbox.querySelectorAll('[role="option"]').forEach((candidate) => {
+                    candidate.setAttribute('aria-selected', candidate === option ? 'true' : 'false');
+                });
+
                 option.click();
                 option.setAttribute('aria-selected', 'true');
+
+                const combobox = listbox.id
+                    ? doc.querySelector(`[aria-controls="${escapeSelectorValue(listbox.id)}"]`)
+                    : listbox.parentElement?.querySelector('[role="combobox"]');
+
+                if (combobox instanceof HTMLElement) {
+                    combobox.textContent = optionText;
+                    combobox.setAttribute('aria-expanded', 'false');
+                }
 
                 return true;
             }
@@ -1704,9 +1758,33 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         if (dom.id) {
+            if (fieldType === 'checkbox') {
+                const checkboxInput = doc.querySelector(`input[type="checkbox"]#${escapeSelectorValue(dom.id)}`);
+
+                if (checkboxInput) {
+                    return checkboxInput;
+                }
+            }
+
+            if (fieldType === 'radio') {
+                const radioInput = doc.querySelector(`input[type="radio"]#${escapeSelectorValue(dom.id)}`);
+
+                if (radioInput) {
+                    return radioInput;
+                }
+            }
+
             const byId = doc.getElementById(dom.id);
 
             if (byId) {
+                if (fieldType === 'radio' && byId.getAttribute('role') === 'radiogroup') {
+                    const radios = Array.from(byId.querySelectorAll('[role="radio"]')).filter(isVisible);
+
+                    if (radios.length >= 2) {
+                        return radios;
+                    }
+                }
+
                 if (isChoiceField && !isNativeChoiceInput(byId, fieldType)) {
                     const input = queryNativeChoiceInput(doc, fieldType, {
                         name: dom.name,
@@ -1718,16 +1796,29 @@ const AutoCVApplyFormHeuristics = (() => {
                     }
                 }
 
-                return byId;
+                if (!dom.name || byId.getAttribute('name') === dom.name || byId.name === dom.name) {
+                    return byId;
+                }
             }
         }
 
         if (dom.name) {
-            if (isChoiceField) {
-                return queryNativeChoiceInput(doc, fieldType, { name: dom.name });
-            }
+            const byName = doc.querySelector(`[name="${escapeSelectorValue(dom.name)}"]`);
 
-            return doc.querySelector(`[name="${escapeSelectorValue(dom.name)}"]`);
+            if (byName) {
+                if (isChoiceField && !isNativeChoiceInput(byName, fieldType)) {
+                    const input = queryNativeChoiceInput(doc, fieldType, {
+                        name: dom.name,
+                        container: byName.closest('[role="radiogroup"], fieldset, [role="group"]') || byName,
+                    });
+
+                    if (input) {
+                        return input;
+                    }
+                }
+
+                return byName;
+            }
         }
 
         if (dom.data_testid) {
@@ -1980,8 +2071,28 @@ const AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
+        if (target?.getAttribute?.('role') === 'radio') {
+            const group = target.closest('[role="radiogroup"]');
+            const radios = group
+                ? Array.from(group.querySelectorAll('[role="radio"]'))
+                : [target];
+            const selectedRoleRadio = radios.find((radio) => radio.getAttribute('aria-checked') === 'true');
+
+            if (selectedRoleRadio) {
+                const optionText = (selectedRoleRadio.textContent || selectedRoleRadio.getAttribute('aria-label') || '')
+                    .replace(/\s+/g, ' ')
+                    .trim();
+
+                return optionMatchesAnswer(optionText, answer);
+            }
+        }
+
         if (fieldType === 'radio' || fieldType === 'checkbox') {
             if (target?.type === 'radio' || target?.type === 'checkbox') {
+                if (fieldType === 'checkbox' && target.checked && isConsentWildcardAnswer(answer)) {
+                    return true;
+                }
+
                 const selection = readNativeInputGroupSelection(target, fieldType);
 
                 if (fieldType === 'checkbox' && Array.isArray(selection)) {
@@ -2782,10 +2893,31 @@ const AutoCVApplyFormHeuristics = (() => {
             applied = setRoleListboxValue(target, answer);
         } else if (target?.getAttribute?.('role') === 'combobox') {
             applied = await setAshbyComboboxValue(target, answer);
+        } else if (target?.getAttribute?.('role') === 'radiogroup') {
+            applied = setRoleRadioGroupValue(
+                Array.from(target.querySelectorAll('[role="radio"]')).filter(isVisible),
+                answer,
+            );
+        } else if (target?.getAttribute?.('role') === 'radio') {
+            const group = target.closest('[role="radiogroup"]');
+            const radios = group
+                ? Array.from(group.querySelectorAll('[role="radio"]')).filter(isVisible)
+                : [target];
+            applied = setRoleRadioGroupValue(radios, answer);
         } else if (target.type === 'radio' || target.type === 'checkbox') {
             applied = setGroupValue(target, answer);
         } else if ((fieldType === 'radio' || fieldType === 'checkbox') && target.querySelector?.(`input[type="${fieldType}"]`)) {
             applied = setGroupValue(target.querySelector(`input[type="${fieldType}"]`), answer);
+        } else if (fieldType === 'radio' && target.querySelector?.('[role="radio"]')) {
+            applied = setRoleRadioGroupValue(
+                Array.from(target.querySelectorAll('[role="radio"]')).filter(isVisible),
+                answer,
+            );
+        } else if (fieldType === 'checkbox' && target.querySelector?.('[role="checkbox"]')) {
+            applied = setRoleCheckboxGroupValue(
+                Array.from(target.querySelectorAll('[role="checkbox"]')).filter(isVisible),
+                answer,
+            );
         } else {
             applied = await setFieldValue(target, answer);
         }

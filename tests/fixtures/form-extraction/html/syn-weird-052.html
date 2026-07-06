@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Readonly email</title></head>
+<body>
+<main><h1>Readonly email</h1>
+<form action="/apply" method="post">
+<label for="ro_name">Name</label><input type="text" id="ro_name" name="ro_name">
+<label for="ro_email">Email (from profile)</label><input type="email" id="ro_email" name="ro_email" value="candidate@example.com" readonly>
+<label for="ro_phone">Phone</label><input type="tel" id="ro_phone" name="ro_phone">
+<label for="ro_cover">Cover letter</label><textarea id="ro_cover" name="ro_cover" rows="3"></textarea>
+</form>
+</main>
+</body>
+</html>

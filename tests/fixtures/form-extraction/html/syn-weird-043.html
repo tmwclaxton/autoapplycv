@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Describedby hints</title></head>
+<body>
+<main><h1>Describedby hints</h1>
+<form action="/apply" method="post">
+<label for="desc_phone">Phone number</label>
+<span id="phone_hint">Include country code, e.g. +44 7700 900000</span>
+<input type="tel" id="desc_phone" name="desc_phone" aria-describedby="phone_hint">
+<label for="desc_email">Email</label>
+<span id="email_hint">Use your personal email, not a shared inbox</span>
+<input type="email" id="desc_email" name="desc_email" aria-describedby="email_hint">
+<label for="desc_name">Full name</label><input type="text" id="desc_name" name="desc_name">
+</form>
+</main>
+</body>
+</html>
