@@ -2,7 +2,9 @@
 import {
     buildAutoApplyPauseQuestion,
     detectUnfilledBlockers,
+    isGenericValidationMessage,
     normalizeBlockerField,
+    resolveValidationBlockerField,
 } from '../../extension/src/shared/auto-apply-blockers.js';
 import {
     appendAutoApplyLog,
@@ -40,6 +42,60 @@ const validationMatch = detectUnfilledBlockers(modalState, draftResult);
 assert(validationMatch.blocked, 'validation errors with matching unfilled field should block');
 assert(validationMatch.reason === 'validation', 'matched validation blocker should use validation reason');
 assert(validationMatch.field?.ref === 'f-phone', 'validation blocker should prefer matching unfilled field');
+
+const genericLinkedInValidation = detectUnfilledBlockers({
+    validationErrors: ['Please enter a valid answer'],
+    invalidFields: [{
+        label: 'Location (city)',
+        question: 'Location (city)',
+        field_type: 'select',
+    }],
+}, {
+    pendingFields: [],
+    unfilledRequiredFields: [],
+});
+
+assert(genericLinkedInValidation.blocked, 'generic LinkedIn validation should block');
+assert(
+    genericLinkedInValidation.field?.label === 'Location (city)',
+    'generic validation should use field label not error text',
+);
+assert(
+    !isGenericValidationMessage('Please enter a valid phone number'),
+    'specific validation messages should not be treated as generic',
+);
+assert(isGenericValidationMessage('Please enter a valid answer'), 'LinkedIn generic validation should match');
+
+const genericWithoutInvalidFields = detectUnfilledBlockers({
+    validationErrors: ['Please enter a valid answer'],
+}, {
+    pendingFields: [],
+    unfilledRequiredFields: [{
+        ref: 'f-location',
+        label: 'Location (city)',
+        question: 'Location (city)',
+        field_type: 'select',
+        required: true,
+    }],
+});
+
+assert(
+    genericWithoutInvalidFields.field?.label === 'Location (city)',
+    'generic validation should map to location candidate field',
+);
+
+assert(
+    resolveValidationBlockerField([], {
+        invalidFields: [{ label: 'Location (city)', field_type: 'select' }],
+    })?.label === 'Location (city)',
+    'resolveValidationBlockerField should prefer invalidFields from modal state',
+);
+
+assert(
+    buildAutoApplyPauseQuestion({ label: 'Location (city)', question: 'Location (city)' })
+        .includes('Location (city)'),
+    'pause question should use location field label',
+);
 
 const pendingOnly = detectUnfilledBlockers({}, {
     pendingFields: [{

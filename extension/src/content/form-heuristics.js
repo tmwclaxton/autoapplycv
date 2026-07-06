@@ -758,6 +758,51 @@ const AutoCVApplyFormHeuristics = (() => {
         return valueMatchesAnswer(element.value, stringValue);
     }
 
+    function fillTypeaheadSearchText(element, value) {
+        const stringValue = String(value);
+
+        element.focus();
+        setNativeValue(element, stringValue);
+        element.dispatchEvent(new InputEvent('beforeinput', {
+            bubbles: true,
+            cancelable: true,
+            inputType: 'insertFromPaste',
+            data: stringValue,
+        }));
+        element.dispatchEvent(new InputEvent('input', {
+            bubbles: true,
+            cancelable: true,
+            inputType: 'insertFromPaste',
+            data: stringValue,
+        }));
+        element.dispatchEvent(new Event('change', { bubbles: true }));
+
+        return valueMatchesAnswer(element.value, stringValue);
+    }
+
+    function clearLinkedInFieldErrorMarkers(element) {
+        element.classList?.remove('fb-dash-form-element__error-field');
+
+        const describedBy = element.getAttribute('aria-describedby');
+
+        if (!describedBy) {
+            return;
+        }
+
+        for (const id of describedBy.split(/\s+/)) {
+            const errorRoot = element.ownerDocument?.getElementById(id);
+
+            if (!errorRoot) {
+                continue;
+            }
+
+            for (const node of errorRoot.querySelectorAll('[data-test-form-element-error-messages], .artdeco-inline-feedback--error')) {
+                node.style.display = 'none';
+                node.setAttribute('hidden', 'hidden');
+            }
+        }
+    }
+
     function collectComboboxOptions(doc, element) {
         const listboxId = element.getAttribute('aria-controls');
         let options = [];
@@ -772,6 +817,11 @@ const AutoCVApplyFormHeuristics = (() => {
 
         if (options.length === 0) {
             options = Array.from(doc.querySelectorAll('[role="listbox"] [role="option"]'))
+                .filter(isVisible);
+        }
+
+        if (options.length === 0) {
+            options = Array.from(doc.querySelectorAll('.basic-typeahead__selectable, [data-test-typeahead-result]'))
                 .filter(isVisible);
         }
 
@@ -845,6 +895,105 @@ const AutoCVApplyFormHeuristics = (() => {
         return valueMatchesAnswer(readReactSelectValue(element), typedValue)
             || valueMatchesAnswer(element.value, typedValue)
             || valueMatchesAnswer(hiddenValue?.value, typedValue);
+    }
+
+    function isLinkedInGeoLocationCombobox(element) {
+        if (!element || element.getAttribute('role') !== 'combobox') {
+            return false;
+        }
+
+        const id = element.id || '';
+
+        if (id.includes('location-GEO-LOCATION')) {
+            return true;
+        }
+
+        return Boolean(element.closest('[data-test-single-typeahead-entity-form-component]')
+            && isGreenhouseLocationCombobox(element));
+    }
+
+    function scoreLinkedInLocationOption(optionText, answer, typedValue) {
+        const normalizedOption = normalizeOption(optionText);
+        const normalizedAnswer = normalizeOption(answer);
+        const normalizedTyped = normalizeOption(typedValue);
+        let score = 0;
+
+        if (optionMatchesAnswer(optionText, answer)) {
+            score += 20;
+        }
+
+        if (normalizedTyped && normalizedOption.includes(normalizedTyped)) {
+            score += 10;
+        }
+
+        if (normalizedAnswer && normalizedOption.includes(normalizedAnswer.slice(0, Math.min(normalizedAnswer.length, 24)))) {
+            score += 6;
+        }
+
+        if (/,/.test(optionText)) {
+            score += 2;
+        }
+
+        return score;
+    }
+
+    async function setLinkedInGeoLocationValue(element, value) {
+        if (!element || value === null || value === undefined || value === '') {
+            return false;
+        }
+
+        const doc = element.ownerDocument || document;
+        const stringValue = String(value).trim();
+        const typedValue = stringValue.split(',')[0].trim() || stringValue;
+
+        element.focus();
+        dispatchPointerClick(element);
+        fillTypeaheadSearchText(element, typedValue);
+
+        let options = await waitForComboboxOptions(doc, element, 1500);
+
+        if (options.length === 0) {
+            fillTypeaheadSearchText(element, typedValue);
+            options = await waitForComboboxOptions(doc, element, 1500);
+        }
+
+        heuristicsLog('debug', 'apply.combobox', 'LinkedIn location options collected', {
+            optionCount: options.length,
+            typedValue,
+            options: options.slice(0, 6).map((option) => (option.textContent || '').replace(/\s+/g, ' ').trim()),
+        });
+
+        let bestOption = null;
+        let bestScore = -1;
+
+        for (const option of options) {
+            const optionText = (option.textContent || option.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
+            const score = scoreLinkedInLocationOption(optionText, stringValue, typedValue);
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestOption = option;
+            }
+        }
+
+        if (bestOption) {
+            const selectedText = (bestOption.textContent || bestOption.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
+            heuristicsLog('info', 'apply.combobox', 'LinkedIn location option selected', { selectedText });
+            dispatchPointerClick(bestOption);
+            element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+            clearLinkedInFieldErrorMarkers(element);
+
+            return valueMatchesAnswer(readReactSelectValue(element), selectedText)
+                || valueMatchesAnswer(element.value, selectedText)
+                || valueMatchesAnswer(element.value, typedValue);
+        }
+
+        heuristicsLog('warn', 'apply.combobox', 'LinkedIn location fill failed - no matching option', {
+            typedValue,
+            optionCount: options.length,
+        });
+
+        return false;
     }
 
     async function setAshbyComboboxValue(element, value) {
@@ -2441,6 +2590,12 @@ const AutoCVApplyFormHeuristics = (() => {
         });
 
         if (role === 'combobox') {
+            if (isLinkedInGeoLocationCombobox(element)) {
+                const filled = await setLinkedInGeoLocationValue(element, value);
+
+                return filled && verifyFieldApplied(element, 'select', value);
+            }
+
             const filled = await setAshbyComboboxValue(element, value);
 
             return filled && verifyFieldApplied(element, 'select', value);
@@ -2633,6 +2788,40 @@ const AutoCVApplyFormHeuristics = (() => {
             .slice(0, 30);
     }
 
+    function hasVisibleValidationError(element) {
+        if (!element) {
+            return false;
+        }
+
+        if (element.classList.contains('fb-dash-form-element__error-field')) {
+            return true;
+        }
+
+        const describedBy = element.getAttribute('aria-describedby');
+
+        if (describedBy) {
+            for (const id of describedBy.split(/\s+/)) {
+                const node = element.ownerDocument?.getElementById(id);
+
+                if (!node || !isVisible(node) || node.hasAttribute('hidden')) {
+                    continue;
+                }
+
+                const feedback = node.querySelector?.('[data-test-form-element-error-messages], .artdeco-inline-feedback--error') || node;
+                const message = (feedback.textContent || '').replace(/\s+/g, ' ').trim();
+
+                if (message.length >= 3) {
+                    return true;
+                }
+            }
+        }
+
+        const formElement = element.closest('[data-test-form-element]');
+        const errorRoot = formElement?.querySelector('[data-test-form-element-error-messages]:not([hidden])');
+
+        return Boolean(errorRoot && isVisible(errorRoot));
+    }
+
     function elementNeedsDraft(element) {
         if (!isVisible(element) || element.type === 'file') {
             return false;
@@ -2655,6 +2844,8 @@ const AutoCVApplyFormHeuristics = (() => {
                 // Treat dial-code-only phone widgets as unfilled.
             } else if (isMicro1DefaultNumberValue(element)) {
                 // micro1 steppers and hourly rate inputs ship with placeholder default "1".
+            } else if (element.getAttribute?.('role') === 'combobox' && hasVisibleValidationError(element)) {
+                // LinkedIn and similar typeaheads can hold typed text without a valid selection.
             } else {
                 return false;
             }

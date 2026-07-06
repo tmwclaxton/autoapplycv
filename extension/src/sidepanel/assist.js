@@ -165,6 +165,7 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
 
         inputEl.value = questionText;
         inputEl.focus();
+        scrollMessagesToBottom();
 
         appendMessage(
             'assistant',

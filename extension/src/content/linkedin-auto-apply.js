@@ -949,11 +949,60 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         return [...new Set(errors)];
     }
 
+    function readInvalidFieldsFromModal(modal = readEasyApplyModal()) {
+        if (!modal) {
+            return [];
+        }
+
+        const fields = [];
+
+        for (const errorRoot of modal.querySelectorAll('[data-test-form-element-error-messages]')) {
+            if (!isElementVisible(errorRoot)) {
+                continue;
+            }
+
+            const message = normalize(errorRoot.querySelector('.artdeco-inline-feedback__message')?.textContent || '');
+
+            if (!message) {
+                continue;
+            }
+
+            const formElement = errorRoot.closest('[data-test-form-element]');
+
+            if (!formElement) {
+                continue;
+            }
+
+            const labelEl = formElement.querySelector(
+                '[data-test-single-typeahead-entity-form-title], [data-test-text-entity-list-form-title], .fb-dash-form-element__label, label',
+            );
+            const label = normalize(labelEl?.textContent || '');
+
+            if (label.length < 3) {
+                continue;
+            }
+
+            const control = formElement.querySelector('input[role="combobox"], select, textarea, input:not([type="hidden"])');
+            const fieldType = control?.getAttribute('role') === 'combobox' || control?.tagName?.toLowerCase() === 'select'
+                ? 'select'
+                : 'text';
+
+            fields.push({
+                label,
+                question: label,
+                field_type: fieldType,
+                dom: control?.id ? { id: control.id, input_id: control.id, role: control.getAttribute('role') || null } : null,
+            });
+        }
+
+        return fields;
+    }
+
     function prefillContactInfo(profileData) {
         const modal = readEasyApplyModal();
 
         if (!modal || typeof AutoCVApplyLinkedInEasyApplyFields === 'undefined') {
-            return { filled: 0, success: false, skipped: true, errors: [] };
+            return Promise.resolve({ filled: 0, success: false, skipped: true, errors: [] });
         }
 
         return AutoCVApplyLinkedInEasyApplyFields.fillContactInfoStep(modal, profileData);
@@ -997,6 +1046,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         const primary = findPrimaryActionButton(modal);
         const validationErrors = readModalValidationErrors(modal);
+        const invalidFields = readInvalidFieldsFromModal(modal);
 
         return {
             open: true,
@@ -1010,6 +1060,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             actionDisabled: primary?.disabled || false,
             stepFingerprint: readStepFingerprint(modal),
             validationErrors,
+            invalidFields,
         };
     }
 

@@ -71,6 +71,29 @@ export function resolveNoMappingReason(field, profileData = null) {
     return null;
 }
 
+const GENERIC_VALIDATION_MESSAGE_PATTERNS = [
+    /^please enter a valid answer$/i,
+    /^please select an option$/i,
+    /^please make a selection$/i,
+    /^this field is required$/i,
+    /^required field$/i,
+    /^field is required$/i,
+];
+
+/**
+ * @param {string|null|undefined} message
+ * @returns {boolean}
+ */
+export function isGenericValidationMessage(message) {
+    const normalized = String(message || '').replace(/\s+/g, ' ').trim();
+
+    if (!normalized) {
+        return false;
+    }
+
+    return GENERIC_VALIDATION_MESSAGE_PATTERNS.some((pattern) => pattern.test(normalized));
+}
+
 function fieldMatchesValidationError(field, errorMessage) {
     const label = normalizeBlockerField(field)?.label?.toLowerCase() || '';
     const error = String(errorMessage || '').toLowerCase();
@@ -79,7 +102,58 @@ function fieldMatchesValidationError(field, errorMessage) {
         return false;
     }
 
+    if (isGenericValidationMessage(error)) {
+        return false;
+    }
+
     return error.includes(label) || label.includes(error.slice(0, Math.min(label.length, 24)));
+}
+
+function isLocationFieldCandidate(field) {
+    const label = String(field?.label || field?.question || '').toLowerCase();
+    const domId = String(field?.dom?.id || field?.dom?.input_id || '').toLowerCase();
+
+    return /\blocation\s*\(\s*city\s*\)/.test(label)
+        || (/\blocation\b/.test(label) && /\b(?:city|town)\b/.test(label))
+        || domId.includes('location-geo-location');
+}
+
+/**
+ * @param {object[]} candidates
+ * @param {object|null|undefined} modalState
+ * @returns {AutoApplyBlockerField|null}
+ */
+export function resolveValidationBlockerField(candidates, modalState = null) {
+    const normalizedCandidates = candidates.map(normalizeBlockerField).filter(Boolean);
+    const invalidFields = (modalState?.invalidFields || [])
+        .map(normalizeBlockerField)
+        .filter(Boolean);
+
+    for (const invalidField of invalidFields) {
+        return invalidField;
+    }
+
+    const locationCandidate = normalizedCandidates.find(isLocationFieldCandidate);
+
+    if (locationCandidate) {
+        return locationCandidate;
+    }
+
+    const comboboxCandidate = normalizedCandidates.find((field) => {
+        const type = String(field.type || '').toLowerCase();
+
+        return type === 'select' && /\blocation\b|\bcity\b|\btown\b/.test(String(field.label || field.question || '').toLowerCase());
+    });
+
+    if (comboboxCandidate) {
+        return comboboxCandidate;
+    }
+
+    if (normalizedCandidates[0]) {
+        return normalizedCandidates[0];
+    }
+
+    return null;
 }
 
 function pickValidationBlocker(modalState, candidates, profileData) {
@@ -103,9 +177,22 @@ function pickValidationBlocker(modalState, candidates, profileData) {
         }
     }
 
-    const fallbackField = normalizeBlockerField(candidates[0] || {
-        label: errors[0],
-        question: errors[0],
+    const mappedField = resolveValidationBlockerField(candidates, modalState)
+        || resolveValidationBlockerField([], modalState);
+
+    if (mappedField) {
+        return {
+            blocked: true,
+            field: mappedField,
+            reason: resolveNoMappingReason(mappedField, profileData) || 'validation',
+        };
+    }
+
+    const specificError = errors.find((error) => !isGenericValidationMessage(error));
+
+    const fallbackField = normalizeBlockerField({
+        label: 'Application field',
+        question: specificError || 'Required field',
         field_type: 'text',
         ref: null,
     });
@@ -131,10 +218,13 @@ export function detectUnfilledBlockers(modalState, draftResult = {}, options = {
         : [];
     const skippedFields = Array.isArray(draftResult.skippedFields) ? draftResult.skippedFields : [];
 
+    const invalidFields = Array.isArray(modalState?.invalidFields) ? modalState.invalidFields : [];
+
     const candidates = [
         ...pendingFields,
         ...unfilledRequiredFields,
         ...skippedFields,
+        ...invalidFields,
     ].map(normalizeBlockerField).filter(Boolean);
 
     if ((modalState?.validationErrors?.length || 0) > 0) {

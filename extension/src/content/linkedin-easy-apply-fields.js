@@ -316,6 +316,71 @@ const AutoCVApplyLinkedInEasyApplyFields = (() => {
         return normalize(input.value) === normalize(stringValue);
     }
 
+    function findLocationTypeaheadInput(modal) {
+        const byPattern = modal.querySelector('input[role="combobox"][id*="location-GEO-LOCATION"]');
+
+        if (byPattern) {
+            return byPattern;
+        }
+
+        return findInputByLabel(modal, /location\s*\(\s*city\s*\)/i);
+    }
+
+    function readProfileLocation(profileData) {
+        const city = normalize(profileData?.profile?.city || '');
+        const country = normalize(profileData?.profile?.country || '');
+        const location = normalize(profileData?.profile?.location || '');
+
+        if (location) {
+            return location;
+        }
+
+        const parts = [city, country].filter(Boolean);
+
+        return parts.join(', ');
+    }
+
+    function locationTypeaheadNeedsFill(input) {
+        if (!input) {
+            return false;
+        }
+
+        const formElement = input.closest('[data-test-form-element]');
+        const hasVisibleError = Boolean(formElement?.querySelector('[data-test-form-element-error-messages]:not([hidden])'));
+
+        if (hasVisibleError || input.classList.contains('fb-dash-form-element__error-field')) {
+            return true;
+        }
+
+        return !normalize(input.value);
+    }
+
+    async function fillLocationTypeahead(modal, profileData) {
+        const input = findLocationTypeaheadInput(modal);
+
+        if (!input || !locationTypeaheadNeedsFill(input)) {
+            return Boolean(input && !locationTypeaheadNeedsFill(input));
+        }
+
+        const locationValue = readProfileLocation(profileData);
+
+        if (!locationValue) {
+            return false;
+        }
+
+        if (typeof AutoCVApplyFormHeuristics !== 'undefined') {
+            return AutoCVApplyFormHeuristics.applyAnswerForTarget(
+                modal.ownerDocument || document,
+                input,
+                'select',
+                locationValue,
+                { root: modal.ownerDocument || document },
+            );
+        }
+
+        return setTextInputValue(input, locationValue.split(',')[0].trim());
+    }
+
     function fillEmailSelect(modal, profileData) {
         const select = findSelectByLabel(modal, /\bemail\b/i);
 
@@ -547,7 +612,7 @@ const AutoCVApplyLinkedInEasyApplyFields = (() => {
         return [...new Set(errors)];
     }
 
-    function fillContactInfoStep(modal, profileData) {
+    async function fillContactInfoStep(modal, profileData) {
         if (!modal || !profileData) {
             return { filled: 0, success: false, errors: ['Missing modal or profile.'] };
         }
@@ -568,6 +633,10 @@ const AutoCVApplyLinkedInEasyApplyFields = (() => {
                 filled += 1;
             }
 
+            if (await fillLocationTypeahead(modal, profileData)) {
+                filled += 1;
+            }
+
             errors = readContactValidationErrors(modal);
         }
 
@@ -576,10 +645,12 @@ const AutoCVApplyLinkedInEasyApplyFields = (() => {
         const emailSelect = findSelectByLabel(modal, /\bemail\b/i);
         const countrySelect = findSelectByLabel(modal, /phone\s+country\s+code|country\s+code/i);
         const phoneInput = findInputByLabel(modal, /mobile\s+phone|phone\s+number/i);
+        const locationInput = findLocationTypeaheadInput(modal);
         const emailReady = !emailSelect || !isSelectPlaceholder(emailSelect);
         const countryReady = !countrySelect || !isSelectPlaceholder(countrySelect);
         const phoneReady = !phoneInput || Boolean(normalize(phoneInput.value));
-        const contactReady = !isContactInfoStep(modal) || (emailReady && countryReady && phoneReady);
+        const locationReady = !locationInput || !locationTypeaheadNeedsFill(locationInput);
+        const contactReady = !isContactInfoStep(modal) || (emailReady && countryReady && phoneReady && locationReady);
 
         return {
             filled,
@@ -588,21 +659,26 @@ const AutoCVApplyLinkedInEasyApplyFields = (() => {
             emailSelected: emailSelect ? emailReady : null,
             countrySelected: countrySelect ? countryReady : null,
             phoneFilled: phoneInput ? phoneReady : null,
+            locationFilled: locationInput ? locationReady : null,
         };
     }
 
     return {
         fillContactInfoStep,
         fillEmailSelect,
+        fillLocationTypeahead,
         fillPhoneCountrySelect,
         fillMobilePhoneInput,
+        findLocationTypeaheadInput,
         isContactInfoStep,
         isPlaceholderSelectOption,
         isSelectPlaceholder,
+        locationTypeaheadNeedsFill,
         matchCountryOption,
         matchEmailOption,
         readContactValidationErrors,
         readProfileEmail,
+        readProfileLocation,
         readProfilePhone,
     };
 })();

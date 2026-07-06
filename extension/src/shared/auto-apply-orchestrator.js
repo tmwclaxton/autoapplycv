@@ -546,8 +546,44 @@ async function waitForAutoApplyResume() {
     }
 }
 
+async function resolveBlockerFieldRef(tabId, blockerField) {
+    if (blockerField?.ref) {
+        return blockerField;
+    }
+
+    const label = String(blockerField?.label || blockerField?.question || '').trim();
+
+    if (!label) {
+        return blockerField;
+    }
+
+    try {
+        const formFrameId = await findBestFormFrameId(tabId);
+        const snapshotResponse = await sendTabMessage(tabId, { type: 'BUILD_FIELD_SNAPSHOT' }, formFrameId);
+        const match = (snapshotResponse?.snapshot?.elements || []).find((element) => {
+            const candidateLabel = String(element.question || element.label || '').trim();
+
+            return candidateLabel.toLowerCase() === label.toLowerCase();
+        });
+
+        if (!match?.ref) {
+            return blockerField;
+        }
+
+        return normalizeBlockerField({
+            ...blockerField,
+            ref: match.ref,
+            type: match.field_type || blockerField.type,
+            dom: match.dom || blockerField.dom,
+            options: match.options ?? blockerField.options,
+        });
+    } catch {
+        return blockerField;
+    }
+}
+
 async function pauseForUserInput(session, tabId, job, modalState, blocker, _profileData) {
-    const blockerField = normalizeBlockerField(blocker.field);
+    const blockerField = await resolveBlockerFieldRef(tabId, normalizeBlockerField(blocker.field));
     const questionText = buildAutoApplyPauseQuestion(blockerField);
     const pauseContext = {
         job: {

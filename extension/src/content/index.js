@@ -973,7 +973,7 @@ const contentMessageListener = (message, sender, sendResponse) => {
 
             const profileData = await ensureProfileLoaded();
 
-            sendResponse(AutoCVApplyLinkedInAutoApply.prefillContactInfo(profileData));
+            sendResponse(await AutoCVApplyLinkedInAutoApply.prefillContactInfo(profileData));
 
             return;
         }
@@ -986,7 +986,7 @@ const contentMessageListener = (message, sender, sendResponse) => {
             }
 
             const profileData = await ensureProfileLoaded();
-            AutoCVApplyLinkedInAutoApply.prefillContactInfo(profileData);
+            await AutoCVApplyLinkedInAutoApply.prefillContactInfo(profileData);
 
             sendResponse(await AutoCVApplyLinkedInAutoApply.clickNextOrSubmit());
 
