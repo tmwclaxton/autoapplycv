@@ -68,6 +68,19 @@ function broadcastAutoApplyStatus(session) {
         type: 'AUTO_APPLY_STATUS',
         session: sanitizeSessionForBroadcast(session),
     }).catch(() => {});
+
+    const tabId = session?.tabId;
+
+    if (!tabId) {
+        return;
+    }
+
+    const active = Boolean(session?.status && !isTerminalAutoApplyStatus(session.status));
+
+    chrome.tabs.sendMessage(tabId, {
+        type: 'AUTO_APPLY_ACTIVE',
+        active,
+    }).catch(() => {});
 }
 
 function sanitizeSessionForBroadcast(session) {

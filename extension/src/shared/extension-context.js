@@ -3,6 +3,9 @@
  */
 const AutoCVApplyExtensionContext = (() => {
     let contextInvalidated = false;
+    let contextProbePassed = false;
+    /** @type {Set<() => void>} */
+    const invalidationCallbacks = new Set();
 
     function isInvalidatedError(error) {
         const message = error && typeof error === 'object' && 'message' in error
@@ -12,8 +15,52 @@ const AutoCVApplyExtensionContext = (() => {
         return /invalidated/i.test(message);
     }
 
+    function isDisconnectError(message) {
+        return /invalidated|receiving end does not exist|message port closed|extension context/i.test(message || '');
+    }
+
+    function onContextInvalidated(callback) {
+        if (typeof callback !== 'function') {
+            return () => {};
+        }
+
+        if (contextInvalidated) {
+            try {
+                callback();
+            } catch {
+                // Ignore teardown failures after invalidation.
+            }
+
+            return () => {};
+        }
+
+        invalidationCallbacks.add(callback);
+
+        return () => {
+            invalidationCallbacks.delete(callback);
+        };
+    }
+
+    function runInvalidationCallbacks() {
+        for (const callback of [...invalidationCallbacks]) {
+            try {
+                callback();
+            } catch {
+                // Ignore teardown failures after invalidation.
+            }
+        }
+
+        invalidationCallbacks.clear();
+    }
+
     function markContextInvalidated() {
+        if (contextInvalidated) {
+            return;
+        }
+
         contextInvalidated = true;
+        contextProbePassed = false;
+        runInvalidationCallbacks();
     }
 
     function isInvalidExtensionUrl(url) {
@@ -36,25 +83,37 @@ const AutoCVApplyExtensionContext = (() => {
         }
     }
 
+    function probeExtensionContext() {
+        if (!chrome?.runtime?.id) {
+            markContextInvalidated();
+
+            return false;
+        }
+
+        const probeUrl = chrome.runtime.getURL('');
+
+        if (isInvalidExtensionUrl(probeUrl)) {
+            markContextInvalidated();
+
+            return false;
+        }
+
+        contextProbePassed = true;
+
+        return true;
+    }
+
     function isExtensionContextValid() {
         if (contextInvalidated) {
             return false;
         }
 
-        try {
-            if (!chrome?.runtime?.id) {
-                return false;
-            }
-
-            const probeUrl = chrome.runtime.getURL('');
-
-            if (isInvalidExtensionUrl(probeUrl)) {
-                markContextInvalidated();
-
-                return false;
-            }
-
+        if (contextProbePassed) {
             return true;
+        }
+
+        try {
+            return probeExtensionContext();
         } catch {
             markContextInvalidated();
 
@@ -63,7 +122,11 @@ const AutoCVApplyExtensionContext = (() => {
     }
 
     function safeRuntimeGetURL(path) {
-        if (contextInvalidated || !isExtensionContextValid()) {
+        if (contextInvalidated) {
+            return null;
+        }
+
+        if (!contextProbePassed && !probeExtensionContext()) {
             return null;
         }
 
@@ -111,7 +174,11 @@ const AutoCVApplyExtensionContext = (() => {
     }
 
     function safeRuntimeSend(message) {
-        if (contextInvalidated || !isExtensionContextValid()) {
+        if (contextInvalidated) {
+            return Promise.resolve(null);
+        }
+
+        if (!contextProbePassed && !probeExtensionContext()) {
             return Promise.resolve(null);
         }
 
@@ -120,7 +187,7 @@ const AutoCVApplyExtensionContext = (() => {
 
             if (result && typeof result.then === 'function') {
                 return result.catch((error) => {
-                    if (isInvalidatedError(error)) {
+                    if (isInvalidatedError(error) || isDisconnectError(error?.message)) {
                         markContextInvalidated();
                     }
 
@@ -130,7 +197,7 @@ const AutoCVApplyExtensionContext = (() => {
 
             return Promise.resolve(null);
         } catch (error) {
-            if (isInvalidatedError(error)) {
+            if (isInvalidatedError(error) || isDisconnectError(error?.message)) {
                 markContextInvalidated();
             }
 
@@ -139,7 +206,13 @@ const AutoCVApplyExtensionContext = (() => {
     }
 
     function safeRuntimeSendCallback(message, callback) {
-        if (contextInvalidated || !isExtensionContextValid()) {
+        if (contextInvalidated) {
+            callback?.(null);
+
+            return;
+        }
+
+        if (!contextProbePassed && !probeExtensionContext()) {
             callback?.(null);
 
             return;
@@ -149,7 +222,7 @@ const AutoCVApplyExtensionContext = (() => {
             chrome.runtime.sendMessage(message, (response) => {
                 try {
                     if (chrome.runtime.lastError) {
-                        if (/invalidated/i.test(chrome.runtime.lastError.message || '')) {
+                        if (isDisconnectError(chrome.runtime.lastError.message)) {
                             markContextInvalidated();
                         }
 
@@ -160,7 +233,7 @@ const AutoCVApplyExtensionContext = (() => {
 
                     callback?.(response);
                 } catch (error) {
-                    if (isInvalidatedError(error)) {
+                    if (isInvalidatedError(error) || isDisconnectError(error?.message)) {
                         markContextInvalidated();
                     }
 
@@ -168,7 +241,7 @@ const AutoCVApplyExtensionContext = (() => {
                 }
             });
         } catch (error) {
-            if (isInvalidatedError(error)) {
+            if (isInvalidatedError(error) || isDisconnectError(error?.message)) {
                 markContextInvalidated();
             }
 
@@ -177,7 +250,11 @@ const AutoCVApplyExtensionContext = (() => {
     }
 
     async function safeStorageSessionSet(items) {
-        if (contextInvalidated || !isExtensionContextValid()) {
+        if (contextInvalidated) {
+            return false;
+        }
+
+        if (!contextProbePassed && !probeExtensionContext()) {
             return false;
         }
 
@@ -186,7 +263,7 @@ const AutoCVApplyExtensionContext = (() => {
 
             return true;
         } catch (error) {
-            if (isInvalidatedError(error)) {
+            if (isInvalidatedError(error) || isDisconnectError(error?.message)) {
                 markContextInvalidated();
             }
 
@@ -195,7 +272,11 @@ const AutoCVApplyExtensionContext = (() => {
     }
 
     async function safeStorageSessionRemove(keys) {
-        if (contextInvalidated || !isExtensionContextValid()) {
+        if (contextInvalidated) {
+            return false;
+        }
+
+        if (!contextProbePassed && !probeExtensionContext()) {
             return false;
         }
 
@@ -204,7 +285,7 @@ const AutoCVApplyExtensionContext = (() => {
 
             return true;
         } catch (error) {
-            if (isInvalidatedError(error)) {
+            if (isInvalidatedError(error) || isDisconnectError(error?.message)) {
                 markContextInvalidated();
             }
 
@@ -213,7 +294,11 @@ const AutoCVApplyExtensionContext = (() => {
     }
 
     function safeOnMessageAddListener(listener) {
-        if (contextInvalidated || !isExtensionContextValid()) {
+        if (contextInvalidated) {
+            return false;
+        }
+
+        if (!contextProbePassed && !probeExtensionContext()) {
             return false;
         }
 
@@ -222,7 +307,7 @@ const AutoCVApplyExtensionContext = (() => {
 
             return true;
         } catch (error) {
-            if (isInvalidatedError(error)) {
+            if (isInvalidatedError(error) || isDisconnectError(error?.message)) {
                 markContextInvalidated();
             }
 
@@ -234,6 +319,7 @@ const AutoCVApplyExtensionContext = (() => {
         isExtensionContextValid,
         isInvalidExtensionUrl,
         markContextInvalidated,
+        onContextInvalidated,
         safeFetch,
         safeRuntimeGetURL,
         safeRuntimeSend,

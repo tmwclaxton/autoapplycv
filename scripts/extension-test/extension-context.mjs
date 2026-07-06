@@ -263,6 +263,108 @@ const cases = [
             assert.equal(ok, false);
         },
     },
+    {
+        name: 'high-frequency safeRuntimeSend does not call sendMessage after invalidation',
+        fn: async () => {
+            let sendMessageCalls = 0;
+            const ctx = loadExtensionContext({
+                runtime: {
+                    id: 'abc123',
+                    getURL() {
+                        return 'chrome-extension://invalid/';
+                    },
+                    sendMessage() {
+                        sendMessageCalls += 1;
+
+                        return Promise.resolve({});
+                    },
+                },
+            });
+
+            assert.equal(ctx.isExtensionContextValid(), false);
+
+            const results = await Promise.all(
+                Array.from({ length: 500 }, () => ctx.safeRuntimeSend({ type: 'TEST' })),
+            );
+
+            assert.equal(sendMessageCalls, 0);
+            assert.equal(results.every((value) => value === null), true);
+            assert.equal(ctx.isExtensionContextValid(), false);
+        },
+    },
+    {
+        name: 'high-frequency isExtensionContextValid probes getURL only once before latching invalid',
+        fn: () => {
+            let getUrlCalls = 0;
+            const ctx = loadExtensionContext({
+                runtime: {
+                    id: 'abc123',
+                    getURL() {
+                        getUrlCalls += 1;
+
+                        return 'chrome-extension://invalid/';
+                    },
+                },
+            });
+
+            for (let index = 0; index < 500; index += 1) {
+                assert.equal(ctx.isExtensionContextValid(), false);
+            }
+
+            assert.equal(getUrlCalls, 1);
+        },
+    },
+    {
+        name: 'onContextInvalidated runs teardown once when context becomes invalid',
+        fn: () => {
+            let teardownCalls = 0;
+            const ctx = loadExtensionContext({
+                runtime: {
+                    id: 'abc123',
+                    getURL() {
+                        return 'chrome-extension://abc123/';
+                    },
+                },
+            });
+
+            ctx.onContextInvalidated(() => {
+                teardownCalls += 1;
+            });
+
+            assert.equal(ctx.isExtensionContextValid(), true);
+            ctx.markContextInvalidated();
+            assert.equal(teardownCalls, 1);
+            ctx.markContextInvalidated();
+            assert.equal(teardownCalls, 1);
+        },
+    },
+    {
+        name: 'safeRuntimeSendCallback latches invalid on receiving end does not exist',
+        fn: () => {
+            let callbackValue = 'pending';
+            const ctx = loadExtensionContext({
+                runtime: {
+                    id: 'abc123',
+                    getURL() {
+                        return 'chrome-extension://abc123/';
+                    },
+                    sendMessage(_message, callback) {
+                        callback(undefined);
+                    },
+                    get lastError() {
+                        return { message: 'Could not establish connection. Receiving end does not exist.' };
+                    },
+                },
+            });
+
+            ctx.safeRuntimeSendCallback({ type: 'TEST' }, (response) => {
+                callbackValue = response;
+            });
+
+            assert.equal(callbackValue, null);
+            assert.equal(ctx.isExtensionContextValid(), false);
+        },
+    },
 ];
 
 let failed = 0;

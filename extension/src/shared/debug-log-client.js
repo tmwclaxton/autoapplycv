@@ -25,12 +25,6 @@ const AutoCVApplyDebugLog = (() => {
 
             return;
         }
-
-        try {
-            chrome.runtime.sendMessage(entry).catch(() => {});
-        } catch {
-            // Ignore invalidated extension context.
-        }
     }
 
     return {

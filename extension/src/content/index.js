@@ -17,6 +17,9 @@ let formContentSignatureNotifyTimer = null;
 let pendingFormContentSignature = '';
 let onWindowFocusRefresh = null;
 let onVisibilityChangeRefresh = null;
+let autoApplyBurstDepth = 0;
+let autoApplyBurstCooldownUntil = 0;
+let contentObserversPaused = false;
 
 function extensionContext() {
     return typeof AutoCVApplyExtensionContext !== 'undefined'
@@ -82,6 +85,44 @@ function ensureExtensionContextOrTeardown() {
     return false;
 }
 
+function beginAutoApplyBurst() {
+    autoApplyBurstDepth += 1;
+}
+
+function endAutoApplyBurst() {
+    autoApplyBurstDepth = Math.max(0, autoApplyBurstDepth - 1);
+
+    if (autoApplyBurstDepth === 0) {
+        autoApplyBurstCooldownUntil = Date.now() + 3000;
+    }
+}
+
+function isAutoApplyBurstActive() {
+    return contentObserversPaused
+        || autoApplyBurstDepth > 0
+        || Date.now() < autoApplyBurstCooldownUntil;
+}
+
+function setContentObserversPaused(paused) {
+    contentObserversPaused = paused;
+
+    if (paused) {
+        if (overlayRefreshTimer) {
+            clearTimeout(overlayRefreshTimer);
+            overlayRefreshTimer = null;
+        }
+
+        if (formContentSignatureNotifyTimer) {
+            clearTimeout(formContentSignatureNotifyTimer);
+            formContentSignatureNotifyTimer = null;
+        }
+
+        pendingFormContentSignature = '';
+    }
+}
+
+extensionContext()?.onContextInvalidated?.(teardownContentScriptOnInvalidContext);
+
 function computeFormContentSignature() {
     if (typeof AutoCVApplyFormContentSignature !== 'undefined') {
         return AutoCVApplyFormContentSignature.computeFormContentSignature(document);
@@ -94,7 +135,7 @@ function computeFormContentSignature() {
 }
 
 function notifyFormContentSignatureChanged(signature) {
-    if (window !== window.top || !ensureExtensionContextOrTeardown()) {
+    if (window !== window.top || isAutoApplyBurstActive() || !ensureExtensionContextOrTeardown()) {
         return;
     }
 
@@ -333,22 +374,20 @@ async function fillResumeFileInput() {
                 }
             };
 
-            if (ctx) {
-                ctx.safeRuntimeSendCallback({ type: 'GET_CV_DOCUMENT' }, onResponse);
+            if (!ctx) {
+                reject(new Error('Extension context unavailable.'));
 
                 return;
             }
 
-            chrome.runtime.sendMessage({ type: 'GET_CV_DOCUMENT' }, (response) => {
-                if (chrome.runtime.lastError) {
-                    reject(new Error(chrome.runtime.lastError.message));
-                } else {
-                    onResponse(response);
-                }
-            });
+            ctx.safeRuntimeSendCallback({ type: 'GET_CV_DOCUMENT' }, onResponse);
         });
 
-        const fetchImpl = ctx?.safeFetch || fetch;
+        if (!ctx) {
+            return false;
+        }
+
+        const fetchImpl = ctx.safeFetch;
         const response = await fetchImpl(result.base64);
         const blob = await response.blob();
         const file = new File([blob], result.fileName || 'cv.pdf', {
@@ -403,22 +442,17 @@ async function loadProfile() {
                 }
             };
 
-            if (ctx) {
-                ctx.safeRuntimeSendCallback({ type: 'GET_PROFILE' }, onResponse);
+            if (!ctx) {
+                reject(new Error('Extension context unavailable.'));
 
                 return;
             }
 
-            chrome.runtime.sendMessage({ type: 'GET_PROFILE' }, (response) => {
-                if (chrome.runtime.lastError) {
-                    reject(new Error(chrome.runtime.lastError.message));
-                } else {
-                    onResponse(response);
-                }
-            });
+            ctx.safeRuntimeSendCallback({ type: 'GET_PROFILE' }, onResponse);
         });
     } catch {
         profile = null;
+        teardownContentScriptOnInvalidContext();
     }
 }
 
@@ -450,14 +484,13 @@ async function runFullFill() {
     }
 
     const ctx = extensionContext();
+
+    if (!ctx) {
+        return { ok: false, message: 'Extension context unavailable.' };
+    }
+
     const draftResult = await new Promise((resolve) => {
-        if (ctx) {
-            ctx.safeRuntimeSendCallback({ type: 'START_DRAFT_ALL' }, resolve);
-
-            return;
-        }
-
-        chrome.runtime.sendMessage({ type: 'START_DRAFT_ALL' }, resolve);
+        ctx.safeRuntimeSendCallback({ type: 'START_DRAFT_ALL' }, resolve);
     });
 
     if (draftResult?.error) {
@@ -516,6 +549,10 @@ async function init() {
     }, 4000);
 
     mutationObserver = new MutationObserver(() => {
+        if (isAutoApplyBurstActive()) {
+            return;
+        }
+
         if (!ensureExtensionContextOrTeardown()) {
             return;
         }
@@ -551,11 +588,14 @@ async function isSidePanelOpen() {
         return false;
     }
 
+    const ctx = extensionContext();
+
+    if (!ctx) {
+        return false;
+    }
+
     try {
-        const ctx = extensionContext();
-        const response = ctx
-            ? await ctx.safeRuntimeSend({ type: 'GET_SIDE_PANEL_STATE' })
-            : await chrome.runtime.sendMessage({ type: 'GET_SIDE_PANEL_STATE' });
+        const response = await ctx.safeRuntimeSend({ type: 'GET_SIDE_PANEL_STATE' });
 
         return response?.sidePanelOpen === true;
     } catch {
@@ -568,11 +608,14 @@ async function isAuthenticated() {
         return false;
     }
 
+    const ctx = extensionContext();
+
+    if (!ctx) {
+        return false;
+    }
+
     try {
-        const ctx = extensionContext();
-        const response = ctx
-            ? await ctx.safeRuntimeSend({ type: 'GET_AUTH_STATUS' })
-            : await chrome.runtime.sendMessage({ type: 'GET_AUTH_STATUS' });
+        const response = await ctx.safeRuntimeSend({ type: 'GET_AUTH_STATUS' });
 
         if (response?.isAuthenticated === true) {
             cachedAuthenticated = true;
@@ -589,7 +632,7 @@ async function isAuthenticated() {
 }
 
 function scheduleOverlayRefresh(sidePanelOpen = undefined) {
-    if (!ensureExtensionContextOrTeardown()) {
+    if (isAutoApplyBurstActive() || !ensureExtensionContextOrTeardown()) {
         return;
     }
 
@@ -762,7 +805,21 @@ async function collectDraftContext(injectedProfile = null) {
 
 const contentMessageListener = (message, sender, sendResponse) => {
     (async () => {
+        const linkedInBurst = typeof message.type === 'string' && message.type.startsWith('LINKEDIN_');
+
+        if (linkedInBurst) {
+            beginAutoApplyBurst();
+        }
+
+        try {
         if (!ensureExtensionContextOrTeardown()) {
+            return;
+        }
+
+        if (message.type === 'AUTO_APPLY_ACTIVE') {
+            setContentObserversPaused(message.active === true);
+            sendResponse({ success: true });
+
             return;
         }
 
@@ -1150,12 +1207,20 @@ const contentMessageListener = (message, sender, sendResponse) => {
         }
 
         if (message.type === 'AUTOFILL_VISIBILITY_CHANGED' || message.type === 'AUTH_STATE_CHANGED') {
-            scheduleOverlayRefresh(
-                typeof message.sidePanelOpen === 'boolean' ? message.sidePanelOpen : undefined,
-            );
+            if (!isAutoApplyBurstActive()) {
+                scheduleOverlayRefresh(
+                    typeof message.sidePanelOpen === 'boolean' ? message.sidePanelOpen : undefined,
+                );
+            }
+
             sendResponse({ success: true });
 
             return;
+        }
+        } finally {
+            if (linkedInBurst) {
+                endAutoApplyBurst();
+            }
         }
     })();
 
