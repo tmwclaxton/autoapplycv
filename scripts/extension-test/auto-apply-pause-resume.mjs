@@ -13,6 +13,10 @@ import {
     resolveValidationBlockerField,
 } from '../../extension/src/shared/auto-apply-blockers.js';
 import {
+    buildAutoApplyPauseAssistantMessage,
+    resolveAutoApplyPauseComposerValue,
+} from '../../extension/src/shared/auto-apply-pause-ui.js';
+import {
     appendAutoApplyLog,
     createInitialSession,
     isActiveAutoApplyStatus,
@@ -204,6 +208,43 @@ const maxRetryQuestion = buildAutoApplyPauseQuestion(azureField, {
 assert(
     maxRetryQuestion.includes('Maximum retries reached'),
     'validation retry question should mention max retries at limit',
+);
+
+const retryPauseContext = {
+    blockerField: azureField,
+    clarifyingQuestion: retryQuestion,
+    questionText: retryQuestion,
+    validationError: 'Enter a whole number between 0 and 99',
+    validationAttempt: 1,
+    lastAttempt: '1 year of azure',
+};
+
+assert(
+    resolveAutoApplyPauseComposerValue(retryPauseContext) === '',
+    'validation retry should not prefill Assist composer',
+);
+assert(
+    buildAutoApplyPauseAssistantMessage(retryPauseContext) === retryQuestion,
+    'validation retry question should appear in Assist chat only',
+);
+
+const firstPauseContext = {
+    blockerField: { label: 'Notice period', question: 'What is your notice period?' },
+    clarifyingQuestion: 'What is your notice period?',
+    questionText: 'What is your notice period?',
+};
+
+assert(
+    resolveAutoApplyPauseComposerValue(firstPauseContext) === '',
+    'first pause should not prefill Assist composer',
+);
+assert(
+    buildAutoApplyPauseAssistantMessage(firstPauseContext).includes('What is your notice period?'),
+    'first pause question should appear in Assist chat',
+);
+assert(
+    buildAutoApplyPauseAssistantMessage(firstPauseContext).includes('Auto Apply paused on'),
+    'first pause should include pause guidance in Assist chat',
 );
 
 let session = createInitialSession({

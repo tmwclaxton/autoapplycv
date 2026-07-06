@@ -1,3 +1,7 @@
+import {
+    buildAutoApplyPauseAssistantMessage,
+    resolveAutoApplyPauseComposerValue,
+} from './auto-apply-pause-ui.js';
 import { buildDraftBatchChatHeading } from './draft-batch-chat.js';
 import { polishProfileUpdateActions } from './profile-value-polish.js';
 
@@ -175,31 +179,13 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
             return;
         }
 
-        const clarifyingQuestion = pauseContext.clarifyingQuestion
-            || pauseContext.questionText
-            || pauseContext.blockerField?.question
-            || pauseContext.blockerField?.label
-            || 'Which answer should Auto Apply use for this required field?';
-        const fieldLabel = pauseContext.blockerField?.label || 'a required field';
-
-        if (pauseContext.validationError) {
-            inputEl.value = clarifyingQuestion;
-        } else {
-            inputEl.value = '';
-        }
-
+        inputEl.value = resolveAutoApplyPauseComposerValue(pauseContext);
         inputEl.focus();
         scrollMessagesToBottom();
 
-        const assistantMessage = pauseContext.validationError
-            ? clarifyingQuestion
-            : `${clarifyingQuestion}\n\n`
-                + `Auto Apply paused on "${fieldLabel}". `
-                + 'Send your answer here, or use Save & fill in the pending fields section above.';
-
         appendMessage(
             'assistant',
-            assistantMessage,
+            buildAutoApplyPauseAssistantMessage(pauseContext),
             {},
             { recordHistory: false },
         );

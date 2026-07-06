@@ -231,6 +231,7 @@ copyFileSync(join(SRC, 'shared/linkedin-platform.js'), join(DIST, 'linkedin-plat
 copyFileSync(join(SRC, 'shared/auto-apply-platforms.js'), join(DIST, 'auto-apply-platforms.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-session.js'), join(DIST, 'auto-apply-session.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-activity-ui.js'), join(DIST, 'auto-apply-activity-ui.js'));
+copyFileSync(join(SRC, 'shared/auto-apply-pause-ui.js'), join(DIST, 'auto-apply-pause-ui.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-blockers.js'), join(DIST, 'auto-apply-blockers.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-analytics.js'), join(DIST, 'auto-apply-analytics.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-orchestrator.js'), join(DIST, 'auto-apply-orchestrator.js'));
