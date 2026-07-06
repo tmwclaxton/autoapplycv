@@ -6,8 +6,11 @@ import {
     syncAutoApplyAnalyticsSession,
 } from './auto-apply-analytics.js';
 import {
+    AUTO_APPLY_VALIDATION_RETRY_LIMIT,
     buildAutoApplyPauseQuestion,
     detectUnfilledBlockers,
+    fieldHasValidationError,
+    findFieldValidationError,
     normalizeBlockerField,
 } from './auto-apply-blockers.js';
 import { buildJobSearchUrl, LINKEDIN_PLATFORM_ID } from './auto-apply-platforms.js';
@@ -91,6 +94,7 @@ function sanitizeSessionForBroadcast(session) {
                 stepFingerprint: session.pauseContext.stepFingerprint,
                 tabId: session.pauseContext.tabId,
                 blockerField: session.pauseContext.blockerField,
+                clarifyingQuestion: session.pauseContext.clarifyingQuestion,
                 questionText: session.pauseContext.questionText,
                 resumeAt: session.pauseContext.resumeAt,
             }
@@ -582,9 +586,14 @@ async function resolveBlockerFieldRef(tabId, blockerField) {
     }
 }
 
-async function pauseForUserInput(session, tabId, job, modalState, blocker, _profileData) {
+async function pauseForUserInput(session, tabId, job, modalState, blocker, profileData, retryContext = null) {
     const blockerField = await resolveBlockerFieldRef(tabId, normalizeBlockerField(blocker.field));
-    const questionText = buildAutoApplyPauseQuestion(blockerField);
+    const clarifyingQuestion = buildAutoApplyPauseQuestion(blockerField, {
+        profileData,
+        validationError: retryContext?.validationError || null,
+        lastAttempt: retryContext?.lastAttempt || null,
+        validationAttempt: retryContext?.validationAttempt || 0,
+    });
     const pauseContext = {
         job: {
             jobId: job.jobId,
@@ -594,8 +603,12 @@ async function pauseForUserInput(session, tabId, job, modalState, blocker, _prof
         stepFingerprint: modalState?.stepFingerprint || null,
         tabId,
         blockerField,
-        questionText,
+        clarifyingQuestion,
+        questionText: clarifyingQuestion,
         resumeAt: 'fill_and_advance',
+        validationAttempt: retryContext?.validationAttempt || 0,
+        lastAttempt: retryContext?.lastAttempt || null,
+        validationError: retryContext?.validationError || null,
     };
 
     const pendingEntry = {
@@ -617,7 +630,10 @@ async function pauseForUserInput(session, tabId, job, modalState, blocker, _prof
         appendAutoApplyLog(
             current,
             'warn',
-            `[paused] ${blockerField?.label || 'Field'} needs your answer in Assist.`,
+            retryContext?.validationError
+                ? `[validation_retry ${retryContext.validationAttempt}/${AUTO_APPLY_VALIDATION_RETRY_LIMIT}] `
+                    + `${blockerField?.label || 'Field'}: ${retryContext.validationError}`
+                : `[paused] ${blockerField?.label || 'Field'} needs your answer in Assist.`,
         ),
         pauseContext,
     ));
@@ -625,10 +641,90 @@ async function pauseForUserInput(session, tabId, job, modalState, blocker, _prof
     chrome.runtime.sendMessage({
         type: 'AUTO_APPLY_PAUSED',
         pauseContext,
-        reason: blocker.reason,
+        reason: retryContext?.validationError ? 'validation' : blocker.reason,
+        validationRetry: Boolean(retryContext?.validationError),
     }).catch(() => {});
 
     return pausedSession;
+}
+
+/**
+ * Re-pause Auto Apply after a blocked-field answer fails LinkedIn validation.
+ */
+export async function rePauseAutoApplyForValidationRetry({
+    tabId,
+    job,
+    modalState,
+    blockerField,
+    lastAttempt,
+    validationError,
+    validationAttempt,
+    profileData = null,
+}) {
+    const session = await loadAutoApplySession();
+
+    if (!session || session.status !== 'paused_for_input') {
+        return null;
+    }
+
+    return pauseForUserInput(
+        session,
+        tabId,
+        job,
+        modalState,
+        { field: blockerField, reason: 'validation' },
+        profileData,
+        {
+            validationError,
+            lastAttempt,
+            validationAttempt,
+        },
+    );
+}
+
+async function handleAdvanceValidationRetry(session, tabId, job, modalState, profileData, lastAttempt = null) {
+    const blocker = detectUnfilledBlockers(modalState, {}, { profileData });
+
+    if (!blocker.blocked || blocker.reason !== 'validation') {
+        return { retried: false, session };
+    }
+
+    const validationError = findFieldValidationError(modalState, blocker.field);
+
+    if (!validationError) {
+        return { retried: false, session };
+    }
+
+    const validationAttempt = (session.pauseContext?.validationAttempt || 0) + 1;
+
+    if (validationAttempt > AUTO_APPLY_VALIDATION_RETRY_LIMIT) {
+        throw new Error(
+            `Validation failed after ${AUTO_APPLY_VALIDATION_RETRY_LIMIT} attempts for `
+            + `"${blocker.field?.label || 'field'}": ${validationError}`,
+        );
+    }
+
+    const pausedSession = await pauseForUserInput(
+        session,
+        tabId,
+        job,
+        modalState,
+        blocker,
+        profileData,
+        {
+            validationError,
+            lastAttempt,
+            validationAttempt,
+        },
+    );
+
+    const resumedSession = await waitForAutoApplyResume();
+
+    if (resumedSession.stopRequested) {
+        return { retried: true, stopped: true, session: resumedSession };
+    }
+
+    return { retried: true, session: resumedSession };
 }
 
 async function ensureStepFilledOrPaused(tabId, job, modalState, draftResult, session, profileData) {
@@ -868,7 +964,31 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
             }
         }
 
-        if (advanceResponse?.action === 'blocked') {
+        if (advanceResponse?.action === 'blocked' || (
+            (advanceResponse?.validationErrors?.length || 0) > 0
+            && !advanceResponse?.transitioned
+            && !advanceResponse?.submitted
+        )) {
+            const postAdvanceModalState = await sendLinkedInMessage(tabId, 'LINKEDIN_EASY_APPLY_STATE');
+            const retryOutcome = await handleAdvanceValidationRetry(
+                session,
+                tabId,
+                job,
+                postAdvanceModalState || advanceResponse,
+                profileData,
+            );
+
+            session = retryOutcome.session || session;
+
+            if (retryOutcome.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+
+            if (retryOutcome.retried) {
+                sameStepCount = 0;
+                continue;
+            }
+
             throw new Error(advanceResponse.error || 'Easy Apply action blocked by validation.');
         }
 

@@ -4,11 +4,17 @@ import {
     dismissFinishedAutoApplySession,
     getAutoApplyStatus,
     isAutoApplyRunning,
+    rePauseAutoApplyForValidationRetry,
     resetAutoApplySession,
     resumeAutoApplyFromPause,
     startAutoApply,
     stopAutoApply,
 } from './auto-apply-orchestrator.js';
+import {
+    AUTO_APPLY_VALIDATION_RETRY_LIMIT,
+    fieldHasValidationError,
+    findFieldValidationError,
+} from './auto-apply-blockers.js';
 import { loadAutoApplySession } from './auto-apply-session.js';
 import {
     clearConnection,
@@ -1012,10 +1018,44 @@ async function savePendingFieldAnswer(tabId, field, answer) {
         autoApplySession?.status === 'paused_for_input'
         && autoApplySession.pauseContext?.blockerField?.ref === field.ref
     ) {
+        const modalState = await sendTabMessage(tabId, {
+            type: 'LINKEDIN_VALIDATE_BLOCKED_FIELD',
+            ref: field.ref,
+            label: field.label || field.question,
+            dom: field.dom,
+        }, 0).catch(() => null);
+
+        const validationError = modalState
+            ? findFieldValidationError(modalState, field)
+            : null;
+
+        if (validationError && fieldHasValidationError(modalState, field)) {
+            const validationAttempt = (autoApplySession.pauseContext?.validationAttempt || 0) + 1;
+            const pauseContext = await rePauseAutoApplyForValidationRetry({
+                tabId,
+                job: autoApplySession.pauseContext.job,
+                modalState,
+                blockerField: field,
+                lastAttempt: trimmed,
+                validationError,
+                validationAttempt,
+            });
+
+            return {
+                success: true,
+                applied,
+                fields: pending,
+                resumed: false,
+                validationRetry: true,
+                maxRetriesReached: validationAttempt >= AUTO_APPLY_VALIDATION_RETRY_LIMIT,
+                pauseContext,
+            };
+        }
+
         await resumeAutoApplyFromPause();
     }
 
-    return { success: true, applied, fields: pending };
+    return { success: true, applied, fields: pending, resumed: true };
 }
 
 async function dismissPendingField(tabId, field) {
@@ -1050,6 +1090,7 @@ function sanitizeAutoApplySessionResponse(session) {
                 stepFingerprint: session.pauseContext.stepFingerprint,
                 tabId: session.pauseContext.tabId,
                 blockerField: session.pauseContext.blockerField,
+                clarifyingQuestion: session.pauseContext.clarifyingQuestion,
                 questionText: session.pauseContext.questionText,
                 resumeAt: session.pauseContext.resumeAt,
             }

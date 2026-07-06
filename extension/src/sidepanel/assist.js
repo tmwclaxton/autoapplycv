@@ -160,16 +160,21 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
             return;
         }
 
-        const questionText = pauseContext.questionText
-            || `Auto Apply needs your help: ${pauseContext.blockerField?.label || 'required field'}`;
+        const clarifyingQuestion = pauseContext.clarifyingQuestion
+            || pauseContext.questionText
+            || pauseContext.blockerField?.question
+            || pauseContext.blockerField?.label
+            || 'Which answer should Auto Apply use for this required field?';
+        const fieldLabel = pauseContext.blockerField?.label || 'a required field';
 
-        inputEl.value = questionText;
+        inputEl.value = '';
         inputEl.focus();
         scrollMessagesToBottom();
 
         appendMessage(
             'assistant',
-            `Auto Apply paused on "${pauseContext.blockerField?.label || 'a required field'}". `
+            `${clarifyingQuestion}\n\n`
+            + `Auto Apply paused on "${fieldLabel}". `
             + 'Send your answer here, or use Save & fill in the pending fields section above.',
             {},
             { recordHistory: false },
@@ -184,7 +189,11 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         const draftAnswer = result?.draft_answer
             || extractDraftAnswerFromActions(result?.actions || []);
 
+        const clarifyingQuestion = String(autoApplyPauseContext.clarifyingQuestion
+            || autoApplyPauseContext.questionText
+            || '').trim();
         const directAnswer = userContent.startsWith('Auto Apply needs your help:')
+            || (clarifyingQuestion !== '' && userContent === clarifyingQuestion)
             ? ''
             : userContent;
 

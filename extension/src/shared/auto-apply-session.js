@@ -22,6 +22,7 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {string|null} stepFingerprint
  * @property {number|null} tabId
  * @property {object|null} blockerField
+ * @property {string} clarifyingQuestion
  * @property {string} questionText
  * @property {'fill_and_advance'} resumeAt
  */

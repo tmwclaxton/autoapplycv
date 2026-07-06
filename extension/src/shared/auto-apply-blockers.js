@@ -27,11 +27,14 @@ export function normalizeBlockerField(source) {
     const label = dedupeQuestionLabelForDisplay(
         source.label || source.question || source.name || '',
     ) || 'Application field';
+    const question = dedupeQuestionLabelForDisplay(
+        String(source.question || source.label || label).trim(),
+    ) || label;
 
     return {
         ref: source.ref || null,
         label,
-        question: String(source.question || source.label || label).trim(),
+        question,
         type: source.field_type || source.type || 'text',
         options: source.options ?? null,
         dom: source.dom ?? null,
@@ -92,6 +95,99 @@ export function isGenericValidationMessage(message) {
     }
 
     return GENERIC_VALIDATION_MESSAGE_PATTERNS.some((pattern) => pattern.test(normalized));
+}
+
+export const AUTO_APPLY_VALIDATION_RETRY_LIMIT = 5;
+
+function normalizeFieldLabel(value) {
+    return String(value || '').replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+/**
+ * @param {object|null|undefined} left
+ * @param {object|null|undefined} right
+ * @returns {boolean}
+ */
+export function fieldsMatchBlocker(left, right) {
+    const a = normalizeBlockerField(left);
+    const b = normalizeBlockerField(right);
+
+    if (!a || !b) {
+        return false;
+    }
+
+    if (a.ref && b.ref && a.ref === b.ref) {
+        return true;
+    }
+
+    const aDom = a.dom?.id || a.dom?.input_id || null;
+    const bDom = b.dom?.id || b.dom?.input_id || null;
+
+    if (aDom && bDom && aDom === bDom) {
+        return true;
+    }
+
+    const aLabel = normalizeFieldLabel(a.label || a.question);
+    const bLabel = normalizeFieldLabel(b.label || b.question);
+
+    if (!aLabel || !bLabel) {
+        return false;
+    }
+
+    return aLabel === bLabel
+        || aLabel.includes(bLabel)
+        || bLabel.includes(aLabel);
+}
+
+/**
+ * @param {object|null|undefined} modalState
+ * @param {object|null|undefined} field
+ * @returns {string|null}
+ */
+export function findFieldValidationError(modalState, field) {
+    const normalized = normalizeBlockerField(field);
+
+    if (!normalized) {
+        return null;
+    }
+
+    const invalidFields = (modalState?.invalidFields || [])
+        .map(normalizeBlockerField)
+        .filter(Boolean);
+    const validationErrors = modalState?.validationErrors || [];
+
+    for (const invalidField of invalidFields) {
+        if (!fieldsMatchBlocker(normalized, invalidField)) {
+            continue;
+        }
+
+        for (const error of validationErrors) {
+            if (fieldMatchesValidationError(invalidField, error)) {
+                return error;
+            }
+        }
+
+        const specificError = validationErrors.find((error) => !isGenericValidationMessage(error));
+
+        return specificError || validationErrors[0] || 'Please enter a valid answer.';
+    }
+
+    for (const error of validationErrors) {
+        if (fieldMatchesValidationError(normalized, error)) {
+            return error;
+        }
+    }
+
+    return null;
+}
+
+/**
+ * @param {object|null|undefined} modalState
+ * @param {object|null|undefined} field
+ * @returns {boolean}
+ */
+export function fieldHasValidationError(modalState, field) {
+    return Boolean(findFieldValidationError(modalState, field));
 }
 
 function fieldMatchesValidationError(field, errorMessage) {
@@ -288,18 +384,86 @@ export function detectUnfilledBlockers(modalState, draftResult = {}, options = {
 
 /**
  * @param {{ label?: string, question?: string }} field
+ * @param {object|null|undefined} [profileData]
  * @returns {string}
  */
-export function buildAutoApplyPauseQuestion(field) {
+export function buildAutoApplyClarifyingQuestion(field, profileData = null) {
     const normalized = normalizeBlockerField(field);
 
     if (!normalized) {
-        return 'Auto Apply needs your help with a required field.';
+        return 'Which answer should Auto Apply use for this required field?';
     }
 
-    const prompt = normalized.question || normalized.label;
+    const label = normalized.label;
+    const question = normalized.question || label;
 
-    return `Auto Apply needs your help: ${normalized.label}${prompt && prompt !== normalized.label ? ` - ${prompt}` : ''}`;
+    if (question !== label) {
+        return question;
+    }
+
+    const mapping = resolveProfileMappingForLabel(question, profileData, normalized.dom);
+
+    if (mapping?.label && mapping.label !== label) {
+        return `${mapping.label}: ${question}`;
+    }
+
+    return question;
+}
+
+/**
+ * @param {{ label?: string, question?: string }} field
+ * @param {{ validationError?: string|null, lastAttempt?: string|null, validationAttempt?: number }} [options]
+ * @returns {string}
+ */
+export function buildAutoApplyValidationRetryQuestion(field, options = {}) {
+    const normalized = normalizeBlockerField(field);
+    const label = normalized?.label || 'this field';
+    const {
+        validationError = 'Please enter a valid answer.',
+        lastAttempt = null,
+        validationAttempt = 1,
+    } = options;
+    const parts = [
+        `Auto Apply needs a corrected answer for "${label}".`,
+    ];
+
+    if (lastAttempt) {
+        parts.push(`Your answer "${lastAttempt}" was not accepted.`);
+    }
+
+    parts.push(`LinkedIn says: ${validationError}.`);
+
+    if (validationAttempt >= AUTO_APPLY_VALIDATION_RETRY_LIMIT) {
+        parts.push('Maximum retries reached. Enter a valid answer or stop Auto Apply.');
+    } else {
+        parts.push('What should I enter instead?');
+    }
+
+    return parts.join(' ');
+}
+
+/**
+ * @param {{ label?: string, question?: string }} field
+ * @param {{ profileData?: object|null, validationError?: string|null, lastAttempt?: string|null, validationAttempt?: number }} [options]
+ * @returns {string}
+ */
+export function buildAutoApplyPauseQuestion(field, options = {}) {
+    const {
+        profileData = null,
+        validationError = null,
+        lastAttempt = null,
+        validationAttempt = 0,
+    } = options;
+
+    if (validationError) {
+        return buildAutoApplyValidationRetryQuestion(field, {
+            validationError,
+            lastAttempt,
+            validationAttempt,
+        });
+    }
+
+    return buildAutoApplyClarifyingQuestion(field, profileData);
 }
 
 /**

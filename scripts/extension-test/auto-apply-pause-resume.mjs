@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import {
+    buildAutoApplyClarifyingQuestion,
     buildAutoApplyPauseQuestion,
     detectUnfilledBlockers,
     isGenericValidationMessage,
@@ -94,7 +95,27 @@ assert(
 assert(
     buildAutoApplyPauseQuestion({ label: 'Location (city)', question: 'Location (city)' })
         .includes('Location (city)'),
-    'pause question should use location field label',
+    'clarifying question should include the field label',
+);
+assert(
+    !buildAutoApplyPauseQuestion({ label: 'Location (city)', question: 'Location (city)' })
+        .includes('Auto Apply needs your help'),
+    'clarifying question should not include assist prefill prefix',
+);
+
+const tripledAzureQuestion = 'how many years of work experience do you have with microsoft azure? '
+    + 'how many years of work experience do you have with microsoft azure? '
+    + 'how many years of work experience do you have with microsoft azure?';
+
+assert(
+    buildAutoApplyClarifyingQuestion({ label: tripledAzureQuestion, question: tripledAzureQuestion })
+        === 'how many years of work experience do you have with microsoft azure?',
+    'clarifying question should dedupe repeated LinkedIn screening labels',
+);
+assert(
+    !buildAutoApplyClarifyingQuestion({ label: tripledAzureQuestion, question: tripledAzureQuestion })
+        .includes('Auto Apply needs your help'),
+    'clarifying question should not include assist prefill prefix',
 );
 
 const pendingOnly = detectUnfilledBlockers({}, {
@@ -130,8 +151,8 @@ assert(!clear.blocked, 'empty draft gaps should not block');
 
 assert(
     buildAutoApplyPauseQuestion({ label: 'Notice period', question: 'What is your notice period?' })
-        .startsWith('Auto Apply needs your help: Notice period'),
-    'pause question should include field label',
+        === 'What is your notice period?',
+    'clarifying question should prefer the human form question over the short label',
 );
 
 let session = createInitialSession({
@@ -145,7 +166,8 @@ session = pauseAutoApplyForInput(session, {
     stepFingerprint: 'step-1',
     tabId: 42,
     blockerField: normalizeBlockerField({ ref: 'f-1', label: 'Notice period', field_type: 'text' }),
-    questionText: 'Auto Apply needs your help: Notice period',
+    clarifyingQuestion: 'What is your notice period?',
+    questionText: 'What is your notice period?',
     resumeAt: 'fill_and_advance',
 });
 
