@@ -113,6 +113,8 @@ class ApplicationAssistantTest extends TestCase
             ->assertOk()
             ->assertJsonPath('result.score', 72)
             ->assertJsonPath('autofill_cost', 5);
+
+        $this->assertSame(5, $user->fresh()->ai_tokens_used);
     }
 
     public function test_extension_can_generate_cover_letter_with_job_description_only(): void
@@ -143,7 +145,9 @@ class ApplicationAssistantTest extends TestCase
             ])
             ->assertOk()
             ->assertJsonPath('cover_letter', 'Dear hiring manager, I am excited to apply.')
-            ->assertJsonPath('autofill_cost', 8);
+            ->assertJsonPath('autofill_cost', 5);
+
+        $this->assertSame(5, $user->fresh()->ai_tokens_used);
     }
 
     public function test_api_can_generate_tailored_resume(): void

@@ -84,7 +84,7 @@ return [
     'extension_login_url' => env('EXTENSION_LOGIN_URL', 'https://autocvapply.com'),
 
     'ai_assist' => [
-        'cover_letter_cost' => (int) env('CV_AI_COVER_LETTER_COST', 8),
+        'cover_letter_cost' => (int) env('CV_AI_COVER_LETTER_COST', 5),
         'ats_score_cost' => (int) env('CV_AI_ATS_SCORE_COST', 5),
         'tailored_resume_cost' => (int) env('CV_AI_TAILORED_RESUME_COST', 10),
         'draft_field_cost' => (int) env('CV_AI_DRAFT_FIELD_COST', 1),

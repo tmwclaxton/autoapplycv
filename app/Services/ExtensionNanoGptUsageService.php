@@ -108,7 +108,61 @@ class ExtensionNanoGptUsageService
                 'series' => $series,
             ],
             'power_users' => $this->powerUsers($start, $powerUserLimit, $powerUserThreshold),
+            'nanogpt_usage_by_action' => $this->usageByAction($start),
         ];
+    }
+
+    /**
+     * @return array<int, array{
+     *     action: string,
+     *     label: string,
+     *     api_calls: int,
+     *     autofill_cost: int,
+     *     total_tokens: int,
+     * }>
+     */
+    private function usageByAction(CarbonInterface $start): array
+    {
+        return ExtensionNanoGptUsage::query()
+            ->where('created_at', '>=', $start)
+            ->groupBy('action')
+            ->orderByDesc(DB::raw('SUM(total_tokens)'))
+            ->get([
+                'action',
+                DB::raw('COUNT(*) as api_calls'),
+                DB::raw('COALESCE(SUM(autofill_cost), 0) as autofill_cost'),
+                DB::raw('COALESCE(SUM(total_tokens), 0) as total_tokens'),
+            ])
+            ->map(function ($row): array {
+                $action = (string) $row->action;
+
+                return [
+                    'action' => $action,
+                    'label' => $this->actionLabel($action),
+                    'api_calls' => (int) $row->api_calls,
+                    'autofill_cost' => (int) $row->autofill_cost,
+                    'total_tokens' => (int) $row->total_tokens,
+                ];
+            })
+            ->values()
+            ->all();
+    }
+
+    private function actionLabel(string $action): string
+    {
+        return match ($action) {
+            'assist.questions' => 'Application questions',
+            'assist.inventory' => 'Field inventory',
+            'assist.job-context' => 'Job context',
+            'assist.chat' => 'Assist chat',
+            'assist.chat.stream' => 'Assist chat (stream)',
+            'assist.draft-field' => 'Draft field',
+            'assist.draft-all' => 'Draft All',
+            'assist.cover-letter' => 'Cover letter',
+            'assist.ats-score' => 'ATS score',
+            'assist.tailored-resume' => 'Tailored resume',
+            default => ucfirst(str_replace(['assist.', '-', '_'], ['', ' ', ' '], $action)),
+        };
     }
 
     /**

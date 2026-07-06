@@ -9,6 +9,7 @@ use App\Models\CvProfile;
 use App\Models\User;
 use App\Services\AiTokenService;
 use App\Services\CvProfileDocumentService;
+use App\Support\AiAssistCosts;
 use App\Support\ApplicationAnswers;
 use App\Support\ApplicationSettings;
 use App\Support\CvExtractionSchema;
@@ -131,6 +132,7 @@ class ProfileController extends Controller
                 'application_answers' => ApplicationAnswers::normalize($profile->application_answers),
             ],
             'subscription' => $this->aiTokens->summary($user),
+            'ai_assist' => AiAssistCosts::forFrontend(),
         ]);
     }
 
@@ -177,6 +179,7 @@ class ProfileController extends Controller
             'application_settings' => $applicationSettings,
             'computed_earliest_start' => ApplicationSettings::computeEarliestStart($applicationSettings['notice_period']),
             'subscription' => $this->aiTokens->summary($user),
+            'ai_assist' => AiAssistCosts::forFrontend(),
         ];
     }
 }

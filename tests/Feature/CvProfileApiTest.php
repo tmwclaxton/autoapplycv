@@ -70,7 +70,13 @@ class CvProfileApiTest extends TestCase
                     'autofills_remaining',
                     'can_autofill',
                 ],
-            ]);
+                'ai_assist' => [
+                    'cover_letter_cost',
+                    'ats_score_cost',
+                ],
+            ])
+            ->assertJsonPath('ai_assist.cover_letter_cost', 5)
+            ->assertJsonPath('ai_assist.ats_score_cost', 5);
     }
 
     public function test_profile_api_backfills_cv_document_from_legacy_upload(): void

@@ -170,6 +170,14 @@ interface PowerUser {
     is_power_user: boolean;
 }
 
+interface NanoGptUsageByAction {
+    action: string;
+    label: string;
+    api_calls: number;
+    autofill_cost: number;
+    total_tokens: number;
+}
+
 interface AutoApplyStats {
     total_sessions: number;
     period_sessions: number;
@@ -285,6 +293,7 @@ defineProps<{
     recent_credit_grants: CreditGrantRow[];
     nanogpt_usage_stats: NanoGptUsageStats;
     nanogpt_usage_series: NanoGptUsageSeries;
+    nanogpt_usage_by_action: NanoGptUsageByAction[];
     autofill_analytics: AutofillAnalyticsSummary;
     power_users: PowerUser[];
     auto_apply_stats: AutoApplyStats;
@@ -1472,6 +1481,61 @@ function autoApplySessionStatusClass(status: string): string {
                 unit-label="questions"
                 bar-class="fill-postbox-navy/75 hover:fill-postbox-navy"
             />
+
+            <div class="postbox-panel overflow-hidden">
+                <div class="border-b border-border/70 px-5 py-4">
+                    <h2 class="postbox-label">AI usage by action</h2>
+                    <p class="text-sm text-muted-foreground">
+                        Extension AI calls in the last
+                        {{ nanogpt_usage_series.days }} days, grouped by
+                        endpoint.
+                    </p>
+                </div>
+
+                <div
+                    v-if="nanogpt_usage_by_action.length === 0"
+                    class="px-5 py-8 text-sm text-muted-foreground"
+                >
+                    No extension AI usage recorded in this period yet.
+                </div>
+
+                <div v-else class="overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead
+                            class="bg-muted/30 text-left text-muted-foreground"
+                        >
+                            <tr>
+                                <th class="px-5 py-3 font-medium">Action</th>
+                                <th class="px-5 py-3 font-medium">Calls</th>
+                                <th class="px-5 py-3 font-medium">Autofills</th>
+                                <th class="px-5 py-3 font-medium">Tokens</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                v-for="row in nanogpt_usage_by_action"
+                                :key="row.action"
+                                class="border-t border-border/60"
+                            >
+                                <td
+                                    class="px-5 py-3 font-medium text-postbox-navy"
+                                >
+                                    {{ row.label }}
+                                </td>
+                                <td class="px-5 py-3 whitespace-nowrap">
+                                    {{ formatNumber(row.api_calls) }}
+                                </td>
+                                <td class="px-5 py-3 whitespace-nowrap">
+                                    {{ formatNumber(row.autofill_cost) }}
+                                </td>
+                                <td class="px-5 py-3 whitespace-nowrap">
+                                    {{ formatNumber(row.total_tokens) }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
             <div class="postbox-panel overflow-hidden">
                 <div class="border-b border-border/70 px-5 py-4">

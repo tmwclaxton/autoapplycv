@@ -460,7 +460,7 @@ class ApplicationAssistantController extends Controller
             return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
         }
 
-        $cost = (int) config('cv.ai_assist.cover_letter_cost', 8);
+        $cost = (int) config('cv.ai_assist.cover_letter_cost', 5);
 
         if (! $this->usage->canAutofill($user, $cost)) {
             return response()->json([
