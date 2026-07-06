@@ -47,4 +47,16 @@ class LinkedInEasyApplyCorpusTest extends TestCase
             'LinkedIn Easy Apply corpus script failed:'."\n".$result->errorOutput().$result->output(),
         );
     }
+
+    public function test_linkedin_location_typeahead_script_passes(): void
+    {
+        $result = Process::path(base_path())
+            ->timeout(120)
+            ->run(['node', 'scripts/extension-test/linkedin-location-typeahead.mjs']);
+
+        $this->assertTrue(
+            $result->successful(),
+            'LinkedIn location typeahead script failed:'."\n".$result->errorOutput().$result->output(),
+        );
+    }
 }

@@ -1,0 +1,72 @@
+{
+  "exported_at": "2026-07-06T14:57:56.742Z",
+  "query": {
+    "platform": "linkedin OR url LIKE %linkedin.com%",
+    "html_patterns": [
+      "jobs-easy-apply-modal",
+      "location-GEO-LOCATION"
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "db-export-87-location-typeahead",
+      "file": "db-capture-87-job-4429146055-location-typeahead-step1-open.html",
+      "source": "db-export",
+      "extension_page_capture_id": 87,
+      "flow_id": "db-capture-87-job-4429146055",
+      "job_id": "4429146055",
+      "job_title": "ai backend engineer remote Jobs",
+      "company": null,
+      "step": 1,
+      "step_label": "Contact info",
+      "capture_reason": "open",
+      "page_url": "https://www.linkedin.com/jobs/search/",
+      "typeahead_kind": "location-geo",
+      "typeahead_label": "Location (city)",
+      "expects_modal": true,
+      "expects_validation_errors": false,
+      "captured_at": "2026-07-06T14:45:45+00:00",
+      "notes": "DB export from extension_page_captures.id=87 (https://www.linkedin.com/jobs/search/)."
+    },
+    {
+      "id": "db-export-78-location-typeahead",
+      "file": "db-capture-78-job-4431684534-location-typeahead-step1-open.html",
+      "source": "db-export",
+      "extension_page_capture_id": 78,
+      "flow_id": "db-capture-78-job-4431684534",
+      "job_id": "4431684534",
+      "job_title": "(2) software engineer frontend developer full stack developer python developer Jobs",
+      "company": null,
+      "step": 1,
+      "step_label": "Contact info",
+      "capture_reason": "open",
+      "page_url": "https://www.linkedin.com/jobs/search/",
+      "typeahead_kind": "location-geo",
+      "typeahead_label": "Location (city)",
+      "expects_modal": true,
+      "expects_validation_errors": false,
+      "captured_at": "2026-07-06T14:30:51+00:00",
+      "notes": "DB export from extension_page_captures.id=78 (https://www.linkedin.com/jobs/search/)."
+    },
+    {
+      "id": "db-export-59-location-typeahead",
+      "file": "db-capture-59-job-4432377620-location-typeahead-step1-open.html",
+      "source": "db-export",
+      "extension_page_capture_id": 59,
+      "flow_id": "db-capture-59-job-4432377620",
+      "job_id": "4432377620",
+      "job_title": "ai engineer Jobs",
+      "company": null,
+      "step": 1,
+      "step_label": "Contact info",
+      "capture_reason": "open",
+      "page_url": "https://www.linkedin.com/jobs/search/",
+      "typeahead_kind": "location-geo",
+      "typeahead_label": "Location (city)",
+      "expects_modal": true,
+      "expects_validation_errors": false,
+      "captured_at": "2026-07-06T13:02:19+00:00",
+      "notes": "DB export from extension_page_captures.id=59 (https://www.linkedin.com/jobs/search/)."
+    }
+  ]
+}

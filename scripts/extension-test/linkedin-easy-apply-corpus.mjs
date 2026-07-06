@@ -12,10 +12,14 @@ import { JSDOM } from 'jsdom';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const CORPUS_DIR = join(ROOT, 'tests/fixtures/auto-apply/linkedin');
 const CAPTURED_DIR = join(CORPUS_DIR, 'captured');
+const DB_EXPORT_DIR = join(CORPUS_DIR, 'db-export');
 const CAPTURED_MANIFEST_PATH = join(CORPUS_DIR, 'captured-manifest.json');
+const DB_EXPORT_MANIFEST_PATH = join(CORPUS_DIR, 'db-export-manifest.json');
 const SYNTHETIC_MANIFEST_PATH = join(CORPUS_DIR, 'manifest.json');
 const AUTO_APPLY_SCRIPT = join(ROOT, 'extension/src/content/linkedin-auto-apply.js');
 const EASY_APPLY_FIELDS_SCRIPT = join(ROOT, 'extension/src/content/linkedin-easy-apply-fields.js');
+const FORM_HEURISTICS_SCRIPT = readFileSync(join(ROOT, 'extension/src/content/form-heuristics.js'), 'utf8')
+    .replace('const AutoCVApplyFormHeuristics =', 'globalThis.AutoCVApplyFormHeuristics =');
 const PARSER_SCRIPT = join(ROOT, 'extension/src/content/linkedin-parser.js');
 
 const includeSynthetic = process.argv.includes('--include-synthetic');
@@ -89,7 +93,7 @@ function readFixtureUrl(html, fallback = 'https://www.linkedin.com/jobs/view/123
     return pageUrlMatch?.[1]?.trim() || fallback;
 }
 
-function loadLinkedInApi(html, url) {
+function loadLinkedInApi(html, url, { includeFormHeuristics = false } = {}) {
     const dom = new JSDOM(html, { pretendToBeVisual: true, url: url || readFixtureUrl(html) });
     const { window } = dom;
 
@@ -97,6 +101,13 @@ function loadLinkedInApi(html, url) {
     globalThis.document = window.document;
     globalThis.HTMLElement = window.HTMLElement;
     globalThis.MouseEvent = window.MouseEvent;
+    globalThis.Event = window.Event;
+    globalThis.InputEvent = window.InputEvent;
+    globalThis.FocusEvent = window.FocusEvent;
+
+    if (includeFormHeuristics) {
+        eval(FORM_HEURISTICS_SCRIPT);
+    }
 
     eval(parserSource);
     eval(easyApplyFieldsSource);
@@ -584,6 +595,97 @@ runCase('SDUI job view page exposes Easy Apply anchor link', async () => {
     const ready = await api.waitForJobDetailReady('4429243381');
     assert.equal(ready.success, true);
 });
+
+function loadDbExportManifest() {
+    if (!existsSync(DB_EXPORT_MANIFEST_PATH)) {
+        return { scenarios: [] };
+    }
+
+    return JSON.parse(readFileSync(DB_EXPORT_MANIFEST_PATH, 'utf8'));
+}
+
+const dbExportManifest = loadDbExportManifest();
+
+runCase('db-export manifest records extension_page_capture IDs for typeahead fixtures', () => {
+    const scenarios = dbExportManifest.scenarios || [];
+
+    assert.ok(scenarios.length >= 1, 'Expected DB-exported LinkedIn typeahead scenarios.');
+
+    for (const scenario of scenarios) {
+        assert.equal(scenario.typeahead_kind, 'location-geo', `${scenario.id}: expected location-geo typeahead`);
+        assert.ok(
+            typeof scenario.extension_page_capture_id === 'number',
+            `${scenario.id}: expected extension_page_capture_id`,
+        );
+        assert.ok(
+            existsSync(join(DB_EXPORT_DIR, scenario.file)),
+            `${scenario.id}: missing db-export fixture ${scenario.file}`,
+        );
+    }
+});
+
+for (const scenario of dbExportManifest.scenarios || []) {
+    try {
+        const html = readFileSync(join(DB_EXPORT_DIR, scenario.file), 'utf8');
+        loadLinkedInApi(html, scenario.page_url || readFixtureUrl(html), { includeFormHeuristics: true });
+        const modal = document.querySelector('.jobs-easy-apply-modal, .artdeco-modal');
+
+        assert.ok(modal, `${scenario.id}: expected Easy Apply modal`);
+
+        const input = window.AutoCVApplyLinkedInEasyApplyFields.findLocationTypeaheadInput(modal);
+
+        assert.ok(input, `${scenario.id}: expected location combobox input`);
+        assert.match(input.id || '', /location-GEO-LOCATION/, `${scenario.id}: expected GEO location input`);
+        assert.ok(
+            input.closest('[data-test-single-typeahead-entity-form-component]'),
+            `${scenario.id}: expected single-typeahead entity component`,
+        );
+        assert.equal(
+            window.AutoCVApplyLinkedInEasyApplyFields.locationTypeaheadNeedsFill(input),
+            true,
+            `${scenario.id}: empty location typeahead should need fill`,
+        );
+
+        const listboxId = `db-export-listbox-${scenario.extension_page_capture_id}`;
+        const listbox = document.createElement('div');
+        listbox.id = listboxId;
+        listbox.setAttribute('role', 'listbox');
+
+        for (const label of [
+            'London, England, United Kingdom',
+            'London, Greater London, United Kingdom',
+        ]) {
+            const option = document.createElement('div');
+            option.setAttribute('role', 'option');
+            option.textContent = label;
+            listbox.appendChild(option);
+        }
+
+        document.body.appendChild(listbox);
+        input.setAttribute('aria-controls', listboxId);
+        input.setAttribute('aria-expanded', 'true');
+
+        const filled = await globalThis.AutoCVApplyFormHeuristics.applyAnswerForTarget(
+            document,
+            input,
+            'select',
+            'London, England, United Kingdom',
+            { root: document },
+        );
+
+        assert.equal(filled, true, `${scenario.id}: expected typeahead option click fill`);
+        assert.match(input.value, /London/i, `${scenario.id}: expected selected location in combobox value`);
+
+        summary.passed += 1;
+        console.log(`ok - db-export typeahead ${scenario.id} (capture ${scenario.extension_page_capture_id})`);
+    } catch (error) {
+        summary.failed += 1;
+        const message = error instanceof Error ? error.message : String(error);
+        summary.errors.push(`db-export typeahead ${scenario.id} (capture ${scenario.extension_page_capture_id}): ${message}`);
+        console.error(`not ok - db-export typeahead ${scenario.id} (capture ${scenario.extension_page_capture_id})`);
+        console.error(`  ${message}`);
+    }
+}
 
 runCase('live SDUI job view capture exposes Easy Apply anchor link', () => {
     const html = readFileSync(
