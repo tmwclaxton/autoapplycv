@@ -98,22 +98,74 @@ export function sanitizeValidationErrors(errors, options = {}) {
  * @param {{ jobTitle?: string, company?: string, capturedAt?: string, roleSearch?: string }} [meta]
  * @returns {string}
  */
+function buildCaptureMetaComments(meta = {}) {
+    const lines = [];
+
+    if (meta.pageUrl) {
+        lines.push(`<!-- page-url: ${String(meta.pageUrl).replace(/-->/g, '')} -->`);
+    }
+
+    if (meta.pageType) {
+        lines.push(`<!-- page-type: ${String(meta.pageType).replace(/-->/g, '')} -->`);
+    }
+
+    if (meta.roleSearch) {
+        lines.push(`<!-- role-search: ${String(meta.roleSearch).replace(/-->/g, '')} -->`);
+    }
+
+    return lines.length > 0 ? `\n    ${lines.join('\n    ')}` : '';
+}
+
+/**
+ * Append capture metadata comments after sanitization so PII redaction cannot corrupt timestamps.
+ *
+ * @param {string} html
+ * @param {{ capturedAt?: string, roleSearch?: string, pageUrl?: string, pageType?: string }} [meta]
+ * @returns {string}
+ */
+export function appendCaptureMetaComments(html, meta = {}) {
+    const capturedAt = meta.capturedAt || new Date().toISOString();
+    const comments = [`<!-- captured-at: ${capturedAt} -->`, buildCaptureMetaComments(meta).trim()].filter(Boolean).join('\n    ');
+
+    if (html.includes('</head>')) {
+        return html.replace('</head>', `    ${comments}\n</head>`);
+    }
+
+    return `${comments}\n${html}`;
+}
+
 export function wrapModalCaptureHtml(modalHtml, meta = {}) {
     const title = [meta.jobTitle, meta.company].filter(Boolean).join(' at ') || 'LinkedIn Easy Apply Capture';
-    const capturedAt = meta.capturedAt || new Date().toISOString();
-    const roleSearchComment = meta.roleSearch
-        ? `\n    <!-- role-search: ${String(meta.roleSearch).replace(/-->/g, '')} -->`
-        : '';
 
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>${title}</title>
-    <!-- captured-at: ${capturedAt} -->${roleSearchComment}
+    <title>${title}</title>${buildCaptureMetaComments(meta)}
 </head>
 <body>
 ${modalHtml}
+</body>
+</html>
+`;
+}
+
+/**
+ * @param {string} bodyHtml
+ * @param {{ jobTitle?: string, company?: string, roleSearch?: string, pageUrl?: string, pageType?: string }} [meta]
+ * @returns {string}
+ */
+export function wrapPageCaptureHtml(bodyHtml, meta = {}) {
+    const title = [meta.jobTitle, meta.company].filter(Boolean).join(' at ') || 'LinkedIn Page Capture';
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>${title}</title>${buildCaptureMetaComments(meta)}
+</head>
+<body>
+${bodyHtml}
 </body>
 </html>
 `;

@@ -34,12 +34,99 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         '.jobs-search-results-list__item',
     ].join(', ');
 
-    const SUBMIT_PATTERN = /\bsubmit\s+application\b/i;
+    const SUBMIT_PATTERN = /\b(submit(?:\s+application)?|send\s+application)\b/i;
     const REVIEW_PATTERN = /\b(review|review your application)\b/i;
     const NEXT_PATTERN = /\b(next|continue)\b/i;
+    const APPLICATION_SENT_PATTERN = /(?:your\s+application\s+was\s+sent|application\s+(?:submitted|sent)|thanks\s+for\s+applying)/i;
+    const STANDALONE_JOB_VIEW_PATTERN = /\/jobs\/view\/(\d+)/;
+
+    const APPLY_BUTTON_SELECTORS = [
+        '.jobs-apply-button--top-card button.jobs-apply-button',
+        '.jobs-apply-button--top-card button',
+        'button.jobs-apply-button--top-card',
+        '.jobs-apply-button--top-card',
+        '.jobs-unified-top-card__buttons button.jobs-apply-button',
+        '.jobs-unified-top-card button.jobs-apply-button',
+        '.jobs-unified-top-card button[aria-label*="Apply"]',
+        '.top-card-layout button.jobs-apply-button',
+        '.top-card-layout button[aria-label*="Apply"]',
+        'button.jobs-apply-button',
+        '.jobs-s-apply button.jobs-apply-button',
+        '.jobs-s-apply button',
+        'button[data-control-name="jobdetails_topcard_inlinemodal_apply"]',
+        'button[data-control-name="jobdetails_topcard_apply"]',
+        'button[data-live-test-job-apply-button]',
+        'button[aria-label*="Easy Apply"]',
+        'button[aria-label*="LinkedIn Apply"]',
+        'button[aria-label*="Apply to"]',
+        'button[aria-label*="Apply"]',
+        'a.jobs-apply-button[href*="openSDUIApplyFlow"]',
+    ];
 
     function normalize(text) {
         return String(text || '').replace(/\s+/g, ' ').trim();
+    }
+
+    function isStandaloneJobViewPage() {
+        return STANDALONE_JOB_VIEW_PATTERN.test(window.location.pathname || '');
+    }
+
+    function readJobIdFromPageUrl() {
+        const match = (window.location.pathname || '').match(STANDALONE_JOB_VIEW_PATTERN);
+
+        return match?.[1] || null;
+    }
+
+    function isEasyApplyButtonLabel(label) {
+        return /\b(easy\s+apply|linkedin\s+apply)\b/i.test(label)
+            || /^apply\b/i.test(label);
+    }
+
+    function readApplyButtonSearchRoot() {
+        if (isStandaloneJobViewPage()) {
+            const standaloneRoots = [
+                '.job-view-layout',
+                '.jobs-unified-top-card',
+                '.jobs-details-top-card',
+                '.top-card-layout',
+                'main.scaffold-layout__main',
+                '.jobs-details',
+                '.jobs-search__job-details',
+            ];
+
+            for (const selector of standaloneRoots) {
+                const node = document.querySelector(selector);
+
+                if (node instanceof HTMLElement) {
+                    return node;
+                }
+            }
+
+            return document.body instanceof HTMLElement ? document.body : document;
+        }
+
+        return readJobDetailRoot();
+    }
+
+    function readApplicationSubmittedConfirmation(modal = readEasyApplyModal()) {
+        if (!modal) {
+            return null;
+        }
+
+        const heading = normalize(readStepSectionTitle(modal) || modal.querySelector('h2')?.textContent || '');
+
+        if (/^application sent$/i.test(heading)) {
+            return heading;
+        }
+
+        const modalText = normalize(modal.textContent || '');
+        const match = modalText.match(APPLICATION_SENT_PATTERN);
+
+        return match?.[0] || null;
+    }
+
+    function isApplicationSuccessScreen(modal = readEasyApplyModal()) {
+        return Boolean(readApplicationSubmittedConfirmation(modal));
     }
 
     function isElementVisible(element) {
@@ -119,11 +206,40 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         const nestedButton = element.querySelector([
             'button.jobs-apply-button',
             'button[aria-label*="Easy Apply"]',
+            'button[aria-label*="LinkedIn Apply"]',
             'button[aria-label*="Apply"]',
             'a.jobs-apply-button',
         ].join(', '));
 
         return nestedButton instanceof HTMLElement ? nestedButton : element;
+    }
+
+    function readApplyButtonFromRoot(root) {
+        for (const selector of APPLY_BUTTON_SELECTORS) {
+            const match = queryVisible(selector, root);
+
+            if (!match) {
+                continue;
+            }
+
+            const button = resolveApplyButtonCandidate(match);
+
+            if (!(button instanceof HTMLElement) || isInsideJobCard(button)) {
+                continue;
+            }
+
+            const label = normalize(button.textContent || button.getAttribute('aria-label') || '');
+
+            if (button.matches('.jobs-apply-button--applied') || (/\bapplied\b/i.test(label) && !isEasyApplyButtonLabel(label))) {
+                continue;
+            }
+
+            if (isElementVisible(button) || button.matches('.jobs-apply-button, a.jobs-apply-button')) {
+                return button;
+            }
+        }
+
+        return null;
     }
 
     function escapeCssIdent(value) {
@@ -261,6 +377,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
     async function waitForJobDetailPanel(jobId, timeoutMs = 12_000) {
         const deadline = Date.now() + timeoutMs;
+        const standaloneJobView = isStandaloneJobViewPage();
+        const pageJobId = readJobIdFromPageUrl();
 
         while (Date.now() < deadline) {
             await acceptCookieConsent().catch(() => {});
@@ -269,6 +387,10 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             const button = readTopCardApplyButton();
 
             if (button && pageReferencesJobId(jobId)) {
+                return { ready: true, button };
+            }
+
+            if (button && standaloneJobView && pageJobId === String(jobId)) {
                 return { ready: true, button };
             }
 
@@ -285,7 +407,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return { ready: true, button };
         }
 
-        return { ready: false, button: null, error: 'Apply button not found on job detail panel.' };
+        const pageLabel = standaloneJobView ? 'job view page' : 'job detail panel';
+
+        return { ready: false, button: null, error: `Apply button not found on ${pageLabel}.` };
     }
 
     async function waitForJobDetailReady(jobId) {
@@ -437,37 +561,15 @@ const AutoCVApplyLinkedInAutoApply = (() => {
     }
 
     function readTopCardApplyButton() {
-        const detailRoot = readJobDetailRoot();
-        const selectors = [
-            '.jobs-apply-button--top-card button.jobs-apply-button',
-            '.jobs-apply-button--top-card button',
-            'button.jobs-apply-button--top-card',
-            '.jobs-apply-button--top-card',
-            'button.jobs-apply-button',
-            '.jobs-s-apply button.jobs-apply-button',
-            '.jobs-s-apply button',
-            'button[data-control-name="jobdetails_topcard_inlinemodal_apply"]',
-            'button[data-control-name="jobdetails_topcard_apply"]',
-            'button[aria-label*="Easy Apply"]',
-            'button[aria-label*="Apply"]',
-        ];
+        const detailRoot = readApplyButtonSearchRoot();
+        const button = readApplyButtonFromRoot(detailRoot);
 
-        for (const selector of selectors) {
-            const match = queryVisible(selector, detailRoot);
+        if (button) {
+            return button;
+        }
 
-            if (!match) {
-                continue;
-            }
-
-            const button = resolveApplyButtonCandidate(match);
-
-            if (!(button instanceof HTMLElement) || isInsideJobCard(button)) {
-                continue;
-            }
-
-            if (isElementVisible(button)) {
-                return button;
-            }
+        if (isStandaloneJobViewPage()) {
+            return readApplyButtonFromRoot(document);
         }
 
         return null;
@@ -522,8 +624,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         return {
             present: true,
             label,
-            easyApply: /\beasy\s+apply\b/i.test(label),
-            alreadyApplied: /\bapplied\b/i.test(label) && !/\beasy\s+apply\b/i.test(label),
+            easyApply: isEasyApplyButtonLabel(label) || button.matches('.jobs-apply-button, a.jobs-apply-button'),
+            alreadyApplied: /\bapplied\b/i.test(label) && !isEasyApplyButtonLabel(label),
             disabled: button.disabled || button.getAttribute('aria-disabled') === 'true',
         };
     }
@@ -620,7 +722,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return {
                 success: false,
                 stage: 'button_missing',
-                error: 'Apply button not found on job detail panel.',
+                error: isStandaloneJobViewPage()
+                    ? 'Apply button not found on job view page.'
+                    : 'Apply button not found on job detail panel.',
             };
         }
 
@@ -709,6 +813,20 @@ const AutoCVApplyLinkedInAutoApply = (() => {
     function findPrimaryActionButton(modal = readEasyApplyModal()) {
         if (!modal) {
             return null;
+        }
+
+        if (isApplicationSuccessScreen(modal)) {
+            const doneButton = readModalFooterButtons(modal)
+                .find((button) => /^done$/i.test(readButtonLabel(button)));
+
+            if (doneButton) {
+                return {
+                    button: doneButton,
+                    action: 'done',
+                    label: readButtonLabel(doneButton),
+                    disabled: isButtonDisabled(doneButton),
+                };
+            }
         }
 
         const buttons = readModalFooterButtons(modal);
@@ -849,8 +967,30 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 open: false,
                 canSubmit: false,
                 canContinue: false,
+                submitted: false,
                 stepLabel: null,
                 stepFingerprint: null,
+                validationErrors: [],
+            };
+        }
+
+        const submittedConfirmation = readApplicationSubmittedConfirmation(modal);
+
+        if (submittedConfirmation) {
+            const primary = findPrimaryActionButton(modal);
+
+            return {
+                open: true,
+                submitted: true,
+                confirmation: submittedConfirmation,
+                canSubmit: false,
+                canContinue: Boolean(primary && primary.action === 'done' && !primary.disabled),
+                stepLabel: readStepSectionTitle(modal) || normalize(modal.querySelector('h2, h3')?.textContent) || null,
+                submitLabel: null,
+                actionLabel: primary?.label || null,
+                action: primary?.action || 'done',
+                actionDisabled: primary?.disabled || false,
+                stepFingerprint: readStepFingerprint(modal),
                 validationErrors: [],
             };
         }
@@ -860,6 +1000,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         return {
             open: true,
+            submitted: false,
             canSubmit: primary?.action === 'submit' && !primary.disabled,
             canContinue: Boolean(primary && primary.action !== 'submit' && !primary.disabled),
             stepLabel: readStepSectionTitle(modal) || normalize(modal.querySelector('h2, h3')?.textContent) || null,
@@ -898,6 +1039,16 @@ const AutoCVApplyLinkedInAutoApply = (() => {
                 return { transitioned: true, closed: true };
             }
 
+            if (isApplicationSuccessScreen(modal)) {
+                return {
+                    transitioned: true,
+                    closed: false,
+                    submitted: true,
+                    stepFingerprint: readStepFingerprint(modal),
+                    confirmation: readApplicationSubmittedConfirmation(modal),
+                };
+            }
+
             await waitForLoadingToSettle(modal, 1000);
 
             const nextFingerprint = readStepFingerprint(modal);
@@ -907,7 +1058,35 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             }
         }
 
+        const modal = readEasyApplyModal();
+
+        if (modal && isApplicationSuccessScreen(modal)) {
+            return {
+                transitioned: true,
+                closed: false,
+                submitted: true,
+                stepFingerprint: readStepFingerprint(modal),
+                confirmation: readApplicationSubmittedConfirmation(modal),
+            };
+        }
+
         return { transitioned: false, closed: false, stepFingerprint: readStepFingerprint() };
+    }
+
+    async function waitForSubmissionConfirmation(timeoutMs = 12_000) {
+        const deadline = Date.now() + timeoutMs;
+
+        while (Date.now() < deadline) {
+            const verify = verifySubmitted();
+
+            if (verify.submitted) {
+                return verify;
+            }
+
+            await sleep(250);
+        }
+
+        return verifySubmitted();
     }
 
     async function clickNextOrSubmit() {
@@ -918,6 +1097,20 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         if (!modal) {
             return { success: false, error: 'Easy Apply modal is not open.' };
+        }
+
+        const existingConfirmation = readApplicationSubmittedConfirmation(modal);
+
+        if (existingConfirmation) {
+            return {
+                success: true,
+                transitioned: true,
+                action: 'done',
+                submitted: true,
+                stepFingerprint: readStepFingerprint(modal),
+                validationErrors: [],
+                confirmation: existingConfirmation,
+            };
         }
 
         await waitForLoadingToSettle(modal);
@@ -945,11 +1138,28 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             };
         }
 
+        if (primary.action === 'done') {
+            clickElement(primary.button);
+            await sleep(500);
+
+            const verify = verifySubmitted();
+
+            return {
+                success: true,
+                transitioned: true,
+                action: primary.action,
+                submitted: verify.submitted,
+                closed: !readEasyApplyModal(),
+                stepFingerprint: readStepFingerprint(),
+                validationErrors: readModalValidationErrors(),
+                confirmation: verify.confirmation || readApplicationSubmittedConfirmation() || null,
+            };
+        }
+
         clickElement(primary.button);
 
         if (primary.action === 'submit') {
-            await sleep(2500);
-            const verify = verifySubmitted();
+            const verify = await waitForSubmissionConfirmation();
 
             return {
                 success: true,
@@ -964,6 +1174,18 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         const transition = await waitForStepTransition(previousFingerprint);
 
+        if (transition.submitted) {
+            return {
+                success: true,
+                transitioned: true,
+                action: primary.action,
+                submitted: true,
+                stepFingerprint: transition.stepFingerprint || readStepFingerprint(),
+                validationErrors: readModalValidationErrors(),
+                confirmation: transition.confirmation || readApplicationSubmittedConfirmation() || null,
+            };
+        }
+
         return {
             success: true,
             transitioned: transition.transitioned || transition.closed,
@@ -977,6 +1199,16 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
     function verifySubmitted() {
         const modal = readEasyApplyModal();
+        const modalConfirmation = readApplicationSubmittedConfirmation(modal);
+
+        if (modalConfirmation) {
+            return {
+                submitted: true,
+                confirmation: modalConfirmation,
+                modalOpen: Boolean(modal),
+            };
+        }
+
         const bodyText = normalize(document.body?.textContent || '');
 
         const successPatterns = [

@@ -25,6 +25,15 @@ class ApplicationDraftTest extends TestCase
         $user = User::factory()->create();
         CvProfile::factory()->for($user)->create([
             'summary' => 'Backend engineer with Laravel experience.',
+            'skills' => [],
+            'experience' => [],
+            'education' => [],
+            'structured_data' => [
+                'languages' => [],
+                'certifications' => [],
+                'projects' => [],
+            ],
+            'application_answers' => [],
         ]);
         $token = $user->createToken('extension')->plainTextToken;
 
@@ -72,6 +81,15 @@ class ApplicationDraftTest extends TestCase
         $user = User::factory()->create();
         CvProfile::factory()->for($user)->create([
             'formatted_cv_text' => 'Alex Developer - Laravel engineer',
+            'skills' => [],
+            'experience' => [],
+            'education' => [],
+            'structured_data' => [
+                'languages' => [],
+                'certifications' => [],
+                'projects' => [],
+            ],
+            'application_answers' => [],
         ]);
         $token = $user->createToken('extension')->plainTextToken;
 

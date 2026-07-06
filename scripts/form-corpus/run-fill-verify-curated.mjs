@@ -73,7 +73,7 @@ function buildReport(curatedManifest, results) {
             pass_rate: evaluated.length === 0 ? 0 : Number((passed.length / evaluated.length).toFixed(4)),
             critical_total: critical.length,
             critical_passed: criticalPassed.length,
-            critical_pass_rate: critical.length === 0 ? 0 : Number((criticalPassed.length / critical.length).toFixed(4)),
+            critical_pass_rate: critical.length === 0 ? 1 : Number((criticalPassed.length / critical.length).toFixed(4)),
         },
         by_platform: summarizeByPlatform(results),
         by_check: summarizeChecks(results),

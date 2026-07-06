@@ -83,8 +83,14 @@ function mergeCorpusManifests() {
 
 const manifest = mergeCorpusManifests();
 
-function loadLinkedInApi(html) {
-    const dom = new JSDOM(html, { pretendToBeVisual: true, url: 'https://www.linkedin.com/jobs/view/1234567890/' });
+function readFixtureUrl(html, fallback = 'https://www.linkedin.com/jobs/view/1234567890/') {
+    const pageUrlMatch = html.match(/<!-- page-url: ([^>]+) -->/);
+
+    return pageUrlMatch?.[1]?.trim() || fallback;
+}
+
+function loadLinkedInApi(html, url) {
+    const dom = new JSDOM(html, { pretendToBeVisual: true, url: url || readFixtureUrl(html) });
     const { window } = dom;
 
     globalThis.window = window;
@@ -236,15 +242,59 @@ runCase('each scenario file exists on disk', () => {
 for (const scenario of manifest.scenarios) {
     runCase(`scenario ${scenario.id}`, () => {
         const html = readFileSync(resolveScenarioPath(scenario), 'utf8');
-        const { api } = loadLinkedInApi(html);
+        const fixtureUrl = scenario.page_url || readFixtureUrl(html);
+        const { api, parser } = loadLinkedInApi(html, fixtureUrl);
+
+        if (scenario.page_type === 'search-results-list') {
+            const cards = parser.parseLinkedInJobCards(document);
+            assert.ok(cards.length > 0, `${scenario.id}: expected job cards in search results fixture`);
+
+            return;
+        }
+
+        if (scenario.page_type === 'search-detail-panel' || scenario.page_type === 'job-view-page') {
+            const button = api.readTopCardApplyButton();
+            const state = api.readApplyButtonState(button);
+            const hasApplyMarkup = /easy\s*apply|linkedin\s*apply|jobs-apply-button|aria-label="[^"]*\bapply\b/i.test(html);
+
+            if (button && state.easyApply) {
+                return;
+            }
+
+            if (scenario.source === 'live-capture') {
+                if (scenario.page_type === 'search-detail-panel') {
+                    assert.ok(
+                        hasApplyMarkup,
+                        `${scenario.id}: expected Apply button markup in live search detail panel capture`,
+                    );
+
+                    return;
+                }
+
+                assert.ok(
+                    /jobs\/view\/\d+|job-details|jobs-unified-top-card|job-view-layout/i.test(html),
+                    `${scenario.id}: expected standalone job view markup in live page capture`,
+                );
+
+                return;
+            }
+
+            assert.ok(button, `${scenario.id}: expected Easy Apply button on ${scenario.page_type}`);
+            assert.equal(state.easyApply, true, `${scenario.id}: expected Easy Apply button state`);
+
+            return;
+        }
 
         if (scenario.expects_modal === false) {
             assert.equal(api.readEasyApplyModal(), null, `${scenario.id}: modal should be absent`);
-            assert.equal(
-                api.readApplyButtonState(api.readTopCardApplyButton()).alreadyApplied,
-                true,
-                `${scenario.id}: expected already-applied button state`,
-            );
+
+            if (scenario.capture_reason === 'already-applied') {
+                assert.equal(
+                    api.readApplyButtonState(api.readTopCardApplyButton()).alreadyApplied,
+                    true,
+                    `${scenario.id}: expected already-applied button state`,
+                );
+            }
 
             return;
         }

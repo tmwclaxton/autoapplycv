@@ -435,7 +435,7 @@ async function openLinkedInJob(tabId, job) {
         // Tab may have been closed; ensureLinkedInTab will recreate it upstream.
     }
 
-    const jobUrl = buildLinkedInJobOpenUrl(job.jobId, { currentUrl });
+    const jobUrl = buildLinkedInJobOpenUrl(job.jobId, { currentUrl, preferJobView: true });
 
     try {
         await chrome.tabs.update(tabId, { url: jobUrl, active: true });
@@ -747,6 +747,11 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
 
         const modalState = await sendLinkedInMessage(tabId, 'LINKEDIN_EASY_APPLY_STATE');
 
+        if (modalState?.submitted) {
+            submitted = true;
+            break;
+        }
+
         if (!modalState?.open) {
             const closedVerify = await sendLinkedInMessage(tabId, 'LINKEDIN_VERIFY_SUBMITTED');
 
@@ -816,6 +821,15 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
         if (advanceResponse?.submitted) {
             submitted = true;
             break;
+        }
+
+        if (advanceResponse?.confirmation) {
+            const postAdvanceVerify = await sendLinkedInMessage(tabId, 'LINKEDIN_VERIFY_SUBMITTED');
+
+            if (postAdvanceVerify?.submitted) {
+                submitted = true;
+                break;
+            }
         }
 
         if (advanceResponse?.action === 'blocked') {

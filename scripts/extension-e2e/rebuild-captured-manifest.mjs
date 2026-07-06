@@ -27,8 +27,10 @@ const autoApplySource = readFileSync(AUTO_APPLY_SCRIPT, 'utf8');
 const easyApplyFieldsSource = readFileSync(FIELDS_SCRIPT, 'utf8');
 const parserSource = readFileSync(PARSER_SCRIPT, 'utf8');
 
-function loadLinkedInApi(html) {
-    const dom = new JSDOM(html, { pretendToBeVisual: true, url: 'https://www.linkedin.com/jobs/view/1234567890/' });
+function loadLinkedInApi(html, url = 'https://www.linkedin.com/jobs/view/1234567890/') {
+    const pageUrlMatch = html.match(/<!-- page-url: ([^>]+) -->/);
+    const resolvedUrl = pageUrlMatch?.[1]?.trim() || url;
+    const dom = new JSDOM(html, { pretendToBeVisual: true, url: resolvedUrl });
     const { window } = dom;
 
     globalThis.window = window;
@@ -97,6 +99,18 @@ function inferSuffix(filename) {
         };
     }
 
+    if (base.endsWith('-search-results-list')) {
+        return { suffix: 'search-results-list', step: null, hasValidationErrors: false, pageType: 'search-results-list' };
+    }
+
+    if (base.endsWith('-search-detail-panel')) {
+        return { suffix: 'search-detail-panel', step: null, hasValidationErrors: false, pageType: 'search-detail-panel' };
+    }
+
+    if (base.endsWith('-job-view-page')) {
+        return { suffix: 'job-view-page', step: null, hasValidationErrors: false, pageType: 'job-view-page' };
+    }
+
     if (base.endsWith('-submitted')) {
         return { suffix: 'submitted', step: null, hasValidationErrors: false, submitted: true };
     }
@@ -130,6 +144,9 @@ function slugFromFilename(filename) {
         .replace(/-step\d+-open$/, '')
         .replace(/-step\d+-validation-errors$/, '')
         .replace(/-step\d+-filled$/, '')
+        .replace(/-search-results-list$/, '')
+        .replace(/-search-detail-panel$/, '')
+        .replace(/-job-view-page$/, '')
         .replace(/-submitted$/, '')
         .replace(/-pre-submit-review$/, '')
         .replace(/-step\d+-review$/, '');
@@ -141,14 +158,19 @@ const scenarios = [];
 for (const file of files) {
     const html = readFileSync(join(CAPTURED_DIR, file), 'utf8');
     const api = loadLinkedInApi(html);
-    const state = api.getEasyApplyModalState();
-    const errors = api.readEasyApplyModalErrors();
+    const modal = api.readEasyApplyModal();
+    const state = modal ? api.getEasyApplyModalState() : {};
+    const errors = modal ? api.readEasyApplyModalErrors() : [];
     const submitted = api.verifySubmitted();
     const meta = inferSuffix(file);
     const { jobTitle, company } = parseTitle(html);
     const slug = slugFromFilename(file);
     const capturedAtMatch = html.match(/<!-- captured-at: ([^>]+) -->/);
     const roleSearchMatch = html.match(/<!-- role-search: ([^>]+) -->/);
+    const pageUrlMatch = html.match(/<!-- page-url: ([^>]+) -->/);
+    const pageTypeMatch = html.match(/<!-- page-type: ([^>]+) -->/);
+    const pageType = meta.pageType || pageTypeMatch?.[1]?.trim() || null;
+    const expectsModal = !pageType;
     const diagnoseFile = file.replace(/\.html$/, '.diagnose.json');
     const diagnosePath = join(CAPTURED_DIR, diagnoseFile);
     const hasDiagnoseFile = existsSync(diagnosePath);
@@ -175,15 +197,17 @@ for (const file of files) {
         step: meta.step,
         step_label: state.stepLabel,
         step_fingerprint: api.readStepFingerprint(),
-        capture_reason: captureReason,
+        capture_reason: pageType || captureReason,
+        page_type: pageType,
+        page_url: pageUrlMatch?.[1]?.trim() || null,
         stuck_reason: stuckReason,
         has_validation_errors: meta.hasValidationErrors || hasHtmlErrorMarkers,
         expects_validation_errors: meta.hasValidationErrors || hasHtmlErrorMarkers,
         expected_errors: sanitizeValidationErrors(errors.slice(0, 3), sanitizeOptions),
-        primary_action: state.action,
-        action_disabled: state.actionDisabled,
+        primary_action: state.action || null,
+        action_disabled: state.actionDisabled || false,
         expects_submitted: Boolean(meta.submitted || submitted.submitted),
-        expects_modal: true,
+        expects_modal: expectsModal,
         captured_at: capturedAtMatch?.[1] || null,
         diagnose_file: hasDiagnoseFile ? diagnoseFile : null,
         notes: `Live capture ${meta.suffix} for ${jobTitle} at ${company}.`,

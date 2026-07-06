@@ -28,7 +28,13 @@ import {
     slugify,
     waitForEasyApplyStepTransition,
 } from './lib/linkedin-e2e-shared.mjs';
-import { sanitizeLinkedInCaptureHtml, sanitizeValidationErrors, wrapModalCaptureHtml } from './lib/sanitize-linkedin-capture.mjs';
+import {
+    appendCaptureMetaComments,
+    sanitizeLinkedInCaptureHtml,
+    sanitizeValidationErrors,
+    wrapModalCaptureHtml,
+    wrapPageCaptureHtml,
+} from './lib/sanitize-linkedin-capture.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const OUTPUT_DIR = join(ROOT, 'tests/fixtures/auto-apply/linkedin/captured');
@@ -44,6 +50,28 @@ const TEST_FILL = {
     text: 'Test response for corpus capture.',
     name: 'Alex Candidate',
 };
+
+const SEARCH_LIST_SELECTORS = [
+    'ul.jobs-search-results__list',
+    '.jobs-search-results-list',
+    '.scaffold-layout__list',
+];
+
+const DETAIL_PANEL_SELECTORS = [
+    '.jobs-search__job-details--container',
+    '.jobs-search__job-details',
+    '.jobs-details__main-content',
+    '.jobs-details',
+    '.scaffold-layout__detail',
+];
+
+const JOB_VIEW_SELECTORS = [
+    '.job-view-layout',
+    '.jobs-unified-top-card',
+    '.jobs-details-top-card',
+    'main.scaffold-layout__main',
+    'main',
+];
 
 const DEFAULT_ROLE_SEARCHES = [
     'software engineer',
@@ -509,9 +537,12 @@ function buildScenarioEntry({
     stuckDiagnostics = null,
     roleSearch = null,
     diagnoseFile = null,
+    pageType = null,
+    pageUrl = null,
+    expectsModal = true,
 }) {
-    const state = diagnostics.state || {};
-    const errors = diagnostics.errors || [];
+    const state = diagnostics?.state || {};
+    const errors = diagnostics?.errors || [];
     const captureReason = inferCaptureReason({
         suffix,
         hasValidationErrors,
@@ -531,22 +562,26 @@ function buildScenarioEntry({
         role_search: roleSearch,
         step: stepNumber,
         step_label: state.stepLabel || null,
-        step_fingerprint: diagnostics.stepFingerprint || null,
-        capture_reason: captureReason,
+        step_fingerprint: diagnostics?.stepFingerprint || null,
+        capture_reason: pageType || captureReason,
+        page_type: pageType,
+        page_url: pageUrl,
         stuck_reason: stuckReason,
         has_validation_errors: hasValidationErrors,
         expects_validation_errors: hasValidationErrors,
         expected_errors: hasValidationErrors ? sanitizeValidationErrors(errors.slice(0, 5), sanitizeOptions) : [],
         primary_action: state.action || null,
         action_disabled: state.actionDisabled || false,
-        expects_submitted: Boolean(diagnostics.submitted?.submitted),
-        expects_modal: true,
+        expects_submitted: Boolean(diagnostics?.submitted?.submitted),
+        expects_modal: expectsModal,
         captured_at: capturedAt,
         stuck_diagnostics: stuckDiagnostics,
         diagnose_file: diagnoseFile,
-        notes: stuckReason
-            ? `Stuck capture (${stuckReason}) on step ${stepNumber} for ${job.title} at ${job.company}.`
-            : `Live capture ${suffix} for ${job.title} at ${job.company}.`,
+        notes: pageType
+            ? `Live page capture (${pageType}) for ${job.title} at ${job.company}.`
+            : stuckReason
+                ? `Stuck capture (${stuckReason}) on step ${stepNumber} for ${job.title} at ${job.company}.`
+                : `Live capture ${suffix} for ${job.title} at ${job.company}.`,
     };
 }
 
@@ -601,10 +636,12 @@ async function saveCapture({
     const wrapped = wrapModalCaptureHtml(modalHtml, {
         jobTitle: job.title,
         company: job.company,
-        capturedAt,
         roleSearch,
     });
-    const sanitized = sanitizeLinkedInCaptureHtml(wrapped, sanitizeOptions);
+    const sanitized = appendCaptureMetaComments(
+        sanitizeLinkedInCaptureHtml(wrapped, sanitizeOptions),
+        { capturedAt, roleSearch },
+    );
     const filePath = join(OUTPUT_DIR, filename);
 
     writeFileSync(filePath, sanitized);
@@ -660,6 +697,264 @@ async function saveCapture({
     return scenario;
 }
 
+async function captureJobViewFragment(page) {
+    return page.evaluate(() => {
+        const api = window.AutoCVApplyLinkedInAutoApply;
+        const button = api?.readTopCardApplyButton?.();
+
+        if (!button) {
+            return null;
+        }
+
+        const root = button.closest(
+            '.job-view-layout, .jobs-unified-top-card, .jobs-details-top-card, main.scaffold-layout__main, main',
+        );
+
+        return root?.outerHTML || button.closest('section')?.outerHTML || null;
+    });
+}
+
+async function capturePageFragment(page, selectors, { pageType = null } = {}) {
+    let fragmentHtml = await page.evaluate((selectorList) => {
+        for (const selector of selectorList) {
+            const node = document.querySelector(selector);
+
+            if (node instanceof HTMLElement) {
+                return node.outerHTML;
+            }
+        }
+
+        return null;
+    }, selectors);
+
+    if (!fragmentHtml && pageType === 'job-view-page') {
+        fragmentHtml = await captureJobViewFragment(page);
+    }
+
+    return fragmentHtml;
+}
+
+async function savePageCapture({
+    page,
+    filename,
+    job,
+    slug,
+    suffix,
+    pageType,
+    selectors,
+    scenarios,
+    capturedFixtures,
+    sanitizeOptions,
+    roleSearch = null,
+    secrets = [],
+    capturedFixturesSet = null,
+    captureKey = null,
+}) {
+    const fragmentHtml = await capturePageFragment(page, selectors, { pageType });
+
+    if (!fragmentHtml) {
+        console.log(`  skip ${filename}: page fragment not found (${pageType})`);
+
+        return null;
+    }
+
+    const capturedAt = new Date().toISOString();
+    const pageUrl = page.url();
+    const wrapped = wrapPageCaptureHtml(fragmentHtml, {
+        jobTitle: job.title,
+        company: job.company,
+        roleSearch,
+        pageUrl,
+        pageType,
+    });
+    const sanitized = appendCaptureMetaComments(
+        sanitizeLinkedInCaptureHtml(wrapped, sanitizeOptions),
+        { capturedAt, roleSearch, pageUrl, pageType },
+    );
+    const filePath = join(OUTPUT_DIR, filename);
+
+    writeFileSync(filePath, sanitized);
+
+    let diagnostics = null;
+
+    try {
+        diagnostics = await readModalDiagnostics(page);
+    } catch {
+        diagnostics = { state: {}, errors: [], submitted: { submitted: false }, stepFingerprint: null };
+    }
+
+    const scenario = buildScenarioEntry({
+        slug,
+        filename,
+        suffix,
+        job,
+        diagnostics,
+        stepNumber: null,
+        hasValidationErrors: false,
+        capturedAt,
+        sanitizeOptions,
+        roleSearch,
+        pageType,
+        pageUrl,
+        expectsModal: false,
+    });
+
+    scenarios.push(scenario);
+    capturedFixtures.push(filename);
+    capturedFixturesSet?.add(captureKey || `${pageType}:${job.jobId}`);
+
+    console.log(`  saved ${filename} (${pageType})`);
+
+    return scenario;
+}
+
+async function openJobInSearchPanel(page, jobId) {
+    const clicked = await page.evaluate((id) => {
+        const selectors = [
+            `[data-occludable-job-id="${CSS.escape(id)}"]`,
+            `[data-job-id="${CSS.escape(id)}"]`,
+            `a[href*="/jobs/view/${CSS.escape(id)}"]`,
+        ];
+
+        for (const selector of selectors) {
+            const match = document.querySelector(selector);
+
+            if (match) {
+                const card = match.closest('li, div.job-card-container, div.job-card-list__entity-lockup') || match;
+                const link = card.querySelector('a[href*="/jobs/view/"]') || card;
+                link.scrollIntoView({ block: 'center' });
+                link.click();
+
+                return true;
+            }
+        }
+
+        return false;
+    }, jobId);
+
+    if (!clicked) {
+        return false;
+    }
+
+    await page.waitForTimeout(2000);
+
+    return true;
+}
+
+async function captureJobPageStates({
+    page,
+    job,
+    slug,
+    scenarios,
+    capturedFixtures,
+    sanitizeOptions,
+    roleSearch,
+    secrets,
+    capturedPageKeys,
+}) {
+    let localFixtures = 0;
+
+    if (roleSearch && !page.url().includes('/jobs/search')) {
+        const searchUrl = buildLinkedInJobSearchUrl(roleSearch, { easyApplyOnly: true });
+        await page.goto(searchUrl, { waitUntil: 'domcontentloaded', timeout: 120_000 });
+        await page.waitForTimeout(1500);
+    }
+
+    await injectLinkedInApi(page);
+    await acceptLinkedInCookieConsent(page).catch(() => {});
+
+    const capturePage = async (suffix, pageType, selectors) => {
+        const key = `${pageType}:${job.jobId}`;
+
+        if (capturedPageKeys.has(key)) {
+            return false;
+        }
+
+        const filename = `${slug}-${suffix}.html`;
+        const saved = await savePageCapture({
+            page,
+            filename,
+            job,
+            slug,
+            suffix,
+            pageType,
+            selectors,
+            scenarios,
+            capturedFixtures,
+            sanitizeOptions,
+            roleSearch,
+            secrets,
+            capturedFixturesSet: capturedPageKeys,
+        });
+
+        if (saved) {
+            localFixtures += 1;
+        }
+
+        return Boolean(saved);
+    };
+
+    const openedInSearch = await openJobInSearchPanel(page, job.jobId);
+
+    if (openedInSearch) {
+        await injectLinkedInApi(page);
+        await capturePage('search-detail-panel', 'search-detail-panel', DETAIL_PANEL_SELECTORS);
+        await rateLimit(page, 1500, 2500);
+    }
+
+    await page.goto(`https://www.linkedin.com/jobs/view/${job.jobId}/`, {
+        waitUntil: 'domcontentloaded',
+        timeout: 60_000,
+    });
+    await page.waitForTimeout(3000);
+    await injectLinkedInApi(page);
+    await acceptLinkedInCookieConsent(page).catch(() => {});
+
+    await page.waitForFunction(() => {
+        const api = window.AutoCVApplyLinkedInAutoApply;
+
+        if (!api) {
+            return false;
+        }
+
+        const button = api.readTopCardApplyButton?.();
+
+        return Boolean(button);
+    }, { timeout: 20_000 }).catch(() => {});
+
+    await capturePage('job-view-page', 'job-view-page', JOB_VIEW_SELECTORS);
+
+    return { localFixtures, openedInSearch };
+}
+
+async function prepareJobDetailPanelForApply(page, job, roleSearch) {
+    if (roleSearch) {
+        const searchUrl = buildLinkedInJobSearchUrl(roleSearch, { easyApplyOnly: true });
+        const url = new URL(searchUrl);
+        url.searchParams.set('currentJobId', job.jobId);
+        await page.goto(url.toString(), { waitUntil: 'domcontentloaded', timeout: 120_000 });
+    } else {
+        const opened = await openJobInSearchPanel(page, job.jobId);
+
+        if (!opened) {
+            await page.goto(`https://www.linkedin.com/jobs/view/${job.jobId}/`, {
+                waitUntil: 'domcontentloaded',
+                timeout: 60_000,
+            });
+        }
+    }
+
+    await page.waitForTimeout(2500);
+    await injectLinkedInApi(page);
+    await acceptLinkedInCookieConsent(page).catch(() => {});
+
+    await page.waitForFunction(() => {
+        const api = window.AutoCVApplyLinkedInAutoApply;
+
+        return Boolean(api?.readTopCardApplyButton?.());
+    }, { timeout: 20_000 }).catch(() => {});
+}
+
 async function fillCurrentStep(page, stepNumber) {
     if (stepNumber === 1) {
         await ensureContactStepReady(page);
@@ -681,6 +976,7 @@ async function captureJobFlow({
     submitCount,
     roleSearch,
     secrets,
+    capturedPageKeys,
 }) {
     const slug = slugify(`${job.title}-${job.company}-${job.jobId}`, 56);
     let modalStep = 1;
@@ -837,9 +1133,19 @@ async function captureJobFlow({
         return { advanced: true, diagnostics };
     };
 
-    await openJobById(page, job.jobId);
-    await injectLinkedInApi(page);
-    await acceptLinkedInCookieConsent(page).catch(() => {});
+    const pageCaptureResult = await captureJobPageStates({
+        page,
+        job,
+        slug,
+        scenarios,
+        capturedFixtures,
+        sanitizeOptions,
+        roleSearch,
+        secrets,
+        capturedPageKeys,
+    });
+    localFixtures += pageCaptureResult.localFixtures;
+    await prepareJobDetailPanelForApply(page, job, roleSearch);
     await dismissSaveApplicationDialog(page).catch(() => {});
     await rateLimit(page, args.delayMinMs, args.delayMaxMs);
 
@@ -969,6 +1275,47 @@ async function goToNextSearchPage(page) {
     return clicked;
 }
 
+async function captureSearchResultsList({
+    page,
+    roleSearch,
+    scenarios,
+    capturedFixtures,
+    sanitizeOptions,
+    capturedPageKeys,
+    secrets,
+}) {
+    const key = `search-results-list:${roleSearch}`;
+
+    if (capturedPageKeys.has(key)) {
+        return null;
+    }
+
+    const cards = await collectJobCards(page);
+    const referenceJob = cards.find((card) => card.easyApply && !card.alreadyApplied) || {
+        jobId: 'search',
+        title: roleSearch,
+        company: 'LinkedIn Search',
+    };
+    const slug = slugify(`${roleSearch}-search-results`, 48);
+
+    return savePageCapture({
+        page,
+        filename: `${slug}-search-results-list.html`,
+        job: referenceJob,
+        slug,
+        suffix: 'search-results-list',
+        pageType: 'search-results-list',
+        selectors: SEARCH_LIST_SELECTORS,
+        scenarios,
+        capturedFixtures,
+        sanitizeOptions,
+        roleSearch,
+        secrets,
+        capturedFixturesSet: capturedPageKeys,
+        captureKey: key,
+    });
+}
+
 async function navigateToRoleSearch(page, roleSearch, delayMinMs, delayMaxMs) {
     const searchUrl = buildLinkedInJobSearchUrl(roleSearch, { easyApplyOnly: true });
     console.log(`\nSearching LinkedIn jobs: "${roleSearch}"`);
@@ -998,6 +1345,7 @@ async function main() {
     const capturedFixtures = [];
     const jobsCaptured = [];
     const submitCount = { value: 0 };
+    const capturedPageKeys = new Set();
 
     const sanitizeOptions = {
         secrets,
@@ -1042,6 +1390,15 @@ async function main() {
         let currentRole = args.roleSearches[roleIndex];
 
         await navigateToRoleSearch(page, currentRole, args.delayMinMs, args.delayMaxMs);
+        await captureSearchResultsList({
+            page,
+            roleSearch: currentRole,
+            scenarios,
+            capturedFixtures,
+            sanitizeOptions,
+            capturedPageKeys,
+            secrets,
+        });
 
         while (
             capturedFixtures.length < args.targetFixtures
@@ -1069,6 +1426,15 @@ async function main() {
                 currentRole = args.roleSearches[roleIndex];
                 searchPage = 0;
                 await navigateToRoleSearch(page, currentRole, args.delayMinMs, args.delayMaxMs);
+                await captureSearchResultsList({
+                    page,
+                    roleSearch: currentRole,
+                    scenarios,
+                    capturedFixtures,
+                    sanitizeOptions,
+                    capturedPageKeys,
+                    secrets,
+                });
                 continue;
             }
 
@@ -1093,6 +1459,7 @@ async function main() {
                         submitCount,
                         roleSearch: currentRole,
                         secrets,
+                        capturedPageKeys,
                     });
 
                     if (result.localFixtures > 0) {
@@ -1146,6 +1513,15 @@ async function main() {
                 currentRole = args.roleSearches[roleIndex];
                 searchPage = 0;
                 await navigateToRoleSearch(page, currentRole, args.delayMinMs, args.delayMaxMs);
+                await captureSearchResultsList({
+                    page,
+                    roleSearch: currentRole,
+                    scenarios,
+                    capturedFixtures,
+                    sanitizeOptions,
+                    capturedPageKeys,
+                    secrets,
+                });
                 continue;
             }
 

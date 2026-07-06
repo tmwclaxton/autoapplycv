@@ -67,6 +67,7 @@ const identityPaths = new Set([
     'full_name.last',
     'email',
     'phone',
+    '_phone_national',
     'city',
     'linkedin_url',
     'website_url',

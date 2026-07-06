@@ -89,17 +89,21 @@ export function isLinkedInJobViewUrl(url) {
 }
 
 /**
- * Prefer split-view search URLs on the jobs search page; otherwise open the job view page.
+ * Prefer the standalone job view page when search cards are unavailable; otherwise keep split-view context.
  *
  * @param {string} jobId
- * @param {{ currentUrl?: string|null }} [options]
+ * @param {{ currentUrl?: string|null, preferJobView?: boolean }} [options]
  * @returns {string}
  */
-export function buildLinkedInJobOpenUrl(jobId, { currentUrl = null } = {}) {
+export function buildLinkedInJobOpenUrl(jobId, { currentUrl = null, preferJobView = false } = {}) {
     const normalizedJobId = String(jobId || '').trim();
 
     if (!normalizedJobId) {
         throw new Error('Job id is required.');
+    }
+
+    if (preferJobView) {
+        return `https://www.linkedin.com/jobs/view/${normalizedJobId}/`;
     }
 
     if (currentUrl && isLinkedInJobsSearchUrl(currentUrl)) {

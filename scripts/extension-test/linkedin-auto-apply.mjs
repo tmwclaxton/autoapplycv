@@ -20,6 +20,8 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const FIXTURE_PATH = join(ROOT, 'tests/fixtures/auto-apply/linkedin-search-results.html');
 const SCROLL_FIXTURE_PATH = join(ROOT, 'tests/fixtures/auto-apply/linkedin-search-results-scroll.html');
 const JOB_DETAIL_FIXTURE_PATH = join(ROOT, 'tests/fixtures/auto-apply/linkedin-job-detail-easy-apply.html');
+const JOB_VIEW_FIXTURE_PATH = join(ROOT, 'tests/fixtures/auto-apply/linkedin-job-view-easy-apply.html');
+const SUCCESS_SUBMITTED_FIXTURE_PATH = join(ROOT, 'tests/fixtures/auto-apply/linkedin/edge-success-submitted.html');
 const AUTO_APPLY_SCRIPT = join(ROOT, 'extension/src/content/linkedin-auto-apply.js');
 const PARSER_SCRIPT = join(ROOT, 'extension/src/content/linkedin-parser.js');
 
@@ -81,6 +83,16 @@ const cases = [
         },
     },
     {
+        name: 'buildLinkedInJobOpenUrl prefers standalone job view when requested',
+        fn: () => {
+            const searchUrl = 'https://www.linkedin.com/jobs/search/?keywords=junior+software+engineer&f_AL=true';
+            const openUrl = buildLinkedInJobOpenUrl('4375167862', { currentUrl: searchUrl, preferJobView: true });
+
+            assert.equal(openUrl, 'https://www.linkedin.com/jobs/view/4375167862/');
+            assert.equal(isLinkedInJobViewUrl(openUrl), true);
+        },
+    },
+    {
         name: 'buildLinkedInJobOpenUrl falls back to job view page',
         fn: () => {
             const openUrl = buildLinkedInJobOpenUrl('4433753816');
@@ -129,6 +141,50 @@ const cases = [
             assert.equal(result.success, true);
             assert.equal(api.readTopCardApplyButton()?.tagName, 'BUTTON');
             assert.match(api.readTopCardApplyButton()?.getAttribute('aria-label') || '', /Easy Apply/i);
+        },
+    },
+    {
+        name: 'waitForJobDetailReady resolves Easy Apply on standalone job view page',
+        fn: async () => {
+            const html = readFileSync(JOB_VIEW_FIXTURE_PATH, 'utf8');
+            const api = loadLinkedInAutoApplyApi(
+                html,
+                'https://www.linkedin.com/jobs/view/4433753816/',
+            );
+
+            const result = await api.waitForJobDetailReady('4433753816');
+            const button = api.readTopCardApplyButton();
+            const state = api.readApplyButtonState(button);
+
+            assert.equal(result.success, true);
+            assert.ok(button, 'expected job view Easy Apply button');
+            assert.equal(state.easyApply, true);
+            assert.match(state.label, /Easy Apply/i);
+        },
+    },
+    {
+        name: 'detects LinkedIn Apply aria-label as Easy Apply on job view page',
+        fn: () => {
+            const html = `
+                <main class="job-view-layout">
+                    <button
+                        type="button"
+                        class="jobs-apply-button artdeco-button"
+                        aria-label="LinkedIn Apply to Software Engineer at Homey"
+                        style="display: inline-block; position: absolute; width: 120px; height: 40px;"
+                    >
+                        Apply
+                    </button>
+                </main>
+            `;
+            const api = loadLinkedInAutoApplyApi(html, 'https://www.linkedin.com/jobs/view/4411223344/');
+            const state = api.readApplyButtonState(api.readTopCardApplyButton());
+
+            assert.equal(state.easyApply, true);
+            assert.match(
+                api.readTopCardApplyButton()?.getAttribute('aria-label') || '',
+                /LinkedIn Apply/i,
+            );
         },
     },
     {
@@ -304,6 +360,51 @@ const cases = [
 
             const result = await api.acceptCookieConsent();
             assert.equal(result.accepted, true);
+        },
+    },
+    {
+        name: 'marks application success screen as submitted',
+        fn: () => {
+            const html = readFileSync(SUCCESS_SUBMITTED_FIXTURE_PATH, 'utf8');
+            const api = loadLinkedInAutoApplyApi(html, 'https://www.linkedin.com/jobs/view/4411111111/');
+            const state = api.getEasyApplyModalState();
+            const verify = api.verifySubmitted();
+
+            assert.equal(state.submitted, true);
+            assert.match(state.confirmation || '', /application sent|application was sent/i);
+            assert.equal(verify.submitted, true);
+        },
+    },
+    {
+        name: 'classifies Submit label as submit action',
+        fn: () => {
+            const contactStepHtml = `
+                <div class="jobs-easy-apply-modal" role="dialog" style="position:fixed; inset:0; display:block;">
+                    <div class="jobs-easy-apply-content"><h3>Contact info</h3>
+                        <input type="text" value="Alex" />
+                    </div>
+                    <footer class="jobs-easy-apply-footer">
+                        <button class="artdeco-button artdeco-button--primary">Submit</button>
+                    </footer>
+                </div>
+            `;
+            const api = loadLinkedInAutoApplyApi(contactStepHtml);
+            const primary = api.findPrimaryActionButton();
+
+            assert.equal(primary?.action, 'submit');
+            assert.match(primary?.label || '', /submit/i);
+        },
+    },
+    {
+        name: 'clickNextOrSubmit returns submitted on success screen without clicking Done',
+        fn: async () => {
+            const html = readFileSync(SUCCESS_SUBMITTED_FIXTURE_PATH, 'utf8');
+            const api = loadLinkedInAutoApplyApi(html, 'https://www.linkedin.com/jobs/view/4411111111/');
+            const result = await api.clickNextOrSubmit();
+
+            assert.equal(result.success, true);
+            assert.equal(result.submitted, true);
+            assert.match(result.confirmation || '', /application was sent|Application sent/i);
         },
     },
 ];

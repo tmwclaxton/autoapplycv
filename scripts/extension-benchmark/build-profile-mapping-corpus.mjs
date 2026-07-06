@@ -142,7 +142,7 @@ function buildHandCraftedScenarios() {
         ['identity-first', 'First name', 'full_name.first'],
         ['identity-last', 'Last name', 'full_name.last'],
         ['identity-email', 'Email address', 'email'],
-        ['identity-phone', 'Mobile phone', 'phone'],
+        ['identity-phone', 'Mobile phone', '_phone_national'],
         ['identity-linkedin', 'LinkedIn profile URL', 'linkedin_url'],
         ['identity-city', 'City', 'city'],
         ['identity-location', 'Current location', 'location'],

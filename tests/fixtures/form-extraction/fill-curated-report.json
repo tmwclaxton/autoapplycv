@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-05T22:52:49.936Z",
+  "generated_at": "2026-07-06T12:33:44.157Z",
   "verify_engine": "jsdom",
   "curated_manifest": "Curated fill verification tier prioritizing platform diversity and verification depth over corpus quantity.",
   "thresholds": {
@@ -7,24 +7,756 @@
     "overall_pass_rate": 1
   },
   "totals": {
-    "scenarios": 1,
-    "evaluated": 0,
-    "passed": 0,
+    "scenarios": 68,
+    "evaluated": 20,
+    "passed": 20,
     "failed": 0,
-    "skipped": 1,
-    "pass_rate": 0,
+    "skipped": 48,
+    "pass_rate": 1,
     "critical_total": 0,
     "critical_passed": 0,
-    "critical_pass_rate": 0
+    "critical_pass_rate": 1
   },
-  "by_platform": {},
-  "by_check": {},
+  "by_platform": {
+    "syn-weird": {
+      "total": 20,
+      "passed": 20,
+      "failed": 0,
+      "critical_total": 0,
+      "critical_passed": 0,
+      "pass_rate": 1,
+      "critical_pass_rate": 0
+    }
+  },
+  "by_check": {
+    "domReadback": {
+      "evaluated": 20,
+      "passed": 20,
+      "failed": 0,
+      "pass_rate": 1
+    },
+    "html5Validity": {
+      "evaluated": 20,
+      "passed": 20,
+      "failed": 0,
+      "pass_rate": 1
+    },
+    "a11yState": {
+      "evaluated": 20,
+      "passed": 20,
+      "failed": 0,
+      "pass_rate": 1
+    },
+    "errorBanner": {
+      "evaluated": 20,
+      "passed": 20,
+      "failed": 0,
+      "pass_rate": 1
+    }
+  },
   "verify_options": {
     "validationCheck": true,
-    "a11yCheck": false,
-    "errorCheck": false
+    "a11yCheck": true,
+    "errorCheck": true
   },
   "results": [
+    {
+      "id": "syn-fw-ashby-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative ashby form (5 fields, radio+textarea+multiStep)",
+      "failures": [],
+      "stack": "ashby",
+      "platform": "ashby",
+      "priority": "critical",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-teamtailor-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative teamtailor form (6 fields, radio+select+textarea)",
+      "failures": [],
+      "stack": "corpus2-teamtailor",
+      "platform": "teamtailor",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-smartrec-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-corpus2 diverse layout representative",
+      "failures": [],
+      "stack": "corpus2-smartrecruiters",
+      "platform": "syn-corpus2",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-fw-dom-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Vanilla DOM form",
+      "failures": [],
+      "stack": "dom",
+      "platform": "syn-fw",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "radio",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-ix-modal-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative syn-ix form (5 fields, textarea)",
+      "failures": [],
+      "stack": "interactive",
+      "platform": "syn-ix",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-013",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "contenteditable div posing as text field",
+      "field_types": [
+        "email",
+        "url"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-038",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-platform",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "react-phone dial code combobox split",
+      "field_types": [
+        "text",
+        "tel",
+        "email",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-015",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "syn-weird additional edge case (3 fields)",
+      "field_types": [
+        "text",
+        "select",
+        "email"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-dropdown-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-mega mega-dropdown representative",
+      "failures": [],
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-fw-wd-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative syn-fw form (4 fields, textarea+multiStep)",
+      "failures": [],
+      "stack": "workday",
+      "platform": "syn-fw",
+      "priority": "critical",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-teamtailor-002",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative teamtailor form (6 fields, radio+select+textarea)",
+      "failures": [],
+      "stack": "corpus2-teamtailor",
+      "platform": "teamtailor",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-smartrec-002",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-corpus2 diverse layout representative",
+      "failures": [],
+      "stack": "corpus2-smartrecruiters",
+      "platform": "syn-corpus2",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-fw-shadow-002",
+      "passed": false,
+      "skipped": true,
+      "reason": "Shadow DOM encapsulation",
+      "failures": [],
+      "stack": "shadow",
+      "platform": "syn-fw",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "radio",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-ix-reveal-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative syn-ix form (5 fields, textarea)",
+      "failures": [],
+      "stack": "interactive",
+      "platform": "syn-ix",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-014",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Fake div role=textbox custom component",
+      "field_types": [
+        "email",
+        "tel"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-003",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-combobox-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-mega mega-combobox representative",
+      "failures": [],
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-next-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-mega mega-next representative",
+      "failures": [],
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-fw-lever-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative lever form (5 fields, textarea+multiStep)",
+      "failures": [],
+      "stack": "lever",
+      "platform": "lever",
+      "priority": "critical",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-bamboohr-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative bamboohr form (5 fields, select+textarea)",
+      "failures": [],
+      "stack": "corpus2-bamboohr",
+      "platform": "bamboohr",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-smartrec-003",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-corpus2 diverse layout representative",
+      "failures": [],
+      "stack": "corpus2-smartrecruiters",
+      "platform": "syn-corpus2",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-fw-wizard-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Multi-step wizard navigation",
+      "failures": [],
+      "stack": "wizard",
+      "platform": "syn-fw",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-ix-date-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative syn-ix form (4 fields, text)",
+      "failures": [],
+      "stack": "interactive",
+      "platform": "syn-ix",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "date"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-019",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Teamtailor-style concatenated label words",
+      "field_types": [
+        "text",
+        "email"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-018",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-conditional-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-mega mega-conditional representative",
+      "failures": [],
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "url",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-grid-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-mega mega-grid representative",
+      "failures": [],
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-workday-006",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative workday form (4 fields, textarea+multiStep)",
+      "failures": [],
+      "stack": "workday",
+      "platform": "workday",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "textarea",
+        "number"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-bamboohr-002",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative bamboohr form (5 fields, select+textarea)",
+      "failures": [],
+      "stack": "corpus2-bamboohr",
+      "platform": "bamboohr",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-smartrec-004",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-corpus2 diverse layout representative",
+      "failures": [],
+      "stack": "corpus2-smartrecruiters",
+      "platform": "syn-corpus2",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
     {
       "id": "syn-ix-fw-001",
       "passed": false,
@@ -40,6 +772,960 @@
         "tel",
         "textarea",
         "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-ix-date-002",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative syn-ix form (4 fields, text)",
+      "failures": [],
+      "stack": "interactive",
+      "platform": "syn-ix",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "date"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-022",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-control",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Custom div dropdown not native select",
+      "field_types": [
+        "text",
+        "email",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-020",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "url",
+        "textarea",
+        "text",
+        "email"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-wizard-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-mega mega-wizard representative",
+      "failures": [],
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-svelte-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-mega mega-svelte representative",
+      "failures": [],
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-workday-007",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative workday form (4 fields, textarea+multiStep)",
+      "failures": [],
+      "stack": "workday",
+      "platform": "workday",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "textarea",
+        "number"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-workable-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative workable form (5 fields, radio+textarea)",
+      "failures": [],
+      "stack": "corpus2-workable",
+      "platform": "workable",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-fw-angular-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Angular reactive form with select + textarea",
+      "failures": [],
+      "stack": "angular",
+      "platform": "syn-fw",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-ix-fw-002",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative syn-ix form (6 fields, select+textarea)",
+      "failures": [],
+      "stack": "interactive",
+      "platform": "syn-ix",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-ix-reveal-002",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative syn-ix form (4 fields, textarea)",
+      "failures": [],
+      "stack": "interactive",
+      "platform": "syn-ix",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-029",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-interaction",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Multi-step wizard with CSS hidden steps",
+      "field_types": [
+        "text",
+        "email",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-035",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-platform",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-shadow-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-mega mega-shadow representative",
+      "failures": [],
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "url"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-workday-008",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative workday form (4 fields, textarea+multiStep)",
+      "failures": [],
+      "stack": "workday",
+      "platform": "workday",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "textarea",
+        "number"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-workable-002",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative workable form (5 fields, radio+textarea)",
+      "failures": [],
+      "stack": "corpus2-workable",
+      "platform": "workable",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-fw-react-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "React controlled inputs baseline",
+      "failures": [],
+      "stack": "react",
+      "platform": "syn-fw",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-ix-dropdown-004",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative syn-ix form (4 fields, select)",
+      "failures": [],
+      "stack": "interactive",
+      "platform": "syn-ix",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-006",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-interaction",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Fields inside closed details accordion",
+      "field_types": [
+        "text",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-030",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-interaction",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Conditional field revealed by radio change",
+      "field_types": [
+        "text",
+        "radio",
+        "textarea",
+        "email"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-039",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-vue-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-mega mega-vue representative",
+      "failures": [],
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-workday-009",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative workday form (4 fields, textarea+multiStep)",
+      "failures": [],
+      "stack": "workday",
+      "platform": "workday",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "textarea",
+        "number"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-icims-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative icims form (5 fields, select+textarea)",
+      "failures": [],
+      "stack": "corpus2-icims",
+      "platform": "icims",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-fw-vue-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Vue v-model binding",
+      "failures": [],
+      "stack": "vue",
+      "platform": "syn-fw",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-ix-combobox-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative syn-ix form (4 fields, select)",
+      "failures": [],
+      "stack": "interactive",
+      "platform": "syn-ix",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-007",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-interaction",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Application form inside native dialog",
+      "field_types": [
+        "text",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-034",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-platform",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Ashby-style yes/no button pair",
+      "field_types": [
+        "text",
+        "email",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-057",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-interaction",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-angular-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-mega mega-angular representative",
+      "failures": [],
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-workday-010",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative workday form (4 fields, textarea+multiStep)",
+      "failures": [],
+      "stack": "workday",
+      "platform": "workday",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "textarea",
+        "number"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-corpus2-icims-002",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative icims form (5 fields, select+textarea)",
+      "failures": [],
+      "stack": "corpus2-icims",
+      "platform": "icims",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-fw-svelte-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "Svelte two-way bind",
+      "failures": [],
+      "stack": "svelte",
+      "platform": "syn-fw",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-ix-combobox-002",
+      "passed": false,
+      "skipped": true,
+      "reason": "Representative syn-ix form (4 fields, select)",
+      "failures": [],
+      "stack": "interactive",
+      "platform": "syn-ix",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-008",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 5,
+          "checked_forms": 2
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-dom",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "Multiple forms - detect job application vs newsletter",
+      "field_types": [
+        "email",
+        "text",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-037",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-platform",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "micro1 Q-label dot separator pattern",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-060",
+      "passed": true,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-interaction",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "text",
+        "email",
+        "textarea"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-date-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-mega mega-date representative",
+      "failures": [],
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "date"
       ],
       "verify_engine": "jsdom"
     }

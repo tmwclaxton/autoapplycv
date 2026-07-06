@@ -33,7 +33,7 @@
 
 <p align="center">
   <strong><a href="https://autocvapply.com">Sign up free at autocvapply.com</a></strong> - upload your CV, connect the extension, fill forms in minutes.<br />
-  <sub>Not an auto-submit bot. You review every field and click Submit yourself.</sub>
+  <sub><strong>LinkedIn Easy Apply:</strong> full end-to-end Auto Apply from the extension sidebar. On other ATS forms, you review every field and click Submit yourself.</sub>
 </p>
 
 ---
@@ -71,9 +71,10 @@ Job applications are a copy-paste endurance test. Workday wants your address. Gr
 | Same generic CV for every posting | **Tailored resume draft** matched to the role |
 | No idea how your CV reads against the JD | **ATS score** with keyword and formatting feedback |
 | Pray comboboxes and wizards don't break mid-form | **2,350-scenario test corpus** - Greenhouse, Ashby, Workday, and more |
-| Submit applications blindly | **You stay in control** - we fill fields; you review and submit |
+| Click through LinkedIn Easy Apply one job at a time | **LinkedIn Easy Apply Auto Apply** - search, open, fill, and submit from the extension sidebar |
+| Submit applications blindly | **You stay in control on ATS forms** - we fill fields; you review and submit |
 
-> AutoCVApply is **not** LinkedIn Easy Apply automation. We do not click Submit on your behalf.
+> **LinkedIn Easy Apply Auto Apply** runs end-to-end: search Easy Apply jobs, open each posting, fill every step, and submit. More platforms coming soon.
 
 ## Who it's for
 
@@ -97,7 +98,9 @@ flowchart LR
     B --> C["✏️ Review profile<br/>Dashboard"]
     C --> D["🔌 Connect extension<br/>API token"]
     D --> E["⚡ Autofill + Draft All<br/>Any ATS · any site"]
+    D --> L["🤖 Auto Apply tab<br/>LinkedIn Easy Apply E2E"]
     E --> F["📝 Cover letters<br/>Tailored resumes · ATS score"]
+    L --> F
 ```
 
 | Step | What happens |
@@ -106,6 +109,146 @@ flowchart LR
 | **2. Check the details** | Tweak anything we missed - summary, visa status, salary expectations, application preferences. |
 | **3. Connect the extension** | Install the Chrome or Firefox extension, paste your connection JSON (`token` + `api_base`) from the dashboard. |
 | **4. Fill and draft** | Autofill fields on any job form. **Draft All** streams AI-written answers for free-text questions, cover letters, and tailored resumes. **You submit when ready.** |
+| **5. Auto Apply (LinkedIn)** | Open the extension sidebar **Auto Apply** tab, run a LinkedIn Easy Apply search, and let the extension open each job, fill every step, and submit. More platforms coming soon. |
+
+## LinkedIn Easy Apply Auto Apply
+
+Full end-to-end applications on LinkedIn Easy Apply - not just field fill:
+
+| Step | What happens |
+|------|--------------|
+| **Search** | Extension runs LinkedIn job search with Easy Apply filters from the sidebar **Auto Apply** tab |
+| **Open** | Each matching job opens in a tab; non-Easy Apply listings are skipped |
+| **Fill** | Contact info, screening questions, and multi-step wizards are filled from your profile |
+| **Submit** | Review and submit buttons are clicked to complete the application |
+
+On Greenhouse, Ashby, Workday, and other ATS platforms, autofill and Draft All still work as before - **you review and click Submit yourself**. More full Auto Apply platforms are on the way.
+
+### Testing
+
+LinkedIn Auto Apply has its own verification pyramid, separate from the 2,350-scenario ATS form corpus. It runs on every push via PHPUnit wrappers and can be exercised locally without a LinkedIn login for most tiers.
+
+```mermaid
+flowchart TB
+    subgraph L1["Layer 1 - Unit (JSDOM / Node)"]
+        U1["linkedin-auto-apply.mjs<br/>search URLs, job cards, modal state"]
+        U2["auto-apply-pause-resume.mjs<br/>blockers + session pause/resume"]
+        U3["auto-apply-activity-visibility.mjs<br/>sidebar activity UI rules"]
+        U4["linkedin-full-flow-report.mjs<br/>E2E report parsing"]
+    end
+
+    subgraph L2["Layer 2 - Offline corpus (JSDOM)"]
+        C["linkedin-easy-apply-corpus.mjs<br/>212+ live captures + 50 synthetic edge cases"]
+    end
+
+    subgraph L3["Layer 3 - Browser offline"]
+        O["linkedin-auto-apply-offline-step.mjs<br/>Playwright + fixture HTML"]
+    end
+
+    subgraph L4["Layer 4 - Live E2E (manual)"]
+        E["linkedin-auto-apply-full-flow.mjs<br/>real LinkedIn session + MV3 extension"]
+    end
+
+    L1 --> L2 --> L3 --> L4
+```
+
+| Tier | Script / test | What it validates | CI |
+|------|---------------|-------------------|-----|
+| **Unit** | `scripts/extension-test/linkedin-auto-apply.mjs` | Search URL building, job card parsing, Easy Apply button state, modal detection, step fingerprints, cookie/save-dialog dismiss | `LinkedInAutoApplyTest` |
+| **Unit** | `auto-apply-pause-resume.mjs`, `auto-apply-activity-visibility.mjs` | Validation blockers, pause/resume session state, sidebar activity panel visibility | Default PHPUnit |
+| **Offline corpus** | `linkedin-easy-apply-corpus.mjs` | Each fixture: modal open/closed, primary actions (Next/Review/Submit), validation errors, submitted confirmation, multi-step flow progression | `LinkedInEasyApplyCorpusTest` |
+| **Browser offline** | `linkedin-auto-apply-offline-step.mjs` | Real Chrome + unpacked extension clicking through a fixture modal step | `LinkedInFullFlowReportTest` (requires `EXTENSION_E2E=1`) |
+| **Live E2E** | `linkedin-auto-apply-full-flow.mjs` | Full orchestrator: search, open jobs, Draft All per step, advance, submit; writes `tests/output/linkedin-auto-apply-full-flow/report.json` | Manual (`LINKEDIN_LIVE_E2E=1`) |
+
+#### Fixtures
+
+| Location | Contents |
+|----------|----------|
+| `tests/fixtures/auto-apply/linkedin/captured/` | **212+ live-captured** LinkedIn HTML files (authoritative regression source) |
+| `tests/fixtures/auto-apply/linkedin/captured-manifest.json` | Metadata per capture: step, `capture_reason`, validation errors, stuck diagnostics |
+| `tests/fixtures/auto-apply/linkedin/` | **50 synthetic** progression flows plus `error-*` and `edge-*` fixtures (fallback when captures are unavailable) |
+| `tests/fixtures/auto-apply/linkedin-search-results*.html` | Search results and job detail page fixtures for card parsing |
+
+See [`tests/fixtures/auto-apply/linkedin/README.md`](tests/fixtures/auto-apply/linkedin/README.md) for capture flags, stuck-step suffixes, and fixture layout.
+
+#### Commands
+
+Run the fast tiers before changing `linkedin-auto-apply.js`, `linkedin-easy-apply-fields.js`, or the auto-apply orchestrator:
+
+```bash
+# Unit tests (search, cards, modal state)
+node scripts/extension-test/linkedin-auto-apply.mjs
+
+# Pause/resume blockers and sidebar activity UI
+npm run test:auto-apply-pause-resume
+npm run test:auto-apply-activity-visibility
+
+# Offline corpus (CI default - prefers live captures)
+npm run test:linkedin-easy-apply-corpus:run -- --captured-only
+
+# Full corpus including synthetic fallback
+npm run test:linkedin-easy-apply-corpus
+
+# PHPUnit wrappers (runs Node scripts above)
+php artisan test --compact tests/Unit/Extension/LinkedInAutoApplyTest.php
+php artisan test --compact tests/Unit/Extension/LinkedInEasyApplyCorpusTest.php
+```
+
+Browser offline step (build extension first):
+
+```bash
+npm run build:extension
+npm run test:linkedin-full-flow:offline-step
+# or via PHPUnit:
+EXTENSION_E2E=1 php artisan test --compact --filter=test_linkedin_auto_apply_offline_step
+```
+
+Live full-flow E2E (requires LinkedIn test account in `.env`):
+
+```bash
+npm run build:extension
+LINKEDIN_LIVE_E2E=1 npm run test:linkedin-full-flow -- --max-jobs=3 --roles="software engineer"
+# or via PHPUnit:
+LINKEDIN_LIVE_E2E=1 php artisan test --compact tests/Feature/Extension/LinkedInAutoApplyFullFlowTest.php
+```
+
+#### Adding live captures
+
+Use a headed Playwright session to grow the offline corpus from real LinkedIn Easy Apply modals:
+
+```bash
+# Credentials in .env only (never commit):
+# LINKEDIN_TEST_EMAIL=...
+# LINKEDIN_TEST_PASSWORD=...
+
+npm run extension-e2e:capture-linkedin-corpus -- --target-fixtures=50 --max-jobs=20 --roles="software engineer,frontend developer"
+```
+
+The capture script logs in, rotates search roles, opens Easy Apply jobs, saves step states (open, filled, validation errors, multi-step review, stuck flows), redacts PII before write, and updates `captured-manifest.json`.
+
+After capture or sanitizer rule changes, re-process fixtures before committing:
+
+```bash
+node scripts/extension-e2e/resanitize-linkedin-captured.mjs
+node scripts/extension-e2e/rebuild-captured-manifest.mjs
+npm run test:linkedin-easy-apply-corpus:run -- --captured-only
+```
+
+#### PII redaction and secret checks
+
+Captured HTML is sanitized on save and can be re-sanitized in bulk:
+
+- Strips `<script>` tags
+- Replaces emails with `candidate@example.com`, phone with `+44 7700 900123`, names with `Alex Candidate`
+- Scrubs `.env` credentials (`LINKEDIN_TEST_EMAIL`, `LINKEDIN_TEST_PASSWORD`) and known API key patterns via `redactSecrets`
+
+Before committing new fixtures:
+
+```bash
+npm run secrets:check-fixtures
+```
+
+Do not paste unredacted live LinkedIn HTML into `tests/fixtures/auto-apply/linkedin/captured/`.
 
 ## Full feature suite
 
@@ -115,6 +258,8 @@ flowchart LR
 | **CV parsing** | Editable profile | Skills, experience, education, summary, application preferences - you control the source of truth |
 | **Autofill** | One-click fill | Profile data stamped onto native inputs, comboboxes, radios, checkboxes, multi-step wizards |
 | **Autofill** | Shadow DOM & iframes | Content scripts traverse embedded ATS widgets other extensions miss |
+| **Auto Apply** | LinkedIn Easy Apply E2E | Sidebar **Auto Apply** tab: search, open jobs, fill steps, submit applications |
+| **Auto Apply** | More platforms soon | Full end-to-end Auto Apply for additional platforms is in development |
 | **Application Assistant** | Field inventory | AI maps the page's questions to fillable refs before drafting |
 | **Application Assistant** | Job context | Extracts title, company, and description from the posting |
 | **Application Assistant** | Draft All | Streams batch answers for unanswered fields (NDJSON) |
@@ -131,6 +276,7 @@ AutoCVApply works on most major ATS and employer career sites - including Workda
 
 | Platform | Coverage | Notes |
 |----------|----------|-------|
+| **LinkedIn Easy Apply** | Full Auto Apply E2E | Search, open, fill, and submit via extension sidebar **Auto Apply** tab |
 | **Ashby** | Curated + smoke + widget checks | Yes/no and checkbox widget scenarios |
 | **Greenhouse** | Curated + smoke | Scraped real boards in corpus |
 | **Lever** | Curated + smoke | Multi-step apply flows |
@@ -199,7 +345,7 @@ Generate a connection from the dashboard and paste it into the extension sidebar
 - **No data selling** - we do not sell personal data. See the full [privacy policy](https://autocvapply.com/privacy).
 - **AI processing** - CV parsing and drafting send text to our NanoGPT provider as needed to extract fields or generate answers. Job context from the page may be included in draft requests.
 - **Open source** - MIT-licensed core. Inspect the extension, backend, and 2,350-scenario test corpus on GitHub.
-- **You submit** - AutoCVApply never auto-clicks Submit Application. Final review is always yours.
+- **You submit on ATS forms** - autofill and Draft All never auto-click Submit on Greenhouse, Ashby, Workday, and similar sites. **LinkedIn Easy Apply Auto Apply** completes submissions end-to-end from the sidebar; other full Auto Apply platforms are coming soon.
 
 ---
 
@@ -508,6 +654,9 @@ Generate a connection from the dashboard (**Copy** includes `token` + `api_base`
 | `npm run form-corpus:visual-regression` | Screenshot baseline compare |
 | `npm run screenshots:readme` | Capture README marketing screenshots (local Playwright) |
 | `npm run form-corpus:build-curated` | Regenerate curated + smoke manifests |
+| `npm run test:linkedin-easy-apply-corpus:run -- --captured-only` | LinkedIn offline corpus (212+ live captures) |
+| `npm run test:linkedin-full-flow` | LinkedIn live E2E (requires `LINKEDIN_LIVE_E2E=1` + credentials) |
+| `npm run extension-e2e:capture-linkedin-corpus` | Capture live LinkedIn Easy Apply HTML for offline tests |
 | `npm run lint:check` | ESLint |
 | `composer lint:check` | Laravel Pint |
 
