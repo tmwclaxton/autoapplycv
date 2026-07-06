@@ -1008,6 +1008,22 @@ const contentMessageListener = (message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'LINKEDIN_VALIDATE_BLOCKED_FIELD') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ open: false, valid: true, validationError: null });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyLinkedInAutoApply.validateBlockedFieldAfterFill({
+                ref: message.ref,
+                label: message.label,
+                dom: message.dom,
+            }));
+
+            return;
+        }
+
         if (message.type === 'LINKEDIN_PREFILL_CONTACT') {
             if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
                 sendResponse({ filled: 0, success: false, skipped: true, errors: [] });

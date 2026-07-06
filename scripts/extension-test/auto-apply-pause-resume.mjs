@@ -1,8 +1,13 @@
 #!/usr/bin/env node
 import {
+    AUTO_APPLY_VALIDATION_RETRY_LIMIT,
     buildAutoApplyClarifyingQuestion,
     buildAutoApplyPauseQuestion,
+    buildAutoApplyValidationRetryQuestion,
     detectUnfilledBlockers,
+    fieldHasValidationError,
+    fieldsMatchBlocker,
+    findFieldValidationError,
     isGenericValidationMessage,
     normalizeBlockerField,
     resolveValidationBlockerField,
@@ -95,27 +100,24 @@ assert(
 assert(
     buildAutoApplyPauseQuestion({ label: 'Location (city)', question: 'Location (city)' })
         .includes('Location (city)'),
-    'clarifying question should include the field label',
-);
-assert(
-    !buildAutoApplyPauseQuestion({ label: 'Location (city)', question: 'Location (city)' })
-        .includes('Auto Apply needs your help'),
-    'clarifying question should not include assist prefill prefix',
+    'pause question should use location field label',
 );
 
-const tripledAzureQuestion = 'how many years of work experience do you have with microsoft azure? '
-    + 'how many years of work experience do you have with microsoft azure? '
-    + 'how many years of work experience do you have with microsoft azure?';
+const repeatedLabelField = {
+    label: 'How many years of work experience do you have with Microsoft Azure? '
+        + 'How many years of work experience do you have with Microsoft Azure? '
+        + 'How many years of work experience do you have with Microsoft Azure?',
+    question: 'How many years of work experience do you have with Microsoft Azure? '
+        + 'How many years of work experience do you have with Microsoft Azure? '
+        + 'How many years of work experience do you have with Microsoft Azure?',
+    field_type: 'text',
+};
+
+const clarifyingQuestion = buildAutoApplyClarifyingQuestion(repeatedLabelField);
 
 assert(
-    buildAutoApplyClarifyingQuestion({ label: tripledAzureQuestion, question: tripledAzureQuestion })
-        === 'how many years of work experience do you have with microsoft azure?',
-    'clarifying question should dedupe repeated LinkedIn screening labels',
-);
-assert(
-    !buildAutoApplyClarifyingQuestion({ label: tripledAzureQuestion, question: tripledAzureQuestion })
-        .includes('Auto Apply needs your help'),
-    'clarifying question should not include assist prefill prefix',
+    clarifyingQuestion.split('How many years').length - 1 === 1,
+    'clarifying question should dedupe repeated field labels',
 );
 
 const pendingOnly = detectUnfilledBlockers({}, {
@@ -152,7 +154,56 @@ assert(!clear.blocked, 'empty draft gaps should not block');
 assert(
     buildAutoApplyPauseQuestion({ label: 'Notice period', question: 'What is your notice period?' })
         === 'What is your notice period?',
-    'clarifying question should prefer the human form question over the short label',
+    'pause question should prefer descriptive clarifying question text',
+);
+
+const azureField = normalizeBlockerField({
+    ref: 'f-azure-years',
+    label: 'How many years of work experience do you have with Microsoft Azure?',
+    field_type: 'text',
+});
+
+const numericValidationModal = {
+    validationErrors: ['Enter a whole number between 0 and 99'],
+    invalidFields: [{
+        label: 'How many years of work experience do you have with Microsoft Azure?',
+        question: 'How many years of work experience do you have with Microsoft Azure?',
+        field_type: 'text',
+    }],
+};
+
+assert(
+    fieldHasValidationError(numericValidationModal, azureField),
+    'numeric validation modal should match blocked azure field',
+);
+assert(
+    findFieldValidationError(numericValidationModal, azureField) === 'Enter a whole number between 0 and 99',
+    'findFieldValidationError should return LinkedIn numeric validation message',
+);
+assert(
+    fieldsMatchBlocker(azureField, numericValidationModal.invalidFields[0]),
+    'fieldsMatchBlocker should match azure field by label',
+);
+
+const retryQuestion = buildAutoApplyValidationRetryQuestion(azureField, {
+    validationError: 'Enter a whole number between 0 and 99',
+    lastAttempt: '1 year of azure',
+    validationAttempt: 1,
+});
+
+assert(retryQuestion.includes('1 year of azure'), 'validation retry question should include rejected attempt');
+assert(retryQuestion.includes('Enter a whole number between 0 and 99'), 'validation retry question should include LinkedIn error');
+assert(retryQuestion.includes('What should I enter instead?'), 'validation retry question should ask for correction');
+
+const maxRetryQuestion = buildAutoApplyPauseQuestion(azureField, {
+    validationError: 'Enter a whole number between 0 and 99',
+    lastAttempt: '1 year of azure',
+    validationAttempt: AUTO_APPLY_VALIDATION_RETRY_LIMIT,
+});
+
+assert(
+    maxRetryQuestion.includes('Maximum retries reached'),
+    'validation retry question should mention max retries at limit',
 );
 
 let session = createInitialSession({

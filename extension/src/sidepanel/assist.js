@@ -137,6 +137,21 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
             throw new Error(response.error);
         }
 
+        if (response?.validationRetry) {
+            if (response.pauseContext) {
+                handleAutoApplyPaused(response.pauseContext);
+            }
+
+            showMessage(
+                response.maxRetriesReached
+                    ? 'Answer rejected. Maximum retries reached - enter a valid answer or stop Auto Apply.'
+                    : 'Answer rejected by LinkedIn validation. Enter a corrected answer in Assist.',
+                'warn',
+            );
+
+            return false;
+        }
+
         clearAutoApplyPauseContext();
         showMessage(response.applied ? 'Answer applied. Resuming Auto Apply…' : 'Answer saved. Resuming Auto Apply…', 'success');
 
@@ -167,15 +182,24 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
             || 'Which answer should Auto Apply use for this required field?';
         const fieldLabel = pauseContext.blockerField?.label || 'a required field';
 
-        inputEl.value = '';
+        if (pauseContext.validationError) {
+            inputEl.value = clarifyingQuestion;
+        } else {
+            inputEl.value = '';
+        }
+
         inputEl.focus();
         scrollMessagesToBottom();
 
+        const assistantMessage = pauseContext.validationError
+            ? clarifyingQuestion
+            : `${clarifyingQuestion}\n\n`
+                + `Auto Apply paused on "${fieldLabel}". `
+                + 'Send your answer here, or use Save & fill in the pending fields section above.';
+
         appendMessage(
             'assistant',
-            `${clarifyingQuestion}\n\n`
-            + `Auto Apply paused on "${fieldLabel}". `
-            + 'Send your answer here, or use Save & fill in the pending fields section above.',
+            assistantMessage,
             {},
             { recordHistory: false },
         );
@@ -193,6 +217,7 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
             || autoApplyPauseContext.questionText
             || '').trim();
         const directAnswer = userContent.startsWith('Auto Apply needs your help:')
+            || userContent.startsWith('Auto Apply needs a corrected answer for')
             || (clarifyingQuestion !== '' && userContent === clarifyingQuestion)
             ? ''
             : userContent;

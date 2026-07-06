@@ -25,6 +25,9 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {string} clarifyingQuestion
  * @property {string} questionText
  * @property {'fill_and_advance'} resumeAt
+ * @property {number} [validationAttempt]
+ * @property {string|null} [lastAttempt]
+ * @property {string|null} [validationError]
  */
 
 /**

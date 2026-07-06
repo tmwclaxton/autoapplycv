@@ -9,7 +9,6 @@ import {
     AUTO_APPLY_VALIDATION_RETRY_LIMIT,
     buildAutoApplyPauseQuestion,
     detectUnfilledBlockers,
-    fieldHasValidationError,
     findFieldValidationError,
     normalizeBlockerField,
 } from './auto-apply-blockers.js';
@@ -97,6 +96,9 @@ function sanitizeSessionForBroadcast(session) {
                 clarifyingQuestion: session.pauseContext.clarifyingQuestion,
                 questionText: session.pauseContext.questionText,
                 resumeAt: session.pauseContext.resumeAt,
+                validationAttempt: session.pauseContext.validationAttempt,
+                lastAttempt: session.pauseContext.lastAttempt,
+                validationError: session.pauseContext.validationError,
             }
             : null,
     };
@@ -704,7 +706,7 @@ async function handleAdvanceValidationRetry(session, tabId, job, modalState, pro
         );
     }
 
-    const pausedSession = await pauseForUserInput(
+    await pauseForUserInput(
         session,
         tabId,
         job,

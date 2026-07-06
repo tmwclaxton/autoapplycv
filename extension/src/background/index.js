@@ -1,5 +1,10 @@
 import { mapApplicationSettingsForAssist } from './application-settings.js';
 import {
+    AUTO_APPLY_VALIDATION_RETRY_LIMIT,
+    fieldHasValidationError,
+    findFieldValidationError,
+} from './auto-apply-blockers.js';
+import {
     configureAutoApplyProfileLoader,
     dismissFinishedAutoApplySession,
     getAutoApplyStatus,
@@ -10,11 +15,6 @@ import {
     startAutoApply,
     stopAutoApply,
 } from './auto-apply-orchestrator.js';
-import {
-    AUTO_APPLY_VALIDATION_RETRY_LIMIT,
-    fieldHasValidationError,
-    findFieldValidationError,
-} from './auto-apply-blockers.js';
 import { loadAutoApplySession } from './auto-apply-session.js';
 import {
     clearConnection,
