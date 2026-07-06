@@ -25,7 +25,7 @@ defineProps<{
         <section>
             <span class="postbox-badge mb-5 inline-flex gap-1.5">
                 <Stamp class="size-3.5" />
-                Source available · Non-commercial use
+                Open source
             </span>
 
             <h1
@@ -49,9 +49,8 @@ defineProps<{
                 class="mt-4 text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
             >
                 Install the browser extension to fill one field or stamp the
-                whole form with Draft All. Review, tweak if needed, and submit.
-                LinkedIn Easy Apply Auto Apply is supported today - more
-                platform support coming soon.
+                whole form with Draft All. Review, tweak if needed, and submit -
+                apply faster without retyping your life story.
             </p>
 
             <div
@@ -138,20 +137,20 @@ defineProps<{
                         <Bot class="size-5 text-postbox-red" />
                     </div>
                     <h3 class="text-base font-bold text-postbox-navy">
-                        Auto Apply
+                        LinkedIn Easy Apply supported today
                     </h3>
                     <p
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
-                        Search, open, fill, and submit end-to-end from the
-                        extension sidebar. LinkedIn Easy Apply is supported
-                        today - more platforms coming soon.
+                        Auto Apply from the extension sidebar on LinkedIn Easy
+                        Apply jobs - search, fill, review, and submit. More
+                        platforms coming soon.
                     </p>
                 </div>
             </div>
         </section>
 
-        <PostboxPlatformBadges class="mt-12" show-auto-apply-platforms />
+        <PostboxPlatformBadges class="mt-12" />
 
         <PostboxDraftAllDemo />
 
