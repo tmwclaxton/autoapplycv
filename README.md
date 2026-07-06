@@ -117,6 +117,7 @@ Job applications are a copy-paste endurance test. Workday wants your address. Gr
 
 - **Save time** - autofill plus AI drafting for the questions that actually slow you down
 - **Stay honest** - answers draw from your profile and preferences, not invented credentials
+- **Sound human, not generic** - Draft All answers are scored on hundreds of scenarios to catch AI tropes, em dashes, and filler while staying grounded in your CV
 - **Trust the engineering** - four-layer fill verification, Playwright smoke tests, and 230 PHPUnit methods
 - **British Postbox UI** - Royal Mail red, navy, warm paper tones. Feels like sending a letter, not filling a spreadsheet
 
@@ -191,11 +192,25 @@ On Greenhouse, Ashby, Workday, and other ATS platforms, autofill and Draft All s
 | **Application Assistant** | Job context | Extracts title, company, and description from the posting |
 | **Application Assistant** | Draft All | Streams batch answers for unanswered fields (NDJSON) |
 | **Application Assistant** | Draft field | Single-field AI answer on demand |
+| **Application Assistant** | Answer quality | Rubric scoring on AI drafts - human tone, profile grounding, banned AI phrases, no em dashes |
 | **Documents** | Cover letter | Job-specific letter from your profile + posting |
 | **Documents** | Tailored resume | Role-matched resume draft |
 | **Documents** | ATS score | Keyword and compatibility feedback against the job description |
 | **Dashboard** | Usage & billing | Monthly autofill allowance, extension connection, GoCardless subscriptions (UK) |
 | **Analytics** | Public aggregate stats | Daily totals across all users - no personal application history exposed |
+
+### Human-sounding AI drafts
+
+Draft All and Quick Answer use AI, but we score generated answers extensively before shipping changes - not just on a handful of demo forms.
+
+| What we check | Why it matters |
+|---------------|----------------|
+| **Grounding** | Real employers, roles, and skills from your profile - not invented credentials |
+| **Human tone** | Banned AI phrases and overused words ("leverage", "proven track record", "I am thrilled to apply") |
+| **Formatting** | No em dashes or markdown - plain text ready to paste into employer forms |
+| **Honesty** | Gaps acknowledged instead of fabricated experience |
+
+Scoring runs across 100+ answer-quality scenarios, 150 real ATS form fixtures, and Assist sidebar test cases. Developer audit commands: `answer-quality:audit`, `assist-answer-quality:audit`, `form-e2e:score` (see [`scripts/extension-benchmark/README.md`](scripts/extension-benchmark/README.md)).
 
 ## Supported platforms
 

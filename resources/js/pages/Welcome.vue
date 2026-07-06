@@ -97,8 +97,10 @@ defineProps<{
                     <p
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
-                        Stamp an entire application in seconds, then review
-                        every field before you click Submit.
+                        Stamp an entire application in seconds. Drafts are
+                        scored for human tone - grounded in your CV, free of em
+                        dashes and stock AI phrases. Review every field before
+                        you click Submit.
                     </p>
                 </div>
 
@@ -134,6 +136,21 @@ defineProps<{
                         Auto Apply from the extension sidebar on LinkedIn Easy
                         Apply jobs - search, fill, review, and submit. More
                         platforms coming soon.
+                    </p>
+                </div>
+
+                <div class="postbox-panel p-4 sm:col-span-2 sm:p-5">
+                    <h3 class="text-base font-bold text-postbox-navy">
+                        Answers that sound like you
+                    </h3>
+                    <p
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
+                        We score AI-generated form answers on hundreds of test
+                        scenarios before shipping changes. That catches em
+                        dashes, common AI words and tropes, and generic filler -
+                        while keeping the speed of automation and grounding
+                        every answer in your profile and CV.
                     </p>
                 </div>
             </div>

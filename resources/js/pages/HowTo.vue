@@ -76,6 +76,27 @@ import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
                     Regenerate your API token if you suspect it has been shared.
                 </li>
             </ul>
+
+            <h2>Draft All answer quality</h2>
+            <p>
+                Free-text answers are written from your profile and the job
+                posting. Behind the scenes we score drafts on hundreds of
+                scenarios - catching em dashes, common AI phrases, and generic
+                filler while keeping answers honest and specific to your CV.
+            </p>
+            <ul>
+                <li>
+                    Grounded in your profile - no invented employers or skills
+                </li>
+                <li>
+                    No em dashes or markdown - plain text ready for employer
+                    forms
+                </li>
+                <li>
+                    AI telltales filtered ("I am thrilled to apply", "proven
+                    track record", and similar stock phrases)
+                </li>
+            </ul>
         </PostboxProse>
 
         <ExtensionDownloadPanel class="mt-8" />
