@@ -12,7 +12,13 @@ export const SUPPORTED_PLATFORMS = [
     'Ashby',
     'SmartRecruiters',
     'Teamtailor',
+    'Oracle',
+    'BambooHR',
+    'Workable',
+    'iCIMS',
     'Indeed',
+    'Trakstar',
+    'WordPress',
     'LinkedIn',
 ] as const;
 
