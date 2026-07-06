@@ -467,7 +467,7 @@ try {
     console.error(`  ${message}`);
 }
 
-runCase('contact info fill clears LinkedIn email and phone country selects', () => {
+try {
     const html = readFileSync(
         join(CAPTURED_DIR, 'senior-ios-engineer-early-4421696840-step1-validation-errors.html'),
         'utf8',
@@ -496,7 +496,7 @@ runCase('contact info fill clears LinkedIn email and phone country selects', () 
         },
     };
 
-    const fillResult = api.prefillContactInfo(profileData);
+    const fillResult = await api.prefillContactInfo(profileData);
 
     assert.equal(fillResult.success, true, `prefill failed: ${fillResult.errors.join('; ')}`);
     assert.ok(fillResult.emailSelected, 'expected email select to be set');
@@ -520,7 +520,16 @@ runCase('contact info fill clears LinkedIn email and phone country selects', () 
         false,
         'email select should not keep error styling after fill',
     );
-});
+
+    summary.passed += 1;
+    console.log('ok - contact info fill clears LinkedIn email and phone country selects');
+} catch (error) {
+    summary.failed += 1;
+    const message = error instanceof Error ? error.message : String(error);
+    summary.errors.push(`contact info fill clears LinkedIn email and phone country selects: ${message}`);
+    console.error('not ok - contact info fill clears LinkedIn email and phone country selects');
+    console.error(`  ${message}`);
+}
 
 runCase('job card resolution finds cards by entity urn and href patterns', () => {
     const html = `
