@@ -89,7 +89,16 @@ class ApplicationFieldInventoryService
 
         $normalized = $this->normalizeInventoryPayload($payload, $elements);
 
-        if ($normalized === null) {
+        if ($normalized['fields'] === [] && $mechanicalFields !== []) {
+            return [
+                'fields' => $mechanicalFields,
+                'complete' => true,
+                'next_actions' => [],
+                'source' => 'mechanical',
+            ];
+        }
+
+        if ($normalized['fields'] === []) {
             return null;
         }
 
@@ -305,10 +314,6 @@ class ApplicationFieldInventoryService
                 'max_chars' => isset($row['max_chars']) ? (int) $row['max_chars'] : $source['max_chars'],
                 'options' => $this->normalizeOptions($row['options'] ?? $source['options']),
             ];
-        }
-
-        if ($fields === []) {
-            return null;
         }
 
         return [

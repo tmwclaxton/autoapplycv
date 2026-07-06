@@ -206,6 +206,69 @@ class ApplicationFieldInventoryTest extends TestCase
             ->assertJsonPath('next_actions', []);
     }
 
+    public function test_inventory_falls_back_to_mechanical_when_llm_returns_no_matching_fields(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create();
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')->once()->andReturn([
+                'fields' => [],
+                'complete' => true,
+                'next_actions' => [],
+                '_usage' => [
+                    'prompt_tokens' => 900,
+                    'completion_tokens' => 20,
+                    'total_tokens' => 920,
+                    'model' => 'openai/gpt-4.1-mini',
+                ],
+            ]);
+        });
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/inventory', [
+                'job' => [
+                    'title' => 'Lead Full Stack Engineer',
+                    'company' => 'Example Ltd',
+                ],
+                'snapshot' => [
+                    'page_url' => 'https://www.linkedin.com/jobs/view/123/easy-apply',
+                    'elements' => [
+                        [
+                            'ref' => 'f0',
+                            'question' => 'Email address',
+                            'field_type' => 'email',
+                        ],
+                        [
+                            'ref' => 'f1',
+                            'question' => 'Phone country code',
+                            'field_type' => 'select',
+                            'options' => ['United Kingdom (+44)', 'United States (+1)'],
+                        ],
+                        [
+                            'ref' => 'f2',
+                            'question' => 'Mobile phone number',
+                            'field_type' => 'tel',
+                        ],
+                    ],
+                    'controls' => [
+                        ['ref' => 'c0', 'name' => 'Next'],
+                    ],
+                ],
+            ])
+            ->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('source', 'mechanical')
+            ->assertJsonPath('fields.0.ref', 'f0')
+            ->assertJsonPath('fields.1.ref', 'f1')
+            ->assertJsonPath('fields.2.ref', 'f2')
+            ->assertJsonPath('complete', true)
+            ->assertJsonPath('autofill_cost', 0);
+
+        $this->assertSame(0, $user->fresh()->ai_tokens_used);
+    }
+
     public function test_inventory_returns_error_when_ai_fails(): void
     {
         $user = User::factory()->create();
