@@ -187,7 +187,7 @@ class ExtensionNanoGptUsageTest extends TestCase
                 ->component('Admin/Dashboard')
                 ->where('nanogpt_usage_stats.total_tokens', 67_100)
                 ->where('nanogpt_usage_stats.period_tokens', 67_100)
-                ->where('nanogpt_usage_stats.period_autofill_cost', 18)
+                ->where('nanogpt_usage_stats.period_credit_cost', 18)
                 ->has('nanogpt_usage_series.series', 30)
                 ->has('nanogpt_usage_by_action', 4)
                 ->where('nanogpt_usage_by_action.0.action', 'assist.draft-all')

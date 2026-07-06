@@ -11,7 +11,7 @@ export interface PricingPlan {
     description: string;
     price: string;
     price_pence: number;
-    monthly_autofills: number;
+    monthly_credits: number;
     features: string[];
     is_paid: boolean;
     is_available: boolean;
@@ -48,7 +48,7 @@ const availablePlans = computed(() =>
     props.plans.filter((plan) => plan.is_available),
 );
 
-function formatAutofills(value: number): string {
+function formatCredits(value: number): string {
     return new Intl.NumberFormat('en-GB').format(value);
 }
 
@@ -136,7 +136,7 @@ function isPlanButtonDisabled(plan: PricingPlan): boolean {
             </p>
 
             <p class="mt-3 text-sm font-medium text-postbox-navy">
-                {{ formatAutofills(plan.monthly_autofills) }} autofills / month
+                {{ formatCredits(plan.monthly_credits) }} credits / month
             </p>
 
             <p

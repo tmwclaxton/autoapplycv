@@ -9,17 +9,28 @@ export interface ExtensionUsageSummary {
 }
 
 interface SubscriptionSummary {
-    autofills_used: number;
-    autofills_remaining: number;
-    monthly_autofills: number;
-    bonus_autofills?: number;
-    total_autofill_allowance?: number;
+    credits_used: number;
+    credits_remaining: number;
+    monthly_credits: number;
+    bonus_credits?: number;
+    total_credit_allowance?: number;
     period_resets_at: string;
+}
+
+interface AiAssistPricingItem {
+    key: string;
+    label: string;
+    credits: number;
+}
+
+interface AiAssistCosts {
+    pricing?: AiAssistPricingItem[];
 }
 
 defineProps<{
     extensionUsage: ExtensionUsageSummary;
     subscription: SubscriptionSummary;
+    aiAssist?: AiAssistCosts | null;
 }>();
 
 function formatNumber(value: number): string {
@@ -47,8 +58,8 @@ function formatDate(value: string): string {
                 <div>
                     <h2 class="postbox-label">Extension usage</h2>
                     <p class="text-sm text-muted-foreground">
-                        Tracked when you auto-fill form fields from the
-                        extension. Resets
+                        Tracked when you fill form fields from the extension.
+                        Resets
                         {{ formatDate(extensionUsage.period_resets_at) }}.
                     </p>
                 </div>
@@ -60,7 +71,7 @@ function formatDate(value: string): string {
                         class="mb-2 flex items-center gap-2 text-sm text-muted-foreground"
                     >
                         <Sparkles class="size-4" />
-                        Fields autofilled this month
+                        Fields filled this month
                     </div>
                     <p class="text-3xl font-semibold tracking-tight">
                         {{ formatNumber(extensionUsage.fields_autofilled) }}
@@ -90,48 +101,72 @@ function formatDate(value: string): string {
         </div>
 
         <div class="postbox-panel p-4 sm:p-6">
-            <h2 class="postbox-label mb-2">AI autofill quota</h2>
+            <h2 class="postbox-label mb-2">AI credits</h2>
             <p class="mb-4 text-sm text-muted-foreground">
-                Used for Quick Answer, draft-all, ATS scoring, cover letters,
-                and tailored resumes in the extension side panel.
+                Used for Assist replies, Draft All, ATS scoring, cover letters,
+                and other extension AI tools.
             </p>
             <div class="flex items-end justify-between gap-4">
                 <div>
                     <p class="text-3xl font-semibold tracking-tight">
-                        {{ formatNumber(subscription.autofills_used) }}
+                        {{ formatNumber(subscription.credits_used) }}
                         <span class="text-lg font-normal text-muted-foreground">
                             /
                             {{
                                 formatNumber(
-                                    subscription.total_autofill_allowance ??
-                                        subscription.monthly_autofills,
+                                    subscription.total_credit_allowance ??
+                                        subscription.monthly_credits,
                                 )
                             }}
                         </span>
                     </p>
                     <p class="mt-1 text-sm text-muted-foreground">
-                        {{ formatNumber(subscription.autofills_remaining) }}
+                        {{ formatNumber(subscription.credits_remaining) }}
                         remaining · resets
                         {{ formatDate(subscription.period_resets_at) }}
                     </p>
                     <p
-                        v-if="(subscription.bonus_autofills ?? 0) > 0"
+                        v-if="(subscription.bonus_credits ?? 0) > 0"
                         class="mt-1 text-xs text-muted-foreground"
                     >
                         Includes
-                        {{ formatNumber(subscription.bonus_autofills ?? 0) }}
-                        bonus autofills on top of your plan allowance.
+                        {{ formatNumber(subscription.bonus_credits ?? 0) }}
+                        bonus credits on top of your plan allowance.
                     </p>
                 </div>
             </div>
+        </div>
+
+        <div
+            v-if="(aiAssist?.pricing?.length ?? 0) > 0"
+            class="postbox-panel p-4 sm:p-6"
+        >
+            <h2 class="postbox-label mb-2">Credit prices</h2>
+            <p class="mb-4 text-sm text-muted-foreground">
+                Different extension AI actions use different amounts of your
+                monthly credits.
+            </p>
+            <ul class="space-y-2 text-sm">
+                <li
+                    v-for="item in aiAssist?.pricing ?? []"
+                    :key="item.key"
+                    class="flex items-center justify-between gap-4 border-b border-border/50 pb-2 last:border-b-0 last:pb-0"
+                >
+                    <span class="text-postbox-navy">{{ item.label }}</span>
+                    <span class="font-medium text-postbox-navy">
+                        {{ formatNumber(item.credits) }}
+                        {{ item.credits === 1 ? 'credit' : 'credits' }}
+                    </span>
+                </li>
+            </ul>
         </div>
 
         <div class="postbox-panel p-4 sm:p-6">
             <h2 class="postbox-label mb-2">AI tools in the extension</h2>
             <p class="text-sm text-muted-foreground">
                 Open the sidebar on any job page. Use Assist for form drafting,
-                or the ATS, Cover, and Resume tabs for AI tools. Set your
-                preferences on the dashboard Preferences tab.
+                or the ATS and Cover tabs for AI tools. Set your preferences on
+                the dashboard Preferences tab.
             </p>
         </div>
     </div>

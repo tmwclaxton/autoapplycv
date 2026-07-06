@@ -497,7 +497,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'RECORD_AUTOFILL') {
-        recordAutofill(message.count).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
+        recordCreditUsage(message.count).then(sendResponse).catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -2198,7 +2198,7 @@ async function postAssist(path, body) {
             cachedProfile.subscription = data.subscription;
         }
 
-        throw new Error(data.error || 'Autofill limit reached');
+        throw new Error(data.error || 'Credit limit reached');
     }
 
     if (!response.ok) {
@@ -2356,11 +2356,11 @@ function buildPatchBody(path, value) {
     return body;
 }
 
-async function recordAutofill(count) {
+async function recordCreditUsage(count) {
     const apiToken = await getApiToken();
     const apiBase = await getStoredApiBase();
 
-    const response = await fetch(`${apiBase}/api/autofill`, {
+    const response = await fetch(`${apiBase}/api/credits`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${apiToken}`,
@@ -2377,11 +2377,11 @@ async function recordAutofill(count) {
             cachedProfile.subscription = data.subscription;
         }
 
-        throw new Error(data.error || 'Autofill limit reached');
+        throw new Error(data.error || 'Credit limit reached');
     }
 
     if (!response.ok) {
-        throw new Error(data.error || 'Failed to record autofill');
+        throw new Error(data.error || 'Failed to record credit usage');
     }
 
     if (cachedProfile) {

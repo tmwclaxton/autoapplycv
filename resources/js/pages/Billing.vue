@@ -4,12 +4,12 @@ import { computed } from 'vue';
 import PostboxPricingTiers from '@/components/postbox/PostboxPricingTiers.vue';
 import type { PricingPlan } from '@/components/postbox/PostboxPricingTiers.vue';
 import { useConfirm } from '@/composables/useConfirm';
-import { autofillNotice } from '@/lib/autofillNotice';
+import { creditNotice } from '@/lib/creditNotice';
 import { dashboard } from '@/routes';
 import billingRoutes from '@/routes/billing';
 
 setLayoutProps({
-    tagline: 'Extension autofills reset monthly.',
+    tagline: 'Extension credits reset monthly.',
 });
 
 interface SubscriptionSummary {
@@ -23,13 +23,13 @@ interface SubscriptionSummary {
     status_label: string;
     plan_description: string;
     features: string[];
-    monthly_autofills: number;
-    bonus_autofills?: number;
-    total_autofill_allowance?: number;
-    autofills_used: number;
-    autofills_remaining: number;
-    can_autofill: boolean;
-    autofill_block_reason?: string | null;
+    monthly_credits: number;
+    bonus_credits?: number;
+    total_credit_allowance?: number;
+    credits_used: number;
+    credits_remaining: number;
+    can_use_credits: boolean;
+    credit_block_reason?: string | null;
     checkout_in_progress: boolean;
     setup_incomplete: boolean;
     can_resume_checkout: boolean;
@@ -67,8 +67,8 @@ const flashError = computed(
 
 const usageAllowance = computed(
     () =>
-        props.subscription.total_autofill_allowance ??
-        props.subscription.monthly_autofills,
+        props.subscription.total_credit_allowance ??
+        props.subscription.monthly_credits,
 );
 
 const usagePercent = computed(() => {
@@ -79,7 +79,7 @@ const usagePercent = computed(() => {
     return Math.min(
         100,
         Math.round(
-            (props.subscription.autofills_used / usageAllowance.value) * 100,
+            (props.subscription.credits_used / usageAllowance.value) * 100,
         ),
     );
 });
@@ -109,9 +109,7 @@ function resumeCheckout(): void {
     router.post(billingRoutes.checkout.url(), { tier });
 }
 
-const autofillNoticeMessage = computed(() =>
-    autofillNotice(props.subscription),
-);
+const creditNoticeMessage = computed(() => creditNotice(props.subscription));
 
 const { confirm } = useConfirm();
 
@@ -127,7 +125,7 @@ function formatDate(value: string | null): string {
     });
 }
 
-function formatAutofills(value: number): string {
+function formatCredits(value: number): string {
     return new Intl.NumberFormat('en-GB').format(value);
 }
 
@@ -173,7 +171,7 @@ async function cancelSubscription(): Promise<void> {
         </h1>
         <p class="mt-1 text-sm text-muted-foreground">
             CV upload and profile editing are free. Plans differ by monthly
-            extension autofill allowance.
+            extension credit allowance.
         </p>
     </div>
 
@@ -221,7 +219,7 @@ async function cancelSubscription(): Promise<void> {
                 </p>
             </div>
             <div class="text-sm text-muted-foreground sm:text-right">
-                Autofills reset
+                Credits reset
                 {{ formatDate(subscription.period_resets_at) }}
             </div>
         </div>
@@ -229,11 +227,11 @@ async function cancelSubscription(): Promise<void> {
         <div class="mt-6">
             <div class="mb-2 flex justify-between text-sm">
                 <span class="font-medium text-postbox-navy">
-                    {{ formatAutofills(subscription.autofills_used) }}
+                    {{ formatCredits(subscription.credits_used) }}
                     used
                 </span>
                 <span class="text-muted-foreground">
-                    {{ formatAutofills(usageAllowance) }}
+                    {{ formatCredits(usageAllowance) }}
                     available
                 </span>
             </div>
@@ -244,24 +242,24 @@ async function cancelSubscription(): Promise<void> {
                 />
             </div>
             <p class="mt-2 text-sm text-muted-foreground">
-                {{ formatAutofills(subscription.autofills_remaining) }}
-                autofills remaining this month.
+                {{ formatCredits(subscription.credits_remaining) }}
+                credits remaining this month.
             </p>
             <p
-                v-if="(subscription.bonus_autofills ?? 0) > 0"
+                v-if="(subscription.bonus_credits ?? 0) > 0"
                 class="mt-1 text-xs text-muted-foreground"
             >
                 Includes
-                {{ formatAutofills(subscription.bonus_autofills ?? 0) }}
-                bonus autofills on top of your plan allowance.
+                {{ formatCredits(subscription.bonus_credits ?? 0) }}
+                bonus credits on top of your plan allowance.
             </p>
         </div>
 
         <p
-            v-if="autofillNoticeMessage"
+            v-if="creditNoticeMessage"
             class="mt-4 rounded-md border border-postbox-red/30 bg-postbox-red/5 p-3 text-sm text-postbox-navy"
         >
-            {{ autofillNoticeMessage }}
+            {{ creditNoticeMessage }}
         </p>
 
         <button

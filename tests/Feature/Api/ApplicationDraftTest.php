@@ -66,7 +66,7 @@ class ApplicationDraftTest extends TestCase
             ->assertOk()
             ->assertJsonPath('success', true)
             ->assertJsonPath('answer', 'I enjoy building reliable systems.')
-            ->assertJsonPath('autofill_cost', 1);
+            ->assertJsonPath('credit_cost', 1);
 
         $this->assertSame(1, $user->fresh()->ai_tokens_used);
     }

@@ -475,10 +475,10 @@ async function runFullFill() {
         return { ok: false, message: '⚠ Sign in to AutoCVApply first' };
     }
 
-    const remaining = profile.subscription?.autofills_remaining ?? 0;
+    const remaining = profile.subscription?.credits_remaining ?? 0;
 
-    if (remaining <= 0 || profile.subscription?.can_autofill === false) {
-        contentLog('warn', 'draft-all.start', 'Autofill limit reached', { remaining });
+    if (remaining <= 0 || profile.subscription?.can_use_credits === false) {
+        contentLog('warn', 'draft-all.start', 'Credit limit reached', { remaining });
 
         return { ok: false, message: '⚠ Monthly limit reached' };
     }

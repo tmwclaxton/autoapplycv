@@ -91,12 +91,12 @@ class ExtensionNanoGptUsageService
                 'total_tokens' => (int) ($totals->total_tokens ?? 0),
                 'total_prompt_tokens' => (int) ($totals->prompt_tokens ?? 0),
                 'total_completion_tokens' => (int) ($totals->completion_tokens ?? 0),
-                'total_autofill_cost' => (int) ($totals->autofill_cost ?? 0),
+                'total_credit_cost' => (int) ($totals->autofill_cost ?? 0),
                 'total_nanogpt_credits' => round((float) ($totals->nanogpt_credits ?? 0), 4),
                 'period_tokens' => (int) ($periodTotals->total_tokens ?? 0),
                 'period_prompt_tokens' => (int) ($periodTotals->prompt_tokens ?? 0),
                 'period_completion_tokens' => (int) ($periodTotals->completion_tokens ?? 0),
-                'period_autofill_cost' => (int) ($periodTotals->autofill_cost ?? 0),
+                'period_credit_cost' => (int) ($periodTotals->autofill_cost ?? 0),
                 'period_nanogpt_credits' => round((float) ($periodTotals->nanogpt_credits ?? 0), 4),
                 'active_extension_ai_users' => (int) ($periodTotals->active_users ?? 0),
                 'tokens_today' => (int) ExtensionNanoGptUsage::query()
@@ -117,7 +117,7 @@ class ExtensionNanoGptUsageService
      *     action: string,
      *     label: string,
      *     api_calls: int,
-     *     autofill_cost: int,
+     *     credit_cost: int,
      *     total_tokens: int,
      * }>
      */
@@ -140,7 +140,7 @@ class ExtensionNanoGptUsageService
                     'action' => $action,
                     'label' => $this->actionLabel($action),
                     'api_calls' => (int) $row->api_calls,
-                    'autofill_cost' => (int) $row->autofill_cost,
+                    'credit_cost' => (int) $row->autofill_cost,
                     'total_tokens' => (int) $row->total_tokens,
                 ];
             })
@@ -199,7 +199,7 @@ class ExtensionNanoGptUsageService
                     'total_tokens' => $totalTokens,
                     'prompt_tokens' => (int) $row->prompt_tokens,
                     'completion_tokens' => (int) $row->completion_tokens,
-                    'autofill_cost' => (int) $row->autofill_cost,
+                    'credit_cost' => (int) $row->autofill_cost,
                     'nanogpt_credits' => round((float) $row->nanogpt_credits, 4),
                     'api_calls' => (int) $row->api_calls,
                     'is_power_user' => $totalTokens >= $threshold,

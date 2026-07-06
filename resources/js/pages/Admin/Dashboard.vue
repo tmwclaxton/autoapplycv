@@ -107,23 +107,23 @@ interface CreditUserSummary {
     email: string;
     subscription_tier: string;
     subscription_status: string;
-    monthly_autofills: number;
-    bonus_autofills: number;
-    total_autofill_allowance: number;
-    autofills_used: number;
-    autofills_remaining: number;
+    monthly_credits: number;
+    bonus_credits: number;
+    total_credit_allowance: number;
+    credits_used: number;
+    credits_remaining: number;
 }
 
 interface NanoGptUsageStats {
     total_tokens: number;
     total_prompt_tokens: number;
     total_completion_tokens: number;
-    total_autofill_cost: number;
+    total_credit_cost: number;
     total_nanogpt_credits: number;
     period_tokens: number;
     period_prompt_tokens: number;
     period_completion_tokens: number;
-    period_autofill_cost: number;
+    period_credit_cost: number;
     period_nanogpt_credits: number;
     active_extension_ai_users: number;
     tokens_today: number;
@@ -164,7 +164,7 @@ interface PowerUser {
     total_tokens: number;
     prompt_tokens: number;
     completion_tokens: number;
-    autofill_cost: number;
+    credit_cost: number;
     nanogpt_credits: number;
     api_calls: number;
     is_power_user: boolean;
@@ -174,7 +174,7 @@ interface NanoGptUsageByAction {
     action: string;
     label: string;
     api_calls: number;
-    autofill_cost: number;
+    credit_cost: number;
     total_tokens: number;
 }
 
@@ -1404,11 +1404,9 @@ function autoApplySessionStatusClass(status: string): string {
                     </p>
                     <p class="mt-1 text-xs text-muted-foreground">
                         {{
-                            formatNumber(
-                                nanogpt_usage_stats.period_autofill_cost,
-                            )
+                            formatNumber(nanogpt_usage_stats.period_credit_cost)
                         }}
-                        autofills charged
+                        credits charged
                     </p>
                 </div>
 
@@ -1507,7 +1505,7 @@ function autoApplySessionStatusClass(status: string): string {
                             <tr>
                                 <th class="px-5 py-3 font-medium">Action</th>
                                 <th class="px-5 py-3 font-medium">Calls</th>
-                                <th class="px-5 py-3 font-medium">Autofills</th>
+                                <th class="px-5 py-3 font-medium">Credits</th>
                                 <th class="px-5 py-3 font-medium">Tokens</th>
                             </tr>
                         </thead>
@@ -1526,7 +1524,7 @@ function autoApplySessionStatusClass(status: string): string {
                                     {{ formatNumber(row.api_calls) }}
                                 </td>
                                 <td class="px-5 py-3 whitespace-nowrap">
-                                    {{ formatNumber(row.autofill_cost) }}
+                                    {{ formatNumber(row.credit_cost) }}
                                 </td>
                                 <td class="px-5 py-3 whitespace-nowrap">
                                     {{ formatNumber(row.total_tokens) }}
@@ -1554,7 +1552,7 @@ function autoApplySessionStatusClass(status: string): string {
                             <tr>
                                 <th class="px-5 py-3 font-medium">User</th>
                                 <th class="px-5 py-3 font-medium">Tokens</th>
-                                <th class="px-5 py-3 font-medium">Autofills</th>
+                                <th class="px-5 py-3 font-medium">Credits</th>
                                 <th class="px-5 py-3 font-medium">Credits</th>
                                 <th class="px-5 py-3 font-medium">Calls</th>
                             </tr>
@@ -1588,7 +1586,7 @@ function autoApplySessionStatusClass(status: string): string {
                                     {{ formatNumber(user.total_tokens) }}
                                 </td>
                                 <td class="px-5 py-3 whitespace-nowrap">
-                                    {{ formatNumber(user.autofill_cost) }}
+                                    {{ formatNumber(user.credit_cost) }}
                                 </td>
                                 <td class="px-5 py-3 whitespace-nowrap">
                                     {{ user.nanogpt_credits.toFixed(4) }}
@@ -1629,7 +1627,7 @@ function autoApplySessionStatusClass(status: string): string {
                             Award credit package
                         </h2>
                         <p class="mt-1 text-sm text-muted-foreground">
-                            Grant bonus autofills so a user can use AI tools
+                            Grant bonus credits so a user can use AI tools
                             without upgrading their plan.
                         </p>
                     </div>
@@ -1692,18 +1690,16 @@ function autoApplySessionStatusClass(status: string): string {
                         <div>
                             <p class="text-xs text-muted-foreground">Usage</p>
                             <p class="font-medium text-postbox-navy">
-                                {{ formatNumber(lookupUser.autofills_used) }}
+                                {{ formatNumber(lookupUser.credits_used) }}
                                 /
                                 {{
                                     formatNumber(
-                                        lookupUser.total_autofill_allowance,
+                                        lookupUser.total_credit_allowance,
                                     )
                                 }}
                             </p>
                             <p class="text-xs text-muted-foreground">
-                                {{
-                                    formatNumber(lookupUser.autofills_remaining)
-                                }}
+                                {{ formatNumber(lookupUser.credits_remaining) }}
                                 remaining
                             </p>
                         </div>
@@ -1712,10 +1708,10 @@ function autoApplySessionStatusClass(status: string): string {
                                 Bonus balance
                             </p>
                             <p class="font-medium text-postbox-navy">
-                                {{ formatNumber(lookupUser.bonus_autofills) }}
+                                {{ formatNumber(lookupUser.bonus_credits) }}
                             </p>
                             <p class="text-xs text-muted-foreground">
-                                {{ formatNumber(lookupUser.monthly_autofills) }}
+                                {{ formatNumber(lookupUser.monthly_credits) }}
                                 plan allowance/mo
                             </p>
                         </div>
@@ -1753,7 +1749,7 @@ function autoApplySessionStatusClass(status: string): string {
                                 for="credit-award-amount"
                                 class="postbox-label"
                             >
-                                Autofills to award
+                                Credits to award
                             </label>
                             <input
                                 id="credit-award-amount"
@@ -1921,10 +1917,8 @@ function autoApplySessionStatusClass(status: string): string {
                                     </div>
                                     <div class="text-xs text-muted-foreground">
                                         {{ plan.price }} ·
-                                        {{
-                                            formatNumber(plan.monthly_autofills)
-                                        }}
-                                        autofills/mo
+                                        {{ formatNumber(plan.monthly_credits) }}
+                                        credits/mo
                                     </div>
                                 </div>
                                 <div class="text-right">

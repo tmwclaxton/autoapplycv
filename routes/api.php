@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ApplicationAssistantController;
-use App\Http\Controllers\Api\AutofillController;
+use App\Http\Controllers\Api\CreditUsageController;
 use App\Http\Controllers\Api\ExtensionAutoApplyController;
 use App\Http\Controllers\Api\ExtensionCvUploadController;
 use App\Http\Controllers\Api\ExtensionPageCaptureController;
@@ -17,7 +17,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/profile/documents', [ExtensionProfileDocumentController::class, 'store'])->name('api.profile.documents.store');
     Route::delete('/profile/documents/{profileDocument}', [ExtensionProfileDocumentController::class, 'destroy'])->name('api.profile.documents.destroy');
     Route::get('/profile/documents/{profileDocument}/download', [ExtensionProfileDocumentController::class, 'download'])->name('api.profile.documents.download');
-    Route::post('/autofill', [AutofillController::class, 'store'])->name('api.autofill');
+    Route::post('/credits', [CreditUsageController::class, 'store'])->name('api.credits');
     Route::post('/extension/page-captures', [ExtensionPageCaptureController::class, 'store'])->name('api.extension.page-captures.store');
     Route::post('/extension/auto-apply/sessions', [ExtensionAutoApplyController::class, 'storeSession'])->name('api.extension.auto-apply.sessions.store');
     Route::patch('/extension/auto-apply/sessions/{extensionAutoApplySession}', [ExtensionAutoApplyController::class, 'updateSession'])->name('api.extension.auto-apply.sessions.update');

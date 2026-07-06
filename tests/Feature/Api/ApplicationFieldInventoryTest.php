@@ -67,7 +67,7 @@ class ApplicationFieldInventoryTest extends TestCase
             ->assertJsonPath('fields.2.question', 'Why do you want this role?')
             ->assertJsonPath('complete', true)
             ->assertJsonPath('source', 'mechanical')
-            ->assertJsonPath('autofill_cost', 0);
+            ->assertJsonPath('credit_cost', 0);
 
         $this->assertSame(0, $user->fresh()->ai_tokens_used);
     }
@@ -123,7 +123,7 @@ class ApplicationFieldInventoryTest extends TestCase
             ->assertOk()
             ->assertJsonPath('source', 'llm')
             ->assertJsonPath('usage.total_tokens', 1280)
-            ->assertJsonPath('autofill_cost', 1);
+            ->assertJsonPath('credit_cost', 1);
 
         $this->assertSame(1, $user->fresh()->ai_tokens_used);
     }
@@ -264,7 +264,7 @@ class ApplicationFieldInventoryTest extends TestCase
             ->assertJsonPath('fields.1.ref', 'f1')
             ->assertJsonPath('fields.2.ref', 'f2')
             ->assertJsonPath('complete', true)
-            ->assertJsonPath('autofill_cost', 0);
+            ->assertJsonPath('credit_cost', 0);
 
         $this->assertSame(0, $user->fresh()->ai_tokens_used);
     }

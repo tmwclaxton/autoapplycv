@@ -23,15 +23,15 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
 <template>
     <Head title="Pricing - AutoCVApply" />
 
-    <PostboxMarketingLayout tagline="Pay for autofill. Setup is free.">
+    <PostboxMarketingLayout tagline="Pay for credits. Setup is free.">
         <template #nav>
             <PostboxMarketingNav />
         </template>
 
         <PostboxPageHeader
             badge="Pricing"
-            title="Plans built around extension autofills."
-            description="Upload your CV and build your profile for free. You only need a paid plan when you want more monthly autofills on supported job sites."
+            title="Plans built around extension credits."
+            description="Upload your CV and build your profile for free. You only need a paid plan when you want more monthly credits for AI tools on supported job sites."
         />
 
         <PostboxPricingTiers
@@ -47,12 +47,13 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                     <Zap class="size-5 text-postbox-red" />
                 </div>
                 <h2 class="text-lg font-bold text-postbox-navy">
-                    What counts as an autofill?
+                    What uses credits?
                 </h2>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    Each form input the extension successfully fills on a
-                    supported job site uses one autofill from your monthly
-                    allowance.
+                    Extension AI actions spend credits from your monthly
+                    allowance. Assist replies cost 1 credit each. Cover letters
+                    and ATS scores cost 5 credits. Draft All batches and other
+                    tools use their own prices shown in the extension.
                 </p>
             </div>
 
@@ -80,8 +81,8 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                     When do they reset?
                 </h2>
                 <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    Autofill allowances reset on the 1st of each month. Paid
-                    plans bill via UK Direct Debit through GoCardless.
+                    Credit allowances reset on the 1st of each month. Paid plans
+                    bill via UK Direct Debit through GoCardless.
                 </p>
             </div>
         </div>
@@ -120,13 +121,13 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
                     <dd
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
-                        The extension will stop autofilling until your allowance
-                        resets next month, or you upgrade your plan.
+                        The extension will stop running paid AI tools until your
+                        allowance resets next month, or you upgrade your plan.
                     </dd>
                 </div>
                 <div>
                     <dt class="font-semibold text-postbox-navy">
-                        Do unused autofills roll over?
+                        Do unused credits roll over?
                     </dt>
                     <dd
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
@@ -140,7 +141,7 @@ const isAuthenticated = computed(() => Boolean(page.props.auth.user));
         <PostboxCta
             class="mt-10"
             title="Start on the free plan"
-            description="250 autofills per month to get going - upgrade when you need more."
+            description="250 credits per month to get going - upgrade when you need more."
             button-label="Get started free"
         />
 

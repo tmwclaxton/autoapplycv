@@ -28,50 +28,50 @@ class AiTokenService
         return $user->refresh();
     }
 
-    public function monthlyAutofillAllowance(User $user): int
+    public function monthlyCreditAllowance(User $user): int
     {
-        return max(0, $user->subscriptionTier()->monthlyAutofills());
+        return max(0, $user->subscriptionTier()->monthlyCredits());
     }
 
-    public function bonusAutofills(User $user): int
+    public function bonusCredits(User $user): int
     {
         return max(0, (int) $user->bonus_autofills);
     }
 
-    public function totalAutofillAllowance(User $user): int
+    public function totalCreditAllowance(User $user): int
     {
-        return $this->monthlyAutofillAllowance($user) + $this->bonusAutofills($user);
+        return $this->monthlyCreditAllowance($user) + $this->bonusCredits($user);
     }
 
-    public function autofillsUsed(User $user): int
+    public function creditsUsed(User $user): int
     {
         $this->ensureCurrentPeriod($user);
 
         return $user->ai_tokens_used;
     }
 
-    public function autofillsRemaining(User $user): int
+    public function creditsRemaining(User $user): int
     {
-        return max(0, $this->totalAutofillAllowance($user) - $this->autofillsUsed($user));
+        return max(0, $this->totalCreditAllowance($user) - $this->creditsUsed($user));
     }
 
-    public function canAutofill(User $user, int $count = 1): bool
+    public function canSpendCredits(User $user, int $count = 1): bool
     {
         if ($count < 1) {
             return false;
         }
 
-        if ($this->autofillBlockReason($user) !== null) {
+        if ($this->creditBlockReason($user) !== null) {
             return false;
         }
 
-        return $this->autofillsRemaining($user) >= $count;
+        return $this->creditsRemaining($user) >= $count;
     }
 
-    public function autofillBlockReason(User $user): ?string
+    public function creditBlockReason(User $user): ?string
     {
         $status = $user->subscriptionStatus();
-        $remaining = $this->autofillsRemaining($user);
+        $remaining = $this->creditsRemaining($user);
 
         if ($remaining < 1) {
             return 'quota_exhausted';
@@ -100,7 +100,7 @@ class AiTokenService
         return 'subscription_inactive';
     }
 
-    public function recordAutofill(User $user, int $count = 1): void
+    public function recordCredit(User $user, int $count = 1): void
     {
         if ($count < 1) {
             return;
@@ -169,13 +169,13 @@ class AiTokenService
      *     status_label: string,
      *     plan_description: string,
      *     features: array<int, string>,
-     *     monthly_autofills: int,
-     *     bonus_autofills: int,
-     *     total_autofill_allowance: int,
-     *     autofills_used: int,
-     *     autofills_remaining: int,
-     *     can_autofill: bool,
-     *     autofill_block_reason: string|null,
+     *     monthly_credits: int,
+     *     bonus_credits: int,
+     *     total_credit_allowance: int,
+     *     credits_used: int,
+     *     credits_remaining: int,
+     *     can_use_credits: bool,
+     *     credit_block_reason: string|null,
      *     checkout_in_progress: bool,
      *     setup_incomplete: bool,
      *     can_resume_checkout: bool,
@@ -198,7 +198,7 @@ class AiTokenService
         $checkoutInProgress = $user->gocardless_billing_request_id !== null
             && $tier === SubscriptionTier::Free;
         $canResumeCheckout = $user->gocardless_billing_request_id !== null;
-        $blockReason = $this->autofillBlockReason($user);
+        $blockReason = $this->creditBlockReason($user);
         $setupIncomplete = $status === SubscriptionStatus::Pending
             && ($canResumeCheckout || $blockReason === 'pending_setup');
         $effectiveTier = $blockReason === 'pending_setup'
@@ -213,10 +213,10 @@ class AiTokenService
         $periodStart = $user->ai_tokens_period_start
             ? Carbon::parse($user->ai_tokens_period_start)
             : now()->startOfMonth();
-        $allowance = max(0, $allowanceTier->monthlyAutofills());
-        $bonusAutofills = $this->bonusAutofills($user);
-        $totalAllowance = $allowance + $bonusAutofills;
-        $used = $this->autofillsUsed($user);
+        $allowance = max(0, $allowanceTier->monthlyCredits());
+        $bonusCredits = $this->bonusCredits($user);
+        $totalAllowance = $allowance + $bonusCredits;
+        $used = $this->creditsUsed($user);
 
         return [
             'tier' => $tier->value,
@@ -231,13 +231,13 @@ class AiTokenService
                 : $status->label(),
             'plan_description' => $displayTier->description(),
             'features' => $displayTier->features(),
-            'monthly_autofills' => $allowance,
-            'bonus_autofills' => $bonusAutofills,
-            'total_autofill_allowance' => $totalAllowance,
-            'autofills_used' => $used,
-            'autofills_remaining' => max(0, $totalAllowance - $used),
-            'can_autofill' => $this->canAutofill($user),
-            'autofill_block_reason' => $blockReason,
+            'monthly_credits' => $allowance,
+            'bonus_credits' => $bonusCredits,
+            'total_credit_allowance' => $totalAllowance,
+            'credits_used' => $used,
+            'credits_remaining' => max(0, $totalAllowance - $used),
+            'can_use_credits' => $this->canSpendCredits($user),
+            'credit_block_reason' => $blockReason,
             'checkout_in_progress' => $checkoutInProgress,
             'setup_incomplete' => $setupIncomplete,
             'can_resume_checkout' => $canResumeCheckout,

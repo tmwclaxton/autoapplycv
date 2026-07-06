@@ -136,7 +136,7 @@ class AutofillAnalyticsTest extends TestCase
         $token = $user->createToken('extension')->plainTextToken;
 
         $this->withToken($token)
-            ->postJson('/api/autofill', ['count' => 4])
+            ->postJson('/api/credits', ['count' => 4])
             ->assertOk();
 
         $stat = AutofillDailyStat::query()

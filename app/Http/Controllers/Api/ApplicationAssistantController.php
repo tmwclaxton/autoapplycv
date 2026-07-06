@@ -47,10 +47,10 @@ class ApplicationAssistantController extends Controller
         $questions = $validated['questions'];
         $cost = count($questions);
 
-        if (! $this->usage->canAutofill($user, $cost)) {
+        if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([
                 'success' => false,
-                'error' => 'You do not have enough autofills remaining for AI assist.',
+                'error' => 'You do not have enough credits remaining for AI assist.',
                 'subscription' => $this->usage->summary($user),
             ], 402);
         }
@@ -69,14 +69,14 @@ class ApplicationAssistantController extends Controller
             ], 502);
         }
 
-        $this->usage->recordAutofill($user, $cost);
+        $this->usage->recordCredit($user, $cost);
         $this->analytics->recordExtensionQuestions($cost);
         $this->nanoGptUsage->record($user, 'assist.questions', $answers['usage'], $cost);
 
         return response()->json([
             'success' => true,
             'answers' => $answers['answers'],
-            'autofill_cost' => $cost,
+            'credit_cost' => $cost,
             'subscription' => $this->usage->summary($user),
         ]);
     }
@@ -92,10 +92,10 @@ class ApplicationAssistantController extends Controller
 
         $cost = (int) config('cv.ai_assist.inventory_cost', 1);
 
-        if (! $this->usage->canAutofill($user, $cost)) {
+        if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([
                 'success' => false,
-                'error' => 'You do not have enough autofills remaining for field inventory.',
+                'error' => 'You do not have enough credits remaining for field inventory.',
                 'subscription' => $this->usage->summary($user),
             ], 402);
         }
@@ -116,7 +116,7 @@ class ApplicationAssistantController extends Controller
         }
 
         if (($result['source'] ?? 'llm') === 'llm') {
-            $this->usage->recordAutofill($user, $cost);
+            $this->usage->recordCredit($user, $cost);
             $this->analytics->recordExtensionQuestions();
             $this->nanoGptUsage->record($user, 'assist.inventory', $result['usage'] ?? null, $cost);
         }
@@ -128,7 +128,7 @@ class ApplicationAssistantController extends Controller
             'next_actions' => $result['next_actions'],
             'source' => $result['source'] ?? 'llm',
             'usage' => $result['usage'] ?? null,
-            'autofill_cost' => ($result['source'] ?? 'llm') === 'llm' ? $cost : 0,
+            'credit_cost' => ($result['source'] ?? 'llm') === 'llm' ? $cost : 0,
             'subscription' => $this->usage->summary($user),
         ]);
     }
@@ -144,10 +144,10 @@ class ApplicationAssistantController extends Controller
 
         $cost = (int) config('cv.ai_assist.job_context_cost', 1);
 
-        if (! $this->usage->canAutofill($user, $cost)) {
+        if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([
                 'success' => false,
-                'error' => 'You do not have enough autofills remaining for job context extraction.',
+                'error' => 'You do not have enough credits remaining for job context extraction.',
                 'subscription' => $this->usage->summary($user),
             ], 402);
         }
@@ -166,7 +166,7 @@ class ApplicationAssistantController extends Controller
             ], 502);
         }
 
-        $this->usage->recordAutofill($user, $cost);
+        $this->usage->recordCredit($user, $cost);
         $this->nanoGptUsage->record($user, 'assist.job-context', $extracted['usage'], $cost);
 
         $pageUrl = filled($validated['page_url'] ?? null) ? (string) $validated['page_url'] : null;
@@ -181,7 +181,7 @@ class ApplicationAssistantController extends Controller
                 'job_description' => $extracted['job_description'],
                 'source' => $extracted['source'],
             ],
-            'autofill_cost' => $cost,
+            'credit_cost' => $cost,
             'subscription' => $this->usage->summary($user),
         ]);
     }
@@ -195,12 +195,12 @@ class ApplicationAssistantController extends Controller
             return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
         }
 
-        $cost = (int) config('cv.ai_assist.chat_cost', 2);
+        $cost = (int) config('cv.ai_assist.chat_cost', 1);
 
-        if (! $this->usage->canAutofill($user, $cost)) {
+        if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([
                 'success' => false,
-                'error' => 'You do not have enough autofills remaining for AI chat.',
+                'error' => 'You do not have enough credits remaining for AI chat.',
                 'subscription' => $this->usage->summary($user),
             ], 402);
         }
@@ -222,7 +222,7 @@ class ApplicationAssistantController extends Controller
             ], 502);
         }
 
-        $this->usage->recordAutofill($user, $cost);
+        $this->usage->recordCredit($user, $cost);
         $this->analytics->recordExtensionQuestions();
         $this->nanoGptUsage->record($user, 'assist.chat', $result['usage'] ?? null, $cost);
 
@@ -232,7 +232,7 @@ class ApplicationAssistantController extends Controller
             'profile_updates' => $result['profile_updates'],
             'actions' => $result['actions'],
             'draft_answer' => $result['draft_answer'],
-            'autofill_cost' => $cost,
+            'credit_cost' => $cost,
             'subscription' => $this->usage->summary($user),
         ]);
     }
@@ -246,12 +246,12 @@ class ApplicationAssistantController extends Controller
             return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
         }
 
-        $cost = (int) config('cv.ai_assist.chat_cost', 2);
+        $cost = (int) config('cv.ai_assist.chat_cost', 1);
 
-        if (! $this->usage->canAutofill($user, $cost)) {
+        if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([
                 'success' => false,
-                'error' => 'You do not have enough autofills remaining for AI chat.',
+                'error' => 'You do not have enough credits remaining for AI chat.',
                 'subscription' => $this->usage->summary($user),
             ], 402);
         }
@@ -291,13 +291,13 @@ class ApplicationAssistantController extends Controller
                     return;
                 }
 
-                $this->usage->recordAutofill($user, $cost);
+                $this->usage->recordCredit($user, $cost);
                 $this->analytics->recordExtensionQuestions();
                 $this->nanoGptUsage->record($user, 'assist.chat.stream', $streamUsage, $cost);
 
                 $emit([
                     'type' => 'usage',
-                    'autofill_cost' => $cost,
+                    'credit_cost' => $cost,
                     'subscription' => $this->usage->summary($user->fresh()),
                 ]);
             } catch (\Throwable $exception) {
@@ -326,10 +326,10 @@ class ApplicationAssistantController extends Controller
 
         $cost = (int) config('cv.ai_assist.draft_field_cost', 1);
 
-        if (! $this->usage->canAutofill($user, $cost)) {
+        if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([
                 'success' => false,
-                'error' => 'You do not have enough autofills remaining for Quick Answer.',
+                'error' => 'You do not have enough credits remaining for Quick Answer.',
                 'subscription' => $this->usage->summary($user),
             ], 402);
         }
@@ -356,7 +356,7 @@ class ApplicationAssistantController extends Controller
             ], 502);
         }
 
-        $this->usage->recordAutofill($user, $cost);
+        $this->usage->recordCredit($user, $cost);
         $this->analytics->recordExtensionQuestions();
         $this->nanoGptUsage->record($user, 'assist.draft-field', $answers['usage'], $cost);
 
@@ -364,7 +364,7 @@ class ApplicationAssistantController extends Controller
             'success' => true,
             'answer' => $answers['answers'][0]['answer'] ?? null,
             'label' => $field['label'],
-            'autofill_cost' => $cost,
+            'credit_cost' => $cost,
             'subscription' => $this->usage->summary($user),
         ]);
     }
@@ -382,10 +382,10 @@ class ApplicationAssistantController extends Controller
         $fields = $validated['fields'];
         $requiredCost = $this->draftOrchestrator->requiredAutofillCost(count($fields));
 
-        if (! $this->usage->canAutofill($user, min($requiredCost, $this->draftOrchestrator->batchCost()))) {
+        if (! $this->usage->canSpendCredits($user, min($requiredCost, $this->draftOrchestrator->batchCost()))) {
             return response()->json([
                 'success' => false,
-                'error' => 'You do not have enough autofills remaining for draft-all.',
+                'error' => 'You do not have enough credits remaining for draft-all.',
                 'subscription' => $this->usage->summary($user),
             ], 402);
         }
@@ -462,10 +462,10 @@ class ApplicationAssistantController extends Controller
 
         $cost = (int) config('cv.ai_assist.cover_letter_cost', 5);
 
-        if (! $this->usage->canAutofill($user, $cost)) {
+        if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([
                 'success' => false,
-                'error' => 'You do not have enough autofills remaining for a cover letter.',
+                'error' => 'You do not have enough credits remaining for a cover letter.',
                 'subscription' => $this->usage->summary($user),
             ], 402);
         }
@@ -484,13 +484,13 @@ class ApplicationAssistantController extends Controller
             ], 502);
         }
 
-        $this->usage->recordAutofill($user, $cost);
+        $this->usage->recordCredit($user, $cost);
         $this->nanoGptUsage->record($user, 'assist.cover-letter', $coverLetterResult['usage'], $cost);
 
         return response()->json([
             'success' => true,
             'cover_letter' => $coverLetterResult['content'],
-            'autofill_cost' => $cost,
+            'credit_cost' => $cost,
             'subscription' => $this->usage->summary($user),
         ]);
     }
@@ -506,10 +506,10 @@ class ApplicationAssistantController extends Controller
 
         $cost = (int) config('cv.ai_assist.tailored_resume_cost', 10);
 
-        if (! $this->usage->canAutofill($user, $cost)) {
+        if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([
                 'success' => false,
-                'error' => 'You do not have enough autofills remaining for a tailored resume.',
+                'error' => 'You do not have enough credits remaining for a tailored resume.',
                 'subscription' => $this->usage->summary($user),
             ], 402);
         }
@@ -529,14 +529,14 @@ class ApplicationAssistantController extends Controller
             ], 502);
         }
 
-        $this->usage->recordAutofill($user, $cost);
+        $this->usage->recordCredit($user, $cost);
         $this->nanoGptUsage->record($user, 'assist.tailored-resume', $resumeResult['usage'], $cost);
 
         return response()->json([
             'success' => true,
             'resume' => $resumeResult['content'],
             'template' => $template,
-            'autofill_cost' => $cost,
+            'credit_cost' => $cost,
             'subscription' => $this->usage->summary($user),
         ]);
     }
@@ -552,10 +552,10 @@ class ApplicationAssistantController extends Controller
 
         $cost = (int) config('cv.ai_assist.ats_score_cost', 5);
 
-        if (! $this->usage->canAutofill($user, $cost)) {
+        if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([
                 'success' => false,
-                'error' => 'You do not have enough autofills remaining for ATS scoring.',
+                'error' => 'You do not have enough credits remaining for ATS scoring.',
                 'subscription' => $this->usage->summary($user),
             ], 402);
         }
@@ -570,7 +570,7 @@ class ApplicationAssistantController extends Controller
             ], 422);
         }
 
-        $this->usage->recordAutofill($user, $cost);
+        $this->usage->recordCredit($user, $cost);
         $this->nanoGptUsage->record($user, 'assist.ats-score', $result['usage'], $cost);
 
         unset($result['usage']);
@@ -578,7 +578,7 @@ class ApplicationAssistantController extends Controller
         return response()->json([
             'success' => true,
             'result' => $result,
-            'autofill_cost' => $cost,
+            'credit_cost' => $cost,
             'subscription' => $this->usage->summary($user),
         ]);
     }

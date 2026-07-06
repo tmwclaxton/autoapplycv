@@ -25,9 +25,9 @@ enum SubscriptionTier: string
         return (int) config("subscriptions.tiers.{$this->configKey()}.price_pence", 0);
     }
 
-    public function monthlyAutofills(): int
+    public function monthlyCredits(): int
     {
-        return (int) config("subscriptions.tiers.{$this->configKey()}.monthly_autofills", 0);
+        return (int) config("subscriptions.tiers.{$this->configKey()}.monthly_credits", 0);
     }
 
     public function isPaid(): bool
@@ -64,7 +64,7 @@ enum SubscriptionTier: string
      *     description: string,
      *     price: string,
      *     price_pence: int,
-     *     monthly_autofills: int,
+     *     monthly_credits: int,
      *     features: array<int, string>,
      *     is_paid: bool,
      *     is_available: bool,
@@ -79,7 +79,7 @@ enum SubscriptionTier: string
             'description' => $this->description(),
             'price' => $this->formattedPrice(),
             'price_pence' => $this->pricePence(),
-            'monthly_autofills' => $this->monthlyAutofills(),
+            'monthly_credits' => $this->monthlyCredits(),
             'features' => $this->features(),
             'is_paid' => $this->isPaid(),
             'is_available' => $this->isAvailable(),

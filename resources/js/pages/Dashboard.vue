@@ -43,10 +43,10 @@ setLayoutProps({
 
 interface SubscriptionSummary {
     tier_label: string;
-    can_autofill: boolean;
-    autofills_used: number;
-    autofills_remaining: number;
-    monthly_autofills: number;
+    can_use_credits: boolean;
+    credits_used: number;
+    credits_remaining: number;
+    monthly_credits: number;
     period_resets_at: string;
 }
 
@@ -56,6 +56,9 @@ const props = defineProps<{
     documents: ProfileDocument[];
     documentCategories: DocumentCategoryOption[];
     extensionUsage: ExtensionUsageSummary;
+    aiAssist?: {
+        pricing?: Array<{ key: string; label: string; credits: number }>;
+    } | null;
 }>();
 
 const profile = ref<CvProfile>(normalizeCvProfile(props.cvProfile));
@@ -595,6 +598,7 @@ async function copyToken() {
         <ExtensionUsagePanel
             :extension-usage="extensionUsage"
             :subscription="subscription"
+            :ai-assist="aiAssist"
         />
     </div>
 

@@ -8,7 +8,7 @@ import { buildDraftBatchChatHeading } from './draft-batch-chat.js';
 import { polishProfileUpdateActions } from './profile-value-polish.js';
 
 const WELCOME_MESSAGE =
-    'Ask me to draft an application answer, improve your profile, or explain what to put in a field. When I suggest profile changes, Apply buttons will appear after my reply.';
+    'Ask me to draft an application answer, improve your profile, or explain what to put in a field. Each reply costs 1 credit. When I suggest profile changes, Apply buttons will appear after my reply.';
 
 export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, getApiBase }) {
     const messagesEl = document.getElementById('assist-messages');

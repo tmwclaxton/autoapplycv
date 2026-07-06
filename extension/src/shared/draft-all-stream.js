@@ -121,7 +121,7 @@ export async function requestJobContext(body) {
     if (response.status === 402) {
         return {
             ok: false,
-            message: data.error || 'Autofill limit reached.',
+            message: data.error || 'Credit limit reached.',
             subscription: data.subscription,
         };
     }
@@ -166,7 +166,7 @@ export async function requestFieldInventory(body) {
     if (response.status === 402) {
         return {
             ok: false,
-            message: data.error || 'Autofill limit reached.',
+            message: data.error || 'Credit limit reached.',
             subscription: data.subscription,
         };
     }
@@ -289,7 +289,7 @@ export async function requestDraftField(body) {
     const data = await response.json();
 
     if (response.status === 402) {
-        throw new Error(data.error || 'Autofill limit reached.');
+        throw new Error(data.error || 'Credit limit reached.');
     }
 
     if (!response.ok || !data.success) {

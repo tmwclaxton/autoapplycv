@@ -78,7 +78,7 @@ function showMessage(text, tone = 'success') {
     }, 3000);
 }
 
-function formatAutofills(value) {
+function formatCredits(value) {
     return new Intl.NumberFormat('en-GB').format(value);
 }
 
@@ -86,12 +86,12 @@ function setHeaderAuthVisibility(isAuthenticated) {
     logoutBtn.hidden = !isAuthenticated;
 }
 
-function formatAutofillCostMessage(cost) {
-    return `Costs ${formatAutofills(cost)} autofills per run.`;
+function formatCreditCostMessage(cost) {
+    return `Costs ${formatCredits(cost)} credits per run.`;
 }
 
-function formatAutofillUsedMessage(cost) {
-    return `Used ${formatAutofills(cost)} autofills.`;
+function formatCreditUsedMessage(cost) {
+    return `Used ${formatCredits(cost)} credits.`;
 }
 
 function renderAiAssistCosts(aiAssist) {
@@ -99,15 +99,33 @@ function renderAiAssistCosts(aiAssist) {
 
     const atsCost = aiAssist?.ats_score_cost ?? 5;
     const coverCost = aiAssist?.cover_letter_cost ?? 5;
+    const chatCost = aiAssist?.chat_cost ?? 1;
     const atsHint = document.getElementById('ats-cost-hint');
     const coverHint = document.getElementById('cover-cost-hint');
+    const assistHint = document.getElementById('assist-cost-hint');
+    const pricingList = document.getElementById('assist-pricing-list');
 
     if (atsHint) {
-        atsHint.textContent = formatAutofillCostMessage(atsCost);
+        atsHint.textContent = formatCreditCostMessage(atsCost);
     }
 
     if (coverHint) {
-        coverHint.textContent = formatAutofillCostMessage(coverCost);
+        coverHint.textContent = formatCreditCostMessage(coverCost);
+    }
+
+    if (assistHint) {
+        assistHint.textContent = chatCost === 1
+            ? 'Assist replies cost 1 credit each.'
+            : `Assist replies cost ${formatCredits(chatCost)} credits each.`;
+    }
+
+    if (pricingList) {
+        const pricing = Array.isArray(aiAssist?.pricing) ? aiAssist.pricing : [];
+
+        pricingList.innerHTML = pricing
+            .map((item) => `<li>${item.label}: ${formatCredits(item.credits)} ${item.credits === 1 ? 'credit' : 'credits'}</li>`)
+            .join('');
+        pricingList.hidden = pricing.length === 0;
     }
 }
 
@@ -118,15 +136,15 @@ function renderSubscription(subscription) {
         return;
     }
 
-    usageCount.textContent = `${formatAutofills(subscription.autofills_used)} / ${formatAutofills(subscription.monthly_autofills)}`;
-    const percent = subscription.monthly_autofills > 0
-        ? Math.min(100, Math.round((subscription.autofills_used / subscription.monthly_autofills) * 100))
+    usageCount.textContent = `${formatCredits(subscription.credits_used)} / ${formatCredits(subscription.monthly_credits)}`;
+    const percent = subscription.monthly_credits > 0
+        ? Math.min(100, Math.round((subscription.credits_used / subscription.monthly_credits) * 100))
         : 0;
     usageFill.style.width = `${percent}%`;
-    usageMeta.textContent = subscription.can_autofill
-        ? `${formatAutofills(subscription.autofills_remaining)} autofills left · resets ${new Date(subscription.period_resets_at).toLocaleDateString('en-GB')}`
+    usageMeta.textContent = subscription.can_use_credits
+        ? `${formatCredits(subscription.credits_remaining)} credits left · resets ${new Date(subscription.period_resets_at).toLocaleDateString('en-GB')}`
         : `Limit reached · resets ${new Date(subscription.period_resets_at).toLocaleDateString('en-GB')}`;
-    usagePill.textContent = `${formatAutofills(subscription.autofills_remaining)} left`;
+    usagePill.textContent = `${formatCredits(subscription.credits_remaining)} left`;
 }
 
 async function checkAuth() {
@@ -408,9 +426,9 @@ document.getElementById('ai-ats-btn').addEventListener('click', async () => {
 
         outputEl.value = `ATS score: ${response.result.score}%\n\nMatched: ${response.result.matched_keywords.join(', ')}\n\nMissing: ${response.result.missing_keywords.join(', ')}\n\nSuggestions:\n- ${response.result.suggestions.join('\n- ')}`;
         setAiOutputVisible('ats-output', 'ats-copy-btn', true);
-        const usedCost = response.autofill_cost ?? aiAssistCosts?.ats_score_cost ?? 5;
-        statusEl.textContent = `ATS score ready. ${formatAutofillUsedMessage(usedCost)}`;
-        showMessage(`ATS score ready. ${formatAutofillUsedMessage(usedCost)}`, 'success');
+        const usedCost = response.credit_cost ?? aiAssistCosts?.ats_score_cost ?? 5;
+        statusEl.textContent = `ATS score ready. ${formatCreditUsedMessage(usedCost)}`;
+        showMessage(`ATS score ready. ${formatCreditUsedMessage(usedCost)}`, 'success');
     } catch (error) {
         statusEl.textContent = error.message;
         showMessage(error.message, 'error');
@@ -435,9 +453,9 @@ document.getElementById('ai-cover-letter-btn').addEventListener('click', async (
 
         outputEl.value = response.cover_letter;
         setAiOutputVisible('cover-output', 'cover-actions', true);
-        const usedCost = response.autofill_cost ?? aiAssistCosts?.cover_letter_cost ?? 5;
-        statusEl.textContent = `Cover letter generated. ${formatAutofillUsedMessage(usedCost)}`;
-        showMessage(`Cover letter generated. ${formatAutofillUsedMessage(usedCost)}`, 'success');
+        const usedCost = response.credit_cost ?? aiAssistCosts?.cover_letter_cost ?? 5;
+        statusEl.textContent = `Cover letter generated. ${formatCreditUsedMessage(usedCost)}`;
+        showMessage(`Cover letter generated. ${formatCreditUsedMessage(usedCost)}`, 'success');
     } catch (error) {
         statusEl.textContent = error.message;
         showMessage(error.message, 'error');

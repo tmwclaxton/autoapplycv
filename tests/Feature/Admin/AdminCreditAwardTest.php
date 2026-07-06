@@ -55,9 +55,9 @@ class AdminCreditAwardTest extends TestCase
             ->getJson(route('admin.users.lookup', ['email' => $recipient->email]))
             ->assertOk()
             ->assertJsonPath('user.email', $recipient->email)
-            ->assertJsonPath('user.bonus_autofills', 100)
-            ->assertJsonPath('user.autofills_used', 25)
-            ->assertJsonPath('user.autofills_remaining', 325);
+            ->assertJsonPath('user.bonus_credits', 100)
+            ->assertJsonPath('user.credits_used', 25)
+            ->assertJsonPath('user.credits_remaining', 325);
     }
 
     public function test_admin_can_award_credit_package_to_user(): void
@@ -114,10 +114,10 @@ class AdminCreditAwardTest extends TestCase
 
         $summary = app(AiTokenService::class)->summary($recipient->fresh());
 
-        $this->assertSame(500, $summary['bonus_autofills']);
-        $this->assertSame(750, $summary['total_autofill_allowance']);
-        $this->assertSame(500, $summary['autofills_remaining']);
-        $this->assertTrue($summary['can_autofill']);
+        $this->assertSame(500, $summary['bonus_credits']);
+        $this->assertSame(750, $summary['total_credit_allowance']);
+        $this->assertSame(500, $summary['credits_remaining']);
+        $this->assertTrue($summary['can_use_credits']);
     }
 
     public function test_admin_dashboard_includes_credit_award_data(): void

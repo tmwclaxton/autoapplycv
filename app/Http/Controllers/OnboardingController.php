@@ -6,6 +6,7 @@ use App\Enums\ProfileDocumentCategory;
 use App\Models\ProfileDocument;
 use App\Models\User;
 use App\Services\AiTokenService;
+use App\Support\AiAssistCosts;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -46,6 +47,7 @@ class OnboardingController extends Controller
             'cvProfile' => $cvProfile,
             'subscription' => $this->aiTokens->summary($user),
             'extensionUsage' => $this->aiTokens->extensionUsageSummary($user),
+            'aiAssist' => AiAssistCosts::forFrontend(),
             ...$this->documentPageProps($user),
         ]);
     }

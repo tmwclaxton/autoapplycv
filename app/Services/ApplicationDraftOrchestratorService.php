@@ -73,7 +73,7 @@ class ApplicationDraftOrchestratorService
 
         if ($affordableBatchCount < 1) {
             foreach (array_keys($batches) as $batchIndex) {
-                $onBatchError($batchIndex, 'You do not have enough autofills remaining for this batch.');
+                $onBatchError($batchIndex, 'You do not have enough credits remaining for this batch.');
             }
 
             return [
@@ -117,7 +117,7 @@ class ApplicationDraftOrchestratorService
 
         foreach ($batches as $batchIndex => $batch) {
             if ($batchIndex >= $affordableBatchCount) {
-                $onBatchError($batchIndex, 'You do not have enough autofills remaining for this batch.');
+                $onBatchError($batchIndex, 'You do not have enough credits remaining for this batch.');
                 $batchesFailed++;
 
                 continue;
@@ -140,14 +140,14 @@ class ApplicationDraftOrchestratorService
                 continue;
             }
 
-            if (! $this->usage->canAutofill($user, $this->batchCost())) {
-                $onBatchError($batchIndex, 'You do not have enough autofills remaining for this batch.');
+            if (! $this->usage->canSpendCredits($user, $this->batchCost())) {
+                $onBatchError($batchIndex, 'You do not have enough credits remaining for this batch.');
                 $batchesFailed++;
 
                 continue;
             }
 
-            $this->usage->recordAutofill($user, $this->batchCost());
+            $this->usage->recordCredit($user, $this->batchCost());
             $this->analytics->recordExtensionQuestions(count($batch));
             $this->nanoGptUsage->record(
                 $user,

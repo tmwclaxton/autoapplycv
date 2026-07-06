@@ -57,7 +57,7 @@ class ApplicationAssistantTest extends TestCase
             ->assertOk()
             ->assertJsonPath('success', true)
             ->assertJsonPath('answers.0.answer', 'I enjoy building reliable Laravel systems.')
-            ->assertJsonPath('autofill_cost', 1);
+            ->assertJsonPath('credit_cost', 1);
 
         $this->assertSame(1, $user->fresh()->ai_tokens_used);
     }
@@ -112,7 +112,7 @@ class ApplicationAssistantTest extends TestCase
             ])
             ->assertOk()
             ->assertJsonPath('result.score', 72)
-            ->assertJsonPath('autofill_cost', 5);
+            ->assertJsonPath('credit_cost', 5);
 
         $this->assertSame(5, $user->fresh()->ai_tokens_used);
     }
@@ -145,7 +145,7 @@ class ApplicationAssistantTest extends TestCase
             ])
             ->assertOk()
             ->assertJsonPath('cover_letter', 'Dear hiring manager, I am excited to apply.')
-            ->assertJsonPath('autofill_cost', 5);
+            ->assertJsonPath('credit_cost', 5);
 
         $this->assertSame(5, $user->fresh()->ai_tokens_used);
     }
@@ -179,7 +179,7 @@ class ApplicationAssistantTest extends TestCase
             ])
             ->assertOk()
             ->assertJsonPath('template', 'modern')
-            ->assertJsonPath('autofill_cost', 10);
+            ->assertJsonPath('credit_cost', 10);
     }
 
     public function test_extension_can_chat_with_assist_sidebar(): void
@@ -229,9 +229,9 @@ class ApplicationAssistantTest extends TestCase
             ->assertJsonPath('actions.0.type', 'profile_update')
             ->assertJsonPath('actions.1.type', 'copy_draft')
             ->assertJsonPath('draft_answer', 'I enjoy building reliable Laravel systems.')
-            ->assertJsonPath('autofill_cost', 2);
+            ->assertJsonPath('credit_cost', 1);
 
-        $this->assertSame(2, $user->fresh()->ai_tokens_used);
+        $this->assertSame(1, $user->fresh()->ai_tokens_used);
     }
 
     public function test_extension_can_chat_when_ai_returns_reply_key(): void
@@ -360,7 +360,7 @@ class ApplicationAssistantTest extends TestCase
         $this->assertSame('profile_update', json_decode($lines[2], true)['actions'][0]['type'] ?? null);
         $this->assertSame('complete', json_decode($lines[3], true)['type'] ?? null);
         $this->assertSame('usage', json_decode($lines[4], true)['type'] ?? null);
-        $this->assertSame(2, $user->fresh()->ai_tokens_used);
+        $this->assertSame(1, $user->fresh()->ai_tokens_used);
     }
 
     public function test_extension_question_answers_map_radio_option_text(): void

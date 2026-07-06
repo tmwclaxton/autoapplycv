@@ -20,8 +20,8 @@ class AdminCreditAwardService
         $this->aiTokens->ensureCurrentPeriod($user);
         $user->refresh();
 
-        $planAllowance = max(0, $user->subscriptionTier()->monthlyAutofills());
-        $bonusAutofills = max(0, (int) $user->bonus_autofills);
+        $planAllowance = max(0, $user->subscriptionTier()->monthlyCredits());
+        $bonusCredits = max(0, (int) $user->bonus_autofills);
         $used = (int) $user->ai_tokens_used;
 
         return [
@@ -30,11 +30,11 @@ class AdminCreditAwardService
             'email' => $user->email,
             'subscription_tier' => $user->subscriptionTier()->label(),
             'subscription_status' => $user->subscriptionStatus()->label(),
-            'monthly_autofills' => $planAllowance,
-            'bonus_autofills' => $bonusAutofills,
-            'total_autofill_allowance' => $planAllowance + $bonusAutofills,
-            'autofills_used' => $used,
-            'autofills_remaining' => max(0, $planAllowance + $bonusAutofills - $used),
+            'monthly_credits' => $planAllowance,
+            'bonus_credits' => $bonusCredits,
+            'total_credit_allowance' => $planAllowance + $bonusCredits,
+            'credits_used' => $used,
+            'credits_remaining' => max(0, $planAllowance + $bonusCredits - $used),
         ];
     }
 

@@ -7,7 +7,7 @@ use App\Services\AiTokenService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class AutofillController extends Controller
+class CreditUsageController extends Controller
 {
     public function __construct(
         private readonly AiTokenService $usage,
@@ -22,16 +22,16 @@ class AutofillController extends Controller
         $user = $request->user();
         $count = (int) $validated['count'];
 
-        if (! $this->usage->canAutofill($user, $count)) {
+        if (! $this->usage->canSpendCredits($user, $count)) {
             return response()->json([
                 'success' => false,
-                'error' => 'You do not have enough autofills remaining for this month.',
+                'error' => 'You do not have enough credits remaining for this month.',
                 'subscription' => $this->usage->summary($user),
                 'extension_usage' => $this->usage->extensionUsageSummary($user),
             ], 402);
         }
 
-        $this->usage->recordAutofill($user, $count);
+        $this->usage->recordCredit($user, $count);
         $this->usage->recordFieldsAutofilled($user, $count);
 
         return response()->json([

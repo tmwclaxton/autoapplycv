@@ -9,12 +9,12 @@ return [
     'tiers' => [
         'free' => [
             'name' => 'Free',
-            'description' => 'Get started with extension autofill on supported job sites.',
+            'description' => 'Get started with extension AI credits on supported job sites.',
             'price_pence' => 0,
-            'monthly_autofills' => 250,
+            'monthly_credits' => 250,
             'available' => true,
             'features' => [
-                '250 extension autofills per month',
+                '250 extension credits per month',
                 $platformFeature,
             ],
         ],
@@ -22,21 +22,21 @@ return [
             'name' => 'Starter',
             'description' => 'For active job hunters applying regularly.',
             'price_pence' => 700,
-            'monthly_autofills' => 2500,
+            'monthly_credits' => 2500,
             'available' => true,
             'features' => [
-                '2,500 extension autofills per month',
+                '2,500 extension credits per month',
                 $platformFeature,
             ],
         ],
         'pro' => [
             'name' => 'Pro',
-            'description' => 'High-volume autofill for intensive application campaigns.',
+            'description' => 'High-volume AI usage for intensive application campaigns.',
             'price_pence' => 1700,
-            'monthly_autofills' => 15000,
+            'monthly_credits' => 15000,
             'available' => true,
             'features' => [
-                '15,000 extension autofills per month',
+                '15,000 extension credits per month',
                 $platformFeature,
             ],
         ],
