@@ -16,17 +16,97 @@ const AutoCVApplyExtensionContext = (() => {
         contextInvalidated = true;
     }
 
+    function isInvalidExtensionUrl(url) {
+        if (!url) {
+            return true;
+        }
+
+        const urlString = String(url);
+
+        if (urlString.includes('chrome-extension://invalid')) {
+            return true;
+        }
+
+        try {
+            const parsed = new URL(urlString);
+
+            return parsed.protocol === 'chrome-extension:' && parsed.hostname === 'invalid';
+        } catch {
+            return false;
+        }
+    }
+
     function isExtensionContextValid() {
         if (contextInvalidated) {
             return false;
         }
 
         try {
-            return Boolean(chrome?.runtime?.id);
+            if (!chrome?.runtime?.id) {
+                return false;
+            }
+
+            const probeUrl = chrome.runtime.getURL('');
+
+            if (isInvalidExtensionUrl(probeUrl)) {
+                markContextInvalidated();
+
+                return false;
+            }
+
+            return true;
         } catch {
             markContextInvalidated();
 
             return false;
+        }
+    }
+
+    function safeRuntimeGetURL(path) {
+        if (contextInvalidated || !isExtensionContextValid()) {
+            return null;
+        }
+
+        try {
+            const url = chrome.runtime.getURL(path);
+
+            if (isInvalidExtensionUrl(url)) {
+                markContextInvalidated();
+
+                return null;
+            }
+
+            return url;
+        } catch (error) {
+            if (isInvalidatedError(error)) {
+                markContextInvalidated();
+            }
+
+            return null;
+        }
+    }
+
+    async function safeFetch(url, init) {
+        const urlString = String(url ?? '');
+
+        if (isInvalidExtensionUrl(urlString)) {
+            markContextInvalidated();
+
+            throw new Error('Extension context invalidated.');
+        }
+
+        if (contextInvalidated || !isExtensionContextValid()) {
+            throw new Error('Extension context invalidated.');
+        }
+
+        try {
+            return await fetch(url, init);
+        } catch (error) {
+            if (isInvalidatedError(error)) {
+                markContextInvalidated();
+            }
+
+            throw error;
         }
     }
 
@@ -152,7 +232,10 @@ const AutoCVApplyExtensionContext = (() => {
 
     return {
         isExtensionContextValid,
+        isInvalidExtensionUrl,
         markContextInvalidated,
+        safeFetch,
+        safeRuntimeGetURL,
         safeRuntimeSend,
         safeRuntimeSendCallback,
         safeStorageSessionSet,

@@ -397,7 +397,7 @@ const AutoCVApplyFocusTracker = (() => {
     }
 
     function bindFocusTracking(root = document) {
-        if (isRestrictedPage() || isAppDashboardPage()) {
+        if (window !== window.top || isRestrictedPage() || isAppDashboardPage()) {
             return;
         }
 

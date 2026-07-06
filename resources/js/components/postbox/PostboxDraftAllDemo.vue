@@ -202,7 +202,7 @@ onUnmounted(() => {
                 </div>
 
                 <div
-                    class="flex h-60 flex-col overflow-hidden bg-[#fafafa] sm:h-64"
+                    class="flex h-72 flex-col overflow-hidden bg-[#fafafa] sm:h-80"
                 >
                     <div
                         class="shrink-0 border-b border-[#e4e4e7] bg-white px-3 py-1.5 sm:px-4 sm:py-2"
@@ -223,7 +223,7 @@ onUnmounted(() => {
                     </div>
 
                     <form
-                        class="min-h-0 flex-1 px-3 pt-2 sm:px-4"
+                        class="min-h-0 flex-1 px-3 pt-2 pb-3 sm:px-4"
                         @submit.prevent
                     >
                         <div class="grid shrink-0 gap-1.5 sm:grid-cols-2">

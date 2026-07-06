@@ -6,7 +6,6 @@ import PostboxDraftAllDemo from '@/components/postbox/PostboxDraftAllDemo.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPlatformBadges from '@/components/postbox/PostboxPlatformBadges.vue';
-import { PLATFORM_MARKETING_INLINE } from '@/lib/site';
 import { howTo, login } from '@/routes';
 
 defineProps<{
@@ -38,19 +37,9 @@ defineProps<{
             <p
                 class="mt-5 text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
             >
-                Job forms ask the same questions again and again. AutoCVApply
-                stores your CV profile once and autofills contact details,
-                experience, and screening answers on
-                {{ PLATFORM_MARKETING_INLINE }} - without the copy-paste
-                marathon.
-            </p>
-
-            <p
-                class="mt-4 text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
-            >
-                Install the browser extension to fill one field or stamp the
-                whole form with Draft All. Review, tweak if needed, and submit -
-                apply faster without retyping your life story.
+                Save your profile once and autofill contact details, experience,
+                and screening answers on major job sites. Install the extension,
+                run Draft All, review, and submit.
             </p>
 
             <div

@@ -13,6 +13,7 @@ function loadExtensionContext(chromeMock) {
     const code = readFileSync(EXTENSION_CONTEXT_PATH, 'utf8');
     const sandbox = {
         chrome: chromeMock,
+        fetch: chromeMock.fetch || (() => Promise.reject(new Error('fetch not mocked'))),
         globalThis: {},
         window: {},
     };
@@ -33,7 +34,14 @@ const cases = [
     {
         name: 'isExtensionContextValid returns true when runtime.id exists',
         fn: () => {
-            const ctx = loadExtensionContext({ runtime: { id: 'abc123' } });
+            const ctx = loadExtensionContext({
+                runtime: {
+                    id: 'abc123',
+                    getURL() {
+                        return 'chrome-extension://abc123/';
+                    },
+                },
+            });
             assert.equal(ctx.isExtensionContextValid(), true);
         },
     },
@@ -42,6 +50,80 @@ const cases = [
         fn: () => {
             const ctx = loadExtensionContext({ runtime: {} });
             assert.equal(ctx.isExtensionContextValid(), false);
+        },
+    },
+    {
+        name: 'isExtensionContextValid returns false when getURL resolves to chrome-extension://invalid',
+        fn: () => {
+            const ctx = loadExtensionContext({
+                runtime: {
+                    id: 'abc123',
+                    getURL() {
+                        return 'chrome-extension://invalid/';
+                    },
+                },
+            });
+
+            assert.equal(ctx.isExtensionContextValid(), false);
+            assert.equal(ctx.isExtensionContextValid(), false);
+        },
+    },
+    {
+        name: 'safeRuntimeGetURL returns null when getURL resolves to chrome-extension://invalid',
+        fn: () => {
+            const ctx = loadExtensionContext({
+                runtime: {
+                    id: 'abc123',
+                    getURL(path) {
+                        return `chrome-extension://invalid/${path || ''}`;
+                    },
+                },
+            });
+
+            assert.equal(ctx.safeRuntimeGetURL('icons/icon48.png'), null);
+            assert.equal(ctx.isExtensionContextValid(), false);
+        },
+    },
+    {
+        name: 'safeFetch skips fetch for chrome-extension://invalid URLs',
+        fn: async () => {
+            let fetchCalled = false;
+            const ctx = loadExtensionContext({
+                runtime: { id: 'abc123', getURL: () => 'chrome-extension://abc123/' },
+                fetch() {
+                    fetchCalled = true;
+
+                    return Promise.resolve({ ok: true });
+                },
+            });
+
+            await assert.rejects(
+                () => ctx.safeFetch('chrome-extension://invalid/icons/icon48.png'),
+                /invalidated/i,
+            );
+            assert.equal(fetchCalled, false);
+            assert.equal(ctx.isExtensionContextValid(), false);
+        },
+    },
+    {
+        name: 'safeFetch delegates to fetch when context is valid',
+        fn: async () => {
+            let fetchCalled = false;
+            const ctx = loadExtensionContext({
+                runtime: { id: 'abc123', getURL: () => 'chrome-extension://abc123/' },
+                fetch(url) {
+                    fetchCalled = true;
+
+                    assert.equal(url, 'https://example.com/test');
+
+                    return Promise.resolve({ ok: true });
+                },
+            });
+
+            const response = await ctx.safeFetch('https://example.com/test');
+
+            assert.equal(fetchCalled, true);
+            assert.equal(response.ok, true);
         },
     },
     {
@@ -81,6 +163,9 @@ const cases = [
             const ctx = loadExtensionContext({
                 runtime: {
                     id: 'abc123',
+                    getURL() {
+                        return 'chrome-extension://abc123/';
+                    },
                     sendMessage: runtimeThrowsInvalidated,
                 },
             });
@@ -97,6 +182,9 @@ const cases = [
             const ctx = loadExtensionContext({
                 runtime: {
                     id: 'abc123',
+                    getURL() {
+                        return 'chrome-extension://abc123/';
+                    },
                     sendMessage() {
                         return Promise.reject(new Error('Extension context invalidated.'));
                     },
@@ -112,7 +200,14 @@ const cases = [
     {
         name: 'markContextInvalidated short-circuits while runtime.id still exists',
         fn: () => {
-            const ctx = loadExtensionContext({ runtime: { id: 'abc123' } });
+            const ctx = loadExtensionContext({
+                runtime: {
+                    id: 'abc123',
+                    getURL() {
+                        return 'chrome-extension://abc123/';
+                    },
+                },
+            });
 
             assert.equal(ctx.isExtensionContextValid(), true);
             ctx.markContextInvalidated();
@@ -126,6 +221,9 @@ const cases = [
             const ctx = loadExtensionContext({
                 runtime: {
                     id: 'abc123',
+                    getURL() {
+                        return 'chrome-extension://abc123/';
+                    },
                     sendMessage(_message, callback) {
                         callback(undefined);
                     },

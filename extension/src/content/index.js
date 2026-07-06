@@ -13,6 +13,10 @@ let lastMutationRefreshAt = 0;
 let lastFormContentSignature = '';
 let mutationObserver = null;
 let overlayRefreshIntervalId = null;
+let formContentSignatureNotifyTimer = null;
+let pendingFormContentSignature = '';
+let onWindowFocusRefresh = null;
+let onVisibilityChangeRefresh = null;
 
 function extensionContext() {
     return typeof AutoCVApplyExtensionContext !== 'undefined'
@@ -37,9 +41,26 @@ function teardownContentScriptOnInvalidContext() {
         overlayRefreshIntervalId = null;
     }
 
+    if (formContentSignatureNotifyTimer) {
+        clearTimeout(formContentSignatureNotifyTimer);
+        formContentSignatureNotifyTimer = null;
+    }
+
+    pendingFormContentSignature = '';
+
     if (mutationObserver) {
         mutationObserver.disconnect();
         mutationObserver = null;
+    }
+
+    if (onWindowFocusRefresh) {
+        window.removeEventListener('focus', onWindowFocusRefresh);
+        onWindowFocusRefresh = null;
+    }
+
+    if (onVisibilityChangeRefresh) {
+        document.removeEventListener('visibilitychange', onVisibilityChangeRefresh);
+        onVisibilityChangeRefresh = null;
     }
 
     if (typeof AutoCVApplyPortalBar !== 'undefined') {
@@ -77,24 +98,40 @@ function notifyFormContentSignatureChanged(signature) {
         return;
     }
 
-    const ctx = extensionContext();
+    pendingFormContentSignature = signature;
 
-    if (!ctx) {
-        teardownContentScriptOnInvalidContext();
-
+    if (formContentSignatureNotifyTimer) {
         return;
     }
 
-    try {
-        void ctx.safeRuntimeSend({
-            type: 'FORM_CONTENT_SIGNATURE_CHANGED',
-            pageUrl: window.location.href.split('?')[0],
-            signature,
-        });
-    } catch {
-        ctx.markContextInvalidated();
-        teardownContentScriptOnInvalidContext();
-    }
+    formContentSignatureNotifyTimer = setTimeout(() => {
+        formContentSignatureNotifyTimer = null;
+        const signatureToSend = pendingFormContentSignature;
+        pendingFormContentSignature = '';
+
+        if (!ensureExtensionContextOrTeardown()) {
+            return;
+        }
+
+        const ctx = extensionContext();
+
+        if (!ctx) {
+            teardownContentScriptOnInvalidContext();
+
+            return;
+        }
+
+        try {
+            void ctx.safeRuntimeSend({
+                type: 'FORM_CONTENT_SIGNATURE_CHANGED',
+                pageUrl: window.location.href.split('?')[0],
+                signature: signatureToSend,
+            });
+        } catch {
+            ctx.markContextInvalidated();
+            teardownContentScriptOnInvalidContext();
+        }
+    }, 250);
 }
 
 function contentLog(level, phase, message, data) {
@@ -311,7 +348,8 @@ async function fillResumeFileInput() {
             });
         });
 
-        const response = await fetch(result.base64);
+        const fetchImpl = ctx?.safeFetch || fetch;
+        const response = await fetchImpl(result.base64);
         const blob = await response.blob();
         const file = new File([blob], result.fileName || 'cv.pdf', {
             type: result.mimeType || blob.type || 'application/pdf',
@@ -445,25 +483,31 @@ async function init() {
         return;
     }
 
+    await loadProfile();
+
+    if (window !== window.top) {
+        return;
+    }
+
     if (typeof AutoCVApplyPortalBar !== 'undefined') {
         AutoCVApplyPortalBar.configure({ onFill: runFullFill });
     }
 
     removeLegacyFillOverlay();
 
-    await loadProfile();
-
     scheduleOverlayRefresh();
 
-    window.addEventListener('focus', () => {
+    onWindowFocusRefresh = () => {
         scheduleOverlayRefresh();
-    });
+    };
+    window.addEventListener('focus', onWindowFocusRefresh);
 
-    document.addEventListener('visibilitychange', () => {
+    onVisibilityChangeRefresh = () => {
         if (document.visibilityState === 'visible') {
             scheduleOverlayRefresh();
         }
-    });
+    };
+    document.addEventListener('visibilitychange', onVisibilityChangeRefresh);
 
     overlayRefreshIntervalId = window.setInterval(() => {
         if (document.visibilityState === 'visible') {
