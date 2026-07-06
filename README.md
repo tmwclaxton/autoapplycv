@@ -28,7 +28,7 @@
   <img src="https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white" alt="PHP 8.5" />
   <img src="https://img.shields.io/badge/Chrome-MV3-4285F4?logo=googlechrome&logoColor=white" alt="Chrome MV3" />
   <img src="https://img.shields.io/badge/form%20corpus-2%2C350%20scenarios-2ea44f" alt="2,350 form scenarios" />
-  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License" />
+  <img src="https://img.shields.io/badge/License-PolyForm%20Noncommercial%201.0.0-orange.svg" alt="PolyForm Noncommercial License 1.0.0" />
 </p>
 
 <p align="center">
@@ -344,7 +344,7 @@ Generate a connection from the dashboard and paste it into the extension sidebar
 - **Extension fills locally** - the browser extension fetches your profile via a revocable Sanctum token and writes values into the page DOM. It does not send completed submissions back to us.
 - **No data selling** - we do not sell personal data. See the full [privacy policy](https://autocvapply.com/privacy).
 - **AI processing** - CV parsing and drafting send text to our NanoGPT provider as needed to extract fields or generate answers. Job context from the page may be included in draft requests.
-- **Open source** - MIT-licensed core. Inspect the extension, backend, and 2,350-scenario test corpus on GitHub.
+- **Source available** - PolyForm Noncommercial-licensed core. Inspect the extension, backend, and 2,350-scenario test corpus on GitHub. Free for personal and non-commercial use; commercial use requires permission.
 - **You submit on ATS forms** - autofill and Draft All never auto-click Submit on Greenhouse, Ashby, Workday, and similar sites. **LinkedIn Easy Apply Auto Apply** completes submissions end-to-end from the sidebar; other full Auto Apply platforms are coming soon.
 
 ---
@@ -713,7 +713,7 @@ Issues and pull requests welcome on [GitHub](https://github.com/tmwclaxton/autoa
 
 ## License
 
-MIT - use it, fork it, ship it.
+[PolyForm Noncommercial License 1.0.0](LICENSE). Free for personal and non-commercial use - fork it, study it, run it locally. Commercial use (selling, SaaS, paid services built on this code, etc.) requires permission; contact us via [autocvapply.com/contact](https://autocvapply.com/contact).
 
 ---
 

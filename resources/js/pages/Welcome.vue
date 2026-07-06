@@ -30,7 +30,7 @@ defineProps<{
                 </span>
                 <span class="postbox-badge inline-flex gap-1.5">
                     <Stamp class="size-3.5" />
-                    Open source · Free to use
+                    Source available · Non-commercial use
                 </span>
             </div>
 

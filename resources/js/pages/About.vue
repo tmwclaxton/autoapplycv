@@ -19,7 +19,7 @@ import { GITHUB_REPOSITORY_URL, PLATFORM_MARKETING_INLINE } from '@/lib/site';
         <PostboxPageHeader
             badge="About"
             title="Built because job forms are boring."
-            description="AutoCVApply is an open-source assistant for people who are tired of typing the same CV details into every application."
+            description="AutoCVApply is a source-available assistant for people who are tired of typing the same CV details into every application."
         />
 
         <PostboxProse>
@@ -39,7 +39,7 @@ import { GITHUB_REPOSITORY_URL, PLATFORM_MARKETING_INLINE } from '@/lib/site';
                 pitch.
             </p>
 
-            <h2>Open source</h2>
+            <h2>Source code</h2>
             <p>
                 The project lives on GitHub at
                 <a
@@ -48,14 +48,22 @@ import { GITHUB_REPOSITORY_URL, PLATFORM_MARKETING_INLINE } from '@/lib/site';
                     rel="noopener noreferrer"
                 >
                     tmwclaxton/autoapplycv </a
-                >. Contributions, issues, and pull requests are welcome.
+                >. It is licensed under the
+                <a
+                    href="https://polyformproject.org/licenses/noncommercial/1.0.0/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    PolyForm Noncommercial License 1.0.0</a
+                >. Personal and non-commercial use is free; commercial use
+                requires permission. Contributions, issues, and pull requests are
+                welcome.
             </p>
 
             <h2>Who runs it</h2>
             <p>
-                AutoCVApply is maintained as a personal open-source project. It
-                is free to use. If something breaks, say so on GitHub or via the
-                contact page.
+                AutoCVApply is maintained as a personal project. If something
+                breaks, say so on GitHub or via the contact page.
             </p>
         </PostboxProse>
 

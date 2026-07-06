@@ -61,7 +61,7 @@ const routeMap = {
                 </a>
             </nav>
             <p class="text-center text-sm text-muted-foreground">
-                Open source ·
+                PolyForm Noncommercial ·
                 <a
                     :href="GITHUB_REPOSITORY_URL"
                     target="_blank"
