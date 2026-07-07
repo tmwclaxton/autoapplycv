@@ -66,3 +66,40 @@ for (const [label, value, id] of fillCases) {
 }
 
 console.log('Indeed apply contact fixture tests passed.');
+
+const contactInfoHtml = `
+<div class="mosaic-provider-module-apply-contact-info">
+  <div data-testid="contact-info-page">
+    <label data-testid="name-fields-first-name-label">First name</label>
+    <input data-testid="name-fields-first-name-input" name="names-first-name" type="text" value="Toby" />
+    <label data-testid="name-fields-last-name-label">Last name</label>
+    <input data-testid="name-fields-last-name-input" name="names-last-name" type="text" value="Claxton" />
+    <input name="phone" type="tel" value="7837-370669" aria-label="Type phone number" />
+    <button data-testid="continue-button">Continue</button>
+  </div>
+</div>
+`;
+
+const { window: contactWindow } = buildFormDomContext({
+    html: contactInfoHtml,
+    pageUrl: 'https://smartapply.indeed.com/beta/indeedapply/form/contact-info-module',
+    pageTitle: 'Indeed apply contact info module',
+});
+
+const contactSnapshot = contactWindow.AutoCVApplyFieldInventory.buildSnapshot(contactWindow.document, profileData, {});
+assert.equal(contactSnapshot.elements.length, 3, 'prefilled Indeed identity fields should remain draftable');
+
+const continueControls = contactSnapshot.controls.filter((control) => /continue/i.test(control.name));
+assert.equal(continueControls.length, 1, 'expected one Continue control after dedupe');
+
+const phoneInput = contactWindow.document.querySelector('input[name="phone"]');
+const phoneApplied = await contactWindow.AutoCVApplyFormHeuristics.applyAnswerForTarget(
+    contactWindow.document,
+    phoneInput,
+    'tel',
+    '+447837370669',
+);
+assert.equal(phoneApplied, true, 'Indeed phone should accept E.164 and format national digits');
+assert.equal(phoneInput.value, '7837-370669', `unexpected phone value: ${phoneInput?.value}`);
+
+console.log('Indeed apply contact-info module tests passed.');

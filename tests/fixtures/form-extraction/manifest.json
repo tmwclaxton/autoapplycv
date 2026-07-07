@@ -38615,6 +38615,72 @@
       "requires_interaction": false,
       "interaction_steps": [],
       "vet_issues": []
+    },
+    {
+      "id": "web-indeed-apply-contact-info-001",
+      "category": "captured",
+      "source": "bridge",
+      "status": "draft",
+      "html_file": "web-indeed-apply-contact-info-001.html",
+      "page_url": "https://smartapply.indeed.com/beta/indeedapply/form/contact-info-module",
+      "page_title": "Add or update your contact information | Indeed",
+      "notes": "Indeed contact-info-module: first name, last name, phone",
+      "vet_issues": []
+    },
+    {
+      "id": "web-indeed-apply-profile-location-001",
+      "category": "captured",
+      "source": "bridge",
+      "status": "draft",
+      "html_file": "web-indeed-apply-profile-location-001.html",
+      "page_url": "https://smartapply.indeed.com/beta/indeedapply/form/profile-location",
+      "page_title": "Add or update your address | Indeed",
+      "notes": "Indeed profile-location step after contact-info",
+      "vet_issues": []
+    },
+    {
+      "id": "web-indeed-apply-resume-selection-001",
+      "category": "captured",
+      "source": "bridge",
+      "status": "draft",
+      "html_file": "web-indeed-apply-resume-selection-001.html",
+      "page_url": "https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection",
+      "page_title": "Upload or create a CV for this application | Indeed",
+      "notes": "Indeed resume selection step",
+      "vet_issues": []
+    },
+    {
+      "id": "web-indeed-apply-screener-001",
+      "category": "captured",
+      "source": "bridge",
+      "status": "draft",
+      "html_file": "web-indeed-apply-screener-001.html",
+      "page_url": "https://smartapply.indeed.com/beta/indeedapply/form/questions-module/questions/1",
+      "page_title": "Answer Screener Questions from the employer | Indeed.co.uk",
+      "notes": "Indeed employer screener questions",
+      "vet_issues": []
+    },
+    {
+      "id": "web-indeed-apply-relevant-experience-001",
+      "category": "captured",
+      "source": "bridge",
+      "status": "draft",
+      "html_file": "web-indeed-apply-relevant-experience-001.html",
+      "page_url": "https://smartapply.indeed.com/beta/indeedapply/form/resume-module/relevant-experience",
+      "page_title": "Add relevant work experience information | Indeed.co.uk",
+      "notes": "Indeed relevant experience step",
+      "vet_issues": []
+    },
+    {
+      "id": "web-indeed-apply-review-001",
+      "category": "captured",
+      "source": "bridge",
+      "status": "draft",
+      "html_file": "web-indeed-apply-review-001.html",
+      "page_url": "https://smartapply.indeed.com/beta/indeedapply/form/review-module",
+      "page_title": "Review the contents of this job application | Indeed",
+      "notes": "Indeed review/submit step",
+      "vet_issues": []
     }
   ]
 }

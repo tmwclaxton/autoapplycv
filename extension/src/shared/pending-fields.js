@@ -1084,6 +1084,29 @@ export function shouldSkipAiDraftAnswer(field, answer, profileData) {
     return !isMeaningfulAnswer(answer);
 }
 
+export function partitionIdentityProfileFields(fields, profileData) {
+    const identityAnswers = [];
+    const remainingFields = [];
+
+    for (const field of fields || []) {
+        const answer = resolveIdentityProfileAnswer(field, profileData);
+
+        if (isMeaningfulAnswer(answer)) {
+            identityAnswers.push({
+                ref: field.ref,
+                label: field.label || field.question || '',
+                field_type: field.field_type,
+                dom: field.dom || null,
+                answer,
+            });
+        } else {
+            remainingFields.push(field);
+        }
+    }
+
+    return { identityAnswers, remainingFields };
+}
+
 export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
     const toApply = [];
     const pending = [];

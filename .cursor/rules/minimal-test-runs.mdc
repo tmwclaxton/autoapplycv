@@ -1,0 +1,44 @@
+---
+description: Run only minimal scoped tests during development; avoid full suites unless asked
+alwaysApply: true
+---
+
+# Minimal test runs
+
+During iterative development, run the **smallest test set that proves the change**. Do not run full suites after every edit.
+
+## Default
+
+- Run **one** targeted test file, script, or filter for the code you changed.
+- Re-run only that same narrow scope when fixing follow-up issues.
+- Skip unrelated tiers (smoke, curated, full PHPUnit, full form corpus) unless the change touches them.
+
+## When to run broader checks
+
+- **Before commit or push**: use the checks in `pre-commit-quality.mdc`.
+- **When the user asks** for a full suite or CI-equivalent run.
+- **When a cross-cutting change** genuinely affects many areas (e.g. shared form-heurics used by all fixtures).
+
+## Examples
+
+```bash
+# Extension / Indeed contact change
+node scripts/extension-test/indeed-apply-contact.mjs
+
+# Single PHPUnit test or filter
+php artisan test --compact --filter=test_platform_smoke_playwright_passes
+
+# One fixture script, not the whole corpus
+node scripts/extension-test/indeed-apply-questions.mjs
+```
+
+## Avoid during iteration
+
+```bash
+# ❌ Too broad for a small fix
+php artisan test --compact
+npm run form-corpus:fill-verify:smoke   # unless form-heuristics / field-inventory changed
+npm run form-corpus:fill-verify:curated # unless curated manifest or many fixtures changed
+```
+
+If unsure, prefer a **single file or filter**. Mention what was not run and offer a broader run before merge if needed.

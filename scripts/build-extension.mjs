@@ -226,6 +226,7 @@ copyFileSync(join(SRC, 'shared/perf-timer.js'), join(DIST, 'perf-timer.js'));
 copyFileSync(join(SRC, 'shared/draft-all-optimizations.js'), join(DIST, 'draft-all-optimizations.js'));
 copyFileSync(join(SRC, 'shared/pending-fields.js'), join(DIST, 'pending-fields.js'));
 copyFileSync(join(SRC, 'shared/page-capture.js'), join(DIST, 'page-capture.js'));
+copyFileSync(join(SRC, 'shared/bridge-client.js'), join(DIST, 'bridge-client.js'));
 copyFileSync(join(SRC, 'shared/draft-batch-chat.js'), join(DIST, 'draft-batch-chat.js'));
 copyFileSync(join(SRC, 'shared/upload-validation.js'), join(DIST, 'upload-validation.js'));
 copyFileSync(join(SRC, 'shared/side-panel-state.js'), join(DIST, 'side-panel-state.js'));

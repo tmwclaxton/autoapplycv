@@ -688,6 +688,18 @@ async function refreshFillButtonVisibility(explicitSidePanelOpen) {
     }
 }
 
+function isIndeedApplyHostPage() {
+    try {
+        if (/smartapply\.indeed\.com/i.test(window.location.hostname)) {
+            return true;
+        }
+
+        return /indeedapply/i.test(window.location.pathname || '');
+    } catch {
+        return false;
+    }
+}
+
 async function runOverlayRefresh(explicitSidePanelOpen) {
     try {
         if (window !== window.top) {
@@ -711,9 +723,11 @@ async function runOverlayRefresh(explicitSidePanelOpen) {
             return;
         }
 
+        const showPortalBar = sidePanelOpen || isIndeedApplyHostPage();
+
         AutoCVApplyPortalBar.update({
-            visible: sidePanelOpen,
-            sidebarOpen: sidePanelOpen,
+            visible: showPortalBar,
+            sidebarOpen: showPortalBar,
         });
     } catch {
         // Ignore visibility updates on restricted or disconnected pages.
@@ -965,6 +979,82 @@ const contentMessageListener = (message, sender, sendResponse) => {
                 : false;
 
             sendResponse({ success: clicked });
+
+            return;
+        }
+
+        if (message.type === 'BRIDGE_CLICK_SELECTOR') {
+            const selector = String(message.selector || '').trim();
+            let clicked = false;
+            let error = null;
+
+            if (!selector) {
+                error = 'selector is required.';
+            } else {
+                const element = document.querySelector(selector);
+
+                if (!element) {
+                    error = `No element matched selector: ${selector}`;
+                } else if (typeof element.click !== 'function') {
+                    error = 'Matched element is not clickable.';
+                } else {
+                    element.focus();
+                    element.click();
+                    clicked = true;
+                }
+            }
+
+            sendResponse({ success: clicked, error });
+
+            return;
+        }
+
+        if (message.type === 'BRIDGE_CLICK_TEXT') {
+            const needle = String(message.text || '').replace(/\s+/g, ' ').trim().toLowerCase();
+            let clicked = false;
+            let matchedText = null;
+            let error = null;
+
+            if (!needle) {
+                error = 'text is required.';
+            } else {
+                const candidates = document.querySelectorAll(
+                    'button, [role="button"], input[type="submit"], input[type="button"], a[href], a[role="button"]',
+                );
+
+                for (const element of candidates) {
+                    const text = (
+                        element.getAttribute('aria-label')
+                        || element.textContent
+                        || element.getAttribute('value')
+                        || ''
+                    ).replace(/\s+/g, ' ').trim();
+
+                    if (!text) {
+                        continue;
+                    }
+
+                    const normalized = text.toLowerCase();
+
+                    if (normalized === needle || normalized.includes(needle) || needle.includes(normalized)) {
+                        if (element.disabled || element.getAttribute('aria-disabled') === 'true') {
+                            continue;
+                        }
+
+                        element.focus();
+                        element.click();
+                        clicked = true;
+                        matchedText = text;
+                        break;
+                    }
+                }
+
+                if (!clicked) {
+                    error = `No clickable element matched text: ${message.text}`;
+                }
+            }
+
+            sendResponse({ success: clicked, matchedText, error });
 
             return;
         }

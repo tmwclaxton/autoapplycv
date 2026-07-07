@@ -145,16 +145,22 @@ const AutoCVApplyFieldInventory = (() => {
 
     function collectNavigationControls(root) {
         const controls = [];
+        const seenNames = new Set();
         const candidates = root.querySelectorAll(
             'button, [role="button"], input[type="submit"], input[type="button"], a[role="button"]',
         );
 
         for (const element of candidates) {
+            if (element.closest('#onetrust-banner-sdk, #onetrust-consent-sdk, #indeed-globalnav')) {
+                continue;
+            }
+
             const inFormScope = element.closest(
                 'form, [role="form"], .ashby-application-form-container, [class*="application-form"], [class*="jobPostingForm"]',
             );
+            const inIndeedApply = element.closest('[class*="mosaic-provider-module-apply"]');
 
-            if (!AutoCVApplyFormHeuristics.frameHasApplicationForm(root) && !inFormScope) {
+            if (!AutoCVApplyFormHeuristics.frameHasApplicationForm(root) && !inFormScope && !inIndeedApply) {
                 continue;
             }
 
@@ -177,6 +183,14 @@ const AutoCVApplyFieldInventory = (() => {
                 continue;
             }
 
+            const dedupeKey = name.toLowerCase();
+
+            if (seenNames.has(dedupeKey)) {
+                continue;
+            }
+
+            seenNames.add(dedupeKey);
+
             controls.push({
                 ref: (() => {
                     const ref = `c${controlRegistry.size}`;
@@ -192,6 +206,36 @@ const AutoCVApplyFieldInventory = (() => {
         return controls.slice(0, 8);
     }
 
+    function resolveFieldRequired(anchor) {
+        if (!anchor) {
+            return false;
+        }
+
+        if (anchor.required === true || anchor.getAttribute('aria-required') === 'true') {
+            return true;
+        }
+
+        if (anchor.closest('[aria-required="true"]')) {
+            return true;
+        }
+
+        const labelledBy = anchor.getAttribute('aria-labelledby');
+
+        if (labelledBy) {
+            const doc = anchor.ownerDocument || document;
+
+            for (const id of labelledBy.split(/\s+/)) {
+                const labelEl = doc.getElementById(id);
+
+                if (labelEl?.getAttribute('aria-required') === 'true') {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     function appendSnapshotFromRoot(root, profile, settings, memo, merged) {
         AutoCVApplyFormHeuristics.eachDraftableField(root, profile, settings, memo, (field, target, roleRadios) => {
             const anchor = roleRadios?.[0] || target;
@@ -203,7 +247,7 @@ const AutoCVApplyFieldInventory = (() => {
                 field_type: field.field_type,
                 max_chars: field.max_chars,
                 options: field.options,
-                required: anchor?.required === true || anchor?.getAttribute('aria-required') === 'true',
+                required: resolveFieldRequired(anchor),
                 context: anchor ? getContextText(anchor) : null,
                 dom: buildDomMetadata(target, roleRadios),
             });

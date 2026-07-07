@@ -18,6 +18,70 @@ const AutoCVApplyFormHeuristics = (() => {
         return (text || '').replace(/\s+/g, ' ').replace(/\*/g, '').trim().toLowerCase();
     }
 
+    function dedupeRepeatedLabelTokens(label) {
+        const tokens = String(label || '').trim().split(/\s+/).filter(Boolean);
+
+        if (tokens.length <= 1) {
+            return String(label || '').trim();
+        }
+
+        for (let phraseLen = 1; phraseLen <= Math.floor(tokens.length / 2); phraseLen += 1) {
+            if (tokens.length % phraseLen !== 0) {
+                continue;
+            }
+
+            const phrase = tokens.slice(0, phraseLen);
+            let repeats = true;
+
+            for (let index = phraseLen; index < tokens.length; index += phraseLen) {
+                if (tokens.slice(index, index + phraseLen).join(' ') !== phrase.join(' ')) {
+                    repeats = false;
+                    break;
+                }
+            }
+
+            if (repeats) {
+                return phrase.join(' ');
+            }
+        }
+
+        return String(label || '').trim();
+    }
+
+    function isIndeedApplyPage(root = document) {
+        const doc = root.ownerDocument || root.defaultView?.document || (root.nodeType === 9 ? root : document);
+
+        try {
+            const { hostname, pathname } = doc.location || {};
+
+            if (hostname?.includes('smartapply.indeed.com')) {
+                return true;
+            }
+
+            return /indeedapply/i.test(pathname || '');
+        } catch {
+            return false;
+        }
+    }
+
+    function getIndeedLocationFieldLabel(element) {
+        const testId = element?.getAttribute?.('data-testid') || '';
+
+        if (!testId.startsWith('location-fields-') || !testId.endsWith('-input')) {
+            return '';
+        }
+
+        const doc = element.ownerDocument || document;
+        const labelTestId = testId.replace(/-input$/, '-label');
+        const labelSpan = doc.querySelector(`[data-testid="${labelTestId}"]`);
+
+        if (labelSpan?.textContent?.trim()) {
+            return dedupeRepeatedLabelTokens(normalize(labelSpan.textContent));
+        }
+
+        return '';
+    }
+
     function labelsMatch(left, right) {
         const a = normalize(left);
         const b = normalize(right);
@@ -1163,6 +1227,43 @@ const AutoCVApplyFormHeuristics = (() => {
             || valueMatchesAnswer(hiddenValue?.value, typedValue);
     }
 
+    function isIndeedIdentityField(element) {
+        const testId = element?.getAttribute?.('data-testid') || '';
+        const name = element?.getAttribute?.('name') || '';
+
+        if (testId.startsWith('name-fields-') || testId.startsWith('location-fields-')) {
+            return true;
+        }
+
+        if (name === 'phone' || name === 'names-first-name' || name === 'names-last-name') {
+            return true;
+        }
+
+        if (name === 'location-postal-code' || name === 'location-locality' || name === 'location-address') {
+            return true;
+        }
+
+        return false;
+    }
+
+    function getIndeedNameFieldLabel(element) {
+        const testId = element?.getAttribute?.('data-testid') || '';
+
+        if (!testId.startsWith('name-fields-') || !testId.endsWith('-input')) {
+            return '';
+        }
+
+        const doc = element.ownerDocument || document;
+        const labelTestId = testId.replace(/-input$/, '-label');
+        const labelSpan = doc.querySelector(`[data-testid="${labelTestId}"]`);
+
+        if (labelSpan?.textContent?.trim()) {
+            return dedupeRepeatedLabelTokens(normalize(labelSpan.textContent));
+        }
+
+        return '';
+    }
+
     function isIndeedApplyComboboxFilterInput(element) {
         if (!element || element.tagName?.toLowerCase() !== 'input') {
             return false;
@@ -1224,10 +1325,6 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         return value.length >= 2;
-    }
-
-    function getIndeedApplyQuestionListbox(element) {
-        return getIndeedQuestionFieldRoot(element)?.querySelector('[role="listbox"]') || null;
     }
 
     async function setIndeedApplyQuestionComboboxValue(element, value) {
@@ -1586,6 +1683,18 @@ const AutoCVApplyFormHeuristics = (() => {
             return phoneInputLabel;
         }
 
+        const indeedLocationLabel = getIndeedLocationFieldLabel(element);
+
+        if (indeedLocationLabel.length >= 2) {
+            return indeedLocationLabel;
+        }
+
+        const indeedNameLabel = getIndeedNameFieldLabel(element);
+
+        if (indeedNameLabel.length >= 2) {
+            return indeedNameLabel;
+        }
+
         const micro1Label = getMicro1QuestionLabel(element);
 
         if (micro1Label.length >= 3) {
@@ -1610,7 +1719,7 @@ const AutoCVApplyFormHeuristics = (() => {
             const testLabel = container.querySelector('[data-testid$="-label"] span[data-testid="safe-markup"], [data-testid$="-label"]');
 
             if (testLabel) {
-                return normalize(testLabel.textContent);
+                return dedupeRepeatedLabelTokens(normalize(testLabel.textContent));
             }
 
             const legend = container.classList?.contains('phone-input')
@@ -2468,7 +2577,12 @@ const AutoCVApplyFormHeuristics = (() => {
             const explicit = doc.querySelector(`label[for="${escapedId}"]`);
 
             if (explicit) {
-                labelParts.push(explicit.textContent);
+                const explicitText = explicit.textContent || '';
+                const alreadyIncluded = labelParts.some((part) => normalize(part) === normalize(explicitText));
+
+                if (!alreadyIncluded) {
+                    labelParts.push(explicitText);
+                }
             }
         }
 
@@ -2479,7 +2593,7 @@ const AutoCVApplyFormHeuristics = (() => {
             element.closest('.form-group, .field, .input-wrapper, [class*="question"]')?.querySelector('label, legend, .label, h3, h4, p')?.textContent,
         );
 
-        const humanLabel = normalize(labelParts.filter(Boolean).join(' '));
+        const humanLabel = dedupeRepeatedLabelTokens(normalize(labelParts.filter(Boolean).join(' ')));
 
         if (humanLabel.length >= 3) {
             return humanLabel;
@@ -2724,8 +2838,20 @@ const AutoCVApplyFormHeuristics = (() => {
         const actualDigits = normalizePhoneDigits(actual);
         const expectedDigits = normalizePhoneDigits(expected);
 
-        if (actualDigits.length >= 8 && expectedDigits.length >= 8 && actualDigits === expectedDigits) {
-            return true;
+        if (actualDigits.length >= 8 && expectedDigits.length >= 8) {
+            if (actualDigits === expectedDigits) {
+                return true;
+            }
+
+            const expectedNational = stripPhoneDialCodeDigits(expected);
+
+            if (actualDigits === expectedNational) {
+                return true;
+            }
+
+            if (expectedDigits.endsWith(actualDigits)) {
+                return true;
+            }
         }
 
         const normalizedActual = normalizeOption(actual);
@@ -2970,6 +3096,65 @@ const AutoCVApplyFormHeuristics = (() => {
         return digits.slice(1).length <= 3;
     }
 
+    function isIndeedApplyPhoneInput(element) {
+        if (!element || element.type !== 'tel') {
+            return false;
+        }
+
+        return Boolean(element.closest('[data-testid="phone-number-field"], [class*="mosaic-provider-module-apply-contact-info"]'));
+    }
+
+    function stripPhoneDialCodeDigits(value) {
+        let digits = String(value || '').replace(/\D/g, '');
+
+        if (digits.startsWith('44') && digits.length > 10) {
+            digits = digits.slice(2);
+        }
+
+        return digits.replace(/^0+/, '');
+    }
+
+    function formatIndeedNationalPhoneDigits(digits) {
+        const normalized = String(digits || '').replace(/\D/g, '');
+
+        if (normalized.length === 10) {
+            return `${normalized.slice(0, 4)}-${normalized.slice(4)}`;
+        }
+
+        if (normalized.length === 11 && normalized.startsWith('0')) {
+            const national = normalized.slice(1);
+
+            return `${national.slice(0, 4)}-${national.slice(4)}`;
+        }
+
+        return normalized;
+    }
+
+    function formatIndeedApplyPhoneValue(value) {
+        return formatIndeedNationalPhoneDigits(stripPhoneDialCodeDigits(value));
+    }
+
+    async function setIndeedApplyPhoneInputValue(element, value) {
+        const formatted = formatIndeedApplyPhoneValue(value);
+
+        if (!formatted) {
+            return false;
+        }
+
+        element.focus();
+        dispatchPointerClick(element);
+
+        const filled = await fillReactTextControl(element, formatted);
+
+        if (filled) {
+            heuristicsLog('info', 'apply.phone', 'Indeed IPL phone input filled', {
+                valuePreview: formatted.slice(0, 80),
+            });
+        }
+
+        return filled && valueMatchesAnswer(element.value, formatted);
+    }
+
     function isReactPhoneCountrySelect(element) {
         if (element.tagName?.toLowerCase() !== 'select') {
             return false;
@@ -3135,6 +3320,10 @@ const AutoCVApplyFormHeuristics = (() => {
             return filled && verifyFieldApplied(element, 'select', value);
         }
 
+        if (element.type === 'tel' && isIndeedApplyPhoneInput(element)) {
+            return setIndeedApplyPhoneInputValue(element, value);
+        }
+
         if (element.type === 'tel' && isReactPhoneNumberInput(element)) {
             return setReactPhoneNumberInputValue(element, value);
         }
@@ -3282,6 +3471,13 @@ const AutoCVApplyFormHeuristics = (() => {
             return true;
         }
 
+        if (isIndeedApplyPage(root)) {
+            return collectFillableElements(root).length >= 1
+                || Boolean(root.querySelector(
+                    '[data-testid^="location-fields"], .ia-Questions-item, [data-testid^="input-q_"], [class*="mosaic-provider-module-apply"]',
+                ));
+        }
+
         const inputs = collectFillableElements(root);
 
         if (inputs.length < 2) {
@@ -3400,6 +3596,8 @@ const AutoCVApplyFormHeuristics = (() => {
                 // micro1 steppers and hourly rate inputs ship with placeholder default "1".
             } else if (element.getAttribute?.('role') === 'combobox' && hasVisibleValidationError(element)) {
                 // LinkedIn and similar typeaheads can hold typed text without a valid selection.
+            } else if (isIndeedApplyPage(element.ownerDocument || document) && isIndeedIdentityField(element)) {
+                return getQuestionLabel(element).length >= 2;
             } else {
                 return false;
             }

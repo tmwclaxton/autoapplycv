@@ -17,6 +17,7 @@ import {
     stopAutoApply,
 } from './auto-apply-orchestrator.js';
 import { loadAutoApplySession } from './auto-apply-session.js';
+import { initExtensionBridge } from './bridge-client.js';
 import {
     clearConnection,
     getApiToken,
@@ -56,6 +57,7 @@ import { arrayBufferToBase64, base64ToBlob } from './file-transfer.js';
 import {
     applyDraftAnswerToTab,
     applyDraftBatchToTab,
+    clickInventoryRefOnTab,
     collectSnapshotFromTab,
     fetchPagePayloadForJobContext,
     findBestFormFrameId,
@@ -69,6 +71,7 @@ import {
     isMeaningfulAnswer,
     mergePendingFields,
     partitionBatchAnswers,
+    partitionIdentityProfileFields,
     pendingFieldsStorageKey,
     resolveIdentityProfileAnswer,
     resolveProfileMappingForLabel,
@@ -1686,7 +1689,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
         pendingFields = mergePendingFields(pendingFields, profileGapPending);
 
         const questionMemo = await loadQuestionMemo();
-        const { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(fields, questionMemo);
+        let { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(fields, questionMemo);
         let totalFieldsFilled = 0;
 
         const profileYears = profileData?.application_settings?.years_of_experience ?? null;
@@ -1724,6 +1727,31 @@ async function runDraftAll(tabId, e2eOptions = null) {
             totalFieldsFilled += Number(memoApplyResult?.applied || memoAnswers.length || 0);
 
             pushDraftAnswersToSidepanelChat(0, memoToApply, fieldsByRef);
+        }
+
+        const identityPartition = partitionIdentityProfileFields(remainingFields, profileData);
+        remainingFields = identityPartition.remainingFields;
+
+        if (identityPartition.identityAnswers.length > 0) {
+            broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+                message: `Applying ${identityPartition.identityAnswers.length} profile field(s)…`,
+            });
+
+            perf.start('apply.identity');
+            const identityApplyResult = await applyDraftBatchToTab(
+                tabId,
+                enrichApplyAnswers(identityPartition.identityAnswers, fieldsByRef, { profileYears }),
+                formFrameId,
+            );
+            perf.end('apply.identity');
+
+            logInfo('background', 'draft-all.identity', 'Applied identity profile fields', {
+                identityCount: identityPartition.identityAnswers.length,
+                success: identityApplyResult?.success,
+                applied: identityApplyResult?.applied,
+            }, tabId);
+
+            totalFieldsFilled += Number(identityApplyResult?.applied || identityPartition.identityAnswers.length || 0);
         }
 
         if (remainingFields.length === 0) {
@@ -2404,6 +2432,309 @@ async function recordCreditUsage(count) {
 
     return data;
 }
+
+const BRIDGE_LOGIN_URL_PATTERNS = [
+    /\/login(?:\/|$|\?)/i,
+    /\/signin(?:\/|$|\?)/i,
+    /\/sign-in(?:\/|$|\?)/i,
+    /\/auth(?:\/|$|\?)/i,
+    /accounts\.google\.com/i,
+    /login\.microsoftonline\.com/i,
+    /linkedin\.com\/(?:login|checkpoint)/i,
+    /indeed\.com\/(?:account|auth)/i,
+];
+
+function bridgeDetectLoginUrl(url) {
+    if (typeof url !== 'string' || url.trim() === '') {
+        return false;
+    }
+
+    return BRIDGE_LOGIN_URL_PATTERNS.some((pattern) => pattern.test(url));
+}
+
+function bridgeSleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
+
+function assertBridgeNavigableUrl(url) {
+    let parsed;
+
+    try {
+        parsed = new URL(url);
+    } catch {
+        throw new Error(`Invalid navigation URL: ${url}`);
+    }
+
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+        throw new Error('Bridge navigation only supports http and https URLs.');
+    }
+
+    return parsed.toString();
+}
+
+async function bridgeWaitForTab(tabId, { urlIncludes = null, timeoutMs = 30000 } = {}) {
+    const resolvedTabId = await resolveActiveTabId(tabId);
+    const deadline = Date.now() + Math.max(0, Number(timeoutMs) || 0);
+
+    while (Date.now() < deadline) {
+        const tab = await chrome.tabs.get(resolvedTabId);
+        const url = tab.url || '';
+        const ready = tab.status === 'complete';
+
+        if (urlIncludes) {
+            if (ready && url.includes(urlIncludes)) {
+                return {
+                    tabId: resolvedTabId,
+                    url,
+                    title: tab.title ?? '',
+                    status: tab.status ?? null,
+                };
+            }
+        } else if (ready) {
+            return {
+                tabId: resolvedTabId,
+                url,
+                title: tab.title ?? '',
+                status: tab.status ?? null,
+            };
+        }
+
+        await bridgeSleep(250);
+    }
+
+    throw new Error(`Tab did not reach expected state within ${timeoutMs}ms.`);
+}
+
+async function bridgeFindControlRef(tabId, frameId, name) {
+    const collectResponse = await collectSnapshotFromTab(tabId, frameId, null);
+    const controls = collectResponse?.snapshot?.controls || [];
+    const needle = String(name || '').trim().toLowerCase();
+
+    if (!needle) {
+        throw new Error('Control name is required.');
+    }
+
+    const control = controls.find((entry) => {
+        const candidate = String(entry.name || '').trim().toLowerCase();
+
+        return candidate === needle
+            || candidate.includes(needle)
+            || needle.includes(candidate);
+    });
+
+    if (!control?.ref) {
+        throw new Error(`No navigation control matching "${name}". Available: ${controls.map((entry) => entry.name).join(', ') || 'none'}`);
+    }
+
+    return control;
+}
+
+async function bridgeBuildAuthStatus(tabId) {
+    const { apiToken, apiBase } = await chrome.storage.local.get(['apiToken', 'apiBase']);
+    const resolvedTabId = await resolveActiveTabId(tabId);
+    const tab = await chrome.tabs.get(resolvedTabId);
+    const loginPending = bridgeDetectLoginUrl(tab.url || '');
+
+    let state = 'authenticated';
+
+    if (!apiToken) {
+        state = loginPending ? 'pending' : 'no_token';
+    } else if (loginPending) {
+        state = 'pending';
+    }
+
+    return {
+        state,
+        apiTokenSet: Boolean(apiToken),
+        apiBase: apiBase ?? null,
+        tabId: resolvedTabId,
+        tabUrl: tab.url ?? null,
+        tabTitle: tab.title ?? null,
+        loginPending,
+    };
+}
+
+initExtensionBridge({
+    resolveActiveTabId,
+    handlers: {
+        get_status: async () => bridgeBuildAuthStatus(),
+        get_page_html: async ({ tabId, frameId }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedFrameId = typeof frameId === 'number' ? frameId : 0;
+
+            return sendTabMessage(resolvedTabId, { type: 'GET_PAGE_HTML' }, resolvedFrameId);
+        },
+        get_field_inventory: async ({ tabId, frameId }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId);
+            let profilePayload = null;
+
+            try {
+                const profileData = await getProfile();
+                profilePayload = profileData ? { profile: profileData.profile ?? null } : null;
+            } catch {
+                profilePayload = null;
+            }
+
+            return collectSnapshotFromTab(resolvedTabId, frameId, profilePayload);
+        },
+        get_debug_logs: async () => getAllLogs(),
+        debug_log_export: async () => exportLogsForTest(),
+        set_token: async ({ token, apiBase }) => {
+            if (!token || !apiBase) {
+                throw new Error('token and apiBase are required.');
+            }
+
+            await saveConnection({ token, apiBase });
+            invalidateProfileCache();
+
+            return { success: true };
+        },
+        list_tabs: async () => {
+            const tabs = await chrome.tabs.query({});
+
+            return tabs
+                .filter((tab) => typeof tab.url === 'string' && /^https?:/i.test(tab.url))
+                .map((tab) => ({
+                    id: tab.id,
+                    url: tab.url,
+                    title: tab.title ?? '',
+                    active: tab.active ?? false,
+                    windowId: tab.windowId,
+                }));
+        },
+        activate_tab: async ({ tabId }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId);
+            await chrome.tabs.update(resolvedTabId, { active: true });
+            const tab = await chrome.tabs.get(resolvedTabId);
+
+            return {
+                tabId: resolvedTabId,
+                url: tab.url ?? null,
+                title: tab.title ?? '',
+            };
+        },
+        navigate_tab: async ({ tabId, url, newTab = false }) => {
+            const destination = assertBridgeNavigableUrl(url);
+
+            if (newTab) {
+                const tab = await chrome.tabs.create({ url: destination, active: true });
+
+                return {
+                    tabId: tab.id,
+                    url: tab.url ?? destination,
+                    title: tab.title ?? '',
+                    newTab: true,
+                };
+            }
+
+            const resolvedTabId = await resolveActiveTabId(tabId);
+            await chrome.tabs.update(resolvedTabId, { url: destination, active: true });
+
+            return {
+                tabId: resolvedTabId,
+                url: destination,
+                newTab: false,
+            };
+        },
+        wait_for_tab: async ({ tabId, urlIncludes = null, timeoutMs = 30000 }) => bridgeWaitForTab(tabId, {
+            urlIncludes: urlIncludes || null,
+            timeoutMs,
+        }),
+        click_ref: async ({ tabId, frameId, ref }) => {
+            if (!ref) {
+                throw new Error('ref is required.');
+            }
+
+            const resolvedTabId = await resolveActiveTabId(tabId);
+            const result = await clickInventoryRefOnTab(resolvedTabId, ref, frameId);
+
+            return {
+                success: Boolean(result?.success),
+                ref,
+            };
+        },
+        click_control_inventory: async ({ tabId, frameId, name }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId);
+            const control = await bridgeFindControlRef(resolvedTabId, frameId, name);
+            const result = await clickInventoryRefOnTab(resolvedTabId, control.ref, frameId);
+
+            return {
+                success: Boolean(result?.success),
+                control,
+            };
+        },
+        click_text: async ({ tabId, frameId, text }) => {
+            if (!text || typeof text !== 'string') {
+                throw new Error('text is required.');
+            }
+
+            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedFrameId = typeof frameId === 'number' ? frameId : await findBestFormFrameId(resolvedTabId);
+
+            return sendTabMessage(resolvedTabId, {
+                type: 'BRIDGE_CLICK_TEXT',
+                text,
+            }, resolvedFrameId);
+        },
+        click_selector: async ({ tabId, frameId, selector }) => {
+            if (!selector || typeof selector !== 'string') {
+                throw new Error('selector is required.');
+            }
+
+            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedFrameId = typeof frameId === 'number' ? frameId : await findBestFormFrameId(resolvedTabId);
+
+            return sendTabMessage(resolvedTabId, {
+                type: 'BRIDGE_CLICK_SELECTOR',
+                selector,
+            }, resolvedFrameId);
+        },
+        apply_answer: async ({ tabId, frameId, ref, label, answer, field_type, dom, data_field_path }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId);
+
+            if (!ref && !label) {
+                throw new Error('ref or label is required.');
+            }
+
+            const result = await applyDraftAnswerToTab(resolvedTabId, label || '', answer, {
+                frameId,
+                ref: ref || null,
+                field_type: field_type || null,
+                dom: dom || null,
+                data_field_path: data_field_path || dom?.data_field_path || null,
+            });
+
+            return {
+                success: Boolean(result?.success),
+                ref: ref || null,
+                label: label || null,
+            };
+        },
+        start_draft_all: async ({ tabId }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId);
+
+            return runDraftAll(resolvedTabId);
+        },
+        request_auth: async ({ tabId, waitMs = 0 }) => {
+            const timeoutMs = Math.max(0, Number(waitMs) || 0);
+            const deadline = Date.now() + timeoutMs;
+
+            do {
+                const status = await bridgeBuildAuthStatus(tabId);
+
+                if (status.state !== 'pending' || timeoutMs <= 0) {
+                    return status;
+                }
+
+                await bridgeSleep(500);
+            } while (Date.now() < deadline);
+
+            return bridgeBuildAuthStatus(tabId);
+        },
+    },
+});
 
 self.__autocvapplyE2e = {
     runDraftAll,
