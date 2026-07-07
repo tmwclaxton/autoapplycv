@@ -192,32 +192,51 @@ function contentLog(level, phase, message, data) {
 }
 
 function extractJobDescriptionFromPage() {
-    const selectors = [
-        '#job-details',
-        '[data-testid="job-description"]',
-        '[data-testid="jobDescriptionText"]',
-        '.jobs-description',
-        '[class*="job-description"]',
-        '[class*="JobDescription"]',
-        '[id*="job-description"]',
-        'article',
-    ];
+    if (typeof AutoCVApplyLinkedInAutoApply?.readJobDescriptionText === 'function') {
+        const linkedInText = AutoCVApplyLinkedInAutoApply.readJobDescriptionText();
 
-    for (const selector of selectors) {
-        const element = document.querySelector(selector);
-
-        if (element?.textContent?.trim().length > 200) {
-            return element.textContent.trim().slice(0, 20000);
+        if (linkedInText) {
+            return linkedInText;
         }
     }
 
-    const main = document.querySelector('main');
+    const selectors = [
+        '#job-details',
+        '.jobs-description-content',
+        '.jobs-description__content',
+        '.jobs-description',
+        '[data-testid="job-description"]',
+        '[data-testid="jobDescriptionText"]',
+        '[class*="job-description"]',
+        '[class*="JobDescription"]',
+        '[id*="job-description"]',
+        '.jobs-search__job-details--container',
+    ];
 
-    if (main?.textContent?.trim().length > 400) {
-        return main.textContent.trim().slice(0, 20000);
+    let best = '';
+
+    for (const selector of selectors) {
+        const element = document.querySelector(selector);
+        const text = element?.textContent?.replace(/\s+/g, ' ').trim() || '';
+
+        if (text.length > best.length) {
+            best = text;
+        }
     }
 
-    return null;
+    if (best.length < 200) {
+        const mainText = document.querySelector('main')?.textContent?.replace(/\s+/g, ' ').trim() || '';
+
+        if (mainText.length > best.length) {
+            best = mainText;
+        }
+    }
+
+    if (!best) {
+        return null;
+    }
+
+    return best.slice(0, 20000);
 }
 
 function buildPagePayloadForJobContext() {
@@ -998,15 +1017,51 @@ const contentMessageListener = (message, sender, sendResponse) => {
         }
 
         if (message.type === 'GET_JOB_META') {
-            sendResponse({
-                job: {
-                    title: document.title || 'Job application',
-                    company: 'Unknown company',
-                    link: window.location.href.split('?')[0],
-                    job_description: extractJobDescriptionFromPage(),
-                },
-                page: buildPagePayloadForJobContext(),
-            });
+            void (async () => {
+                if (typeof AutoCVApplyLinkedInAutoApply?.prepareJobDescriptionForRead === 'function') {
+                    await AutoCVApplyLinkedInAutoApply.prepareJobDescriptionForRead().catch(() => {});
+                }
+
+                sendResponse({
+                    job: {
+                        title: document.title || 'Job application',
+                        company: 'Unknown company',
+                        link: window.location.href.split('?')[0],
+                        job_description: extractJobDescriptionFromPage(),
+                    },
+                    page: buildPagePayloadForJobContext(),
+                });
+            })();
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_PREPARE_JOB_DESCRIPTION') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            void AutoCVApplyLinkedInAutoApply.prepareJobDescriptionForRead()
+                .then((result) => sendResponse({ success: true, ...result }))
+                .catch((error) => sendResponse({ success: false, error: error.message }));
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_WAIT_FOR_JOB_DESCRIPTION') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            const minLength = Number(message.minLength) || 200;
+
+            void AutoCVApplyLinkedInAutoApply.waitForJobDescriptionReady(minLength, 20_000)
+                .then((result) => sendResponse({ success: result.ready, ...result }))
+                .catch((error) => sendResponse({ success: false, error: error.message }));
 
             return;
         }

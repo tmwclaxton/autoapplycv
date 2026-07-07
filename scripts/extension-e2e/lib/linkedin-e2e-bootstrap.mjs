@@ -136,6 +136,154 @@ export function parseRoleList(raw) {
         .filter(Boolean);
 }
 
+function readArgValue(argv, prefix) {
+    const arg = argv.find((entry) => entry.startsWith(prefix));
+
+    if (!arg) {
+        return '';
+    }
+
+    return arg.slice(prefix.length);
+}
+
+/**
+ * @param {string[]} argv
+ * @returns {{
+ *   filters: import('../../../extension/src/shared/linkedin-platform.js').LinkedInSearchFilters|null,
+ *   fitCheckEnabled: boolean,
+ *   minFitScore: number,
+ * }}
+ */
+export function parseAutoApplyRunOptions(argv) {
+    /** @type {import('../../../extension/src/shared/linkedin-platform.js').LinkedInSearchFilters} */
+    const filters = {};
+    const location = readArgValue(argv, '--location=').trim();
+
+    if (location) {
+        filters.location = location;
+    }
+
+    const workType = readArgValue(argv, '--work-type=').trim();
+
+    if (workType) {
+        filters.workType = workType;
+    }
+
+    const experience = readArgValue(argv, '--experience=').trim();
+
+    if (experience) {
+        filters.experience = experience;
+    }
+
+    const datePosted = readArgValue(argv, '--date-posted=').trim();
+
+    if (datePosted) {
+        filters.datePosted = datePosted;
+    }
+
+    const minSalaryUk = readArgValue(argv, '--min-salary=').trim();
+
+    if (minSalaryUk) {
+        filters.minSalaryUk = minSalaryUk;
+    }
+
+    const fitCheckArg = readArgValue(argv, '--fit-check=').trim().toLowerCase();
+    const fitCheckEnabled = fitCheckArg !== 'off' && fitCheckArg !== 'false';
+    const minFitScoreRaw = readArgValue(argv, '--min-fit-score=');
+    const parsedMinFitScore = minFitScoreRaw ? Number.parseInt(minFitScoreRaw, 10) : 60;
+
+    return {
+        filters: Object.keys(filters).length ? filters : null,
+        fitCheckEnabled,
+        minFitScore: Number.isNaN(parsedMinFitScore) ? 60 : parsedMinFitScore,
+    };
+}
+
+export function validateLinkedInSearchUrl(urlString, filters) {
+    const parsed = new URL(urlString);
+    const issues = [];
+
+    if (!parsed.pathname.startsWith('/jobs/search')) {
+        issues.push('expected LinkedIn jobs search path');
+    }
+
+    if (!filters) {
+        return { ok: issues.length === 0, issues, url: urlString };
+    }
+
+    if (filters.location && parsed.searchParams.get('location') !== filters.location) {
+        issues.push(`location expected "${filters.location}" got "${parsed.searchParams.get('location') || ''}"`);
+    }
+
+    const workTypeMap = { remote: '2', hybrid: '3', on_site: '1' };
+
+    if (filters.workType && parsed.searchParams.get('f_WT') !== workTypeMap[filters.workType]) {
+        issues.push(`f_WT expected "${workTypeMap[filters.workType]}" got "${parsed.searchParams.get('f_WT') || ''}"`);
+    }
+
+    const experienceMap = {
+        entry: '2',
+        associate: '3',
+        mid_senior: '4',
+        director: '5',
+        executive: '6',
+    };
+
+    if (filters.experience && parsed.searchParams.get('f_E') !== experienceMap[filters.experience]) {
+        issues.push(`f_E expected "${experienceMap[filters.experience]}" got "${parsed.searchParams.get('f_E') || ''}"`);
+    }
+
+    const datePostedMap = {
+        '24h': 'r86400',
+        week: 'r604800',
+        month: 'r2592000',
+    };
+
+    if (filters.datePosted && parsed.searchParams.get('f_TPR') !== datePostedMap[filters.datePosted]) {
+        issues.push(`f_TPR expected "${datePostedMap[filters.datePosted]}" got "${parsed.searchParams.get('f_TPR') || ''}"`);
+    }
+
+    const salaryMap = {
+        '40k': '1',
+        '50k': '2',
+        '60k': '3',
+        '80k': '4',
+        '100k': '5',
+    };
+
+    if (filters.minSalaryUk && parsed.searchParams.get('f_SB2') !== salaryMap[filters.minSalaryUk]) {
+        issues.push(`f_SB2 expected "${salaryMap[filters.minSalaryUk]}" got "${parsed.searchParams.get('f_SB2') || ''}"`);
+    }
+
+    return { ok: issues.length === 0, issues, url: urlString };
+}
+
+export function findFitGateLogEntry(log = []) {
+    return log.find((entry) => /Scored .+ - \d+\/100|Skipped .+ fit \d+\/100|too short to score fit/i.test(entry.message || '')) || null;
+}
+
+export function findAtsFitScoreLogEntry(log = []) {
+    return log.find((entry) => /Scored .+ - \d+\/100|Skipped .+ fit \d+\/100/i.test(entry.message || '')) || null;
+}
+
+export function findFitPassedAndApplyingLogEntry(log = []) {
+    return log.find((entry) => /Scored .+ - \d+\/100 - applying/i.test(entry.message || '')) || null;
+}
+
+export function findEasyApplyProgressLogEntry(log = []) {
+    return log.find((entry) => /\[submitted\]|\[advance\]|Draft All|Applied to /i.test(entry.message || '')) || null;
+}
+
+export function findLinkedInSearchLogEntry(log = []) {
+    const entry = log.find((item) => String(item.message || '').startsWith('LinkedIn search:'));
+
+    if (!entry) {
+        return null;
+    }
+
+    return String(entry.message).replace(/^LinkedIn search:\s*/, '').trim();
+}
+
 export function parseFullFlowArgs(argv) {
     const maxJobsArg = argv.find((arg) => arg.startsWith('--max-jobs=') || arg.startsWith('--max-applications='));
     const rolesArg = argv.find((arg) => arg.startsWith('--roles='));
@@ -156,5 +304,6 @@ export function parseFullFlowArgs(argv) {
         outputDir: outputDirArg
             ? outputDirArg.split('=').slice(1).join('=')
             : join(ROOT, 'tests/output/linkedin-auto-apply-full-flow'),
+        ...parseAutoApplyRunOptions(argv),
     };
 }

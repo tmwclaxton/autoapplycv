@@ -14,6 +14,11 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {string} company
  * @property {boolean} easyApply
  * @property {boolean} alreadyApplied
+ * @property {number|null} [atsScore]
+ */
+
+/**
+ * @typedef {import('./linkedin-platform.js').LinkedInSearchFilters} AutoApplySearchFilters
  */
 
 /**
@@ -37,7 +42,10 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {string} roleDescription
  * @property {number|null} tabId
  * @property {number} maxApplications
- * @property {{ found: number, applied: number, skipped: number, errors: number, draftAllRuns: number, stepsAdvanced: number }} stats
+ * @property {AutoApplySearchFilters|null} filters
+ * @property {boolean} fitCheckEnabled
+ * @property {number} minFitScore
+ * @property {{ found: number, applied: number, skipped: number, errors: number, draftAllRuns: number, stepsAdvanced: number, fitSkipped: number }} stats
  * @property {AutoApplyJobEntry[]} queue
  * @property {number} currentIndex
  * @property {AutoApplyLogEntry[]} log
@@ -51,16 +59,33 @@ const STORAGE_KEY = 'autoApplySession';
  */
 
 /**
- * @param {{ platform: string, roleDescription: string, maxApplications?: number }} input
+ * @param {{
+ *   platform: string,
+ *   roleDescription: string,
+ *   maxApplications?: number,
+ *   filters?: AutoApplySearchFilters|null,
+ *   fitCheckEnabled?: boolean,
+ *   minFitScore?: number,
+ * }} input
  * @returns {AutoApplySession}
  */
-export function createInitialSession({ platform, roleDescription, maxApplications = 10 }) {
+export function createInitialSession({
+    platform,
+    roleDescription,
+    maxApplications = 10,
+    filters = null,
+    fitCheckEnabled = true,
+    minFitScore = 45,
+}) {
     return {
         status: 'running',
         platform,
         roleDescription,
         tabId: null,
         maxApplications,
+        filters: filters || null,
+        fitCheckEnabled: fitCheckEnabled !== false,
+        minFitScore: Math.max(0, Math.min(100, Number(minFitScore) || 45)),
         stats: {
             found: 0,
             applied: 0,
@@ -68,6 +93,7 @@ export function createInitialSession({ platform, roleDescription, maxApplication
             errors: 0,
             draftAllRuns: 0,
             stepsAdvanced: 0,
+            fitSkipped: 0,
         },
         queue: [],
         currentIndex: 0,
@@ -132,7 +158,20 @@ export function resumeAutoApplyFromInput(session) {
 export async function loadAutoApplySession() {
     const { [STORAGE_KEY]: session } = await chrome.storage.local.get([STORAGE_KEY]);
 
-    return session || null;
+    if (!session) {
+        return null;
+    }
+
+    return {
+        ...session,
+        fitCheckEnabled: session.fitCheckEnabled !== false,
+        minFitScore: Math.max(0, Math.min(100, Number(session.minFitScore) || 60)),
+        filters: session.filters ?? null,
+        stats: {
+            ...(session.stats || {}),
+            fitSkipped: Number(session.stats?.fitSkipped) || 0,
+        },
+    };
 }
 
 /** @param {AutoApplySession|null} session */

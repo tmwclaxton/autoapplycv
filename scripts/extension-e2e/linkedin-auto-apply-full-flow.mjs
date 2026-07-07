@@ -164,15 +164,21 @@ async function main() {
         const page = await context.newPage();
         await loginToLinkedIn(page, email, password);
 
-        await serviceWorker.evaluate(({ roleDescription, maxJobs }) => {
+        await serviceWorker.evaluate(({ roleDescription, maxJobs, filters, fitCheckEnabled, minFitScore }) => {
             void self.__autocvapplyE2e.startAutoApply({
                 platform: 'linkedin',
                 roleDescription,
                 maxApplications: maxJobs,
+                filters,
+                fitCheckEnabled,
+                minFitScore,
             });
         }, {
             roleDescription: args.roleDescription,
             maxJobs: args.maxJobs,
+            filters: args.filters,
+            fitCheckEnabled: args.fitCheckEnabled,
+            minFitScore: args.minFitScore,
         });
 
         const deadline = Date.now() + 25 * 60_000;

@@ -528,7 +528,11 @@ class ApplicationAssistantController extends Controller
         }
 
         $validated = $request->validated();
-        $result = $this->assistant->scoreAts($profile, $validated['job_description']);
+        $result = $this->assistant->scoreAts(
+            $profile,
+            $validated['job_description'],
+            $validated['role_preferences'] ?? null,
+        );
 
         if ($result === null) {
             return response()->json([

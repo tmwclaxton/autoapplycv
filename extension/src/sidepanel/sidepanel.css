@@ -1037,18 +1037,161 @@ body {
 .shell-auto-apply-panel {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     min-height: 0;
+    padding: 10px 12px 12px;
 }
 
-#auto-apply-role {
-    min-height: 72px;
+.shell-auto-apply-panel .postbox-input-compact {
+    padding: 0.35rem 0.55rem;
+    font-size: 13px;
+}
+
+.shell-auto-apply-panel select.postbox-input-compact {
+    min-height: 34px;
+}
+
+.auto-apply-field {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.auto-apply-field .postbox-label {
+    margin-bottom: 0;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+}
+
+.auto-apply-row-2 {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 64px;
+    gap: 8px;
+    align-items: end;
+}
+
+.auto-apply-field-max .postbox-input {
+    text-align: center;
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+}
+
+.auto-apply-role-input {
+    min-height: 52px;
     resize: vertical;
 }
 
-.auto-apply-actions {
-    display: flex;
+.auto-apply-field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
+}
+
+.auto-apply-details {
+    border: 2px solid var(--postbox-navy);
+    background: var(--postbox-surface);
+}
+
+.auto-apply-details-summary {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--postbox-navy);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+}
+
+.auto-apply-details-summary::-webkit-details-marker {
+    display: none;
+}
+
+.auto-apply-details-summary::before {
+    content: '▸';
+    font-size: 10px;
+    transition: transform 0.15s ease;
+}
+
+.auto-apply-details[open] .auto-apply-details-summary::before {
+    transform: rotate(90deg);
+}
+
+.auto-apply-details-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 10px 10px;
+    border-top: 1px solid var(--postbox-border);
+}
+
+.auto-apply-inline-hint {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.35;
+}
+
+.auto-apply-fit-bar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+        'toggle score'
+        'hint hint';
+    gap: 6px 10px;
+    align-items: center;
+    padding: 8px 10px;
+}
+
+.auto-apply-fit-toggle {
+    grid-area: toggle;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--postbox-navy);
+    cursor: pointer;
+}
+
+.auto-apply-fit-toggle input {
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.auto-apply-fit-score {
+    grid-area: score;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.auto-apply-fit-score .postbox-input {
+    width: 52px;
+    text-align: center;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+}
+
+.auto-apply-fit-bar .auto-apply-inline-hint {
+    grid-area: hint;
+}
+
+.auto-apply-fit-toggle input:disabled + span,
+.auto-apply-fit-score .postbox-input:disabled {
+    opacity: 0.55;
+}
+
+.auto-apply-actions {
+    margin-top: 2px;
+}
+
+.auto-apply-status {
+    margin-bottom: 0;
 }
 
 .auto-apply-activity-toggle {

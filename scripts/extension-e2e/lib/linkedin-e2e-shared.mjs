@@ -1,4 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
+import { buildLinkedInJobSearchUrl as buildLinkedInJobSearchUrlFromExtension } from '../../../extension/src/shared/linkedin-platform.js';
+
+export { buildLinkedInJobSearchUrlFromExtension as buildLinkedInJobSearchUrl };
 
 export const LINKEDIN_PAGE_ERROR_SELECTORS = [
     '.artdeco-toast-item--error',
@@ -77,25 +80,6 @@ export function scrubSecrets(text, secrets) {
     return scrubbed;
 }
 
-export function buildLinkedInJobSearchUrl(roleDescription, { easyApplyOnly = true } = {}) {
-    const keywords = String(roleDescription || '').trim();
-
-    if (!keywords) {
-        throw new Error('Role description is required.');
-    }
-
-    const params = new URLSearchParams({
-        keywords,
-        origin: 'JOBS_HOME_SEARCH_BUTTON',
-    });
-
-    if (easyApplyOnly) {
-        params.set('f_AL', 'true');
-    }
-
-    return `https://www.linkedin.com/jobs/search/?${params.toString()}`;
-}
-
 export function classifyLinkedInUrl(urlString) {
     try {
         const url = new URL(urlString);
@@ -111,12 +95,43 @@ export function classifyLinkedInUrl(urlString) {
             || url.pathname.startsWith('/jobs')
             || url.pathname === '/'
             || url.pathname.startsWith('/mynetwork')
+            || url.pathname.startsWith('/in/')
         );
 
-        return { loggedIn, checkpoint, login };
+        return { loggedIn, checkpoint, login, url: urlString };
     } catch {
-        return { loggedIn: false, checkpoint: false, login: false };
+        return { loggedIn: false, checkpoint: false, login: false, url: urlString };
     }
+}
+
+/**
+ * @param {import('playwright').Page} page
+ * @param {{ timeoutMs?: number, checkpointMessage?: string }} [options]
+ */
+export async function waitForLinkedInAuthenticated(page, options = {}) {
+    const timeoutMs = options.timeoutMs ?? 180_000;
+    const deadline = Date.now() + timeoutMs;
+    let announcedCheckpoint = false;
+
+    while (Date.now() < deadline) {
+        const state = classifyLinkedInUrl(page.url());
+
+        if (state.loggedIn) {
+            return state;
+        }
+
+        if (state.checkpoint && !announcedCheckpoint) {
+            announcedCheckpoint = true;
+            console.log(
+                options.checkpointMessage
+                    || 'LinkedIn checkpoint detected - complete verification in the browser window, then wait…',
+            );
+        }
+
+        await page.waitForTimeout(2000);
+    }
+
+    return classifyLinkedInUrl(page.url());
 }
 
 export function slugify(value, maxLength = 48) {
@@ -196,13 +211,15 @@ export async function fillLinkedInCredentials(page, email, password) {
     await visiblePassword.fill(password);
 }
 
-export async function loginToLinkedIn(page, email, password) {
+export async function loginToLinkedIn(page, email, password, options = {}) {
+    const skipIfLoggedIn = options.skipIfLoggedIn !== false;
+
     await page.goto('https://www.linkedin.com/feed/', { waitUntil: 'domcontentloaded', timeout: 120_000 });
 
-    const initialState = classifyLinkedInUrl(page.url());
+    let state = await waitForLinkedInAuthenticated(page, { timeoutMs: 5000 });
 
-    if (initialState.loggedIn) {
-        return;
+    if (skipIfLoggedIn && state.loggedIn) {
+        return state;
     }
 
     await page.goto('https://www.linkedin.com/login', { waitUntil: 'domcontentloaded', timeout: 120_000 });
@@ -230,23 +247,30 @@ export async function loginToLinkedIn(page, email, password) {
         throw new Error('LinkedIn rejected the login (wrong email or password). Update LINKEDIN_TEST_* in .env.');
     }
 
-    const postLoginState = classifyLinkedInUrl(page.url());
+    state = await waitForLinkedInAuthenticated(page, {
+        timeoutMs: options.checkpointTimeoutMs ?? 180_000,
+    });
 
-    if (postLoginState.checkpoint) {
-        console.log('LinkedIn checkpoint detected - complete verification in the browser (180s wait)...');
-        await page.waitForURL(
-            (url) => !url.pathname.includes('/checkpoint')
-                && !url.pathname.includes('/challenge')
-                && !url.pathname.includes('/login'),
-            { timeout: 180_000 },
-        ).catch(() => {});
+    if (!state.loggedIn) {
+        await page.goto('https://www.linkedin.com/feed/', { waitUntil: 'domcontentloaded', timeout: 60_000 }).catch(() => {});
+        state = await waitForLinkedInAuthenticated(page, { timeoutMs: 15_000 });
     }
 
-    const finalState = classifyLinkedInUrl(page.url());
+    if (!state.loggedIn) {
+        if (state.checkpoint) {
+            throw new Error(
+                'LinkedIn checkpoint still active. Complete verification in the headed browser, then rerun with the same --profile-dir and --keep-profile.',
+            );
+        }
 
-    if (finalState.login) {
-        throw new Error('LinkedIn login did not complete. Check credentials or complete any verification challenge.');
+        if (state.login) {
+            throw new Error('LinkedIn login did not complete. Check LINKEDIN_TEST_EMAIL and LINKEDIN_TEST_PASSWORD in .env.');
+        }
+
+        throw new Error(`LinkedIn session is not authenticated. Last URL: ${state.url || page.url()}`);
     }
+
+    return state;
 }
 
 export function randomDelayMs(minMs, maxMs) {

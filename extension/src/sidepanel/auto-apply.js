@@ -2,12 +2,22 @@ import {
     isAutoApplyActivityPanelExpanded,
     shouldShowAutoApplyActivityControls,
 } from './auto-apply-activity-ui.js';
+import { DEFAULT_MIN_FIT_SCORE } from './auto-apply-fit.js';
 import { buildAutoApplyPauseBannerMessage } from './auto-apply-pause-ui.js';
 import { AUTO_APPLY_PLATFORM_LIST, LINKEDIN_PLATFORM_ID } from './auto-apply-platforms.js';
 import { isActiveAutoApplyStatus, isTerminalAutoApplyStatus } from './auto-apply-session.js';
 
+const SETTINGS_STORAGE_KEY = 'autoApplySettings';
+
 const platformSelect = document.getElementById('auto-apply-platform');
 const roleInput = document.getElementById('auto-apply-role');
+const locationInput = document.getElementById('auto-apply-location');
+const workTypeSelect = document.getElementById('auto-apply-work-type');
+const experienceSelect = document.getElementById('auto-apply-experience');
+const datePostedSelect = document.getElementById('auto-apply-date-posted');
+const minSalarySelect = document.getElementById('auto-apply-min-salary');
+const fitEnabledInput = document.getElementById('auto-apply-fit-enabled');
+const minFitScoreInput = document.getElementById('auto-apply-min-fit-score');
 const maxApplicationsInput = document.getElementById('auto-apply-max');
 const startBtn = document.getElementById('auto-apply-start-btn');
 const stopBtn = document.getElementById('auto-apply-stop-btn');
@@ -18,6 +28,7 @@ const activityToggleEl = document.getElementById('auto-apply-activity-toggle');
 const activityPanelEl = document.getElementById('auto-apply-activity-panel');
 const statsEl = document.getElementById('auto-apply-stats');
 const logEl = document.getElementById('auto-apply-log');
+const filtersDetailsEl = document.getElementById('auto-apply-filters-details');
 
 /** @type {ReturnType<typeof setInterval>|null} */
 let pollTimer = null;
@@ -28,6 +39,8 @@ let activityPanelManuallyHidden = false;
 let notifyUser = null;
 /** @type {import('./auto-apply-session.js').AutoApplySession|null} */
 let lastRenderedSession = null;
+/** @type {ReturnType<typeof setTimeout>|null} */
+let saveSettingsTimer = null;
 
 function extensionContext() {
     return typeof AutoCVApplyExtensionContext !== 'undefined'
@@ -51,10 +64,159 @@ function renderPlatformOptions() {
     }
 }
 
-function formatStats(session) {
-    const stats = session?.stats || { found: 0, applied: 0, skipped: 0, errors: 0 };
+function readMinFitScore() {
+    const parsed = Number.parseInt(minFitScoreInput.value, 10);
 
-    return `Found ${stats.found} · Applied ${stats.applied} · Skipped ${stats.skipped} · Errors ${stats.errors}`;
+    if (Number.isNaN(parsed)) {
+        return DEFAULT_MIN_FIT_SCORE;
+    }
+
+    return Math.max(0, Math.min(100, parsed));
+}
+
+function readSearchFilters() {
+    /** @type {import('./linkedin-platform.js').LinkedInSearchFilters} */
+    const filters = {};
+    const location = locationInput.value.trim();
+
+    if (location) {
+        filters.location = location;
+    }
+
+    if (workTypeSelect.value) {
+        filters.workType = workTypeSelect.value;
+    }
+
+    if (experienceSelect.value) {
+        filters.experience = experienceSelect.value;
+    }
+
+    if (datePostedSelect.value) {
+        filters.datePosted = datePostedSelect.value;
+    }
+
+    if (minSalarySelect.value) {
+        filters.minSalaryUk = minSalarySelect.value;
+    }
+
+    return Object.keys(filters).length ? filters : null;
+}
+
+function readSettingsFromForm() {
+    return {
+        roleDescription: roleInput.value,
+        maxApplications: Number.parseInt(maxApplicationsInput.value, 10) || 3,
+        location: locationInput.value,
+        workType: workTypeSelect.value,
+        experience: experienceSelect.value,
+        datePosted: datePostedSelect.value,
+        minSalaryUk: minSalarySelect.value,
+        fitCheckEnabled: fitEnabledInput.checked,
+        minFitScore: readMinFitScore(),
+    };
+}
+
+function applySettingsToForm(settings) {
+    if (!settings) {
+        return;
+    }
+
+    if (typeof settings.roleDescription === 'string') {
+        roleInput.value = settings.roleDescription;
+    }
+
+    if (typeof settings.maxApplications === 'number' && settings.maxApplications > 0) {
+        maxApplicationsInput.value = String(settings.maxApplications);
+    }
+
+    if (typeof settings.location === 'string') {
+        locationInput.value = settings.location;
+    }
+
+    if (typeof settings.workType === 'string') {
+        workTypeSelect.value = settings.workType;
+    }
+
+    if (typeof settings.experience === 'string') {
+        experienceSelect.value = settings.experience;
+    }
+
+    if (typeof settings.datePosted === 'string') {
+        datePostedSelect.value = settings.datePosted;
+    }
+
+    if (typeof settings.minSalaryUk === 'string') {
+        minSalarySelect.value = settings.minSalaryUk;
+    }
+
+    if (typeof settings.fitCheckEnabled === 'boolean') {
+        fitEnabledInput.checked = settings.fitCheckEnabled;
+    }
+
+    if (typeof settings.minFitScore === 'number') {
+        minFitScoreInput.value = String(Math.max(0, Math.min(100, settings.minFitScore)));
+    }
+
+    syncFitGateControls();
+    syncFiltersDetailsOpen();
+}
+
+async function loadPersistedSettings() {
+    const { [SETTINGS_STORAGE_KEY]: settings } = await chrome.storage.local.get([SETTINGS_STORAGE_KEY]);
+    applySettingsToForm(settings);
+}
+
+function schedulePersistSettings() {
+    if (saveSettingsTimer) {
+        window.clearTimeout(saveSettingsTimer);
+    }
+
+    saveSettingsTimer = window.setTimeout(() => {
+        void chrome.storage.local.set({
+            [SETTINGS_STORAGE_KEY]: readSettingsFromForm(),
+        });
+    }, 250);
+}
+
+function syncFitGateControls() {
+    minFitScoreInput.disabled = !fitEnabledInput.checked;
+}
+
+function hasActiveSearchFilters() {
+    return Boolean(
+        locationInput.value.trim()
+        || workTypeSelect.value
+        || experienceSelect.value
+        || datePostedSelect.value
+        || minSalarySelect.value,
+    );
+}
+
+function syncFiltersDetailsOpen() {
+    if (!filtersDetailsEl) {
+        return;
+    }
+
+    if (hasActiveSearchFilters()) {
+        filtersDetailsEl.open = true;
+    }
+}
+
+function formatStats(session) {
+    const stats = session?.stats || { found: 0, applied: 0, skipped: 0, errors: 0, fitSkipped: 0 };
+    const parts = [
+        `Found ${stats.found}`,
+        `Applied ${stats.applied}`,
+        `Skipped ${stats.skipped}`,
+    ];
+
+    if (stats.fitSkipped > 0) {
+        parts.push(`Fit skipped ${stats.fitSkipped}`);
+    }
+
+    parts.push(`Errors ${stats.errors}`);
+
+    return parts.join(' · ');
 }
 
 function renderPauseBanner(session) {
@@ -123,11 +285,25 @@ function renderLog(session) {
 }
 
 function setControlsRunning(isRunning, { stopping = false } = {}) {
-    startBtn.disabled = isRunning || stopping;
+    const locked = isRunning || stopping;
+
+    startBtn.disabled = locked;
     stopBtn.disabled = !isRunning || stopping;
-    platformSelect.disabled = isRunning || stopping;
-    roleInput.disabled = isRunning || stopping;
-    maxApplicationsInput.disabled = isRunning || stopping;
+    platformSelect.disabled = locked;
+    roleInput.disabled = locked;
+    locationInput.disabled = locked;
+    workTypeSelect.disabled = locked;
+    experienceSelect.disabled = locked;
+    datePostedSelect.disabled = locked;
+    minSalarySelect.disabled = locked;
+    fitEnabledInput.disabled = locked;
+    maxApplicationsInput.disabled = locked;
+
+    if (locked) {
+        minFitScoreInput.disabled = true;
+    } else {
+        syncFitGateControls();
+    }
 }
 
 function resetActivityPanelVisibility() {
@@ -310,9 +486,46 @@ function expandActivityPanelForRun() {
     resetActivityPanelVisibility();
 }
 
+function bindSettingsPersistence() {
+    const inputs = [
+        roleInput,
+        locationInput,
+        workTypeSelect,
+        experienceSelect,
+        datePostedSelect,
+        minSalarySelect,
+        fitEnabledInput,
+        minFitScoreInput,
+        maxApplicationsInput,
+    ];
+
+    for (const input of inputs) {
+        input.addEventListener('input', () => {
+            schedulePersistSettings();
+
+            if (input === locationInput || input === workTypeSelect || input === experienceSelect
+                || input === datePostedSelect || input === minSalarySelect) {
+                syncFiltersDetailsOpen();
+            }
+        });
+        input.addEventListener('change', () => {
+            schedulePersistSettings();
+
+            if (input === locationInput || input === workTypeSelect || input === experienceSelect
+                || input === datePostedSelect || input === minSalarySelect) {
+                syncFiltersDetailsOpen();
+            }
+        });
+    }
+
+    fitEnabledInput.addEventListener('change', syncFitGateControls);
+}
+
 export function initAutoApplyPanel({ showMessage }) {
     notifyUser = showMessage;
     renderPlatformOptions();
+    bindSettingsPersistence();
+    void loadPersistedSettings();
 
     activityToggleEl.addEventListener('click', () => {
         activityPanelManuallyHidden = !activityPanelManuallyHidden;
@@ -322,6 +535,9 @@ export function initAutoApplyPanel({ showMessage }) {
     startBtn.addEventListener('click', async () => {
         const roleDescription = roleInput.value.trim();
         const maxApplications = Number.parseInt(maxApplicationsInput.value, 10) || 3;
+        const filters = readSearchFilters();
+        const fitCheckEnabled = fitEnabledInput.checked;
+        const minFitScore = readMinFitScore();
 
         if (!roleDescription) {
             showMessage('Enter a role description.', 'error');
@@ -329,23 +545,24 @@ export function initAutoApplyPanel({ showMessage }) {
             return;
         }
 
+        await chrome.storage.local.set({ [SETTINGS_STORAGE_KEY]: readSettingsFromForm() });
+
         startBtn.disabled = true;
 
         try {
+            const payload = {
+                type: 'AUTO_APPLY_START',
+                platform: platformSelect.value,
+                roleDescription,
+                maxApplications,
+                filters,
+                fitCheckEnabled,
+                minFitScore,
+            };
             const ctx = extensionContext();
             const response = ctx
-                ? await ctx.safeRuntimeSend({
-                    type: 'AUTO_APPLY_START',
-                    platform: platformSelect.value,
-                    roleDescription,
-                    maxApplications,
-                })
-                : await chrome.runtime.sendMessage({
-                    type: 'AUTO_APPLY_START',
-                    platform: platformSelect.value,
-                    roleDescription,
-                    maxApplications,
-                });
+                ? await ctx.safeRuntimeSend(payload)
+                : await chrome.runtime.sendMessage(payload);
 
             if (response?.error) {
                 throw new Error(response.error);

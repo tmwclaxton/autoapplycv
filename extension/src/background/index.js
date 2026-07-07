@@ -650,6 +650,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             platform: message.platform,
             roleDescription: message.roleDescription,
             maxApplications: message.maxApplications,
+            filters: message.filters || null,
+            fitCheckEnabled: message.fitCheckEnabled !== false,
+            minFitScore: message.minFitScore,
             runDraftAll,
         })
             .then((session) => sendResponse({ success: true, session: session ? sanitizeAutoApplySessionResponse(session) : null }))
@@ -2183,6 +2186,7 @@ async function assistCoverLetter(message) {
 async function assistAts(message) {
     return postAssist('/api/applications/assist/ats-score', {
         job_description: message.job_description,
+        role_preferences: message.role_preferences || undefined,
     });
 }
 

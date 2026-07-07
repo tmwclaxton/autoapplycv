@@ -12,6 +12,12 @@ import {
     findFieldValidationError,
     normalizeBlockerField,
 } from './auto-apply-blockers.js';
+import {
+    formatAutoApplyFitLogMessage,
+    MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
+    requestAutoApplyAtsScore,
+    resolveAutoApplyFitDecision,
+} from './auto-apply-fit.js';
 import { buildJobSearchUrl, LINKEDIN_PLATFORM_ID } from './auto-apply-platforms.js';
 import {
     appendAutoApplyLog,
@@ -43,6 +49,225 @@ const STUCK_TIMEOUT_MS = 45_000;
 const STUCK_RECOVERY_LIMIT = 3;
 const EASY_APPLY_MAX_STEPS = 10;
 const EASY_APPLY_STUCK_STEP_LIMIT = 3;
+
+function buildSessionSearchOptions(session) {
+    return {
+        easyApplyOnly: true,
+        filters: session.filters || null,
+    };
+}
+
+function linkedInSearchParamKeys(filters) {
+    const keys = new Set(['keywords', 'f_AL', 'origin']);
+
+    if (filters?.location) {
+        keys.add('location');
+    }
+
+    if (filters?.workType) {
+        keys.add('f_WT');
+    }
+
+    if (filters?.experience) {
+        keys.add('f_E');
+    }
+
+    if (filters?.datePosted) {
+        keys.add('f_TPR');
+    }
+
+    if (filters?.minSalaryUk) {
+        keys.add('f_SB2');
+    }
+
+    return keys;
+}
+
+function urlsMatchLinkedInSearch(session, currentUrl, expectedUrl) {
+    try {
+        const current = new URL(currentUrl);
+        const expected = new URL(expectedUrl);
+
+        if (!current.pathname.startsWith('/jobs/search')) {
+            return false;
+        }
+
+        for (const key of linkedInSearchParamKeys(session.filters)) {
+            if (current.searchParams.get(key) !== expected.searchParams.get(key)) {
+                return false;
+            }
+        }
+
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+async function fetchJobMetaFromTab(tabId) {
+    const response = await sendTabMessage(tabId, { type: 'GET_JOB_META' }, 0);
+
+    return response || null;
+}
+
+function resolveJobDescriptionFromMetaResponse(response) {
+    const fromJob = String(response?.job?.job_description || '').replace(/\s+/g, ' ').trim();
+    const fromPage = String(response?.page?.page_text || '').replace(/\s+/g, ' ').trim();
+
+    if (fromPage.length > fromJob.length) {
+        return fromPage.slice(0, 20000);
+    }
+
+    return fromJob.slice(0, 20000);
+}
+
+async function ensureLinkedInJobViewForFit(tabId, job) {
+    const jobUrl = buildLinkedInJobOpenUrl(job.jobId, { preferJobView: true });
+
+    try {
+        const tab = await chrome.tabs.get(tabId);
+        const currentUrl = tab.url || '';
+
+        if (currentUrl.includes(`/jobs/view/${job.jobId}`)) {
+            return tabId;
+        }
+    } catch {
+        // Recreate tab below.
+    }
+
+    await logSession('info', `Opening full job page for fit check: ${job.title}`);
+
+    try {
+        await chrome.tabs.update(tabId, { url: jobUrl, active: true });
+    } catch {
+        const tab = await chrome.tabs.create({ url: jobUrl, active: true });
+        tabId = tab.id;
+    }
+
+    await waitForTabLoadComplete(tabId);
+    await waitForTabContentScript(tabId);
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
+    await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId }).catch(() => {});
+
+    return tabId;
+}
+
+async function readJobDescriptionFromTab(tabId) {
+    await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_JOB_DESCRIPTION', {
+        minLength: MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
+    }).catch(() => {});
+    await sendLinkedInMessage(tabId, 'LINKEDIN_PREPARE_JOB_DESCRIPTION').catch(() => {});
+
+    const metaResponse = await fetchJobMetaFromTab(tabId);
+    const description = resolveJobDescriptionFromMetaResponse(metaResponse);
+
+    return { jobMeta: metaResponse?.job || null, description };
+}
+
+async function fetchJobDescriptionForFit(tabId, job = null) {
+    const deadline = Date.now() + 15_000;
+    let jobMeta = null;
+    let description = '';
+
+    while (Date.now() < deadline) {
+        ({ jobMeta, description } = await readJobDescriptionFromTab(tabId));
+
+        if (description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
+            return { jobMeta, description };
+        }
+
+        await sleep(randomDelay(800, 500));
+    }
+
+    if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT && job?.jobId) {
+        const jobUrl = buildLinkedInJobOpenUrl(job.jobId, { preferJobView: true });
+
+        await logSession('info', `Opening full job page to read description for ${job.title}.`);
+        await chrome.tabs.update(tabId, { url: jobUrl, active: true });
+        await waitForTabLoadComplete(tabId);
+        await waitForTabContentScript(tabId);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
+
+        const retryDeadline = Date.now() + 15_000;
+
+        while (Date.now() < retryDeadline) {
+            ({ jobMeta, description } = await readJobDescriptionFromTab(tabId));
+
+            if (description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
+                return { jobMeta, description };
+            }
+
+            await sleep(randomDelay(800, 500));
+        }
+    }
+
+    return { jobMeta, description };
+}
+
+async function evaluateJobFit(tabId, job, session) {
+    if (!session.fitCheckEnabled) {
+        return { proceed: true, score: null };
+    }
+
+    const { description } = await fetchJobDescriptionForFit(tabId, job);
+
+    if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
+        await logSession(
+            'warn',
+            `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
+        );
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'short_job_description' },
+        }, tabId);
+
+        return { proceed: false, reason: 'short_job_description', score: null };
+    }
+
+    const scoreResult = await requestAutoApplyAtsScore(description, session.roleDescription);
+
+    if (!scoreResult.ok) {
+        if (scoreResult.insufficientCredits) {
+            throw new Error(`${scoreResult.error} Auto Apply paused - top up credits and start a new run.`);
+        }
+
+        await logSession('warn', `Skipped ${job.title} - could not score fit (${scoreResult.error}).`);
+
+        return { proceed: false, reason: 'fit_score_failed', score: null };
+    }
+
+    await logSession(
+        'info',
+        `ATS score for ${job.title} at ${job.company}: ${scoreResult.score}/100 (min ${session.minFitScore}).`,
+    );
+
+    const fitDecision = resolveAutoApplyFitDecision({
+        fitCheckEnabled: true,
+        minFitScore: session.minFitScore,
+        score: scoreResult.score,
+        jobDescriptionLength: description.length,
+    });
+
+    job.atsScore = scoreResult.score;
+
+    if (fitDecision === 'skip_low_score') {
+        await logSession(
+            'info',
+            formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, false),
+        );
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'low_fit_score', score: scoreResult.score, min_fit_score: session.minFitScore },
+        }, tabId);
+
+        return { proceed: false, reason: 'low_fit_score', score: scoreResult.score };
+    }
+
+    await logSession(
+        'info',
+        formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, true),
+    );
+
+    return { proceed: true, score: scoreResult.score, jobMeta };
+}
 
 /** @type {Promise<void>|null} */
 let activeRunPromise = null;
@@ -91,6 +316,9 @@ function sanitizeSessionForBroadcast(session) {
         roleDescription: session.roleDescription,
         tabId: session.tabId,
         maxApplications: session.maxApplications,
+        filters: session.filters || null,
+        fitCheckEnabled: session.fitCheckEnabled !== false,
+        minFitScore: session.minFitScore,
         stats: session.stats,
         currentIndex: session.currentIndex,
         queueLength: session.queue?.length || 0,
@@ -262,7 +490,7 @@ async function recoverLinkedInTab(tabId, session, reason) {
         // Tab may have been closed; recreate below.
     }
 
-    const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, { easyApplyOnly: true });
+    const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
 
     try {
         await chrome.tabs.update(tabId, { url: searchUrl, active: true });
@@ -312,12 +540,44 @@ async function waitForTabLoadComplete(tabId, timeoutMs = 90_000) {
     });
 }
 
+async function waitForTabContentScript(tabId, timeoutMs = 45_000) {
+    const deadline = Date.now() + timeoutMs;
+
+    while (Date.now() < deadline) {
+        try {
+            await sendTabMessage(tabId, { type: 'LINKEDIN_SCAN_PAGE_HEALTH' }, 0);
+
+            return;
+        } catch (error) {
+            if (!isExtensionMessagingError(error instanceof Error ? error.message : String(error))) {
+                throw error;
+            }
+
+            await sleep(400);
+        }
+    }
+
+    throw new Error('LinkedIn content script did not load in time.');
+}
+
 async function ensureLinkedInTab(session) {
+    const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+
     if (session.tabId) {
         try {
             const tab = await chrome.tabs.get(session.tabId);
 
             if (tab?.id) {
+                const currentUrl = tab.url || '';
+
+                if (!currentUrl.includes('/jobs/search') || !urlsMatchLinkedInSearch(session, currentUrl, searchUrl)) {
+                    await chrome.tabs.update(tab.id, { url: searchUrl, active: true });
+                    await waitForTabLoadComplete(tab.id);
+                    await waitForTabContentScript(tab.id);
+                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
+                    await acceptLinkedInCookieConsent(tab.id).catch(() => {});
+                }
+
                 return tab.id;
             }
         } catch {
@@ -325,10 +585,11 @@ async function ensureLinkedInTab(session) {
         }
     }
 
-    const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, { easyApplyOnly: true });
+    await logSession('info', `LinkedIn search: ${searchUrl}`);
     const tab = await chrome.tabs.create({ url: searchUrl, active: true });
 
     await waitForTabLoadComplete(tab.id);
+    await waitForTabContentScript(tab.id);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
     await acceptLinkedInCookieConsent(tab.id).catch(() => {});
 
@@ -835,7 +1096,25 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
     }
 
+    const detailReady = await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
+
+    if (!detailReady?.success) {
+        await logSession('warn', `Job detail slow to load for ${job.title} - continuing fit check.`);
+    }
+
     await captureJobPage(tabId);
+
+    const fitSession = await loadAutoApplySession();
+
+    if (fitSession?.fitCheckEnabled !== false && job.jobId) {
+        tabId = await ensureLinkedInJobViewForFit(tabId, job);
+    }
+
+    const fitResult = await evaluateJobFit(tabId, job, fitSession || session);
+
+    if (!fitResult.proceed) {
+        return { outcome: 'skipped', reason: fitResult.reason || 'low_fit_score', tabId, atsScore: fitResult.score };
+    }
 
     const preApplyHealth = await scanLinkedInTabHealth(tabId);
 
@@ -1075,6 +1354,9 @@ export async function startAutoApply({
     platform = LINKEDIN_PLATFORM_ID,
     roleDescription,
     maxApplications = 10,
+    filters = null,
+    fitCheckEnabled = true,
+    minFitScore = 45,
     runDraftAll,
 }) {
     if (activeRunPromise) {
@@ -1095,6 +1377,9 @@ export async function startAutoApply({
         platform,
         roleDescription: trimmedRole,
         maxApplications,
+        filters,
+        fitCheckEnabled,
+        minFitScore,
     });
 
     session = appendAutoApplyLog(session, 'info', `Starting Auto Apply on ${platform}.`);
@@ -1245,6 +1530,10 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
                     stats.applied += 1;
                 } else {
                     stats.skipped += 1;
+
+                    if (result.reason === 'low_fit_score' || result.reason === 'short_job_description') {
+                        stats.fitSkipped += 1;
+                    }
                 }
 
                 const withLog = appendAutoApplyLog(
@@ -1321,7 +1610,7 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
 
     await logSession(
         'success',
-        `Auto Apply finished. Applied: ${session?.stats.applied || 0}, skipped: ${session?.stats.skipped || 0}, errors: ${session?.stats.errors || 0}.`,
+        `Auto Apply finished. Applied: ${session?.stats.applied || 0}, skipped: ${session?.stats.skipped || 0}, fit skipped: ${session?.stats.fitSkipped || 0}, errors: ${session?.stats.errors || 0}.`,
     );
 
     if (session) {

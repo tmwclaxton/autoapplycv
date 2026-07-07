@@ -61,6 +61,41 @@ const cases = [
         },
     },
     {
+        name: 'builds LinkedIn search URL with native filter params',
+        fn: () => {
+            const url = buildLinkedInJobSearchUrl('software engineer', {
+                filters: {
+                    location: 'United Kingdom',
+                    workType: 'remote',
+                    experience: 'mid_senior',
+                    datePosted: 'week',
+                    minSalaryUk: '80k',
+                },
+            });
+            const parsed = new URL(url);
+
+            assert.equal(parsed.searchParams.get('keywords'), 'software engineer');
+            assert.equal(parsed.searchParams.get('location'), 'United Kingdom');
+            assert.equal(parsed.searchParams.get('f_WT'), '2');
+            assert.equal(parsed.searchParams.get('f_E'), '4');
+            assert.equal(parsed.searchParams.get('f_TPR'), 'r604800');
+            assert.equal(parsed.searchParams.get('f_SB2'), '4');
+            assert.equal(parsed.searchParams.get('f_AL'), 'true');
+        },
+    },
+    {
+        name: 'omits empty LinkedIn filter params',
+        fn: () => {
+            const url = buildLinkedInJobSearchUrl('designer', { filters: { workType: '', experience: '' } });
+            const parsed = new URL(url);
+
+            assert.equal(parsed.searchParams.get('keywords'), 'designer');
+            assert.equal(parsed.searchParams.has('f_WT'), false);
+            assert.equal(parsed.searchParams.has('f_E'), false);
+            assert.equal(parsed.searchParams.has('location'), false);
+        },
+    },
+    {
         name: 'detects LinkedIn jobs search URLs',
         fn: () => {
             assert.equal(

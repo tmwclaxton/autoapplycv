@@ -18,6 +18,7 @@ class ScoreAtsRequest extends FormRequest
     {
         return [
             'job_description' => ['required', 'string', 'min:40', 'max:20000'],
+            'role_preferences' => ['nullable', 'string', 'max:500'],
         ];
     }
 }

@@ -106,7 +106,7 @@ export const AUTO_APPLY_PLATFORMS = Object.fromEntries(
 /**
  * @param {string} platformId
  * @param {string} roleDescription
- * @param {{ easyApplyOnly?: boolean }} [options]
+ * @param {{ easyApplyOnly?: boolean, filters?: import('./linkedin-platform.js').LinkedInSearchFilters|null }} [options]
  * @returns {string}
  */
 export function buildJobSearchUrl(platformId, roleDescription, options = {}) {

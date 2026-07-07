@@ -230,6 +230,7 @@ copyFileSync(join(SRC, 'shared/draft-batch-chat.js'), join(DIST, 'draft-batch-ch
 copyFileSync(join(SRC, 'shared/upload-validation.js'), join(DIST, 'upload-validation.js'));
 copyFileSync(join(SRC, 'shared/side-panel-state.js'), join(DIST, 'side-panel-state.js'));
 copyFileSync(join(SRC, 'shared/linkedin-platform.js'), join(DIST, 'linkedin-platform.js'));
+copyFileSync(join(SRC, 'shared/auto-apply-fit.js'), join(DIST, 'auto-apply-fit.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-platforms.js'), join(DIST, 'auto-apply-platforms.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-session.js'), join(DIST, 'auto-apply-session.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-activity-ui.js'), join(DIST, 'auto-apply-activity-ui.js'));

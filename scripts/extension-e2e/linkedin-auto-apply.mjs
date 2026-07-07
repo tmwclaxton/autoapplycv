@@ -30,6 +30,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { EXTENSION_DIR } from '../form-corpus/lib/extension-fill-e2e.mjs';
+import { parseAutoApplyRunOptions } from './lib/linkedin-e2e-bootstrap.mjs';
 import { acceptLinkedInCookieConsent, dismissLinkedInCookieBanner, dismissSaveApplicationDialog } from './lib/linkedin-e2e-shared.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -126,6 +127,7 @@ function parseArgs(argv) {
         screenshotDir: screenshotDirArg
             ? screenshotDirArg.split('=').slice(1).join('=')
             : join(ROOT, 'tests/output/linkedin-auto-apply'),
+        ...parseAutoApplyRunOptions(argv),
     };
 }
 
@@ -472,6 +474,9 @@ async function main() {
         started_at: new Date().toISOString(),
         role_description: args.roleDescription,
         max_applications: args.maxApplications,
+        filters: args.filters,
+        fit_check_enabled: args.fitCheckEnabled,
+        min_fit_score: args.minFitScore,
         api_base: connection.apiBase,
         api_connected: false,
         success: false,
@@ -519,15 +524,21 @@ async function main() {
         await loginToLinkedIn(page, email, password, secrets, args.screenshotDir);
         report.login_succeeded = classifyLinkedInUrl(page.url()).loggedIn;
 
-        await serviceWorker.evaluate(({ roleDescription, maxApplications }) => {
+        await serviceWorker.evaluate(({ roleDescription, maxApplications, filters, fitCheckEnabled, minFitScore }) => {
             void self.__autocvapplyE2e.startAutoApply({
                 platform: 'linkedin',
                 roleDescription,
                 maxApplications,
+                filters,
+                fitCheckEnabled,
+                minFitScore,
             });
         }, {
             roleDescription: args.roleDescription,
             maxApplications: args.maxApplications,
+            filters: args.filters,
+            fitCheckEnabled: args.fitCheckEnabled,
+            minFitScore: args.minFitScore,
         });
 
         const deadline = Date.now() + 20 * 60_000;

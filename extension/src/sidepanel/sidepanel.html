@@ -132,30 +132,111 @@
 
                     <div class="tab-panel" id="auto-apply-tab">
                         <div class="shell-scroll shell-auto-apply-panel">
-                            <p class="postbox-hint">
-                                Search a job platform and apply to matching Easy Apply roles using your saved profile and Draft All.
-                            </p>
+                            <div class="auto-apply-row-2">
+                                <div class="auto-apply-field auto-apply-field-grow">
+                                    <label class="postbox-label" for="auto-apply-platform">Platform</label>
+                                    <select id="auto-apply-platform" class="postbox-input postbox-input-compact"></select>
+                                </div>
+                                <div class="auto-apply-field auto-apply-field-max">
+                                    <label class="postbox-label" for="auto-apply-max">Max</label>
+                                    <input id="auto-apply-max" class="postbox-input postbox-input-compact" type="number" min="1" max="25" value="3" />
+                                </div>
+                            </div>
 
-                            <label class="postbox-label" for="auto-apply-platform">Platform</label>
-                            <select id="auto-apply-platform" class="postbox-input"></select>
+                            <div class="auto-apply-field">
+                                <label class="postbox-label" for="auto-apply-role">Role</label>
+                                <textarea
+                                    id="auto-apply-role"
+                                    class="postbox-input postbox-input-compact auto-apply-role-input"
+                                    rows="2"
+                                    placeholder="software engineer remote UK"
+                                ></textarea>
+                            </div>
 
-                            <label class="postbox-label" for="auto-apply-role">Role description</label>
-                            <textarea
-                                id="auto-apply-role"
-                                class="postbox-input"
-                                rows="3"
-                                placeholder="software engineer remote UK"
-                            ></textarea>
+                            <details id="auto-apply-filters-details" class="auto-apply-details">
+                                <summary class="auto-apply-details-summary">Search filters</summary>
+                                <div class="auto-apply-details-body">
+                                    <div class="auto-apply-field">
+                                        <label class="postbox-label" for="auto-apply-location">Location</label>
+                                        <input
+                                            id="auto-apply-location"
+                                            class="postbox-input postbox-input-compact"
+                                            type="text"
+                                            placeholder="United Kingdom, London…"
+                                        />
+                                    </div>
 
-                            <label class="postbox-label" for="auto-apply-max">Max applications this run</label>
-                            <input id="auto-apply-max" class="postbox-input" type="number" min="1" max="25" value="3" />
+                                    <div class="auto-apply-field-grid">
+                                        <div class="auto-apply-field">
+                                            <label class="postbox-label" for="auto-apply-work-type">Work type</label>
+                                            <select id="auto-apply-work-type" class="postbox-input postbox-input-compact">
+                                                <option value="">Any</option>
+                                                <option value="remote">Remote</option>
+                                                <option value="hybrid">Hybrid</option>
+                                                <option value="on_site">On-site</option>
+                                            </select>
+                                        </div>
+                                        <div class="auto-apply-field">
+                                            <label class="postbox-label" for="auto-apply-experience">Experience</label>
+                                            <select id="auto-apply-experience" class="postbox-input postbox-input-compact">
+                                                <option value="">Any</option>
+                                                <option value="entry">Entry</option>
+                                                <option value="associate">Associate</option>
+                                                <option value="mid_senior">Mid-senior</option>
+                                                <option value="director">Director</option>
+                                                <option value="executive">Executive</option>
+                                            </select>
+                                        </div>
+                                        <div class="auto-apply-field">
+                                            <label class="postbox-label" for="auto-apply-date-posted">Posted</label>
+                                            <select id="auto-apply-date-posted" class="postbox-input postbox-input-compact">
+                                                <option value="">Any time</option>
+                                                <option value="24h">24 hours</option>
+                                                <option value="week">Past week</option>
+                                                <option value="month">Past month</option>
+                                            </select>
+                                        </div>
+                                        <div class="auto-apply-field">
+                                            <label class="postbox-label" for="auto-apply-min-salary">Min salary</label>
+                                            <select id="auto-apply-min-salary" class="postbox-input postbox-input-compact">
+                                                <option value="">Any</option>
+                                                <option value="40k">£40k+</option>
+                                                <option value="50k">£50k+</option>
+                                                <option value="60k">£60k+</option>
+                                                <option value="80k">£80k+</option>
+                                                <option value="100k">£100k+</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <p class="postbox-hint auto-apply-inline-hint">UK LinkedIn brackets. Salary in your role text is also used for fit scoring.</p>
+                                </div>
+                            </details>
 
-                            <div class="auto-apply-actions stack">
-                                <button type="button" class="postbox-btn" id="auto-apply-start-btn">Start Auto Apply</button>
+                            <div class="auto-apply-fit-bar postbox-panel-muted">
+                                <label class="auto-apply-fit-toggle" for="auto-apply-fit-enabled">
+                                    <input id="auto-apply-fit-enabled" type="checkbox" checked />
+                                    <span>Skip below fit score</span>
+                                </label>
+                                <div class="auto-apply-fit-score">
+                                    <label class="postbox-label" for="auto-apply-min-fit-score">Min</label>
+                                    <input
+                                        id="auto-apply-min-fit-score"
+                                        class="postbox-input postbox-input-compact"
+                                        type="number"
+                                        min="0"
+                                        max="100"
+                                        value="45"
+                                    />
+                                </div>
+                                <p class="postbox-hint auto-apply-inline-hint">5 credits per scored job</p>
+                            </div>
+
+                            <div class="auto-apply-actions btn-row">
+                                <button type="button" class="postbox-btn" id="auto-apply-start-btn">Start</button>
                                 <button type="button" class="postbox-btn-outline" id="auto-apply-stop-btn" disabled>Stop</button>
                             </div>
 
-                            <div id="auto-apply-status" class="status-line">Ready. Choose a platform and role description.</div>
+                            <div id="auto-apply-status" class="status-line auto-apply-status">Ready. Set a role and start.</div>
                             <div id="auto-apply-pause-banner" class="auto-apply-pause-banner postbox-panel" hidden>
                                 <strong>Paused</strong>
                                 <p id="auto-apply-pause-message" class="postbox-hint auto-apply-pause-message"></p>

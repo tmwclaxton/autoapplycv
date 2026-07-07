@@ -163,6 +163,27 @@ npm run secrets:check-fixtures
 
 Scans `captured/` and form-extraction HTML for known API key patterns.
 
+## Auto Apply search filters and fit gate
+
+LinkedIn search URLs are built with native query params from the Auto Apply tab:
+
+| UI control | LinkedIn param |
+| --- | --- |
+| Location | `location` |
+| Work type | `f_WT` (`2` remote, `3` hybrid, `1` on-site) |
+| Experience | `f_E` |
+| Date posted | `f_TPR` |
+| Min salary (UK) | `f_SB2` |
+
+UK salary brackets are market-dependent; salary hints in the role description are also enforced during ATS fit scoring when the fit gate is enabled (default on, minimum score 60, 5 credits per scored job).
+
+Offline unit checks:
+
+```bash
+node scripts/extension-test/linkedin-auto-apply.mjs
+node scripts/extension-test/auto-apply-fit.mjs
+```
+
 ## Credentials and PII
 
 - Capture reads credentials from `.env` only

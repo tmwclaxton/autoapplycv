@@ -117,6 +117,42 @@ class ApplicationAssistantTest extends TestCase
         $this->assertSame(5, $user->fresh()->ai_tokens_used);
     }
 
+    public function test_ats_score_accepts_role_preferences(): void
+    {
+        $user = User::factory()->create();
+        CvProfile::factory()->for($user)->create([
+            'formatted_cv_text' => 'Laravel, PHP, PostgreSQL, Redis',
+        ]);
+        $token = $user->createToken('extension')->plainTextToken;
+
+        $this->mock(NanoGptService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('chatJson')
+                ->once()
+                ->withArgs(function (array $messages): bool {
+                    $userContent = $messages[1]['content'] ?? '';
+                    $decoded = json_decode($userContent, true);
+
+                    return is_array($decoded)
+                        && ($decoded['role_preferences'] ?? '') === 'remote UK senior £80k';
+                })
+                ->andReturn([
+                    'score' => 68,
+                    'matched_keywords' => ['Laravel', 'PHP'],
+                    'missing_keywords' => ['Kubernetes'],
+                    'suggestions' => ['Highlight remote delivery experience if relevant.'],
+                ]);
+        });
+
+        $this->withToken($token)
+            ->postJson('/api/applications/assist/ats-score', [
+                'job_description' => 'Senior Laravel engineer remote UK role with competitive salary and PostgreSQL.',
+                'role_preferences' => 'remote UK senior £80k',
+            ])
+            ->assertOk()
+            ->assertJsonPath('result.score', 68)
+            ->assertJsonPath('credit_cost', 5);
+    }
+
     public function test_extension_can_generate_cover_letter_with_job_description_only(): void
     {
         $user = User::factory()->create();

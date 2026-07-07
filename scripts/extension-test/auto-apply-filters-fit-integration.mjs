@@ -1,0 +1,122 @@
+#!/usr/bin/env node
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { JSDOM } from 'jsdom';
+import { MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT } from '../../extension/src/shared/auto-apply-fit.js';
+import { buildJobSearchUrl, LINKEDIN_PLATFORM_ID } from '../../extension/src/shared/auto-apply-platforms.js';
+import { createInitialSession } from '../../extension/src/shared/auto-apply-session.js';
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
+const CAPTURED_JD_FIXTURE = join(
+    ROOT,
+    'tests/fixtures/auto-apply/linkedin/captured/junior-software-engineer-ai-native-homey-4375167862-search-detail-panel.html',
+);
+
+function extractJobDescriptionFromPage(document) {
+    const selectors = [
+        '#job-details',
+        '[data-testid="job-description"]',
+        '[data-testid="jobDescriptionText"]',
+        '.jobs-description',
+        '[class*="job-description"]',
+        '[class*="JobDescription"]',
+        '[id*="job-description"]',
+        'article',
+    ];
+
+    for (const selector of selectors) {
+        const element = document.querySelector(selector);
+        const text = element?.textContent?.trim() || '';
+
+        if (text.length > 200) {
+            return text.slice(0, 20000);
+        }
+    }
+
+    const main = document.querySelector('main');
+    const mainText = main?.textContent?.trim() || '';
+
+    if (mainText.length > 400) {
+        return mainText.slice(0, 20000);
+    }
+
+    return null;
+}
+
+const cases = [
+    {
+        name: 'createInitialSession stores filters and fit gate settings',
+        fn: () => {
+            const session = createInitialSession({
+                platform: LINKEDIN_PLATFORM_ID,
+                roleDescription: 'software engineer',
+                maxApplications: 2,
+                filters: {
+                    location: 'United Kingdom',
+                    workType: 'remote',
+                    experience: 'mid_senior',
+                    datePosted: 'week',
+                    minSalaryUk: '60k',
+                },
+                fitCheckEnabled: true,
+                minFitScore: 72,
+            });
+
+            assert.equal(session.filters?.location, 'United Kingdom');
+            assert.equal(session.filters?.workType, 'remote');
+            assert.equal(session.fitCheckEnabled, true);
+            assert.equal(session.minFitScore, 72);
+            assert.equal(session.stats.fitSkipped, 0);
+        },
+    },
+    {
+        name: 'orchestrator search URL uses session filters without duplicating location into keywords',
+        fn: () => {
+            const session = createInitialSession({
+                platform: LINKEDIN_PLATFORM_ID,
+                roleDescription: 'software engineer',
+                filters: {
+                    location: 'London',
+                    workType: 'remote',
+                },
+            });
+
+            const url = buildJobSearchUrl(session.platform, session.roleDescription, {
+                easyApplyOnly: true,
+                filters: session.filters,
+            });
+            const parsed = new URL(url);
+
+            assert.equal(parsed.searchParams.get('keywords'), 'software engineer');
+            assert.equal(parsed.searchParams.get('location'), 'London');
+            assert.equal(parsed.searchParams.get('f_WT'), '2');
+            assert.equal(parsed.searchParams.get('f_AL'), 'true');
+        },
+    },
+    {
+        name: 'captured LinkedIn detail panel yields job description long enough for fit scoring',
+        fn: () => {
+            const html = readFileSync(CAPTURED_JD_FIXTURE, 'utf8');
+            const dom = new JSDOM(html, {
+                url: 'https://www.linkedin.com/jobs/view/4375167862/',
+            });
+            const description = extractJobDescriptionFromPage(dom.window.document);
+
+            assert.ok(description, 'expected job description text from captured detail panel');
+            assert.ok(
+                description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
+                `expected at least ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT} chars, got ${description.length}`,
+            );
+            assert.match(description, /software engineer|developer|engineer/i);
+        },
+    },
+];
+
+for (const testCase of cases) {
+    testCase.fn();
+    console.log(`ok - ${testCase.name}`);
+}
+
+console.log(`\n${cases.length} auto-apply filters/fit integration checks passed.`);

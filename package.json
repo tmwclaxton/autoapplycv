@@ -78,6 +78,8 @@
         "test:e2e-fill": "npm run build:extension && node scripts/extension-benchmark/run-draft-all-dom-verify.mjs --fixture",
         "test:e2e-fill:live": "npm run build:extension && node scripts/extension-benchmark/run-draft-all-dom-verify.mjs --live",
         "extension-e2e:linkedin-auto-apply": "npm run build:extension && node scripts/extension-e2e/linkedin-auto-apply.mjs",
+        "extension-e2e:linkedin-fit-quick": "npm run build:extension && node scripts/extension-e2e/linkedin-auto-apply-fit-quick.mjs --role=\"software engineer\" --location=\"United Kingdom\" --work-type=remote --fit-check=on --skip-login",
+        "extension-e2e:linkedin-fit-apply-quick": "npm run build:extension && node scripts/extension-e2e/linkedin-auto-apply-fit-apply-quick.mjs --role=\"software engineer\" --skip-login --min-fit-score=1",
         "extension-e2e:linkedin-full-flow": "node scripts/extension-e2e/linkedin-auto-apply-full-flow.mjs",
         "test:linkedin-full-flow": "node scripts/extension-e2e/linkedin-auto-apply-full-flow.mjs --max-jobs=3",
         "test:linkedin-full-flow:offline-step": "npm run build:extension && node scripts/extension-test/linkedin-auto-apply-offline-step.mjs",

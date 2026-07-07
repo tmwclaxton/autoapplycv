@@ -244,9 +244,40 @@ node scripts/form-corpus/run-fill-verify-curated.mjs --id=FIXTURE_ID
 
 ```bash
 node scripts/extension-test/linkedin-auto-apply.mjs
+node scripts/extension-test/auto-apply-fit.mjs
+node scripts/extension-test/auto-apply-filters-fit-integration.mjs
+node scripts/extension-test/auto-apply-fit-orchestration.mjs
 npm run test:linkedin-easy-apply-corpus:run -- --captured-only
 php artisan test --compact tests/Unit/Extension/LinkedInEasyApplyCorpusTest.php
 ```
+
+Live smoke for filters + fit gate (requires `.env` LinkedIn credentials, authenticated browser profile, and local API):
+
+```bash
+npm run build:extension
+# Headed (default). Reuses tests/output/linkedin-auto-apply/profile when present.
+node scripts/extension-e2e/linkedin-auto-apply-filters-smoke.mjs \
+  --role="software engineer" \
+  --location="United Kingdom" \
+  --work-type=remote \
+  --fit-check=on
+
+# If already logged in from a prior extension-e2e:linkedin-auto-apply run:
+node scripts/extension-e2e/linkedin-auto-apply-filters-smoke.mjs --skip-login --keep-profile
+
+# Fresh profile (triggers LinkedIn login + possible checkpoint):
+node scripts/extension-e2e/linkedin-auto-apply-filters-smoke.mjs --fresh-profile
+```
+
+Complete any LinkedIn checkpoint in the browser window when prompted. Headless mode (`--headless`) will fail on checkpoints.
+
+### LinkedIn search filters and ATS fit gate
+
+The Auto Apply tab builds native LinkedIn search URLs with `location`, `f_WT`, `f_E`, `f_TPR`, and UK `f_SB2` salary brackets via `extension/src/shared/linkedin-platform.js`. Role description stays in `keywords` only.
+
+Before Easy Apply, the orchestrator scrapes each job description (`GET_JOB_META`), calls `POST /api/applications/assist/ats-score` (5 credits per job when fit gate is on), and auto-skips roles below the configured minimum score. The role description textarea is sent as `role_preferences` so location, remote/hybrid, seniority, and salary hints are scored even when LinkedIn salary URL filters miss roles.
+
+Jobs with descriptions shorter than 40 characters are skipped when fit gate is enabled. Credit exhaustion pauses the run with a clear message.
 
 ### Grow LinkedIn capture corpus
 

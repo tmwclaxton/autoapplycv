@@ -1,5 +1,86 @@
 export const LINKEDIN_PLATFORM_ID = 'linkedin';
 
+/** @typedef {'remote'|'hybrid'|'on_site'} LinkedInWorkType */
+/** @typedef {'entry'|'associate'|'mid_senior'|'director'|'executive'} LinkedInExperienceLevel */
+/** @typedef {'24h'|'week'|'month'} LinkedInDatePosted */
+/** @typedef {'40k'|'50k'|'60k'|'80k'|'100k'} LinkedInMinSalaryUk */
+
+/**
+ * @typedef {Object} LinkedInSearchFilters
+ * @property {string} [location]
+ * @property {LinkedInWorkType|''} [workType]
+ * @property {LinkedInExperienceLevel|''} [experience]
+ * @property {LinkedInDatePosted|''} [datePosted]
+ * @property {LinkedInMinSalaryUk|''} [minSalaryUk]
+ */
+
+export const LINKEDIN_WORK_TYPE_PARAMS = {
+    remote: '2',
+    hybrid: '3',
+    on_site: '1',
+};
+
+export const LINKEDIN_EXPERIENCE_PARAMS = {
+    entry: '2',
+    associate: '3',
+    mid_senior: '4',
+    director: '5',
+    executive: '6',
+};
+
+export const LINKEDIN_DATE_POSTED_PARAMS = {
+    '24h': 'r86400',
+    week: 'r604800',
+    month: 'r2592000',
+};
+
+/** UK salary bracket IDs for LinkedIn f_SB2 (market-dependent). */
+export const LINKEDIN_UK_SALARY_PARAMS = {
+    '40k': '1',
+    '50k': '2',
+    '60k': '3',
+    '80k': '4',
+    '100k': '5',
+};
+
+/**
+ * @param {LinkedInSearchFilters|null|undefined} filters
+ * @returns {URLSearchParams}
+ */
+export function appendLinkedInSearchFilters(params, filters) {
+    const location = String(filters?.location || '').trim();
+
+    if (location) {
+        params.set('location', location);
+    }
+
+    const workType = filters?.workType;
+
+    if (workType && LINKEDIN_WORK_TYPE_PARAMS[workType]) {
+        params.set('f_WT', LINKEDIN_WORK_TYPE_PARAMS[workType]);
+    }
+
+    const experience = filters?.experience;
+
+    if (experience && LINKEDIN_EXPERIENCE_PARAMS[experience]) {
+        params.set('f_E', LINKEDIN_EXPERIENCE_PARAMS[experience]);
+    }
+
+    const datePosted = filters?.datePosted;
+
+    if (datePosted && LINKEDIN_DATE_POSTED_PARAMS[datePosted]) {
+        params.set('f_TPR', LINKEDIN_DATE_POSTED_PARAMS[datePosted]);
+    }
+
+    const minSalaryUk = filters?.minSalaryUk;
+
+    if (minSalaryUk && LINKEDIN_UK_SALARY_PARAMS[minSalaryUk]) {
+        params.set('f_SB2', LINKEDIN_UK_SALARY_PARAMS[minSalaryUk]);
+    }
+
+    return params;
+}
+
 const JOB_CARD_SELECTORS = [
     'li.scaffold-layout__list-item[data-occludable-job-id]',
     'li.jobs-search-results__list-item',
@@ -36,10 +117,10 @@ const APPLIED_TEXT = /\bapplied\b/i;
 
 /**
  * @param {string} roleDescription
- * @param {{ easyApplyOnly?: boolean }} [options]
+ * @param {{ easyApplyOnly?: boolean, filters?: LinkedInSearchFilters|null }} [options]
  * @returns {string}
  */
-export function buildLinkedInJobSearchUrl(roleDescription, { easyApplyOnly = true } = {}) {
+export function buildLinkedInJobSearchUrl(roleDescription, { easyApplyOnly = true, filters = null } = {}) {
     const keywords = String(roleDescription || '').trim();
 
     if (!keywords) {
@@ -54,6 +135,8 @@ export function buildLinkedInJobSearchUrl(roleDescription, { easyApplyOnly = tru
     if (easyApplyOnly) {
         params.set('f_AL', 'true');
     }
+
+    appendLinkedInSearchFilters(params, filters);
 
     return `https://www.linkedin.com/jobs/search/?${params.toString()}`;
 }

@@ -1019,7 +1019,7 @@ class ApplicationAssistantService
      *     usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int, credits?: float|null, model: string},
      * }|null
      */
-    public function scoreAts(CvProfile $profile, ?string $jobDescription): ?array
+    public function scoreAts(CvProfile $profile, ?string $jobDescription, ?string $rolePreferences = null): ?array
     {
         $cvText = trim((string) ($profile->formatted_cv_text ?: $profile->summary));
 
@@ -1027,23 +1027,35 @@ class ApplicationAssistantService
             return null;
         }
 
+        $preferences = trim((string) ($rolePreferences ?? ''));
+
+        $systemPrompt = 'You score CV and role-preference fit against a job description for ATS-style screening. '
+            .'Weigh keyword overlap between the CV and job description, and whether the job matches the candidate\'s stated role preferences (location, remote/hybrid/on-site, seniority, salary hints). '
+            .'Be realistic, not flattering.';
+
+        $payloadInput = [
+            'cv_text' => mb_substr($cvText, 0, 12000),
+            'job_description' => mb_substr(trim($jobDescription), 0, 12000),
+            'response_schema' => [
+                'score' => 'integer 0-100',
+                'matched_keywords' => 'string[]',
+                'missing_keywords' => 'string[]',
+                'suggestions' => 'string[]',
+            ],
+        ];
+
+        if ($preferences !== '') {
+            $payloadInput['role_preferences'] = mb_substr($preferences, 0, 500);
+        }
+
         $payload = $this->nanoGpt->chatJson([
             [
                 'role' => 'system',
-                'content' => 'You score CV keyword fit against a job description for ATS-style screening. Be realistic, not flattering.',
+                'content' => $systemPrompt,
             ],
             [
                 'role' => 'user',
-                'content' => json_encode([
-                    'cv_text' => mb_substr($cvText, 0, 12000),
-                    'job_description' => mb_substr(trim($jobDescription), 0, 12000),
-                    'response_schema' => [
-                        'score' => 'integer 0-100',
-                        'matched_keywords' => 'string[]',
-                        'missing_keywords' => 'string[]',
-                        'suggestions' => 'string[]',
-                    ],
-                ], JSON_THROW_ON_ERROR),
+                'content' => json_encode($payloadInput, JSON_THROW_ON_ERROR),
             ],
         ], [
             'model' => config('cv.extraction_model'),

@@ -529,14 +529,20 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             const button = readTopCardApplyButton();
 
             if (button && pageReferencesJobId(jobId)) {
+                await prepareJobDescriptionForRead().catch(() => {});
+
                 return { ready: true, button };
             }
 
             if (button && standaloneJobView && pageJobId === String(jobId)) {
+                await prepareJobDescriptionForRead().catch(() => {});
+
                 return { ready: true, button };
             }
 
             if (button && !findJobListScrollContainer()) {
+                await prepareJobDescriptionForRead().catch(() => {});
+
                 return { ready: true, button };
             }
 
@@ -554,17 +560,139 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         return { ready: false, button: null, error: `Apply button not found on ${pageLabel}.` };
     }
 
+    function readJobDescriptionRoot() {
+        const selectors = [
+            '#job-details',
+            '.jobs-description__content',
+            '.jobs-description',
+            '[data-testid="job-description"]',
+        ];
+
+        for (const selector of selectors) {
+            const element = document.querySelector(selector);
+
+            if (element) {
+                return element;
+            }
+        }
+
+        return null;
+    }
+
+    function readJobDescriptionText() {
+        const selectors = [
+            '#job-details',
+            '.jobs-description-content',
+            '.jobs-description__content',
+            '.jobs-description',
+            '[data-testid="job-description"]',
+            '[data-testid="jobDescriptionText"]',
+            '.jobs-search__job-details--container',
+            '.jobs-search__job-details',
+        ];
+
+        let best = '';
+
+        for (const selector of selectors) {
+            const element = document.querySelector(selector);
+            const text = element?.textContent?.replace(/\s+/g, ' ').trim() || '';
+
+            if (text.length > best.length) {
+                best = text;
+            }
+        }
+
+        if (best.length < 200) {
+            const pane = document.querySelector('.jobs-details, .jobs-details__main-content, main');
+            const paneText = pane?.textContent?.replace(/\s+/g, ' ').trim() || '';
+
+            if (paneText.length > best.length) {
+                best = paneText;
+            }
+        }
+
+        if (!best) {
+            return null;
+        }
+
+        return best.slice(0, 20000);
+    }
+
+    async function prepareJobDescriptionForRead() {
+        await acceptCookieConsent().catch(() => {});
+
+        const detailPane = document.querySelector(
+            '.jobs-search__job-details--container, .jobs-search__job-details, .jobs-details__main-content',
+        );
+
+        if (detailPane instanceof HTMLElement) {
+            detailPane.scrollTop = detailPane.scrollHeight;
+        }
+
+        const root = readJobDescriptionRoot();
+
+        if (root) {
+            root.scrollIntoView({ block: 'center', behavior: 'auto' });
+        }
+
+        const showMore = document.querySelector(
+            '#job-details .inline-show-more-text__button, '
+            + '.jobs-description .inline-show-more-text__button, '
+            + '.jobs-description__content .inline-show-more-text__button, '
+            + '.jobs-description-content .inline-show-more-text__button',
+        );
+
+        if (showMore instanceof HTMLElement && showMore.getAttribute('aria-expanded') !== 'true') {
+            showMore.click();
+            await sleep(900);
+        }
+
+        return { prepared: true, expanded: Boolean(showMore) };
+    }
+
+    async function waitForJobDescriptionReady(minLength = 200, timeoutMs = 20_000) {
+        const deadline = Date.now() + timeoutMs;
+        let bestLength = 0;
+
+        while (Date.now() < deadline) {
+            await prepareJobDescriptionForRead();
+            const text = readJobDescriptionText() || '';
+            bestLength = Math.max(bestLength, text.length);
+
+            if (text.length >= minLength) {
+                return { ready: true, length: text.length, text };
+            }
+
+            await sleep(500);
+        }
+
+        const text = readJobDescriptionText() || '';
+
+        return {
+            ready: text.length >= minLength,
+            length: Math.max(bestLength, text.length),
+            text,
+        };
+    }
+
     async function waitForJobDetailReady(jobId) {
         const detail = await waitForJobDetailPanel(jobId);
 
-        if (detail.ready) {
-            return { success: true, jobId };
+        if (!detail.ready) {
+            return {
+                success: false,
+                jobId,
+                error: detail.error || `Job detail panel did not load for ${jobId}`,
+            };
         }
 
+        const description = await waitForJobDescriptionReady(200, 18_000);
+
         return {
-            success: false,
+            success: true,
             jobId,
-            error: detail.error || `Job detail panel did not load for ${jobId}`,
+            jobDescriptionLength: description.length,
+            jobDescriptionReady: description.ready,
         };
     }
 
@@ -701,7 +829,14 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return { success: false, error: `Job detail panel did not load for ${jobId}`, needsNavigation: true, jobId };
         }
 
-        return { success: true, jobId };
+        const description = await waitForJobDescriptionReady(200, 18_000);
+
+        return {
+            success: true,
+            jobId,
+            jobDescriptionLength: description.length,
+            jobDescriptionReady: description.ready,
+        };
     }
 
     function readTopCardApplyButton() {
@@ -1704,6 +1839,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         findJobCardById,
         waitForJobDetailPanel,
         waitForJobDetailReady,
+        prepareJobDescriptionForRead,
+        readJobDescriptionText,
+        waitForJobDescriptionReady,
         clickEasyApply,
         getEasyApplyModalState,
         clickNextOrSubmit,
