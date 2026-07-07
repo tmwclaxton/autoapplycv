@@ -346,7 +346,10 @@ export function enrichApplyAnswers(answers, fieldsByRef, options = {}) {
     return (answers || []).map((answer) => {
         const field = fieldsByRef?.get?.(answer.ref);
         const label = answer.label || field?.label || field?.question || '';
-        const normalizedAnswer = normalizeFieldAnswerForQuestion(label, answer.answer, { profileYears });
+        const normalizedAnswer = normalizeFieldAnswerForQuestion(label, answer.answer, {
+            profileYears,
+            fieldType: answer.field_type || field?.field_type || null,
+        });
 
         if (!field) {
             return {

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated_at": "2026-07-06T15:27:26.606Z",
+  "generated_at": "2026-07-07T17:18:17.702Z",
   "description": "Curated fill verification tier prioritizing platform diversity and verification depth over corpus quantity.",
   "thresholds": {
     "jsdom": {
@@ -1644,6 +1644,35 @@
         "select"
       ],
       "field_count": 4,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-indeed-apply-contact-001",
+      "platform": "indeed",
+      "reason": "Indeed mosaic apply contact info - postcode, locality combobox, street address",
+      "field_types": [
+        "text",
+        "select"
+      ],
+      "field_count": 3,
+      "priority": "standard",
+      "verify_engine": "jsdom",
+      "playwright": false,
+      "playwright_priority": false
+    },
+    {
+      "id": "syn-indeed-apply-questions-001",
+      "platform": "indeed",
+      "reason": "Indeed employer questions - education single-select, textareas, commute radios",
+      "field_types": [
+        "textarea",
+        "radio",
+        "select"
+      ],
+      "field_count": 5,
       "priority": "standard",
       "verify_engine": "jsdom",
       "playwright": false,

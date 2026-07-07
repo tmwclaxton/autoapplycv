@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-06T12:33:44.157Z",
+  "generated_at": "2026-07-07T17:21:03.339Z",
   "verify_engine": "jsdom",
   "curated_manifest": "Curated fill verification tier prioritizing platform diversity and verification depth over corpus quantity.",
   "thresholds": {
@@ -7,9 +7,9 @@
     "overall_pass_rate": 1
   },
   "totals": {
-    "scenarios": 68,
-    "evaluated": 20,
-    "passed": 20,
+    "scenarios": 70,
+    "evaluated": 22,
+    "passed": 22,
     "failed": 0,
     "skipped": 48,
     "pass_rate": 1,
@@ -26,30 +26,39 @@
       "critical_passed": 0,
       "pass_rate": 1,
       "critical_pass_rate": 0
+    },
+    "indeed": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "critical_total": 0,
+      "critical_passed": 0,
+      "pass_rate": 1,
+      "critical_pass_rate": 0
     }
   },
   "by_check": {
     "domReadback": {
-      "evaluated": 20,
-      "passed": 20,
+      "evaluated": 22,
+      "passed": 22,
       "failed": 0,
       "pass_rate": 1
     },
     "html5Validity": {
-      "evaluated": 20,
-      "passed": 20,
+      "evaluated": 22,
+      "passed": 22,
       "failed": 0,
       "pass_rate": 1
     },
     "a11yState": {
-      "evaluated": 20,
-      "passed": 20,
+      "evaluated": 22,
+      "passed": 22,
       "failed": 0,
       "pass_rate": 1
     },
     "errorBanner": {
-      "evaluated": 20,
-      "passed": 20,
+      "evaluated": 22,
+      "passed": 22,
       "failed": 0,
       "pass_rate": 1
     }
@@ -193,7 +202,7 @@
     {
       "id": "syn-weird-038",
       "passed": true,
-      "field_count": 4,
+      "field_count": 3,
       "failures": [],
       "apply_failures": 0,
       "verify_failures": 0,
@@ -233,9 +242,9 @@
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-weird-015",
+      "id": "syn-weird-057",
       "passed": true,
-      "field_count": 3,
+      "field_count": 4,
       "failures": [],
       "apply_failures": 0,
       "verify_failures": 0,
@@ -249,7 +258,7 @@
         "html5Validity": {
           "passed": true,
           "failures": [],
-          "checked_controls": 3,
+          "checked_controls": 4,
           "checked_forms": 1
         },
         "a11yState": {
@@ -262,22 +271,22 @@
           "error_count": 0
         }
       },
-      "stack": "weird-label",
+      "stack": "weird-interaction",
       "platform": "syn-weird",
       "priority": "standard",
-      "reason": "syn-weird additional edge case (3 fields)",
+      "reason": "syn-weird additional edge case (4 fields)",
       "field_types": [
         "text",
-        "select",
-        "email"
+        "email",
+        "textarea"
       ],
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-mega-dropdown-001",
+      "id": "syn-mega-angular-001",
       "passed": false,
       "skipped": true,
-      "reason": "syn-mega mega-dropdown representative",
+      "reason": "syn-mega mega-angular representative",
       "failures": [],
       "stack": "mega",
       "platform": "syn-mega",
@@ -286,6 +295,7 @@
         "text",
         "email",
         "tel",
+        "textarea",
         "select"
       ],
       "verify_engine": "jsdom"
@@ -421,7 +431,47 @@
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-weird-003",
+      "id": "syn-indeed-apply-contact-001",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "indeed-apply",
+      "platform": "indeed",
+      "priority": "standard",
+      "reason": "Indeed mosaic apply contact info - postcode, locality combobox, street address",
+      "field_types": [
+        "text",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-weird-060",
       "passed": true,
       "field_count": 4,
       "failures": [],
@@ -450,7 +500,7 @@
           "error_count": 0
         }
       },
-      "stack": "weird-label",
+      "stack": "weird-interaction",
       "platform": "syn-weird",
       "priority": "standard",
       "reason": "syn-weird additional edge case (4 fields)",
@@ -462,10 +512,10 @@
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-mega-combobox-001",
+      "id": "syn-mega-date-001",
       "passed": false,
       "skipped": true,
-      "reason": "syn-mega mega-combobox representative",
+      "reason": "syn-mega mega-date representative",
       "failures": [],
       "stack": "mega",
       "platform": "syn-mega",
@@ -474,25 +524,7 @@
         "text",
         "email",
         "tel",
-        "select"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-mega-next-001",
-      "passed": false,
-      "skipped": true,
-      "reason": "syn-mega mega-next representative",
-      "failures": [],
-      "stack": "mega",
-      "platform": "syn-mega",
-      "priority": "standard",
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "textarea",
-        "radio"
+        "date"
       ],
       "verify_engine": "jsdom"
     },
@@ -625,9 +657,9 @@
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-weird-018",
+      "id": "syn-indeed-apply-questions-001",
       "passed": true,
-      "field_count": 4,
+      "field_count": 5,
       "failures": [],
       "apply_failures": 0,
       "verify_failures": 0,
@@ -654,42 +686,63 @@
           "error_count": 0
         }
       },
-      "stack": "weird-label",
-      "platform": "syn-weird",
+      "stack": "indeed-apply",
+      "platform": "indeed",
       "priority": "standard",
-      "reason": "syn-weird additional edge case (4 fields)",
+      "reason": "Indeed employer questions - education single-select, textareas, commute radios",
       "field_types": [
-        "text",
-        "email",
-        "tel",
-        "textarea"
-      ],
-      "verify_engine": "jsdom"
-    },
-    {
-      "id": "syn-mega-conditional-001",
-      "passed": false,
-      "skipped": true,
-      "reason": "syn-mega mega-conditional representative",
-      "failures": [],
-      "stack": "mega",
-      "platform": "syn-mega",
-      "priority": "standard",
-      "field_types": [
-        "text",
-        "email",
-        "tel",
-        "url",
         "textarea",
+        "radio",
         "select"
       ],
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-mega-grid-001",
+      "id": "syn-weird-015",
+      "passed": true,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "weird-label",
+      "platform": "syn-weird",
+      "priority": "standard",
+      "reason": "syn-weird additional edge case (3 fields)",
+      "field_types": [
+        "text",
+        "select",
+        "email"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-dropdown-001",
       "passed": false,
       "skipped": true,
-      "reason": "syn-mega mega-grid representative",
+      "reason": "syn-mega mega-dropdown representative",
       "failures": [],
       "stack": "mega",
       "platform": "syn-mega",
@@ -698,8 +751,7 @@
         "text",
         "email",
         "tel",
-        "textarea",
-        "radio"
+        "select"
       ],
       "verify_engine": "jsdom"
     },
@@ -795,7 +847,7 @@
     {
       "id": "syn-weird-022",
       "passed": true,
-      "field_count": 3,
+      "field_count": 2,
       "failures": [],
       "apply_failures": 0,
       "verify_failures": 0,
@@ -834,7 +886,7 @@
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-weird-020",
+      "id": "syn-weird-003",
       "passed": true,
       "field_count": 4,
       "failures": [],
@@ -868,18 +920,17 @@
       "priority": "standard",
       "reason": "syn-weird additional edge case (4 fields)",
       "field_types": [
-        "url",
-        "textarea",
         "text",
-        "email"
+        "email",
+        "textarea"
       ],
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-mega-wizard-001",
+      "id": "syn-mega-combobox-001",
       "passed": false,
       "skipped": true,
-      "reason": "syn-mega mega-wizard representative",
+      "reason": "syn-mega mega-combobox representative",
       "failures": [],
       "stack": "mega",
       "platform": "syn-mega",
@@ -888,15 +939,15 @@
         "text",
         "email",
         "tel",
-        "textarea"
+        "select"
       ],
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-mega-svelte-001",
+      "id": "syn-mega-next-001",
       "passed": false,
       "skipped": true,
-      "reason": "syn-mega mega-svelte representative",
+      "reason": "syn-mega mega-next representative",
       "failures": [],
       "stack": "mega",
       "platform": "syn-mega",
@@ -1039,7 +1090,7 @@
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-weird-035",
+      "id": "syn-weird-018",
       "passed": true,
       "field_count": 4,
       "failures": [],
@@ -1068,22 +1119,23 @@
           "error_count": 0
         }
       },
-      "stack": "weird-platform",
+      "stack": "weird-label",
       "platform": "syn-weird",
       "priority": "standard",
       "reason": "syn-weird additional edge case (4 fields)",
       "field_types": [
         "text",
         "email",
+        "tel",
         "textarea"
       ],
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-mega-shadow-001",
+      "id": "syn-mega-conditional-001",
       "passed": false,
       "skipped": true,
-      "reason": "syn-mega mega-shadow representative",
+      "reason": "syn-mega mega-conditional representative",
       "failures": [],
       "stack": "mega",
       "platform": "syn-mega",
@@ -1092,7 +1144,27 @@
         "text",
         "email",
         "tel",
-        "url"
+        "url",
+        "textarea",
+        "select"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-grid-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-mega mega-grid representative",
+      "failures": [],
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
+      "field_types": [
+        "text",
+        "email",
+        "tel",
+        "textarea",
+        "radio"
       ],
       "verify_engine": "jsdom"
     },
@@ -1249,7 +1321,7 @@
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-weird-039",
+      "id": "syn-weird-020",
       "passed": true,
       "field_count": 4,
       "failures": [],
@@ -1278,10 +1350,27 @@
           "error_count": 0
         }
       },
-      "stack": "weird-dom",
+      "stack": "weird-label",
       "platform": "syn-weird",
       "priority": "standard",
       "reason": "syn-weird additional edge case (4 fields)",
+      "field_types": [
+        "url",
+        "textarea",
+        "text",
+        "email"
+      ],
+      "verify_engine": "jsdom"
+    },
+    {
+      "id": "syn-mega-wizard-001",
+      "passed": false,
+      "skipped": true,
+      "reason": "syn-mega mega-wizard representative",
+      "failures": [],
+      "stack": "mega",
+      "platform": "syn-mega",
+      "priority": "standard",
       "field_types": [
         "text",
         "email",
@@ -1291,10 +1380,10 @@
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-mega-vue-001",
+      "id": "syn-mega-svelte-001",
       "passed": false,
       "skipped": true,
-      "reason": "syn-mega mega-vue representative",
+      "reason": "syn-mega mega-svelte representative",
       "failures": [],
       "stack": "mega",
       "platform": "syn-mega",
@@ -1304,7 +1393,7 @@
         "email",
         "tel",
         "textarea",
-        "select"
+        "radio"
       ],
       "verify_engine": "jsdom"
     },
@@ -1459,7 +1548,7 @@
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-weird-057",
+      "id": "syn-weird-035",
       "passed": true,
       "field_count": 4,
       "failures": [],
@@ -1488,7 +1577,7 @@
           "error_count": 0
         }
       },
-      "stack": "weird-interaction",
+      "stack": "weird-platform",
       "platform": "syn-weird",
       "priority": "standard",
       "reason": "syn-weird additional edge case (4 fields)",
@@ -1500,10 +1589,10 @@
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-mega-angular-001",
+      "id": "syn-mega-shadow-001",
       "passed": false,
       "skipped": true,
-      "reason": "syn-mega mega-angular representative",
+      "reason": "syn-mega mega-shadow representative",
       "failures": [],
       "stack": "mega",
       "platform": "syn-mega",
@@ -1512,8 +1601,7 @@
         "text",
         "email",
         "tel",
-        "textarea",
-        "select"
+        "url"
       ],
       "verify_engine": "jsdom"
     },
@@ -1672,7 +1760,7 @@
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-weird-060",
+      "id": "syn-weird-039",
       "passed": true,
       "field_count": 4,
       "failures": [],
@@ -1701,22 +1789,23 @@
           "error_count": 0
         }
       },
-      "stack": "weird-interaction",
+      "stack": "weird-dom",
       "platform": "syn-weird",
       "priority": "standard",
       "reason": "syn-weird additional edge case (4 fields)",
       "field_types": [
         "text",
         "email",
+        "tel",
         "textarea"
       ],
       "verify_engine": "jsdom"
     },
     {
-      "id": "syn-mega-date-001",
+      "id": "syn-mega-vue-001",
       "passed": false,
       "skipped": true,
-      "reason": "syn-mega mega-date representative",
+      "reason": "syn-mega mega-vue representative",
       "failures": [],
       "stack": "mega",
       "platform": "syn-mega",
@@ -1725,7 +1814,8 @@
         "text",
         "email",
         "tel",
-        "date"
+        "textarea",
+        "select"
       ],
       "verify_engine": "jsdom"
     }

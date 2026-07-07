@@ -872,9 +872,11 @@ const contentMessageListener = (message, sender, sendResponse) => {
             const answers = message.answers || [];
             let applied = 0;
 
-            function resolveApplyAnswer(label, rawAnswer) {
+            function resolveApplyAnswer(label, rawAnswer, fieldType = null) {
                 if (typeof AutoCVApplyAnswerNormalization !== 'undefined') {
-                    return AutoCVApplyAnswerNormalization.normalizeFieldAnswerForQuestion(label, rawAnswer);
+                    return AutoCVApplyAnswerNormalization.normalizeFieldAnswerForQuestion(label, rawAnswer, {
+                        fieldType,
+                    });
                 }
 
                 return String(rawAnswer ?? '').trim();
@@ -906,7 +908,7 @@ const contentMessageListener = (message, sender, sendResponse) => {
                 };
 
                 const label = answer.label || '';
-                const normalizedAnswer = resolveApplyAnswer(label, answer.answer);
+                const normalizedAnswer = resolveApplyAnswer(label, answer.answer, answer.field_type || null);
 
                 if (answer.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {
                     filled = await AutoCVApplyFieldInventory.applyAnswerByRefWithFallback(
@@ -972,7 +974,9 @@ const contentMessageListener = (message, sender, sendResponse) => {
             let method = null;
             const label = message.label || '';
             const normalizedAnswer = typeof AutoCVApplyAnswerNormalization !== 'undefined'
-                ? AutoCVApplyAnswerNormalization.normalizeFieldAnswerForQuestion(label, message.answer)
+                ? AutoCVApplyAnswerNormalization.normalizeFieldAnswerForQuestion(label, message.answer, {
+                    fieldType: message.field_type || null,
+                })
                 : String(message.answer ?? '').trim();
 
             if (message.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {

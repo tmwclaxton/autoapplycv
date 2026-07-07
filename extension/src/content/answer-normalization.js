@@ -72,17 +72,45 @@ const AutoCVApplyAnswerNormalization = (() => {
         return options.fallback ?? raw;
     }
 
+    function capitalizeFreeTextAnswer(answer) {
+        const text = String(answer ?? '').trim();
+
+        if (!text) {
+            return text;
+        }
+
+        let normalized = text.charAt(0).toUpperCase() + text.slice(1);
+
+        normalized = normalized.replace(
+            /([.!?]\s+)([a-z])/g,
+            (_match, boundary, letter) => `${boundary}${letter.toUpperCase()}`,
+        );
+
+        return normalized;
+    }
+
+    function shouldCapitalizeFreeTextAnswer(fieldType) {
+        return fieldType === 'textarea';
+    }
+
     function normalizeFieldAnswerForQuestion(label, answer, options = {}) {
         if (isYearsExperienceQuestion(label)) {
             return normalizeYearsExperienceAnswer(answer, options);
         }
 
-        return String(answer ?? '').trim();
+        const trimmed = String(answer ?? '').trim();
+
+        if (shouldCapitalizeFreeTextAnswer(options.fieldType)) {
+            return capitalizeFreeTextAnswer(trimmed);
+        }
+
+        return trimmed;
     }
 
     return {
         isYearsExperienceQuestion,
         normalizeYearsExperienceAnswer,
+        capitalizeFreeTextAnswer,
         normalizeFieldAnswerForQuestion,
     };
 })();

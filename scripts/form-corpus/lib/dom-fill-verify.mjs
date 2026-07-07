@@ -229,16 +229,16 @@ export function domReadbackEvaluator(items) {
                 return null;
             }
 
-            const label = selected.labels?.[0]?.textContent
-                || document.querySelector(`label[for="${CSS.escape(selected.id)}"]`)?.textContent
+            const label = selected.closest('label')?.textContent
+                || selected.labels?.[0]?.textContent
                 || selected.value;
 
             return String(label || '').replace(/\s+/g, ' ').trim();
         }
 
         return checked.map((input) => {
-            const label = input.labels?.[0]?.textContent
-                || document.querySelector(`label[for="${CSS.escape(input.id)}"]`)?.textContent
+            const label = input.closest('label')?.textContent
+                || input.labels?.[0]?.textContent
                 || input.value;
 
             return String(label || '').replace(/\s+/g, ' ').trim();

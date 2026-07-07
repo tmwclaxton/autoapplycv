@@ -250,6 +250,26 @@ const AutoCVApplyFormHeuristics = (() => {
         );
     }
 
+    function isIndeedQuestionFieldRoot(element) {
+        const testId = element?.getAttribute?.('data-testid') || '';
+
+        return /^input-q_[a-f0-9]+$/i.test(testId);
+    }
+
+    function getIndeedQuestionFieldRoot(element) {
+        let node = element;
+
+        while (node) {
+            if (isIndeedQuestionFieldRoot(node)) {
+                return node;
+            }
+
+            node = node.parentElement;
+        }
+
+        return null;
+    }
+
     function getQuestionContainer(element) {
         const micro1Block = getMicro1QuestionBlock(element);
 
@@ -257,8 +277,14 @@ const AutoCVApplyFormHeuristics = (() => {
             return micro1Block;
         }
 
+        const indeedQuestionRoot = getIndeedQuestionFieldRoot(element);
+
+        if (indeedQuestionRoot) {
+            return indeedQuestionRoot;
+        }
+
         return element.closest(
-            'fieldset[data-testid^="input-q_"], [data-testid^="input-q_"], .ia-Questions-item, fieldset[name^="q_"], fieldset, [data-field-path], .ashby-application-form-field-entry, .input-row, .apply-flow-block',
+            'fieldset[data-testid^="input-q_"], [data-testid^="input-q_"]:not(input):not(textarea):not(select), .ia-Questions-item, fieldset[name^="q_"], fieldset, [data-field-path], .ashby-application-form-field-entry, .input-row, .apply-flow-block',
         );
     }
 
@@ -981,6 +1007,10 @@ const AutoCVApplyFormHeuristics = (() => {
             return null;
         }
 
+        if (isIndeedApplyQuestionCombobox(element)) {
+            return readIndeedApplyComboboxValue(element);
+        }
+
         const shell = element.closest('.select-shell, .select__container');
         const control = element.closest('.select__control') || shell?.querySelector('.select__control');
 
@@ -1131,6 +1161,203 @@ const AutoCVApplyFormHeuristics = (() => {
         return valueMatchesAnswer(readReactSelectValue(element), typedValue)
             || valueMatchesAnswer(element.value, typedValue)
             || valueMatchesAnswer(hiddenValue?.value, typedValue);
+    }
+
+    function isIndeedApplyComboboxFilterInput(element) {
+        if (!element || element.tagName?.toLowerCase() !== 'input') {
+            return false;
+        }
+
+        const testId = element.getAttribute('data-testid') || '';
+
+        return testId.includes('select-list-filter-input');
+    }
+
+    function isIndeedApplyQuestionCombobox(element) {
+        if (!element || element.getAttribute?.('role') !== 'combobox') {
+            return false;
+        }
+
+        if (isIndeedApplyLocationCombobox(element)) {
+            return false;
+        }
+
+        const testId = element.getAttribute('data-testid') || '';
+
+        return testId.includes('select-list');
+    }
+
+    function readIndeedApplyComboboxValue(element) {
+        if (!element) {
+            return null;
+        }
+
+        const dedicatedDisplay = element.querySelector('[class*="ew4qyo"]');
+
+        if (dedicatedDisplay?.textContent?.trim()) {
+            return dedicatedDisplay.textContent.replace(/\s+/g, ' ').trim();
+        }
+
+        const scope = getIndeedQuestionFieldRoot(element);
+        const selectedOption = scope?.querySelector('[role="option"][aria-selected="true"]');
+
+        if (selectedOption?.textContent?.trim()) {
+            return selectedOption.textContent.replace(/\s+/g, ' ').trim();
+        }
+
+        const text = (element.textContent || '').replace(/\s+/g, ' ').trim();
+
+        return text.length >= 2 ? text : null;
+    }
+
+    function isIndeedApplyComboboxFilled(element) {
+        const value = readIndeedApplyComboboxValue(element);
+
+        if (!value || /^search to select/i.test(value)) {
+            return false;
+        }
+
+        const scope = getIndeedQuestionFieldRoot(element);
+
+        if (scope?.querySelector('[role="option"][aria-selected="true"]')) {
+            return true;
+        }
+
+        return value.length >= 2;
+    }
+
+    function getIndeedApplyQuestionListbox(element) {
+        return getIndeedQuestionFieldRoot(element)?.querySelector('[role="listbox"]') || null;
+    }
+
+    async function setIndeedApplyQuestionComboboxValue(element, value) {
+        if (!element || value === null || value === undefined || value === '') {
+            return false;
+        }
+
+        const doc = element.ownerDocument || document;
+        const stringValue = String(value).trim();
+        const typedValue = stringValue.split(',')[0].trim() || stringValue;
+        const scope = getIndeedQuestionFieldRoot(element);
+
+        dispatchPointerClick(element);
+
+        const filter = scope?.querySelector('[data-testid$="select-list-filter-input"]');
+
+        if (filter) {
+            await fillTypeaheadSearchText(filter, typedValue);
+        }
+
+        let options = [];
+
+        if (scope) {
+            options = Array.from(scope.querySelectorAll('[role="option"]')).filter(isVisible);
+        }
+
+        if (options.length === 0) {
+            options = await waitForComboboxOptions(doc, element, 1200);
+        }
+
+        let bestOption = null;
+        let bestScore = -1;
+
+        for (const option of options) {
+            const optionText = (option.textContent || option.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
+            const score = scoreLinkedInLocationOption(optionText, stringValue, typedValue);
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestOption = option;
+            }
+        }
+
+        if (bestOption) {
+            const selectedText = (bestOption.textContent || '').replace(/\s+/g, ' ').trim();
+            dispatchPointerClick(bestOption);
+            bestOption.setAttribute('aria-selected', 'true');
+            scope?.querySelectorAll('[role="option"]').forEach((candidate) => {
+                candidate.setAttribute('aria-selected', candidate === bestOption ? 'true' : 'false');
+            });
+
+            const display = element.querySelector('[class*="ew4qyo"]');
+
+            if (display) {
+                display.textContent = selectedText;
+            }
+
+            element.setAttribute('aria-expanded', 'false');
+            clearValidationState(element);
+
+            return valueMatchesAnswer(readIndeedApplyComboboxValue(element), selectedText)
+                || valueMatchesAnswer(readIndeedApplyComboboxValue(element), typedValue)
+                || valueMatchesAnswer(readIndeedApplyComboboxValue(element), stringValue);
+        }
+
+        return false;
+    }
+
+    function isIndeedApplyLocationCombobox(element) {
+        if (!element || element.getAttribute?.('role') !== 'combobox') {
+            return false;
+        }
+
+        const testId = element.getAttribute('data-testid') || '';
+        const name = element.getAttribute('name') || '';
+        const id = element.id || '';
+
+        return testId === 'location-fields-locality-input'
+            || name === 'location-locality'
+            || id === 'location-fields-locality-input';
+    }
+
+    async function setIndeedApplyLocationComboboxValue(element, value) {
+        if (!element || value === null || value === undefined || value === '') {
+            return false;
+        }
+
+        const doc = element.ownerDocument || document;
+        const stringValue = String(value).trim();
+        const typedValue = stringValue.split(',')[0].trim() || stringValue;
+
+        element.focus();
+        dispatchPointerClick(element);
+        await fillTypeaheadSearchText(element, typedValue);
+
+        let options = await waitForComboboxOptions(doc, element, 1200);
+
+        if (options.length === 0) {
+            await fillTypeaheadSearchText(element, typedValue);
+            options = await waitForComboboxOptions(doc, element, 1200);
+        }
+
+        let bestOption = null;
+        let bestScore = -1;
+
+        for (const option of options) {
+            const optionText = (option.textContent || option.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
+            const score = scoreLinkedInLocationOption(optionText, stringValue, typedValue);
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestOption = option;
+            }
+        }
+
+        if (bestOption) {
+            const selectedText = (bestOption.textContent || '').replace(/\s+/g, ' ').trim();
+            dispatchPointerClick(bestOption);
+            element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+            clearValidationState(element);
+
+            return valueMatchesAnswer(element.value, selectedText)
+                || valueMatchesAnswer(element.value, typedValue)
+                || valueMatchesAnswer(element.value, stringValue);
+        }
+
+        element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+
+        return valueMatchesAnswer(element.value, typedValue)
+            || valueMatchesAnswer(element.value, stringValue);
     }
 
     function isLinkedInGeoLocationCombobox(element) {
@@ -1960,6 +2187,41 @@ const AutoCVApplyFormHeuristics = (() => {
         ) !== null;
     }
 
+    function collectStandaloneComboboxFields(root) {
+        const fields = [];
+        const seen = new Set();
+        const doc = root.ownerDocument || document;
+
+        for (const combobox of root.querySelectorAll('[role="combobox"]')) {
+            if (!isVisible(combobox) || isIndeedApplyComboboxFilterInput(combobox)) {
+                continue;
+            }
+
+            const label = getQuestionLabel(combobox) || getAccessibleLabel(doc, combobox);
+
+            if (label.length < 3 || seen.has(label)) {
+                continue;
+            }
+
+            seen.add(label);
+
+            const scope = getIndeedQuestionFieldRoot(combobox);
+            const optionLabels = scope
+                ? Array.from(scope.querySelectorAll('[role="option"]'))
+                    .map((option) => (option.textContent || '').replace(/\s+/g, ' ').trim())
+                    .filter((text) => text.length > 0)
+                : [];
+
+            fields.push({
+                combobox,
+                label,
+                optionLabels,
+            });
+        }
+
+        return fields;
+    }
+
     function collectRoleListboxFields(root) {
         const fields = [];
         const seen = new Set();
@@ -1968,6 +2230,10 @@ const AutoCVApplyFormHeuristics = (() => {
         for (const listbox of root.querySelectorAll('[role="listbox"]')) {
             const combobox = getComboboxForListbox(root, listbox);
             const comboboxControlled = combobox !== null;
+
+            if (comboboxControlled) {
+                continue;
+            }
 
             if (!comboboxControlled && !isVisible(listbox)) {
                 continue;
@@ -2852,6 +3118,18 @@ const AutoCVApplyFormHeuristics = (() => {
                 return filled && verifyFieldApplied(element, 'select', value);
             }
 
+            if (isIndeedApplyLocationCombobox(element)) {
+                const filled = await setIndeedApplyLocationComboboxValue(element, value);
+
+                return filled && verifyFieldApplied(element, 'select', value);
+            }
+
+            if (isIndeedApplyQuestionCombobox(element)) {
+                const filled = await setIndeedApplyQuestionComboboxValue(element, value);
+
+                return filled && verifyFieldApplied(element, 'select', value);
+            }
+
             const filled = await setAshbyComboboxValue(element, value);
 
             return filled && verifyFieldApplied(element, 'select', value);
@@ -2916,6 +3194,10 @@ const AutoCVApplyFormHeuristics = (() => {
     function collectFillableElements(root) {
         return Array.from(root.querySelectorAll('input, textarea, select')).filter((element) => {
             if (isAshbyHiddenYesNoInput(element)) {
+                return false;
+            }
+
+            if (isIndeedApplyComboboxFilterInput(element)) {
                 return false;
             }
 
@@ -3101,6 +3383,16 @@ const AutoCVApplyFormHeuristics = (() => {
             if (isSelectMeaningfullyFilled(element)) {
                 return false;
             }
+        } else if (element.getAttribute?.('role') === 'combobox') {
+            if (isIndeedApplyQuestionCombobox(element) && isIndeedApplyComboboxFilled(element) && !hasVisibleValidationError(element)) {
+                return false;
+            }
+
+            const comboboxValue = readReactSelectValue(element);
+
+            if (comboboxValue && !hasVisibleValidationError(element)) {
+                return false;
+            }
         } else if (element.value?.trim()) {
             if (element.type === 'tel' && isPhoneDialCodeOnlyValue(element.value)) {
                 // Treat dial-code-only phone widgets as unfilled.
@@ -3183,7 +3475,8 @@ const AutoCVApplyFormHeuristics = (() => {
                     continue;
                 }
 
-                const label = getQuestionLabel(element);
+                const groupRoot = element.closest('[role="radiogroup"], fieldset');
+                const label = getRadiogroupLabel(groupRoot || element) || getQuestionLabel(element);
 
                 if (seen.has(label)) {
                     continue;
@@ -3223,6 +3516,28 @@ const AutoCVApplyFormHeuristics = (() => {
                 max_chars: element.maxLength > 0 ? element.maxLength : undefined,
                 options: getGroupOptions(element),
             }, element);
+
+            id += 1;
+        }
+
+        for (const { combobox, label, optionLabels } of collectStandaloneComboboxFields(root)) {
+            if (label.length < 3 || seen.has(label)) {
+                continue;
+            }
+
+            if (isIndeedApplyComboboxFilled(combobox) && !hasVisibleValidationError(combobox)) {
+                continue;
+            }
+
+            seen.add(label);
+
+            callback({
+                id,
+                label,
+                field_type: 'select',
+                max_chars: undefined,
+                options: optionLabels.length > 0 ? optionLabels : undefined,
+            }, combobox);
 
             id += 1;
         }
@@ -3367,6 +3682,20 @@ const AutoCVApplyFormHeuristics = (() => {
             }
         }
 
+        for (const { combobox, label: comboboxLabel } of collectStandaloneComboboxFields(root)) {
+            if (!labelsMatch(comboboxLabel, normalizedTarget)) {
+                continue;
+            }
+
+            if (isIndeedApplyQuestionCombobox(combobox)) {
+                if (await setIndeedApplyQuestionComboboxValue(combobox, answer)) {
+                    return true;
+                }
+            } else if (await setAshbyComboboxValue(combobox, answer)) {
+                return true;
+            }
+        }
+
         for (const element of collectFillableElements(root)) {
             if (element.type === 'radio' || element.type === 'checkbox') {
                 const groupName = getGroupName(element);
@@ -3377,7 +3706,10 @@ const AutoCVApplyFormHeuristics = (() => {
 
                 processedGroups.add(groupName);
 
-                if (!labelsMatch(getQuestionLabel(element), normalizedTarget)) {
+                const groupRoot = element.closest('[role="radiogroup"], fieldset');
+                const groupLabel = getRadiogroupLabel(groupRoot || element) || getQuestionLabel(element);
+
+                if (!labelsMatch(groupLabel, normalizedTarget)) {
                     continue;
                 }
 
@@ -3478,7 +3810,13 @@ const AutoCVApplyFormHeuristics = (() => {
         } else if (target?.getAttribute?.('role') === 'listbox') {
             applied = setRoleListboxValue(target, answer);
         } else if (target?.getAttribute?.('role') === 'combobox') {
-            applied = await setAshbyComboboxValue(target, answer);
+            if (isIndeedApplyLocationCombobox(target)) {
+                applied = await setIndeedApplyLocationComboboxValue(target, answer);
+            } else if (isIndeedApplyQuestionCombobox(target)) {
+                applied = await setIndeedApplyQuestionComboboxValue(target, answer);
+            } else {
+                applied = await setAshbyComboboxValue(target, answer);
+            }
         } else if (target?.getAttribute?.('role') === 'radiogroup') {
             applied = setRoleRadioGroupValue(
                 Array.from(target.querySelectorAll('[role="radio"]')).filter(isVisible),

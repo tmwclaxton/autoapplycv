@@ -98,7 +98,9 @@ const AutoCVApplyFieldInventory = (() => {
             id: scope?.id || rep?.id || null,
             name: rep?.name || rep?.getAttribute?.('name') || scope?.getAttribute?.('name') || null,
             data_testid: scope?.getAttribute?.('data-testid') || rep?.getAttribute?.('data-testid') || null,
-            role: scope?.getAttribute?.('role') || rep?.getAttribute?.('role') || null,
+            role: (tag === 'input' || tag === 'textarea' || tag === 'select')
+                ? (rep?.getAttribute?.('role') || null)
+                : (scope?.getAttribute?.('role') || rep?.getAttribute?.('role') || null),
             data_field_path: scope?.getAttribute?.('data-field-path') || null,
             placeholder: rep?.getAttribute?.('placeholder') || null,
             min: rep?.getAttribute?.('min') || null,

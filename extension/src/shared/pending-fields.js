@@ -87,6 +87,8 @@ const PROFILE_FIELD_MAPPINGS = [
     { path: 'linkedin_url', label: 'LinkedIn', dashboard_tab: 'profile', dashboard_anchor: 'field-linkedin-url', keywords: ['linkedin'] },
     { path: 'city', label: 'City', dashboard_tab: 'profile', dashboard_anchor: 'field-city', keywords: ['city', 'current city', 'town', 'stad', 'ort'] },
     { path: 'location', label: 'Location', dashboard_tab: 'profile', dashboard_anchor: 'field-location', keywords: ['location', 'current location'] },
+    { path: 'postcode', label: 'Postcode', dashboard_tab: 'profile', dashboard_anchor: 'field-postcode', keywords: ['postcode', 'postal code', 'zip code', 'zip'] },
+    { path: 'structured_data.address_line_1', label: 'Address line 1', dashboard_tab: 'profile', dashboard_anchor: 'field-address-line-1', keywords: ['street address', 'address line 1', 'address line', 'street'] },
     { path: 'country', label: 'Country', dashboard_tab: 'profile', dashboard_anchor: 'field-country', keywords: ['country', 'country of residence'] },
     { path: 'application_settings.years_of_experience', label: 'Years of experience', dashboard_tab: 'preferences', dashboard_anchor: 'field-years-of-experience', keywords: ['years of experience', 'years experience', 'total experience'] },
     { path: 'application_settings.visa_sponsorship', label: 'Visa sponsorship', dashboard_tab: 'preferences', dashboard_anchor: 'field-visa-sponsorship', keywords: ['visa sponsorship', 'require sponsorship', 'work authorisation', 'work authorization'] },
@@ -108,6 +110,8 @@ const IDENTITY_PROFILE_PATHS = new Set([
     'email',
     'phone',
     'city',
+    'postcode',
+    'structured_data.address_line_1',
 ]);
 
 const IDENTITY_DOM_PATTERNS = [
@@ -115,6 +119,9 @@ const IDENTITY_DOM_PATTERNS = [
     { path: 'full_name.last', pattern: /(?:^|[\[\]_-])(?:last[_-]?name|surname|family[_-]?name)(?:$|[\[\]_-])/i },
     { path: 'email', pattern: /(?:^|[\[\]_-])(?:email|e[_-]?mail)(?:$|[\[\]_-])/i },
     { path: 'phone', pattern: /(?:^|[\[\]_-])(?:phone|mobile|telephone|tel)(?:$|[\[\]_-])/i },
+    { path: 'postcode', pattern: /(?:^|[\[\]_-])(?:postal[_-]?code|post[_-]?code|zip[_-]?code|zip)(?:$|[\[\]_-])/i },
+    { path: 'structured_data.address_line_1', pattern: /(?:^|[\[\]_-])(?:street[_-]?address|location[_-]?address|address[_-]?line[_-]?1?)(?:$|[\[\]_-])/i },
+    { path: 'city', pattern: /(?:^|[\[\]_-])(?:locality|location[_-]?locality)(?:$|[\[\]_-])/i },
 ];
 
 const USER_SPECIFIC_LABEL_PATTERNS = [
@@ -648,6 +655,10 @@ export function isCityLocationQuestionLabel(label) {
     }
 
     if (/\b(?:city|town)\b/.test(normalized) && /\b(?:state|region|zip|postcode)\b/.test(normalized)) {
+        return true;
+    }
+
+    if (/\b(?:city|town)\b/.test(normalized) && /\bcounty\b/.test(normalized)) {
         return true;
     }
 

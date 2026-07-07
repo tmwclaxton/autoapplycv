@@ -970,6 +970,7 @@ async function savePendingFieldAnswer(tabId, field, answer) {
         String(answer || '').trim(),
         {
             profileYears: profileData?.application_settings?.years_of_experience ?? null,
+            fieldType: field.field_type || null,
         },
     );
 

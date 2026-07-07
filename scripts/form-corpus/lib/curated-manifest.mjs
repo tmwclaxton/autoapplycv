@@ -56,6 +56,10 @@ export function detectPlatform(scenario) {
         return 'micro1';
     }
 
+    if (hay.includes('indeed') || id.includes('indeed-apply')) {
+        return 'indeed';
+    }
+
     if (id.startsWith('syn-fw-')) {
         return 'syn-fw';
     }
@@ -288,6 +292,11 @@ const SYN_FW_PICKS = [
     { id: 'syn-fw-wizard-001', reason: 'Multi-step wizard navigation' },
 ];
 
+const SYN_INDEED_PICKS = [
+    { id: 'syn-indeed-apply-contact-001', reason: 'Indeed mosaic apply contact info - postcode, locality combobox, street address' },
+    { id: 'syn-indeed-apply-questions-001', reason: 'Indeed employer questions - education single-select, textareas, commute radios' },
+];
+
 const SYN_WEIRD_PICKS = [
     { id: 'syn-weird-006', reason: 'Fields inside closed details accordion' },
     { id: 'syn-weird-007', reason: 'Application form inside native dialog' },
@@ -476,6 +485,10 @@ export function buildCuratedManifest() {
 
     for (const weirdPick of SYN_WEIRD_PICKS) {
         addById(weirdPick.id, { reason: weirdPick.reason, priority: 'standard' });
+    }
+
+    for (const indeedPick of SYN_INDEED_PICKS) {
+        addById(indeedPick.id, { reason: indeedPick.reason, priority: 'standard' });
     }
 
     for (const pick of pickBest(byPlatform['syn-weird'] || [], 8, usedIds)) {

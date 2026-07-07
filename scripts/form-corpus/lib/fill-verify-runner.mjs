@@ -254,16 +254,16 @@ function readNativeGroupSelection(document, dom, fieldType) {
             return null;
         }
 
-        const label = selected.labels?.[0]?.textContent
-            || document.querySelector(`label[for="${escapeSelectorValue(selected.id)}"]`)?.textContent
+        const label = selected.closest('label')?.textContent
+            || selected.labels?.[0]?.textContent
             || selected.value;
 
         return String(label || '').replace(/\s+/g, ' ').trim();
     }
 
     return checked.map((input) => {
-        const label = input.labels?.[0]?.textContent
-            || document.querySelector(`label[for="${escapeSelectorValue(input.id)}"]`)?.textContent
+        const label = input.closest('label')?.textContent
+            || input.labels?.[0]?.textContent
             || input.value;
 
         return String(label || '').replace(/\s+/g, ' ').trim();
@@ -350,9 +350,12 @@ function readDomValue(document, field, dom) {
     const role = element.getAttribute?.('role');
 
     if (role === 'combobox' || fieldType === 'combobox') {
-        const typed = String(element.value || '').trim();
+        const display = element.querySelector?.('[class*="ew4qyo"]')?.textContent
+            || element.textContent
+            || '';
+        const typed = String(element.value || display).replace(/\s+/g, ' ').trim();
 
-        return typed.length > 0 ? { kind: 'text', value: typed } : null;
+        return typed.length > 0 ? { kind: 'option', value: typed } : null;
     }
 
     if (tag === 'select' || fieldType === 'select') {
