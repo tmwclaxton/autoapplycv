@@ -231,6 +231,7 @@ copyFileSync(join(SRC, 'shared/draft-batch-chat.js'), join(DIST, 'draft-batch-ch
 copyFileSync(join(SRC, 'shared/upload-validation.js'), join(DIST, 'upload-validation.js'));
 copyFileSync(join(SRC, 'shared/side-panel-state.js'), join(DIST, 'side-panel-state.js'));
 copyFileSync(join(SRC, 'shared/linkedin-platform.js'), join(DIST, 'linkedin-platform.js'));
+copyFileSync(join(SRC, 'shared/indeed-platform.js'), join(DIST, 'indeed-platform.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-fit.js'), join(DIST, 'auto-apply-fit.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-platforms.js'), join(DIST, 'auto-apply-platforms.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-session.js'), join(DIST, 'auto-apply-session.js'));
@@ -251,6 +252,7 @@ copyFileSync(join(SRC, 'content/linkedin-parser.js'), join(DIST, 'linkedin-parse
 copyFileSync(join(SRC, 'content/linkedin-page-health.js'), join(DIST, 'linkedin-page-health.js'));
 copyFileSync(join(SRC, 'content/linkedin-easy-apply-fields.js'), join(DIST, 'linkedin-easy-apply-fields.js'));
 copyFileSync(join(SRC, 'content/linkedin-auto-apply.js'), join(DIST, 'linkedin-auto-apply.js'));
+copyFileSync(join(SRC, 'content/indeed-auto-apply.js'), join(DIST, 'indeed-auto-apply.js'));
 copyFileSync(join(SRC, 'content/focus-tracker.js'), join(DIST, 'focus-tracker.js'));
 copyFileSync(join(SRC, 'content/field-highlighter.js'), join(DIST, 'field-highlighter.js'));
 copyFileSync(join(SRC, 'content/portal-bar.js'), join(DIST, 'portal-bar.js'));

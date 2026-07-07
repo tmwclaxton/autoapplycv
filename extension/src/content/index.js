@@ -200,8 +200,18 @@ function extractJobDescriptionFromPage() {
         }
     }
 
+    if (typeof AutoCVApplyIndeedAutoApply?.readJobDescriptionText === 'function') {
+        const indeedText = AutoCVApplyIndeedAutoApply.readJobDescriptionText();
+
+        if (indeedText) {
+            return indeedText;
+        }
+    }
+
     const selectors = [
-        '#job-details',
+        '#jobDescriptionText',
+        '.jobsearch-JobComponent-description',
+        '[id*="jobDescriptionText"]',
         '.jobs-description-content',
         '.jobs-description__content',
         '.jobs-description',
@@ -1386,6 +1396,172 @@ const contentMessageListener = (message, sender, sendResponse) => {
             }
 
             sendResponse(AutoCVApplyLinkedInAutoApply.exportEasyApplyModalDebug());
+
+            return;
+        }
+
+        if (message.type === 'INDEED_PREPARE_JOB_SEARCH') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyIndeedAutoApply.prepareJobSearch());
+
+            return;
+        }
+
+        if (message.type === 'INDEED_PREPARE_JOB_VIEW') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyIndeedAutoApply.prepareJobView({
+                force: message.force === true,
+                light: message.light === true,
+            }));
+
+            return;
+        }
+
+        if (message.type === 'INDEED_COLLECT_JOB_CARDS') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse({
+                success: true,
+                jobs: AutoCVApplyIndeedAutoApply.collectJobCards(),
+            });
+
+            return;
+        }
+
+        if (message.type === 'INDEED_SELECT_JOB') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyIndeedAutoApply.selectJobById(message.jobId));
+
+            return;
+        }
+
+        if (message.type === 'INDEED_WAIT_FOR_JOB_DETAIL') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyIndeedAutoApply.waitForJobDetailReady(message.jobId));
+
+            return;
+        }
+
+        if (message.type === 'INDEED_OPEN_APPLY') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyIndeedAutoApply.clickIndeedApply());
+
+            return;
+        }
+
+        if (message.type === 'INDEED_APPLY_STATE') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ open: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplyIndeedAutoApply.getIndeedApplyState());
+
+            return;
+        }
+
+        if (message.type === 'INDEED_FILL_AND_ADVANCE') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyIndeedAutoApply.clickContinueOrSubmit());
+
+            return;
+        }
+
+        if (message.type === 'INDEED_VERIFY_SUBMITTED') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ submitted: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplyIndeedAutoApply.verifySubmitted());
+
+            return;
+        }
+
+        if (message.type === 'INDEED_NEXT_SEARCH_PAGE') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyIndeedAutoApply.goToNextSearchPage());
+
+            return;
+        }
+
+        if (message.type === 'INDEED_SCAN_PAGE_HEALTH') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ ok: true, issues: [], blocking: [], primary: null });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyIndeedAutoApply.scanPageHealth());
+
+            return;
+        }
+
+        if (message.type === 'INDEED_ACCEPT_COOKIE_CONSENT') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ accepted: false });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyIndeedAutoApply.acceptCookieConsent());
+
+            return;
+        }
+
+        if (message.type === 'INDEED_WAIT_FOR_JOB_DESCRIPTION') {
+            if (typeof AutoCVApplyIndeedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Indeed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            const minLength = Number(message.minLength) || 200;
+
+            void AutoCVApplyIndeedAutoApply.waitForJobDescriptionReady(minLength, 20_000)
+                .then((result) => sendResponse({ success: result.ready, ...result }))
+                .catch((error) => sendResponse({ success: false, error: error.message }));
 
             return;
         }

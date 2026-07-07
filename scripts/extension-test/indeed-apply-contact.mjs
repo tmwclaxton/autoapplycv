@@ -74,7 +74,16 @@ const contactInfoHtml = `
     <input data-testid="name-fields-first-name-input" name="names-first-name" type="text" value="Toby" />
     <label data-testid="name-fields-last-name-label">Last name</label>
     <input data-testid="name-fields-last-name-input" name="names-last-name" type="text" value="Claxton" />
-    <input name="phone" type="tel" value="7837-370669" aria-label="Type phone number" />
+    <div data-testid="phone-number-field">
+      <div role="combobox" data-value="US" aria-haspopup="listbox" class="mosaic-provider-module-apply-contact-info">
+        <span class="mosaic-provider-module-apply-contact-info-ew4qyo">+1</span>
+      </div>
+      <ul role="listbox">
+        <li role="option" data-testid="country-select-GB">United Kingdom<span>+44</span></li>
+        <li role="option" data-testid="country-select-US">United States<span>+1</span></li>
+      </ul>
+      <input name="phone" type="tel" value="7837-370669" aria-label="Type phone number" />
+    </div>
     <button data-testid="continue-button">Continue</button>
   </div>
 </div>
@@ -93,6 +102,7 @@ const continueControls = contactSnapshot.controls.filter((control) => /continue/
 assert.equal(continueControls.length, 1, 'expected one Continue control after dedupe');
 
 const phoneInput = contactWindow.document.querySelector('input[name="phone"]');
+const countryCombobox = contactWindow.document.querySelector('[data-testid="phone-number-field"] [role="combobox"]');
 const phoneApplied = await contactWindow.AutoCVApplyFormHeuristics.applyAnswerForTarget(
     contactWindow.document,
     phoneInput,
@@ -101,5 +111,43 @@ const phoneApplied = await contactWindow.AutoCVApplyFormHeuristics.applyAnswerFo
 );
 assert.equal(phoneApplied, true, 'Indeed phone should accept E.164 and format national digits');
 assert.equal(phoneInput.value, '7837-370669', `unexpected phone value: ${phoneInput?.value}`);
+assert.equal(countryCombobox?.getAttribute('data-value'), 'GB', 'Indeed phone country combobox should match profile dial code');
+
+const usPhoneInput = contactWindow.document.createElement('input');
+usPhoneInput.name = 'phone';
+usPhoneInput.type = 'tel';
+usPhoneInput.setAttribute('aria-label', 'Type phone number');
+const usField = contactWindow.document.createElement('div');
+usField.setAttribute('data-testid', 'phone-number-field');
+usField.className = 'mosaic-provider-module-apply-contact-info';
+const usCombobox = contactWindow.document.createElement('div');
+usCombobox.setAttribute('role', 'combobox');
+usCombobox.setAttribute('data-value', 'GB');
+usCombobox.setAttribute('aria-haspopup', 'listbox');
+const usDial = contactWindow.document.createElement('span');
+usDial.className = 'mosaic-provider-module-apply-contact-info-ew4qyo';
+usDial.textContent = '+44';
+usCombobox.appendChild(usDial);
+const usGb = contactWindow.document.createElement('li');
+usGb.setAttribute('role', 'option');
+usGb.setAttribute('data-testid', 'country-select-US');
+usGb.textContent = 'United States +1';
+const usList = contactWindow.document.createElement('ul');
+usList.setAttribute('role', 'listbox');
+usList.appendChild(usGb);
+usField.appendChild(usCombobox);
+usField.appendChild(usList);
+usField.appendChild(usPhoneInput);
+contactWindow.document.body.appendChild(usField);
+
+const usApplied = await contactWindow.AutoCVApplyFormHeuristics.applyAnswerForTarget(
+    contactWindow.document,
+    usPhoneInput,
+    'tel',
+    '+12025550123',
+);
+assert.equal(usApplied, true, 'Indeed phone should apply US dial code separately from national number');
+assert.equal(usPhoneInput.value, '2025550123', `unexpected US phone value: ${usPhoneInput?.value}`);
+assert.equal(usCombobox.getAttribute('data-value'), 'US', 'Indeed phone country combobox should switch to US');
 
 console.log('Indeed apply contact-info module tests passed.');

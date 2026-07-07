@@ -5,6 +5,7 @@ import {
     formatAutoApplyFitLogMessage,
     MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
     resolveAutoApplyFitDecision,
+    summarizeAtsFitReason,
 } from '../../extension/src/shared/auto-apply-fit.js';
 
 const cases = [
@@ -102,11 +103,20 @@ const cases = [
         },
     },
     {
-        name: 'formats skip fit log message',
+        name: 'formats skip fit log message with reason',
         fn: () => {
             assert.equal(
-                formatAutoApplyFitLogMessage('Junior Dev', 'Beta', 41, 60, false),
-                'Skipped Junior Dev at Beta - fit 41/100 (min 60)',
+                formatAutoApplyFitLogMessage('Junior Dev', 'Beta', 41, 60, false, 'weak on Kubernetes'),
+                'Skipped Junior Dev at Beta - fit 41/100 (min 60) - weak on Kubernetes',
+            );
+        },
+    },
+    {
+        name: 'summarizes missing keywords for skip reason',
+        fn: () => {
+            assert.equal(
+                summarizeAtsFitReason({ missing_keywords: ['Golang', 'Kubernetes'] }, false),
+                'weak on Golang, Kubernetes',
             );
         },
     },

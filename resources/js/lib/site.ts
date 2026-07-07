@@ -25,8 +25,10 @@ export const SUPPORTED_PLATFORMS = [
 export const AUTO_APPLY_COMING_SOON_PLATFORMS = SUPPORTED_PLATFORMS.filter(
     (
         platform,
-    ): platform is Exclude<(typeof SUPPORTED_PLATFORMS)[number], 'LinkedIn'> =>
-        platform !== 'LinkedIn',
+    ): platform is Exclude<
+        (typeof SUPPORTED_PLATFORMS)[number],
+        'LinkedIn' | 'Indeed'
+    > => platform !== 'LinkedIn' && platform !== 'Indeed',
 );
 
 export const PLATFORM_MARKETING_LINE =

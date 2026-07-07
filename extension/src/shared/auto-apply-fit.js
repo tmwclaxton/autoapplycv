@@ -2,7 +2,7 @@ import { getApiToken, getStoredApiBase } from './connection.js';
 
 export const MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT = 40;
 
-export const DEFAULT_MIN_FIT_SCORE = 45;
+export const DEFAULT_MIN_FIT_SCORE = 10;
 
 /**
  * @param {{ fitCheckEnabled?: boolean, minFitScore?: number, score?: number|null, jobDescriptionLength?: number }} input
@@ -36,18 +36,48 @@ export function resolveAutoApplyFitDecision({
 }
 
 /**
- * @param {number|null|undefined} score
- * @param {number} minFitScore
+ * @param {{ matched_keywords?: string[], missing_keywords?: string[], suggestions?: string[] }|null|undefined} atsResult
+ * @param {boolean} applying
  * @returns {string}
  */
-export function formatAutoApplyFitLogMessage(title, company, score, minFitScore, applying) {
+export function summarizeAtsFitReason(atsResult, applying = false) {
+    if (applying || !atsResult || typeof atsResult !== 'object') {
+        return '';
+    }
+
+    const missing = (atsResult.missing_keywords || [])
+        .filter((keyword) => typeof keyword === 'string' && keyword.trim() !== '')
+        .slice(0, 2);
+
+    if (missing.length > 0) {
+        return `weak on ${missing.join(', ')}`;
+    }
+
+    const suggestion = (atsResult.suggestions || []).find((entry) => typeof entry === 'string' && entry.trim() !== '');
+
+    if (suggestion) {
+        return suggestion.trim().replace(/\.$/, '').slice(0, 90);
+    }
+
+    return 'below your threshold';
+}
+
+/**
+ * @param {number|null|undefined} score
+ * @param {number} minFitScore
+ * @param {string} [fitReason]
+ * @returns {string}
+ */
+export function formatAutoApplyFitLogMessage(title, company, score, minFitScore, applying, fitReason = '') {
     const label = `${title} at ${company}`.trim();
 
     if (applying) {
         return `Scored ${label} - ${score}/100 - applying`;
     }
 
-    return `Skipped ${label} - fit ${score}/100 (min ${minFitScore})`;
+    const reasonSuffix = fitReason ? ` - ${fitReason}` : '';
+
+    return `Skipped ${label} - fit ${score}/100 (min ${minFitScore})${reasonSuffix}`;
 }
 
 /**

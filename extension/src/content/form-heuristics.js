@@ -149,14 +149,41 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         const digits = normalized.replace(/\D/g, '');
+        const sortedCodes = [...PHONE_CALLING_CODE_TO_ISO].sort((left, right) => right[0].length - left[0].length);
 
-        for (const [code] of PHONE_CALLING_CODE_TO_ISO) {
+        for (const [code] of sortedCodes) {
             if (digits.startsWith(code)) {
                 return code;
             }
         }
 
         return '';
+    }
+
+    function resolveIsoFromDialCodeDigits(dialCodeDigits) {
+        const entry = PHONE_CALLING_CODE_TO_ISO.find(([code]) => code === dialCodeDigits);
+
+        return entry?.[1] || '';
+    }
+
+    function parseIndeedPhoneParts(value) {
+        const normalized = String(value || '').replace(/\s/g, '');
+        const digits = normalized.replace(/\D/g, '');
+
+        if (!digits) {
+            return { iso: '', dialCodeDigits: '', nationalDigits: '' };
+        }
+
+        const e164 = normalized.startsWith('+') ? normalized : `+${digits}`;
+        const dialCodeDigits = extractDialCodeFromPhoneValue(e164);
+        const iso = resolveIsoFromDialCodeDigits(dialCodeDigits);
+        let nationalDigits = dialCodeDigits && digits.startsWith(dialCodeDigits)
+            ? digits.slice(dialCodeDigits.length)
+            : digits;
+
+        nationalDigits = nationalDigits.replace(/^0+/, '');
+
+        return { iso, dialCodeDigits, nationalDigits };
     }
 
     function findSelectOptionMatch(options, value) {
@@ -314,10 +341,52 @@ const AutoCVApplyFormHeuristics = (() => {
         );
     }
 
+    function getIndeedQualificationQuestionRoot(element) {
+        const container = element?.closest?.('div[data-testid^="testid-qualques--select-"]');
+
+        if (container) {
+            return container;
+        }
+
+        const testId = element?.getAttribute?.('data-testid') || '';
+
+        if (testId.startsWith('testid-qualques--select-')) {
+            return element.closest('div[data-testid^="testid-qualques--"]');
+        }
+
+        return null;
+    }
+
     function isIndeedQuestionFieldRoot(element) {
         const testId = element?.getAttribute?.('data-testid') || '';
 
-        return /^input-q_[a-f0-9]+$/i.test(testId);
+        if (/^input-q_[a-f0-9]+$/i.test(testId)) {
+            return true;
+        }
+
+        return element?.tagName?.toLowerCase() === 'div' && testId.startsWith('testid-qualques--select-');
+    }
+
+    function getIndeedQualificationQuestionLabel(element) {
+        const root = getIndeedQualificationQuestionRoot(element);
+
+        if (!root) {
+            return '';
+        }
+
+        const markup = root.querySelector('[data-testid$="-label"] [data-testid="safe-markup"]');
+
+        if (markup?.textContent?.trim()) {
+            return dedupeRepeatedLabelTokens(normalize(markup.textContent));
+        }
+
+        const labelSpan = root.querySelector('[data-testid$="-label"]');
+
+        if (labelSpan?.textContent?.trim()) {
+            return dedupeRepeatedLabelTokens(normalize(labelSpan.textContent));
+        }
+
+        return '';
     }
 
     function getIndeedQuestionFieldRoot(element) {
@@ -1695,6 +1764,12 @@ const AutoCVApplyFormHeuristics = (() => {
             return indeedNameLabel;
         }
 
+        const indeedQualificationLabel = getIndeedQualificationQuestionLabel(element);
+
+        if (indeedQualificationLabel.length >= 3) {
+            return indeedQualificationLabel;
+        }
+
         const micro1Label = getMicro1QuestionLabel(element);
 
         if (micro1Label.length >= 3) {
@@ -2843,9 +2918,9 @@ const AutoCVApplyFormHeuristics = (() => {
                 return true;
             }
 
-            const expectedNational = stripPhoneDialCodeDigits(expected);
+            const expectedNational = parseIndeedPhoneParts(expected).nationalDigits;
 
-            if (actualDigits === expectedNational) {
+            if (expectedNational && actualDigits === expectedNational) {
                 return true;
             }
 
@@ -3104,24 +3179,73 @@ const AutoCVApplyFormHeuristics = (() => {
         return Boolean(element.closest('[data-testid="phone-number-field"], [class*="mosaic-provider-module-apply-contact-info"]'));
     }
 
-    function stripPhoneDialCodeDigits(value) {
-        let digits = String(value || '').replace(/\D/g, '');
+    function getIndeedPhoneCountryCombobox(telInput) {
+        const field = telInput?.closest?.('[data-testid="phone-number-field"]');
 
-        if (digits.startsWith('44') && digits.length > 10) {
-            digits = digits.slice(2);
-        }
-
-        return digits.replace(/^0+/, '');
+        return field?.querySelector('[role="combobox"][data-value]')
+            || field?.querySelector('[role="combobox"][aria-haspopup="listbox"]')
+            || null;
     }
 
-    function formatIndeedNationalPhoneDigits(digits) {
+    async function setIndeedApplyPhoneCountryCombobox(combobox, iso, dialCodeDigits) {
+        if (!combobox || !iso) {
+            return true;
+        }
+
+        if (combobox.getAttribute('data-value') === iso) {
+            return true;
+        }
+
+        const doc = combobox.ownerDocument || document;
+
+        dispatchPointerClick(combobox);
+        await sleep(120);
+
+        let option = doc.querySelector(`[data-testid="country-select-${iso}"]`);
+
+        if (!option && dialCodeDigits) {
+            const dialDisplay = `+${dialCodeDigits}`;
+            option = Array.from(doc.querySelectorAll('[data-testid^="country-select-"]')).find((candidate) => (
+                (candidate.textContent || '').includes(dialDisplay)
+            )) || null;
+        }
+
+        if (!option) {
+            heuristicsLog('warn', 'apply.phone', 'Indeed country option not found', {
+                iso,
+                dialCodeDigits,
+            });
+
+            return false;
+        }
+
+        dispatchPointerClick(option);
+        option.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        await sleep(120);
+
+        if (combobox.getAttribute('data-value') !== iso) {
+            combobox.setAttribute('data-value', iso);
+            const dialSpan = combobox.querySelector('[class*="ew4qyo"]');
+
+            if (dialSpan && dialCodeDigits) {
+                dialSpan.textContent = `+${dialCodeDigits}`;
+            }
+
+            combobox.dispatchEvent(new Event('input', { bubbles: true }));
+            combobox.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        return combobox.getAttribute('data-value') === iso;
+    }
+
+    function formatIndeedNationalPhoneDigits(digits, iso = '') {
         const normalized = String(digits || '').replace(/\D/g, '');
 
-        if (normalized.length === 10) {
+        if (iso === 'GB' && normalized.length === 10) {
             return `${normalized.slice(0, 4)}-${normalized.slice(4)}`;
         }
 
-        if (normalized.length === 11 && normalized.startsWith('0')) {
+        if (iso === 'GB' && normalized.length === 11 && normalized.startsWith('0')) {
             const national = normalized.slice(1);
 
             return `${national.slice(0, 4)}-${national.slice(4)}`;
@@ -3130,16 +3254,31 @@ const AutoCVApplyFormHeuristics = (() => {
         return normalized;
     }
 
-    function formatIndeedApplyPhoneValue(value) {
-        return formatIndeedNationalPhoneDigits(stripPhoneDialCodeDigits(value));
-    }
-
     async function setIndeedApplyPhoneInputValue(element, value) {
-        const formatted = formatIndeedApplyPhoneValue(value);
+        const parts = parseIndeedPhoneParts(value);
 
-        if (!formatted) {
+        if (!parts.nationalDigits) {
             return false;
         }
+
+        const countryCombobox = getIndeedPhoneCountryCombobox(element);
+
+        if (countryCombobox && parts.iso) {
+            const countrySet = await setIndeedApplyPhoneCountryCombobox(
+                countryCombobox,
+                parts.iso,
+                parts.dialCodeDigits,
+            );
+
+            if (!countrySet) {
+                heuristicsLog('warn', 'apply.phone', 'Indeed country combobox not updated before national fill', {
+                    iso: parts.iso,
+                    dialCodeDigits: parts.dialCodeDigits,
+                });
+            }
+        }
+
+        const formatted = formatIndeedNationalPhoneDigits(parts.nationalDigits, parts.iso);
 
         element.focus();
         dispatchPointerClick(element);
@@ -3149,6 +3288,8 @@ const AutoCVApplyFormHeuristics = (() => {
         if (filled) {
             heuristicsLog('info', 'apply.phone', 'Indeed IPL phone input filled', {
                 valuePreview: formatted.slice(0, 80),
+                iso: parts.iso,
+                dialCodeDigits: parts.dialCodeDigits,
             });
         }
 
@@ -3674,7 +3815,10 @@ const AutoCVApplyFormHeuristics = (() => {
                 }
 
                 const groupRoot = element.closest('[role="radiogroup"], fieldset');
-                const label = getRadiogroupLabel(groupRoot || element) || getQuestionLabel(element);
+                const qualificationLabel = getIndeedQualificationQuestionLabel(element);
+                const label = qualificationLabel.length >= 3
+                    ? qualificationLabel
+                    : (getRadiogroupLabel(groupRoot || element) || getQuestionLabel(element));
 
                 if (seen.has(label)) {
                     continue;

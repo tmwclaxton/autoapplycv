@@ -1,0 +1,77 @@
+#!/usr/bin/env node
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import vm from 'node:vm';
+import { JSDOM } from 'jsdom';
+import {
+    buildIndeedJobOpenUrl,
+    buildIndeedJobSearchUrl,
+    isIndeedJobsSearchUrl,
+    urlsMatchIndeedSearch,
+} from '../../extension/src/shared/indeed-platform.js';
+
+function loadIndeedAutoApply(domWindow) {
+    const script = readFileSync('extension/src/content/indeed-auto-apply.js', 'utf8')
+        .replace(
+            'const AutoCVApplyIndeedAutoApply =',
+            'globalThis.AutoCVApplyIndeedAutoApply =',
+        );
+
+    const sandbox = {
+        globalThis: domWindow,
+        window: domWindow,
+        document: domWindow.document,
+        HTMLElement: domWindow.HTMLElement,
+        setTimeout: domWindow.setTimeout.bind(domWindow),
+        clearTimeout: domWindow.clearTimeout.bind(domWindow),
+        MouseEvent: domWindow.MouseEvent,
+        PointerEvent: domWindow.PointerEvent,
+    };
+
+    vm.runInNewContext(script, sandbox, { filename: 'indeed-auto-apply.js' });
+
+    return domWindow.AutoCVApplyIndeedAutoApply;
+}
+
+assert.match(
+    buildIndeedJobSearchUrl('software engineer', { filters: { location: 'London' } }),
+    /indeed\.com\/jobs\?.*q=software\+engineer/,
+);
+assert.match(
+    buildIndeedJobSearchUrl('software engineer', { filters: { location: 'London' } }),
+    /sc=0kf%3Aattr%28DSQF7%29/,
+);
+assert.equal(
+    buildIndeedJobOpenUrl('5abb1309c5e30555'),
+    'https://uk.indeed.com/viewjob?jk=5abb1309c5e30555',
+);
+assert.ok(isIndeedJobsSearchUrl('https://uk.indeed.com/jobs?q=devops&l=London'));
+assert.ok(urlsMatchIndeedSearch(
+    'https://uk.indeed.com/jobs?q=devops&l=London&sc=0kf%3Aattr%28DSQF7%29',
+    buildIndeedJobSearchUrl('devops', { filters: { location: 'London' } }),
+    { location: 'London' },
+));
+
+const questionsDom = new JSDOM(
+    readFileSync('tests/fixtures/form-extraction/html/web-indeed-job-008-questions-module-questions-1.html', 'utf8'),
+    { url: 'https://smartapply.indeed.com/beta/indeedapply/form/questions-module/questions/1' },
+);
+const questionsApi = loadIndeedAutoApply(questionsDom.window);
+const applyState = questionsApi.getIndeedApplyState();
+
+assert.equal(applyState.open, true);
+assert.ok(applyState.canContinue, 'questions step should expose Continue');
+assert.match(applyState.stepFingerprint || '', /questions\/1/);
+
+const reviewDom = new JSDOM(
+    readFileSync('tests/fixtures/form-extraction/html/web-indeed-job-008-review.html', 'utf8'),
+    { url: 'https://smartapply.indeed.com/beta/indeedapply/form/review-module' },
+);
+const reviewApi = loadIndeedAutoApply(reviewDom.window);
+const reviewState = reviewApi.getIndeedApplyState();
+
+assert.equal(reviewState.open, true);
+assert.equal(reviewState.stepFingerprint, 'review-module');
+assert.ok(reviewState.hasSubmitButton, 'review step should include submit button');
+
+console.log('Indeed auto-apply offline tests passed.');

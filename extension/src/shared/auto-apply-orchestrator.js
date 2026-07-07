@@ -17,8 +17,9 @@ import {
     MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
     requestAutoApplyAtsScore,
     resolveAutoApplyFitDecision,
+    summarizeAtsFitReason,
 } from './auto-apply-fit.js';
-import { buildJobSearchUrl, LINKEDIN_PLATFORM_ID } from './auto-apply-platforms.js';
+import { buildJobSearchUrl, INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID } from './auto-apply-platforms.js';
 import {
     appendAutoApplyLog,
     clearAutoApplySession,
@@ -30,7 +31,8 @@ import {
     saveAutoApplySession,
 } from './auto-apply-session.js';
 import { logError, logInfo, logWarn } from './debug-log.js';
-import { invalidateTabFrameCache, sendTabMessage } from './form-frame-messaging.js';
+import { invalidateTabFrameCache, sendTabMessage, findBestFormFrameId } from './form-frame-messaging.js';
+import { buildIndeedJobOpenUrl, isIndeedJobsSearchUrl, urlsMatchIndeedSearch } from './indeed-platform.js';
 import { buildLinkedInJobOpenUrl } from './linkedin-platform.js';
 import { capturePageFromTab, fetchPageHtmlFromTab, normalizePageCapturePayload } from './page-capture.js';
 import {
@@ -204,6 +206,35 @@ async function fetchJobDescriptionForFit(tabId, job = null) {
     return { jobMeta, description };
 }
 
+function formatIndeedSkipLogMessage(job, reason, detail = '') {
+    const label = `${job.title} at ${job.company}`;
+    const reasonText = {
+        no_indeed_apply: 'external apply only (not Indeed Apply)',
+        job_unavailable: 'job page did not load',
+        job_open_failed: 'could not open job listing',
+        unknown_job_metadata: 'missing job details',
+        short_job_description: 'description too short to score fit',
+        fit_score_failed: 'could not score fit',
+    }[reason] || String(reason || 'skipped').replace(/_/g, ' ');
+    const suffix = detail ? ` - ${detail}` : '';
+
+    return `Skipped ${label} - ${reasonText}${suffix}`;
+}
+
+function formatJobOutcomeLogMessage(job, result) {
+    if (result.outcome === 'applied') {
+        return `Applied to ${job.title} at ${job.company}.`;
+    }
+
+    if (result.reason === 'low_fit_score' && typeof result.atsScore === 'number') {
+        const fitDetail = result.fitReason ? ` - ${result.fitReason}` : '';
+
+        return `Skipped ${job.title} at ${job.company} - fit ${result.atsScore}/100 below threshold${fitDetail}`;
+    }
+
+    return formatIndeedSkipLogMessage(job, result.reason || 'skipped', result.detail || '');
+}
+
 async function evaluateJobFit(tabId, job, session) {
     if (!session.fitCheckEnabled) {
         return { proceed: true, score: null };
@@ -250,15 +281,17 @@ async function evaluateJobFit(tabId, job, session) {
     job.atsScore = scoreResult.score;
 
     if (fitDecision === 'skip_low_score') {
+        const fitReason = summarizeAtsFitReason(scoreResult.result, false);
+
         await logSession(
             'info',
-            formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, false),
+            formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, false, fitReason),
         );
         await recordAnalyticsEvent(session, 'skipped', job, {
             metadata: { reason: 'low_fit_score', score: scoreResult.score, min_fit_score: session.minFitScore },
         }, tabId);
 
-        return { proceed: false, reason: 'low_fit_score', score: scoreResult.score };
+        return { proceed: false, reason: 'low_fit_score', score: scoreResult.score, fitReason };
     }
 
     await logSession(
@@ -368,6 +401,73 @@ async function logSession(level, message) {
 
 async function sendLinkedInMessage(tabId, type, payload = {}) {
     return sendTabMessage(tabId, { type, ...payload }, 0);
+}
+
+async function sendIndeedMessage(tabId, type, payload = {}, options = {}) {
+    const maxAttempts = options.maxAttempts ?? 2;
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+        try {
+            return await sendTabMessage(tabId, { type, ...payload }, 0);
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+
+            if (attempt < maxAttempts && isExtensionMessagingError(message)) {
+                invalidateTabFrameCache(tabId);
+                await logSession('warn', `[indeed_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
+
+                try {
+                    await chrome.tabs.reload(tabId);
+                    await waitForTabLoadComplete(tabId);
+                    await waitForIndeedContentScript(tabId);
+                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1200));
+                    await sendTabMessage(tabId, { type: 'INDEED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
+                } catch {
+                    // Fall through to retry send on next loop iteration.
+                }
+
+                continue;
+            }
+
+            throw error;
+        }
+    }
+
+    throw new Error('Indeed tab messaging failed.');
+}
+
+async function returnToIndeedSearch(tabId, session) {
+    try {
+        const tab = await chrome.tabs.get(tabId);
+        const currentUrl = tab.url || '';
+        const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+
+        if (isIndeedJobsSearchUrl(currentUrl) && urlsMatchIndeedSearch(currentUrl, searchUrl, session.filters)) {
+            await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(() => {});
+
+            return tabId;
+        }
+
+        await chrome.tabs.update(tabId, { url: searchUrl, active: true });
+        await waitForTabLoadComplete(tabId);
+        await waitForIndeedContentScript(tabId);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+        await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(() => {});
+
+        return tabId;
+    } catch {
+        const tab = await chrome.tabs.create({
+            url: buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session)),
+            active: true,
+        });
+
+        await waitForTabLoadComplete(tab.id);
+        await waitForIndeedContentScript(tab.id);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+
+        return tab.id;
+    }
 }
 
 async function acceptLinkedInCookieConsent(tabId) {
@@ -508,6 +608,32 @@ async function recoverLinkedInTab(tabId, session, reason) {
     await waitForTabLoadComplete(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
     await acceptLinkedInCookieConsent(tabId).catch(() => {});
+    markWatchdogProgress(session);
+
+    return tabId;
+}
+
+async function recoverIndeedTab(tabId, session, reason) {
+    if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
+        throw new Error(`Indeed navigation stuck (${reason}). Recovery limit reached.`);
+    }
+
+    watchdogState.recoveryCount += 1;
+
+    await logSession(
+        'warn',
+        `[stuck_recovery] ${reason} - refresh ${watchdogState.recoveryCount}/${STUCK_RECOVERY_LIMIT}`,
+    );
+
+    try {
+        await chrome.tabs.reload(tabId);
+        await waitForTabLoadComplete(tabId);
+        await waitForIndeedContentScript(tabId);
+    } catch {
+        // Fall through to search navigation.
+    }
+
+    tabId = await returnToIndeedSearch(tabId, session);
     markWatchdogProgress(session);
 
     return tabId;
@@ -808,6 +934,12 @@ async function enrichDraftResultWithGaps(tabId, draftResult) {
 }
 
 async function waitForAutoApplyResume() {
+    return waitForAutoApplyResumeWithTimeout(null);
+}
+
+async function waitForAutoApplyResumeWithTimeout(timeoutMs = null) {
+    const deadline = timeoutMs ? Date.now() + timeoutMs : null;
+
     while (true) {
         const session = await loadAutoApplySession();
 
@@ -823,8 +955,22 @@ async function waitForAutoApplyResume() {
             return session;
         }
 
+        if (deadline !== null && Date.now() >= deadline) {
+            return session;
+        }
+
         await sleep(500);
     }
+}
+
+async function resumeAutoApplyFromPauseSilently() {
+    const session = await loadAutoApplySession();
+
+    if (!session || session.status !== 'paused_for_input') {
+        return session;
+    }
+
+    return updateSession((current) => resumeAutoApplyFromInput(current));
 }
 
 async function resolveBlockerFieldRef(tabId, blockerField) {
@@ -925,6 +1071,35 @@ async function pauseForUserInput(session, tabId, job, modalState, blocker, profi
     return pausedSession;
 }
 
+async function pauseForCaptchaReview(session, tabId, job, modalState) {
+    const pauseContext = {
+        job: {
+            jobId: job.jobId,
+            title: job.title,
+            company: job.company,
+        },
+        stepFingerprint: modalState?.stepFingerprint || 'review-module',
+        tabId,
+        blockerField: null,
+        clarifyingQuestion: 'Solve the captcha on the review step, then resume Auto Apply.',
+        questionText: 'Solve the captcha on the review step, then resume Auto Apply.',
+        resumeAt: 'fill_and_advance',
+        validationAttempt: 0,
+        lastAttempt: null,
+        validationError: null,
+        captcha: true,
+    };
+
+    return updateSession((current) => pauseAutoApplyForInput(
+        appendAutoApplyLog(
+            current,
+            'warn',
+            `[paused] ${job.title}: solve captcha on review step, then resume in Assist.`,
+        ),
+        pauseContext,
+    ));
+}
+
 /**
  * Re-pause Auto Apply after a blocked-field answer fails LinkedIn validation.
  */
@@ -1004,12 +1179,85 @@ async function handleAdvanceValidationRetry(session, tabId, job, modalState, pro
     return { retried: true, session: resumedSession };
 }
 
+/**
+ * @param {number} tabId
+ * @param {import('./auto-apply-blockers.js').AutoApplyBlockerField|null|undefined} field
+ * @param {object|null|undefined} profileData
+ * @returns {Promise<boolean>}
+ */
+async function tryAutoAnswerScreenerField(tabId, field, profileData = null) {
+    if (!field?.ref) {
+        return false;
+    }
+
+    const question = String(field.question || field.label || '').toLowerCase();
+    const fieldType = String(field.type || field.field_type || '').toLowerCase();
+    let answer = null;
+
+    if (
+        fieldType.includes('int')
+        || fieldType === 'number'
+        || /how many|years? of|months? of|experience do you/.test(question)
+    ) {
+        const years = profileData?.application_settings?.years_of_experience;
+        answer = years != null && Number.isFinite(Number(years)) ? String(years) : '5';
+    } else if (/salary|compensation|pay rate|hourly|annual/.test(question)) {
+        answer = '55000';
+    } else if (/travel|willing|authorized|eligible|right to work|visa|sponsorship|commute|relocate/.test(question)) {
+        const options = Array.isArray(field.options) ? field.options : [];
+
+        if (options.length > 0) {
+            answer = options.find((option) => /^yes\b/i.test(String(option)))
+                || options.find((option) => /25%|0%|none/i.test(String(option)))
+                || options[0];
+        } else {
+            answer = 'Yes';
+        }
+    } else if ((fieldType === 'radio' || fieldType === 'select') && /education|degree|qualification/.test(question)) {
+        const options = Array.isArray(field.options) ? field.options : [];
+        answer = options.find((option) => /bachelor|undergraduate|degree/i.test(String(option)))
+            || options[options.length - 1]
+            || null;
+    }
+
+    if (!answer) {
+        return false;
+    }
+
+    try {
+        const formFrameId = await findBestFormFrameId(tabId);
+        const result = await sendTabMessage(tabId, {
+            type: 'APPLY_DRAFT_ANSWER',
+            ref: field.ref,
+            label: field.label || field.question,
+            answer: String(answer),
+        }, formFrameId);
+
+        return Boolean(result?.success);
+    } catch {
+        return false;
+    }
+}
+
 async function ensureStepFilledOrPaused(tabId, job, modalState, draftResult, session, profileData) {
     const enrichedDraftResult = await enrichDraftResultWithGaps(tabId, draftResult);
     const blocker = detectUnfilledBlockers(modalState, enrichedDraftResult, { profileData });
 
     if (!blocker.blocked) {
         return { paused: false, session };
+    }
+
+    if (blocker.field) {
+        const autoFilled = await tryAutoAnswerScreenerField(tabId, blocker.field, profileData);
+
+        if (autoFilled) {
+            await logSession(
+                'info',
+                `[auto-answer] ${job.title}: filled "${blocker.field.label || blocker.field.question}".`,
+            );
+
+            return { paused: false, session };
+        }
     }
 
     await pauseForUserInput(session, tabId, job, modalState, blocker, profileData);
@@ -1022,18 +1270,20 @@ async function ensureStepFilledOrPaused(tabId, job, modalState, draftResult, ses
     return { paused: true, session: resumedSession };
 }
 
-async function runDraftAllForStep(tabId, job, stepLabel, runDraftAll, session) {
+async function runDraftAllForStep(tabId, job, stepLabel, runDraftAll, session, platform = LINKEDIN_PLATFORM_ID) {
     invalidateTabFrameCache(tabId);
-    await sendLinkedInMessage(tabId, 'RELOAD_CONTENT_PROFILE').catch(() => {});
+    await sendTabMessage(tabId, { type: 'RELOAD_CONTENT_PROFILE' }, 0).catch(() => {});
 
-    const contactPrefill = await sendLinkedInMessage(tabId, 'LINKEDIN_PREFILL_CONTACT').catch(() => null);
-    const contactFilled = Number(contactPrefill?.filled || 0);
+    if (platform === LINKEDIN_PLATFORM_ID) {
+        const contactPrefill = await sendLinkedInMessage(tabId, 'LINKEDIN_PREFILL_CONTACT').catch(() => null);
+        const contactFilled = Number(contactPrefill?.filled || 0);
 
-    if (contactFilled > 0) {
-        await updateSession((current) => ({
-            ...current,
-            fieldsFilledCount: (current.fieldsFilledCount || 0) + contactFilled,
-        }));
+        if (contactFilled > 0) {
+            await updateSession((current) => ({
+                ...current,
+                fieldsFilledCount: (current.fieldsFilledCount || 0) + contactFilled,
+            }));
+        }
     }
 
     const draftResult = await runDraftAll(tabId);
@@ -1223,7 +1473,7 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
 
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
 
-        const draftResult = await runDraftAllForStep(tabId, job, modalState.stepLabel, runDraftAll, session);
+        const draftResult = await runDraftAllForStep(tabId, job, modalState.stepLabel, runDraftAll, session, LINKEDIN_PLATFORM_ID);
         const postDraftModalState = await sendLinkedInMessage(tabId, 'LINKEDIN_EASY_APPLY_STATE');
         const pauseOutcome = await ensureStepFilledOrPaused(
             tabId,
@@ -1347,6 +1597,622 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
     return { outcome: 'applied', tabId };
 }
 
+async function waitForIndeedContentScript(tabId, timeoutMs = 45_000) {
+    const deadline = Date.now() + timeoutMs;
+
+    while (Date.now() < deadline) {
+        try {
+            await sendTabMessage(tabId, { type: 'INDEED_SCAN_PAGE_HEALTH' }, 0);
+
+            return;
+        } catch (error) {
+            if (!isExtensionMessagingError(error instanceof Error ? error.message : String(error))) {
+                throw error;
+            }
+
+            await sleep(400);
+        }
+    }
+
+    throw new Error('Indeed content script did not load in time.');
+}
+
+async function ensureIndeedTab(session) {
+    const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+
+    if (session.tabId) {
+        try {
+            const tab = await chrome.tabs.get(session.tabId);
+
+            if (tab?.id) {
+                const currentUrl = tab.url || '';
+
+                if (!isIndeedJobsSearchUrl(currentUrl) || !urlsMatchIndeedSearch(currentUrl, searchUrl, session.filters)) {
+                    await chrome.tabs.update(tab.id, { url: searchUrl, active: true });
+                    await waitForTabLoadComplete(tab.id);
+                    await waitForIndeedContentScript(tab.id);
+                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
+                    await sendIndeedMessage(tab.id, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+                }
+
+                return tab.id;
+            }
+        } catch {
+            // Tab was closed; recreate below.
+        }
+    }
+
+    await logSession('info', `Indeed search: ${searchUrl}`);
+    const tab = await chrome.tabs.create({ url: searchUrl, active: true });
+
+    await waitForTabLoadComplete(tab.id);
+    await waitForIndeedContentScript(tab.id);
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
+    await sendIndeedMessage(tab.id, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+
+    return tab.id;
+}
+
+async function collectIndeedJobsFromTab(tabId) {
+    const deadline = Date.now() + 60_000;
+    let lastError = 'Could not read Indeed job cards.';
+
+    while (Date.now() < deadline) {
+        await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(() => {});
+
+        const response = await sendIndeedMessage(tabId, 'INDEED_COLLECT_JOB_CARDS');
+
+        if (!response?.success) {
+            lastError = response?.error || lastError;
+            await sleep(1500);
+
+            continue;
+        }
+
+        if ((response.jobs?.length || 0) > 0) {
+            return response.jobs;
+        }
+
+        await sleep(1500);
+    }
+
+    throw new Error(lastError);
+}
+
+async function appendUniqueIndeedJobs(tabId, session) {
+    const jobs = await collectIndeedJobsFromTab(tabId);
+
+    if (jobs.length === 0) {
+        return session;
+    }
+
+    const existingIds = new Set(session.queue.map((job) => job.jobId));
+    const batchSeen = new Set();
+    const freshJobs = jobs.filter((job) => (
+        !existingIds.has(job.jobId)
+        && !batchSeen.has(job.jobId)
+        && job.indeedApply !== false
+        && !job.alreadyApplied
+        && job.title !== 'Unknown role'
+        && (batchSeen.add(job.jobId), true)
+    ));
+
+    if (freshJobs.length === 0) {
+        return session;
+    }
+
+    return updateSession((current) => ({
+        ...current,
+        queue: [...current.queue, ...freshJobs],
+        stats: {
+            ...current.stats,
+            found: current.stats.found + freshJobs.length,
+        },
+    })) || session;
+}
+
+async function openIndeedJob(tabId, job, session) {
+    return openIndeedJobInner(tabId, job, session);
+}
+
+async function openIndeedJobInner(tabId, job, session) {
+    tabId = await returnToIndeedSearch(tabId, session);
+    await waitForIndeedContentScript(tabId);
+    await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(() => {});
+    await sleep(randomDelay(1400, 900));
+
+    let selectResponse = null;
+
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+        selectResponse = await sendIndeedMessage(tabId, 'INDEED_SELECT_JOB', { jobId: job.jobId });
+
+        if (selectResponse?.success) {
+            return { success: true, jobId: job.jobId, tabId };
+        }
+
+        if (selectResponse?.noIndeedApply) {
+            return {
+                success: false,
+                tabId,
+                skipReason: 'no_indeed_apply',
+                error: selectResponse.error,
+            };
+        }
+
+        if (!selectResponse?.needsNavigation) {
+            break;
+        }
+
+        await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(() => {});
+        await sleep(randomDelay(1200, 800));
+    }
+
+    if (selectResponse?.success) {
+        return { success: true, jobId: job.jobId, tabId };
+    }
+
+    if (selectResponse?.noIndeedApply) {
+        return {
+            success: false,
+            tabId,
+            skipReason: 'no_indeed_apply',
+            error: selectResponse.error,
+        };
+    }
+
+    if (!selectResponse?.needsNavigation) {
+        return {
+            success: false,
+            tabId,
+            skipReason: selectResponse?.jobUnavailable ? 'job_unavailable' : 'job_open_failed',
+            error: selectResponse?.error || 'Could not open Indeed job listing.',
+        };
+    }
+
+    await logSession('info', `Opening ${job.title} directly (job card not visible in search list).`);
+
+    const jobUrl = buildIndeedJobOpenUrl(job.jobId);
+
+    try {
+        await chrome.tabs.update(tabId, { url: jobUrl, active: true });
+    } catch {
+        const tab = await chrome.tabs.create({ url: jobUrl, active: true });
+        tabId = tab.id;
+    }
+
+    await waitForTabLoadComplete(tabId);
+    await waitForIndeedContentScript(tabId);
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1100));
+    await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+    await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+
+    const readyResponse = await sendIndeedMessage(tabId, 'INDEED_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
+
+    if (!readyResponse?.success) {
+        return {
+            success: false,
+            tabId,
+            skipReason: readyResponse?.noIndeedApply
+                ? 'no_indeed_apply'
+                : 'job_unavailable',
+            error: readyResponse?.error || selectResponse?.error || 'Could not open Indeed job listing.',
+        };
+    }
+
+    return { success: true, jobId: job.jobId, tabId, navigated: true };
+}
+
+async function fetchIndeedJobDescriptionForFit(tabId, job = null) {
+    const deadline = Date.now() + 15_000;
+    let description = '';
+
+    while (Date.now() < deadline) {
+        await sendIndeedMessage(tabId, 'INDEED_WAIT_FOR_JOB_DESCRIPTION', {
+            minLength: MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
+        }).catch(() => {});
+
+        const metaResponse = await fetchJobMetaFromTab(tabId);
+        description = resolveJobDescriptionFromMetaResponse(metaResponse);
+
+        if (description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
+            return { jobMeta: metaResponse?.job || null, description };
+        }
+
+        await sleep(randomDelay(800, 500));
+    }
+
+    if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT && job?.jobId) {
+        const jobUrl = buildIndeedJobOpenUrl(job.jobId);
+
+        await logSession('info', `Opening full Indeed job page to read description for ${job.title}.`);
+        await chrome.tabs.update(tabId, { url: jobUrl, active: true });
+        await waitForTabLoadComplete(tabId);
+        await waitForIndeedContentScript(tabId);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
+
+        const retryDeadline = Date.now() + 15_000;
+
+        while (Date.now() < retryDeadline) {
+            const metaResponse = await fetchJobMetaFromTab(tabId);
+            description = resolveJobDescriptionFromMetaResponse(metaResponse);
+
+            if (description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
+                return { jobMeta: metaResponse?.job || null, description };
+            }
+
+            await sleep(randomDelay(800, 500));
+        }
+    }
+
+    return { jobMeta: null, description };
+}
+
+async function evaluateIndeedJobFit(tabId, job, session) {
+    if (!session.fitCheckEnabled) {
+        return { proceed: true, score: null };
+    }
+
+    const { description } = await fetchIndeedJobDescriptionForFit(tabId, job);
+
+    if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
+        await logSession(
+            'warn',
+            `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
+        );
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'short_job_description' },
+        }, tabId);
+
+        return { proceed: false, reason: 'short_job_description', score: null };
+    }
+
+    const scoreResult = await requestAutoApplyAtsScore(description, session.roleDescription);
+
+    if (!scoreResult.ok) {
+        if (scoreResult.insufficientCredits) {
+            throw new Error(`${scoreResult.error} Auto Apply paused - top up credits and start a new run.`);
+        }
+
+        await logSession('warn', `Skipped ${job.title} - could not score fit (${scoreResult.error}).`);
+
+        return { proceed: false, reason: 'fit_score_failed', score: null };
+    }
+
+    await logSession(
+        'info',
+        `ATS score for ${job.title} at ${job.company}: ${scoreResult.score}/100 (min ${session.minFitScore}).`,
+    );
+
+    const fitDecision = resolveAutoApplyFitDecision({
+        fitCheckEnabled: true,
+        minFitScore: session.minFitScore,
+        score: scoreResult.score,
+        jobDescriptionLength: description.length,
+    });
+
+    job.atsScore = scoreResult.score;
+
+    if (fitDecision === 'skip_low_score') {
+        const fitReason = summarizeAtsFitReason(scoreResult.result, false);
+
+        await logSession(
+            'info',
+            formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, false, fitReason),
+        );
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'low_fit_score', score: scoreResult.score, min_fit_score: session.minFitScore },
+        }, tabId);
+
+        return { proceed: false, reason: 'low_fit_score', score: scoreResult.score, fitReason };
+    }
+
+    await logSession(
+        'info',
+        formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, true),
+    );
+
+    return { proceed: true, score: scoreResult.score };
+}
+
+async function processIndeedJob(tabId, job, runDraftAll, session, profileData = null) {
+    await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+
+        if (job.title === 'Unknown role' || job.company === 'Unknown company') {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'unknown_job_metadata' },
+            });
+
+            return { outcome: 'skipped', reason: 'unknown_job_metadata', tabId };
+        }
+
+        await logSession('info', `Opening ${job.title} at ${job.company}`);
+        await recordAnalyticsEvent(session, 'job_opened', job);
+
+        const openResult = await openIndeedJob(tabId, job, session);
+        tabId = openResult.tabId || tabId;
+
+        if (!openResult.success) {
+            await logSession(
+                'info',
+                formatIndeedSkipLogMessage(job, openResult.skipReason || 'job_unavailable', openResult.error || ''),
+            );
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: openResult.skipReason || 'job_unavailable' },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: openResult.skipReason || 'job_unavailable',
+                detail: openResult.error || '',
+                tabId,
+            };
+        }
+
+        if (!openResult.navigated) {
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 800));
+        }
+
+        await captureJobPage(tabId);
+
+        const fitSession = await loadAutoApplySession();
+        const fitResult = await evaluateIndeedJobFit(tabId, job, fitSession || session);
+
+        if (!fitResult.proceed) {
+            return {
+                outcome: 'skipped',
+                reason: fitResult.reason || 'low_fit_score',
+                tabId,
+                atsScore: fitResult.score,
+                fitReason: fitResult.fitReason || '',
+            };
+        }
+
+        const health = await sendIndeedMessage(tabId, 'INDEED_SCAN_PAGE_HEALTH');
+
+        if (health && health.ok === false) {
+            throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'Indeed page blocked.');
+        }
+
+        await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+
+        const applyResponse = await sendIndeedMessage(tabId, 'INDEED_OPEN_APPLY');
+
+        if (applyResponse?.easyApply === false) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'no_indeed_apply' },
+            });
+
+            return { outcome: 'skipped', reason: 'no_indeed_apply', tabId };
+        }
+
+        if (!applyResponse?.success) {
+            const skipReason = applyResponse?.easyApply === false ? 'no_indeed_apply' : 'no_indeed_apply';
+
+            await logSession(
+                'info',
+                formatIndeedSkipLogMessage(job, skipReason, applyResponse?.error || 'Could not start Indeed Apply.'),
+            );
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: skipReason },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: skipReason,
+                detail: applyResponse?.error || '',
+                tabId,
+            };
+        }
+
+        await waitForTabLoadComplete(tabId);
+        await waitForIndeedContentScript(tabId);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        invalidateTabFrameCache(tabId);
+        await captureJobPage(tabId, { force: true });
+
+    let submitted = false;
+    let guard = 0;
+    let lastStepFingerprint = null;
+    let sameStepCount = 0;
+
+    while (guard < EASY_APPLY_MAX_STEPS) {
+        guard += 1;
+
+        const applyState = await sendIndeedMessage(tabId, 'INDEED_APPLY_STATE');
+
+        if (applyState?.submitted) {
+            submitted = true;
+            break;
+        }
+
+        if (!applyState?.open) {
+            const closedVerify = await sendIndeedMessage(tabId, 'INDEED_VERIFY_SUBMITTED');
+
+            if (closedVerify?.submitted) {
+                submitted = true;
+            }
+
+            break;
+        }
+
+        if (applyState.stepFingerprint && applyState.stepFingerprint === lastStepFingerprint) {
+            sameStepCount += 1;
+        } else {
+            sameStepCount = 0;
+            lastStepFingerprint = applyState.stepFingerprint;
+        }
+
+        if (sameStepCount >= EASY_APPLY_STUCK_STEP_LIMIT) {
+            throw new Error(
+                `Stuck on Indeed Apply step "${applyState.stepLabel || 'unknown'}" `
+                + `(${EASY_APPLY_STUCK_STEP_LIMIT}x). `
+                + (applyState.validationErrors?.[0] || applyState.actionLabel || 'No progress after repeated attempts.'),
+            );
+        }
+
+        await logSession(
+            'info',
+            `[fill] ${job.title} step ${guard}: ${applyState.stepLabel || applyState.actionLabel || 'Indeed Apply'}`
+            + (applyState.isReviewStep ? ' (review)' : ''),
+        );
+
+        if (applyState.isReviewStep) {
+            await logSession('info', `[review] ${job.title}: reached review step.`);
+        }
+
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
+
+        const draftResult = await runDraftAllForStep(
+            tabId,
+            job,
+            applyState.stepLabel,
+            runDraftAll,
+            session,
+            INDEED_PLATFORM_ID,
+        );
+        const postDraftState = await sendIndeedMessage(tabId, 'INDEED_APPLY_STATE');
+        const pauseOutcome = await ensureStepFilledOrPaused(
+            tabId,
+            job,
+            postDraftState || applyState,
+            draftResult,
+            session,
+            profileData,
+        );
+
+        session = pauseOutcome.session || session;
+
+        if (pauseOutcome.stopped) {
+            return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+        }
+
+        const advanceResponse = await sendIndeedMessage(tabId, 'INDEED_FILL_AND_ADVANCE');
+
+        if (advanceResponse?.action === 'submit') {
+            await logSession(
+                'info',
+                `[submit] ${job.title}: clicked Submit${advanceResponse.submitted ? ' - confirmed' : ''}.`,
+            );
+
+            if (!advanceResponse.submitted) {
+                await sleep(randomDelay(1200, 600));
+                const confirmState = await sendIndeedMessage(tabId, 'INDEED_APPLY_STATE');
+                const confirmVerify = await sendIndeedMessage(tabId, 'INDEED_VERIFY_SUBMITTED');
+
+                if (confirmState?.submitted || confirmVerify?.submitted) {
+                    submitted = true;
+                    break;
+                }
+            }
+        } else if (advanceResponse?.action === 'continue') {
+            await logSession('info', `[advance] ${job.title}: continued to next step.`);
+        }
+
+        if (advanceResponse?.validationErrors?.length) {
+            await logSession(
+                'warn',
+                `[validation] ${job.title}: ${advanceResponse.validationErrors.slice(0, 3).join('; ')}`,
+            );
+        }
+
+        if (advanceResponse?.submitted) {
+            submitted = true;
+            break;
+        }
+
+        if (advanceResponse?.error?.includes('captcha')) {
+            await logSession(
+                'warn',
+                `[captcha] ${job.title}: solve captcha on review step in the browser, then resume in Assist (2 min timeout).`,
+            );
+            await pauseForCaptchaReview(session, tabId, job, postAdvanceState || applyState);
+            const captchaResume = await waitForAutoApplyResumeWithTimeout(120_000);
+
+            if (captchaResume.stopRequested) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+
+            if (captchaResume.status === 'paused_for_input') {
+                await logSession('warn', `[captcha] ${job.title}: timed out waiting for captcha - skipping job.`);
+                await resumeAutoApplyFromPauseSilently();
+
+                return { outcome: 'skipped', reason: 'captcha_required', tabId };
+            }
+
+            session = captchaResume;
+            sameStepCount = 0;
+            continue;
+        }
+
+        if (advanceResponse?.action === 'blocked' || (
+            (advanceResponse?.validationErrors?.length || 0) > 0
+            && !advanceResponse?.transitioned
+            && !advanceResponse?.submitted
+        )) {
+            const postAdvanceState = await sendIndeedMessage(tabId, 'INDEED_APPLY_STATE');
+            const retryOutcome = await handleAdvanceValidationRetry(
+                session,
+                tabId,
+                job,
+                postAdvanceState || advanceResponse,
+                profileData,
+            );
+
+            session = retryOutcome.session || session;
+
+            if (retryOutcome.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+
+            if (retryOutcome.retried) {
+                sameStepCount = 0;
+                continue;
+            }
+
+            throw new Error(advanceResponse.error || 'Indeed Apply action blocked by validation.');
+        }
+
+        if (!advanceResponse?.success) {
+            throw new Error(advanceResponse?.error || 'Could not advance Indeed Apply step.');
+        }
+
+        if (advanceResponse?.transitioned && advanceResponse?.stepFingerprint && advanceResponse.stepFingerprint !== lastStepFingerprint) {
+            sameStepCount = 0;
+            lastStepFingerprint = advanceResponse.stepFingerprint;
+
+            await recordAnalyticsEvent(session, 'step_advanced', job, {
+                metadata: {
+                    step_label: applyState.stepLabel || applyState.actionLabel || null,
+                },
+            });
+
+            await updateSession((current) => ({
+                ...current,
+                stats: {
+                    ...current.stats,
+                    stepsAdvanced: (current.stats?.stepsAdvanced || 0) + 1,
+                },
+            }));
+        }
+
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterModalStep));
+    }
+
+    if (!submitted) {
+        const verifyResponse = await sendIndeedMessage(tabId, 'INDEED_VERIFY_SUBMITTED');
+        submitted = Boolean(verifyResponse?.submitted);
+    }
+
+    if (!submitted) {
+        throw new Error('Could not submit Indeed Apply application.');
+    }
+
+    await logSession('success', `[submitted] ${job.title} at ${job.company}.`);
+    await recordAnalyticsEvent(session, 'submitted', job);
+
+    return { outcome: 'applied', tabId };
+}
+
 /**
  * @param {{ platform?: string, roleDescription?: string, maxApplications?: number, runDraftAll: Function }} options
  */
@@ -1356,11 +2222,16 @@ export async function startAutoApply({
     maxApplications = 10,
     filters = null,
     fitCheckEnabled = true,
-    minFitScore = 45,
+    minFitScore = 10,
+    force = false,
     runDraftAll,
 }) {
     if (activeRunPromise) {
-        throw new Error('Auto Apply is already running.');
+        if (!force) {
+            throw new Error('Auto Apply is already running.');
+        }
+
+        await forceResetAutoApply();
     }
 
     const trimmedRole = String(roleDescription || '').trim();
@@ -1369,8 +2240,8 @@ export async function startAutoApply({
         throw new Error('Enter a role description before starting Auto Apply.');
     }
 
-    if (platform !== LINKEDIN_PLATFORM_ID) {
-        throw new Error('Only LinkedIn is supported right now.');
+    if (platform !== LINKEDIN_PLATFORM_ID && platform !== INDEED_PLATFORM_ID) {
+        throw new Error('Only LinkedIn and Indeed are supported right now.');
     }
 
     let session = createInitialSession({
@@ -1433,7 +2304,179 @@ async function shouldStop(_session) {
     return !latest || latest.stopRequested;
 }
 
+async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData = null) {
+    resetWatchdog();
+
+    let session = initialSession;
+    let tabId = await ensureIndeedTab(session);
+
+    session = await updateSession({ tabId }) || session;
+    markWatchdogProgress(session);
+    await logSession('info', 'Collecting Indeed job listings…');
+
+    session = await appendUniqueIndeedJobs(tabId, session);
+    markWatchdogProgress(session);
+
+    if (!session.queue.length) {
+        throw new Error('No Indeed Apply job listings found on the search page.');
+    }
+
+    await logSession('info', `Found ${session.queue.length} jobs (Indeed Apply filter enabled).`);
+
+    while ((await loadAutoApplySession())?.stats.applied < session.maxApplications) {
+        session = await loadAutoApplySession();
+
+        if (!session) {
+            return;
+        }
+
+        if (session.stopRequested) {
+            session = await updateSession({
+                status: 'stopped',
+                finishedAt: new Date().toISOString(),
+            }) || session;
+            await logSession('warn', 'Auto Apply stopped.');
+            await finalizeAutoApplyAnalyticsSession(session);
+
+            return;
+        }
+
+        if (session.currentIndex >= session.queue.length) {
+            const nextPage = await sendIndeedMessage(tabId, 'INDEED_NEXT_SEARCH_PAGE');
+
+            if (!nextPage?.success) {
+                break;
+            }
+
+            await logSession('info', 'Loading next page of Indeed results…');
+            session = await appendUniqueIndeedJobs(tabId, session);
+            markWatchdogProgress(session);
+
+            if (session.currentIndex >= session.queue.length) {
+                break;
+            }
+        }
+
+        if (isWatchdogStuck(session)) {
+            tabId = await recoverIndeedTab(tabId, session, 'No Indeed Auto Apply progress detected');
+            session = await updateSession({ tabId }) || session;
+            markWatchdogProgress(session);
+
+            continue;
+        }
+
+        const job = session.queue[session.currentIndex];
+
+        try {
+            const result = await processIndeedJob(tabId, job, runDraftAll, session, profileData);
+
+            if (result.tabId && result.tabId !== tabId) {
+                tabId = result.tabId;
+                session = await updateSession({ tabId }) || session;
+            }
+
+            if (result.outcome === 'stopped') {
+                session = await updateSession({
+                    status: 'stopped',
+                    finishedAt: new Date().toISOString(),
+                }) || session;
+                await logSession('warn', 'Auto Apply stopped while waiting for input.');
+                await finalizeAutoApplyAnalyticsSession(session);
+
+                return;
+            }
+
+            session = await updateSession((current) => {
+                const stats = { ...current.stats };
+
+                if (result.outcome === 'applied') {
+                    stats.applied += 1;
+                } else {
+                    stats.skipped += 1;
+
+                    if (result.reason === 'low_fit_score' || result.reason === 'short_job_description') {
+                        stats.fitSkipped += 1;
+                    }
+                }
+
+                const withLog = appendAutoApplyLog(
+                    current,
+                    result.outcome === 'applied' ? 'success' : 'info',
+                    formatJobOutcomeLogMessage(job, result),
+                );
+
+                return {
+                    ...withLog,
+                    stats,
+                    currentIndex: current.currentIndex + 1,
+                };
+            }) || session;
+
+            markWatchdogProgress(session);
+        } catch (error) {
+            await recordAnalyticsEvent(session, 'error', job, {
+                metadata: { message: error.message || 'Auto Apply job failed.' },
+            }, tabId);
+
+            session = await updateSession((current) => {
+                const stats = { ...current.stats, errors: current.stats.errors + 1 };
+                const withLog = appendAutoApplyLog(current, 'error', `${job.title}: ${error.message}`);
+
+                return {
+                    ...withLog,
+                    stats,
+                    currentIndex: current.currentIndex + 1,
+                    lastError: isExtensionMessagingError(error.message) ? current.lastError : error.message,
+                };
+            }) || session;
+
+            markWatchdogProgress(session);
+        }
+
+        try {
+            tabId = await returnToIndeedSearch(tabId, session);
+            session = await updateSession({ tabId }) || session;
+        } catch {
+            // Best-effort return to search between jobs.
+        }
+
+        if (await shouldStop(session)) {
+            session = await updateSession({
+                status: 'stopped',
+                finishedAt: new Date().toISOString(),
+            }) || session;
+            await logSession('warn', 'Auto Apply stopped.');
+            await finalizeAutoApplyAnalyticsSession(session);
+
+            return;
+        }
+
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
+    }
+
+    session = await loadAutoApplySession();
+
+    session = await updateSession((current) => ({
+        ...current,
+        status: current.stopRequested ? 'stopped' : 'completed',
+        finishedAt: new Date().toISOString(),
+    })) || session;
+
+    await logSession(
+        'success',
+        `Auto Apply finished. Applied: ${session?.stats.applied || 0}, skipped: ${session?.stats.skipped || 0}, fit skipped: ${session?.stats.fitSkipped || 0}, errors: ${session?.stats.errors || 0}.`,
+    );
+
+    if (session) {
+        await finalizeAutoApplyAnalyticsSession(session);
+    }
+}
+
 async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null) {
+    if (initialSession.platform === INDEED_PLATFORM_ID) {
+        return runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData);
+    }
+
     resetWatchdog();
 
     let session = initialSession;
@@ -1539,9 +2582,7 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
                 const withLog = appendAutoApplyLog(
                     current,
                     result.outcome === 'applied' ? 'success' : 'info',
-                    result.outcome === 'applied'
-                        ? `Applied to ${job.title} at ${job.company}.`
-                        : `Skipped ${job.title} (${result.reason || 'skipped'}).`,
+                    formatJobOutcomeLogMessage(job, result),
                 );
 
                 return {
@@ -1702,6 +2743,24 @@ export async function resetAutoApplySession() {
     });
 }
 
+export async function forceResetAutoApply() {
+    try {
+        await stopAutoApply();
+    } catch {
+        // Best-effort stop before reset.
+    }
+
+    if (activeRunPromise) {
+        try {
+            await activeRunPromise;
+        } catch {
+            // Ignore failed runs while resetting.
+        }
+    }
+
+    await resetAutoApplySession();
+}
+
 export async function dismissFinishedAutoApplySession() {
     if (isAutoApplyRunning()) {
         return false;
@@ -1726,6 +2785,7 @@ function isExtensionMessagingError(message) {
     const text = String(message);
 
     return text.includes('message channel closed')
+        || text.includes('back/forward cache')
         || text.includes('Extension context invalidated')
         || text.includes('Receiving end does not exist');
 }

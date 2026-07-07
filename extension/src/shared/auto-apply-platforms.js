@@ -1,4 +1,9 @@
 import {
+    buildIndeedJobSearchUrl,
+    INDEED_PLATFORM_ID,
+    isIndeedJobsSearchUrl,
+} from './indeed-platform.js';
+import {
     LINKEDIN_PLATFORM_ID,
     buildLinkedInJobSearchUrl,
     isLinkedInJobsSearchUrl,
@@ -8,7 +13,7 @@ import {
 
 /**
  * Keep in sync with SUPPORTED_PLATFORMS in resources/js/lib/site.ts.
- * LinkedIn is the only enabled auto-apply platform today; others are listed as coming soon.
+ * LinkedIn and Indeed are enabled for auto-apply; others are listed as coming soon.
  *
  * @type {PlatformDefinition[]}
  */
@@ -79,10 +84,9 @@ export const AUTO_APPLY_PLATFORM_LIST = [
         comingSoon: true,
     },
     {
-        id: 'indeed',
+        id: INDEED_PLATFORM_ID,
         label: 'Indeed',
-        enabled: false,
-        comingSoon: true,
+        enabled: true,
     },
     {
         id: 'trakstar',
@@ -114,6 +118,13 @@ export function buildJobSearchUrl(platformId, roleDescription, options = {}) {
         return buildLinkedInJobSearchUrl(roleDescription, options);
     }
 
+    if (platformId === INDEED_PLATFORM_ID) {
+        return buildIndeedJobSearchUrl(roleDescription, {
+            indeedApplyOnly: options.easyApplyOnly !== false,
+            filters: options.filters,
+        });
+    }
+
     throw new Error(`Unsupported auto-apply platform: ${platformId}`);
 }
 
@@ -127,7 +138,11 @@ export function urlMatchesPlatform(url, platformId) {
         return isLinkedInJobsSearchUrl(url);
     }
 
+    if (platformId === INDEED_PLATFORM_ID) {
+        return isIndeedJobsSearchUrl(url);
+    }
+
     return false;
 }
 
-export { LINKEDIN_PLATFORM_ID };
+export { INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID };

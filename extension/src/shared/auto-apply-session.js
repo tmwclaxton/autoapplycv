@@ -75,7 +75,7 @@ export function createInitialSession({
     maxApplications = 10,
     filters = null,
     fitCheckEnabled = true,
-    minFitScore = 45,
+    minFitScore = 10,
 }) {
     return {
         status: 'running',
@@ -85,7 +85,7 @@ export function createInitialSession({
         maxApplications,
         filters: filters || null,
         fitCheckEnabled: fitCheckEnabled !== false,
-        minFitScore: Math.max(0, Math.min(100, Number(minFitScore) || 45)),
+        minFitScore: Math.max(0, Math.min(100, Number(minFitScore) || 10)),
         stats: {
             found: 0,
             applied: 0,
@@ -165,7 +165,7 @@ export async function loadAutoApplySession() {
     return {
         ...session,
         fitCheckEnabled: session.fitCheckEnabled !== false,
-        minFitScore: Math.max(0, Math.min(100, Number(session.minFitScore) || 60)),
+        minFitScore: Math.max(0, Math.min(100, Number(session.minFitScore) || 10)),
         filters: session.filters ?? null,
         stats: {
             ...(session.stats || {}),

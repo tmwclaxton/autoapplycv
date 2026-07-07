@@ -15,6 +15,7 @@ import {
     resumeAutoApplyFromPause,
     startAutoApply,
     stopAutoApply,
+    forceResetAutoApply,
 } from './auto-apply-orchestrator.js';
 import { loadAutoApplySession } from './auto-apply-session.js';
 import { initExtensionBridge } from './bridge-client.js';
@@ -2716,6 +2717,91 @@ initExtensionBridge({
             const resolvedTabId = await resolveActiveTabId(tabId);
 
             return runDraftAll(resolvedTabId);
+        },
+        indeed_tab_message: async ({ tabId, type, ...messageParams }) => {
+            if (!type || typeof type !== 'string') {
+                throw new Error('type is required.');
+            }
+
+            const resolvedTabId = await resolveActiveTabId(tabId);
+
+            return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
+        },
+        start_auto_apply: async ({
+            platform = 'indeed',
+            roleDescription,
+            maxApplications = 2,
+            fitCheckEnabled = false,
+            minFitScore = 10,
+            filters = null,
+            force = false,
+        }) => {
+            if (!roleDescription || !String(roleDescription).trim()) {
+                throw new Error('roleDescription is required.');
+            }
+
+            const session = await startAutoApply({
+                platform,
+                roleDescription: String(roleDescription).trim(),
+                maxApplications: Math.max(1, Number(maxApplications) || 2),
+                filters,
+                fitCheckEnabled: fitCheckEnabled === true,
+                minFitScore: Number(minFitScore) || 10,
+                force: force === true,
+                runDraftAll,
+            });
+
+            return {
+                success: true,
+                session: session ? sanitizeAutoApplySessionResponse(session) : null,
+            };
+        },
+        auto_apply_status: async () => ({
+            running: isAutoApplyRunning(),
+            session: await getAutoApplyStatus(),
+        }),
+        auto_apply_stop: async () => {
+            const session = await stopAutoApply();
+
+            return {
+                success: true,
+                session: session ? sanitizeAutoApplySessionResponse(session) : null,
+            };
+        },
+        auto_apply_resume: async () => {
+            const session = await resumeAutoApplyFromPause();
+
+            return {
+                success: true,
+                session: session ? sanitizeAutoApplySessionResponse(session) : null,
+            };
+        },
+        auto_apply_submit_blocker: async ({ answer, field = null }) => {
+            if (!answer || !String(answer).trim()) {
+                throw new Error('answer is required.');
+            }
+
+            const result = await submitAutoApplyBlockerAnswer(String(answer).trim(), field);
+
+            return { success: true, result };
+        },
+        auto_apply_reset: async () => {
+            await forceResetAutoApply();
+
+            return { success: true };
+        },
+        reload_extension: async () => {
+            const version = chrome.runtime.getManifest().version;
+
+            setTimeout(() => {
+                chrome.runtime.reload();
+            }, 100);
+
+            return {
+                success: true,
+                version,
+                message: 'Extension reload scheduled.',
+            };
         },
         request_auth: async ({ tabId, waitMs = 0 }) => {
             const timeoutMs = Math.max(0, Number(waitMs) || 0);
