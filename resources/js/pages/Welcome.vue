@@ -4,6 +4,7 @@ import {
     ArrowRight,
     Bot,
     FileUp,
+    MessageCircle,
     ShieldCheck,
     Sparkles,
     Stamp,
@@ -167,7 +168,12 @@ defineProps<{
                     </p>
                 </div>
 
-                <div class="postbox-panel p-4 sm:col-span-2 sm:p-5">
+                <div class="postbox-panel p-4 sm:p-5">
+                    <div
+                        class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                    >
+                        <MessageCircle class="size-5 text-postbox-red" />
+                    </div>
                     <h3 class="text-base font-bold text-postbox-navy">
                         Answers that sound like you
                     </h3>
