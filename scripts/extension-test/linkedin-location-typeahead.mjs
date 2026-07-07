@@ -67,6 +67,7 @@ function loadFixtureApi(html, url) {
     globalThis.document = window.document;
     globalThis.HTMLElement = window.HTMLElement;
     globalThis.MouseEvent = window.MouseEvent;
+    globalThis.KeyboardEvent = window.KeyboardEvent;
     globalThis.Event = window.Event;
     globalThis.InputEvent = window.InputEvent;
     globalThis.FocusEvent = window.FocusEvent;
