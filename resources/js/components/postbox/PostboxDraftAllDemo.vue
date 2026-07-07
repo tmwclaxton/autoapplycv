@@ -146,7 +146,7 @@ function fieldClass(fieldId: string): string {
         return '';
     }
 
-    return 'ring-2 ring-postbox-red ring-offset-1 ring-offset-white transition-shadow duration-150';
+    return 'outline outline-2 outline-postbox-red outline-offset-1 transition-[outline] duration-150';
 }
 
 onUnmounted(() => {
@@ -156,248 +156,219 @@ onUnmounted(() => {
 
 <template>
     <section class="mt-12">
-        <div class="mb-4 text-center sm:text-left">
-            <span class="postbox-badge mb-3 inline-flex">Interactive demo</span>
-            <h2
-                class="text-xl font-bold tracking-tight text-balance text-postbox-navy sm:text-2xl"
-            >
-                Try Draft All
-            </h2>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-                Click the red button - the same one on real job forms - and
-                watch your profile fill the application in seconds.
-            </p>
-        </div>
+        <p class="postbox-label mb-2">Interactive demo</p>
+        <h2
+            class="text-xl font-bold tracking-tight text-balance text-postbox-navy sm:text-2xl"
+        >
+            Try Draft All
+        </h2>
+        <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
+            Click the red button - the same one on real job forms - and watch
+            your profile fill the application in seconds.
+        </p>
 
-        <div class="w-full">
+        <div class="postbox-panel mt-6 overflow-hidden p-0">
             <div
-                class="overflow-hidden border border-[#d4d4d8] bg-[#ececec] shadow-[0_8px_30px_rgb(0_0_0_/_12%)]"
+                class="border-b-2 border-postbox-navy bg-postbox-grey px-3 py-2 sm:px-4"
             >
                 <div
-                    class="flex items-center gap-2 border-b border-[#d4d4d8] px-3 py-1.5 sm:py-2"
+                    class="border-2 border-postbox-navy bg-postbox-surface px-2 py-1 text-center"
                 >
-                    <div class="flex shrink-0 items-center gap-1.5">
-                        <span
-                            class="size-2.5 rounded-full bg-[#ff5f57] sm:size-3"
-                            aria-hidden="true"
-                        />
-                        <span
-                            class="size-2.5 rounded-full bg-[#febc2e] sm:size-3"
-                            aria-hidden="true"
-                        />
-                        <span
-                            class="size-2.5 rounded-full bg-[#28c840] sm:size-3"
-                            aria-hidden="true"
-                        />
-                    </div>
-                    <div
-                        class="min-w-0 flex-1 border border-[#d4d4d8] bg-white px-2 py-0.5 text-center sm:px-2.5 sm:py-1"
-                    >
-                        <span
-                            class="block truncate text-[10px] text-[#71717a] sm:text-xs"
-                        >
-                            careers.example.com/apply
-                        </span>
-                    </div>
+                    <span class="block truncate text-xs text-muted-foreground">
+                        careers.example.com/apply
+                    </span>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col bg-postbox-paper sm:h-80 sm:overflow-hidden"
+            >
+                <div
+                    class="shrink-0 border-b-2 border-postbox-navy bg-postbox-surface px-3 py-2 sm:px-4"
+                >
+                    <p class="postbox-label mb-1">Acme Corp · Careers</p>
+                    <h3 class="text-sm font-bold text-postbox-navy">
+                        Senior Product Designer
+                    </h3>
+                    <p class="text-xs text-muted-foreground">
+                        London · Hybrid · Full-time
+                    </p>
                 </div>
 
+                <form
+                    class="min-h-0 flex-1 overflow-y-auto px-3 pt-3 pb-3 sm:px-4"
+                    @submit.prevent
+                >
+                    <div class="grid shrink-0 gap-2 sm:grid-cols-2">
+                        <template v-for="field in MOCK_FIELDS" :key="field.id">
+                            <div
+                                :class="
+                                    field.half
+                                        ? 'sm:col-span-1'
+                                        : 'sm:col-span-2'
+                                "
+                            >
+                                <label
+                                    :for="`demo-${field.id}`"
+                                    class="mb-1 block text-xs font-semibold text-postbox-navy"
+                                >
+                                    {{ field.label }}
+                                    <span class="text-postbox-red">*</span>
+                                </label>
+
+                                <textarea
+                                    v-if="field.type === 'textarea'"
+                                    :id="`demo-${field.id}`"
+                                    :rows="field.rows ?? 2"
+                                    :value="formValues[field.id]"
+                                    :placeholder="field.placeholder"
+                                    readonly
+                                    :class="[
+                                        'postbox-input resize-none py-1 text-xs leading-snug placeholder:text-muted-foreground',
+                                        fieldClass(field.id),
+                                    ]"
+                                />
+
+                                <select
+                                    v-else-if="field.type === 'select'"
+                                    :id="`demo-${field.id}`"
+                                    :value="formValues[field.id]"
+                                    disabled
+                                    :class="[
+                                        'postbox-input py-1 text-xs disabled:opacity-100',
+                                        fieldClass(field.id),
+                                    ]"
+                                >
+                                    <option
+                                        v-for="option in field.options"
+                                        :key="option.value"
+                                        :value="option.value"
+                                    >
+                                        {{ option.label }}
+                                    </option>
+                                </select>
+
+                                <div
+                                    v-else-if="field.type === 'file'"
+                                    :class="[
+                                        'postbox-dropzone flex items-center gap-1.5 px-2 py-1.5 text-xs transition-colors duration-200',
+                                        formValues[field.id]
+                                            ? 'border-postbox-navy bg-postbox-grey'
+                                            : 'text-muted-foreground',
+                                        fieldClass(field.id),
+                                    ]"
+                                >
+                                    <FileText
+                                        class="size-3.5 shrink-0 sm:size-4"
+                                        :class="
+                                            formValues[field.id]
+                                                ? 'text-postbox-red'
+                                                : 'text-muted-foreground'
+                                        "
+                                    />
+                                    <span
+                                        :class="
+                                            formValues[field.id]
+                                                ? 'truncate font-semibold text-postbox-navy'
+                                                : 'truncate'
+                                        "
+                                    >
+                                        {{
+                                            formValues[field.id] ||
+                                            'Drop resume or browse'
+                                        }}
+                                    </span>
+                                </div>
+
+                                <input
+                                    v-else
+                                    :id="`demo-${field.id}`"
+                                    :type="field.type"
+                                    :value="formValues[field.id]"
+                                    :placeholder="field.placeholder"
+                                    readonly
+                                    :class="[
+                                        'postbox-input py-1 text-xs placeholder:text-muted-foreground',
+                                        fieldClass(field.id),
+                                    ]"
+                                />
+                            </div>
+                        </template>
+                    </div>
+                </form>
+
                 <div
-                    class="flex h-72 flex-col overflow-hidden bg-[#fafafa] sm:h-80"
+                    class="shrink-0 border-t-2 border-postbox-navy px-3 py-2 sm:px-4"
+                    :class="
+                        isComplete ? 'bg-postbox-grey' : 'bg-postbox-surface'
+                    "
                 >
                     <div
-                        class="shrink-0 border-b border-[#e4e4e7] bg-white px-3 py-1.5 sm:px-4 sm:py-2"
+                        v-if="isComplete"
+                        class="flex flex-col gap-2 py-1 sm:flex-row sm:items-center sm:justify-between sm:py-0"
                     >
-                        <p
-                            class="text-[10px] font-semibold tracking-wide text-[#71717a] uppercase"
-                        >
-                            Acme Corp · Careers
-                        </p>
-                        <h3
-                            class="text-xs font-semibold text-[#18181b] sm:text-sm"
-                        >
-                            Senior Product Designer
-                        </h3>
-                        <p class="text-[10px] text-[#71717a] sm:text-[11px]">
-                            London · Hybrid · Full-time
-                        </p>
-                    </div>
-
-                    <form
-                        class="min-h-0 flex-1 px-3 pt-2 pb-3 sm:px-4"
-                        @submit.prevent
-                    >
-                        <div class="grid shrink-0 gap-1.5 sm:grid-cols-2">
-                            <template
-                                v-for="field in MOCK_FIELDS"
-                                :key="field.id"
+                        <div class="flex min-w-0 items-center gap-1.5">
+                            <CheckCircle2
+                                class="size-3.5 shrink-0 text-postbox-red sm:size-4"
+                            />
+                            <p
+                                class="truncate text-xs font-bold text-postbox-navy"
                             >
-                                <div
-                                    :class="
-                                        field.half
-                                            ? 'sm:col-span-1'
-                                            : 'sm:col-span-2'
-                                    "
+                                Form filled from your profile
+                                <span
+                                    class="hidden font-normal text-muted-foreground sm:inline"
                                 >
-                                    <label
-                                        :for="`demo-${field.id}`"
-                                        class="mb-px block text-[10px] font-medium text-[#3f3f46] sm:text-[11px]"
-                                    >
-                                        {{ field.label }}
-                                        <span class="text-[#c8102e]">*</span>
-                                    </label>
-
-                                    <textarea
-                                        v-if="field.type === 'textarea'"
-                                        :id="`demo-${field.id}`"
-                                        :rows="field.rows ?? 2"
-                                        :value="formValues[field.id]"
-                                        :placeholder="field.placeholder"
-                                        readonly
-                                        :class="[
-                                            'w-full resize-none rounded border border-[#d4d4d8] bg-white px-2 py-0.5 text-[11px] leading-snug text-[#18181b] placeholder:text-[#a1a1aa] focus:outline-none sm:text-xs',
-                                            fieldClass(field.id),
-                                        ]"
-                                    />
-
-                                    <select
-                                        v-else-if="field.type === 'select'"
-                                        :id="`demo-${field.id}`"
-                                        :value="formValues[field.id]"
-                                        disabled
-                                        :class="[
-                                            'w-full rounded border border-[#d4d4d8] bg-white px-2 py-0.5 text-[11px] text-[#18181b] focus:outline-none disabled:opacity-100 sm:text-xs',
-                                            fieldClass(field.id),
-                                        ]"
-                                    >
-                                        <option
-                                            v-for="option in field.options"
-                                            :key="option.value"
-                                            :value="option.value"
-                                        >
-                                            {{ option.label }}
-                                        </option>
-                                    </select>
-
-                                    <div
-                                        v-else-if="field.type === 'file'"
-                                        :class="[
-                                            'flex items-center gap-1.5 rounded border border-dashed border-[#d4d4d8] bg-white px-2 py-1 text-[11px] transition-colors duration-200 sm:text-xs',
-                                            formValues[field.id]
-                                                ? 'border-[#86efac] bg-[#f0fdf4]'
-                                                : 'text-[#71717a]',
-                                            fieldClass(field.id),
-                                        ]"
-                                    >
-                                        <FileText
-                                            class="size-3.5 shrink-0 sm:size-4"
-                                            :class="
-                                                formValues[field.id]
-                                                    ? 'text-[#16a34a]'
-                                                    : 'text-[#a1a1aa]'
-                                            "
-                                        />
-                                        <span
-                                            :class="
-                                                formValues[field.id]
-                                                    ? 'truncate font-medium text-[#166534]'
-                                                    : 'truncate'
-                                            "
-                                        >
-                                            {{
-                                                formValues[field.id] ||
-                                                'Drop resume or browse'
-                                            }}
-                                        </span>
-                                    </div>
-
-                                    <input
-                                        v-else
-                                        :id="`demo-${field.id}`"
-                                        :type="field.type"
-                                        :value="formValues[field.id]"
-                                        :placeholder="field.placeholder"
-                                        readonly
-                                        :class="[
-                                            'w-full rounded border border-[#d4d4d8] bg-white px-2 py-0.5 text-[11px] text-[#18181b] placeholder:text-[#a1a1aa] focus:outline-none sm:text-xs',
-                                            fieldClass(field.id),
-                                        ]"
-                                    />
-                                </div>
-                            </template>
+                                    - no copy-paste on real forms
+                                </span>
+                            </p>
                         </div>
-                    </form>
-
-                    <div
-                        class="shrink-0 border-t border-[#e4e4e7] px-3 py-2 sm:px-4"
-                        :class="isComplete ? 'bg-[#f0fdf4]' : 'bg-white'"
-                    >
-                        <div
-                            v-if="isComplete"
-                            class="flex min-h-9 items-center justify-between gap-1 sm:min-h-10"
-                        >
-                            <div class="flex min-w-0 items-center gap-1">
-                                <CheckCircle2
-                                    class="size-3 shrink-0 text-[#16a34a]"
-                                />
-                                <p
-                                    class="truncate text-[10px] font-semibold text-[#166534] sm:text-xs"
-                                >
-                                    Form filled from your profile
-                                    <span
-                                        class="hidden font-normal text-[#15803d] sm:inline"
-                                    >
-                                        - no copy-paste on real forms
-                                    </span>
-                                </p>
-                            </div>
-                            <div class="flex shrink-0 items-center gap-2">
-                                <button
-                                    type="button"
-                                    class="inline-flex items-center gap-0.5 text-[10px] font-semibold text-postbox-navy underline-offset-2 hover:underline"
-                                    @click="resetDemo"
-                                >
-                                    <RotateCcw class="size-3" />
-                                    Reset
-                                </button>
-                                <Link
-                                    :href="howTo()"
-                                    class="inline-flex items-center gap-0.5 text-[10px] font-semibold text-postbox-navy underline-offset-2 hover:underline"
-                                >
-                                    Get extension
-                                    <ArrowRight class="size-3" />
-                                </Link>
-                            </div>
-                        </div>
-
-                        <div
-                            v-else
-                            class="flex min-h-9 flex-wrap items-center gap-x-2 gap-y-1 sm:min-h-10"
-                        >
+                        <div class="flex shrink-0 items-center gap-2">
                             <button
                                 type="button"
-                                class="inline-flex shrink-0 items-center justify-center border-2 border-postbox-navy bg-postbox-red px-2.5 py-1.5 text-[11px] leading-tight font-bold whitespace-nowrap text-white shadow-[2px_2px_0_rgb(27_54_93_/_8%)] transition-[filter] hover:brightness-105 disabled:cursor-wait disabled:opacity-70 sm:px-3 sm:py-2 sm:text-xs"
-                                :disabled="isFilling"
-                                @click="startDraftAll"
-                            >
-                                Draft All
-                            </button>
-                            <span
-                                v-if="progressLabel"
-                                class="min-w-0 flex-1 text-[10px] leading-snug text-[#6b6b6b]"
-                            >
-                                {{ progressLabel }}
-                            </span>
-                            <button
-                                v-if="filledCount > 0"
-                                type="button"
-                                class="inline-flex items-center gap-1 text-[10px] font-semibold text-postbox-navy underline-offset-2 hover:underline"
-                                :disabled="isFilling"
+                                class="postbox-link inline-flex items-center gap-0.5 text-xs font-semibold no-underline hover:underline"
                                 @click="resetDemo"
                             >
                                 <RotateCcw class="size-3" />
-                                Reset demo
+                                Reset
                             </button>
+                            <Link
+                                :href="howTo()"
+                                class="postbox-link inline-flex items-center gap-0.5 text-xs font-semibold no-underline hover:underline"
+                            >
+                                Get extension
+                                <ArrowRight class="size-3" />
+                            </Link>
                         </div>
+                    </div>
+
+                    <div
+                        v-else
+                        class="flex flex-col gap-2 py-1 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-3 sm:gap-y-1 sm:py-0"
+                    >
+                        <button
+                            type="button"
+                            class="postbox-btn shrink-0 px-3 py-1.5 text-xs whitespace-nowrap"
+                            :disabled="isFilling"
+                            @click="startDraftAll"
+                        >
+                            Draft All
+                        </button>
+                        <span
+                            v-if="progressLabel"
+                            class="min-w-0 flex-1 text-xs leading-snug text-muted-foreground"
+                        >
+                            {{ progressLabel }}
+                        </span>
+                        <button
+                            v-if="filledCount > 0"
+                            type="button"
+                            class="postbox-link inline-flex items-center gap-1 text-xs font-semibold no-underline hover:underline"
+                            :disabled="isFilling"
+                            @click="resetDemo"
+                        >
+                            <RotateCcw class="size-3" />
+                            Reset demo
+                        </button>
                     </div>
                 </div>
             </div>

@@ -19,7 +19,7 @@ import { GITHUB_REPOSITORY_URL, PLATFORM_MARKETING_INLINE } from '@/lib/site';
         <PostboxPageHeader
             badge="About"
             title="Built because job forms are boring."
-            description="AutoCVApply is a source-available assistant for people who are tired of typing the same CV details into every application."
+            description="AutoCVApply is a source-available assistant for people who are tired of typing the same CV details into every application - and for keeping up with whatever HTML an ATS throws at you this week."
         />
 
         <PostboxProse>
@@ -30,12 +30,44 @@ import { GITHUB_REPOSITORY_URL, PLATFORM_MARKETING_INLINE } from '@/lib/site';
                 profile. A browser extension then fills job application forms on
                 {{ PLATFORM_MARKETING_INLINE }}.
             </p>
+            <p>
+                On <strong>LinkedIn Easy Apply</strong>, the extension can run
+                end-to-end Auto Apply from the sidebar: search for roles, open
+                each posting, fill every step, and submit applications on your
+                behalf. On other ATS and career sites, autofill and Draft All
+                still fill the fields - you review and click Submit yourself.
+                More full Auto Apply platforms are on the way.
+            </p>
+
+            <h2>How we keep fills working</h2>
+            <p>
+                Job application forms are not normal HTML. They are comboboxes
+                inside shadow roots, Workday wizards that change layout
+                mid-flow, Ashby widgets that reject a paste, and whatever
+                Greenhouse shipped last Tuesday. We treat that as a
+                quality-engineering problem, not a one-off bug hunt.
+            </p>
+            <p>
+                When you use the extension - especially during Auto Apply runs -
+                we can capture HTML snapshots of the forms you hit (with your
+                profile details redacted). Those captures feed a growing test
+                corpus: thousands of real and synthetic scenarios across major
+                ATS platforms, verified with JSDOM, Playwright, and extension
+                end-to-end tests before we ship changes.
+            </p>
+            <p>
+                The goal is simple: when an employer updates their apply flow,
+                we find out in CI - not when you are halfway through an
+                application at 11pm.
+            </p>
 
             <h2>What it does not do</h2>
             <p>
-                We do not apply to jobs on your behalf, track every form you
-                have ever filled, or sell your data. The extension reads your
-                profile and stamps fields in the browser. That is the whole
+                We do not sell your data, scrape your inbox, or apply to jobs
+                without you starting the run. Auto Apply on LinkedIn is
+                something you launch from the extension; on other platforms you
+                stay at the keyboard for the final submit. The extension reads
+                your profile and fills fields in the browser - that is the
                 pitch.
             </p>
 
