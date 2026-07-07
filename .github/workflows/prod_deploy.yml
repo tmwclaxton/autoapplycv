@@ -10,6 +10,8 @@ env:
   DEPLOY_HOST: admin.grantgunner.org
   DEPLOY_USER: autocvapply
   DEPLOY_DIR: /opt/autocvapply
+  # 2026.6.0 regressed headless Access SSH service-token auth; pin a known-good release.
+  CLOUDFLARED_VERSION: "2026.5.1"
 
 jobs:
   build:
@@ -49,6 +51,11 @@ jobs:
     permissions:
       contents: read
       packages: read
+    env:
+      CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+      CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+      TUNNEL_SERVICE_TOKEN_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+      TUNNEL_SERVICE_TOKEN_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
 
     steps:
       - uses: actions/checkout@v4
@@ -56,8 +63,9 @@ jobs:
       - name: Install cloudflared
         run: |
           curl -fsSL --output /tmp/cloudflared.deb \
-            https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+            "https://github.com/cloudflare/cloudflared/releases/download/${CLOUDFLARED_VERSION}/cloudflared-linux-amd64.deb"
           sudo dpkg -i /tmp/cloudflared.deb
+          cloudflared --version
 
       - name: Configure SSH
         run: |
@@ -69,17 +77,46 @@ jobs:
             User ${{ env.DEPLOY_USER }}
             IdentityFile ~/.ssh/deploy_key
             StrictHostKeyChecking no
-            ProxyCommand cloudflared access ssh --hostname %h
+            ServerAliveInterval 15
+            ServerAliveCountMax 120
+            ConnectTimeout 30
+            ProxyCommand cloudflared access ssh --hostname %h --service-token-id ${CF_ACCESS_CLIENT_ID} --service-token-secret ${CF_ACCESS_CLIENT_SECRET}
           EOF
 
       - name: Copy deploy files to server
         run: |
-          scp compose.prod.yaml ${{ env.DEPLOY_HOST }}:${{ env.DEPLOY_DIR }}/compose.prod.yaml
-          scp scripts/deploy-production.sh ${{ env.DEPLOY_HOST }}:${{ env.DEPLOY_DIR }}/deploy-production.sh
+          set -euo pipefail
+          retry() {
+            local attempt
+            for attempt in 1 2 3; do
+              if "$@"; then
+                return 0
+              fi
+              echo "Attempt ${attempt} failed; retrying in 5s..."
+              sleep 5
+            done
+            return 1
+          }
+
+          retry scp compose.prod.yaml ${{ env.DEPLOY_HOST }}:${{ env.DEPLOY_DIR }}/compose.prod.yaml
+          retry scp scripts/deploy-production.sh ${{ env.DEPLOY_HOST }}:${{ env.DEPLOY_DIR }}/deploy-production.sh
 
       - name: Deploy to server
         run: |
-          ssh ${{ env.DEPLOY_HOST }} "
+          set -euo pipefail
+          retry() {
+            local attempt
+            for attempt in 1 2 3; do
+              if "$@"; then
+                return 0
+              fi
+              echo "Attempt ${attempt} failed; retrying in 5s..."
+              sleep 5
+            done
+            return 1
+          }
+
+          retry ssh ${{ env.DEPLOY_HOST }} "
             set -e
             cd ${{ env.DEPLOY_DIR }}
             chmod +x deploy-production.sh
