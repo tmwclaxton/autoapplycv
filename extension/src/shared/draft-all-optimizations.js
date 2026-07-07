@@ -1,6 +1,8 @@
 const CHOICE_FIELD_TYPES = new Set(['radio', 'checkbox', 'select']);
 const TEXT_LIKE_FIELD_TYPES = new Set(['text', 'email', 'tel', 'url', 'number', 'textarea']);
 
+import { normalizeFieldAnswerForQuestion } from './answer-normalization.js';
+
 const ATS_URL_PATTERNS = [
     { pattern: /jobs\.ashbyhq\.com\/([^/?#]+)/i, source: 'ashby' },
     { pattern: /(?:^|\.)ashbyhq\.com\/([^/?#]+)/i, source: 'ashby' },
@@ -338,16 +340,24 @@ export function partitionBatchAnswersForApply(answers) {
     return { parallel, sequential };
 }
 
-export function enrichApplyAnswers(answers, fieldsByRef) {
+export function enrichApplyAnswers(answers, fieldsByRef, options = {}) {
+    const profileYears = options.profileYears ?? null;
+
     return (answers || []).map((answer) => {
         const field = fieldsByRef?.get?.(answer.ref);
+        const label = answer.label || field?.label || field?.question || '';
+        const normalizedAnswer = normalizeFieldAnswerForQuestion(label, answer.answer, { profileYears });
 
         if (!field) {
-            return answer;
+            return {
+                ...answer,
+                answer: normalizedAnswer,
+            };
         }
 
         return {
             ...answer,
+            answer: normalizedAnswer,
             field_type: answer.field_type || field.field_type || 'text',
             dom: answer.dom || field.dom || null,
             data_field_path: answer.data_field_path || field.dom?.data_field_path || null,

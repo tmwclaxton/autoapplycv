@@ -101,6 +101,7 @@ Job applications are a copy-paste endurance test. Workday wants your address. Gr
 | Same generic CV for every posting | **Tailored resume draft** matched to the role |
 | No idea how your CV reads against the JD | **ATS score** with keyword and formatting feedback |
 | Pray comboboxes and wizards don't break mid-form | **2,350-scenario test corpus** - Greenhouse, Ashby, Workday, and more |
+| Obvious bot-like paste fills that trip ATS checks | **Anti-bot detection** - character-by-character typing, natural pauses, human-like LinkedIn navigation |
 | Click through LinkedIn Easy Apply one job at a time | **LinkedIn Easy Apply Auto Apply** - search, open, fill, and submit from the extension sidebar |
 | Submit applications blindly | **You stay in control on ATS forms** - we fill fields; you review and submit |
 
@@ -119,6 +120,7 @@ Job applications are a copy-paste endurance test. Workday wants your address. Gr
 - **Stay honest** - answers draw from your profile and preferences, not invented credentials
 - **Sound human, not generic** - Draft All answers are scored on hundreds of scenarios to catch AI tropes, em dashes, and filler while staying grounded in your CV
 - **Trust the engineering** - four-layer fill verification, Playwright smoke tests, and 230 PHPUnit methods
+- **Avoid bot flags** - human-like typing, pauses between fields, and natural navigation on LinkedIn Auto Apply
 - **British Postbox UI** - Royal Mail red, navy, warm paper tones. Feels like sending a letter, not filling a spreadsheet
 
 ## Quick install
@@ -185,6 +187,7 @@ On Greenhouse, Ashby, Workday, and other ATS platforms, autofill and Draft All s
 | **CV parsing** | PDF & Word upload | Structured profile extraction with Tesseract OCR + local `pdftoppm` preprocessing |
 | **CV parsing** | Editable profile | Skills, experience, education, summary, application preferences - you control the source of truth |
 | **Autofill** | One-click fill | Profile data stamped onto native inputs, comboboxes, radios, checkboxes, multi-step wizards |
+| **Autofill** | Anti-bot detection | Character-by-character typing on short fields, pauses between applies, hover-and-click navigation on LinkedIn |
 | **Autofill** | Shadow DOM & iframes | Content scripts traverse embedded ATS widgets other extensions miss |
 | **Auto Apply** | LinkedIn Easy Apply E2E | Sidebar **Auto Apply** tab: search, open jobs, fill steps, submit applications |
 | **Auto Apply** | More platforms soon | Full end-to-end Auto Apply for additional platforms is in development |
@@ -211,6 +214,17 @@ Draft All and Quick Answer use AI, but we score generated answers extensively be
 | **Honesty** | Gaps acknowledged instead of fabricated experience |
 
 Scoring runs across 100+ answer-quality scenarios, 150 real ATS form fixtures, and Assist sidebar test cases. Developer audit commands: `answer-quality:audit`, `assist-answer-quality:audit`, `form-e2e:score` (see [`scripts/extension-benchmark/README.md`](scripts/extension-benchmark/README.md)).
+
+### Anti-bot detection
+
+Job sites increasingly flag instant paste fills and robotic click patterns. AutoCVApply fills like a person where it matters:
+
+| Behaviour | What it does |
+|-----------|--------------|
+| **Character-by-character typing** | Short text fields (names, emails, years, locations) type one keystroke at a time with realistic delays |
+| **Paced batch apply** | Draft All fills one field at a time with scroll, focus, and pause between each |
+| **Human-like LinkedIn navigation** | Smooth scroll, hover-before-click, and variable delays when opening Easy Apply and stepping through modals |
+| **Smart fallbacks** | Long free-text answers still paste instantly so multi-paragraph drafts do not take minutes |
 
 ## Supported platforms
 

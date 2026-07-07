@@ -662,6 +662,161 @@ const AutoCVApplyFormHeuristics = (() => {
         });
     }
 
+    const CHAR_BY_CHAR_INPUT_TYPES = new Set(['text', 'email', 'tel', 'url', 'number', 'search', '']);
+    const CHAR_BY_CHAR_MAX_LENGTH = 160;
+
+    function humanTypingDelayMs(valueLength) {
+        if (valueLength <= 3) {
+            return 24 + Math.floor(Math.random() * 34);
+        }
+
+        if (valueLength > 60) {
+            return 30 + Math.floor(Math.random() * 42);
+        }
+
+        return 40 + Math.floor(Math.random() * 58);
+    }
+
+    function isCharByCharFillElement(element) {
+        if (!element || element.readOnly || element.disabled) {
+            return false;
+        }
+
+        const tag = element.tagName?.toLowerCase();
+
+        if (tag !== 'input' && tag !== 'textarea') {
+            return false;
+        }
+
+        const type = (element.type || 'text').toLowerCase();
+
+        if (['hidden', 'file', 'checkbox', 'radio', 'password', 'submit', 'button', 'reset', 'image'].includes(type)) {
+            return false;
+        }
+
+        if (tag === 'input' && !CHAR_BY_CHAR_INPUT_TYPES.has(type)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function shouldTypeCharByChar(element, value) {
+        const stringValue = String(value ?? '');
+
+        if (!stringValue || !isCharByCharFillElement(element)) {
+            return false;
+        }
+
+        return stringValue.length <= CHAR_BY_CHAR_MAX_LENGTH;
+    }
+
+    function dispatchInsertedCharacter(element, char, nextValue) {
+        setNativeValue(element, nextValue);
+        element.dispatchEvent(new KeyboardEvent('keydown', {
+            key: char,
+            code: char.length === 1 && char >= 'A' && char <= 'Z' ? `Key${char}` : undefined,
+            bubbles: true,
+            cancelable: true,
+        }));
+        element.dispatchEvent(new InputEvent('beforeinput', {
+            bubbles: true,
+            cancelable: true,
+            inputType: 'insertText',
+            data: char,
+        }));
+        element.dispatchEvent(new InputEvent('input', {
+            bubbles: true,
+            cancelable: true,
+            inputType: 'insertText',
+            data: char,
+        }));
+        element.dispatchEvent(new KeyboardEvent('keyup', {
+            key: char,
+            bubbles: true,
+            cancelable: true,
+        }));
+    }
+
+    async function typeTextIntoElement(element, value, options = {}) {
+        const stringValue = String(value);
+
+        element.focus();
+        setNativeValue(element, '');
+        element.dispatchEvent(new InputEvent('input', {
+            bubbles: true,
+            cancelable: true,
+            inputType: 'deleteContentBackward',
+        }));
+
+        let typed = '';
+
+        for (const char of stringValue) {
+            typed += char;
+            dispatchInsertedCharacter(element, char, typed);
+            await sleep(humanTypingDelayMs(stringValue.length));
+        }
+
+        if (!options.skipChangeUntilEnd) {
+            element.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        if (!options.skipBlur) {
+            element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+        }
+
+        return valueMatchesAnswer(element.value, stringValue);
+    }
+
+    function fillTextControlInstant(element, value) {
+        const stringValue = String(value);
+
+        element.focus();
+        setNativeValue(element, stringValue);
+        element.dispatchEvent(new InputEvent('beforeinput', {
+            bubbles: true,
+            cancelable: true,
+            inputType: 'insertFromPaste',
+            data: stringValue,
+        }));
+        element.dispatchEvent(new InputEvent('input', {
+            bubbles: true,
+            cancelable: true,
+            inputType: 'insertFromPaste',
+            data: stringValue,
+        }));
+        element.dispatchEvent(new Event('change', { bubbles: true }));
+
+        return valueMatchesAnswer(element.value, stringValue);
+    }
+
+    async function fillReactTextControl(element, value) {
+        const stringValue = String(value);
+
+        element.focus();
+
+        const filled = shouldTypeCharByChar(element, stringValue)
+            ? await typeTextIntoElement(element, stringValue, { skipBlur: true, skipChangeUntilEnd: true })
+            : fillTextControlInstant(element, stringValue);
+
+        element.dispatchEvent(new Event('change', { bubbles: true }));
+        element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+
+        return filled;
+    }
+
+    async function fillTypeaheadSearchText(element, value) {
+        const stringValue = String(value);
+
+        element.focus();
+
+        if (shouldTypeCharByChar(element, stringValue)) {
+            return typeTextIntoElement(element, stringValue, { skipBlur: true, skipChangeUntilEnd: true });
+        }
+
+        return fillTextControlInstant(element, stringValue);
+    }
+
     function dispatchPointerClick(element) {
         if (!element) {
             return;
@@ -861,51 +1016,6 @@ const AutoCVApplyFormHeuristics = (() => {
         dispatchPointerClick(element);
     }
 
-    function fillReactTextControl(element, value) {
-        const stringValue = String(value);
-
-        element.focus();
-        setNativeValue(element, stringValue);
-        element.dispatchEvent(new InputEvent('beforeinput', {
-            bubbles: true,
-            cancelable: true,
-            inputType: 'insertFromPaste',
-            data: stringValue,
-        }));
-        element.dispatchEvent(new InputEvent('input', {
-            bubbles: true,
-            cancelable: true,
-            inputType: 'insertFromPaste',
-            data: stringValue,
-        }));
-        element.dispatchEvent(new Event('change', { bubbles: true }));
-        element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
-
-        return valueMatchesAnswer(element.value, stringValue);
-    }
-
-    function fillTypeaheadSearchText(element, value) {
-        const stringValue = String(value);
-
-        element.focus();
-        setNativeValue(element, stringValue);
-        element.dispatchEvent(new InputEvent('beforeinput', {
-            bubbles: true,
-            cancelable: true,
-            inputType: 'insertFromPaste',
-            data: stringValue,
-        }));
-        element.dispatchEvent(new InputEvent('input', {
-            bubbles: true,
-            cancelable: true,
-            inputType: 'insertFromPaste',
-            data: stringValue,
-        }));
-        element.dispatchEvent(new Event('change', { bubbles: true }));
-
-        return valueMatchesAnswer(element.value, stringValue);
-    }
-
     function clearLinkedInFieldErrorMarkers(element) {
         element.classList?.remove('fb-dash-form-element__error-field');
 
@@ -1001,11 +1111,11 @@ const AutoCVApplyFormHeuristics = (() => {
             || (/\blocation\b/i.test(label) && /\b(?:city|town)\b/i.test(label));
     }
 
-    function commitGreenhouseLocationValue(element, value) {
+    async function commitGreenhouseLocationValue(element, value) {
         const stringValue = String(value).trim();
         const typedValue = stringValue.split(',')[0].trim() || stringValue;
 
-        fillReactTextControl(element, typedValue);
+        await fillReactTextControl(element, typedValue);
 
         const shell = element.closest('.select-shell, .select__container');
         const hiddenValue = shell?.querySelector('input[tabindex="-1"][aria-hidden="true"]');
@@ -1074,12 +1184,12 @@ const AutoCVApplyFormHeuristics = (() => {
 
         element.focus();
         dispatchPointerClick(element);
-        fillTypeaheadSearchText(element, typedValue);
+        await fillTypeaheadSearchText(element, typedValue);
 
         let options = await waitForComboboxOptions(doc, element, 1500);
 
         if (options.length === 0) {
-            fillTypeaheadSearchText(element, typedValue);
+            await fillTypeaheadSearchText(element, typedValue);
             options = await waitForComboboxOptions(doc, element, 1500);
         }
 
@@ -1143,7 +1253,7 @@ const AutoCVApplyFormHeuristics = (() => {
         const isYesNoAnswer = /^(yes|no)\b/i.test(stringValue.trim());
 
         if (!isYesNoAnswer) {
-            fillReactTextControl(element, stringValue);
+            await fillReactTextControl(element, stringValue);
         }
 
         const normalizedAnswer = normalizeOption(stringValue);
@@ -1189,7 +1299,7 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         if (isGreenhouseLocationCombobox(element)) {
-            const committed = commitGreenhouseLocationValue(element, stringValue);
+            const committed = await commitGreenhouseLocationValue(element, stringValue);
             heuristicsLog(committed ? 'info' : 'warn', 'apply.combobox', committed
                 ? 'Greenhouse location typed value committed'
                 : 'Greenhouse location fill failed', {
@@ -2649,7 +2759,7 @@ const AutoCVApplyFormHeuristics = (() => {
         element.focus();
         dispatchPointerClick(element);
 
-        const filled = fillReactTextControl(element, stringValue);
+        const filled = await fillReactTextControl(element, stringValue);
 
         if (filled) {
             heuristicsLog('info', 'apply.phone', 'react-phone-number-input filled', {
@@ -2709,7 +2819,7 @@ const AutoCVApplyFormHeuristics = (() => {
             }
         }
 
-        fillReactTextControl(element, stringValue);
+        await fillReactTextControl(element, stringValue);
 
         heuristicsLog('info', 'apply.phone', 'intl-tel-input fallback to text fill', {
             valuePreview: stringValue.slice(0, 80),
@@ -2788,7 +2898,7 @@ const AutoCVApplyFormHeuristics = (() => {
             }
         }
 
-        const filled = fillReactTextControl(element, value);
+        const filled = await fillReactTextControl(element, value);
 
         heuristicsLog(filled ? 'info' : 'warn', 'apply.setFieldValue', filled ? 'React text control filled' : 'React text control fill did not stick', {
             tag,

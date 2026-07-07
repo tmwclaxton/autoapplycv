@@ -1,8 +1,5 @@
 import {
-    buildAutoApplyPauseAssistantMessage,
-    buildAutoApplyPauseMessageFingerprint,
     resolveAutoApplyPauseClarifyingQuestion,
-    resolveAutoApplyPauseComposerValue,
 } from './auto-apply-pause-ui.js';
 import { buildDraftBatchChatHeading } from './draft-batch-chat.js';
 import { polishProfileUpdateActions } from './profile-value-polish.js';
@@ -10,18 +7,37 @@ import { polishProfileUpdateActions } from './profile-value-polish.js';
 const WELCOME_MESSAGE =
     'Ask me to draft an application answer, improve your profile, or explain what to put in a field. When I suggest profile changes, Apply buttons will appear after my reply.';
 
-export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, getApiBase }) {
+const ASSIST_INPUT_PLACEHOLDER =
+    'Draft an answer for the selected field, improve my summary, or suggest profile changes…';
+
+const ASSIST_INPUT_LOCKED_PLACEHOLDER =
+    'Answer in We need your help above, then tap Save & fill.';
+
+export function initAssistChat({
+    showMessage,
+    refreshUsage,
+    buildJobPayload,
+    getApiBase,
+    onAutoApplyPauseChange = null,
+}) {
     const messagesEl = document.getElementById('assist-messages');
     const messagesScrollEl = document.getElementById('assist-messages-scroll');
+    const composerEl = document.getElementById('assist-composer');
+    const composerLockHintEl = document.getElementById('assist-composer-lock-hint');
     const inputEl = document.getElementById('assist-input');
     const sendBtn = document.getElementById('assist-send-btn');
     const clearBtn = document.getElementById('assist-clear-btn');
     const chatHistory = [];
     let activeStreamPort = null;
     let requestInProgress = false;
-    /** @type {object|null} */
+    let composerLocked = false;
     let autoApplyPauseContext = null;
-    let autoApplyPauseMessageFingerprint = '';
+
+    function notifyAutoApplyPauseChange() {
+        if (typeof onAutoApplyPauseChange === 'function') {
+            onAutoApplyPauseChange(autoApplyPauseContext);
+        }
+    }
 
     function scrollMessagesToBottom() {
         if (!messagesScrollEl) {
@@ -33,7 +49,7 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
 
     function setRequestInProgress(inProgress, phase = 'thinking') {
         requestInProgress = inProgress;
-        sendBtn.disabled = inProgress;
+        sendBtn.disabled = inProgress || composerLocked;
         sendBtn.textContent = inProgress
             ? (phase === 'preparing' ? 'Preparing…' : 'Thinking…')
             : 'Send';
@@ -41,6 +57,27 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         messagesEl.querySelectorAll('.assist-user-action-btn').forEach((button) => {
             button.disabled = inProgress;
         });
+    }
+
+    function setComposerLocked(locked, reason = '') {
+        composerLocked = locked;
+        inputEl.disabled = locked;
+        clearBtn.disabled = locked;
+        sendBtn.disabled = locked || requestInProgress;
+        composerEl?.classList.toggle('is-locked', locked);
+
+        if (composerLockHintEl) {
+            composerLockHintEl.hidden = !locked;
+            composerLockHintEl.textContent = reason || 'Answer in We need your help above first.';
+        }
+
+        inputEl.placeholder = locked
+            ? ASSIST_INPUT_LOCKED_PLACEHOLDER
+            : ASSIST_INPUT_PLACEHOLDER;
+
+        if (locked) {
+            inputEl.value = '';
+        }
     }
 
     function buildDashboardUrl(tab, anchor) {
@@ -125,7 +162,8 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
 
     function clearAutoApplyPauseContext() {
         autoApplyPauseContext = null;
-        autoApplyPauseMessageFingerprint = '';
+        setComposerLocked(false);
+        notifyAutoApplyPauseChange();
     }
 
     async function submitAutoApplyBlockerAnswer(answer) {
@@ -169,34 +207,21 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         return '';
     }
 
-    function handleAutoApplyPaused(pauseContext, { restore = false } = {}) {
+    function handleAutoApplyPaused(pauseContext) {
         autoApplyPauseContext = pauseContext || null;
 
         if (!pauseContext) {
-            return;
-        }
-
-        const fingerprint = buildAutoApplyPauseMessageFingerprint(pauseContext);
-        const assistantMessage = buildAutoApplyPauseAssistantMessage(pauseContext);
-
-        inputEl.value = resolveAutoApplyPauseComposerValue(pauseContext);
-
-        if (restore && fingerprint === autoApplyPauseMessageFingerprint) {
-            inputEl.focus();
+            setComposerLocked(false);
+            notifyAutoApplyPauseChange();
 
             return;
         }
 
-        autoApplyPauseMessageFingerprint = fingerprint;
-        inputEl.focus();
-        scrollMessagesToBottom();
-
-        appendMessage(
-            'assistant',
-            assistantMessage,
-            {},
-            { recordHistory: false },
+        setComposerLocked(
+            true,
+            'Auto Apply is waiting for your answer. Use We need your help above, then Save & fill.',
         );
+        notifyAutoApplyPauseChange();
     }
 
     async function maybeSubmitAutoApplyAnswerFromAssist(result, userContent) {
@@ -207,10 +232,8 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         const draftAnswer = result?.draft_answer
             || extractDraftAnswerFromActions(result?.actions || []);
 
-        const assistantMessage = buildAutoApplyPauseAssistantMessage(autoApplyPauseContext);
         const clarifyingQuestion = resolveAutoApplyPauseClarifyingQuestion(autoApplyPauseContext).trim();
-        const directAnswer = userContent === assistantMessage.trim()
-            || (clarifyingQuestion !== '' && userContent === clarifyingQuestion)
+        const directAnswer = clarifyingQuestion !== '' && userContent === clarifyingQuestion
             ? ''
             : userContent;
 
@@ -1020,7 +1043,7 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
     async function sendMessage() {
         const content = inputEl.value.trim();
 
-        if (!content || requestInProgress) {
+        if (!content || requestInProgress || composerLocked) {
             return;
         }
 
@@ -1038,6 +1061,10 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
     });
 
     inputEl.addEventListener('keydown', (event) => {
+        if (composerLocked) {
+            return;
+        }
+
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();
             void sendMessage();
@@ -1052,5 +1079,6 @@ export function initAssistChat({ showMessage, refreshUsage, buildJobPayload, get
         clearChat,
         handleAutoApplyPaused,
         clearAutoApplyPauseContext,
+        setComposerLocked,
     };
 }

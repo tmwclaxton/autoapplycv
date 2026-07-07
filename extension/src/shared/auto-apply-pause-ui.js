@@ -34,15 +34,23 @@ export function isAutoApplyPauseBlockerField(field, pauseContext) {
 }
 
 /**
- * Pending fields show the field label during Auto Apply pause, not the Assist clarifying question.
+ * Clarifying question shown in the We need your help header during Auto Apply pause.
  *
+ * @param {import('./auto-apply-session.js').AutoApplyPauseContext|null|undefined} pauseContext
+ * @returns {string}
+ */
+export function resolveAutoApplyPauseClarifyingDisplay(pauseContext) {
+    return resolveAutoApplyPauseClarifyingQuestion(pauseContext);
+}
+
+/**
  * @param {{ ref?: string|null, label?: string, question?: string }|null|undefined} field
  * @param {import('./auto-apply-session.js').AutoApplyPauseContext|null|undefined} [pauseContext]
  * @returns {string}
  */
 export function resolveAutoApplyPendingFieldDisplayLabel(field, pauseContext = null) {
     if (isAutoApplyPauseBlockerField(field, pauseContext)) {
-        return resolveAutoApplyPauseFieldLabel(pauseContext);
+        return '';
     }
 
     return dedupeQuestionLabelForDisplay(field?.question || field?.label || '')
@@ -58,7 +66,7 @@ export function resolveAutoApplyPendingFieldDisplayLabel(field, pauseContext = n
  */
 export function resolveAutoApplyPendingFieldHint(field, pauseContext = null) {
     if (isAutoApplyPauseBlockerField(field, pauseContext)) {
-        return 'Reply in Assist below, or use Save & fill here.';
+        return 'Answer here, then tap Save & fill to continue Auto Apply.';
     }
 
     return null;
@@ -71,7 +79,7 @@ export function resolveAutoApplyPendingFieldHint(field, pauseContext = null) {
 export function buildAutoApplyPauseBannerMessage(pauseContext) {
     const fieldLabel = resolveAutoApplyPauseFieldLabel(pauseContext);
 
-    return `Waiting for your answer in Assist for "${fieldLabel}". Stop still works if you want to cancel this run.`;
+    return `Waiting for your answer in We need your help for "${fieldLabel}". Stop still works if you want to cancel this run.`;
 }
 
 /**
@@ -88,6 +96,9 @@ export function resolveAutoApplyPauseComposerValue(_pauseContext) {
  * @param {import('./auto-apply-session.js').AutoApplyPauseContext|null|undefined} pauseContext
  * @returns {string}
  */
+/**
+ * @deprecated Auto Apply pause copy is shown in We need your help, not Assist chat.
+ */
 export function buildAutoApplyPauseAssistantMessage(pauseContext) {
     const clarifyingQuestion = resolveAutoApplyPauseClarifyingQuestion(pauseContext);
     const fieldLabel = resolveAutoApplyPauseFieldLabel(pauseContext);
@@ -98,7 +109,7 @@ export function buildAutoApplyPauseAssistantMessage(pauseContext) {
 
     return `${clarifyingQuestion}\n\n`
         + `Auto Apply paused on "${fieldLabel}". `
-        + 'Send your answer here, or use Save & fill in the pending fields section above.';
+        + 'Answer in the We need your help section above, then tap Save & fill.';
 }
 
 /**

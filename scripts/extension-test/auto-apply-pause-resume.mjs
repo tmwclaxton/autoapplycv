@@ -13,10 +13,10 @@ import {
     resolveValidationBlockerField,
 } from '../../extension/src/shared/auto-apply-blockers.js';
 import {
-    buildAutoApplyPauseAssistantMessage,
     buildAutoApplyPauseBannerMessage,
     buildAutoApplyPauseMessageFingerprint,
     isAutoApplyPauseBlockerField,
+    resolveAutoApplyPauseClarifyingDisplay,
     resolveAutoApplyPauseComposerValue,
     resolveAutoApplyPendingFieldDisplayLabel,
     resolveAutoApplyPendingFieldHint,
@@ -229,12 +229,12 @@ assert(
     'validation retry should not prefill Assist composer',
 );
 assert(
-    buildAutoApplyPauseAssistantMessage(retryPauseContext) === retryQuestion,
-    'validation retry question should appear in Assist chat only',
+    resolveAutoApplyPauseClarifyingDisplay(retryPauseContext) === retryQuestion,
+    'validation retry clarifying question should be available for the pending fields header',
 );
 
 const firstPauseContext = {
-    blockerField: { label: 'Notice period', question: 'What is your notice period?' },
+    blockerField: { ref: 'f-notice', label: 'Notice period', question: 'What is your notice period?' },
     clarifyingQuestion: 'What is your notice period?',
     questionText: 'What is your notice period?',
 };
@@ -244,12 +244,12 @@ assert(
     'first pause should not prefill Assist composer',
 );
 assert(
-    buildAutoApplyPauseAssistantMessage(firstPauseContext).includes('What is your notice period?'),
-    'first pause question should appear in Assist chat',
+    resolveAutoApplyPauseClarifyingDisplay(firstPauseContext) === 'What is your notice period?',
+    'first pause clarifying question should be available for the pending fields header',
 );
 assert(
-    buildAutoApplyPauseAssistantMessage(firstPauseContext).includes('Auto Apply paused on'),
-    'first pause should include pause guidance in Assist chat',
+    resolveAutoApplyPendingFieldDisplayLabel(firstPauseContext.blockerField, firstPauseContext) === '',
+    'blocker field card should not duplicate the clarifying question',
 );
 
 const locationField = {
@@ -270,25 +270,20 @@ assert(
     'location pause should not prefill Assist composer',
 );
 assert(
-    buildAutoApplyPauseAssistantMessage(locationPauseContext).includes('Location (city)'),
-    'location pause question should appear in Assist chat',
+    resolveAutoApplyPauseClarifyingDisplay(locationPauseContext).includes('Location (city)'),
+    'location pause clarifying question should be available for the pending fields header',
 );
 assert(
     buildAutoApplyPauseBannerMessage(locationPauseContext).includes('Location (city)'),
     'location pause banner should reference field label only',
 );
 assert(
-    resolveAutoApplyPendingFieldDisplayLabel(locationField, locationPauseContext) === 'Location (city)',
-    'pending fields should show field label during Auto Apply pause',
+    resolveAutoApplyPendingFieldDisplayLabel(locationField, locationPauseContext) === '',
+    'pending fields card should not duplicate the clarifying question during Auto Apply pause',
 );
 assert(
-    resolveAutoApplyPendingFieldDisplayLabel(locationField, locationPauseContext)
-        !== buildAutoApplyPauseAssistantMessage(locationPauseContext),
-    'pending fields should not duplicate Assist clarifying message',
-);
-assert(
-    resolveAutoApplyPendingFieldHint(locationField, locationPauseContext)?.includes('Assist'),
-    'pending fields should point users to Assist during Auto Apply pause',
+    resolveAutoApplyPendingFieldHint(locationField, locationPauseContext)?.includes('Save & fill'),
+    'pending fields should point users to Save & fill during Auto Apply pause',
 );
 assert(
     isAutoApplyPauseBlockerField(locationField, locationPauseContext),

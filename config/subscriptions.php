@@ -1,6 +1,7 @@
 <?php
 
 $platformFeature = 'Major ATS and career sites (Workday, Greenhouse, Lever, Ashby, and more)';
+$antiBotFeature = 'Anti-bot detection - human-like typing, pauses, and LinkedIn navigation';
 
 return [
 
@@ -16,6 +17,7 @@ return [
             'features' => [
                 '250 extension credits per month',
                 $platformFeature,
+                $antiBotFeature,
             ],
         ],
         'starter' => [
@@ -27,6 +29,7 @@ return [
             'features' => [
                 '2,500 extension credits per month',
                 $platformFeature,
+                $antiBotFeature,
             ],
         ],
         'pro' => [
@@ -38,6 +41,7 @@ return [
             'features' => [
                 '15,000 extension credits per month',
                 $platformFeature,
+                $antiBotFeature,
             ],
         ],
     ],

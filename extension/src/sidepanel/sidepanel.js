@@ -561,6 +561,8 @@ chrome.runtime.onMessage.addListener((message) => {
 
         if (pendingFieldsPanel?.refreshPendingFields) {
             void pendingFieldsPanel.refreshPendingFields().catch(() => {});
+        } else if (pendingFieldsPanel?.renderPendingFields) {
+            pendingFieldsPanel.renderPendingFields();
         }
     }
 
@@ -591,10 +593,12 @@ async function restoreAutoApplyPauseUi() {
     }
 
     currentAutoApplyPauseContext = response.session.pauseContext;
-    assistChat?.handleAutoApplyPaused?.(response.session.pauseContext, { restore: true });
+    assistChat?.handleAutoApplyPaused?.(response.session.pauseContext);
 
     if (pendingFieldsPanel?.refreshPendingFields) {
         await pendingFieldsPanel.refreshPendingFields().catch(() => {});
+    } else if (pendingFieldsPanel?.renderPendingFields) {
+        pendingFieldsPanel.renderPendingFields();
     }
 }
 
@@ -634,24 +638,27 @@ async function init() {
         });
     }
 
-    if (!assistChat) {
-        assistChat = initAssistChat({
-            showMessage,
-            refreshUsage,
-            buildJobPayload,
-            getApiBase: () => connectedApiBase,
-        });
-    }
-
-    flushPendingDraftBatchAnswers();
-    void drainQueuedDraftBatchAnswers().catch(() => {});
-
     if (!pendingFieldsPanel) {
         pendingFieldsPanel = initPendingFieldsPanel({
             showMessage,
             getAutoApplyPauseContext: () => currentAutoApplyPauseContext,
         });
     }
+
+    if (!assistChat) {
+        assistChat = initAssistChat({
+            showMessage,
+            refreshUsage,
+            buildJobPayload,
+            getApiBase: () => connectedApiBase,
+            onAutoApplyPauseChange: () => {
+                pendingFieldsPanel?.renderPendingFields?.();
+            },
+        });
+    }
+
+    flushPendingDraftBatchAnswers();
+    void drainQueuedDraftBatchAnswers().catch(() => {});
 
     if (!autoApplyPanel) {
         autoApplyPanel = initAutoApplyPanel({ showMessage });

@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { ArrowRight, Bot, FileUp, Sparkles, Stamp, Zap } from 'lucide-vue-next';
+import {
+    ArrowRight,
+    Bot,
+    FileUp,
+    ShieldCheck,
+    Sparkles,
+    Stamp,
+    Zap,
+} from 'lucide-vue-next';
 import PostboxCta from '@/components/postbox/PostboxCta.vue';
 import PostboxDraftAllDemo from '@/components/postbox/PostboxDraftAllDemo.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
@@ -38,8 +46,9 @@ defineProps<{
                 class="mt-5 text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg"
             >
                 Save your profile once and autofill contact details, experience,
-                and screening answers on major job sites. Install the extension,
-                run Draft All, review, and submit.
+                and screening answers on major job sites - with human-like fills
+                that help avoid bot detection. Install the extension, run Draft
+                All, review, and submit.
             </p>
 
             <div
@@ -118,6 +127,25 @@ defineProps<{
                     >
                         Upload once. We extract the useful fields and keep them
                         ready on your dashboard.
+                    </p>
+                </div>
+
+                <div class="postbox-panel p-4 sm:p-5">
+                    <div
+                        class="mb-3 flex size-10 items-center justify-center border-2 border-postbox-navy bg-postbox-grey"
+                    >
+                        <ShieldCheck class="size-5 text-postbox-red" />
+                    </div>
+                    <h3 class="text-base font-bold text-postbox-navy">
+                        Anti-bot detection
+                    </h3>
+                    <p
+                        class="mt-2 text-sm leading-relaxed text-muted-foreground"
+                    >
+                        Fills behave like a person, not a macro:
+                        character-by-character typing on short fields, natural
+                        pauses between questions, and human-like navigation on
+                        LinkedIn Auto Apply.
                     </p>
                 </div>
 

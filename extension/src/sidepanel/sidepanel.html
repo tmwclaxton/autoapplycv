@@ -95,6 +95,7 @@
                             <section id="pending-fields-section" class="pending-fields-section" hidden>
                                 <div class="pending-fields-header">
                                     <h2 class="pending-fields-title">We need your help</h2>
+                                    <p id="pending-fields-clarifying-question" class="pending-fields-clarifying-question" hidden></p>
                                     <p id="pending-fields-summary" class="postbox-hint pending-fields-summary"></p>
                                 </div>
                                 <div id="pending-fields-list" class="pending-fields-list"></div>
@@ -104,7 +105,10 @@
                                 <div id="assist-messages" class="assist-messages"></div>
                             </div>
 
-                            <div class="assist-composer postbox-panel">
+                            <div class="assist-composer postbox-panel" id="assist-composer">
+                                <p id="assist-composer-lock-hint" class="postbox-hint assist-composer-lock-hint" hidden>
+                                    Answer in We need your help above first.
+                                </p>
                                 <label class="postbox-label" for="assist-input">Ask AutoCVApply</label>
                                 <textarea
                                     id="assist-input"

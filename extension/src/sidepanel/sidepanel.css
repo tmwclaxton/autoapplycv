@@ -535,6 +535,14 @@ body {
     color: var(--postbox-navy);
 }
 
+.pending-fields-clarifying-question {
+    margin: 0 0 8px;
+    font-size: 13px;
+    line-height: 1.45;
+    font-weight: 600;
+    color: var(--postbox-navy);
+}
+
 .pending-fields-summary {
     margin: 0;
 }
@@ -723,6 +731,17 @@ body {
     margin: 0 16px 14px;
     padding: 12px;
     background: var(--postbox-surface);
+}
+
+.assist-composer.is-locked .assist-input {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.assist-composer-lock-hint {
+    margin: 0 0 10px;
+    color: var(--postbox-red, #c8102e);
+    font-weight: 600;
 }
 
 .assist-input {

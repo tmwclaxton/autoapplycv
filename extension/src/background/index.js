@@ -1,3 +1,4 @@
+import { normalizeFieldAnswerForQuestion } from './answer-normalization.js';
 import { mapApplicationSettingsForAssist } from './application-settings.js';
 import {
     AUTO_APPLY_VALIDATION_RETRY_LIMIT,
@@ -960,7 +961,14 @@ async function savePendingFieldAnswer(tabId, field, answer) {
         throw new Error('Missing field reference.');
     }
 
-    const trimmed = String(answer || '').trim();
+    const profileData = await getProfile();
+    const trimmed = normalizeFieldAnswerForQuestion(
+        field.label || field.question || '',
+        String(answer || '').trim(),
+        {
+            profileYears: profileData?.application_settings?.years_of_experience ?? null,
+        },
+    );
 
     if (!isMeaningfulAnswer(trimmed)) {
         throw new Error('Enter an answer first.');
@@ -968,14 +976,13 @@ async function savePendingFieldAnswer(tabId, field, answer) {
 
     const mapping = field.profile_path
         ? { path: field.profile_path, label: field.profile_label ?? null }
-        : resolveProfileMappingForLabel(field.label || field.question || '', await getProfile(), field.dom || null);
+        : resolveProfileMappingForLabel(field.label || field.question || '', profileData, field.dom || null);
 
     if (shouldSaveToApplicationAnswers(field, mapping)) {
         await appendApplicationAnswer(field.label || field.question, trimmed);
     } else if (mapping?.path) {
         const pathParts = mapping.path.split('.');
         const fieldKey = pathParts[pathParts.length - 1];
-        const profileData = await getProfile();
         const profileValue = formatProfileSaveValue(
             { ...field, profile_path: mapping.path },
             trimmed,
@@ -1044,7 +1051,7 @@ async function savePendingFieldAnswer(tabId, field, answer) {
             return {
                 success: true,
                 applied,
-                fields: pending,
+                fields: await loadPendingFields(tabId),
                 resumed: false,
                 validationRetry: true,
                 maxRetriesReached: validationAttempt >= AUTO_APPLY_VALIDATION_RETRY_LIMIT,
@@ -1678,6 +1685,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
         const { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(fields, questionMemo);
         let totalFieldsFilled = 0;
 
+        const profileYears = profileData?.application_settings?.years_of_experience ?? null;
+
         if (memoAnswers.length > 0) {
             broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
                 message: `Applying ${memoAnswers.length} saved answer(s)…`,
@@ -1697,7 +1706,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
             perf.start('apply.memo');
             const memoApplyResult = await applyDraftBatchToTab(
                 tabId,
-                enrichApplyAnswers(memoToApply, fieldsByRef),
+                enrichApplyAnswers(memoToApply, fieldsByRef, { profileYears }),
                 formFrameId,
             );
             perf.end('apply.memo');
@@ -1819,7 +1828,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                     })),
                 }, tabId);
 
-                const applyPromise = applyDraftBatchToTab(tabId, enrichApplyAnswers(toApply, fieldsByRef), formFrameId)
+                const applyPromise = applyDraftBatchToTab(tabId, enrichApplyAnswers(toApply, fieldsByRef, { profileYears }), formFrameId)
                     .then((applyResult) => {
                         logInfo('background', 'draft-all.apply', `Batch ${batchNumber} apply result`, {
                             batchIndex: event.batch_index,

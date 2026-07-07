@@ -853,7 +853,31 @@ const contentMessageListener = (message, sender, sendResponse) => {
             const answers = message.answers || [];
             let applied = 0;
 
+            function resolveApplyAnswer(label, rawAnswer) {
+                if (typeof AutoCVApplyAnswerNormalization !== 'undefined') {
+                    return AutoCVApplyAnswerNormalization.normalizeFieldAnswerForQuestion(label, rawAnswer);
+                }
+
+                return String(rawAnswer ?? '').trim();
+            }
+
+            function humanDelayMs(minMs, maxMs) {
+                const min = Math.min(minMs, maxMs);
+                const max = Math.max(minMs, maxMs);
+
+                return min + Math.floor(Math.random() * (max - min + 1));
+            }
+
+            function humanPause(minMs, maxMs) {
+                return new Promise((resolve) => window.setTimeout(resolve, humanDelayMs(minMs, maxMs)));
+            }
+
             async function applySingleAnswer(answer) {
+                if (answer.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {
+                    AutoCVApplyFieldInventory.clickRefAllFrames(document, answer.ref);
+                    await humanPause(120, 260);
+                }
+
                 let filled = false;
                 let method = null;
                 const applyOptions = {
@@ -862,21 +886,24 @@ const contentMessageListener = (message, sender, sendResponse) => {
                     data_field_path: answer.data_field_path || answer.dom?.data_field_path || null,
                 };
 
+                const label = answer.label || '';
+                const normalizedAnswer = resolveApplyAnswer(label, answer.answer);
+
                 if (answer.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {
                     filled = await AutoCVApplyFieldInventory.applyAnswerByRefWithFallback(
                         document,
                         answer.ref,
-                        answer.answer,
+                        normalizedAnswer,
                         applyOptions,
                     );
                     method = 'ref';
                 }
 
-                if (!filled && answer.label) {
+                if (!filled && label) {
                     filled = await AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(
                         document,
-                        answer.label,
-                        answer.answer,
+                        label,
+                        normalizedAnswer,
                     );
                     method = method ? `${method}+label` : 'label';
                 }
@@ -893,8 +920,12 @@ const contentMessageListener = (message, sender, sendResponse) => {
                 return filled ? 1 : 0;
             }
 
-            for (const answer of answers) {
-                applied += await applySingleAnswer(answer);
+            for (let index = 0; index < answers.length; index += 1) {
+                if (index > 0) {
+                    await humanPause(240, 520);
+                }
+
+                applied += await applySingleAnswer(answers[index]);
             }
 
             contentLog('info', 'apply.batch', 'Batch apply complete', {
@@ -920,12 +951,16 @@ const contentMessageListener = (message, sender, sendResponse) => {
         if (message.type === 'APPLY_DRAFT_ANSWER' || message.type === 'APPLY_ANSWER_TO_FIELD') {
             let filled = false;
             let method = null;
+            const label = message.label || '';
+            const normalizedAnswer = typeof AutoCVApplyAnswerNormalization !== 'undefined'
+                ? AutoCVApplyAnswerNormalization.normalizeFieldAnswerForQuestion(label, message.answer)
+                : String(message.answer ?? '').trim();
 
             if (message.ref && typeof AutoCVApplyFieldInventory !== 'undefined') {
                 filled = await AutoCVApplyFieldInventory.applyAnswerByRefWithFallback(
                     document,
                     message.ref,
-                    message.answer,
+                    normalizedAnswer,
                     {
                         field_type: message.field_type || null,
                         dom: message.dom || null,
@@ -935,11 +970,11 @@ const contentMessageListener = (message, sender, sendResponse) => {
                 method = 'ref';
             }
 
-            if (!filled && message.label) {
+            if (!filled && label) {
                 filled = await AutoCVApplyFormHeuristics.applyAnswerByLabelAllFrames(
                     document,
-                    message.label,
-                    message.answer,
+                    label,
+                    normalizedAnswer,
                 );
                 method = method ? `${method}+label` : 'label';
             }

@@ -12,6 +12,7 @@ use App\Support\ProfileAnswerGrounding;
 use App\Support\ProfileFieldRegistry;
 use App\Support\ProfileIdentityFieldResolver;
 use App\Support\ProfileUpdateValueSanitizer;
+use App\Support\YearsExperienceAnswerNormalizer;
 use Illuminate\Support\Facades\Log;
 
 class ApplicationAssistantService
@@ -92,6 +93,7 @@ class ApplicationAssistantService
                         .'Use null only when the profile truly lacks enough facts. Never invent employers, degrees, dates, skills, or tools not listed in the profile. '
                         .'Match the question language when writing prose, but keep the candidate\'s real name, email, and CV facts unchanged. '
                         .'For simple yes/no questions return "yes" or "no". For checkbox groups that allow multiple selections, return comma-separated option texts. '
+                        .'For "how many years" experience questions (including skill-specific years on LinkedIn), return only a whole number between 0 and 99 (for example "5"), never a sentence or phrase like "5 years". '
                         .'Keep within max_chars when provided. Plain text only - no markdown.',
                 ], JSON_THROW_ON_ERROR),
             ],
@@ -119,6 +121,14 @@ class ApplicationAssistantService
 
             $rawAnswer = isset($row['answer']) && is_string($row['answer']) ? trim($row['answer']) : '';
             $answer = $rawAnswer !== '' ? $this->normalizeAnswerForQuestion($question, $this->sanitizeAssistantText($rawAnswer)) : null;
+
+            if ($answer !== null && YearsExperienceAnswerNormalizer::isYearsExperienceQuestion($question['label'])) {
+                $profileYears = data_get($settings, 'yearsOfExperience') ?? data_get($settings, 'years_of_experience');
+                $answer = YearsExperienceAnswerNormalizer::normalize(
+                    $answer,
+                    is_string($profileYears) || is_numeric($profileYears) ? (string) $profileYears : null,
+                );
+            }
 
             if ($answer !== null && in_array(strtolower($answer), ['yes', 'no'], true)) {
                 $answer = strtolower($answer);

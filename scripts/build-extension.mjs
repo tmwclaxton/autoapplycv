@@ -210,6 +210,7 @@ mkdirSync(DIST, { recursive: true });
 mkdirSync(OUTPUT_DIR, { recursive: true });
 
 copyFileSync(join(ROOT, 'extension/manifest.json'), join(DIST, 'manifest.json'));
+copyFileSync(join(SRC, 'shared/answer-normalization.js'), join(DIST, 'answer-normalization.js'));
 copyFileSync(join(SRC, 'shared/profile-value-polish.js'), join(DIST, 'profile-value-polish.js'));
 copyFileSync(join(SRC, 'shared/draft-all-stream.js'), join(DIST, 'draft-all-stream.js'));
 copyFileSync(join(SRC, 'shared/connection.js'), join(DIST, 'connection.js'));
@@ -241,6 +242,7 @@ copyFileSync(join(SRC, 'debug/debug.html'), join(DIST, 'debug.html'));
 copyFileSync(join(SRC, 'debug/debug.js'), join(DIST, 'debug.js'));
 copyFileSync(join(SRC, 'background/index.js'), join(DIST, 'background.js'));
 copyFileSync(join(SRC, 'content/form-content-signature.js'), join(DIST, 'form-content-signature.js'));
+copyFileSync(join(SRC, 'content/answer-normalization.js'), join(DIST, 'answer-normalization-content.js'));
 copyFileSync(join(SRC, 'content/form-heuristics.js'), join(DIST, 'form-heuristics.js'));
 copyFileSync(join(SRC, 'content/field-inventory.js'), join(DIST, 'field-inventory.js'));
 copyFileSync(join(SRC, 'content/linkedin-parser.js'), join(DIST, 'linkedin-parser.js'));
