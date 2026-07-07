@@ -502,9 +502,9 @@ async function copyToken() {
         {{ uploadError }}
     </p>
 
-    <div class="-mx-4 mb-6 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+    <div class="mb-6">
         <div
-            class="flex min-w-max border-b-2 border-postbox-navy/20"
+            class="flex flex-wrap gap-x-0.5 gap-y-1 border-b-2 border-postbox-navy/20"
             role="tablist"
             aria-label="Profile sections"
         >
@@ -514,7 +514,7 @@ async function copyToken() {
                 type="button"
                 role="tab"
                 :aria-selected="activeTab === tab.key"
-                class="flex shrink-0 items-center gap-1.5 border-b-2 border-transparent px-3 py-2.5 text-sm transition-colors sm:gap-2 sm:px-4 sm:py-3"
+                class="flex items-center gap-1 border-b-2 border-transparent px-2 py-2 text-xs transition-colors sm:gap-1.5 sm:px-3 sm:py-2.5 sm:text-sm"
                 :class="
                     activeTab === tab.key
                         ? 'postbox-tab-active'
@@ -522,7 +522,7 @@ async function copyToken() {
                 "
                 @click="activeTab = tab.key"
             >
-                <component :is="tab.icon" class="size-4 shrink-0" />
+                <component :is="tab.icon" class="size-3.5 shrink-0 sm:size-4" />
                 <span class="whitespace-nowrap">{{ tab.label }}</span>
             </button>
         </div>
