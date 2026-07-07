@@ -19,6 +19,7 @@ use App\Services\ApplicationFieldInventoryService;
 use App\Services\ApplicationJobContextService;
 use App\Services\AutofillAnalyticsService;
 use App\Services\ExtensionNanoGptUsageService;
+use App\Support\AiAssistCosts;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -45,7 +46,7 @@ class ApplicationAssistantController extends Controller
 
         $validated = $request->validated();
         $questions = $validated['questions'];
-        $cost = count($questions);
+        $cost = count($questions) * AiAssistCosts::questionCost();
 
         if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([
@@ -90,16 +91,6 @@ class ApplicationAssistantController extends Controller
             return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
         }
 
-        $cost = (int) config('cv.ai_assist.inventory_cost', 1);
-
-        if (! $this->usage->canSpendCredits($user, $cost)) {
-            return response()->json([
-                'success' => false,
-                'error' => 'You do not have enough credits remaining for field inventory.',
-                'subscription' => $this->usage->summary($user),
-            ], 402);
-        }
-
         $validated = $request->validated();
         $result = $this->inventory->resolveFields(
             $profile,
@@ -116,9 +107,7 @@ class ApplicationAssistantController extends Controller
         }
 
         if (($result['source'] ?? 'llm') === 'llm') {
-            $this->usage->recordCredit($user, $cost);
-            $this->analytics->recordExtensionQuestions();
-            $this->nanoGptUsage->record($user, 'assist.inventory', $result['usage'] ?? null, $cost);
+            $this->nanoGptUsage->record($user, 'assist.inventory', $result['usage'] ?? null, 0);
         }
 
         return response()->json([
@@ -128,7 +117,7 @@ class ApplicationAssistantController extends Controller
             'next_actions' => $result['next_actions'],
             'source' => $result['source'] ?? 'llm',
             'usage' => $result['usage'] ?? null,
-            'credit_cost' => ($result['source'] ?? 'llm') === 'llm' ? $cost : 0,
+            'credit_cost' => 0,
             'subscription' => $this->usage->summary($user),
         ]);
     }
@@ -140,16 +129,6 @@ class ApplicationAssistantController extends Controller
 
         if (! $profile) {
             return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
-        }
-
-        $cost = (int) config('cv.ai_assist.job_context_cost', 1);
-
-        if (! $this->usage->canSpendCredits($user, $cost)) {
-            return response()->json([
-                'success' => false,
-                'error' => 'You do not have enough credits remaining for job context extraction.',
-                'subscription' => $this->usage->summary($user),
-            ], 402);
         }
 
         $validated = $request->validated();
@@ -166,8 +145,7 @@ class ApplicationAssistantController extends Controller
             ], 502);
         }
 
-        $this->usage->recordCredit($user, $cost);
-        $this->nanoGptUsage->record($user, 'assist.job-context', $extracted['usage'], $cost);
+        $this->nanoGptUsage->record($user, 'assist.job-context', $extracted['usage'], 0);
 
         $pageUrl = filled($validated['page_url'] ?? null) ? (string) $validated['page_url'] : null;
 
@@ -181,7 +159,7 @@ class ApplicationAssistantController extends Controller
                 'job_description' => $extracted['job_description'],
                 'source' => $extracted['source'],
             ],
-            'credit_cost' => $cost,
+            'credit_cost' => 0,
             'subscription' => $this->usage->summary($user),
         ]);
     }
@@ -195,7 +173,7 @@ class ApplicationAssistantController extends Controller
             return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
         }
 
-        $cost = (int) config('cv.ai_assist.chat_cost', 1);
+        $cost = AiAssistCosts::chatCost();
 
         if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([
@@ -246,7 +224,7 @@ class ApplicationAssistantController extends Controller
             return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
         }
 
-        $cost = (int) config('cv.ai_assist.chat_cost', 1);
+        $cost = AiAssistCosts::chatCost();
 
         if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([
@@ -324,7 +302,7 @@ class ApplicationAssistantController extends Controller
             return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
         }
 
-        $cost = (int) config('cv.ai_assist.draft_field_cost', 1);
+        $cost = AiAssistCosts::questionCost();
 
         if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([
@@ -382,7 +360,7 @@ class ApplicationAssistantController extends Controller
         $fields = $validated['fields'];
         $requiredCost = $this->draftOrchestrator->requiredAutofillCost(count($fields));
 
-        if (! $this->usage->canSpendCredits($user, min($requiredCost, $this->draftOrchestrator->batchCost()))) {
+        if (! $this->usage->canSpendCredits($user, min($requiredCost, $this->draftOrchestrator->answerCost()))) {
             return response()->json([
                 'success' => false,
                 'error' => 'You do not have enough credits remaining for draft-all.',
@@ -460,7 +438,7 @@ class ApplicationAssistantController extends Controller
             return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
         }
 
-        $cost = (int) config('cv.ai_assist.cover_letter_cost', 5);
+        $cost = AiAssistCosts::coverLetterCost();
 
         if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([
@@ -504,16 +482,6 @@ class ApplicationAssistantController extends Controller
             return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
         }
 
-        $cost = (int) config('cv.ai_assist.tailored_resume_cost', 10);
-
-        if (! $this->usage->canSpendCredits($user, $cost)) {
-            return response()->json([
-                'success' => false,
-                'error' => 'You do not have enough credits remaining for a tailored resume.',
-                'subscription' => $this->usage->summary($user),
-            ], 402);
-        }
-
         $validated = $request->validated();
         $template = $validated['template'] ?? 'modern';
         $resumeResult = $this->assistant->generateTailoredResume(
@@ -529,14 +497,13 @@ class ApplicationAssistantController extends Controller
             ], 502);
         }
 
-        $this->usage->recordCredit($user, $cost);
-        $this->nanoGptUsage->record($user, 'assist.tailored-resume', $resumeResult['usage'], $cost);
+        $this->nanoGptUsage->record($user, 'assist.tailored-resume', $resumeResult['usage'], 0);
 
         return response()->json([
             'success' => true,
             'resume' => $resumeResult['content'],
             'template' => $template,
-            'credit_cost' => $cost,
+            'credit_cost' => 0,
             'subscription' => $this->usage->summary($user),
         ]);
     }
@@ -550,7 +517,7 @@ class ApplicationAssistantController extends Controller
             return response()->json(['error' => 'Upload your CV on autocvapply.com first.'], 404);
         }
 
-        $cost = (int) config('cv.ai_assist.ats_score_cost', 5);
+        $cost = AiAssistCosts::atsScoreCost();
 
         if (! $this->usage->canSpendCredits($user, $cost)) {
             return response()->json([

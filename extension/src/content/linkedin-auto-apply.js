@@ -4,6 +4,106 @@
 const AutoCVApplyLinkedInAutoApply = (() => {
     const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
+    function humanDelayMs(minMs, maxMs) {
+        const min = Math.min(minMs, maxMs);
+        const max = Math.max(minMs, maxMs);
+
+        return min + Math.floor(Math.random() * (max - min + 1));
+    }
+
+    async function humanPause(minMs, maxMs) {
+        await sleep(humanDelayMs(minMs, maxMs));
+    }
+
+    function readClickCoordinates(element) {
+        const rect = element.getBoundingClientRect();
+        const insetX = Math.max(4, rect.width * 0.12);
+        const insetY = Math.max(4, rect.height * 0.12);
+        const usableWidth = Math.max(1, rect.width - insetX * 2);
+        const usableHeight = Math.max(1, rect.height - insetY * 2);
+
+        return {
+            clientX: rect.left + insetX + Math.random() * usableWidth,
+            clientY: rect.top + insetY + Math.random() * usableHeight,
+        };
+    }
+
+    async function scrollIntoViewHuman(element) {
+        if (!(element instanceof HTMLElement)) {
+            return;
+        }
+
+        element.scrollIntoView?.({
+            block: 'center',
+            inline: 'nearest',
+            behavior: 'smooth',
+        });
+        await humanPause(260, 520);
+    }
+
+    async function scrollContainerByHumanStep(container) {
+        if (!(container instanceof HTMLElement)) {
+            return;
+        }
+
+        const fraction = 0.42 + Math.random() * 0.28;
+        const delta = Math.max(80, Math.floor(container.clientHeight * fraction));
+        const target = Math.min(container.scrollTop + delta, container.scrollHeight);
+        const start = container.scrollTop;
+        const total = target - start;
+        const steps = 2 + Math.floor(Math.random() * 3);
+
+        for (let step = 1; step <= steps; step += 1) {
+            container.scrollTop = start + Math.floor(total * (step / steps));
+            await humanPause(45, 110);
+        }
+
+        await humanPause(160, 340);
+    }
+
+    async function clickElement(element, { quick = false } = {}) {
+        if (!(element instanceof HTMLElement)) {
+            return false;
+        }
+
+        await scrollIntoViewHuman(element);
+
+        const { clientX, clientY } = readClickCoordinates(element);
+        const pointerInit = {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+            clientX,
+            clientY,
+        };
+        const mouseInit = {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+            clientX,
+            clientY,
+        };
+
+        element.dispatchEvent(new MouseEvent('mouseover', mouseInit));
+        element.dispatchEvent(new MouseEvent('mouseenter', { ...mouseInit, bubbles: false }));
+        await humanPause(quick ? 60 : 140, quick ? 150 : 380);
+
+        element.focus({ preventScroll: true });
+        await humanPause(quick ? 25 : 50, quick ? 70 : 130);
+
+        if (typeof PointerEvent !== 'undefined') {
+            element.dispatchEvent(new PointerEvent('pointerdown', pointerInit));
+            element.dispatchEvent(new PointerEvent('pointerup', pointerInit));
+        }
+
+        element.dispatchEvent(new MouseEvent('mousedown', mouseInit));
+        element.dispatchEvent(new MouseEvent('mouseup', mouseInit));
+        element.click();
+        await humanPause(quick ? 40 : 80, quick ? 120 : 220);
+
+        return true;
+    }
+
     const MODAL_SELECTORS = [
         '[data-test-modal].jobs-easy-apply-modal',
         '.jobs-easy-apply-modal',
@@ -192,26 +292,6 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         return nodes.find((node) => isElementVisible(node)) || null;
     }
 
-    function clickElement(element) {
-        if (!(element instanceof HTMLElement)) {
-            return false;
-        }
-
-        element.scrollIntoView?.({ block: 'center', inline: 'nearest' });
-        element.focus({ preventScroll: true });
-
-        if (typeof PointerEvent !== 'undefined') {
-            element.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, view: window }));
-            element.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, view: window }));
-        }
-
-        element.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window }));
-        element.dispatchEvent(new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window }));
-        element.click();
-
-        return true;
-    }
-
     function readJobDetailRoot() {
         const match = document.querySelector(JOB_DETAIL_ROOT_SELECTORS);
 
@@ -380,8 +460,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         let card = findJobCardById(jobId);
 
         if (card) {
-            card.scrollIntoView?.({ block: 'center', inline: 'nearest' });
-            await sleep(250);
+            await scrollIntoViewHuman(card);
 
             return card;
         }
@@ -393,23 +472,20 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         }
 
         listRoot.scrollTop = 0;
-        await sleep(250);
+        await humanPause(220, 420);
 
         for (let attempt = 0; attempt < 40; attempt += 1) {
             card = findJobCardById(jobId);
 
             if (card) {
-                card.scrollIntoView?.({ block: 'center', inline: 'nearest' });
-                await sleep(250);
+                await scrollIntoViewHuman(card);
 
                 return card;
             }
 
-            const nextScrollTop = listRoot.scrollTop + Math.max(120, Math.floor(listRoot.clientHeight * 0.75));
-            listRoot.scrollTop = nextScrollTop;
-            await sleep(200);
+            await scrollContainerByHumanStep(listRoot);
 
-            if (nextScrollTop + listRoot.clientHeight >= listRoot.scrollHeight - 4) {
+            if (listRoot.scrollTop + listRoot.clientHeight >= listRoot.scrollHeight - 4) {
                 break;
             }
         }
@@ -417,8 +493,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         card = findJobCardById(jobId);
 
         if (card) {
-            card.scrollIntoView?.({ block: 'center', inline: 'nearest' });
-            await sleep(250);
+            await scrollIntoViewHuman(card);
         }
 
         return card;
@@ -560,8 +635,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         const acceptButton = alert.querySelector('[data-test-global-alert-action="0"]');
 
         if (acceptButton instanceof HTMLElement) {
-            clickElement(acceptButton);
-            await sleep(500);
+            await clickElement(acceptButton, { quick: true });
+            await humanPause(380, 720);
 
             return { accepted: true };
         }
@@ -572,8 +647,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             }
 
             if (/^accept$/i.test(normalize(button.textContent))) {
-                clickElement(button);
-                await sleep(500);
+                await clickElement(button, { quick: true });
+                await humanPause(380, 720);
 
                 return { accepted: true };
             }
@@ -590,13 +665,13 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         );
 
         if (listRoot instanceof HTMLElement) {
-            listRoot.scrollTop = listRoot.scrollHeight;
+            listRoot.scrollTo({ top: listRoot.scrollHeight, behavior: 'smooth' });
         }
 
-        window.scrollTo(0, document.body.scrollHeight);
-        await sleep(800);
-        window.scrollTo(0, 0);
-        await sleep(400);
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        await humanPause(650, 1100);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        await humanPause(320, 680);
 
         return { success: true };
     }
@@ -608,6 +683,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return { success: false, error: `Job card not found: ${jobId}`, needsNavigation: true, jobId };
         }
 
+        await humanPause(420, 980);
+
         const clickable = card.querySelector([
             'a[href*="/jobs/view/"]',
             'a[href*="currentJobId="]',
@@ -616,7 +693,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             '.job-card-list__entity-lockup',
         ].join(', ')) || card;
 
-        clickElement(clickable);
+        await clickElement(clickable);
 
         const detail = await waitForJobDetailPanel(jobId);
 
@@ -745,8 +822,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         const discardLabel = discardButton ? normalize(discardButton.textContent) : '';
 
         if (discardButton instanceof HTMLElement && /discard/i.test(discardLabel)) {
-            clickElement(discardButton);
-            await sleep(500);
+            await clickElement(discardButton, { quick: true });
+            await humanPause(380, 720);
 
             return { dismissed: true, action: 'discard' };
         }
@@ -757,8 +834,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             }
 
             if (/^discard$/i.test(normalize(button.textContent))) {
-                clickElement(button);
-                await sleep(500);
+                await clickElement(button, { quick: true });
+                await humanPause(380, 720);
 
                 return { dismissed: true, action: 'discard' };
             }
@@ -769,8 +846,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             || modal.querySelector('.artdeco-modal__dismiss');
 
         if (closeButton instanceof HTMLElement) {
-            clickElement(closeButton);
-            await sleep(500);
+            await clickElement(closeButton, { quick: true });
+            await humanPause(380, 720);
 
             return { dismissed: true, action: 'dismiss-x' };
         }
@@ -779,7 +856,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
     }
 
     async function openEasyApplyFromControl(control) {
-        clickElement(control);
+        await humanPause(520, 1200);
+        await clickElement(control);
         let modal = await waitForEasyApplyModal(10_000);
 
         if (modal) {
@@ -788,7 +866,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         await dismissSaveApplicationDialog().catch(() => {});
         await dismissBlockingModal().catch(() => {});
-        clickElement(control);
+        await humanPause(280, 620);
+        await clickElement(control);
         modal = await waitForEasyApplyModal(6000);
 
         if (modal || !isAnchorElement(control)) {
@@ -1282,8 +1361,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         }
 
         if (primary.action === 'done') {
-            clickElement(primary.button);
-            await sleep(500);
+            await humanPause(320, 760);
+            await clickElement(primary.button);
 
             const verify = verifySubmitted();
 
@@ -1299,7 +1378,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             };
         }
 
-        clickElement(primary.button);
+        await humanPause(380, 920);
+        await clickElement(primary.button);
 
         if (primary.action === 'submit') {
             const verify = await waitForSubmissionConfirmation();
@@ -1437,8 +1517,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         ].join(', '), modal);
 
         if (dismiss) {
-            clickElement(dismiss);
-            await sleep(500);
+            await clickElement(dismiss, { quick: true });
+            await humanPause(380, 720);
             await dismissSaveApplicationDialog();
 
             return { success: true, closed: true };
@@ -1463,8 +1543,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             return { success: false, error: 'No next search results page.' };
         }
 
-        clickElement(nextButton);
-        await sleep(1800);
+        await humanPause(420, 900);
+        await clickElement(nextButton);
+        await humanPause(1400, 2600);
 
         return { success: true };
     }
@@ -1592,8 +1673,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         ].join(', '), modal);
 
         if (dismiss) {
-            clickElement(dismiss);
-            await sleep(500);
+            await clickElement(dismiss, { quick: true });
+            await humanPause(380, 720);
 
             return { dismissed: true };
         }

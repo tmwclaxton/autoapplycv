@@ -86,13 +86,9 @@ return [
     'ai_assist' => [
         'cover_letter_cost' => (int) env('CV_AI_COVER_LETTER_COST', 5),
         'ats_score_cost' => (int) env('CV_AI_ATS_SCORE_COST', 5),
-        'tailored_resume_cost' => (int) env('CV_AI_TAILORED_RESUME_COST', 10),
-        'draft_field_cost' => (int) env('CV_AI_DRAFT_FIELD_COST', 1),
         'chat_cost' => (int) env('CV_AI_CHAT_COST', 1),
+        'question_cost' => 1,
         'draft_all_batch_size' => (int) env('CV_AI_DRAFT_ALL_BATCH_SIZE', 10),
-        'draft_all_batch_cost' => (int) env('CV_AI_DRAFT_ALL_BATCH_COST', 3),
-        'inventory_cost' => 1,
-        'job_context_cost' => 1,
     ],
 
     'seconds_saved_per_field' => (int) env('CV_SECONDS_SAVED_PER_FIELD', 30),

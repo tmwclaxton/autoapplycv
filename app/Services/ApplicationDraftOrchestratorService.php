@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\CvProfile;
 use App\Models\User;
+use App\Support\AiAssistCosts;
 use App\Support\ProfileIdentityFieldResolver;
 use Illuminate\Support\Facades\Concurrency;
 
@@ -20,9 +21,9 @@ class ApplicationDraftOrchestratorService
         return max(1, (int) config('cv.ai_assist.draft_all_batch_size', 10));
     }
 
-    public function batchCost(): int
+    public function answerCost(): int
     {
-        return max(1, (int) config('cv.ai_assist.draft_all_batch_cost', 3));
+        return AiAssistCosts::questionCost();
     }
 
     public function requiredBatchCount(int $fieldCount): int
@@ -36,7 +37,7 @@ class ApplicationDraftOrchestratorService
 
     public function requiredAutofillCost(int $fieldCount): int
     {
-        return $this->requiredBatchCount($fieldCount) * $this->batchCost();
+        return $fieldCount * $this->answerCost();
     }
 
     /**
@@ -66,35 +67,29 @@ class ApplicationDraftOrchestratorService
             ];
         }
 
-        $affordableBatchCount = min(
-            $batchCount,
-            intdiv($this->usage->creditsRemaining($user), $this->batchCost()),
-        );
-
-        if ($affordableBatchCount < 1) {
-            foreach (array_keys($batches) as $batchIndex) {
-                $onBatchError($batchIndex, 'You do not have enough credits remaining for this batch.');
-            }
-
-            return [
-                'batches_ok' => 0,
-                'batches_failed' => $batchCount,
-            ];
-        }
-
         $profileId = $profile->getKey();
         $llmTasks = [];
         $batchPartitions = [];
+        $batchBillableCounts = [];
+        $reservedCredits = 0;
+        $availableCredits = $this->usage->creditsRemaining($user);
 
-        foreach (array_slice($batches, 0, $affordableBatchCount, true) as $batchIndex => $batch) {
+        foreach ($batches as $batchIndex => $batch) {
             $questions = $this->questionsForBatch($batch);
             $partition = ProfileIdentityFieldResolver::partitionQuestions($profile, $questions, $settings);
             $batchPartitions[$batchIndex] = $partition;
+            $billableCount = count($partition['llm_questions']);
+            $batchBillableCounts[$batchIndex] = $billableCount;
 
-            if ($partition['llm_questions'] === []) {
+            if ($billableCount === 0) {
                 continue;
             }
 
+            if (($reservedCredits + $billableCount) > $availableCredits) {
+                continue;
+            }
+
+            $reservedCredits += $billableCount;
             $llmQuestions = $partition['llm_questions'];
 
             $llmTasks[$batchIndex] = function () use ($profileId, $job, $llmQuestions, $settings): ?array {
@@ -116,18 +111,12 @@ class ApplicationDraftOrchestratorService
         $batchesFailed = 0;
 
         foreach ($batches as $batchIndex => $batch) {
-            if ($batchIndex >= $affordableBatchCount) {
-                $onBatchError($batchIndex, 'You do not have enough credits remaining for this batch.');
-                $batchesFailed++;
-
-                continue;
-            }
-
             $partition = $batchPartitions[$batchIndex] ?? ProfileIdentityFieldResolver::partitionQuestions(
                 $profile,
                 $this->questionsForBatch($batch),
                 $settings,
             );
+            $billableCount = $batchBillableCounts[$batchIndex] ?? count($partition['llm_questions']);
             $batchResult = $llmResults[$batchIndex] ?? null;
             $llmAnswers = $batchResult['answers'] ?? [];
             // Identity answers must win when both paths emit the same ref.
@@ -140,22 +129,31 @@ class ApplicationDraftOrchestratorService
                 continue;
             }
 
-            if (! $this->usage->canSpendCredits($user, $this->batchCost())) {
+            if ($billableCount > 0 && ! array_key_exists($batchIndex, $llmTasks)) {
                 $onBatchError($batchIndex, 'You do not have enough credits remaining for this batch.');
                 $batchesFailed++;
 
                 continue;
             }
 
-            $this->usage->recordCredit($user, $this->batchCost());
-            $this->analytics->recordExtensionQuestions(count($batch));
-            $this->nanoGptUsage->record(
-                $user,
-                'assist.draft-all',
-                $batchResult['usage'] ?? null,
-                $this->batchCost(),
-            );
-            $user->refresh();
+            if ($billableCount > 0 && ! $this->usage->canSpendCredits($user, $billableCount)) {
+                $onBatchError($batchIndex, 'You do not have enough credits remaining for this batch.');
+                $batchesFailed++;
+
+                continue;
+            }
+
+            if ($billableCount > 0) {
+                $this->usage->recordCredit($user, $billableCount);
+                $this->analytics->recordExtensionQuestions($billableCount);
+                $this->nanoGptUsage->record(
+                    $user,
+                    'assist.draft-all',
+                    $batchResult['usage'] ?? null,
+                    $billableCount,
+                );
+                $user->refresh();
+            }
 
             $onBatch(
                 $batchIndex,

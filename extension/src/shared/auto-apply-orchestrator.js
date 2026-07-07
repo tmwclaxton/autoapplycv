@@ -33,9 +33,10 @@ import {
 } from './pending-fields.js';
 
 const AUTO_APPLY_DELAY_MS = {
-    betweenJobs: 3500,
-    afterNavigation: 2000,
-    afterModalStep: 1200,
+    betweenJobs: 3800,
+    afterNavigation: 2200,
+    afterModalStep: 1400,
+    beforeDraftAll: 900,
 };
 
 const STUCK_TIMEOUT_MS = 45_000;
@@ -57,10 +58,10 @@ function sleep(ms) {
     return new Promise((resolve) => globalThis.setTimeout(resolve, ms));
 }
 
-function randomDelay(baseMs) {
-    const jitter = Math.floor(Math.random() * 800);
+function randomDelay(baseMs, spreadMs = null) {
+    const spread = spreadMs ?? Math.max(700, Math.floor(baseMs * 0.45));
 
-    return baseMs + jitter;
+    return baseMs + Math.floor(Math.random() * (spread + 1));
 }
 
 function broadcastAutoApplyStatus(session) {
@@ -256,7 +257,7 @@ async function recoverLinkedInTab(tabId, session, reason) {
     try {
         await chrome.tabs.reload(tabId);
         await waitForTabLoadComplete(tabId);
-        await sleep(AUTO_APPLY_DELAY_MS.afterNavigation);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
     } catch {
         // Tab may have been closed; recreate below.
     }
@@ -269,7 +270,7 @@ async function recoverLinkedInTab(tabId, session, reason) {
         const tab = await chrome.tabs.create({ url: searchUrl, active: true });
 
         await waitForTabLoadComplete(tab.id);
-        await sleep(AUTO_APPLY_DELAY_MS.afterNavigation);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
         await acceptLinkedInCookieConsent(tab.id).catch(() => {});
         markWatchdogProgress(session);
 
@@ -277,7 +278,7 @@ async function recoverLinkedInTab(tabId, session, reason) {
     }
 
     await waitForTabLoadComplete(tabId);
-    await sleep(AUTO_APPLY_DELAY_MS.afterNavigation);
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
     await acceptLinkedInCookieConsent(tabId).catch(() => {});
     markWatchdogProgress(session);
 
@@ -328,7 +329,7 @@ async function ensureLinkedInTab(session) {
     const tab = await chrome.tabs.create({ url: searchUrl, active: true });
 
     await waitForTabLoadComplete(tab.id);
-    await sleep(AUTO_APPLY_DELAY_MS.afterNavigation);
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
     await acceptLinkedInCookieConsent(tab.id).catch(() => {});
 
     return tab.id;
@@ -845,6 +846,8 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
     await acceptLinkedInCookieConsent(tabId).catch(() => {});
     await dismissSaveApplicationPrompt(tabId).catch(() => {});
 
+    await sleep(randomDelay(700, 600));
+
     const applyResponse = await sendLinkedInMessage(tabId, 'LINKEDIN_OPEN_EASY_APPLY');
 
     if (applyResponse?.alreadyApplied) {
@@ -938,6 +941,8 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
             'info',
             `[fill] ${job.title} step ${guard}: ${modalState.stepLabel || modalState.actionLabel || 'Easy Apply'}`,
         );
+
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
 
         const draftResult = await runDraftAllForStep(tabId, job, modalState.stepLabel, runDraftAll, session);
         const postDraftModalState = await sendLinkedInMessage(tabId, 'LINKEDIN_EASY_APPLY_STATE');

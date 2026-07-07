@@ -19,7 +19,6 @@ class ApplicationDraftOrchestratorServiceTest extends TestCase
     {
         config([
             'cv.ai_assist.draft_all_batch_size' => 1,
-            'cv.ai_assist.draft_all_batch_cost' => 2,
         ]);
 
         $user = User::factory()->create();
@@ -90,14 +89,13 @@ class ApplicationDraftOrchestratorServiceTest extends TestCase
         $this->assertSame(0, $summary['batches_failed']);
         $this->assertSame([0, 1], array_column($emitted, 'batch_index'));
         $this->assertSame('textarea', $emitted[0]['answers'][0]['field_type'] ?? null);
-        $this->assertSame(4, $user->fresh()->ai_tokens_used);
+        $this->assertSame(2, $user->fresh()->ai_tokens_used);
     }
 
     public function test_run_batched_draft_stream_fills_identity_fields_from_profile_without_llm(): void
     {
         config([
             'cv.ai_assist.draft_all_batch_size' => 10,
-            'cv.ai_assist.draft_all_batch_cost' => 2,
         ]);
 
         $user = User::factory()->create();
@@ -138,14 +136,13 @@ class ApplicationDraftOrchestratorServiceTest extends TestCase
         $this->assertSame('Toby', $answersByRef->get('f1')['answer'] ?? null);
         $this->assertSame('Claxton', $answersByRef->get('f2')['answer'] ?? null);
         $this->assertSame('toby@example.com', $answersByRef->get('f3')['answer'] ?? null);
-        $this->assertSame(2, $user->fresh()->ai_tokens_used);
+        $this->assertSame(0, $user->fresh()->ai_tokens_used);
     }
 
     public function test_run_batched_draft_stream_fills_teamtailor_identity_labels_from_profile(): void
     {
         config([
             'cv.ai_assist.draft_all_batch_size' => 20,
-            'cv.ai_assist.draft_all_batch_cost' => 2,
         ]);
 
         $user = User::factory()->create();
@@ -206,7 +203,6 @@ class ApplicationDraftOrchestratorServiceTest extends TestCase
     {
         config([
             'cv.ai_assist.draft_all_batch_size' => 10,
-            'cv.ai_assist.draft_all_batch_cost' => 2,
         ]);
 
         $user = User::factory()->create();
@@ -264,7 +260,6 @@ class ApplicationDraftOrchestratorServiceTest extends TestCase
     {
         config([
             'cv.ai_assist.draft_all_batch_size' => 1,
-            'cv.ai_assist.draft_all_batch_cost' => 2,
         ]);
 
         $user = User::factory()->create([
@@ -274,7 +269,19 @@ class ApplicationDraftOrchestratorServiceTest extends TestCase
         CvProfile::factory()->for($user)->create();
 
         $this->mock(ApplicationAssistantService::class, function (MockInterface $mock): void {
-            $mock->shouldNotReceive('answerQuestions');
+            $mock->shouldReceive('answerQuestions')
+                ->once()
+                ->andReturn([
+                    'answers' => [
+                        ['label' => 'Question one', 'answer' => 'Answer one'],
+                    ],
+                    'usage' => [
+                        'prompt_tokens' => 10,
+                        'completion_tokens' => 5,
+                        'total_tokens' => 15,
+                        'model' => 'openai/gpt-4.1-mini',
+                    ],
+                ]);
         });
 
         $orchestrator = app(ApplicationDraftOrchestratorService::class);
@@ -295,9 +302,10 @@ class ApplicationDraftOrchestratorServiceTest extends TestCase
             },
         );
 
-        $this->assertSame(0, $summary['batches_ok']);
-        $this->assertSame(2, $summary['batches_failed']);
-        $this->assertCount(2, $errors);
+        $this->assertSame(1, $summary['batches_ok']);
+        $this->assertSame(1, $summary['batches_failed']);
+        $this->assertCount(1, $errors);
+        $this->assertSame(250, $user->fresh()->ai_tokens_used);
     }
 
     protected function tearDown(): void

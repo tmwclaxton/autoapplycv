@@ -143,8 +143,8 @@ function formatDate(value: string): string {
         >
             <h2 class="postbox-label mb-2">Credit prices</h2>
             <p class="mb-4 text-sm text-muted-foreground">
-                Different extension AI actions use different amounts of your
-                monthly credits.
+                Credits are used for Assist replies, autofilled questions, cover
+                letters, and ATS scores.
             </p>
             <ul class="space-y-2 text-sm">
                 <li

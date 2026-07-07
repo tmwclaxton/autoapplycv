@@ -75,7 +75,6 @@ class ApplicationDraftTest extends TestCase
     {
         config([
             'cv.ai_assist.draft_all_batch_size' => 1,
-            'cv.ai_assist.draft_all_batch_cost' => 2,
         ]);
 
         $user = User::factory()->create();
@@ -139,7 +138,7 @@ class ApplicationDraftTest extends TestCase
         $this->assertStringContainsString('Answer two', $body);
         $this->assertStringContainsString('"ref":"f0"', $body);
         $this->assertStringContainsString('"ref":"f1"', $body);
-        $this->assertSame(4, $user->fresh()->ai_tokens_used);
+        $this->assertSame(2, $user->fresh()->ai_tokens_used);
     }
 
     public function test_extension_can_patch_profile_from_side_panel(): void

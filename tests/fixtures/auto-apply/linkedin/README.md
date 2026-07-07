@@ -2,6 +2,8 @@
 
 HTML fixtures for testing modal detection, step progression, validation errors, and submit confirmation in `extension/src/content/linkedin-auto-apply.js` without live LinkedIn sessions during CI.
 
+For cross-platform lessons (what worked for LinkedIn, what broke on Oracle HCM, checklists for the next platform), see [`docs/platform-automation-playbook.md`](../../../docs/platform-automation-playbook.md).
+
 ## Authoritative source: live captures
 
 Real LinkedIn Easy Apply modal HTML lives in `captured/` and is listed in `captured-manifest.json`. This is the **authoritative** corpus for regression tests once captured.

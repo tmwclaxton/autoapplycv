@@ -123,12 +123,12 @@ class ApplicationFieldInventoryTest extends TestCase
             ->assertOk()
             ->assertJsonPath('source', 'llm')
             ->assertJsonPath('usage.total_tokens', 1280)
-            ->assertJsonPath('credit_cost', 1);
+            ->assertJsonPath('credit_cost', 0);
 
-        $this->assertSame(1, $user->fresh()->ai_tokens_used);
+        $this->assertSame(0, $user->fresh()->ai_tokens_used);
     }
 
-    public function test_inventory_returns_402_when_quota_exhausted(): void
+    public function test_inventory_succeeds_when_quota_is_exhausted(): void
     {
         $user = User::factory()->create([
             'ai_tokens_used' => 250,
@@ -138,7 +138,17 @@ class ApplicationFieldInventoryTest extends TestCase
         $token = $user->createToken('extension')->plainTextToken;
 
         $this->mock(NanoGptService::class, function (MockInterface $mock): void {
-            $mock->shouldNotReceive('chatJson');
+            $mock->shouldReceive('chatJson')->once()->andReturn([
+                'fields' => [
+                    [
+                        'ref' => 'f0',
+                        'question' => 'Why do you want this role?',
+                        'field_type' => 'textarea',
+                    ],
+                ],
+                'complete' => true,
+                'next_actions' => [],
+            ]);
         });
 
         $this->withToken($token)
@@ -152,12 +162,16 @@ class ApplicationFieldInventoryTest extends TestCase
                         [
                             'ref' => 'f0',
                             'question' => 'Why do you want this role?',
+                            'field_type' => 'textarea',
                         ],
                     ],
                 ],
             ])
-            ->assertStatus(402)
-            ->assertJsonPath('success', false);
+            ->assertOk()
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('credit_cost', 0);
+
+        $this->assertSame(250, $user->fresh()->ai_tokens_used);
     }
 
     public function test_inventory_always_returns_single_step_result(): void

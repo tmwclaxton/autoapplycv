@@ -2,6 +2,8 @@
 
 Multiple layers verify that extension autofill actually lands on the form frontend.
 
+For cross-platform lessons (LinkedIn Auto Apply patterns, Oracle apply-flow session, new-platform checklists), see [`docs/platform-automation-playbook.md`](../../docs/platform-automation-playbook.md).
+
 ## Test pyramid
 
 | Tier | Engine | Scope | CI job |

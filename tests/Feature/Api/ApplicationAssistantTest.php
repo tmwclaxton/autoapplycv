@@ -179,7 +179,7 @@ class ApplicationAssistantTest extends TestCase
             ])
             ->assertOk()
             ->assertJsonPath('template', 'modern')
-            ->assertJsonPath('credit_cost', 10);
+            ->assertJsonPath('credit_cost', 0);
     }
 
     public function test_extension_can_chat_with_assist_sidebar(): void
