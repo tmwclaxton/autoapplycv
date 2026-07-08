@@ -189,4 +189,54 @@ class NanoGptServiceTest extends TestCase
 
         $this->assertSame(0.0034, $result['credits'] ?? null);
     }
+
+    public function test_chat_json_retries_without_response_format_only_when_first_request_fails(): void
+    {
+        config([
+            'services.nanogpt.api_key' => 'test-key',
+            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
+        ]);
+
+        Http::fake([
+            'https://nano-gpt.test/api/v1/chat/completions' => Http::sequence()
+                ->push(['error' => ['message' => 'Service unavailable.']], 503)
+                ->push([
+                    'choices' => [
+                        ['message' => ['content' => '{"full_name":"Alex Developer"}']],
+                    ],
+                    'usage' => ['total_tokens' => 12],
+                ], 200),
+        ]);
+
+        $result = app(NanoGptService::class)->chatJson([
+            ['role' => 'user', 'content' => 'Parse CV'],
+        ]);
+
+        $this->assertSame('Alex Developer', $result['full_name'] ?? null);
+        Http::assertSentCount(2);
+    }
+
+    public function test_chat_json_does_not_retry_when_json_decode_fails_but_response_succeeded(): void
+    {
+        config([
+            'services.nanogpt.api_key' => 'test-key',
+            'services.nanogpt.base_url' => 'https://nano-gpt.test/api/v1',
+        ]);
+
+        Http::fake([
+            'https://nano-gpt.test/api/v1/chat/completions' => Http::response([
+                'choices' => [
+                    ['message' => ['content' => 'not valid json at all']],
+                ],
+                'usage' => ['total_tokens' => 8],
+            ], 200),
+        ]);
+
+        $result = app(NanoGptService::class)->chatJson([
+            ['role' => 'user', 'content' => 'Parse CV'],
+        ]);
+
+        $this->assertNull($result);
+        Http::assertSentCount(1);
+    }
 }

@@ -27,14 +27,15 @@ class BenchmarkCvUploadCommand extends Command
         $file = new UploadedFile($path, basename($path), mime_content_type($path) ?: 'application/octet-stream', null, true);
         $contentHash = hash_file('sha256', $path) ?: null;
 
-        $this->info('Model: '.config('cv.extraction_model'));
-        $this->newLine();
-
         $extractStart = microtime(true);
         $extracted = $parser->extractTextWithMetadata($file);
         $urls = $parser->extractHyperlinks($file);
         $rawText = CvExtractionSchema::appendHyperlinksToRawText($extracted['text'], $urls);
         $extractSeconds = microtime(true) - $extractStart;
+
+        $model = $extraction->resolveExtractionModel($extracted['ocr_used']);
+        $this->info('Model: '.$model.' (ocr='.($extracted['ocr_used'] ? 'yes' : 'no').')');
+        $this->newLine();
 
         $this->table(['Stage', 'Seconds', 'Details'], [
             ['Text extract', number_format($extractSeconds, 2), sprintf('%d chars, OCR=%s', mb_strlen($rawText), $extracted['ocr_used'] ? 'yes' : 'no')],

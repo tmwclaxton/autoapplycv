@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Process\Pool;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Process;
@@ -72,15 +73,7 @@ class TesseractOcrService
                 return null;
             }
 
-            $pages = [];
-
-            foreach ($pagePaths as $pagePath) {
-                $pageText = $this->runTesseract($pagePath);
-
-                if ($pageText !== null && $pageText !== '') {
-                    $pages[] = $pageText;
-                }
-            }
+            $pages = $this->runTesseractOnPages($pagePaths);
 
             if ($pages === []) {
                 return null;
@@ -99,34 +92,71 @@ class TesseractOcrService
         }
     }
 
-    private function runTesseract(string $imagePath): ?string
+    /**
+     * @param  array<int, string>  $pagePaths
+     * @return array<int, string>
+     */
+    private function runTesseractOnPages(array $pagePaths): array
     {
-        $language = (string) config('cv.ocr_language', 'eng');
-        $psm = (int) config('cv.ocr_psm', 3);
-
-        $result = Process::timeout((int) config('cv.ocr_timeout', 120))
-            ->run([
-                'tesseract',
-                $imagePath,
-                'stdout',
-                '-l',
-                $language,
-                '--psm',
-                (string) $psm,
-            ]);
-
-        if (! $result->successful()) {
-            Log::warning('TesseractOcrService: tesseract failed.', [
-                'path' => $imagePath,
-                'stderr' => $result->errorOutput(),
-            ]);
-
-            return null;
+        if ($pagePaths === []) {
+            return [];
         }
 
-        $text = trim($result->output());
+        if (count($pagePaths) === 1) {
+            $text = $this->runTesseract($pagePaths[0]);
 
-        return $text === '' ? null : $text;
+            return $text === null || $text === '' ? [] : [$text];
+        }
+
+        $language = (string) config('cv.ocr_language', 'eng');
+        $psm = (int) config('cv.ocr_psm', 3);
+        $timeout = (int) config('cv.ocr_timeout', 120);
+
+        $results = Process::concurrently(function (Pool $pool) use ($pagePaths, $language, $psm, $timeout): void {
+            foreach ($pagePaths as $index => $pagePath) {
+                $pool->as((string) $index)
+                    ->timeout($timeout)
+                    ->run([
+                        'tesseract',
+                        $pagePath,
+                        'stdout',
+                        '-l',
+                        $language,
+                        '--psm',
+                        (string) $psm,
+                    ]);
+            }
+        });
+
+        $pages = [];
+
+        foreach ($pagePaths as $index => $pagePath) {
+            $result = $results[(string) $index] ?? null;
+
+            if ($result === null || ! $result->successful()) {
+                Log::warning('TesseractOcrService: tesseract failed.', [
+                    'path' => $pagePath,
+                    'stderr' => $result?->errorOutput(),
+                ]);
+
+                continue;
+            }
+
+            $text = trim($result->output());
+
+            if ($text !== '') {
+                $pages[] = $text;
+            }
+        }
+
+        return $pages;
+    }
+
+    private function runTesseract(string $imagePath): ?string
+    {
+        $pages = $this->runTesseractOnPages([$imagePath]);
+
+        return $pages[0] ?? null;
     }
 
     private function binaryExists(string $binary): bool

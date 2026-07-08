@@ -240,14 +240,22 @@ class NanoGptService
      */
     public function chatJson(array $messages, array $options = []): ?array
     {
-        $withJsonFormat = $this->decodeChatJsonResponse(
-            $this->chatWithUsage($messages, array_merge($options, [
-                'response_format' => ['type' => 'json_object'],
-            ]))
-        );
+        $withJsonFormat = $this->chatWithUsage($messages, array_merge($options, [
+            'response_format' => ['type' => 'json_object'],
+        ]));
+        $decoded = $this->decodeChatJsonResponse($withJsonFormat);
+
+        if ($decoded !== null) {
+            return $decoded;
+        }
 
         if ($withJsonFormat !== null) {
-            return $withJsonFormat;
+            Log::warning('NanoGPT returned content that could not be decoded as JSON.', [
+                'model' => (string) ($options['model'] ?? $this->defaultModel),
+                'preview' => mb_substr((string) ($withJsonFormat['content'] ?? ''), 0, 500),
+            ]);
+
+            return null;
         }
 
         return $this->decodeChatJsonResponse(

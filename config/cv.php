@@ -16,11 +16,13 @@ return [
 
     /*
     | Recommended NANOGPT_CV_MODEL values (optional override via .env):
-    | - deepseek/deepseek-v4-flash:throughput    strong on messy OCR text (default)
-    | - google/gemini-3.1-flash-lite:throughput  faster alternative for clean PDFs
+    | - google/gemini-3.1-flash-lite:ttfs        fast default for clean PDF/Word text
+    | - deepseek/deepseek-v4-flash:throughput    best for OCR / garbled extracts (NANOGPT_CV_OCR_MODEL)
     | Avoid qwen3.7-max for uploads - high quality but 10x+ slower on full CV output.
     */
-    'extraction_model' => env('NANOGPT_CV_MODEL', 'deepseek/deepseek-v4-flash:throughput'),
+    'extraction_model' => env('NANOGPT_CV_MODEL') ?: 'google/gemini-3.1-flash-lite:ttfs',
+
+    'extraction_model_ocr' => env('NANOGPT_CV_OCR_MODEL') ?: 'deepseek/deepseek-v4-flash:throughput',
 
     'inventory_model' => 'google/gemini-3.1-flash-lite:throughput',
 

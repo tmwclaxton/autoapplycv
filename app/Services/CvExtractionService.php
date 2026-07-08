@@ -32,7 +32,8 @@ class CvExtractionService
             ];
         }
 
-        $cacheKey = $this->cacheKey($contentHash, $trimmed);
+        $model = $this->resolveExtractionModel($ocrUsed);
+        $cacheKey = $this->cacheKey($contentHash, $trimmed, $model);
 
         if ($cacheKey !== null) {
             $cached = $this->readCache($cacheKey);
@@ -60,7 +61,7 @@ class CvExtractionService
                 'content' => CvExtractionSchema::parseUserMessage($truncated, $filename),
             ],
         ], [
-            'model' => config('cv.extraction_model'),
+            'model' => $model,
             'temperature' => 0.1,
             'timeout' => (int) config('cv.extraction_timeout', 180),
         ]);
@@ -164,10 +165,20 @@ class CvExtractionService
         }
     }
 
-    private function cacheKey(?string $contentHash, string $rawText): ?string
+    public function resolveExtractionModel(bool $ocrUsed): string
+    {
+        $model = (string) config($ocrUsed ? 'cv.extraction_model_ocr' : 'cv.extraction_model');
+
+        if ($model !== '') {
+            return $model;
+        }
+
+        return (string) config('cv.extraction_model');
+    }
+
+    private function cacheKey(?string $contentHash, string $rawText, string $model): ?string
     {
         $hash = $contentHash ?? hash('sha256', $rawText);
-        $model = (string) config('cv.extraction_model');
 
         if ($hash === '' || $model === '') {
             return null;

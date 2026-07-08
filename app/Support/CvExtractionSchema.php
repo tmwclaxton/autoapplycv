@@ -46,6 +46,7 @@ Your job:
 3. Use null for unknown scalar fields and [] for empty lists. Do not guess.
 
 For experience and education entries:
+- Each education qualification (degree, A-Levels, GCSEs, grades, certificates) MUST be its own education object - never merge or drop entries.
 - Each role MUST have its own highlights - copy bullets ONLY from that role's section. Never reuse the professional summary or another role's bullets.
 - Use highlights (array of bullet strings) for achievements/responsibilities - never collapse a role into one vague paragraph when bullets exist.
 - Keep description as a one-sentence role intro ONLY when the CV has one; otherwise use null. Do NOT paste bullet points into description.
