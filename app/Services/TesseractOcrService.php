@@ -103,7 +103,7 @@ class TesseractOcrService
         }
 
         if (count($pagePaths) === 1) {
-            $text = $this->runTesseract($pagePaths[0]);
+            $text = $this->executeTesseract($pagePaths[0]);
 
             return $text === null || $text === '' ? [] : [$text];
         }
@@ -154,9 +154,37 @@ class TesseractOcrService
 
     private function runTesseract(string $imagePath): ?string
     {
-        $pages = $this->runTesseractOnPages([$imagePath]);
+        return $this->executeTesseract($imagePath);
+    }
 
-        return $pages[0] ?? null;
+    private function executeTesseract(string $imagePath): ?string
+    {
+        $language = (string) config('cv.ocr_language', 'eng');
+        $psm = (int) config('cv.ocr_psm', 3);
+
+        $result = Process::timeout((int) config('cv.ocr_timeout', 120))
+            ->run([
+                'tesseract',
+                $imagePath,
+                'stdout',
+                '-l',
+                $language,
+                '--psm',
+                (string) $psm,
+            ]);
+
+        if (! $result->successful()) {
+            Log::warning('TesseractOcrService: tesseract failed.', [
+                'path' => $imagePath,
+                'stderr' => $result->errorOutput(),
+            ]);
+
+            return null;
+        }
+
+        $text = trim($result->output());
+
+        return $text === '' ? null : $text;
     }
 
     private function binaryExists(string $binary): bool

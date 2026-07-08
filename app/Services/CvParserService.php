@@ -160,16 +160,6 @@ class CvParserService
             return $ocrText;
         }
 
-        if (mb_strlen($ocrText) > mb_strlen($embeddedText) * 1.2) {
-            Log::info('CvParserService: Tesseract OCR produced richer PDF text.', [
-                'filename' => $filename,
-                'embedded_chars' => mb_strlen($embeddedText),
-                'ocr_chars' => mb_strlen($ocrText),
-            ]);
-
-            return $ocrText;
-        }
-
         return $embeddedText;
     }
 

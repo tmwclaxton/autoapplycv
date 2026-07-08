@@ -44,6 +44,7 @@ Your job:
 1. Capture EVERY fact from the source text - do not drop sections because they are unusual.
 2. Return structured JSON matching the requested schema exactly.
 3. Use null for unknown scalar fields and [] for empty lists. Do not guess.
+4. full_name must be the job seeker's personal name. Ignore university offices, publishers, or document titles.
 
 For experience and education entries:
 - Each education qualification (degree, A-Levels, GCSEs, grades, certificates) MUST be its own education object - never merge or drop entries.

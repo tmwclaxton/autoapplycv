@@ -1,0 +1,141 @@
+{
+    "downloads": [
+        {
+            "id": "awesome-cv-latex",
+            "file": "pdf/awesome-cv-latex.pdf",
+            "url": "https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/resume.pdf",
+            "format": "pdf",
+            "license": "LPPL-1.3c",
+            "notes": "LaTeX Awesome-CV example"
+        },
+        {
+            "id": "awesome-cv-alt",
+            "file": "pdf/awesome-cv-alt.pdf",
+            "url": "https://raw.githubusercontent.com/posquit0/Awesome-CV/master/examples/cv.pdf",
+            "format": "pdf",
+            "license": "LPPL-1.3c",
+            "notes": "Second Awesome-CV PDF layout"
+        },
+        {
+            "id": "jake-style-latex",
+            "file": "pdf/jake-style-latex.pdf",
+            "url": "https://raw.githubusercontent.com/Soham-coder/latex_resume/main/resume.pdf",
+            "format": "pdf",
+            "license": "MIT",
+            "notes": "Jake-style two-page LaTeX resume"
+        },
+        {
+            "id": "jobhire-chronological-docx",
+            "file": "docx/jobhire-chronological.docx",
+            "url": "https://raw.githubusercontent.com/jobhire-ai/jobhireai-resume-templates/main/templates/Chronological%20resume%20template.docx",
+            "format": "docx",
+            "license": "MIT",
+            "notes": "ATS chronological Word template"
+        }
+    ],
+    "local": [
+        {
+            "id": "toby-claxton",
+            "file": "../cv/toby-claxton-cv.pdf",
+            "format": "pdf",
+            "notes": "Real embedded-text PDF in repo fixtures"
+        }
+    ],
+    "generated": [
+        {
+            "id": "synthetic-uk-engineer-txt",
+            "file": "txt/synthetic-uk-engineer.txt",
+            "format": "txt",
+            "generator": "uk_engineer"
+        },
+        {
+            "id": "synthetic-us-designer-txt",
+            "file": "txt/synthetic-us-designer.txt",
+            "format": "txt",
+            "generator": "us_designer"
+        },
+        {
+            "id": "synthetic-marketing-txt",
+            "file": "txt/synthetic-marketing.txt",
+            "format": "txt",
+            "generator": "marketing"
+        },
+        {
+            "id": "synthetic-teaching-txt",
+            "file": "txt/synthetic-teaching.txt",
+            "format": "txt",
+            "generator": "teaching"
+        },
+        {
+            "id": "synthetic-legal-txt",
+            "file": "txt/synthetic-legal.txt",
+            "format": "txt",
+            "generator": "legal"
+        },
+        {
+            "id": "synthetic-operations-txt",
+            "file": "txt/synthetic-operations.txt",
+            "format": "txt",
+            "generator": "operations"
+        },
+        {
+            "id": "synthetic-uk-engineer-pdf",
+            "file": "pdf/synthetic-uk-engineer.pdf",
+            "format": "pdf",
+            "generator": "txt_to_pdf",
+            "source_txt": "txt/synthetic-uk-engineer.txt"
+        },
+        {
+            "id": "synthetic-healthcare-docx",
+            "file": "docx/synthetic-healthcare.docx",
+            "format": "docx",
+            "generator": "healthcare"
+        },
+        {
+            "id": "synthetic-finance-docx",
+            "file": "docx/synthetic-finance.docx",
+            "format": "docx",
+            "generator": "finance"
+        },
+        {
+            "id": "synthetic-academic-docx",
+            "file": "docx/synthetic-academic.docx",
+            "format": "docx",
+            "generator": "academic"
+        },
+        {
+            "id": "synthetic-sales-docx",
+            "file": "docx/synthetic-sales.docx",
+            "format": "docx",
+            "generator": "sales"
+        },
+        {
+            "id": "synthetic-retail-docx",
+            "file": "docx/synthetic-retail.docx",
+            "format": "docx",
+            "generator": "retail"
+        },
+        {
+            "id": "scan-awesome-cv-png",
+            "file": "png/scan-awesome-cv.png",
+            "format": "png",
+            "generator": "scan_pdf",
+            "source_pdf": "pdf/awesome-cv-latex.pdf"
+        },
+        {
+            "id": "scan-jake-png",
+            "file": "png/scan-jake-style.png",
+            "format": "png",
+            "generator": "scan_pdf",
+            "source_pdf": "pdf/jake-style-latex.pdf"
+        },
+        {
+            "id": "scan-toby-jpg",
+            "file": "jpg/scan-toby-claxton.jpg",
+            "format": "jpg",
+            "generator": "scan_pdf",
+            "source_pdf": "../cv/toby-claxton-cv.pdf",
+            "dpi": 300
+        }
+    ]
+}

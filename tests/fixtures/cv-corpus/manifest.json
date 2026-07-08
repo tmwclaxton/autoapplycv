@@ -1,0 +1,534 @@
+{
+    "version": 1,
+    "generated_at": "2026-07-08T08:37:11+00:00",
+    "scenarios": [
+        {
+            "id": "awesome-cv-latex",
+            "file": "pdf/awesome-cv-latex.pdf",
+            "format": "pdf",
+            "group": "downloads",
+            "notes": "LaTeX Awesome-CV example",
+            "license": "LPPL-1.3c",
+            "raw_chars": 9808,
+            "ocr_used": true,
+            "expectations": {
+                "min_raw_chars": 3432,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "sposquit0.bj@gmail.com"
+                ],
+                "phones_in_raw": [
+                    "+82) 10-9030-1843"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 0,
+                "must_appear": []
+            }
+        },
+        {
+            "id": "awesome-cv-alt",
+            "file": "pdf/awesome-cv-alt.pdf",
+            "format": "pdf",
+            "group": "downloads",
+            "notes": "Second Awesome-CV PDF layout",
+            "license": "LPPL-1.3c",
+            "raw_chars": 14630,
+            "ocr_used": true,
+            "expectations": {
+                "min_raw_chars": 5120,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "sposquit0.bj@gmail.com"
+                ],
+                "phones_in_raw": [
+                    "+82) 10-9030-1843",
+                    "2016 2013 2012 2012 2012"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": []
+            }
+        },
+        {
+            "id": "jake-style-latex",
+            "file": "pdf/jake-style-latex.pdf",
+            "format": "pdf",
+            "group": "downloads",
+            "notes": "Jake-style two-page LaTeX resume",
+            "license": "MIT",
+            "raw_chars": 9785,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 3424,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "sohammondal39@gmail.com"
+                ],
+                "phones_in_raw": [
+                    "+91-8335-5583",
+                    "10.0 2015"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": []
+            }
+        },
+        {
+            "id": "jobhire-chronological-docx",
+            "file": "docx/jobhire-chronological.docx",
+            "format": "docx",
+            "group": "downloads",
+            "notes": "ATS chronological Word template",
+            "license": "MIT",
+            "raw_chars": 1324,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 463,
+                "ocr_expected": false,
+                "emails_in_raw": [],
+                "phones_in_raw": [],
+                "min_experience": 0,
+                "min_education": 1,
+                "min_skills": 0,
+                "must_appear": []
+            }
+        },
+        {
+            "id": "toby-claxton",
+            "file": "../cv/toby-claxton-cv.pdf",
+            "format": "pdf",
+            "group": "local",
+            "notes": "Real embedded-text PDF in repo fixtures",
+            "license": null,
+            "raw_chars": 5063,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 1772,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "tmwclaxton@gmail.com"
+                ],
+                "phones_in_raw": [
+                    "+44 7837370669",
+                    "2020-2023"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": []
+            }
+        },
+        {
+            "id": "synthetic-uk-engineer-txt",
+            "file": "txt/synthetic-uk-engineer.txt",
+            "format": "txt",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 927,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 324,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "amelia.hartley@example.co.uk"
+                ],
+                "phones_in_raw": [
+                    "+44 7700 900456",
+                    "2017 - 2021"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": [
+                    "Amelia Hartley",
+                    "Laravel"
+                ]
+            }
+        },
+        {
+            "id": "synthetic-us-designer-txt",
+            "file": "txt/synthetic-us-designer.txt",
+            "format": "txt",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 723,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 253,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "jordan.lee.design@example.com"
+                ],
+                "phones_in_raw": [
+                    "415) 555-0182"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": [
+                    "Jordan Lee",
+                    "Figma"
+                ]
+            }
+        },
+        {
+            "id": "synthetic-marketing-txt",
+            "file": "txt/synthetic-marketing.txt",
+            "format": "txt",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 615,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 215,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "sofia.alvarez@example.com"
+                ],
+                "phones_in_raw": [
+                    "+1 512 555 0199"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": [
+                    "Sofia Alvarez",
+                    "HubSpot"
+                ]
+            }
+        },
+        {
+            "id": "synthetic-teaching-txt",
+            "file": "txt/synthetic-teaching.txt",
+            "format": "txt",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 641,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 224,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "thomas.wright@school.example.org"
+                ],
+                "phones_in_raw": [
+                    "+44 113 555 0177",
+                    "2018 - 2019"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": [
+                    "Thomas Wright",
+                    "Chemistry"
+                ]
+            }
+        },
+        {
+            "id": "synthetic-legal-txt",
+            "file": "txt/synthetic-legal.txt",
+            "format": "txt",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 615,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 215,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "hannah.brooks@law.example.com"
+                ],
+                "phones_in_raw": [
+                    "+44 20 7946 0958",
+                    "2018 - 2020"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": [
+                    "Hannah Brooks",
+                    "Solicitor"
+                ]
+            }
+        },
+        {
+            "id": "synthetic-operations-txt",
+            "file": "txt/synthetic-operations.txt",
+            "format": "txt",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 612,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 214,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "daniel.okonkwo@example.ie"
+                ],
+                "phones_in_raw": [
+                    "+353 1 555 0144",
+                    "2015 - 2019"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": [
+                    "Daniel Okonkwo",
+                    "Operations"
+                ]
+            }
+        },
+        {
+            "id": "synthetic-uk-engineer-pdf",
+            "file": "pdf/synthetic-uk-engineer.pdf",
+            "format": "pdf",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 933,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 326,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "amelia.hartley@example.co.uk"
+                ],
+                "phones_in_raw": [
+                    "+44 7700 900456",
+                    "2017 - 2021"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": [
+                    "Amelia Hartley",
+                    "Laravel"
+                ]
+            }
+        },
+        {
+            "id": "synthetic-healthcare-docx",
+            "file": "docx/synthetic-healthcare.docx",
+            "format": "docx",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 493,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 172,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "priya.nair@nhs.example.nhs.uk"
+                ],
+                "phones_in_raw": [
+                    "+44 121 555 0101",
+                    "2012 - 2018"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": [
+                    "Priya Nair",
+                    "Paediatrician"
+                ]
+            }
+        },
+        {
+            "id": "synthetic-finance-docx",
+            "file": "docx/synthetic-finance.docx",
+            "format": "docx",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 405,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 141,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "marcus.chen@example.com"
+                ],
+                "phones_in_raw": [
+                    "+1 212 555 0144",
+                    "2016 - 2019"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": [
+                    "Marcus Chen",
+                    "Financial Analyst"
+                ]
+            }
+        },
+        {
+            "id": "synthetic-academic-docx",
+            "file": "docx/synthetic-academic.docx",
+            "format": "docx",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 574,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 200,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "e.vasquez@university.example.edu"
+                ],
+                "phones_in_raw": [
+                    "2014 - 2017"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": [
+                    "Elena Vasquez",
+                    "Computational Biology"
+                ]
+            }
+        },
+        {
+            "id": "synthetic-sales-docx",
+            "file": "docx/synthetic-sales.docx",
+            "format": "docx",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 412,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 144,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "rachel.gomez@example.com"
+                ],
+                "phones_in_raw": [
+                    "+1 312 555 0166",
+                    "2018 - 2020"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": [
+                    "Rachel Gomez",
+                    "Enterprise"
+                ]
+            }
+        },
+        {
+            "id": "synthetic-retail-docx",
+            "file": "docx/synthetic-retail.docx",
+            "format": "docx",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 423,
+            "ocr_used": false,
+            "expectations": {
+                "min_raw_chars": 148,
+                "ocr_expected": false,
+                "emails_in_raw": [
+                    "nina.patel@example.co.uk"
+                ],
+                "phones_in_raw": [
+                    "+44 117 555 0133",
+                    "2016 - 2019"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": [
+                    "Nina Patel",
+                    "Store Manager"
+                ]
+            }
+        },
+        {
+            "id": "scan-awesome-cv-png",
+            "file": "png/scan-awesome-cv.png",
+            "format": "png",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 3361,
+            "ocr_used": true,
+            "expectations": {
+                "min_raw_chars": 1176,
+                "ocr_expected": true,
+                "emails_in_raw": [
+                    "sposquit0.bj@gmail.com"
+                ],
+                "phones_in_raw": [
+                    "+82) 10-9030-1843"
+                ],
+                "min_experience": 2,
+                "min_education": 0,
+                "min_skills": 0,
+                "must_appear": []
+            }
+        },
+        {
+            "id": "scan-jake-png",
+            "file": "png/scan-jake-style.png",
+            "format": "png",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 3345,
+            "ocr_used": true,
+            "expectations": {
+                "min_raw_chars": 1170,
+                "ocr_expected": true,
+                "emails_in_raw": [
+                    "sohammondal39@gmail.com"
+                ],
+                "phones_in_raw": [
+                    "+91-8335-5583",
+                    "10.0 2015"
+                ],
+                "min_experience": 2,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": []
+            }
+        },
+        {
+            "id": "scan-toby-jpg",
+            "file": "jpg/scan-toby-claxton.jpg",
+            "format": "jpg",
+            "group": "generated",
+            "notes": null,
+            "license": null,
+            "raw_chars": 2630,
+            "ocr_used": true,
+            "expectations": {
+                "min_raw_chars": 200,
+                "ocr_expected": true,
+                "emails_in_raw": [
+                    "tmwclaxton@gmail.com"
+                ],
+                "phones_in_raw": [
+                    "+44 7837370669",
+                    "2020-2023"
+                ],
+                "min_experience": 1,
+                "min_education": 1,
+                "min_skills": 3,
+                "must_appear": [
+                    "Toby Claxton"
+                ]
+            }
+        }
+    ]
+}
