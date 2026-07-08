@@ -1,0 +1,326 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-62",
+  "min_fields": 14,
+  "exact_field_count": 14,
+  "fields": [
+    {
+      "question": "are you authorized to work in the united states for any employer?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_11141541004",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now or in the future require visa sponsorship?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_11141542004",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what name do you want to be addressed by in our conversations? you can include pronunciation here also!",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "ee34d28f-66c7-4295-9c56-b00af9409875",
+        "name": "ee34d28f-66c7-4295-9c56-b00af9409875",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "ee34d28f-66c7-4295-9c56-b00af9409875",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your pronouns?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "She/Her",
+        "She/They",
+        "They/Them",
+        "He/Him",
+        "He/They",
+        "I prefer not to say."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "7e37543f-c2c4-45b1-8a7f-d0b5cb885e2f_c4926023-de1a-43c7-85f2-895ae1fd9bcc-labeled-radio-0",
+        "name": "7e37543f-c2c4-45b1-8a7f-d0b5cb885e2f_c4926023-de1a-43c7-85f2-895ae1fd9bcc",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "phone",
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "phone",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about centivo?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_7233848004",
+        "name": "question_7233848004",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_7233848004",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_5381619004",
+        "name": "question_5381619004",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_5381619004",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which office are you interested in working out of?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Remote",
+        "New York City",
+        "Buffalo"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "7e37543f-c2c4-45b1-8a7f-d0b5cb885e2f_question_5381773004[]-labeled-checkbox-0",
+        "name": "Remote",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which department(s) do you consider yourself a fit for?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Healthcare Finance & Analytics",
+        "Technology & Development",
+        "Sales",
+        "Product",
+        "People",
+        "Operations/Member Care/Claims",
+        "Network (Provider)",
+        "Marketing",
+        "Corporate",
+        "Clinical",
+        "Client Success"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "7e37543f-c2c4-45b1-8a7f-d0b5cb885e2f_question_5381774004[]-labeled-checkbox-0",
+        "name": "Healthcare Finance & Analytics",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which best describes your career experience today?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Executive Leader",
+        "Team Leader",
+        "Manager",
+        "Expert",
+        "Individual Contributor",
+        "Entry-Level",
+        "Student or Recent Graduate"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "7e37543f-c2c4-45b1-8a7f-d0b5cb885e2f_question_5381775004-labeled-radio-0",
+        "name": "7e37543f-c2c4-45b1-8a7f-d0b5cb885e2f_question_5381775004",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your desired salary? (we consider this as an additional data point, along with candidate skills and qualifications as part of our process. we understand this is tough to answer given the application isn't for any role in particular and we want to be considerate of your time!)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_5381618004",
+        "name": "question_5381618004",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_5381618004",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "a cover letter seems unnecessary at this point, but we want to give you an opportunity to share more about yourself. please use this space to tell us about your background or what you are looking for in a future role.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "question_7233849004",
+        "name": "question_7233849004",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "question_7233849004",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -12,12 +12,16 @@ const limit = Number(process.argv.find((arg) => arg.startsWith('--limit='))?.spl
 const minFields = Number(process.argv.find((arg) => arg.startsWith('--min-fields='))?.split('=')[1] || 2);
 const firecrawlDelayMs = Number(process.argv.find((arg) => arg.startsWith('--delay='))?.split('=')[1] || 1200);
 const maxAttempts = Number(process.argv.find((arg) => arg.startsWith('--max-attempts='))?.split('=')[1] || Math.max(limit * 80, 400));
+const concurrency = Math.max(1, Number(process.argv.find((arg) => arg.startsWith('--concurrency='))?.split('=')[1] || 1));
 const directOnlyFlag = process.argv.includes('--direct-only');
+const staticFirst = process.argv.includes('--static-first');
+const applyOnly = process.argv.includes('--apply-only');
 let directOnly = directOnlyFlag;
 const maxConsecutiveCreditFailures = 8;
 
 const SKIP_URL_PATTERN = /youtube\.com|youtu\.be|\.pdf$|scribd\.com|themeforest\.net|linkedin\.com\/jobs\/view|indeed\.com\/viewjob|glassdoor\.com\/Job|twitter\.com|x\.com\/|facebook\.com|instagram\.com|reddit\.com\/r\//i;
 const STATIC_HOST_PATTERN = /github\.io|netlify\.app|codepen\.io|vercel\.app|glitch\.me|pages\.dev|surge\.sh|100forms\.com|jotform\.com|w3schools\.com|surveyjs\.io|formbold|aidaform|form\.taxi|formnx\.com|123formbuilder|zoho\.com|acas\.org\.uk|freecodecamp\.org\/learn/i;
+const APPLY_PATH_PATTERN = /\/apply(?:\/|$|\?)|\/application(?:\/|$|\?)|\/applications\/new|oneclick-ui|useMyLastApplication/i;
 const ATS_HOST_PATTERN = /boards\.greenhouse\.io|jobs\.lever\.co|jobs\.eu\.lever\.co|jobs\.ashbyhq\.com|apply\.workable\.com|jobs\.smartrecruiters\.com|myworkdayjobs\.com|breezy\.hr|recruitee\.com|teamtailor\.com|icims\.com|bamboohr\.com|jobs\.nhs\.uk|civil-service-careers\.gov\.uk/i;
 
 function urlPriority(url) {
@@ -32,8 +36,20 @@ function urlPriority(url) {
             return -20;
         }
 
+        if (staticFirst && STATIC_HOST_PATTERN.test(parsed.hostname + parsed.pathname)) {
+            return 30;
+        }
+
+        if (applyOnly && !APPLY_PATH_PATTERN.test(parsed.pathname + parsed.search)) {
+            return -30;
+        }
+
+        if (APPLY_PATH_PATTERN.test(parsed.pathname + parsed.search)) {
+            return 35;
+        }
+
         if (!directOnly && ATS_HOST_PATTERN.test(parsed.hostname + parsed.pathname)) {
-            return 20;
+            return staticFirst ? 5 : 20;
         }
 
         if (STATIC_HOST_PATTERN.test(parsed.hostname + parsed.pathname)) {
@@ -50,6 +66,48 @@ function urlPriority(url) {
     }
 }
 
+function normalizeUrl(url) {
+    try {
+        const parsed = new URL(url);
+        parsed.hash = '';
+
+        return parsed.href.replace(/\/$/, '');
+    } catch {
+        return url;
+    }
+}
+
+function applyUrlVariants(url) {
+    const variants = [url];
+
+    try {
+        const parsed = new URL(url);
+
+        if (/jobs\.(eu\.)?lever\.co/i.test(parsed.hostname) && !parsed.pathname.endsWith('/apply')) {
+            const uuidMatch = parsed.pathname.match(/\/([0-9a-f-]{36})$/i);
+
+            if (uuidMatch) {
+                parsed.pathname = `${parsed.pathname.replace(/\/$/, '')}/apply`;
+                variants.unshift(parsed.href);
+            }
+        }
+
+        if (/boards\.(eu\.)?greenhouse\.io/i.test(parsed.hostname) && /\/jobs\/\d+$/i.test(parsed.pathname) && !parsed.pathname.endsWith('/apply')) {
+            const applyUrl = new URL(url);
+            applyUrl.pathname = `${applyUrl.pathname}/apply`;
+            variants.unshift(applyUrl.href);
+        }
+    } catch {
+        // keep original
+    }
+
+    return [...new Set(variants.map((candidate) => normalizeUrl(candidate)))];
+}
+
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 if (!existsSync(DISCOVERED_URLS_PATH)) {
     console.error('Run discover.mjs first.');
     process.exit(1);
@@ -62,25 +120,75 @@ const manifest = loadManifest();
 const existingUrls = new Set(
     manifest.scenarios
         .flatMap((scenario) => [scenario.source_url, scenario.page_url].filter(Boolean))
-        .map((url) => {
-            try {
-                const normalized = new URL(url);
-                normalized.hash = '';
-
-                return normalized.href.replace(/\/$/, '');
-            } catch {
-                return url;
-            }
-        }),
+        .map((url) => normalizeUrl(url)),
 );
 let scraped = 0;
 let accepted = 0;
 let skippedExisting = 0;
 let consecutiveCreditFailures = 0;
 
-const candidateUrls = [...discovered.urls].sort((left, right) => urlPriority(right.url) - urlPriority(left.url));
+const candidateUrls = [...discovered.urls]
+    .sort((left, right) => urlPriority(right.url) - urlPriority(left.url))
+    .filter((row) => {
+        if (!applyOnly) {
+            return true;
+        }
 
-for (const row of candidateUrls) {
+        try {
+            const parsed = new URL(row.url);
+
+            return APPLY_PATH_PATTERN.test(parsed.pathname + parsed.search);
+        } catch {
+            return false;
+        }
+    })
+    .filter((row) => !existingUrls.has(normalizeUrl(row.url)));
+
+console.log(`Scrape queue: ${candidateUrls.length} new URLs (concurrency ${concurrency}, target ${limit}).`);
+
+async function scrapeCandidate(row) {
+    const title = row.title || 'Job Application';
+    let lastSkip = { status: 'skip', reason: 'empty HTML', url: row.url };
+
+    for (const url of applyUrlVariants(row.url)) {
+        if (firecrawlDelayMs > 0 && !directOnly) {
+            await sleep(firecrawlDelayMs);
+        }
+
+        const html = await scrapeHtml(url, staticFirst ? 8000 : 8000, { directOnly });
+
+        if (!html || html.length < 500) {
+            lastSkip = { status: 'skip', reason: 'empty HTML', url };
+            continue;
+        }
+
+        if (!/<form[\s>]/i.test(html) && !/<input[\s>]/i.test(html) && !/<textarea[\s>]/i.test(html) && !/<select[\s>]/i.test(html)) {
+            lastSkip = { status: 'skip', reason: 'no form controls', url };
+            continue;
+        }
+
+        const snapshot = buildSnapshotFromHtml({ html, pageUrl: url, pageTitle: title });
+
+        if ((snapshot.elements?.length || 0) < minFields) {
+            lastSkip = { status: 'skip', reason: `only ${snapshot.elements?.length || 0} draftable fields`, url };
+            continue;
+        }
+
+        return {
+            status: 'accept',
+            url,
+            normalizedUrl: normalizeUrl(url),
+            html,
+            title,
+            fieldCount: snapshot.elements.length,
+            description: row.description || '',
+        };
+    }
+
+    return lastSkip;
+}
+
+for (let index = 0; index < candidateUrls.length; index += concurrency) {
     if (consecutiveCreditFailures >= maxConsecutiveCreditFailures) {
         console.log(`Stopping early: ${maxConsecutiveCreditFailures} consecutive Firecrawl credit/rate failures.`);
         break;
@@ -95,52 +203,46 @@ for (const row of candidateUrls) {
         break;
     }
 
-    const url = row.url;
-    let normalizedUrl = url;
+    const batch = candidateUrls.slice(index, index + concurrency).filter(() => scraped + accepted < maxAttempts && accepted < limit);
+    const batchStart = scraped + 1;
 
-    try {
-        const parsed = new URL(url);
-        parsed.hash = '';
-        normalizedUrl = parsed.href.replace(/\/$/, '');
-    } catch {
-        // keep raw url
+    for (const row of batch) {
+        scraped += 1;
+        console.log(`Scraping (${scraped}, target ${limit} new): ${row.url}`);
     }
 
-    if (existingUrls.has(normalizedUrl)) {
-        skippedExisting += 1;
-        continue;
-    }
+    const results = await Promise.allSettled(batch.map((row) => scrapeCandidate(row)));
 
-    scraped += 1;
-    console.log(`Scraping (${scraped}, target ${limit} new): ${url}`);
-
-    try {
-        if (firecrawlDelayMs > 0 && !directOnly) {
-            await new Promise((resolve) => setTimeout(resolve, firecrawlDelayMs));
+    for (const result of results) {
+        if (accepted >= limit) {
+            break;
         }
 
-        const html = await scrapeHtml(url, 3000, { directOnly });
+        if (result.status === 'rejected') {
+            const message = result.reason?.message || String(result.reason);
+            console.log(`  failed: ${message}`);
+
+            if (isCreditError(message) || /rate limit exceeded/i.test(message)) {
+                consecutiveCreditFailures += 1;
+
+                if (!directOnly && consecutiveCreditFailures >= 3) {
+                    console.log('  switching to direct-fetch only for remaining URLs');
+                    directOnly = true;
+                }
+            }
+
+            continue;
+        }
+
         consecutiveCreditFailures = 0;
+        const payload = result.value;
 
-        if (!html || html.length < 500) {
-            console.log('  skipped: empty HTML');
+        if (payload.status === 'skip') {
+            console.log(`  skipped: ${payload.reason}`);
             continue;
         }
 
-        if (!/<form[\s>]/i.test(html) && !/<input[\s>]/i.test(html) && !/<textarea[\s>]/i.test(html) && !/<select[\s>]/i.test(html)) {
-            console.log('  skipped: no form controls');
-            continue;
-        }
-
-        const title = row.title || 'Job Application';
-        const snapshot = buildSnapshotFromHtml({ html, pageUrl: url, pageTitle: title });
-
-        if ((snapshot.elements?.length || 0) < minFields) {
-            console.log(`  skipped: only ${snapshot.elements?.length || 0} draftable fields`);
-            continue;
-        }
-
-        const urlObject = new URL(url);
+        const urlObject = new URL(payload.url);
         const idBase = `web-${slugify(urlObject.hostname)}-${slugify(urlObject.pathname.split('/').filter(Boolean).pop() || 'page')}`;
         let id = idBase.slice(0, 72);
         let suffix = 1;
@@ -151,34 +253,26 @@ for (const row of candidateUrls) {
         }
 
         const filename = `${id}.html`;
-        writeHtmlFixture(join(HTML_DIR, filename), html);
+        writeHtmlFixture(join(HTML_DIR, filename), payload.html);
         upsertScenario(manifest, {
             id,
             category: 'scraped',
             source: directOnly ? 'direct-fetch' : 'firecrawl',
-            source_url: url,
+            source_url: payload.url,
             status: 'pending',
             html_file: filename,
-            page_url: url,
-            page_title: title,
-            notes: row.description || '',
+            page_url: payload.url,
+            page_title: payload.title,
+            notes: payload.description,
         });
-        existingUrls.add(normalizedUrl);
+        existingUrls.add(payload.normalizedUrl);
         accepted += 1;
         saveManifest(manifest);
-        console.log(`  accepted: ${snapshot.elements.length} fields → ${id}`);
-    } catch (error) {
-        const message = error.message || String(error);
-        console.log(`  failed: ${message}`);
+        console.log(`  accepted: ${payload.fieldCount} fields → ${id}`);
+    }
 
-        if (isCreditError(message) || /rate limit exceeded/i.test(message)) {
-            consecutiveCreditFailures += 1;
-
-            if (!directOnly && consecutiveCreditFailures >= 3) {
-                console.log('  switching to direct-fetch only for remaining URLs');
-                directOnly = true;
-            }
-        }
+    if (batchStart % 20 === 1 && accepted > 0) {
+        console.log(`Progress: ${accepted}/${limit} accepted after ${scraped} attempts.`);
     }
 }
 

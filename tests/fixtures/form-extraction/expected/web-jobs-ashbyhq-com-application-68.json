@@ -1,0 +1,382 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-68",
+  "min_fields": 17,
+  "exact_field_count": 17,
+  "fields": [
+    {
+      "question": "full legal name (first & last name)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "9110a173-be97-4577-ba6a-5f3d6d73c0e0",
+        "name": "9110a173-be97-4577-ba6a-5f3d6d73c0e0",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "9110a173-be97-4577-ba6a-5f3d6d73c0e0",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name pronunciation (optional)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "7b03e28c-b427-4539-bef0-16281532879c",
+        "name": "7b03e28c-b427-4539-bef0-16281532879c",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "7b03e28c-b427-4539-bef0-16281532879c",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gender pronouns",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "7b815cb4-ba61-4270-8445-6442974420ef",
+        "name": "7b815cb4-ba61-4270-8445-6442974420ef",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "7b815cb4-ba61-4270-8445-6442974420ef",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "2ee54602-c53a-49ca-9742-489da996410e",
+        "name": "2ee54602-c53a-49ca-9742-489da996410e",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "2ee54602-c53a-49ca-9742-489da996410e",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current city & state",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4088338d-8f31-40b9-9e95-7de7e1af972d",
+        "name": "4088338d-8f31-40b9-9e95-7de7e1af972d",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "4088338d-8f31-40b9-9e95-7de7e1af972d",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "in 3–4 sentences, describe how you use (or choose not to use) ai tools in your work.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "b29d9c89-0508-496f-844c-050021c343e6",
+        "name": "b29d9c89-0508-496f-844c-050021c343e6",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b29d9c89-0508-496f-844c-050021c343e6",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "0259366c-cb53-4b00-a565-72d69f45004c",
+        "name": "0259366c-cb53-4b00-a565-72d69f45004c",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "0259366c-cb53-4b00-a565-72d69f45004c",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github, portfolio url, or other website",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "c71decea-4562-463e-a9a7-ff2e077c5e70",
+        "name": "c71decea-4562-463e-a9a7-ff2e077c5e70",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "c71decea-4562-463e-a9a7-ff2e077c5e70",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "work authorization",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I require/will require now or in the future Scribd's sponsorship to obtain work authorization in the country in which this position is based (e.g H-1B, TN, F1 etc.)",
+        "My status to work in the country in which this position is based is unknown.",
+        "I am authorized to work for any employer in the country in which this position is based"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "c43bdc5b-5d31-423f-953e-2e4a15646dd2_275f4884-cb1e-4f0a-b753-de18793da3f1-labeled-radio-0",
+        "name": "c43bdc5b-5d31-423f-953e-2e4a15646dd2_275f4884-cb1e-4f0a-b753-de18793da3f1",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you currently based in a location where scribd is able to employ you? employees must have their primary residence in or near one of the following cities (including surrounding metro areas within typical commuting distance)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes - I currently reside in one of them.",
+        "No - I am open to relocating to an eligible location.",
+        "No - I do not reside in an eligible location & relocation is not an option."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "c43bdc5b-5d31-423f-953e-2e4a15646dd2_1dfafe00-a670-45d4-b52d-a385000dceb1-labeled-radio-0",
+        "name": "c43bdc5b-5d31-423f-953e-2e4a15646dd2_1dfafe00-a670-45d4-b52d-a385000dceb1",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i most closely identify with the following racial and/or ethnic group(s)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "White or Caucasian",
+        "Hispanic",
+        "Black or African-American",
+        "Asian",
+        "Indigenous Peoples, First Nations, Native American, or Alaska Native",
+        "Native Hawaiian or other Pacific Islander",
+        "Middle Eastern or North African",
+        "Other race, ethnicity, or origin",
+        "I do not wish to disclose"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "c43bdc5b-5d31-423f-953e-2e4a15646dd2_65eedd96-8e11-45cf-b90b-6ea9cabeb5cf-labeled-checkbox-0",
+        "name": "White or Caucasian",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please select the gender identity you most closely identify with",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Female",
+        "Male",
+        "Non-binary",
+        "Agender",
+        "Other gender identity",
+        "I do not wish to disclose"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "c43bdc5b-5d31-423f-953e-2e4a15646dd2_200ed5c0-249a-4566-b1b0-9565621ca932-labeled-radio-0",
+        "name": "c43bdc5b-5d31-423f-953e-2e4a15646dd2_200ed5c0-249a-4566-b1b0-9565621ca932",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you identify as a person with a disability?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "I do not wish to disclose"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "c43bdc5b-5d31-423f-953e-2e4a15646dd2_b52616f2-83e1-424d-ae95-e411a4cc1b53-labeled-radio-0",
+        "name": "c43bdc5b-5d31-423f-953e-2e4a15646dd2_b52616f2-83e1-424d-ae95-e411a4cc1b53",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you identify as a veteran?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "I do not wish to disclose"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "c43bdc5b-5d31-423f-953e-2e4a15646dd2_5143bab5-e3ee-42bd-b3ca-1553e2f646fd-labeled-radio-0",
+        "name": "c43bdc5b-5d31-423f-953e-2e4a15646dd2_5143bab5-e3ee-42bd-b3ca-1553e2f646fd",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

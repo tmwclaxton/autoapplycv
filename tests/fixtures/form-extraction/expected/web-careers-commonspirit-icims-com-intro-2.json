@@ -1,0 +1,144 @@
+{
+  "id": "web-careers-commonspirit-icims-com-intro-2",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "keyword search enter a keyword or skill to search",
+      "field_type": "search",
+      "max_chars": 150,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "search-keyword-ded26d07da",
+        "name": "k",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Enter a Keyword or Skill to Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location city, state, or zip",
+      "field_type": "select",
+      "max_chars": 150,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "search-location-ded26d07da",
+        "name": "l",
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": "City, State, or ZIP",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "form-field-562f574ffa",
+        "name": "EmailAddress",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "interested in",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select a Job Category",
+        "Accounting and Finance",
+        "Administrative and Clerical",
+        "Allied Health",
+        "Billing and Scheduling",
+        "Business Development",
+        "Case Management and Social Work",
+        "Cath Lab Nursing",
+        "Chaplain",
+        "Clinical Engineering",
+        "Clinical Informatics",
+        "Dietary",
+        "Education and Training",
+        "Emergency Nursing",
+        "Engineering",
+        "Executive",
+        "Facilities",
+        "Home Health and Hospice",
+        "Housekeeping",
+        "Human Resources",
+        "ICU Nurse",
+        "Information Technology",
+        "Intern and Extern",
+        "Labor and Delivery Nursing",
+        "Laboratory",
+        "LVN and LPN",
+        "Managed Care",
+        "Management",
+        "Marketing and Communications",
+        "Materials Management"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "form-field-690fd13bf0-category",
+        "name": "Category",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "confirm email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "form-field-2",
+        "name": "EmailConfirm",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next"
+    }
+  ],
+  "vet_notes": []
+}

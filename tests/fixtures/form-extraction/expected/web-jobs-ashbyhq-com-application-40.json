@@ -1,0 +1,439 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-40",
+  "min_fields": 19,
+  "exact_field_count": 19,
+  "fields": [
+    {
+      "question": "are you available to work 9 am - 5 pm est?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "be594c8d-6bf0-4315-882d-717986fa4f6b",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have any friends, family members, or personal connections currently working at scale army or involved in any of our projects?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "889070f3-79f4-4546-ab5f-003d076ecd7f",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "did you submit your video using the same email you are entering in this application form?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "9b663105-11a3-4ec1-9b25-cee61dfc582a",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you comfortable with us using your video for marketing purposes (ex: social, web, email, etc.) to help more hiring managers see your application?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "86cb62a6-fa13-43e4-a872-c393598e1e47",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full name:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email:",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number:",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "83d990e9-a0e6-4b0e-8c45-c693f6b5fefe",
+        "name": "83d990e9-a0e6-4b0e-8c45-c693f6b5fefe",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "83d990e9-a0e6-4b0e-8c45-c693f6b5fefe",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your level of english proficiency?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Basic – I can understand and use simple phrases but struggle with professional conversations.",
+        "Intermediate – I can communicate in English in most situations but may make occasional mistakes or need support with complex topics.",
+        "Advanced – I can speak and write fluently with few errors and feel confident in professional settings.",
+        "Native / Bilingual – English is my first language or I speak it at a native level with complete fluency."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "9e43f5da-0902-423e-8c3c-772682096c6b_13364ef3-5410-4435-93ce-98754b4f6a50-labeled-radio-0",
+        "name": "9e43f5da-0902-423e-8c3c-772682096c6b_13364ef3-5410-4435-93ce-98754b4f6a50",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what's your expected monthly compensation in usd for a 40h/week (full-time) role?",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "c44b44ed-0ec6-4892-aae2-81519306e798",
+        "name": "c44b44ed-0ec6-4892-aae2-81519306e798",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "c44b44ed-0ec6-4892-aae2-81519306e798",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what's your expected monthly compensation in usd for a 20h/week (part-time) role?",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "570e6a25-2431-486f-aee5-1343db372ef8",
+        "name": "570e6a25-2431-486f-aee5-1343db372ef8",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "570e6a25-2431-486f-aee5-1343db372ef8",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what country will you be working from?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "were you referred by a current scale army contractor? if yes, please add their full name.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "44a42f32-8b63-4603-8815-461d3fd6b241",
+        "name": "44a42f32-8b63-4603-8815-461d3fd6b241",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "44a42f32-8b63-4603-8815-461d3fd6b241",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of experience do you have in inside sales, phone sales, appointment setting, lead qualification, or high-volume outbound calling environments?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "1 year - 3 years",
+        "4 years - 6 years",
+        "7 years - 9 years",
+        "10 years - 15+ years"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "9e43f5da-0902-423e-8c3c-772682096c6b_3f715d5e-5f2c-48c3-bb1a-a3e928c0fd51-labeled-radio-0",
+        "name": "9e43f5da-0902-423e-8c3c-772682096c6b_3f715d5e-5f2c-48c3-bb1a-a3e928c0fd51",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "tell us about your experience working warm inbound leads. what types of leads were you responsible for, and how did you qualify them?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "be0f2ff2-587c-498e-b55a-49cea0eb63cf",
+        "name": "be0f2ff2-587c-498e-b55a-49cea0eb63cf",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "be0f2ff2-587c-498e-b55a-49cea0eb63cf",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "describe your experience working in a high-volume outbound calling environment. what were your daily activity expectations and performance metrics?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "b0a8838e-26e0-4bfc-95b1-50295273b40b",
+        "name": "b0a8838e-26e0-4bfc-95b1-50295273b40b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b0a8838e-26e0-4bfc-95b1-50295273b40b",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "tell us about your experience using a structured sales process to build rapport, overcome objections, and guide prospects toward a desired outcome.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "de3d9113-14a0-4a06-8bef-0d50c38924ab",
+        "name": "de3d9113-14a0-4a06-8bef-0d50c38924ab",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "de3d9113-14a0-4a06-8bef-0d50c38924ab",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following responsibilities, tools, and environments have you directly worked with?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Warm lead follow-up",
+        "Lead qualification",
+        "Appointment setting",
+        "High-volume outbound calling",
+        "Inbound lead management",
+        "Objection handling",
+        "CRM systems",
+        "Dialing platforms",
+        "Prospect documentation",
+        "Lead disposition tracking",
+        "Pipeline management",
+        "Follow-up communications",
+        "Meeting daily call targets",
+        "Meeting sales targets",
+        "Quality assurance programs",
+        "Sales coaching programs",
+        "Call center environment",
+        "Retail sales",
+        "Hospitality sales",
+        "Customer-facing sales",
+        "Education sales",
+        "Admissions sales",
+        "Relationship building over the phone",
+        "None of the above"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "9e43f5da-0902-423e-8c3c-772682096c6b_1040ac10-b19a-4708-8e0a-7288a3f57a31-labeled-checkbox-0",
+        "name": "Warm lead follow-up",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how do you use ai in your work?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "862af5d1-4c67-4154-ab84-838c37036bcb",
+        "name": "862af5d1-4c67-4154-ab84-838c37036bcb",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "862af5d1-4c67-4154-ab84-838c37036bcb",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "would you like to subscribe to our newsletter?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes, keep me updated",
+        "No, I do not want to receive these emails"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "9e43f5da-0902-423e-8c3c-772682096c6b_8f69b6b3-3fe0-4c6b-b3fc-27876628a795-labeled-checkbox-0",
+        "name": "Yes, keep me updated",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

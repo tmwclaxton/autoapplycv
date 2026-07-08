@@ -1,0 +1,49 @@
+{
+  "id": "web-help-form-io-dynamic-values-in-radio-or-select-box",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "search search…",
+      "field_type": "text",
+      "max_chars": 512,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "search-input",
+        "data_testid": "search-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search…",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "assistant chat input ask, search, or explain...",
+      "field_type": "textarea",
+      "max_chars": 2048,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": null,
+        "name": "ai-chat-input",
+        "data_testid": "ai-chat-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ask, search, or explain...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

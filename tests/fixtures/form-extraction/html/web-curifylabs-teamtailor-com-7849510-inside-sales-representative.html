@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Inside Sales Representative - CurifyLabs</title>
+</head>
+<body>
+<form>
+<dialog data-controller="common--cookies--alert" data-common--cookies--alert-block-scripts-value="true" data-common--cookies--alert-takeover-modal-value="false" data-common--cookies--alert-show-cookie-widget-value="true" class="company-links fixed shadow-form w-auto items-center rounded p-4 bg-company-primary text-company-primary overflow-y-auto border-none max-h-[80vh] z-cookie-alert lg:gap-x-6 lg:max-h-[calc(100vh-40px)] flex-col inset-x-4 bottom-4 mb-0 mt-auto justify-between !translate-y-0 !top-0 lg:p-10 lg:flex-row lg:inset-x-[40px] lg:mb-6">
+
+    <div class="w-full max-w-screen-xl overflow-y-auto">
+      <h2 class="font-bold block text-md mb-2">This website uses cookies to ensure you get the best experience.</h2>
+
+      <p class="mb-2">
+        CurifyLabs and our selected partners use cookies and similar technologies (together “cookies”) that are necessary to present this website, and to ensure you get the best experience of it.
+
+          If you consent to it, we will also use cookies for analytics and marketing purposes.
+      </p>
+
+      <p class="mb-2">See our <a class="company-link" href="https://curifylabs.teamtailor.com/cookie-policy">Cookie Policy</a> to read more about the cookies we set.</p>
+
+      <p>You can withdraw and manage your consent at any time, by clicking “Manage cookies” at the bottom of each website page.</p>
+</div>
+    <div class="
+        flex flex-col items-center gap-[10px] mt-6 flex-shrink-0 mb-2 w-full
+        md:flex-row md:w-auto lg:flex-col
+      ">
+      <button class="careersite-button w-full" aria-label="Accept all cookies" data-action="click->common--cookies--alert#acceptAll">Accept all cookies</button>
+
+        <button class="careersite-button w-full" aria-label="Decline all non-necessary cookies" data-action="click->common--cookies--alert#disableAll">Decline all non-necessary cookies</button>
+
+      <button class="careersite-button w-full" aria-label="Cookie preferences" data-action="click->common--cookies--alert#openPreferences">Cookie preferences</button>
+    </div>
+</dialog>
+
+      <dialog data-controller="common--cookies--preferences" data-common--cookies--preferences-checked-categories-value="[]" data-action="open-cookie-preferences@window->common--cookies--preferences#open" class="company-links bg-company-primary text-company-primary shadow-form inset-x-4 mb-4 rounded max-w-screen-sm p-4 overflow-auto max-h-[80vh] z-cookie-alert backdrop:bg-[rgba(0,0,0,0.6)] sm:p-10 sm:mb-auto fixed top-2">
+  <div class="mb-5 text-center;">
+    <h2 class="font-bold mb-2 text-lg">Select which cookies you accept</h2>
+    <p class="text-left mb-2">On this site, we always set cookies that are strictly necessary, meaning they are necessary for the site to function properly.</p>
+    <p class="text-left mb-2">If you consent to it, we will also set other types of cookies. You can provide or withdraw your consent to the different types of cookies using the toggles below. You can change or withdraw your consent at any time, by clicking the link “Manage Cookies”, which is always available at the bottom of the site.</p>
+    <p class="text-left">To learn more about what the different types of cookies do, how your data is used when they are set etc, see our <a href="https://curifylabs.teamtailor.com/cookie-policy">Cookie Policy</a>.</p>
+  </div>
+
+  <div class="mb-10 text-sm leading-snug">
+    <div class="flex mb-3 items-start @sm:mb-5 cursor-default" data-preference-type="strictly_necessary">
+  <div class="label-switch label-switch--disabled">
+    <input type="checkbox" disabled="disabled" id="strictly_necessary" checked="checked" class="peer">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold" for="strictly_necessary">Strictly necessary</label>
+
+    <p>These cookies are necessary to make the site work properly, and are always set when you visit the site.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Teamtailor</span>
+      </span>
+</div></div>
+
+    <div class="flex mb-3 items-start @sm:mb-5" data-preference-type="analytics">
+  <div class="label-switch">
+    <input type="checkbox" id="analytics" class="peer" data-common--cookies--preferences-target="categoryInput" data-action="input->common--cookies--preferences#handleCategoryToggle">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold cursor-pointer" for="analytics">Analytics</label>
+
+    <p>These cookies collect information to help us understand how the site is being used.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Teamtailor</span>
+      </span>
+</div></div>
+
+    
+
+    <div class="flex mb-3 items-start @sm:mb-5" data-preference-type="marketing">
+  <div class="label-switch">
+    <input type="checkbox" id="marketing" class="peer" data-common--cookies--preferences-target="categoryInput" data-action="input->common--cookies--preferences#handleCategoryToggle">
+
+    <div class="checkbox peer-focus:ring-2 peer-focus:ring-blue-600"></div>
+</div>
+  <div class="ml-4 flex flex-col">
+    <label class="font-semibold cursor-pointer" for="marketing">Marketing</label>
+
+    <p>These cookies are used to make advertising messages more relevant to you. In some cases, they also deliver additional functions on the site.</p>
+
+      <span>
+        <strong>Vendors</strong>
+        <span>Youtube</span>
+      </span>
+</div></div>
+  </div>
+
+  <div class="flex flex-col items-center gap-6">
+    <button class="careersite-button w-full" data-action="click->common--cookies--preferences#handleAccept">Accept these cookies</button>
+
+    <button class="careersite-button w-full" data-action="click->common--cookies--preferences#handleDecline">Decline all non-necessary cookies</button>
+  </div>
+</dialog>
+
+
+    <a href="#main-content" class="careersite-button min-w-[13.75rem] group 
+          absolute top-0 left-0 py-2 px-4 z-[50] transform
+          -translate-y-full -translate-x-full focus:translate-y-2 focus:translate-x-2 transition">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">Skip to main content</span>
+
+      <i class="transition duration-200 transform fas mt-[-1px] fa-chevron-right group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:-scale-x-100"></i>
+  </span>
+</a>
+
+    
+
+
+  
+  <header class="header z-career-header flex w-full h-20   hover:after:top-0 !absolute top-0" data-section-model="header" style="--header-text-color: #FFFFFF;--header-background-color: transparent;--navigation-background-color: #413e3e;--navigation-highlight-color: #00bad6;">
+    <div class="absolute top-0 w-full h-full ltr:left-0 rtl:right-0">
+              <div class="flex items-center h-full ltr:ml-2 rtl:mr-2" data-controller="common--header--menu" data-common--header--menu-open-value="false" data-test="header-menu">
+  <button class="
+      relative flex items-center gap-4 px-4 no-underline cursor-pointer h-14
+      @sm:w-auto bg-opacity-80 @sm:bg-transparent z-career-header-menu-button
+      focus-visible-header
+    " aria-expanded="false" data-action="click->common--header--menu#toggle" data-common--header--menu-target="button">
+    <span class="header-menu-burger" data-common--header--menu-target="burger">
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+        <span class="header-menu-burger__item"></span>
+    </span>
+
+    <span class="sr-only @sm:not-sr-only text-sm leading-normal tracking-wider uppercase !whitespace-nowrap">Career menu</span>
+  </button>
+
+  <div class="
+      absolute flex-col @sm:flex-row inset-0 hidden w-full h-screen m-0 overflow-y-auto overscroll-contain pt-20 pb-8 @sm:py-20
+      bottom header__nav z-career-header-menu-content
+    " data-common--header--menu-target="menu">
+    <nav class="w-full main-nav-menu @sm:h-full">
+      <ul class="w-full @sm:pb-20">
+          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://curifylabs.teamtailor.com/">Start</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://curifylabs.teamtailor.com/locations">Locations</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://curifylabs.teamtailor.com/people">People</a>
+</li>          <li>
+            <a class="text-xl @sm:text-4xl py-3 px-8 @sm:px-[20%] block font-bold w-full no-underline hover:bg-gradient-header focus-visible:outline-none focus-visible:bg-gradient-header rtl:degree-[90deg]" href="https://curifylabs.teamtailor.com/jobs">Jobs</a>
+</li>      </ul>
+    </nav>
+
+    <div class="header-menu__secondary flex flex-col items-start @sm:items-end py-9 px-8 @md:max-h-full @sm:text-right ltr:pr-8 rtl:pl-8 @sm:px-0 @sm:pt-4">
+      <span class="text-lg font-bold">
+        Employee
+      </span>
+
+      <a class="hover:underline focus-visible-header whitespace-nowrap" href="https://app.teamtailor.com/companies/jQaSL5c8Ot4@eu/dashboard">Log in as employee</a>
+
+
+        <span class="mt-12 text-lg font-bold">
+          Candidate
+        </span>
+        <a class="hover:underline focus-visible-header whitespace-nowrap" href="https://curifylabs.teamtailor.com/connect/login">Log in to Connect</a>
+
+        <span class="mt-12 text-lg font-bold">Homepage</span>
+        <a class="hover:underline focus-visible-header" href="https://www.curifylabs.com/">curifylabs.com</a>
+</div>  </div>
+</div>
+
+</div>
+
+<div class="header__logo flex items-center mx-auto">        
+<a class="relative h-[72px] flex items-center justify-center text-center focus-visible-header" id="e73a75443ee90b5d83a973cc733317d85" data-test="company-logo" data-turbo-permanent="true" href="https://curifylabs.teamtailor.com/">
+    <img alt="CurifyLabs career site" class="mx-auto max-w-[180px] @sm:max-w-[200px] max-h-[90%]" src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/logotype-v3/image_uploads/15e2ef75-c5f5-4363-b257-a19a15e630f1/original.png">
+</a>
+</div>
+
+  <div class="absolute top-0 flex items-center h-full mx-3 ltr:right-0 rtl:left-0">
+              <div data-controller="common--share" data-common--share-url-value="https://curifylabs.teamtailor.com/jobs/7849510-inside-sales-representative" data-test="share-button">
+  <div class="relative" data-controller="common--dropdown" data-common--dropdown-use-stimulus-click-outside-value="false" data-common--dropdown-right-aligned-class="ltr:right-0 rtl:left-0" data-common--dropdown-validation-error-value="You must select an option">
+
+
+  <button type="button" role="button" id="trigger-dropdown-4fa9300f" aria-required="false" aria-label="Share page" aria-haspopup="menu" aria-expanded="false" aria-controls="dropdown-4fa9300f" class="text-current px-4 pt-[15px] pb-[17px] block flex items-center justify-center focus-visible-header" data-common--dropdown-target="button" data-action="click->common--dropdown#toggle">
+    <span class="sr-only">Share page</span>
+
+          <i class="far fa-arrow-up-from-bracket size-6"></i>
+
+</button>
+  <div id="dropdown-4fa9300f" role="menu" aria-labelledby="trigger-dropdown-4fa9300f" class="absolute flex-col hidden -mt-1 bg-white rounded min-w-[175px] shadow-form animate__animated animate__faster z-dropdown max-h-[70vh] overflow-y-auto ltr:right-0 rtl:left-0  p-2 top-full" data-common--dropdown-target="dropdown">
+
+
+        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="Facebook">
+                <span class="flex items-center">
+        <i class="fab fa-facebook-square size-6"></i>
+        <span class="mx-3">Facebook</span>
+      </span>
+
+</button>        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="Twitter">
+                <span class="flex items-center">
+        <i class="fab fa-square-x-twitter size-6"></i>
+        <span class="mx-3">X</span>
+      </span>
+
+</button>        <button type="button" role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 text-unset mb-1 rounded-xs" data-common--dropdown-target="menuItem" data-action="click->common--share#handleClick" data-provider="LinkedIn">
+                <span class="flex items-center">
+        <i class="fab fa-linkedin size-6"></i>
+        <span class="mx-3">LinkedIn</span>
+      </span>
+
+</button>
+          <a role="menuitem" class="block no-underline px-3 py-3 sm:py-1 text-gray-700 focus-visible:outline-company-button hover:bg-company-secondary hover:text-company-secondary last:mb-0 mb-1 rounded-xs" rel="noopener" data-common--dropdown-target="menuItem" data-event-tracking="click" data-event-category="Sharing" data-event-name="Email: job preview" data-event-label="https://curifylabs.teamtailor.com/jobs/7849510-inside-sales-representative" href="mailto:?subject=Check out this job at CurifyLabs&amp;body=I found this job and thought I should share it with you:%0D%0A%0D%0Ahttps://curifylabs.teamtailor.com/jobs/7849510-inside-sales-representative">
+                    <span class="flex items-center">
+          <i class="fas fa-envelope size-6"></i>
+          <span class="mx-3">Mail</span>
+        </span>
+
+</a>
+
+
+</div></div></div>
+
+  </div>
+</header>
+
+<main class="flex flex-col flex-grow" data-controller="careersite--jobs--form-overlay" data-careersite--jobs--form-overlay-job-id-value="7849510" data-careersite--jobs--form-overlay-job-application-url-value="https://curifylabs.teamtailor.com/jobs/7849510-inside-sales-representative/applications/new" id="main-content">
+  
+        
+
+
+<section class="block-cover w-full bg-cover @sm:bg-fixed bg-center bg-company-secondary-fallback text-company-secondary flex items-center pt-[90px] min-h-dvh @lg:!min-h-[max(700px,100dvh)] @lg:min-h-[650px] block-cover--with-background-7849510 relative" style="color: #FFFFFF !important" data-controller="blocks--cover--scroll" data-blocks--cover--scroll-smooth-scroll-class="scroll-smooth" data-careersite--jobs--form-overlay-target="cover">
+
+
+    <div class="relative flex flex-col items-center justify-center w-full px-4 text-lg text-center z-career-block-content h-full">
+  <div class="relative @md:max-w-[75%] w-full pb-[130px]" data-variabletextwrapper="">
+    <div class="w-full mb-8 text-sm font-bold tracking-widest text-center uppercase">
+      
+<span>Sales</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>CurifyLabs United States</span>
+
+    <span class="mx-[2px]">·</span>
+  <span class="inline-flex items-center gap-x-2">
+    Fully Remote
+    <i class="w-4 h-5 text-xs fas fa-wifi"></i>
+</span>
+    </div>
+
+    <h1 class="font-company-header hyphens-auto text-4xl @md:text-6xl @lg:text-7xl leading-tight">Inside Sales Representative</h1>
+    
+
+      <div class="mt-10">
+      
+    <button role="button" class="careersite-button min-w-[13.75rem] group min-w-[13.75rem] bg-opacity-100" data-action="click->careersite--jobs--form-overlay#showFormOverlay" data-careersite--jobs--form-overlay-target="coverButton">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">Apply for this job</span>
+
+  </span>
+</button>
+
+
+
+</div>
+</div></div>
+  <div class="absolute inset-0 z-career-block-overlay " style="background-color: #000000; opacity: 50%"></div>
+
+    <button class="@lg:block z-career-block-content absolute hover:opacity-75 rounded-full bottom-10 left-half transform -translate-x-1/2 " data-action="click->blocks--cover--scroll#handleScrollDown" title="Scroll to content">
+      <i class="text-5xl fal fa-circle-chevron-down size-12"></i>
+</button></section>
+      <section class="pt-20 pb-12 block-px company-links">
+  <div class="
+      mx-auto max-w-750 prose font-company-body overflow-hidden break-words
+      [&amp;_ol_li_li]:list-[lower-alpha]
+    " data-controller="careersite--responsive-video">
+    <p><strong>Location:</strong><span><strong> </strong></span>Remote (U.S.), with occasional travel to our Helsinki HQ and key industry events</p><p><strong>Job type:</strong><span><strong> </strong></span>Full-time</p><p><strong>About CurifyLabs</strong></p><p>CurifyLabs is pioneering 3D printing solutions for personalized medicine. We partner with compounding pharmacies to streamline production, expand what they can offer, and ultimately improve patient care — making personalized treatments faster, safer, and more accessible to the people who need them.</p><p>We’re hiring an </p><h3>Inside Sales Representative </h3><p>to power the top of our U.S. sales funnel. </p><p>You’ll be the first conversation many private compounding pharmacies have with CurifyLabs — opening doors, qualifying interest, and setting the table for our field reps to close.</p><p>This is a high-volume, high-impact role. You’ll spend your days reaching out to pharmacy owners and head pharmacists, having real conversations about their compounding workflows, and figuring out which ones are worth a deeper dive. The strong ones, you hand off warm to our field sales team. The not-yet-ready ones, you nurture until they are.</p><p><strong>What You’ll Do</strong></p><p><span>• </span>Run outbound outreach (calls, email, LinkedIn) to U.S. private compounding pharmacies — owners, head pharmacists, and decision-makers.</p><p><span>• </span>Qualify inbound leads from marketing campaigns, events, and the website, and route them to the right next step.</p><p><span>• </span>Hold discovery conversations to understand each pharmacy’s setup, ambitions, and bottlenecks.</p><p><span>• </span>Book qualified demos and meetings for our field sales reps, with clear, well-documented context.</p><p><span>• </span>Keep CRM hygiene tight — every interaction logged, every pipeline stage accurate.</p><p><span>• </span>Test outreach approaches, share what’s working, and help us build the playbook as we scale.</p><p><span>• </span>Partner closely with Marketing on campaigns and Sales on smooth handoffs.</p><p><strong>What We’re Looking For</strong></p><p><span>• </span>Top-of-funnel commercial work — bonus if it’s been in pharmacy, pharma, healthcare, or life sciences.</p><p><span>• </span>Genuinely comfortable on the phone — you don’t see cold outreach as a chore, you see it as the start of a relationship.</p><p><span>• </span>Excellent written and verbal communication; can hold a thoughtful conversation about pharmacy operations without faking it.</p><p><span>• </span>Organized and CRM-disciplined — you treat your pipeline like an asset, not a guilty conscience.</p><p><span>• </span>Curious about the compounding pharmacy world (or already in it) and excited to learn the regulatory backdrop — 503A/503B, APC, NCPA.</p><p><span>• </span>Self-directed and at ease working independently in a remote environment.</p><p><strong>Why CurifyLabs</strong></p><p><span>• </span>Be the first human voice many pharmacies hear from CurifyLabs — your conversations shape every deal that follows.</p><p><span>• </span>Real career runway: this role is a launchpad into field sales, account management, or other commercial roles as we scale.</p><p><span>• </span>Sell something that genuinely matters — compounding pharmacies, their teams, and their patients all benefit.</p><p><span>• </span>Collaborate with an international, mission-driven team that takes the work seriously and each other a little less so.</p><p><strong>How to Apply</strong></p><p>Send your CV, salary expectations and a short video on why this role caught your eye through our recruitment portal no later than June 15th. If you want to show off a great cold email or call opener, we won’t complain.</p>
+  </div>
+</section>
+
+      <section class="pb-20 block-px">
+    <div class="px-8 mx-auto max-w-[53.5rem] w-full bg-primary-text-background rounded py-12">
+      <dl class="
+          md:max-w-[70%] mx-auto text-md gap-y-0 md:gap-y-5 flex flex-wrap
+          flex-col md:flex-row company-links
+        ">
+
+          <dt class="w-full font-semibold md:w-half">Department</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+              Sales
+
+</dd>
+
+
+          <dt class="w-full font-semibold md:w-half">Locations</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+              CurifyLabs United States
+
+</dd>
+
+          <dt class="w-full font-semibold md:w-half">Remote status</dt>
+
+<dd class="w-full mb-8 break-words md:mb-0 md:w-half md:ltr:pl-16 md:rtl:pr-16">
+  
+            Fully Remote
+
+</dd>
+
+
+
+
+      </dl>
+
+      
+</div></section>
+    
+  <section id="section-20974315" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #b2d2d6;" class="block--recruiter   bg-company-primary text-company-primary" data-section-route="section" data-section-model="20974315" data-section-name="recruiter" data-section-label="Recruiter">
+    <section class="block-px block-padding company-links">
+  <div class="
+      flex flex-col items-center justify-center mx-auto sm:flex-row
+      block-max-w--md
+    ">
+    <div>
+      <div class="mb-8 md:mb-0 group-hover:ring-2 group-hover:ring-company-link group-hover:ring-offset-2 group-focus-visible:company-colors-dependant-outline bg-gray-300 relative size-[--image-size] !rounded-full" style="--image-size: 170px">
+    <figure class="w-full h-full">
+  <picture>
+    <source srcset="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/7a707717-bbf4-45f0-b968-29b0bc082c6d/original.jpeg?outputFormat=webp 1x, https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_452-v4/image_uploads/7a707717-bbf4-45f0-b968-29b0bc082c6d/original.jpeg?outputFormat=webp 2x" type="image/webp">
+
+    <img src="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/square_226-v4/image_uploads/7a707717-bbf4-45f0-b968-29b0bc082c6d/original.jpeg" alt="Picture of Charlotta Topelius" loading="lazy" class="w-full h-full object-cover rounded-full" width="170" height="170">
+</picture>
+  
+</figure>
+</div>
+    </div>
+
+    <div class="
+        flex flex-col justify-center md:ml-8 md:relative md:top-[-6px]
+        text-center md:text-left
+      ">
+      <span class="mb-1 text-sm font-bold tracking-widest uppercase">
+        Contact
+      </span>
+
+        <a class="text-lg md:text-xl font-company-header" href="/people/1094763-charlotta-topelius">Charlotta Topelius</a>
+
+      <span class="leading-tight md:text-md">
+        CEO &amp; Founder
+         – 
+        Leadership
+      </span>
+    </div>
+  </div>
+</section>
+
+
+</section>
+
+  
+  <section id="section-20974316" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #b2d2d6;" class="block--colleagues   bg-company-primary text-company-primary" data-section-route="section" data-section-model="20974316" data-section-name="colleagues" data-section-label="Colleagues">
+</section>
+
+  
+  <section id="section-20974317" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #b2d2d6;" class="block--related-jobs   bg-company-primary text-company-primary" data-section-route="section" data-section-model="20974317" data-section-name="related-jobs" data-section-label="Related jobs">
+    
+  <section id="section-" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #b2d2d6;" class="block--jobs   block-padding bg-block-preset-primary bg-company-primary text-company-primary" data-section-route="section" data-section-name="jobs" data-section-label="Jobs">
+    <turbo-frame id="jobs_list">
+
+
+
+
+
+  <div class="w-full text-lg relative block-px" data-layout="thick" data-controller="blocks--jobs" data-blocks--jobs-show-map-value="false" data-blocks--jobs-split-view-value="false" data-blocks--jobs-language-code-value="en-GB" data-blocks--jobs-first-block-value="true" data-blocks--jobs-overflow-auto-class="@lg:overflow-auto" data-blocks--jobs-overflow-hidden-class="@lg:overflow-hidden" data-blocks--jobs-sibling-element-padding-class="@lg:[&amp;.bg-block-preset-primary:not(.keep-block-padding)]:!pt-20" data-blocks--jobs-disabled-map-view-toggle-class="cursor-not-allowed" id="jobs">
+      <div class="block-px jobs-text">
+        <div class="mb-15 @md:mb-18 @lg:mb-20 mx-auto block-max-w--sm">
+            <h1 class="text-4xl text-center font-company-header text-block-title">Current job openings</h1>
+
+</div></div>
+    <div class="relative" data-blocks--jobs-target="jobsContainer">
+
+
+        <div class="bg-company-primary relative z-career-jobs-list @lg:col-span-2 pt-4 @lg:pt-8" data-blocks--jobs-target="jobsListContainer">
+
+          <div>
+              <div class="mx-auto text-lg block-max-w--lg">
+    <ul id="jobs_list_container" class="company-links">
+        <li class="w-full">
+
+  <div class="relative flex flex-col items-center py-6 text-center @sm:px-6 @lg:px-16 hover:bg-gradient-block-base-bg">
+
+    <a class="@sm:line-clamp-2 flex" data-turbo="false" href="https://curifylabs.teamtailor.com/jobs/7849402-central-u-s-sales-representative">
+      <span class="absolute inset-0"></span>
+      Central U.S. Sales Representative
+</a>
+    <div class="mt-1 text-md">
+<span>Sales</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>CurifyLabs United States</span>
+
+    <span class="mx-[2px]">·</span>
+  <span class="inline-flex items-center gap-x-2">
+    Fully Remote
+    <i class="w-4 h-5 text-xs fas fa-wifi"></i>
+</span></div>
+</div>
+</li>
+
+    </ul>
+</div>
+
+          </div>
+
+
+</div>
+        <div class="flex justify-center mx-auto mt-12 @lg:col-span-2">
+          <a href="/jobs" class="careersite-button min-w-[13.75rem] group" data-turbo="false">
+  <span class="flex items-center justify-center gap-x-3">
+    
+    <span class="truncate">More jobs</span>
+
+      <i class="transition duration-200 transform fas mt-[-1px] fa-chevron-right group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:-scale-x-100"></i>
+  </span>
+</a>
+        </div>
+</div></div></turbo-frame>
+</section>
+
+
+
+</section>
+
+  
+  <section id="section-20974318" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #b2d2d6;" class="block--locations-map   bg-company-primary text-company-primary" data-section-route="section" data-section-model="20974318" data-section-name="locations-map" data-section-label="Locations map">
+    <div id="locations-map" class="text-lg locations-map" data-controller="blocks--locations-map" data-blocks--locations-map-selected-location-value="1072095" data-blocks--locations-map-locations-value="[{&quot;id&quot;:1072095,&quot;lat&quot;:&quot;30.3222754&quot;,&quot;long&quot;:&quot;-81.45253210000001&quot;}]">
+  <template data-blocks--locations-map-target="largeMarkerIcon">
+    <i class="text-3xl filter drop-shadow fas fa-location-dot text-company-link"></i>
+  </template>
+
+  <template data-blocks--locations-map-target="smallMarkerIcon">
+    <i class="filter drop-shadow fas fa-circle-small fa-xs text-company-link"></i>
+  </template>
+
+  <div class="flex flex-col @lg:flex-row">
+    <div class="
+        flex flex-col items-center justify-start w-full py-20 @lg:w-half
+        bg-company-secondary block-px
+      ">
+        <h2 class="mb-5 text-3xl text-center @md:text-4xl font-company-header text-company-secondary">CurifyLabs United States</h2>
+
+      <turbo-frame id="location_details" src="https://curifylabs.teamtailor.com/locations/map_details?editor=false&amp;location_id=1072095" loading="lazy" data-blocks--locations-map-target="details"></turbo-frame>
+    </div>
+
+    <div class="w-full @lg:w-half h-[320px] @md:h-[450px] z-career-locations-map" data-blocks--locations-map-target="map"></div>
+</div></div>
+</section>
+
+  
+  <section id="section-8832551" style="--block-base-text-color: var(--company-primary-text-color);--block-base-link-color: var(--company-link-color);--block-base-background-color: var(--company-primary-bg-color);--block-base-highlight-color: var(--company-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #b2d2d6;" class="block--perks   block-padding bg-block-preset-primary bg-company-primary text-company-primary" data-section-route="section" data-section-model="8832551" data-section-name="perks" data-section-label="Perks &amp; benefits">
+    <div id="perks" class="text-lg block-px company-links text-company-primary">
+  <div class="mx-auto block-max-w--sm">
+      <h2 class="mb-10 text-4xl text-center font-company-header">The benefits we offer</h2>
+
+    <ul class="ml-6 list-disc">
+        <li class="mb-6">
+            <h3 class="font-bold leading-normal">Lunch &amp; Flex benefits</h3>
+
+            <div class="prose"><p>CurifyLabs provides its employees with a customized benefits package in collaboration with ePassi. In addition to the lunch benefit, employees can freely utilize a fixed yearly amount towards sports, commuting, culture, or well-being activities.</p></div>
+        </li>
+        <li class="mb-6">
+            <h3 class="font-bold leading-normal">Quarterly activity days and dinners</h3>
+
+            <div class="prose"><p>We aim to organize team days at least once a quarter, where we not only focus on a current subject but also indulge in fun activities and delicious food to blow off some steam.</p></div>
+        </li>
+        <li class="mb-6">
+            <h3 class="font-bold leading-normal">Flexibility</h3>
+
+            <div class="prose"><p>At CurifyLabs, we prioritize our employees' needs by offering a flexible workplace that utilizes a hybrid model.</p></div>
+        </li>
+        <li class="mb-6">
+            <h3 class="font-bold leading-normal">Impactful Roles</h3>
+
+            <div class="prose"><p>In CurifyLabs, every team member plays a pivotal role, and your efforts are highly visible. Your contributions will directly shape the company's growth and success, allowing you to make a meaningful impact from day one.</p></div>
+        </li>
+        <li class="mb-6">
+            <h3 class="font-bold leading-normal">and more to come!</h3>
+
+        </li>
+    </ul>
+  </div>
+</div>
+
+
+</section>
+
+  
+  <section id="section-8832550" style="--block-base-text-color: var(--company-secondary-text-color);--block-base-link-color: var(--company-secondary-text-color);--block-base-background-color: var(--company-secondary-bg-color);--block-base-highlight-color: var(--company-secondary-text-color);--block-title-color: rgba(var(--block-base-text-color), 1);--block-image-background: #b2d2d6;" class="block--workplace   bg-company-secondary text-company-secondary" data-section-route="section" data-section-model="8832550" data-section-name="workplace" data-section-label="Workplace &amp; culture">
+    <div class="@md:min-h-[500px] flex flex-col @lg:flex-row">
+  <div class="w-full flex flex-col items-center justify-center py-20 block-px @md:px-15 @lg:w-half">
+    <h2 class="mb-4 text-4xl text-center text-block-title font-company-header @lg:max-w-600">CurifyLabs as a workplace</h2>
+
+    <div class="prose prose-block block-max-w--sm @lg:max-w-600 company-links"><p>At CurifyLabs you experience a positive work culture that embraces low hierarchy, diversity, and collaboration. You'll have the opportunity to take ownership of your work, collaborate with talented individuals from different backgrounds, and make an impact in the healthcare industry. We offer flexible working options to promote work-life balance, and the chance to work on exciting and impactful projects. Join us and be a part of a team that's revolutionizing healthcare with a positive and collaborative work environment.&nbsp;</p><p><strong>Our core&nbsp;values are:</strong></p><p><strong>Trust&nbsp;</strong>– We place trust in each other, fostering an environment where our clients can confidently rely on us.</p><p><b>Bold</b>&nbsp;– We courageously explore beyond conventional boundaries, constantly pushing ourselves and our clients to improve personalized medicine.</p><p><strong>Optimism</strong> – We maintain a positive outlook, recognizing the strengths and potential in our team members and clients alike.</p><ol></ol><p> </p></div>
+</div>
+    <div class="w-full @lg:w-half">
+      
+<div class="splide" dir="ltr" data-controller="common--carousel" data-common--carousel-use-container-height-value="true" data-common--carousel-initialize-when-viewport-value="false" data-common--carousel-has-video-value="false" data-common--carousel-autoplay-value="false" data-common--carousel-type-value="loop" data-common--carousel-pagination-value="true" data-common--carousel-arrows-value="true" data-common--carousel-initial-image-index-value="0" data-common--carousel-height-ratio-value="0">
+  <div class="splide__track">
+    <ul class="splide__list">
+          <li class="splide__slide" data-common--carousel-target="item" data-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/27fd0613-16cc-4148-9ce7-a8dd1dee55ea/original.jpeg">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt="Workplace image" class="hidden" data-common--carousel-target="image" data-splide-lazy="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/27fd0613-16cc-4148-9ce7-a8dd1dee55ea/original.jpeg">
+</li>          <li class="splide__slide" data-common--carousel-target="item" data-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/bef271c6-f470-44da-9794-d860ad3ec26e/original.jpg">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt="man standing behind flat screen computer monitor" class="hidden" data-common--carousel-target="image" data-splide-lazy="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/bef271c6-f470-44da-9794-d860ad3ec26e/original.jpg">
+</li>          <li class="splide__slide" data-common--carousel-target="item" data-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/239312a7-17ea-4665-bd4e-d41ed905983e/original.jpg">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt="person holding pencil near laptop computer" class="hidden" data-common--carousel-target="image" data-splide-lazy="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/239312a7-17ea-4665-bd4e-d41ed905983e/original.jpg">
+</li>          <li class="splide__slide" data-common--carousel-target="item" data-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/36bf13a0-1dd1-49ff-9eb9-e6ca97963c5a/original.jpeg">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" alt="Workplace image" class="hidden" data-common--carousel-target="image" data-splide-lazy="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/gallery_picture-v6/image_uploads/36bf13a0-1dd1-49ff-9eb9-e6ca97963c5a/original.jpeg">
+</li>
+    </ul>
+</div></div>
+    </div>
+</div>
+</section>
+
+
+
+      <section class="block--about company-links bg-primary-text-background text-company-primary block-px" style="--block-title-color: rgba(var(--company-primary-text-color), 1);">
+    <div class="py-20 mx-auto block-max-w--sm">
+      <div class="mx-auto block-max-w--sm">
+    <h2 class="mb-4 text-4xl text-center font-company-header text-block-title break-words hyphens-auto">About CurifyLabs</h2>
+
+    <div class="prose prose-block font-company-body company-links break-words"><p>&nbsp;</p><p>CurifyLabs emerged from a decade of research by Niklas Sandler Topelius at Åbo Akademi University, Finland. His investigation on modernizing extemporaneous drug manufacturing grabbed the attention of Charlotta Topelius, a successful entrepreneur, who recognized an opportunity to revolutionize manual compounding processes in pharmacies.</p><p>In 2021, CurifyLabs was established with a mission to digitize and simplify pharmacy compounding.&nbsp;</p><p>Since then, CurifyLabs has grown and assembled a team of experts in pharmaceutical formulation development, software engineering, and quality control.&nbsp;</p><p>At CurifyLabs, we remain committed to providing solutions that enable optimal treatments for all patients.</p><p>&nbsp;</p></div>
+</div>
+
+
+      <div class="flex flex-wrap mt-8 text-lg gap-y-4">
+          <div class="flex-shrink-0 w-full @md:w-half">
+            <span class="font-bold">
+              Founded in
+            </span>
+
+            2021
+          </div>
+
+          <div class="flex-shrink-0 w-full @md:w-half">
+            <span class="font-bold">
+              Co-workers
+            </span>
+
+            32
+          </div>
+
+      </div>
+    </div>
+</section>
+
+    <button class="fixed transform left-half truncate bottom-10 -translate-x-1/2 z-career-floating-job-apply-button mx-auto py-4 px-10 sm:px-20 bg-company-button text-company-button font-semibold rounded-company border-2 border-company-primary shadow-[0_8px_40px_-10px_rgba(0,0,0,0.30)] hover:shadow-[0_8px_40px_-10px_rgba(0,0,0,0.50)] hover:mb-px transition duration-300 ease-out" disabled="disabled" data-controller="jobs--floating-apply-button" data-jobs--floating-apply-button-visible-value="false" data-jobs--floating-apply-button-visible-class="translate-y-0" data-jobs--floating-apply-button-hidden-class="translate-y-30" data-careersite--jobs--form-overlay-target="floatingButton" data-action="click->careersite--jobs--form-overlay#showFormOverlay">Apply for this job</button>
+
+    <section class="overlay relative bg-company-secondary-fallback text-company-secondary" data-controller="jobs--overlay" data-action="
+      common--modal:opened->jobs--overlay#unobserveClickOutside
+      common--modal:closed->jobs--overlay#observeClickOutside
+    " data-jobs--overlay-overlay-value="false" data-jobs--overlay-overlay-class="!fixed flex flex-col inset-0 rounded-t-6 shadow-job-form-overlay z-career-job-application-form-overlay" data-jobs--overlay-minimize-button-hidden-class="hidden" data-careersite--jobs--form-overlay-target="form">
+  <div class="h-10 w-full" data-jobs--overlay-target="draggable"></div>
+
+  <div class="h-full px-4 py-20 overflow-y-auto">
+    <div class="relative flex flex-col items-center justify-center w-full px-4 text-lg text-center z-career-block-content mb-20">
+  <div class="relative @md:max-w-[75%] w-full" data-variabletextwrapper="">
+    <div class="w-full mb-8 text-sm font-bold tracking-widest text-center uppercase">
+      
+<span>Sales</span>
+
+  <span class="mx-[2px]">·</span>
+
+    <span>CurifyLabs United States</span>
+
+    <span class="mx-[2px]">·</span>
+  <span class="inline-flex items-center gap-x-2">
+    Fully Remote
+    <i class="w-4 h-5 text-xs fas fa-wifi"></i>
+</span>
+    </div>
+
+    <h1 class="font-company-header hyphens-auto text-4xl @md:text-6xl @lg:text-7xl leading-tight">Inside Sales Representative</h1>
+    
+
+</div></div>
+    
+      <turbo-frame loading="lazy" data-careersite--jobs--form-overlay-target="turboFrame" id="application_form" src="https://curifylabs.teamtailor.com/jobs/7849510-inside-sales-representative/applications/new">
+        <p class="flex flex-col items-center justify-center text-lg gap-y-4">
+          <i class="text-3xl fas fa-spinner fa-spin"></i>
+          Loading application form
+        </p>
+</turbo-frame>
+  </div>
+
+  <button class="absolute p-6 right-0 hover:opacity-animated" aria-label="Close modal" data-jobs--overlay-target="minimizeButton" data-action="click->jobs--overlay#closeOverlay">
+    <i class="text-xl fas fa-chevron-down"></i>
+</button></section>
+</main>
+  <div class="" data-section-model="footer">
+
+    
+
+    <footer class="bg-company-primary text-company-primary block-px">
+        <div class="text-lg block-padding">
+  <div class="w-full mx-auto @sm:flex block-max-w--lg">
+      <div class="w-full @lg:flex-shrink-0 @md:w-[47%] @md:text-center @lg:text-unset @lg:w-[25%] @md:pr-[3%] mb-10 @lg:mb-0 last:mb-0 footer-nav-menu">
+  <h2 class="mb-4 text-xl font-company-header text-company-primary">
+    Career site
+  </h2>
+
+  <ul class="flex flex-col gap-y-3">
+      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://curifylabs.teamtailor.com/">Start</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://curifylabs.teamtailor.com/locations">Locations</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://curifylabs.teamtailor.com/people">People</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://curifylabs.teamtailor.com/jobs">Jobs</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="/data-privacy">Data &amp; privacy</a>
+
+</li>      <li class="w-full text-md leading-tight">
+                    <button data-controller="cookie-preferences" data-action="click->cookie-preferences#openCookiePreferences" aria-label="Manage cookies" class="company-link font-company-body text-unset py-1">Manage cookies</button>
+
+</li>  </ul>
+</div>
+      <div class="w-full @lg:flex-shrink-0 @md:w-[47%] @md:text-center @lg:text-unset @lg:w-[25%] @md:pr-[3%] mb-10 @lg:mb-0 last:mb-0 footer-nav-locations">
+  <h2 class="mb-4 text-xl font-company-header text-company-primary">
+    Locations
+  </h2>
+
+  <ul class="flex flex-col gap-y-3">
+      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://curifylabs.teamtailor.com/locations/curifylabs-hq-helsinki-finland">CurifyLabs HQ, Helsinki, Finland</a>
+
+</li>      <li class="w-full text-md leading-tight">
+        <a class="py-1 w-full company-link" href="https://curifylabs.teamtailor.com/locations/curifylabs-gmbh-bad-laer-germany">CurifyLabs GmbH, Bad Laer, Germany</a>
+
+</li>  </ul>
+</div>
+
+
+    <div class="flex flex-col items-center justify-center grow shrink-0 text-base @sm:items-end @sm:justify-end">
+      <a class="text-company-primary hover:text-company-link text-ellipsis py-1" href="https://www.curifylabs.com/">curifylabs.com/</a>
+      <a class="text-company-primary hover:text-company-link text-ellipsis py-1" href="/sitemap">Site Map</a>
+
+        <div class="flex mt-2">
+            <a class="text-company-primary hover:text-company-link gap-x-1" target="_blank" title="LinkedIn" href="https://fi.linkedin.com/company/curify-labs">
+              <i class="fab fa-linkedin size-6 p-1 text-lg"></i>
+</a>        </div>
+</div></div></div>
+
+
+      <div class="
+          flex flex-col py-4 mx-auto text-center border-t @sm:text-unset
+          block-max-w--lg border-company-primary-text border-opacity-15
+          @sm:justify-between @sm:flex-row
+        ">
+        <div class="flex justify-center w-full @sm:w-auto">
+    <a class="text-company-primary hover:text-company-link" href="https://app.teamtailor.com/companies/jQaSL5c8Ot4@eu/dashboard">Employee login</a>
+</div>
+
+
+        <div class="flex justify-center w-full @sm:w-auto">
+            <a class="text-company-primary hover:text-company-link" href="/connect/login">Candidate Connect login</a>
+
+        </div>
+      </div>
+</footer></div>
+<section class="relative block-px mt-15 z-career-autojoin mb-[27px] @md:mb-[35px]" id="section-auto-join">
+  <div class="w-full px-4 pt-12 mx-auto rounded pb-18 block-max-w--lg bg-company-secondary text-company-secondary block-shadow">
+    <h2 class="text-center font-company-header text-4xl text-shadow">Already working at CurifyLabs?</h2>
+    <p class="text-center text-xl text-opacity-80 text-company-secondary text-shadow">Let’s recruit together and find your next colleague.</p>
+
+      <div dir="ltr" class="relative mx-auto max-w-[500px] w-full px-4 py-2 mt-6 rounded cursor-pointer bg-company-secondary-text text-company-secondary bg-opacity-15 focus-within:bg-white focus-within:text-gray-700 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-company-secondary-text" data-controller="blocks--auto-join--form" data-action="click->blocks--auto-join--form#focusEmailField" data-blocks--auto-join--form-tooltip-login-value="Enter your email address" data-blocks--auto-join--form-tooltip-login-with-value="Log in to %{email}">
+  </div>
+
+</div>
+  <ul class="
+    absolute bottom-[-27px] @md:bottom-[-35px] flex items-center
+    justify-center left-0 right-0
+  " data-controller="blocks--auto-join--people">
+    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Pontus Lindgren" alt="Pontus Lindgren" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/ad3374f2-866b-4718-991d-20d70b3d45ca/original.jpeg" data-blocks--auto-join--people-target="person"></div>
+</li>    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Sari Airaksinen" alt="Sari Airaksinen" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/cb003197-0d16-4594-8638-da5e63107509/original.png" data-blocks--auto-join--people-target="person"></div>
+</li>    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Farnaz Shokraneh" alt="Farnaz Shokraneh" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/a44b57b8-a858-49b6-8cf9-1d82af77042d/original.png" data-blocks--auto-join--people-target="person"></div>
+</li>    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Mahsa Bahman" alt="Mahsa Bahman" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/619c98f1-1e73-4fa3-9b62-ea41b0c3247b/original.jpeg" data-blocks--auto-join--people-target="person"></div>
+</li>    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong hidden @sm:block">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Pasi Heiskanen" alt="Pasi Heiskanen" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/7e6c3ad2-8879-48c1-a841-f5ad17a3a0f9/original.png" data-blocks--auto-join--people-target="person"></div>
+</li>    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong hidden @sm:block">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Chris Nguyen" alt="Chris Nguyen" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/51cc90f3-73c4-43dc-83f1-90287a452bfa/original.png" data-blocks--auto-join--people-target="person"></div>
+</li>    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong hidden @sm:block">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Ludmila Hrižanovska" alt="Ludmila Hrižanovska" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/e5ed5754-d693-4a7e-afb3-86382035de98/original.png" data-blocks--auto-join--people-target="person"></div>
+</li>    <li class="flex-shrink-0 rounded-full ml-4 @md:ml-7 first:ml-0 bg-company-secondary-text border-3 border-company-secondary-text shadow-form-strong hidden @sm:block hidden @md:block">
+      <div class="size-12 @md:w-16 @md:h-16 rounded-full bg-cover bg-center" title="Britni Carriere" alt="Britni Carriere" data-background-image-url="https://images.teamtailor-cdn.com/images/s3/teamtailor-production/employee_picture-v3/image_uploads/4ba7f4ac-a293-4bff-b44c-24918e79cab4/original.png" data-blocks--auto-join--people-target="person"></div>
+</li></ul>
+
+</section>
+
+
+      <div class="
+    relative z-career-footer flex items-center justify-center flex-shrink-0
+    font-sans font-normal bg-company-primary h-[152px] text-company-primary
+  " style="display: flex !important; visibility: visible !important;" id="e9977a874991bc72c490066a0286fa31f" data-turbo-permanent="">
+  <a rel="noopener" target="_blank" class="flex flex-col items-center group p-1" style="display: flex !important; visibility: visible !important;" href="https://www.teamtailor.com/?utm_campaign=poweredby&amp;utm_content=curifylabs.teamtailor.com&amp;utm_medium=referral&amp;utm_source=career-site">
+    
+
+    <span class="mt-2 text-sm print:hidden">
+      <span class="mt-2 text-sm underline group-hover:text-teamtailor-pink">Applicant tracking system</span>
+
+      by Teamtailor
+    </span>
+</a></div>
+
+
+    
+
+    
+
+
+      <div class="opacity-0 transition-opacity duration-100 ease-in-out z-candidate-chat" data-controller="common--chat" data-common--chat-subdomain-host-value="curifylabs.teamtailor.com">
+</div>
+</form>
+</body>
+</html>

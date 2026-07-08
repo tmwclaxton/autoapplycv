@@ -69,7 +69,7 @@ async function postJson(path, body, attempt = 0) {
 }
 
 export async function searchWeb(query, limit = 10) {
-    const payload = await postJson('/search', { query, limit });
+    const payload = await postJson('/search', { query, limit: Math.min(limit, 25) });
 
     return payload.data || [];
 }

@@ -1,0 +1,207 @@
+{
+  "id": "web-indeed-job-004-screener-security",
+  "min_fields": 9,
+  "exact_field_count": 9,
+  "fields": [
+    {
+      "question": "this role is subject to national security requirements that permit employment only of sole british nationals. these questions are asked solely to assess eligibility. for security eligibility purposes, please indicate whether you:",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Hold only British nationality",
+        "Hold British and another nationality",
+        "Do not hold British nationality"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "single-select-question-:ru:-0",
+        "name": "q_6dd863b5bf45ea01289cc1c534b5614f",
+        "data_testid": "input-q_6dd863b5bf45ea01289cc1c534b5614f",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "this role requires a level of national security clearance that typically involves verifying at least 10 years of continuous uk residency. this information is requested solely to assess your eligibility for security vetting.please confirm which of the following applies to you:",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I have lived in the UK continuously for the last 10 years",
+        "I have lived in the UK for part of the last 10 years",
+        "I have not lived in the UK during the last 10 years"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "single-select-question-:r14:-0",
+        "name": "q_0cd1df46440a5ecf0e860a36a946c447",
+        "data_testid": "input-q_0cd1df46440a5ecf0e860a36a946c447",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you have lived outside the uk in the last 10 years, please list the countries and dates (month/year).",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "text-question-input-:r1a:",
+        "name": "q_cd561ec36598a993204bc1211e651584",
+        "data_testid": "input-q_cd561ec36598a993204bc1211e651584-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "in the past 5 years, have you spent more than 28 consecutive days outside the uk?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "No — I have not spent more than 28 consecutive days outside the UK",
+        "Yes — I have spent more than 28 consecutive days outside the UK"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "single-select-question-:r1d:-0",
+        "name": "q_da5a5b7e1769070792b2422645751504",
+        "data_testid": "input-q_da5a5b7e1769070792b2422645751504",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your current notice period/availability?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "text-question-input-:r1i:",
+        "name": "q_6cba473011976a5f52e43a3c7e9cdf71",
+        "data_testid": "input-q_6cba473011976a5f52e43a3c7e9cdf71-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your current/last salary?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "text-question-input-:r1l:",
+        "name": "q_e4458bdabd735d081cef19190eb24e25",
+        "data_testid": "input-q_e4458bdabd735d081cef19190eb24e25-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your current total package (e.g. salary + benefits)?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "text-question-input-:r1o:",
+        "name": "q_da924d18c81a37ecd7eefb59ba50f1ae",
+        "data_testid": "input-q_da924d18c81a37ecd7eefb59ba50f1ae-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your desired base salary for your next role?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "text-question-input-:r1r:",
+        "name": "q_d3f793936fe48184b3b2e03382e79622",
+        "data_testid": "input-q_d3f793936fe48184b3b2e03382e79622-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you hold a current level of security clearance?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "single-select-question-:r1u:-0",
+        "name": "q_8e722a3ab476e3a4f69178e35df3e104",
+        "data_testid": "input-q_8e722a3ab476e3a4f69178e35df3e104",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

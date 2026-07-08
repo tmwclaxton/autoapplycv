@@ -1,0 +1,179 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-59",
+  "min_fields": 8,
+  "exact_field_count": 8,
+  "fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cell phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "e51c5987-65a0-4b92-8325-5e3914437864",
+        "name": "e51c5987-65a0-4b92-8325-5e3914437864",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e51c5987-65a0-4b92-8325-5e3914437864",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you a us citizen and/or authorized to work in the usa?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "I am currently authorized but will require visa sponsorship in the future"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "60e3c3d1-8672-4742-b793-933510e2333f_dd22fc76-dc78-4875-8526-00fd016c2643-labeled-radio-0",
+        "name": "60e3c3d1-8672-4742-b793-933510e2333f_dd22fc76-dc78-4875-8526-00fd016c2643",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "tell us about an ai tool or development has caught your attention recently, and why?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "d2c37fd9-28bc-4223-a9f3-ff2c286f8f49",
+        "name": "d2c37fd9-28bc-4223-a9f3-ff2c286f8f49",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "d2c37fd9-28bc-4223-a9f3-ff2c286f8f49",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if applicable, tell us about a project you took from idea to a working product, include the tools used",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "40293e53-8098-4279-9597-364d5b8d929a",
+        "name": "40293e53-8098-4279-9597-364d5b8d929a",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "40293e53-8098-4279-9597-364d5b8d929a",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you able to work from our lawrence, ny office?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "60e3c3d1-8672-4742-b793-933510e2333f_007cf04a-d848-4870-b61f-b451864d86f0-labeled-radio-0",
+        "name": "60e3c3d1-8672-4742-b793-933510e2333f_007cf04a-d848-4870-b61f-b451864d86f0",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i consent to receiving sms/text messages from maigrate regarding my application and recruitment process (e.g. interview scheduling, status updates, and next steps). i understand that message and data rates may apply, message frequency varies, and my information will never be shared or sold to third parties. i may opt out at any time by replying stop, or contact maigrate directly with any data privacy questions.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "60e3c3d1-8672-4742-b793-933510e2333f_9332252b-c864-40c5-ae66-abc2be17f8e4-labeled-checkbox-0",
+        "name": "Yes",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

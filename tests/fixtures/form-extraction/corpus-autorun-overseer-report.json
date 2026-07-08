@@ -1,0 +1,836 @@
+{
+  "finishedAt": "2026-07-07T22:32:45.584Z",
+  "extensionVersion": "2.25.14",
+  "runsPlanned": 5,
+  "fixtures": [
+    {
+      "runIndex": 2,
+      "platform": "indeed",
+      "fixtureId": "web-indeed-corpus-02-contact-info-module",
+      "pageUrl": "https://smartapply.indeed.com/beta/indeedapply/form/contact-info-module",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-indeed-corpus-02-contact-info-module.html",
+      "capturedAt": "2026-07-07T22:18:33.688Z"
+    },
+    {
+      "runIndex": 2,
+      "platform": "indeed",
+      "fixtureId": "web-indeed-corpus-02-profile-location",
+      "pageUrl": "https://smartapply.indeed.com/beta/indeedapply/form/profile-location",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-indeed-corpus-02-profile-location.html",
+      "capturedAt": "2026-07-07T22:18:43.950Z"
+    },
+    {
+      "runIndex": 2,
+      "platform": "indeed",
+      "fixtureId": "web-indeed-corpus-02-resume-selection-module-resume-selection",
+      "pageUrl": "https://smartapply.indeed.com/beta/indeedapply/form/resume-selection-module/resume-selection",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-indeed-corpus-02-resume-selection-module-resume-selection.html",
+      "capturedAt": "2026-07-07T22:18:56.693Z"
+    },
+    {
+      "runIndex": 2,
+      "platform": "indeed",
+      "fixtureId": "web-indeed-corpus-02-questions-module-questions-1",
+      "pageUrl": "https://smartapply.indeed.com/beta/indeedapply/form/questions-module/questions/1",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-indeed-corpus-02-questions-module-questions-1.html",
+      "capturedAt": "2026-07-07T22:19:04.422Z"
+    },
+    {
+      "runIndex": 2,
+      "platform": "indeed",
+      "fixtureId": "web-indeed-corpus-02-resume-module-relevant-experience",
+      "pageUrl": "https://smartapply.indeed.com/beta/indeedapply/form/resume-module/relevant-experience",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-indeed-corpus-02-resume-module-relevant-experience.html",
+      "capturedAt": "2026-07-07T22:19:22.207Z"
+    },
+    {
+      "runIndex": 3,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-03-jobs-search-",
+      "pageUrl": "https://www.linkedin.com/jobs/search/?currentJobId=4431516293&f_AL=true&f_WT=2&keywords=software%20engineer&location=United%20Kingdom&origin=JOBS_HOME_SEARCH_BUTTON",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-03-jobs-search.html",
+      "capturedAt": "2026-07-07T22:22:23.415Z"
+    },
+    {
+      "runIndex": 3,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-03-jobs-view-4431516293-",
+      "pageUrl": "https://www.linkedin.com/jobs/view/4431516293/",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-03-jobs-view-4431516293.html",
+      "capturedAt": "2026-07-07T22:22:36.104Z"
+    },
+    {
+      "runIndex": 3,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-03-jobs-search-results-",
+      "pageUrl": "https://www.linkedin.com/jobs/search-results/?currentJobId=4436940218&eBP=CwEAAAGfPq0Oc7scysE0V8JzsbqM6zn-vZqER1AvqgaJsW59P2k8wRBEh5dQlWJ0e-7Bflel48KE0PgYKihtDkb8TgQqMlZFJJtcG6gGz8j6DtTdfjrlz9h5ztAZGFXW1T3nKQSdEcp8527WDBsiYVvLSGbl7pmfSydIq0t2KYTaJHg33BgDQyCav7LV-RGGkhmAl_AAFCX1b0rOS07JMI9CHiJ9hxRsAMyC22l3Oeby1k35tzpwgZ7Wp5c-CqhBIKtcVfS2GiRQL6bByQqdg6UhIhVAzPcMnpxTh2KJlvmN3qBmHlgJPIoieoctLAbEU1szLru9sn6Em6NEHjQuP6JLLOKA2XCGcxDI21jcbENlKE72SHPhEnkRP-lVg1tky7awVks-56M0b069QrrPeQRJz45s4uz7v5fDpe67Nv5ARZ2QzjAvQ5i6EymvqdXGuFxpV-lHKjfCuPkjFyY2lOOPKkdHlpWORKElNxc4X6Q&trackingId=cCcL7skcvbV3YwBE%2B7mKkQ%3D%3D&keywords=Senior%20Full-Stack%20Developer%20%2F%20Technical%20Lead%20%E2%80%94%20National%20Addressing%20%26%20GIS%20Platform%20%28D.A.S%29&origin=JOB_DETAILS_SIMILAR_JOBS_CARD&originToLandingJobPostings=4436940218&geoId=101165590&f_SAL=f_SA_id_225001%3A272001",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-03-jobs-search-results.html",
+      "capturedAt": "2026-07-07T22:23:16.518Z"
+    },
+    {
+      "runIndex": 3,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-03-jobs-view-4436940218-",
+      "pageUrl": "https://www.linkedin.com/jobs/view/4436940218/",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-03-jobs-view-4436940218.html",
+      "capturedAt": "2026-07-07T22:23:21.754Z"
+    },
+    {
+      "runIndex": 3,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-03-jobs-view-4437443450-",
+      "pageUrl": "https://www.linkedin.com/jobs/view/4437443450/",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-03-jobs-view-4437443450.html",
+      "capturedAt": "2026-07-07T22:24:14.716Z"
+    },
+    {
+      "runIndex": 3,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-03-jobs-view-4431596535-",
+      "pageUrl": "https://www.linkedin.com/jobs/view/4431596535/",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-03-jobs-view-4431596535.html",
+      "capturedAt": "2026-07-07T22:24:33.081Z"
+    },
+    {
+      "runIndex": 3,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-03-jobs-search-",
+      "pageUrl": "https://www.linkedin.com/jobs/search/?currentJobId=4430367017&f_AL=true&f_WT=2&keywords=software%20engineer&location=United%20Kingdom&origin=JOBS_HOME_SEARCH_BUTTON",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-03-jobs-search.html",
+      "capturedAt": "2026-07-07T22:24:48.670Z"
+    },
+    {
+      "runIndex": 3,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-03-jobs-view-4430367017-",
+      "pageUrl": "https://www.linkedin.com/jobs/view/4430367017/",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-03-jobs-view-4430367017.html",
+      "capturedAt": "2026-07-07T22:25:04.005Z"
+    },
+    {
+      "runIndex": 3,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-03-jobs-view-4434131790-",
+      "pageUrl": "https://www.linkedin.com/jobs/view/4434131790/",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-03-jobs-view-4434131790.html",
+      "capturedAt": "2026-07-07T22:25:21.825Z"
+    },
+    {
+      "runIndex": 3,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-03-jobs-view-4432960553-",
+      "pageUrl": "https://www.linkedin.com/jobs/view/4432960553/",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-03-jobs-view-4432960553.html",
+      "capturedAt": "2026-07-07T22:25:37.268Z"
+    },
+    {
+      "runIndex": 5,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-05-jobs-search-",
+      "pageUrl": "https://www.linkedin.com/jobs/search/?currentJobId=4437823287&f_AL=true&keywords=backend%20developer&location=United%20Kingdom&origin=JOBS_HOME_SEARCH_BUTTON",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-05-jobs-search.html",
+      "capturedAt": "2026-07-07T22:31:05.360Z"
+    },
+    {
+      "runIndex": 5,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-05-jobs-view-4437823287-",
+      "pageUrl": "https://www.linkedin.com/jobs/view/4437823287/",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-05-jobs-view-4437823287.html",
+      "capturedAt": "2026-07-07T22:31:13.127Z"
+    },
+    {
+      "runIndex": 5,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-05-jobs-view-4437785782-",
+      "pageUrl": "https://www.linkedin.com/jobs/view/4437785782/",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-05-jobs-view-4437785782.html",
+      "capturedAt": "2026-07-07T22:31:28.739Z"
+    },
+    {
+      "runIndex": 5,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-05-jobs-view-4437804685-",
+      "pageUrl": "https://www.linkedin.com/jobs/view/4437804685/",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-05-jobs-view-4437804685.html",
+      "capturedAt": "2026-07-07T22:31:44.645Z"
+    },
+    {
+      "runIndex": 5,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-05-jobs-view-4434560735-",
+      "pageUrl": "https://www.linkedin.com/jobs/view/4434560735/",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-05-jobs-view-4434560735.html",
+      "capturedAt": "2026-07-07T22:31:57.316Z"
+    },
+    {
+      "runIndex": 5,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-05-jobs-view-4432771094-",
+      "pageUrl": "https://www.linkedin.com/jobs/view/4432771094/",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-05-jobs-view-4432771094.html",
+      "capturedAt": "2026-07-07T22:32:12.702Z"
+    },
+    {
+      "runIndex": 5,
+      "platform": "linkedin",
+      "fixtureId": "web-linkedin-corpus-05-jobs-view-4436534447-",
+      "pageUrl": "https://www.linkedin.com/jobs/view/4436534447/",
+      "htmlPath": "/Users/toby.claxton/Projects/autocvapply/tests/fixtures/form-extraction/html/web-linkedin-corpus-05-jobs-view-4436534447.html",
+      "capturedAt": "2026-07-07T22:32:27.965Z"
+    }
+  ],
+  "stuckStages": [],
+  "runs": [
+    {
+      "runIndex": 1,
+      "run": {
+        "platform": "indeed",
+        "role": "software engineer",
+        "location": "London"
+      },
+      "outcome": {
+        "status": "timeout",
+        "stats": {},
+        "log": []
+      },
+      "fixturesCaptured": []
+    },
+    {
+      "runIndex": 2,
+      "run": {
+        "platform": "indeed",
+        "role": "backend developer",
+        "location": "Manchester"
+      },
+      "outcome": {
+        "status": "timeout",
+        "stats": {},
+        "log": []
+      },
+      "fixturesCaptured": [
+        "web-indeed-corpus-02-contact-info-module",
+        "web-indeed-corpus-02-profile-location",
+        "web-indeed-corpus-02-resume-selection-module-resume-selection",
+        "web-indeed-corpus-02-questions-module-questions-1",
+        "web-indeed-corpus-02-resume-module-relevant-experience"
+      ]
+    },
+    {
+      "runIndex": 3,
+      "run": {
+        "platform": "linkedin",
+        "role": "software engineer",
+        "location": "United Kingdom",
+        "workType": "remote"
+      },
+      "outcome": {
+        "status": "completed",
+        "stats": {
+          "applied": 0,
+          "draftAllRuns": 0,
+          "errors": 7,
+          "fitSkipped": 0,
+          "found": 7,
+          "skipped": 0,
+          "stepsAdvanced": 0
+        },
+        "log": [
+          {
+            "level": "info",
+            "message": "Starting Auto Apply on linkedin.",
+            "ts": 1783462940024
+          },
+          {
+            "level": "info",
+            "message": "LinkedIn search: https://www.linkedin.com/jobs/search/?keywords=software+engineer&origin=JOBS_HOME_SEARCH_BUTTON&f_AL=true&location=United+Kingdom&f_WT=2",
+            "ts": 1783462940071
+          },
+          {
+            "level": "info",
+            "message": "Collecting LinkedIn job listings…",
+            "ts": 1783462946705
+          },
+          {
+            "level": "info",
+            "message": "Found 7 jobs (Easy Apply filter enabled).",
+            "ts": 1783462948207
+          },
+          {
+            "level": "info",
+            "message": "Opening Senior Full-Stack Developer / Technical Lead — National Addressing & GIS Platform (D.A.S) at Look and Sell Better Marketing Agency",
+            "ts": 1783462948213
+          },
+          {
+            "level": "info",
+            "message": "Opening full job page for fit check: Senior Full-Stack Developer / Technical Lead — National Addressing & GIS Platform (D.A.S)",
+            "ts": 1783462954230
+          },
+          {
+            "level": "info",
+            "message": "ATS score for Senior Full-Stack Developer / Technical Lead — National Addressing & GIS Platform (D.A.S) at Look and Sell Better Marketing Agency: 72/100 (min 10).",
+            "ts": 1783462986194
+          },
+          {
+            "level": "info",
+            "message": "Scored Senior Full-Stack Developer / Technical Lead — National Addressing & GIS Platform (D.A.S) at Look and Sell Better Marketing Agency - 72/100 - applying",
+            "ts": 1783462986199
+          },
+          {
+            "level": "error",
+            "message": "Senior Full-Stack Developer / Technical Lead — National Addressing & GIS Platform (D.A.S): jobMeta is not defined",
+            "ts": 1783462987205
+          },
+          {
+            "level": "info",
+            "message": "Opening Founding Engineer/Technical Lead at Evoro",
+            "ts": 1783462992015
+          },
+          {
+            "level": "info",
+            "message": "Opening full job page for fit check: Founding Engineer/Technical Lead",
+            "ts": 1783462999829
+          },
+          {
+            "level": "info",
+            "message": "ATS score for Founding Engineer/Technical Lead at Evoro: 82/100 (min 10).",
+            "ts": 1783463046056
+          },
+          {
+            "level": "info",
+            "message": "Scored Founding Engineer/Technical Lead at Evoro - 82/100 - applying",
+            "ts": 1783463046064
+          },
+          {
+            "level": "error",
+            "message": "Founding Engineer/Technical Lead: jobMeta is not defined",
+            "ts": 1783463047101
+          },
+          {
+            "level": "info",
+            "message": "Opening Founding Engineer at Syndi App",
+            "ts": 1783463052112
+          },
+          {
+            "level": "info",
+            "message": "Opening Founding Engineer directly (job card not visible in search list).",
+            "ts": 1783463052959
+          },
+          {
+            "level": "info",
+            "message": "ATS score for Founding Engineer at Syndi App: 72/100 (min 10).",
+            "ts": 1783463063313
+          },
+          {
+            "level": "info",
+            "message": "Scored Founding Engineer at Syndi App - 72/100 - applying",
+            "ts": 1783463063315
+          },
+          {
+            "level": "error",
+            "message": "Founding Engineer: jobMeta is not defined",
+            "ts": 1783463064451
+          },
+          {
+            "level": "info",
+            "message": "Opening Senior Software Engineer, Product & Platform at Moodsonic",
+            "ts": 1783463069242
+          },
+          {
+            "level": "info",
+            "message": "Opening Senior Software Engineer, Product & Platform directly (job card not visible in search list).",
+            "ts": 1783463070138
+          },
+          {
+            "level": "info",
+            "message": "ATS score for Senior Software Engineer, Product & Platform at Moodsonic: 82/100 (min 10).",
+            "ts": 1783463080869
+          },
+          {
+            "level": "info",
+            "message": "Scored Senior Software Engineer, Product & Platform at Moodsonic - 82/100 - applying",
+            "ts": 1783463080872
+          },
+          {
+            "level": "error",
+            "message": "Senior Software Engineer, Product & Platform: jobMeta is not defined",
+            "ts": 1783463081914
+          },
+          {
+            "level": "warn",
+            "message": "[stuck_recovery] [rate_limit] slow down - refresh 1/3",
+            "ts": 1783463081929
+          },
+          {
+            "level": "info",
+            "message": "Opening Software Engineer Expert at Great Value Hiring",
+            "ts": 1783463095598
+          },
+          {
+            "level": "info",
+            "message": "Opening full job page for fit check: Software Engineer Expert",
+            "ts": 1783463101598
+          },
+          {
+            "level": "info",
+            "message": "ATS score for Software Engineer Expert at Great Value Hiring: 72/100 (min 10).",
+            "ts": 1783463110798
+          },
+          {
+            "level": "info",
+            "message": "Scored Software Engineer Expert at Great Value Hiring - 72/100 - applying",
+            "ts": 1783463110801
+          },
+          {
+            "level": "error",
+            "message": "Software Engineer Expert: jobMeta is not defined",
+            "ts": 1783463111832
+          },
+          {
+            "level": "info",
+            "message": "Opening Full Stack Engineer at Opus Recruitment Solutions",
+            "ts": 1783463117001
+          },
+          {
+            "level": "info",
+            "message": "Opening Full Stack Engineer directly (job card not visible in search list).",
+            "ts": 1783463118000
+          },
+          {
+            "level": "info",
+            "message": "ATS score for Full Stack Engineer at Opus Recruitment Solutions: 72/100 (min 10).",
+            "ts": 1783463127475
+          },
+          {
+            "level": "info",
+            "message": "Scored Full Stack Engineer at Opus Recruitment Solutions - 72/100 - applying",
+            "ts": 1783463127478
+          },
+          {
+            "level": "error",
+            "message": "Full Stack Engineer: jobMeta is not defined",
+            "ts": 1783463128498
+          },
+          {
+            "level": "info",
+            "message": "Opening Senior Software Engineer at Novera Search",
+            "ts": 1783463133309
+          },
+          {
+            "level": "info",
+            "message": "Opening Senior Software Engineer directly (job card not visible in search list).",
+            "ts": 1783463134347
+          },
+          {
+            "level": "info",
+            "message": "ATS score for Senior Software Engineer at Novera Search: 85/100 (min 10).",
+            "ts": 1783463142828
+          },
+          {
+            "level": "info",
+            "message": "Scored Senior Software Engineer at Novera Search - 85/100 - applying",
+            "ts": 1783463142831
+          },
+          {
+            "level": "error",
+            "message": "Senior Software Engineer: jobMeta is not defined",
+            "ts": 1783463143944
+          },
+          {
+            "level": "success",
+            "message": "Auto Apply finished. Applied: 0, skipped: 0, fit skipped: 0, errors: 7.",
+            "ts": 1783463148309
+          }
+        ]
+      },
+      "fixturesCaptured": [
+        "web-linkedin-corpus-03-jobs-search-",
+        "web-linkedin-corpus-03-jobs-view-4431516293-",
+        "web-linkedin-corpus-03-jobs-search-results-",
+        "web-linkedin-corpus-03-jobs-view-4436940218-",
+        "web-linkedin-corpus-03-jobs-view-4437443450-",
+        "web-linkedin-corpus-03-jobs-view-4431596535-",
+        "web-linkedin-corpus-03-jobs-search-",
+        "web-linkedin-corpus-03-jobs-view-4430367017-",
+        "web-linkedin-corpus-03-jobs-view-4434131790-",
+        "web-linkedin-corpus-03-jobs-view-4432960553-"
+      ]
+    },
+    {
+      "runIndex": 4,
+      "run": {
+        "platform": "indeed",
+        "role": "devops engineer",
+        "location": "Birmingham"
+      },
+      "outcome": {
+        "status": "attempt_limit",
+        "stats": {
+          "applied": 0,
+          "draftAllRuns": 0,
+          "errors": 0,
+          "fitSkipped": 0,
+          "found": 16,
+          "skipped": 8,
+          "stepsAdvanced": 0
+        },
+        "log": [
+          {
+            "level": "info",
+            "message": "Starting Auto Apply on indeed.",
+            "ts": 1783463153347
+          },
+          {
+            "level": "info",
+            "message": "Indeed search: https://uk.indeed.com/jobs?q=devops+engineer&l=Birmingham&sc=0kf%3Aattr%28DSQF7%29",
+            "ts": 1783463153630
+          },
+          {
+            "level": "info",
+            "message": "Collecting Indeed job listings…",
+            "ts": 1783463157611
+          },
+          {
+            "level": "info",
+            "message": "Found 16 jobs (Indeed Apply filter enabled).",
+            "ts": 1783463157618
+          },
+          {
+            "level": "info",
+            "message": "Opening Controls Engineer at SThree",
+            "ts": 1783463157621
+          },
+          {
+            "level": "info",
+            "message": "Skipped Controls Engineer at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463187983
+          },
+          {
+            "level": "info",
+            "message": "Skipped Controls Engineer at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463188964
+          },
+          {
+            "level": "info",
+            "message": "Opening Control Systems Engineer at SThree",
+            "ts": 1783463192888
+          },
+          {
+            "level": "info",
+            "message": "Skipped Control Systems Engineer at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463224817
+          },
+          {
+            "level": "info",
+            "message": "Skipped Control Systems Engineer at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463225748
+          },
+          {
+            "level": "info",
+            "message": "Opening Controls Engineer at SThree",
+            "ts": 1783463230662
+          },
+          {
+            "level": "info",
+            "message": "Skipped Controls Engineer at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463261247
+          },
+          {
+            "level": "info",
+            "message": "Skipped Controls Engineer at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463262276
+          },
+          {
+            "level": "info",
+            "message": "Opening Automation Engineer at SThree",
+            "ts": 1783463266787
+          },
+          {
+            "level": "info",
+            "message": "Skipped Automation Engineer at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463297897
+          },
+          {
+            "level": "info",
+            "message": "Skipped Automation Engineer at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463298908
+          },
+          {
+            "level": "info",
+            "message": "Opening Control Systems Engineer at SThree",
+            "ts": 1783463303641
+          },
+          {
+            "level": "info",
+            "message": "Skipped Control Systems Engineer at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463334649
+          },
+          {
+            "level": "info",
+            "message": "Skipped Control Systems Engineer at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463335610
+          },
+          {
+            "level": "info",
+            "message": "Opening SAP Specialist at SThree",
+            "ts": 1783463340999
+          },
+          {
+            "level": "info",
+            "message": "Skipped SAP Specialist at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463372858
+          },
+          {
+            "level": "info",
+            "message": "Skipped SAP Specialist at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463373825
+          },
+          {
+            "level": "info",
+            "message": "Opening SAP Systems Architect at SThree",
+            "ts": 1783463378617
+          },
+          {
+            "level": "info",
+            "message": "Skipped SAP Systems Architect at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463410501
+          },
+          {
+            "level": "info",
+            "message": "Skipped SAP Systems Architect at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463411462
+          },
+          {
+            "level": "info",
+            "message": "Opening Automation Specialist at SThree",
+            "ts": 1783463416570
+          },
+          {
+            "level": "info",
+            "message": "Skipped Automation Specialist at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463449366
+          },
+          {
+            "level": "info",
+            "message": "Skipped Automation Specialist at SThree - external apply only (not Indeed Apply) - Job uses external apply, not Indeed Apply.",
+            "ts": 1783463450390
+          }
+        ]
+      },
+      "fixturesCaptured": []
+    },
+    {
+      "runIndex": 5,
+      "run": {
+        "platform": "linkedin",
+        "role": "backend developer",
+        "location": "United Kingdom"
+      },
+      "outcome": {
+        "status": "completed",
+        "stats": {
+          "applied": 0,
+          "draftAllRuns": 0,
+          "errors": 6,
+          "fitSkipped": 0,
+          "found": 6,
+          "skipped": 0,
+          "stepsAdvanced": 0
+        },
+        "log": [
+          {
+            "level": "info",
+            "message": "Starting Auto Apply on linkedin.",
+            "ts": 1783463457053
+          },
+          {
+            "level": "info",
+            "message": "LinkedIn search: https://www.linkedin.com/jobs/search/?keywords=backend+developer&origin=JOBS_HOME_SEARCH_BUTTON&f_AL=true&location=United+Kingdom",
+            "ts": 1783463457107
+          },
+          {
+            "level": "info",
+            "message": "Collecting LinkedIn job listings…",
+            "ts": 1783463462543
+          },
+          {
+            "level": "info",
+            "message": "Found 6 jobs (Easy Apply filter enabled).",
+            "ts": 1783463463864
+          },
+          {
+            "level": "info",
+            "message": "Opening Senior Laravel Developer at Insuremore",
+            "ts": 1783463463868
+          },
+          {
+            "level": "info",
+            "message": "Opening full job page for fit check: Senior Laravel Developer",
+            "ts": 1783463470600
+          },
+          {
+            "level": "info",
+            "message": "ATS score for Senior Laravel Developer at Insuremore: 65/100 (min 10).",
+            "ts": 1783463480254
+          },
+          {
+            "level": "info",
+            "message": "Scored Senior Laravel Developer at Insuremore - 65/100 - applying",
+            "ts": 1783463480257
+          },
+          {
+            "level": "error",
+            "message": "Senior Laravel Developer: jobMeta is not defined",
+            "ts": 1783463481263
+          },
+          {
+            "level": "info",
+            "message": "Opening Back End Developer at Breeze",
+            "ts": 1783463486128
+          },
+          {
+            "level": "info",
+            "message": "Opening Back End Developer directly (job card not visible in search list).",
+            "ts": 1783463487104
+          },
+          {
+            "level": "info",
+            "message": "ATS score for Back End Developer at Breeze: 72/100 (min 10).",
+            "ts": 1783463494584
+          },
+          {
+            "level": "info",
+            "message": "Scored Back End Developer at Breeze - 72/100 - applying",
+            "ts": 1783463494588
+          },
+          {
+            "level": "error",
+            "message": "Back End Developer: jobMeta is not defined",
+            "ts": 1783463495629
+          },
+          {
+            "level": "info",
+            "message": "Opening Backend Software Engineer/Developer (Java Kafka) at Transalis Ltd",
+            "ts": 1783463499836
+          },
+          {
+            "level": "info",
+            "message": "Opening Backend Software Engineer/Developer (Java Kafka) directly (job card not visible in search list).",
+            "ts": 1783463501082
+          },
+          {
+            "level": "info",
+            "message": "ATS score for Backend Software Engineer/Developer (Java Kafka) at Transalis Ltd: 45/100 (min 10).",
+            "ts": 1783463508563
+          },
+          {
+            "level": "info",
+            "message": "Scored Backend Software Engineer/Developer (Java Kafka) at Transalis Ltd - 45/100 - applying",
+            "ts": 1783463508566
+          },
+          {
+            "level": "error",
+            "message": "Backend Software Engineer/Developer (Java Kafka): jobMeta is not defined",
+            "ts": 1783463509542
+          },
+          {
+            "level": "info",
+            "message": "Opening Full Stack Engineer at RevTech",
+            "ts": 1783463514653
+          },
+          {
+            "level": "info",
+            "message": "Opening Full Stack Engineer directly (job card not visible in search list).",
+            "ts": 1783463515564
+          },
+          {
+            "level": "info",
+            "message": "ATS score for Full Stack Engineer at RevTech: 85/100 (min 10).",
+            "ts": 1783463522997
+          },
+          {
+            "level": "info",
+            "message": "Scored Full Stack Engineer at RevTech - 85/100 - applying",
+            "ts": 1783463523000
+          },
+          {
+            "level": "error",
+            "message": "Full Stack Engineer: jobMeta is not defined",
+            "ts": 1783463524071
+          },
+          {
+            "level": "info",
+            "message": "Opening Senior Software Engineer at trg.",
+            "ts": 1783463529350
+          },
+          {
+            "level": "info",
+            "message": "Opening Senior Software Engineer directly (job card not visible in search list).",
+            "ts": 1783463530417
+          },
+          {
+            "level": "info",
+            "message": "ATS score for Senior Software Engineer at trg.: 72/100 (min 10).",
+            "ts": 1783463538828
+          },
+          {
+            "level": "info",
+            "message": "Scored Senior Software Engineer at trg. - 72/100 - applying",
+            "ts": 1783463538832
+          },
+          {
+            "level": "error",
+            "message": "Senior Software Engineer: jobMeta is not defined",
+            "ts": 1783463539868
+          },
+          {
+            "level": "info",
+            "message": "Opening Senior Backend Engineer at QOVES",
+            "ts": 1783463545048
+          },
+          {
+            "level": "info",
+            "message": "Opening Senior Backend Engineer directly (job card not visible in search list).",
+            "ts": 1783463546149
+          },
+          {
+            "level": "info",
+            "message": "ATS score for Senior Backend Engineer at QOVES: 72/100 (min 10).",
+            "ts": 1783463557424
+          },
+          {
+            "level": "info",
+            "message": "Scored Senior Backend Engineer at QOVES - 72/100 - applying",
+            "ts": 1783463557429
+          },
+          {
+            "level": "error",
+            "message": "Senior Backend Engineer: jobMeta is not defined",
+            "ts": 1783463558543
+          },
+          {
+            "level": "success",
+            "message": "Auto Apply finished. Applied: 0, skipped: 0, fit skipped: 0, errors: 6.",
+            "ts": 1783463563110
+          }
+        ]
+      },
+      "fixturesCaptured": [
+        "web-linkedin-corpus-05-jobs-search-",
+        "web-linkedin-corpus-05-jobs-view-4437823287-",
+        "web-linkedin-corpus-05-jobs-view-4437785782-",
+        "web-linkedin-corpus-05-jobs-view-4437804685-",
+        "web-linkedin-corpus-05-jobs-view-4434560735-",
+        "web-linkedin-corpus-05-jobs-view-4432771094-",
+        "web-linkedin-corpus-05-jobs-view-4436534447-"
+      ]
+    }
+  ],
+  "summary": {
+    "fixturesCaptured": 22,
+    "runsCompleted": 2,
+    "runsStuck": 0,
+    "runsErrored": 2,
+    "totalApplied": 0
+  }
+}

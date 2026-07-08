@@ -1,0 +1,614 @@
+{
+  "id": "web-apply-workable-com-apply-8",
+  "min_fields": 29,
+  "exact_field_count": 29,
+  "fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "max_chars": 127,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "firstname",
+        "name": "firstname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "max_chars": 127,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "lastname",
+        "name": "lastname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email",
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone+1united states+1united kingdom+44canada+1",
+      "field_type": "tel",
+      "max_chars": 255,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": null,
+        "name": "phone",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "city city",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "city",
+        "name": "city",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "postcode postcode",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "postcode",
+        "name": "postcode",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "country country",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "country",
+        "name": "country",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "summary (optional)",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "summary",
+        "name": "summary",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "in 150 words or fewer, and in place of a cover letter, why are you interested in working at west wing writers?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "QA_3179248",
+        "name": "QA_3179248",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "as writers and communications experts, we strongly believe that our clients benefit from a variety of perspectives, experiences, and backgrounds. in 150 words or fewer, tell us a bit about the perspective you would bring to the www team.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "QA_3179249",
+        "name": "QA_3179249",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "writing sample one: submit an op-ed (or similar piece of writing), 800 words or fewer, that demonstrates your ability to structure an argument and cites relevant data and research to substantiate your position.. please copy the text of the piece—not just a hyperlink to an external source—into the box below. note: if you don’t have an op-ed or personal essay in your portfolio, we suggest you write one about an issue you care about. here are two examples of op-eds we like: • farzon nahvi, \"i'm a doctor and even i can't afford my student loans\" https://www.nytimes.com/2018/08/20/opinion/medical-school-student-loans-tuition-debt-doctor.html • ted gup, \"the world has already seen 'fire and fury'\" https://www.washingtonpost.com/opinions/the-world-has-already-seen-fire-and-fury/2017/08/11/b4d7f98c-7e17-11e7-83c7-5bd5460f0d7e_story.html?utm_term=.e69f4f0307c1",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "QA_3179250",
+        "name": "QA_3179250",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "writing sample two: submit one piece of your best writing. it can be of any type, including an excerpt or abridged version of a longer piece, as long as it’s 800 words or fewer. please copy the text of the piece—not just a hyperlink to an external source—into the box below. note: academic writing, straight news articles, fiction, and poetry aren’t the sort of work we do here, and we rarely find such samples useful in evaluating applications.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "QA_3179251",
+        "name": "QA_3179251",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you authorized to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "YES",
+        "NO"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "oOVcX7rsXy3GbtSx",
+        "name": "QA_3179252",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hybrid in the greater washington, dc area",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hybrid in the greater Washington, DC area"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input_JiJIdK9oQsh5nwFi",
+        "name": "3194231",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hybrid in the greater new york city area",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hybrid in the greater New York City area"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input_JiJIdK9oQsh5nwFi",
+        "name": "3194232",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "fully remote",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Fully remote"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input_JiJIdK9oQsh5nwFi",
+        "name": "3194233",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please list your preferred pronouns.",
+      "field_type": "text",
+      "max_chars": 127,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "QA_3179256",
+        "name": "QA_3179256",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "interaction with a current or former west wing writer",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "interaction with a current or former West Wing Writer"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input_sAKqemEGlbkBoBaH",
+        "name": "1555741",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "professor/classmate",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "professor/classmate"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input_sAKqemEGlbkBoBaH",
+        "name": "1555742",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "colleague/employer",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "colleague/employer"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input_sAKqemEGlbkBoBaH",
+        "name": "1555743",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "web search",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "web search"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input_sAKqemEGlbkBoBaH",
+        "name": "1555744",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "news article",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "news article"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input_sAKqemEGlbkBoBaH",
+        "name": "1555745",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "online/email job listing (e.g. inclusv)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "online/email job listing (e.g. Inclusv)"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input_sAKqemEGlbkBoBaH",
+        "name": "1555746",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "social media (twitter, facebook)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "social media (Twitter, Facebook)"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input_sAKqemEGlbkBoBaH",
+        "name": "1555747",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "other",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "other"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "input_sAKqemEGlbkBoBaH",
+        "name": "1555748",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "we’re always working to improve our outreach! please help us by providing more detail on your selection above. who or what, specifically, brought you to www?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "QA_3179258",
+        "name": "QA_3179258",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you interested in our internship program? if yes, please let us know which internship cycle(s) you would like to apply for.",
+      "field_type": "text",
+      "max_chars": 127,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "QA_8689967",
+        "name": "QA_8689967",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what location would you prefer to work from?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "input_JiJIdK9oQsh5nwFi",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about us?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "input_sAKqemEGlbkBoBaH",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

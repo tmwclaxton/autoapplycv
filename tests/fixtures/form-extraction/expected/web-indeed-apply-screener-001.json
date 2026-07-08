@@ -1,0 +1,98 @@
+{
+  "id": "web-indeed-apply-screener-001",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "are you available for relocation across uk for projects?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "rich-text-question-input-:rad:",
+        "name": "q_9222f36207195ebaa0ff0c15fa21a198",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now or in the future require sponsorship to work in uk?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "rich-text-question-input-:rag:",
+        "name": "q_57a903133dbbde236e42f9a547ee8ce5",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you be able to reliably commute or relocate to greater london for this job?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I can commute",
+        "Yes, I am planning to relocate",
+        "Yes, but I need relocation assistance",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "single-select-question-:raj:-0",
+        "name": "q_d003056ced4e709e2f02978320f9e04c",
+        "data_testid": "input-q_d003056ced4e709e2f02978320f9e04c",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "we must fill this position urgently. can you start immediately ?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "rich-text-question-input-:raq:",
+        "name": "q_4be2c1531d58dbc718c152160ac8d467",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

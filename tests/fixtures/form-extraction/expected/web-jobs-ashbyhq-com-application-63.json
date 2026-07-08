@@ -1,0 +1,232 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-63",
+  "min_fields": 11,
+  "exact_field_count": 11,
+  "fields": [
+    {
+      "question": "are you currently authorized to work in the u.s.?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "49c34432-a0f0-493f-a442-991072bed4fa",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "b8885c06-dfb5-4768-a825-c1dfa3a0a81e",
+        "name": "b8885c06-dfb5-4768-a825-c1dfa3a0a81e",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b8885c06-dfb5-4768-a825-c1dfa3a0a81e",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "where are you currently based?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you now or in the future require visa sponsorship to continue working in the u.s?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "bac14d1f-7f9f-4fe4-8dc8-5181204f759b",
+        "name": "bac14d1f-7f9f-4fe4-8dc8-5181204f759b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "bac14d1f-7f9f-4fe4-8dc8-5181204f759b",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how soon could you join the team?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "1f7a64cc-0dda-4433-8dd0-8eac00d6f532",
+        "placeholder": "Pick date...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about this role?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "9db1ad4b-4ab7-4ddd-abc1-a61f1efe2ca9",
+        "name": "9db1ad4b-4ab7-4ddd-abc1-a61f1efe2ca9",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "9db1ad4b-4ab7-4ddd-abc1-a61f1efe2ca9",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "2733adb2-aad1-46f2-85ca-5d750e8309c7",
+        "name": "2733adb2-aad1-46f2-85ca-5d750e8309c7",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "2733adb2-aad1-46f2-85ca-5d750e8309c7",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what type of role are you most interested in?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "c97fbcdb-0e9d-4b06-a312-6e8abb0ec5dc",
+        "name": "c97fbcdb-0e9d-4b06-a312-6e8abb0ec5dc",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "c97fbcdb-0e9d-4b06-a312-6e8abb0ec5dc",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "briefly describe your background and what draws you to still bright.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "b3d02511-cd78-4d70-b11a-98c9ae59ddc8",
+        "name": "b3d02511-cd78-4d70-b11a-98c9ae59ddc8",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b3d02511-cd78-4d70-b11a-98c9ae59ddc8",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

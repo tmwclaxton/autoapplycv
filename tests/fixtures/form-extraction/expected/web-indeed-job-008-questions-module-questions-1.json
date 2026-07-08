@@ -1,0 +1,103 @@
+{
+  "id": "web-indeed-job-008-questions-module-questions-1",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "what percentage of time are you willing to travel for work?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "0%",
+        "25%",
+        "50%",
+        "75%",
+        "100%"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "single-select-question-:rv:-0",
+        "name": "q_67971731b398aad542ba0d4e197996c1",
+        "data_testid": "input-q_67971731b398aad542ba0d4e197996c1",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of software development experience do you have?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "number-input-:r1l:",
+        "name": "q_306f011f40f2c848fdd7256778604eba",
+        "data_testid": "input-q_306f011f40f2c848fdd7256778604eba-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": "99",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of go experience do you have?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "number-input-:r1o:",
+        "name": "q_a0d22dd457c8e1a57b3654b3dd7bd746",
+        "data_testid": "input-q_a0d22dd457c8e1a57b3654b3dd7bd746-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": "99",
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is the highest level of education you have completed?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "None",
+        "GCSE or equivalent",
+        "A-Level or equivalent"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "div",
+        "type": null,
+        "id": "single-select-question-:r17:",
+        "name": null,
+        "data_testid": "input-q_582334c63558df0494b4781c604ca05e-select-list-select-list",
+        "role": "combobox",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

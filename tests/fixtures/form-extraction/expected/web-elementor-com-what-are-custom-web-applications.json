@@ -1,0 +1,69 @@
+{
+  "id": "web-elementor-com-what-are-custom-web-applications",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "search …",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": null,
+        "name": "s",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search …",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email email enter your email address",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "form-field-email",
+        "name": "form_fields[email]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Enter your email address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email enter your email address",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "form-field-email",
+        "name": "form_fields[email]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Enter your email address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

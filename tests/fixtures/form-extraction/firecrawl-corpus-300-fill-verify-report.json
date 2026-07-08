@@ -1,0 +1,584 @@
+{
+  "generated_at": "2026-07-07T23:15:55.035Z",
+  "totals": {
+    "scenarios": 24,
+    "evaluated": 9,
+    "passed": 1,
+    "failed": 8,
+    "pass_rate": 0.1111111111111111
+  },
+  "results": [
+    {
+      "id": "web-boards-greenhouse-io-8046089",
+      "passed": false,
+      "field_count": 11,
+      "failures": [
+        {
+          "field": "i certify that the information provided in this application is true and correct to the best of my knowledge. i understand that any false statements or omissions may result in disqualification from employment consideration or, if employed, in termination. linkedin profile",
+          "ref": "f9",
+          "stage": "apply",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "i understand my application will be processed in accordance with datadog’s candidate privacy policy. linkedin profile",
+          "ref": "f10",
+          "stage": "apply",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "please select all the languages you speak fluently. linkedin profile",
+          "ref": "f13",
+          "stage": "apply",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "i certify that the information provided in this application is true and correct to the best of my knowledge. i understand that any false statements or omissions may result in disqualification from employment consideration or, if employed, in termination. linkedin profile",
+          "ref": "f9",
+          "stage": "verify",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "i understand my application will be processed in accordance with datadog’s candidate privacy policy. linkedin profile",
+          "ref": "f10",
+          "stage": "verify",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "please select all the languages you speak fluently. linkedin profile",
+          "ref": "f13",
+          "stage": "verify",
+          "expected": "Yes",
+          "actual": null
+        }
+      ],
+      "apply_failures": 3,
+      "verify_failures": 3,
+      "checks": {
+        "domReadback": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "i certify that the information provided in this application is true and correct to the best of my knowledge. i understand that any false statements or omissions may result in disqualification from employment consideration or, if employed, in termination. linkedin profile",
+              "ref": "f9",
+              "stage": "apply",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "i understand my application will be processed in accordance with datadog’s candidate privacy policy. linkedin profile",
+              "ref": "f10",
+              "stage": "apply",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "please select all the languages you speak fluently. linkedin profile",
+              "ref": "f13",
+              "stage": "apply",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "i certify that the information provided in this application is true and correct to the best of my knowledge. i understand that any false statements or omissions may result in disqualification from employment consideration or, if employed, in termination. linkedin profile",
+              "ref": "f9",
+              "stage": "verify",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "i understand my application will be processed in accordance with datadog’s candidate privacy policy. linkedin profile",
+              "ref": "f10",
+              "stage": "verify",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "please select all the languages you speak fluently. linkedin profile",
+              "ref": "f13",
+              "stage": "verify",
+              "expected": "Yes",
+              "actual": null
+            }
+          ],
+          "apply_failures": 3,
+          "verify_failures": 3
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 11,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "i certify that the information provided in this application is true and correct to the best of my knowledge. i understand that any false statements or omissions may result in disqualification from employment consideration or, if employed, in termination. linkedin profile",
+              "ref": "f9",
+              "reason": "comboboxEmpty",
+              "expected": "Yes",
+              "actual": ""
+            },
+            {
+              "field": "i understand my application will be processed in accordance with datadog’s candidate privacy policy. linkedin profile",
+              "ref": "f10",
+              "reason": "comboboxEmpty",
+              "expected": "Yes",
+              "actual": ""
+            },
+            {
+              "field": "please select all the languages you speak fluently. linkedin profile",
+              "ref": "f13",
+              "reason": "comboboxEmpty",
+              "expected": "Yes",
+              "actual": ""
+            }
+          ]
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "greenhouse"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-37",
+      "passed": false,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-34",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-boards-greenhouse-io-7866468",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "greenhouse"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-38",
+      "passed": false,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-35",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-31",
+      "passed": false,
+      "field_count": 11,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 11,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-12",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-36",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-32",
+      "passed": false,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-13",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-37",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-33",
+      "passed": false,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-31",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-38",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-34",
+      "passed": false,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-32",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-39",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-35",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-14",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-40",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-36",
+      "passed": false,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-33",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-41",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    }
+  ]
+}

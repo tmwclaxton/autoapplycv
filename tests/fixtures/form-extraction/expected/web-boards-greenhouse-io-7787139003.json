@@ -1,0 +1,99 @@
+{
+  "id": "web-boards-greenhouse-io-7787139003",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "search …",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": null,
+        "name": "s",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search …",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "enter keywords...",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "keyword",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Enter keywords...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "meta_location_only",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "All Locations",
+        "Aiea, HI",
+        "Arlington, VA",
+        "Aurora, CO; Chantilly, VA; Herndon, VA",
+        "Boston, MA",
+        "Boston, MA; Colorado Springs, CO; Tampa, FL; Washington, DC",
+        "Boulder, CO; Broomfield, CO",
+        "Broomfield, CO",
+        "Columbia, SC",
+        "Doral, FL",
+        "Fayetteville, NC",
+        "Fort Belvoir, VA",
+        "Fort Bragg, NC",
+        "Fort Meade, MD",
+        "Fort Washington, MD",
+        "Hanover, MD",
+        "Herndon, VA",
+        "Honolulu, HI",
+        "Huntsville, AL",
+        "JEB Little Creek, VA",
+        "Patuxent River, MD",
+        "Quantico, VA",
+        "Sembawang, Singapore",
+        "Stennis Space Center, MS",
+        "Taipei, Taiwan",
+        "Tampa, FL",
+        "Titusville, FL",
+        "United States",
+        "Washington, DC"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": null,
+        "name": "meta_location_only",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

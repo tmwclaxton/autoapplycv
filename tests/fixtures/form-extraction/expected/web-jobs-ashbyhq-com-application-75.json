@@ -1,0 +1,199 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-75",
+  "min_fields": 9,
+  "exact_field_count": 9,
+  "fields": [
+    {
+      "question": "do you hold permanent us work authorization?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "d48d8516-c95a-4d7e-8990-1c6ac29dc794",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "eb28546f-1011-4e6a-9f35-1c53e9e7e633",
+        "name": "eb28546f-1011-4e6a-9f35-1c53e9e7e633",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "eb28546f-1011-4e6a-9f35-1c53e9e7e633",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "edd72752-9270-4ed1-80db-551eef3adfdf",
+        "name": "edd72752-9270-4ed1-80db-551eef3adfdf",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "edd72752-9270-4ed1-80db-551eef3adfdf",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about this opportunity? (select all that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "News",
+        "Linkedin Jobs",
+        "Credo AI Employee",
+        "Credo AI Website"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "d393c0b6-0b6d-4fb3-996c-72b18bdc6a39_056f83c7-d5e2-410c-9a38-5bdf27b15c52-labeled-checkbox-0",
+        "name": "News",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "optional cover letter - what type of role(s) would you be interested in at credo ai?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "38536efa-3814-4cac-ac39-4a9bcedfb757",
+        "name": "38536efa-3814-4cac-ac39-4a9bcedfb757",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "38536efa-3814-4cac-ac39-4a9bcedfb757",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "df4094e4-b6c2-4fe7-a060-988f0c1e9b6d__systemfield_data_consent_ack-labeled-checkbox-0",
+        "name": "I agree",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

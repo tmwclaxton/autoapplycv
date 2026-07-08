@@ -1,0 +1,424 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-66",
+  "min_fields": 20,
+  "exact_field_count": 20,
+  "fields": [
+    {
+      "question": "are you legally eligible to work in the country where you’re planning to work from?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "4919dea5-f2be-495d-8545-9e5e24faf5ef",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you able and willing to work remotely?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "d07a5931-29f9-4ce2-b8ac-7d98b835fac7",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you related to any current employees?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e5087031-0437-4fe6-b43d-ccb825f91d9f",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your preferred name?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "d509d6ca-152b-4584-ad15-23606c5c8d4f",
+        "name": "d509d6ca-152b-4584-ad15-23606c5c8d4f",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "d509d6ca-152b-4584-ad15-23606c5c8d4f",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please submit a technical writing sample, this can either be a link which you can paste here, or upload an attachment via the \"cover letter\" field above - this can also be included as part of a cover letter if you wish to submit one (if uploading an attachment, please enter n/a in this field)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "947a05ea-edd6-4260-89ab-5f05f136f096",
+        "name": "947a05ea-edd6-4260-89ab-5f05f136f096",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "947a05ea-edd6-4260-89ab-5f05f136f096",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you are eligible, please select the status that allows you to work and live in that country",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I am a citizen / permanent resident of the country where I plan to live & work from.",
+        "I have a work visa in the country where I plan to live & work from.",
+        "I require sponsorship / employer support from Camunda in the country where I plan to live & work from."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "deba5e4d-b814-46d6-a826-0c93c339570b_fc9a587c-95ec-47e3-88a1-b00619c79de8-labeled-radio-0",
+        "name": "deba5e4d-b814-46d6-a826-0c93c339570b_fc9a587c-95ec-47e3-88a1-b00619c79de8",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your pronouns for others to use when referring to you?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "c00c20e9-da70-44a7-b5af-5d04f464c2b2",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "986879f3-5e31-4248-87a7-2be453ca2593",
+        "name": "986879f3-5e31-4248-87a7-2be453ca2593",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "986879f3-5e31-4248-87a7-2be453ca2593",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "71546f06-de35-477d-ab7f-edd306d9dd86",
+        "name": "71546f06-de35-477d-ab7f-edd306d9dd86",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "71546f06-de35-477d-ab7f-edd306d9dd86",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you have discussed this role with a current camunda employee, please enter their full name here",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "96029b75-9ef7-4448-a605-7dbb8743c4d7",
+        "name": "96029b75-9ef7-4448-a605-7dbb8743c4d7",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "96029b75-9ef7-4448-a605-7dbb8743c4d7",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is the first line of you address?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "2e12fbeb-ce65-458e-81f7-8e75c7a77848",
+        "name": "2e12fbeb-ce65-458e-81f7-8e75c7a77848",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "2e12fbeb-ce65-458e-81f7-8e75c7a77848",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is the second line of your address (if relevant)?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "f5d31c24-0aae-4ce5-9eed-b601777ae750",
+        "name": "f5d31c24-0aae-4ce5-9eed-b601777ae750",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "f5d31c24-0aae-4ce5-9eed-b601777ae750",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "city",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "7d8ecd6b-3ad1-4fad-8994-b80d9bfa316f",
+        "name": "7d8ecd6b-3ad1-4fad-8994-b80d9bfa316f",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "7d8ecd6b-3ad1-4fad-8994-b80d9bfa316f",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "state/region",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "8b001910-59a8-4a81-9e77-9a81cfb78c67",
+        "name": "8b001910-59a8-4a81-9e77-9a81cfb78c67",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8b001910-59a8-4a81-9e77-9a81cfb78c67",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "post code",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "a5c39071-7e3b-4c08-a932-8e37e6886ad7",
+        "name": "a5c39071-7e3b-4c08-a932-8e37e6886ad7",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "a5c39071-7e3b-4c08-a932-8e37e6886ad7",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "country",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "0ff273ae-4c70-4926-8b1a-f58415a17a3c",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "35f51c2a-d3c5-46b9-919c-082d35c68484__systemfield_data_consent_ack-labeled-checkbox-0",
+        "name": "I agree",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

@@ -1,0 +1,167 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-48",
+  "min_fields": 7,
+  "exact_field_count": 7,
+  "fields": [
+    {
+      "question": "are you authorized to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "1323c8ce-34c2-4e9c-b8d5-9eaf62fc8153",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "bf1a9477-79ca-41fc-acb4-3d1fb9f9d568",
+        "name": "bf1a9477-79ca-41fc-acb4-3d1fb9f9d568",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "bf1a9477-79ca-41fc-acb4-3d1fb9f9d568",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "771f0c72-1b97-47c6-a606-bef0cdd44c18",
+        "name": "771f0c72-1b97-47c6-a606-bef0cdd44c18",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "771f0c72-1b97-47c6-a606-bef0cdd44c18",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what schedule are you open to working?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Day Shift | Monday – Friday | 9:00 AM – 5:00 PM ET",
+        "Night & Weekend Shift | Thursday – Monday | 6:00 PM – 2:00 AM ET",
+        "No preference"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "b3caab24-e914-4e99-b258-e9b74f11ead4_a38f4cd1-ac2e-4246-b12c-7f78637f7092-labeled-radio-0",
+        "name": "b3caab24-e914-4e99-b258-e9b74f11ead4_a38f4cd1-ac2e-4246-b12c-7f78637f7092",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your familiarity with prediction markets on a scale of 1-10?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "b3caab24-e914-4e99-b258-e9b74f11ead4_71603ce0-ee57-4226-bb48-25ab8acb195f-labeled-checkbox-0",
+        "name": "1",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

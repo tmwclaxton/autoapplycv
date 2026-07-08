@@ -1,0 +1,255 @@
+{
+  "id": "web-jsfiddle-net-uc6tg",
+  "min_fields": 12,
+  "exact_field_count": 12,
+  "fields": [
+    {
+      "question": "your mistral api key",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "mistral_api_key",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Your Mistral API Key",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "javascript/css url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "external_resource",
+        "name": "q",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "JavaScript/CSS URL",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "jquery mobile 1.4.4",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "jQuery Mobile 1.4.4"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "dep_232",
+        "name": "js_dependency[232]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ie. data-type=\"\"",
+      "field_type": "text",
+      "max_chars": 255,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "id_js_lib_option",
+        "name": "js_lib_option",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "ie. data-type=\"\"",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "reset css",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "id_normalize_css",
+        "name": "normalize_css",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "accent color",
+      "field_type": "text",
+      "max_chars": 7,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "accentColor",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Accent color",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "font color",
+      "field_type": "text",
+      "max_chars": 7,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "fontColor",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Font color",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "menu background",
+      "field_type": "text",
+      "max_chars": 7,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "menuColor",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Menu background",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "code background",
+      "field_type": "text",
+      "max_chars": 7,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "bodyColor",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Code background",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "fontfamily",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "fontFamily",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "console in the editor",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Console in the editor"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "editorConsole",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "clear console on run",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Clear console on run"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "clearConsole",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

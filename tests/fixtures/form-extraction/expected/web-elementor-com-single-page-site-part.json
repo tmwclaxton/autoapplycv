@@ -1,0 +1,49 @@
+{
+  "id": "web-elementor-com-single-page-site-part",
+  "min_fields": 2,
+  "exact_field_count": 2,
+  "fields": [
+    {
+      "question": "form_fields[imageradio] form-field-imageradio-0",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "form-field-imageRadio-0",
+        "name": "form_fields[imageRadio]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "this area is for feedback on the page. for questions, contact support.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "form-field-message",
+        "name": "form_fields[message]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "This area is for feedback on the page. For questions, contact support.",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

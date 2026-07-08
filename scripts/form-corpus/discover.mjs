@@ -224,7 +224,7 @@ for (const query of QUERIES) {
     console.log(`Searching: ${query}`);
 
     try {
-        const results = await searchWeb(query, 15);
+        const results = await searchWeb(query, 25);
 
         for (const row of results) {
             const url = row.url || row.link;

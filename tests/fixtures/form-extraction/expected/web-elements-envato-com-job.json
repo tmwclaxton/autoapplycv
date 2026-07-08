@@ -1,0 +1,79 @@
+{
+  "id": "web-elements-envato-com-job",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "sign me up your email",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": "footer-mailing-list-field",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Your email",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "categories",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Admin Templates",
+        "Email Templates",
+        "Site Templates",
+        "Landing Page Templates"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "a",
+        "type": null,
+        "id": "categories",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "properties",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Responsive",
+        "Retina Ready",
+        "PSD Files Included",
+        "SKETCH Files Included"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "a",
+        "type": null,
+        "id": "properties",
+        "name": null,
+        "data_testid": null,
+        "role": "group",
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}
