@@ -27,7 +27,7 @@ These patterns are why LinkedIn Auto Apply is reliable in CI without a live sess
 
 ### 1. Live HTML captures are authoritative
 
-Synthetic fixtures exist as a fallback, but **212+ live captures** in `tests/fixtures/auto-apply/linkedin/captured/` are the regression source. Synthetic HTML is regenerated from selectors; it does not replace real modal shapes.
+Synthetic fixtures exist as a fallback, but **212 live captures** in `tests/fixtures/auto-apply/linkedin/captured/` are the regression source for LinkedIn. Indeed Apply uses **44 step fixtures** under `tests/fixtures/form-extraction/html/web-indeed-*`. Synthetic HTML is regenerated from selectors; it does not replace real modal shapes.
 
 See [`tests/fixtures/auto-apply/linkedin/README.md`](../tests/fixtures/auto-apply/linkedin/README.md).
 

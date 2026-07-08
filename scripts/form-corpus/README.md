@@ -9,7 +9,7 @@ For cross-platform lessons (LinkedIn Auto Apply patterns, Oracle apply-flow sess
 | Tier | Engine | Scope | CI job |
 | --- | --- | --- | --- |
 | **Unit** | JSDOM / Node | Propagation, mock answers, debug-log replay | `php-tests` |
-| **Curated JSDOM** | JSDOM | ~36 synthetic scenarios, 4-layer checks | `extension-fill` |
+| **Curated JSDOM** | JSDOM | 70 scenarios, 4-layer checks | `extension-fill` |
 | **Platform smoke** | Playwright | 1 scenario per ATS/platform + Ashby widget checks | `extension-fill` (`FORM_CORPUS_PLAYWRIGHT=1`) |
 | **Curated Playwright** | Playwright | Priority scraped ATS fixtures | manual (`tests-heavy.yml`) |
 | **Extension E2E** | Playwright + extension | Full Draft All with mocked API | `extension-fill` optional (`EXTENSION_E2E=1`) |
@@ -34,7 +34,7 @@ For cross-platform lessons (LinkedIn Auto Apply patterns, Oracle apply-flow sess
 # Curated JSDOM (CI default tier)
 npm run form-corpus:fill-verify:curated
 
-# Per-platform Playwright smoke (10 scenarios + Ashby yes/no + checkbox)
+# Per-platform Playwright smoke (13 scenarios + Ashby yes/no + checkbox)
 npm run form-corpus:fill-verify:smoke
 
 # Playwright priority tier
@@ -244,7 +244,7 @@ npm run form-corpus:build-curated
 
 ## Curated verification tier
 
-The curated tier (`fill-verify-curated.json`) selects ~90 scenarios for **accuracy and variety** rather than running all 1800+ fixtures blindly.
+The curated tier (`fill-verify-curated.json`) selects **124** scenarios (70 JSDOM · 54 Playwright) for **accuracy and variety** rather than running all 3,000+ fixtures blindly.
 
 ### Philosophy
 

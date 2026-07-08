@@ -82,7 +82,7 @@ php artisan test --compact --filter=ApplicationDraftTest
 
 ## Profile mapping corpus
 
-Deterministic clarifying-question / profile-mapping tests (100+ scenarios, no LLM):
+Deterministic clarifying-question / profile-mapping tests (190 scenarios, no LLM):
 
 ```bash
 npm run test:profile-mapping-corpus:build   # optional: write JSON corpus
@@ -101,7 +101,7 @@ Requires `NANOGPT_API_KEY` in `.env`. GitHub Actions excludes the `nanogpt-live`
 
 ## Answer quality corpus
 
-Deterministic corpus validation (100+ scenarios, no LLM):
+Deterministic corpus validation (124+ scenarios, no LLM):
 
 ```bash
 npm run test:answer-quality-corpus:build   # write JSON corpus via PHP

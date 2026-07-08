@@ -26,9 +26,19 @@ import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
 
         <PostboxSteps class="mt-2" />
 
-        <PostboxPlatformBadges class="mt-10" />
+        <PostboxPlatformBadges class="mt-10" show-auto-apply-platforms />
 
         <PostboxProse class="mt-10">
+            <h2>Auto Apply on LinkedIn and Indeed</h2>
+            <p>
+                Open the extension sidebar <strong>Auto Apply</strong> tab,
+                choose LinkedIn or Indeed, set your search filters, and start a
+                run. The extension searches for Easy Apply / Indeed Apply jobs,
+                opens each posting, fills every step with Draft All, and submits
+                when the flow allows. You can pause, resume, or stop from the
+                sidebar at any time.
+            </p>
+
             <h2>Install the extension</h2>
             <ol>
                 <li>Sign in and complete your profile in the web app.</li>
@@ -80,9 +90,11 @@ import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
             <h2>Draft All answer quality</h2>
             <p>
                 Free-text answers are written from your profile and the job
-                posting. Behind the scenes we score drafts on hundreds of
-                scenarios - catching em dashes, common AI phrases, and generic
-                filler while keeping answers honest and specific to your CV.
+                posting. Behind the scenes we score drafts across 190
+                profile-mapping scenarios, 124 answer-quality scenarios, and
+                3,276 form fixtures - catching em dashes, common AI phrases, and
+                generic filler while keeping answers honest and specific to your
+                CV.
             </p>
             <ul>
                 <li>

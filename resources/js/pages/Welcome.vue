@@ -146,7 +146,7 @@ defineProps<{
                         Fills behave like a person, not a macro:
                         character-by-character typing on short fields, natural
                         pauses between questions, and human-like navigation on
-                        LinkedIn Auto Apply.
+                        LinkedIn and Indeed Auto Apply.
                     </p>
                 </div>
 
@@ -157,14 +157,14 @@ defineProps<{
                         <Bot class="size-5 text-postbox-red" />
                     </div>
                     <h3 class="text-base font-bold text-postbox-navy">
-                        LinkedIn Easy Apply supported today
+                        LinkedIn & Indeed Auto Apply
                     </h3>
                     <p
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
                         Auto Apply from the extension sidebar on LinkedIn Easy
-                        Apply jobs - search, fill, review, and submit. More
-                        platforms coming soon.
+                        Apply and Indeed Apply jobs - search, fill, review, and
+                        submit. More platforms coming soon.
                     </p>
                 </div>
 
@@ -180,7 +180,7 @@ defineProps<{
                     <p
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
-                        We score AI-generated form answers on hundreds of test
+                        We score AI-generated form answers on 3,000+ test
                         scenarios before shipping changes. That catches em
                         dashes, common AI words and tropes, and generic filler -
                         while keeping the speed of automation and grounding
@@ -190,7 +190,7 @@ defineProps<{
             </div>
         </section>
 
-        <PostboxPlatformBadges class="mt-12" />
+        <PostboxPlatformBadges class="mt-12" show-auto-apply-platforms />
 
         <PostboxDraftAllDemo />
 
