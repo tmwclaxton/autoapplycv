@@ -42,9 +42,52 @@ class ProfileIdentityFieldResolver
         ['path' => 'phone', 'patterns' => ['phone', 'mobile', 'telephone', 'tel']],
     ];
 
+    private const THIRD_PARTY_CONTACT_PATTERNS = [
+        '/\breferences?\b/iu',
+        '/\breferees?\b/iu',
+        '/\breferrer\b/iu',
+        '/\bemergency\s+contact\b/iu',
+        '/\bnext\s+of\s+kin\b/iu',
+        '/\bprofessional\s+references?\b/iu',
+        '/\bcharacter\s+references?\b/iu',
+        '/\bplease\s+list\s+(?:three|3|two|2)\s+references?\b/iu',
+        '/\bsupervisor\b/iu',
+        '/\bprevious\s+employ/iu',
+        '/\bemployment\s+history\b/iu',
+        '/\bwork\s+history\b/iu',
+    ];
+
     public static function isIdentityPath(string $path): bool
     {
         return in_array($path, self::IDENTITY_PATHS, true);
+    }
+
+    /**
+     * @param  array{label?: string, ref?: string|null, context?: string|null, dom?: array{id?: string|null, name?: string|null, placeholder?: string|null}|null}  $question
+     */
+    public static function isThirdPartyContactQuestion(array $question): bool
+    {
+        $parts = [
+            $question['label'] ?? null,
+            $question['context'] ?? null,
+            is_array($question['dom'] ?? null) ? ($question['dom']['id'] ?? null) : null,
+            is_array($question['dom'] ?? null) ? ($question['dom']['name'] ?? null) : null,
+            is_array($question['dom'] ?? null) ? ($question['dom']['placeholder'] ?? null) : null,
+        ];
+
+        $haystack = implode(' ', array_values(array_filter($parts, fn ($value) => is_string($value) && trim($value) !== '')));
+
+        if ($haystack === '') {
+            return false;
+        }
+
+        foreach (self::THIRD_PARTY_CONTACT_PATTERNS as $pattern) {
+            if (preg_match($pattern, $haystack) === 1) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -53,6 +96,10 @@ class ProfileIdentityFieldResolver
      */
     public static function resolveMappingForQuestion(array $question): ?array
     {
+        if (self::isThirdPartyContactQuestion($question)) {
+            return null;
+        }
+
         $domMapping = self::resolveMappingFromDomHints($question['dom'] ?? null);
 
         if ($domMapping !== null) {
@@ -178,6 +225,10 @@ class ProfileIdentityFieldResolver
      */
     public static function resolveAnswerForQuestion(CvProfile $profile, array $question, array $settings = []): ?array
     {
+        if (self::isThirdPartyContactQuestion($question)) {
+            return null;
+        }
+
         $mapping = self::resolveMappingForQuestion($question);
 
         if ($mapping === null || ! self::isIdentityPath($mapping['path'])) {
@@ -312,6 +363,8 @@ class ProfileIdentityFieldResolver
             .'copy the exact values from profile.full_name, profile.email, profile.phone, and profile.city. '
             .'Never invent a candidate name, email, phone number, or city. '
             .'Do not localize identity to the job country or form language. '
+            .'Never put the candidate\'s own name, email, or phone into referee, reference, or emergency-contact fields; '
+            .'use profile.structured_data.references when present, otherwise leave those fields unset. '
             .'Prose answers (motivation, experience, skills) must reflect the candidate\'s real CV and profile only - never a generic or fictional persona.';
     }
 

@@ -1,0 +1,213 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-106",
+  "min_fields": 9,
+  "exact_field_count": 9,
+  "fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "72ece03c-df13-4adc-b6ff-7f47b0f90d32",
+        "name": "72ece03c-df13-4adc-b6ff-7f47b0f90d32",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "72ece03c-df13-4adc-b6ff-7f47b0f90d32",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "516ec4e7-28bd-424f-bf14-eea4e0ee3af6",
+        "name": "516ec4e7-28bd-424f-bf14-eea4e0ee3af6",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "516ec4e7-28bd-424f-bf14-eea4e0ee3af6",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your current status in canada? (please note: this position is remote within canada only)",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Canadian Citizen",
+        "Permanent Resident",
+        "Open Work Permit",
+        "Closed Work Permit",
+        "Would need sponsorship"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "bcb8d367-39ae-403e-af09-dea6b35723de_cdf0bd15-a208-4eb9-9e76-30f461cbac10-labeled-radio-0",
+        "name": "bcb8d367-39ae-403e-af09-dea6b35723de_cdf0bd15-a208-4eb9-9e76-30f461cbac10",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what are your salary expectations?",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "c97d80aa-a7ba-4e5c-bab4-281c1fa10cbc",
+        "name": "c97d80aa-a7ba-4e5c-bab4-281c1fa10cbc",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "c97d80aa-a7ba-4e5c-bab4-281c1fa10cbc",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of professional software engineering experience do you have?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "0-4 Years",
+        "5-9 Years",
+        "10-14 Years",
+        "15+"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "bcb8d367-39ae-403e-af09-dea6b35723de_9d0c46ce-d2da-4e18-bee7-9acad4ed681e-labeled-checkbox-0",
+        "name": "0-4 Years",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following describes your recent hands-on experience? (select all that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Python",
+        "Django",
+        "FastAPI",
+        "MySQL or another relational DB",
+        "Other",
+        "None of the above"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "bcb8d367-39ae-403e-af09-dea6b35723de_d286c7a4-b9d0-4237-badd-ae2026f4ba8b-labeled-checkbox-0",
+        "name": "Python",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which ai coding tools do you use regularly in your development workflow? (select all that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Claude Code",
+        "Cursor",
+        "Github Copilot",
+        "Other",
+        "None"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "bcb8d367-39ae-403e-af09-dea6b35723de_cf1e0c6e-5ad6-46aa-8057-15f0fdccf001-labeled-checkbox-0",
+        "name": "Claude Code",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

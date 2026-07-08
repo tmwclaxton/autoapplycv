@@ -19,10 +19,12 @@ const applyOnly = process.argv.includes('--apply-only');
 let directOnly = directOnlyFlag;
 const maxConsecutiveCreditFailures = 8;
 
-const SKIP_URL_PATTERN = /youtube\.com|youtu\.be|\.pdf$|scribd\.com|themeforest\.net|linkedin\.com\/jobs\/view|indeed\.com\/viewjob|glassdoor\.com\/Job|twitter\.com|x\.com\/|facebook\.com|instagram\.com|reddit\.com\/r\//i;
+const SKIP_URL_PATTERN = /youtube\.com|youtu\.be|\.pdf$|\.docx$|scribd\.com|themeforest\.net|linkedin\.com\/jobs\/view|indeed\.com|glassdoor\.com\/Job|twitter\.com|x\.com\/|facebook\.com|instagram\.com|reddit\.com\/r\/|freecodecamp\.org|dribbble\.com|totaljobs\.com\/advice|nationalcareers\.service\.gov\.uk|betterteam\.com|formsmadeasy|forum\.|blog\.gov\.uk|amazon\.com\/|support\.personio/i;
 const STATIC_HOST_PATTERN = /github\.io|netlify\.app|codepen\.io|vercel\.app|glitch\.me|pages\.dev|surge\.sh|100forms\.com|jotform\.com|w3schools\.com|surveyjs\.io|formbold|aidaform|form\.taxi|formnx\.com|123formbuilder|zoho\.com|acas\.org\.uk|freecodecamp\.org\/learn/i;
-const APPLY_PATH_PATTERN = /\/apply(?:\/|$|\?)|\/application(?:\/|$|\?)|\/applications\/new|oneclick-ui|useMyLastApplication/i;
-const ATS_HOST_PATTERN = /boards\.greenhouse\.io|jobs\.lever\.co|jobs\.eu\.lever\.co|jobs\.ashbyhq\.com|apply\.workable\.com|jobs\.smartrecruiters\.com|myworkdayjobs\.com|breezy\.hr|recruitee\.com|teamtailor\.com|icims\.com|bamboohr\.com|jobs\.nhs\.uk|civil-service-careers\.gov\.uk/i;
+const APPLY_PATH_PATTERN =
+    /\/apply(?:\/|$|\?)|\/application(?:\/|$|\?)|\/applications\/new|oneclick-ui|useMyLastApplication|employment-application|career-application|application-form|job-application|OpportunityDetail|ViewJobDetails|mode=apply|career_ns=job_application|\/FormCenter\/|onlineapp|_application\.aspx|\/postings\/|\/jobs\/[^/]+\/(?:job|apply)|freshteam\.com\/jobs\/|comeet\.com\/jobs\/|\.jobs\.personio\.|applytojob\.com\/apply|pinpointhq\.com\/(?:jobs|postings)|ats\.rippling\.com\/.+\/apply|dayforcehcm\.com\/.+\/apply|CandidatePortal/i;
+const ATS_HOST_PATTERN =
+    /boards\.greenhouse\.io|jobs\.lever\.co|jobs\.eu\.lever\.co|jobs\.ashbyhq\.com|apply\.workable\.com|jobs\.smartrecruiters\.com|myworkdayjobs\.com|breezy\.hr|recruitee\.com|teamtailor\.com|icims\.com|bamboohr\.com|jobs\.nhs\.uk|civil-service-careers\.gov\.uk|applytojob\.com|pinpointhq\.com|personio\.(?:com|de)|ats\.rippling\.com|comeet\.com|ultipro\.com|paycomonline\.net|freshteam\.com|dayforcehcm\.com|successfactors\.com|applitrack\.com|jobappnetwork\.com/i;
 
 function urlPriority(url) {
     try {

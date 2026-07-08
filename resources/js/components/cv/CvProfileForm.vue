@@ -207,6 +207,7 @@ function addReference(): void {
         company: null,
         email: null,
         phone: null,
+        relationship: null,
     });
 }
 
@@ -1355,6 +1356,12 @@ function addAdditionalSectionItem(sectionIndex: number): void {
                             type="text"
                             class="postbox-input"
                             placeholder="Company"
+                        />
+                        <input
+                            v-model="ref.relationship"
+                            type="text"
+                            class="postbox-input"
+                            placeholder="Relationship"
                         />
                         <input
                             v-model="ref.email"

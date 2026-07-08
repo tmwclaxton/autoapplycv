@@ -63,7 +63,9 @@ import {
     fetchPagePayloadForJobContext,
     findBestFormFrameId,
     invalidateTabFrameCache,
+    scanFormValidationOnTab,
     sendTabMessage,
+    validateBlockedFieldOnTab,
 } from './form-frame-messaging.js';
 import { capturePageFromTab } from './page-capture.js';
 import {
@@ -73,6 +75,8 @@ import {
     mergePendingFields,
     partitionBatchAnswers,
     partitionIdentityProfileFields,
+    partitionReferenceProfileFields,
+    partitionPriorEmployerContactFields,
     pendingFieldsStorageKey,
     resolveIdentityProfileAnswer,
     resolveProfileMappingForLabel,
@@ -1033,18 +1037,12 @@ async function savePendingFieldAnswer(tabId, field, answer) {
         autoApplySession?.status === 'paused_for_input'
         && autoApplySession.pauseContext?.blockerField?.ref === field.ref
     ) {
-        const modalState = await sendTabMessage(tabId, {
-            type: 'LINKEDIN_VALIDATE_BLOCKED_FIELD',
-            ref: field.ref,
-            label: field.label || field.question,
-            dom: field.dom,
-        }, 0).catch(() => null);
+        const modalState = await validateBlockedFieldOnTab(tabId, field);
 
-        const validationError = modalState
-            ? findFieldValidationError(modalState, field)
-            : null;
+        const validationError = modalState?.validationError
+            || (modalState ? findFieldValidationError(modalState, field) : null);
 
-        if (validationError && fieldHasValidationError(modalState, field)) {
+        if (validationError && (modalState?.valid === false || fieldHasValidationError(modalState, field))) {
             const validationAttempt = (autoApplySession.pauseContext?.validationAttempt || 0) + 1;
             const pauseContext = await rePauseAutoApplyForValidationRetry({
                 tabId,
@@ -1161,6 +1159,55 @@ async function collectUnfilledRequiredFields(tabId, formFrameId) {
     }
 }
 
+async function applyPostDraftValidation(tabId, formFrameId, pendingFields, message, options = {}) {
+    if (isAutoApplyRunning()) {
+        return {
+            pendingFields,
+            pendingCount: pendingFields.length,
+            message,
+            validationScan: {
+                hasErrors: false,
+                validationErrors: [],
+                invalidFields: [],
+                pendingFields: [],
+                invalidFieldCount: 0,
+            },
+            unfilledRequiredFields: await collectUnfilledRequiredFields(tabId, formFrameId),
+        };
+    }
+
+    const validationScan = await scanFormValidationOnTab(tabId, formFrameId, {
+        triggerValidation: options.triggerValidation !== false,
+        waitMs: options.waitMs,
+    });
+
+    let nextPendingFields = pendingFields;
+    let nextMessage = message;
+    let pendingCount = nextPendingFields.length;
+
+    if (validationScan.pendingFields.length > 0) {
+        nextPendingFields = mergePendingFields(nextPendingFields, validationScan.pendingFields);
+        pendingCount = nextPendingFields.length;
+        await savePendingFields(tabId, nextPendingFields);
+    }
+
+    if (validationScan.hasErrors) {
+        const errorPreview = validationScan.validationErrors.slice(0, 2).join('; ')
+            || `${validationScan.invalidFieldCount} field(s) failed validation`;
+        nextMessage = pendingCount > 0
+            ? `Fill complete, but the form still reports validation errors (${errorPreview}). Check We need your help.`
+            : `Fill complete, but the form reports validation errors (${errorPreview}).`;
+    }
+
+    return {
+        pendingFields: nextPendingFields,
+        pendingCount,
+        message: nextMessage,
+        validationScan,
+        unfilledRequiredFields: await collectUnfilledRequiredFields(tabId, formFrameId),
+    };
+}
+
 function inventoryFieldsToDraftShape(inventoryFields) {
     return (inventoryFields || []).map((field, index) => ({
         id: index,
@@ -1170,6 +1217,7 @@ function inventoryFieldsToDraftShape(inventoryFields) {
         max_chars: field.max_chars,
         options: field.options,
         dom: field.dom || null,
+        context: field.context || null,
     }));
 }
 
@@ -1730,6 +1778,35 @@ async function runDraftAll(tabId, e2eOptions = null) {
             pushDraftAnswersToSidepanelChat(0, memoToApply, fieldsByRef);
         }
 
+        const referencePartition = partitionReferenceProfileFields(remainingFields, profileData);
+        remainingFields = referencePartition.remainingFields;
+
+        if (referencePartition.referenceAnswers.length > 0) {
+            broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
+                message: `Applying ${referencePartition.referenceAnswers.length} reference field(s)…`,
+            });
+
+            perf.start('apply.references');
+            const referenceApplyResult = await applyDraftBatchToTab(
+                tabId,
+                enrichApplyAnswers(referencePartition.referenceAnswers, fieldsByRef, { profileYears }),
+                formFrameId,
+            );
+            perf.end('apply.references');
+
+            logInfo('background', 'draft-all.references', 'Applied reference profile fields', {
+                referenceCount: referencePartition.referenceAnswers.length,
+                success: referenceApplyResult?.success,
+                applied: referenceApplyResult?.applied,
+            }, tabId);
+
+            totalFieldsFilled += Number(
+                referenceApplyResult?.applied || referencePartition.referenceAnswers.length || 0,
+            );
+
+            pushDraftAnswersToSidepanelChat(0, referencePartition.referenceAnswers, fieldsByRef);
+        }
+
         const identityPartition = partitionIdentityProfileFields(remainingFields, profileData);
         remainingFields = identityPartition.remainingFields;
 
@@ -1755,23 +1832,36 @@ async function runDraftAll(tabId, e2eOptions = null) {
             totalFieldsFilled += Number(identityApplyResult?.applied || identityPartition.identityAnswers.length || 0);
         }
 
-        if (remainingFields.length === 0) {
-            await savePendingFields(tabId, pendingFields);
+        const priorEmployerPartition = partitionPriorEmployerContactFields(remainingFields, profileData);
+        remainingFields = priorEmployerPartition.remainingFields;
 
-            const pendingCount = pendingFields.length;
-            const message = pendingCount > 0
+        if (priorEmployerPartition.pendingFields.length > 0) {
+            pendingFields = mergePendingFields(pendingFields, priorEmployerPartition.pendingFields);
+        }
+
+        if (remainingFields.length === 0) {
+            let pendingCount = pendingFields.length;
+            let message = pendingCount > 0
                 ? `Fill complete. ${pendingCount} question(s) need your input in the sidebar.`
                 : memoAnswers.length > 0
                     ? `Fill complete (${memoAnswers.length} field(s) from saved answers).`
                     : 'No fields required AI drafting.';
 
-            broadcastDraftEvent('DRAFT_ALL_DONE', { message, pendingCount });
-
-            try {
-                await sendTabMessage(tabId, { type: 'FILL_RESUME' }, formFrameId);
-            } catch {
-                // Best-effort profile fill after memo-only apply.
+            if (!isAutoApplyRunning()) {
+                try {
+                    await sendTabMessage(tabId, { type: 'FILL_RESUME' }, formFrameId);
+                } catch {
+                    // Best-effort profile fill after memo-only apply.
+                }
             }
+
+            const postValidation = await applyPostDraftValidation(tabId, formFrameId, pendingFields, message);
+            pendingFields = postValidation.pendingFields;
+            pendingCount = postValidation.pendingCount;
+            message = postValidation.message;
+            await savePendingFields(tabId, pendingFields);
+
+            broadcastDraftEvent('DRAFT_ALL_DONE', { message, pendingCount });
 
             perf.summary({
                 fieldCount: fields.length,
@@ -1780,15 +1870,15 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 url: tab.url,
             });
 
-            const unfilledRequiredFields = await collectUnfilledRequiredFields(tabId, formFrameId);
-
             return {
                 success: true,
                 message,
                 fieldsFilled: totalFieldsFilled,
                 pendingFields,
                 pendingCount,
-                unfilledRequiredFields,
+                unfilledRequiredFields: postValidation.unfilledRequiredFields,
+                validationErrors: postValidation.validationScan.validationErrors,
+                validationInvalidFieldCount: postValidation.validationScan.invalidFieldCount,
             };
         }
 
@@ -1909,7 +1999,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
             if (event.type === 'complete' && event.subscription && cachedProfile) {
                 cachedProfile.subscription = event.subscription;
 
-                if (!resumePromise) {
+                if (!resumePromise && !isAutoApplyRunning()) {
                     perf.start('resume.fill');
                     resumePromise = sendTabMessage(tabId, { type: 'FILL_RESUME' }, formFrameId)
                         .then((resumeResult) => {
@@ -1952,8 +2042,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
         await savePendingFields(tabId, pendingFields);
 
-        const pendingCount = pendingFields.length;
-        const message = pendingCount > 0
+        let pendingCount = pendingFields.length;
+        let message = pendingCount > 0
             ? `Fill complete. ${pendingCount} question(s) need your input in the sidebar.`
             : `Fill complete (${fields.length} field(s) drafted).`;
         logInfo('background', 'draft-all.complete', 'Draft All finished', {
@@ -1964,11 +2054,9 @@ async function runDraftAll(tabId, e2eOptions = null) {
             pendingCount,
         }, tabId);
 
-        broadcastDraftEvent('DRAFT_ALL_DONE', { message, pendingCount });
-
         if (resumePromise) {
             void resumePromise;
-        } else {
+        } else if (!isAutoApplyRunning()) {
             try {
                 perf.start('resume.fill');
                 logDebug('background', 'fill.resume', 'Sending FILL_RESUME to tab', { formFrameId }, tabId);
@@ -1982,6 +2070,14 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 }, tabId);
             }
         }
+
+        const postValidation = await applyPostDraftValidation(tabId, formFrameId, pendingFields, message);
+        pendingFields = postValidation.pendingFields;
+        pendingCount = postValidation.pendingCount;
+        message = postValidation.message;
+        await savePendingFields(tabId, pendingFields);
+
+        broadcastDraftEvent('DRAFT_ALL_DONE', { message, pendingCount });
 
         const tokenUsage = usageEvents.reduce((totals, event) => ({
             prompt_tokens: totals.prompt_tokens + (event.prompt_tokens || 0),
@@ -2006,7 +2102,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
             usageBreakdown: usageEvents,
         });
 
-        const unfilledRequiredFields = await collectUnfilledRequiredFields(tabId, formFrameId);
+        const unfilledRequiredFields = postValidation.unfilledRequiredFields;
 
         return {
             success: true,
@@ -2015,6 +2111,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
             pendingFields,
             pendingCount,
             unfilledRequiredFields,
+            validationErrors: postValidation.validationScan.validationErrors,
+            validationInvalidFieldCount: postValidation.validationScan.invalidFieldCount,
         };
     } catch (error) {
         logDraftError('draft-all.error', 'Draft All unhandled error', error, tabId);
@@ -2692,6 +2790,22 @@ initExtensionBridge({
                 selector,
             }, resolvedFrameId);
         },
+        read_field_values: async ({ tabId, frameId }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedFrameId = typeof frameId === 'number' ? frameId : await findBestFormFrameId(resolvedTabId);
+
+            return sendTabMessage(resolvedTabId, {
+                type: 'BRIDGE_READ_FIELD_VALUES',
+            }, resolvedFrameId);
+        },
+        read_form_validation: async ({ tabId, frameId, triggerValidation = true }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedFrameId = typeof frameId === 'number' ? frameId : await findBestFormFrameId(resolvedTabId);
+
+            return scanFormValidationOnTab(resolvedTabId, resolvedFrameId, {
+                triggerValidation: triggerValidation !== false,
+            });
+        },
         apply_answer: async ({ tabId, frameId, ref, label, answer, field_type, dom, data_field_path }) => {
             const resolvedTabId = await resolveActiveTabId(tabId);
 
@@ -2719,6 +2833,15 @@ initExtensionBridge({
             return runDraftAll(resolvedTabId);
         },
         indeed_tab_message: async ({ tabId, type, ...messageParams }) => {
+            if (!type || typeof type !== 'string') {
+                throw new Error('type is required.');
+            }
+
+            const resolvedTabId = await resolveActiveTabId(tabId);
+
+            return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
+        },
+        linkedin_tab_message: async ({ tabId, type, ...messageParams }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }

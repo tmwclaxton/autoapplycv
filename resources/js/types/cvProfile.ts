@@ -85,6 +85,7 @@ export interface CvReference {
     company: string | null;
     email: string | null;
     phone: string | null;
+    relationship: string | null;
 }
 
 export interface CvTechnicalSkill {

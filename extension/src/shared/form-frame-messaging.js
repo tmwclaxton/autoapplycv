@@ -207,3 +207,87 @@ export async function applyDraftAnswerToTab(tabId, label, answer, options = {}) 
         data_field_path: options.data_field_path || options.dom?.data_field_path || null,
     }, resolvedFrameId);
 }
+
+export function validationInvalidFieldsToPending(invalidFields = []) {
+    return invalidFields
+        .filter((field) => field?.ref)
+        .map((field) => ({
+            ref: field.ref,
+            label: field.label || field.question || 'Application field',
+            question: field.question || field.label || 'Application field',
+            field_type: field.field_type || 'text',
+            dom: field.dom || null,
+            reason: 'validation_error',
+            validationMessage: field.validationMessage || null,
+        }));
+}
+
+export async function scanFormValidationOnTab(tabId, frameId, options = {}) {
+    const resolvedFrameId = await resolveFormFrameId(tabId, frameId);
+
+    try {
+        const response = await sendTabMessage(tabId, {
+            type: 'SCAN_FORM_VALIDATION',
+            triggerValidation: options.triggerValidation !== false,
+            waitMs: options.waitMs,
+        }, resolvedFrameId);
+
+        if (!response?.success) {
+            return {
+                hasErrors: false,
+                validationErrors: [],
+                invalidFields: [],
+                pendingFields: [],
+                invalidFieldCount: 0,
+            };
+        }
+
+        const invalidFields = response.invalidFields || [];
+
+        return {
+            hasErrors: Boolean(response.hasErrors),
+            validationErrors: response.validationErrors || [],
+            invalidFields,
+            pendingFields: validationInvalidFieldsToPending(invalidFields),
+            invalidFieldCount: invalidFields.length,
+            triggered: Boolean(response.triggered),
+            triggerSkipped: response.triggerSkipped || null,
+        };
+    } catch {
+        return {
+            hasErrors: false,
+            validationErrors: [],
+            invalidFields: [],
+            pendingFields: [],
+            invalidFieldCount: 0,
+        };
+    }
+}
+
+export async function validateBlockedFieldOnTab(tabId, field, frameId = null) {
+    const linkedInState = await sendTabMessage(tabId, {
+        type: 'LINKEDIN_VALIDATE_BLOCKED_FIELD',
+        ref: field.ref,
+        label: field.label || field.question,
+        dom: field.dom,
+    }, 0).catch(() => null);
+
+    if (linkedInState && linkedInState.valid === false) {
+        return linkedInState;
+    }
+
+    const resolvedFrameId = await resolveFormFrameId(tabId, frameId);
+
+    return sendTabMessage(tabId, {
+        type: 'VALIDATE_BLOCKED_FIELD',
+        ref: field.ref,
+        label: field.label || field.question,
+        question: field.question || field.label,
+        dom: field.dom,
+    }, resolvedFrameId).catch(() => ({
+        valid: true,
+        validationErrors: [],
+        invalidFields: [],
+        validationError: null,
+    }));
+}

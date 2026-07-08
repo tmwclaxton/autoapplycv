@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Mercy Corps Careers</title>
+</head>
+<body>
+<form>
+<div class="jv-page-container">
+        <div class="jv-page">
+                <div class="jv-page-content">
+            <header class="jv-page-header fixed-header" role="banner" x-data="{ menuOpen : false }">
+        <div class="jv-wrapper">
+            <div class="nav-header">
+                <div class="jv-logo">
+                        <a href="https://www.mercycorps.org/">
+                                                                <img src="//careers.jobvite.com/mercycorps/dev/2021/mc-logo.svg" alt="Mercy Corps">
+                        </a>
+                </div>
+                <div class="nav-wrap">
+                    <a class="jv-button jv-button-primary button-small" id="donate" href="https://www.mercycorps.org/donate">Donate</a>
+                    <div class="mobile-nav" @click="menuOpen = !menuOpen" :class="{'active':menuOpen}">
+                        <div class="mobile-nav-icon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-menu" :class="{'active':menuOpen}">
+                <a href="https://www.mercycorps.org/who-we-are">Who we are</a>
+                <a href="https://www.mercycorps.org/what-we-do">What we do</a>
+                <a href="https://www.mercycorps.org/where-we-work">Where we work</a>
+                <a href="https://www.mercycorps.org/how-to-help">How to help</a>
+            </div>
+        </div>
+        
+    </header>
+
+
+
+
+
+
+    <div class="jv-page-error">
+        <i class="jv-icon-warning"></i>
+        <p class="jv-page-error-header">
+            The job listing no longer exists.
+        </p>
+    </div>
+    
+            
+    <div class="banner">
+        <div class="jv-wrapper">
+            <h1>Careers at <br>Mercy Corps</h1>
+        </div>
+    </div>
+    <article class="jv-page-body" role="main">
+            <div class="jv-wrapper">
+                            <p class="jv-cws-sr-only">Open Positions</p>
+
+        <div class="jv-featured-jobs">
+                                                                                                <h1 class="jv-featured-jobs-header">Featured Jobs</h1>
+    <div class="jv-featured-job">
+        <div class="jv-featured-job-title">
+            <a href="/mercycorps/job/oLtqAfwY">Finance Officer, Caribbean Resilience Initiative (CRI), Puerto Rico, US Virgin Islands, Jamaica, or Saint Lucia</a>
+        </div>
+        <div class="jv-featured-job-location">
+
+        
+            Anywhere,
+            United States
+        
+        </div>
+                            </div>
+    <div class="jv-featured-job">
+        <div class="jv-featured-job-title">
+            <a href="/mercycorps/job/oJv8zfwF">Major Gifts Officer - US</a>
+        </div>
+        <div class="jv-featured-job-location">
+
+        
+            Various,
+            United States
+        
+        </div>
+                            </div>
+    <div class="jv-featured-job">
+        <div class="jv-featured-job-title">
+            <a href="/mercycorps/job/oLnrAfwT">Regional Finance Director, Africa</a>
+        </div>
+        <div class="jv-featured-job-location">
+
+        
+            Africa - Various Locations,
+            Kenya
+        
+        </div>
+                            </div>
+    <div class="jv-featured-job">
+        <div class="jv-featured-job-title">
+            <a href="/mercycorps/job/oInrAfwQ">Regional Finance Director, Asia, Middle East and Europe (AMEE) - Remote, Mercy Corps office locations - preference for AMEE region time zone locations</a>
+        </div>
+        <div class="jv-featured-job-location">
+
+        
+            Middle East - Various Locations,
+            Jordan
+        
+        </div>
+                            </div>
+        </div>
+                    <form class="jv-search-form jv-form jv-faceted-search-keyword" action="/mercycorps/search" method="get" ng-controller="facetedSearchController">
+                        <h1 class="jv-featured-jobs-header">Search Jobs</h1>
+            <h5>Enter Search Terms</h5>
+            <div class="jv-form-field jv-search-field">
+                <label for="jv-search-keyword" class="jv-form-field-label">Keyword:</label>
+                <div class="jv-form-field-control">
+                    <label class="jv-search-icon icon icon-search" for="jv-search-keyword"></label>
+                    <input id="jv-search-keyword" class="jv-search-input" type="search" name="q" ng-non-bindable="" placeholder="Search Jobs" value="" ng-model="state.keyword">
+                </div>
+            </div>
+            <div class="jv-form-buttons">
+                                <button class="jv-button jv-button-primary" type="submit">Search</button>
+            </div>
+            <h5>Filter Your Results</h5>
+        <div class="jv-form-field jv-form-field-select">
+            <label for="jv-search-region" class="jv-form-field-label">Region:</label>
+            <div class="jv-form-field-control" ng-class="{ 'jv-form-field-appearance': supportsAppearance }">
+                <i ng-if="supportsAppearance" ng-cloak="" class="jv-select-icon icon icon-arrow-down"></i>
+                    <select id="jv-search-region" name="r" ng-model="state.selectedFacets['r']" ng-disabled="!state.facets['r'] || state.loading">
+                <option value="">Select a Region</option>
+                    <option ng-repeat="item in state.facets['r']" value="{{ item.name }}">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="jv-form-field jv-form-field-select">
+            <label for="jv-search-location" class="jv-form-field-label">Location:</label>
+            <div class="jv-form-field-control" ng-class="{ 'jv-form-field-appearance': supportsAppearance }">
+                <i ng-if="supportsAppearance" ng-cloak="" class="jv-select-icon icon icon-arrow-down"></i>
+                    <select id="jv-search-location" name="l" ng-model="state.selectedFacets['l']" ng-disabled="!state.facets['l'] || state.loading">
+                <option value="">Select a Location</option>
+                    <option ng-repeat="item in state.facets['l']" value="{{ item.name }}">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="jv-form-field jv-form-field-select">
+            <label for="jv-search-category" class="jv-form-field-label">Category:</label>
+            <div class="jv-form-field-control" ng-class="{ 'jv-form-field-appearance': supportsAppearance }">
+                <i ng-if="supportsAppearance" ng-cloak="" class="jv-select-icon icon icon-arrow-down"></i>
+                    <select id="jv-search-category" name="c" ng-model="state.selectedFacets['c']" ng-disabled="!state.facets['c'] || state.loading">
+                <option value="">Select a Category</option>
+                    <option ng-repeat="item in state.facets['c']" value="{{ item.name }}">{{ item.name }}</option>
+                </select>
+            </div>
+        </div>
+                                    
+                        
+        </form>
+               
+    
+    
+             
+                        <h3 class="h2">Business Development and Fundraising</h3>
+
+        <div class="jv-job-list">
+            <ul class="list-unstyled">
+    
+                <li class="row">
+            <a href="/mercycorps/job/oJJMzfwx" class="flex-row">
+                <div class="jv-job-list-name">
+                    Business Development, Partnership and Reporting Manager - Kinshasa, DRC
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Kinshasa,
+            Congo (the Democratic Republic of)
+        
+                </div>
+            </a>
+        </li>
+
+    
+                <li class="row">
+            <a href="/mercycorps/job/oJv8zfwF" class="flex-row">
+                <div class="jv-job-list-name">
+                    Major Gifts Officer - US
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Various,
+            United States
+        
+                </div>
+            </a>
+        </li>
+
+            </ul>
+        </div>
+
+       
+                        <h3 class="h2">Finance, Accounting, Compliance</h3>
+
+        <div class="jv-job-list">
+            <ul class="list-unstyled">
+    
+                <li class="row">
+            <a href="/mercycorps/job/oLnrAfwT" class="flex-row">
+                <div class="jv-job-list-name">
+                    Regional Finance Director, Africa
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Africa - Various Locations,
+            Kenya
+        
+                </div>
+            </a>
+        </li>
+
+    
+                <li class="row">
+            <a href="/mercycorps/job/oInrAfwQ" class="flex-row">
+                <div class="jv-job-list-name">
+                    Regional Finance Director, Asia, Middle East and Europe (AMEE) - Remote, Mercy Corps office locations - preference for AMEE region time zone locations
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Middle East - Various Locations,
+            Jordan
+        
+                </div>
+            </a>
+        </li>
+
+            </ul>
+        </div>
+
+       
+                        <h3 class="h2">Human Resources</h3>
+
+        <div class="jv-job-list">
+            <ul class="list-unstyled">
+    
+                <li class="row">
+            <a href="/mercycorps/job/owyfAfwD" class="flex-row">
+                <div class="jv-job-list-name">
+                    Senior Compensation &amp; Benefits Advisor, EU and Strategic Initiatives- UK or NL
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        <div class="jv-meta">
+            2 Locations
+        </div>
+                </div>
+            </a>
+        </li>
+
+            </ul>
+        </div>
+
+       
+                        <h3 class="h2">Monitoring, Evaluation, Research and Learning</h3>
+
+        <div class="jv-job-list">
+            <ul class="list-unstyled">
+    
+                <li class="row">
+            <a href="/mercycorps/job/oYzpAfwg" class="flex-row">
+                <div class="jv-job-list-name">
+                    Market Systems Development - MEL &amp; Adaptive Learning Consultant - Capacity Strengthening Support
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Anywhere,
+            United States
+        
+                </div>
+            </a>
+        </li>
+
+            </ul>
+        </div>
+
+       
+                        <h3 class="h2">Operations</h3>
+
+        <div class="jv-job-list">
+            <ul class="list-unstyled">
+    
+                <li class="row">
+            <a href="/mercycorps/job/o3zpAfwl" class="flex-row">
+                <div class="jv-job-list-name">
+                    Market Systems Development - Technical Capacity Strengthening Consultant
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Anywhere,
+            United States
+        
+                </div>
+            </a>
+        </li>
+
+    
+                <li class="row">
+            <a href="/mercycorps/job/oat9Afw6" class="flex-row">
+                <div class="jv-job-list-name">
+                    Researcher
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Beirut,
+            Lebanon
+        
+                </div>
+            </a>
+        </li>
+
+            </ul>
+        </div>
+
+       
+                        <h3 class="h2">Programs and Technical Specialities</h3>
+
+        <div class="jv-job-list">
+            <ul class="list-unstyled">
+    
+                <li class="row">
+            <a href="/mercycorps/job/oCifAfwt" class="flex-row">
+                <div class="jv-job-list-name">
+                    Consultant - Developing Localization Strategy – Sudan INGO Forum
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Anywhere,
+            United States
+        
+                </div>
+            </a>
+        </li>
+
+    
+                <li class="row">
+            <a href="/mercycorps/job/o3pqAfwc" class="flex-row">
+                <div class="jv-job-list-name">
+                    Country Director - Mercy Corps, Uganda (National Position)
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Kampala,
+            Uganda
+        
+                </div>
+            </a>
+        </li>
+
+    
+                <li class="row">
+            <a href="/mercycorps/job/oLtqAfwY" class="flex-row">
+                <div class="jv-job-list-name">
+                    Finance Officer, Caribbean Resilience Initiative (CRI), Puerto Rico, US Virgin Islands, Jamaica, or Saint Lucia
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Anywhere,
+            United States
+        
+                </div>
+            </a>
+        </li>
+
+    
+                <li class="row">
+            <a href="/mercycorps/job/oBgdAfwo" class="flex-row">
+                <div class="jv-job-list-name">
+                    INGO Forum Access Advisor
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Khartoum,
+            Sudan
+        
+                </div>
+            </a>
+        </li>
+
+    
+                <li class="row">
+            <a href="/mercycorps/job/oezpAfww" class="flex-row">
+                <div class="jv-job-list-name">
+                    Program Manager Market Systems for Employment (MS4E) promoting Resilience (PROPEL program) - Dakar, Senegal
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Dakar,
+            Dakar
+        
+                </div>
+            </a>
+        </li>
+
+    
+                <li class="row">
+            <a href="/mercycorps/job/oYPdAfwk" class="flex-row">
+                <div class="jv-job-list-name">
+                    Regional Technical, Evidence and Quality Director (TEQ) MENA/EUROPE and ASIA
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Middle East - Various Locations,
+            Jordan
+        
+                </div>
+            </a>
+        </li>
+
+    
+                <li class="row">
+            <a href="/mercycorps/job/o8apAfw1" class="flex-row">
+                <div class="jv-job-list-name">
+                    Sahel Program Director - West &amp; Central Africa Region
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Dakar,
+            Dakar
+        
+                </div>
+            </a>
+        </li>
+
+    
+                <li class="row">
+            <a href="/mercycorps/job/o0MaAfwg" class="flex-row">
+                <div class="jv-job-list-name">
+                    Supporting Return Preparedness Through Livelihood Study
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Middle East - Various Locations,
+            Jordan
+        
+                </div>
+            </a>
+        </li>
+
+            </ul>
+        </div>
+
+       
+                        <h3 class="h2">Strategy &amp; Learning</h3>
+
+        <div class="jv-job-list">
+            <ul class="list-unstyled">
+    
+                <li class="row">
+            <a href="/mercycorps/job/od2Zzfwx" class="flex-row">
+                <div class="jv-job-list-name">
+                    Sustainability Analyst – Carbon Reporting &amp; Power Bi Dashboard Development Consultancy
+                </div>
+                <div class="ml-auto jv-job-list-location">
+
+        
+            Anywhere,
+            United States
+        
+                </div>
+            </a>
+        </li>
+
+            </ul>
+        </div>
+
+                                                                                                  
+    <div class="tools">
+        <h1>Job Seeker Tools</h1>
+            <a href="http://login.jobvite.com" target="_blank"><i class="icon icon-checkbox-checked"></i>  Check Your Application</a>
+            <a href="/mercycorps/jobAlerts"><i class="icon icon-src-email"></i>  Sign-up for Job Alerts</a>
+    </div>
+
+            </div>
+    </article>
+
+    <div class="company-footer">
+        <div class="jv-wrapper">
+            <div class="row">
+                <div class="footer-section" id="footer-menu">
+                    <div class="footer-column">
+                        <a class="footer-column-header" href="https://www.mercycorps.org/who-we-are">About Us</a>
+                        <ul class="footer-column-list">
+                            <li><a href="https://www.mercycorps.org/careers">Careers</a></li>
+                            <li><a href="https://www.mercycorps.org/who-we-are/financials">Financials</a></li>
+                            <li><a href="https://www.mercycorps.org/who-we-are/diversity-equity-inclusion">Diversity, equity and inclusion</a></li>
+                            <li><a href="https://www.mercycorps.org/who-we-are/ethics-policies">Ethics and policies</a></li>
+                            <li><a href="https://www.mercycorps.org/press-room">Press</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <a class="footer-column-header" href="https://www.mercycorps.org/how-to-help">How To Help</a>
+                        <ul class="footer-column-list">
+                            <li><a href="https://www.mercycorps.org/donate/become-monthly-giver">Give monthly</a></li>
+                            <li><a href="https://www.mercycorps.org/donate">Make a donation</a></li>
+                            <li><a href="https://www.mercycorps.org/how-to-help/advocacy">Take a stand</a></li>
+                            <li><a href="https://www.mercycorps.org/how-to-help/fundraising">Fundraise</a></li>
+                            <li><a href="https://www.mercycorps.org/partners">Partner with us</a></li>
+                            <li><a href="https://www.mercycorps.org/leave-a-legacy">Include us in your will</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <a class="footer-column-header" href="https://www.mercycorps.org/contact-us">Contact Us</a>
+                        <ul class="footer-column-list social-media">
+                            <li><a href="http://www.facebook.com/mercycorps"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="http://www.twitter.com/mercycorps"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="http://instagram.com/mercycorps"><i class="fab fa-instagram"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-section" id="placeholder"></div>
+                <div class="footer-section" id="efficiency">
+                    <span id="mercy-efficiency"></span>
+                    <a id="charity-watch" href="https://www.charitywatch.org/charities/mercy-corps"><span class="sr-only">Charity Watch</span></a>
+                    <a id="charity-navigator" href="https://www.charitynavigator.org/index.cfm?bay=search.summary&amp;orgid=4078"><span class="sr-only">Charity Navigator</span></a>
+                </div>
+                <div class="footer-section" id="contact-info">
+                    <span>Mercy Corps is a 501(c)(3)</span>
+                    <span>Tax ID # 19-1148123</span>
+                    <span><a href="https://www.mercycorps.org/who-we-are/privacy-policy">Privacy</a></span>
+                    <span>Copyright © &nbsp;Mercy Corps</span>
+                    <span id="footer-id"><a href="https://www.mercycorps.org/explore-our-websites">Explore our websites</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="jv-footer">
+        <div class="jv-wrapper">
+            <p class="jv-text-center">
+                                </p><hr>
+
+                    <a class="jv-powered-by" target="_parent" href="https://www.jobvite.com/support/job-seeker-support/"><i class="icon icon-powered-by"><span>Powered by Jobvite</span></i></a>
+            <p></p>
+        </div>
+    </footer>
+
+    </div>
+
+        </div>
+    </div>
+</form>
+</body>
+</html>

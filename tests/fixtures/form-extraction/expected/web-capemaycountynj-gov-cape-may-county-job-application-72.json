@@ -1,0 +1,1163 @@
+{
+  "id": "web-capemaycountynj-gov-cape-may-county-job-application-72",
+  "min_fields": 56,
+  "exact_field_count": 56,
+  "fields": [
+    {
+      "question": "search i'm looking for...",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "searchFielde6586242-0c31-455e-b926-6af51632cce9",
+        "name": "searchField",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "I'm looking for...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search forms by: word or phrase",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "inputFCTerm",
+        "name": "term",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Word or Phrase",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search",
+      "field_type": "image",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "image",
+        "id": "inputFCSearch",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "date of application mm/dd/yyyy",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_103_date",
+        "name": "e_103",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "mm/dd/yyyy",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "position(s) applied for: position applied for:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_9",
+        "name": "fields[4].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Position Applied for:",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "positiontype",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Full Time",
+        "Part Time",
+        "Temporary/Seasonal:"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_11_0",
+        "name": "e_11",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_3",
+        "name": "fields[6].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_2",
+        "name": "fields[7].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "middle name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_104",
+        "name": "fields[8].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Middle Name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "address1",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_4",
+        "name": "fields[9].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "address2",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_5",
+        "name": "fields[10].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "city",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_6",
+        "name": "fields[11].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "state",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_7",
+        "name": "fields[12].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "zip",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_8",
+        "name": "fields[13].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_33",
+        "name": "fields[14].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "social security number xxx-xx-xxxx",
+      "field_type": "text",
+      "max_chars": 11,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_148",
+        "name": "fields[15].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "XXX-XX-XXXX",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email address",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_34",
+        "name": "fields[16].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if yes, please give approximate date mm/dd/yyyy",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_85_date",
+        "name": "e_85",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "mm/dd/yyyy",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if yes, please give approximate date start date mm/dd/yyyy",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_87_date",
+        "name": "e_87",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "mm/dd/yyyy",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if yes, please give approximate date end date mm/dd/yyyy",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_87_dateSpan",
+        "name": "e_87",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "mm/dd/yyyy",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "on what date would you be available to work? mm/dd/yyyy",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_90_date",
+        "name": "e_90",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "mm/dd/yyyy",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "high school name/ location",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_19",
+        "name": "fields[36].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "High School Name/ Location",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "years completed",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "9",
+        "10",
+        "11",
+        "12"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_144_0",
+        "name": "e_144",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hs diploma/degree",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_106",
+        "name": "fields[40].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "HS Diploma/Degree",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "describe course of study",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_93",
+        "name": "fields[42].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Describe course of study",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "describe any specialized training, apprenticeship, skills and extra-curricular activities",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_107",
+        "name": "fields[44].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Describe any specialized training, apprenticeship, skills and extra-curricular activities",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "describe any honors you have received",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_108",
+        "name": "fields[46].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Describe any honors you have received",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "undergraduate college/university",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_21",
+        "name": "fields[49].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Undergraduate College/University",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "undergraduate degree",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_23",
+        "name": "fields[53].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Undergraduate Degree",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "graduate/professional university",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_24",
+        "name": "fields[62].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Graduate/Professional University",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "degree",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_26",
+        "name": "fields[66].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Degree",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please list any professional, trade, business, civic activities and any offices held (you may exclude memberships which indicate race, color, religion, sex, national origin, age, marital or veteran status, the presence of a non-job related medical condition or disability or any other legally protected status or classification): please list any professional, trade, business, civic activities and any offices held.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e_116",
+        "name": "fields[73].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Please list any professional, trade, business, civic activities and any offices held.",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "state any additional information about your education that you feel may be helpful in considering your application: state any additional information about your education that you feel may be helpful.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e_117",
+        "name": "fields[74].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "State any additional information about your education that you feel may be helpful.",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_123",
+        "name": "fields[76].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Company",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "employed from - to (date) employed from - to",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_37",
+        "name": "fields[77].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Employed From - To",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_35",
+        "name": "fields[78].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "position poisition",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_30",
+        "name": "fields[80].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Poisition",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "responsibilities",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e_36",
+        "name": "fields[81].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Responsibilities",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "reason for leaving",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_118",
+        "name": "fields[82].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Reason for Leaving",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "position",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_43",
+        "name": "fields[87].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Position",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "special skills",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e_124",
+        "name": "fields[97].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Special Skills",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "pension system",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Current Member",
+        "Past Member",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_141_0",
+        "name": "e_141",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "veteran",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes (If yes, a copy of the DD214 is required)",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_146_0",
+        "name": "e_146",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "service branch: service branch",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_128",
+        "name": "fields[100].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Service Branch",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "years of service: years of service",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_129",
+        "name": "fields[101].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Years of Service",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "special training",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e_130",
+        "name": "fields[102].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Special Training",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_62",
+        "name": "fields[104].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Full Name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "applicant signature by typing my name in the following box and clicking submit button i certify the above statements",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_75",
+        "name": "fields[114].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "By typing my name in the following box and clicking submit button I certify the above statements",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "date",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_134",
+        "name": "fields[116].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Date",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "position applied for: position applied for",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_135",
+        "name": "fields[117].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Position Applied For",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "city in which you reside city",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_136",
+        "name": "fields[118].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "City",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "age",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_137",
+        "name": "fields[119].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Age",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "gender",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Male",
+        "Female"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_138_0",
+        "name": "e_138",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "ethnicity",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "White",
+        "Black",
+        "Hispanic",
+        "Asian/Pacific Islander",
+        "American Indian/Alaskan Native",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_139_0",
+        "name": "e_139",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "other",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Veteran",
+        "Disabled Veteran",
+        "Handicapped Individual"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_147_0",
+        "name": "e_147",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "e_empty1",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "e_empty1",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

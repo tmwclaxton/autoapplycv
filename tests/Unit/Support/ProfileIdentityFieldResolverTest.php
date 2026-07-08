@@ -235,6 +235,31 @@ class ProfileIdentityFieldResolverTest extends TestCase
         $this->assertSame([], $partition['llm_questions']);
     }
 
+    public function test_third_party_contact_questions_are_not_identity_filled(): void
+    {
+        $user = User::factory()->create();
+        $profile = CvProfile::factory()->for($user)->create([
+            'full_name' => 'Toby Claxton',
+            'email' => 'toby@example.com',
+            'phone' => '7700900123',
+        ]);
+
+        $this->assertTrue(ProfileIdentityFieldResolver::isThirdPartyContactQuestion([
+            'label' => 'Phone',
+            'context' => 'REFERENCES · Please list three references',
+        ]));
+
+        $partition = ProfileIdentityFieldResolver::partitionQuestions($profile, [
+            ['label' => 'Phone', 'ref' => 'f1', 'field_type' => 'tel', 'context' => 'REFERENCES'],
+            ['label' => 'Full Name', 'ref' => 'f2', 'field_type' => 'text', 'context' => 'REFERENCES'],
+            ['label' => 'Phone', 'ref' => 'f3', 'field_type' => 'tel'],
+        ], ['phone_country_code' => '+44']);
+
+        $this->assertCount(1, $partition['identity_answers']);
+        $this->assertSame('f3', $partition['identity_answers'][0]['ref'] ?? null);
+        $this->assertCount(2, $partition['llm_questions']);
+    }
+
     public function test_resolve_value_falls_back_to_user_email_and_name_when_profile_fields_empty(): void
     {
         $user = User::factory()->create([

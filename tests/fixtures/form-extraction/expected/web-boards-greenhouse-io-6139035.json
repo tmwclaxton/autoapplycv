@@ -1,0 +1,733 @@
+{
+  "id": "web-boards-greenhouse-io-6139035",
+  "min_fields": 33,
+  "exact_field_count": 33,
+  "fields": [
+    {
+      "question": "search by role or keyword",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "hrtjobs_job_board_filters_0_searchField",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search by role or keyword",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "all",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "All"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "all_locations",
+        "name": "all_locations",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "austin",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Austin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_0_austin",
+        "name": "austin",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "boston",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Boston"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_0_boston",
+        "name": "boston",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "boulder",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Boulder"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_0_boulder",
+        "name": "boulder",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "carteret",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Carteret"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_0_carteret",
+        "name": "carteret",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "chicago",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Chicago"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_0_chicago",
+        "name": "chicago",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "dublin",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Dublin"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_0_dublin",
+        "name": "dublin",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hong kong",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hong Kong"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_0_hong-kong",
+        "name": "hong-kong",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "london",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "London"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_0_london",
+        "name": "london",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "mumbai",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Mumbai"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_0_mumbai",
+        "name": "mumbai",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "new york",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "New York"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_0_new-york",
+        "name": "new-york",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "seoul",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Seoul"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_0_seoul",
+        "name": "seoul",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "shanghai shi",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Shanghai Shi"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_0_shanghai-shi",
+        "name": "shanghai-shi",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "singapore",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Singapore"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_0_singapore",
+        "name": "singapore",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "business development",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Business Development"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_1_business-development",
+        "name": "business-development",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "finance",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Finance"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_1_finance-job-category",
+        "name": "finance-job-category",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hardware engineering",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hardware Engineering"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_1_hardware-engineering",
+        "name": "hardware-engineering",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "information security",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Information Security"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_1_information-security",
+        "name": "information-security",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "legal & compliance",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Legal & Compliance"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_1_legal-compliance",
+        "name": "legal-compliance",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "people operations",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "People Operations"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_1_people-operations",
+        "name": "people-operations",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "risk",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Risk"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_1_risk-job-category",
+        "name": "risk-job-category",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "software engineering",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Software Engineering"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_1_parent_software-engineeringc",
+        "name": "parent_software-engineeringc",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "c++",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "C++"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_1_software-engineeringc",
+        "name": "software-engineeringc",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "python",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Python"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_1_software-engineeringpython",
+        "name": "software-engineeringpython",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "strategy development",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Strategy Development"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_1_strategy-development",
+        "name": "strategy-development",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "systems and networking",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Systems and Networking"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_1_systems-and-networking",
+        "name": "systems-and-networking",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "trade operations",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Trade Operations"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_1_trade-operations",
+        "name": "trade-operations",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full-time",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Full-Time"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_2_parent_full-time-experienced",
+        "name": "parent_full-time-experienced",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "experienced",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Experienced"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_2_full-time-experienced",
+        "name": "full-time-experienced",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "new grad",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "New Grad"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_2_full-time-new-grad",
+        "name": "full-time-new-grad",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "internship",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Internship"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_2_internship",
+        "name": "internship",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "temporary",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Temporary"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "hrtjobs_job_board_filters_child_2_temporary",
+        "name": "temporary",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

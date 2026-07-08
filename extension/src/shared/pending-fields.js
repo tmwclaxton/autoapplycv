@@ -170,6 +170,54 @@ const EDUCATION_QUESTION_PATTERNS = [
     /\beducation\b/i,
 ];
 
+const THIRD_PARTY_CONTACT_PATTERNS = [
+    /\breferences?\b/i,
+    /\breferees?\b/i,
+    /\breferrer\b/i,
+    /\bemergency\s+contact\b/i,
+    /\bnext\s+of\s+kin\b/i,
+    /\bprofessional\s+references?\b/i,
+    /\bcharacter\s+references?\b/i,
+    /\bplease\s+list\s+(?:three|3|two|2)\s+references?\b/i,
+    /\bsupervisor\b/i,
+    /\bprevious\s+employ/i,
+    /\bemployment\s+history\b/i,
+    /\bwork\s+history\b/i,
+];
+
+const REFERENCE_PROFILE_SECTION_PATTERNS = [
+    /\breferences?\b/i,
+    /\breferees?\b/i,
+    /\breferrer\b/i,
+    /\bemergency\s+contact\b/i,
+    /\bnext\s+of\s+kin\b/i,
+    /\bprofessional\s+references?\b/i,
+    /\bcharacter\s+references?\b/i,
+    /\bplease\s+list\s+(?:three|3|two|2)\s+references?\b/i,
+];
+
+const REFERENCE_PROFILE_EXCLUDE_PATTERNS = [
+    /\bmay we contact\b/i,
+    /\bcontact your previous\b/i,
+    /\bfor a reference\b/i,
+];
+
+const PRIOR_EMPLOYER_CONTACT_PATTERNS = [
+    /\bprevious\s+employment\b/i,
+    /\bemployment\s+history\b/i,
+    /\bwork\s+history\b/i,
+    /\bprior\s+employ/i,
+];
+
+const REFERENCE_FIELD_PATTERNS = [
+    { key: 'name', pattern: /^(full\s+)?name$|\breference\s+name\b|\bcontact\s+name\b/i },
+    { key: 'relationship', pattern: /\brelationship\b|\bhow\s+(?:do|did)\s+you\s+know\b/i },
+    { key: 'company', pattern: /\bcompany\b|\borgani[sz]ation\b|\bemployer\b/i },
+    { key: 'title', pattern: /\btitle\b|\bjob\s+title\b|\bposition\b/i },
+    { key: 'phone', pattern: /\bphone\b|\bmobile\b|\btelephone\b|\bcontact\s+number\b/i },
+    { key: 'email', pattern: /\bemail\b|\be-?mail\b/i },
+];
+
 const SALARY_FALLBACK_PATHS = [
     'application_settings.expected_salary_yearly',
     'application_settings.expected_salary_monthly',
@@ -621,6 +669,198 @@ export function isEducationQuestionLabel(label) {
     return EDUCATION_QUESTION_PATTERNS.some((pattern) => pattern.test(normalized));
 }
 
+export function fieldContextHaystack(field) {
+    return [
+        field?.label,
+        field?.question,
+        field?.context,
+        field?.dom?.id,
+        field?.dom?.name,
+        field?.dom?.placeholder,
+    ]
+        .filter(Boolean)
+        .join(' ');
+}
+
+export function isThirdPartyContactField(field) {
+    const haystack = fieldContextHaystack(field);
+
+    if (!haystack) {
+        return false;
+    }
+
+    return THIRD_PARTY_CONTACT_PATTERNS.some((pattern) => pattern.test(haystack));
+}
+
+export function isReferenceProfileField(field) {
+    const haystack = fieldContextHaystack(field);
+
+    if (!haystack) {
+        return false;
+    }
+
+    if (REFERENCE_PROFILE_EXCLUDE_PATTERNS.some((pattern) => pattern.test(haystack))) {
+        return false;
+    }
+
+    return REFERENCE_PROFILE_SECTION_PATTERNS.some((pattern) => pattern.test(haystack));
+}
+
+export function isPriorEmployerContactField(field) {
+    const haystack = fieldContextHaystack(field);
+
+    if (!haystack || isReferenceProfileField(field)) {
+        return false;
+    }
+
+    if (!PRIOR_EMPLOYER_CONTACT_PATTERNS.some((pattern) => pattern.test(haystack))) {
+        return false;
+    }
+
+    const label = normalizeQuestionLabel(field?.label || field?.question || '');
+
+    return /\b(phone|supervisor|company|employer|title|job)\b/i.test(label)
+        || field?.field_type === 'tel';
+}
+
+function resolveReferenceFieldKey(field) {
+    const label = normalizeQuestionLabel(field?.label || field?.question || '');
+
+    if (!label) {
+        return null;
+    }
+
+    for (const entry of REFERENCE_FIELD_PATTERNS) {
+        if (entry.pattern.test(label)) {
+            return entry.key;
+        }
+    }
+
+    return null;
+}
+
+export function readProfileReferences(profileData) {
+    const structured = profileData?.profile?.structured_data
+        || profileData?.structured_data
+        || {};
+    const references = Array.isArray(structured.references) ? structured.references : [];
+
+    return references
+        .map((reference) => ({
+            name: String(reference?.name || '').trim(),
+            title: String(reference?.title || '').trim(),
+            company: String(reference?.company || '').trim(),
+            email: String(reference?.email || '').trim(),
+            phone: String(reference?.phone || '').trim(),
+            relationship: String(reference?.relationship || '').trim(),
+        }))
+        .filter((reference) => Object.values(reference).some((value) => value !== ''));
+}
+
+function referenceValueForKey(reference, key, profileData, field = null) {
+    if (!reference || !key) {
+        return '';
+    }
+
+    if (key === 'phone') {
+        if (field?.field_type === 'tel') {
+            return formatPhoneForMaskedTelInput(profileData, reference.phone);
+        }
+
+        return formatPhoneForForm(profileData, reference.phone);
+    }
+
+    return String(reference[key] || '').trim();
+}
+
+/**
+ * Fill referee/reference contact blocks from profile.structured_data.references.
+ * Repeated keys (e.g. a second "Full Name") advance to the next stored reference.
+ */
+export function partitionReferenceProfileFields(fields, profileData) {
+    const references = readProfileReferences(profileData);
+    const referenceAnswers = [];
+    const remainingFields = [];
+
+    if (references.length === 0) {
+        return { referenceAnswers, remainingFields: [...(fields || [])] };
+    }
+
+    let referenceIndex = 0;
+    let nextReferenceIndex = 0;
+    const seenKeysInSlot = new Set();
+    let previousWasReference = false;
+
+    for (const field of fields || []) {
+        if (!isReferenceProfileField(field)) {
+            if (previousWasReference) {
+                nextReferenceIndex = Math.min(referenceIndex + 1, references.length - 1);
+            }
+
+            previousWasReference = false;
+            seenKeysInSlot.clear();
+            remainingFields.push(field);
+
+            continue;
+        }
+
+        if (!previousWasReference) {
+            referenceIndex = nextReferenceIndex;
+            seenKeysInSlot.clear();
+        }
+
+        previousWasReference = true;
+
+        const key = resolveReferenceFieldKey(field);
+
+        if (key && seenKeysInSlot.has(key) && referenceIndex < references.length - 1) {
+            referenceIndex += 1;
+            seenKeysInSlot.clear();
+        }
+
+        if (key) {
+            seenKeysInSlot.add(key);
+        }
+
+        const answer = referenceValueForKey(references[referenceIndex], key, profileData, field);
+
+        if (isMeaningfulAnswer(answer)) {
+            referenceAnswers.push({
+                ref: field.ref,
+                label: field.label || field.question || '',
+                field_type: field.field_type,
+                dom: field.dom || null,
+                answer,
+            });
+        } else {
+            remainingFields.push(field);
+        }
+    }
+
+    return { referenceAnswers, remainingFields };
+}
+
+/**
+ * Prior-employer supervisor/company phone fields are not applicant identity or stored references.
+ * Leave them for the user rather than letting the LLM paste the candidate phone.
+ */
+export function partitionPriorEmployerContactFields(fields, profileData) {
+    const pendingFields = [];
+    const remainingFields = [];
+
+    for (const field of fields || []) {
+        if (isPriorEmployerContactField(field)) {
+            pendingFields.push(createPendingField(field, null, 'prior_employer_contact'));
+        } else {
+            remainingFields.push(field);
+        }
+    }
+
+    void profileData;
+
+    return { pendingFields, remainingFields };
+}
+
 export function isOpenEndedQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
@@ -900,6 +1140,37 @@ export function formatPhoneForForm(profileData, phone) {
     return `${code}${normalized.replace(/^0+/, '')}`;
 }
 
+/**
+ * Plain US-style tel masks only keep ~10 digits; E.164 values like +447700900999
+ * collapse to the same (447) 700-900x display. Format national digits instead.
+ */
+export function formatPhoneForMaskedTelInput(profileData, phone) {
+    const e164 = formatPhoneForForm(profileData, phone);
+    let digits = e164.replace(/\D/g, '');
+
+    if (!digits) {
+        return '';
+    }
+
+    const dialDigits = phoneCountryCode(profileData).replace(/\D/g, '');
+
+    if (dialDigits && digits.startsWith(dialDigits)) {
+        digits = digits.slice(dialDigits.length);
+    }
+
+    digits = digits.replace(/^0+/, '');
+
+    if (digits.length > 10) {
+        digits = digits.slice(-10);
+    }
+
+    if (digits.length === 10) {
+        return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+    }
+
+    return digits;
+}
+
 function resolvePhoneDialCodeForApply(profileData) {
     const explicit = phoneCountryCode(profileData).replace(/\s/g, '');
 
@@ -979,6 +1250,10 @@ export function isIdentityProfilePath(path) {
 }
 
 export function resolveIdentityProfileAnswer(field, profileData) {
+    if (isThirdPartyContactField(field)) {
+        return '';
+    }
+
     const mapping = resolveProfileMappingForLabel(
         field.label || field.question || '',
         profileData,
@@ -989,10 +1264,10 @@ export function resolveIdentityProfileAnswer(field, profileData) {
         return '';
     }
 
-    return profileValueForApply(mapping, profileData);
+    return profileValueForApply(mapping, profileData, field);
 }
 
-function profileValueForApply(mapping, profileData) {
+function profileValueForApply(mapping, profileData, field = null) {
     const value = readProfileValue(profileData, mapping.path);
 
     if (!isMeaningfulAnswer(value)) {
@@ -1000,6 +1275,10 @@ function profileValueForApply(mapping, profileData) {
     }
 
     if (mapping.path === 'phone') {
+        if (field?.field_type === 'tel') {
+            return formatPhoneForMaskedTelInput(profileData, value);
+        }
+
         return formatPhoneForForm(profileData, value);
     }
 
@@ -1019,6 +1298,10 @@ function profileValueForApply(mapping, profileData) {
 }
 
 function resolveProfileFallbackAnswer(field, profileData) {
+    if (isThirdPartyContactField(field)) {
+        return '';
+    }
+
     const mapping = resolveProfileMappingForLabel(
         field.label || field.question || '',
         profileData,
@@ -1029,7 +1312,7 @@ function resolveProfileFallbackAnswer(field, profileData) {
         return '';
     }
 
-    return profileValueForApply(mapping, profileData);
+    return profileValueForApply(mapping, profileData, field);
 }
 
 function resolvePendingProfileMapping(field, profileData) {

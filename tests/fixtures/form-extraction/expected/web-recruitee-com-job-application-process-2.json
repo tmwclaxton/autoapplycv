@@ -1,0 +1,91 @@
+{
+  "id": "web-recruitee-com-job-application-process-2",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "firstname-e547c3a5-391f-4092-a1e4-fd0294676d03_8890",
+        "name": "firstname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "First name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "last name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "lastname-e547c3a5-391f-4092-a1e4-fd0294676d03_8890",
+        "name": "lastname",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Last name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "work email your email address work email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email-e547c3a5-391f-4092-a1e4-fd0294676d03_8890",
+        "name": "email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Your email address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i agree to subscribe to email communications with relevant content, products, and services from recruitee. i can unsubscribe from these communications at any time. more information can be found in recruitee's privacy policy.",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree to subscribe to email communications with relevant content, products, and services from Recruitee. I can unsubscribe from these communications at any time. More information can be found in Recruitee's Privacy Policy.*"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "LEGAL_CONSENT.subscription_type_10792880-e547c3a5-391f-4092-a1e4-fd0294676d03_8890",
+        "name": "LEGAL_CONSENT.subscription_type_10792880",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

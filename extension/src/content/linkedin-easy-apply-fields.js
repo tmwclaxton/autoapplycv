@@ -435,6 +435,8 @@ const AutoCVApplyLinkedInEasyApplyFields = (() => {
         return setTextInputValue(input, phone.nationalNumber);
     }
 
+    const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+
     function isContactInfoStep(modal) {
         if (!modal) {
             return false;
@@ -453,6 +455,180 @@ const AutoCVApplyLinkedInEasyApplyFields = (() => {
             findSelectByLabel(modal, /\bemail\b/i)
             || findInputByLabel(modal, /mobile\s+phone/i),
         );
+    }
+
+    function isResumeStep(modal) {
+        if (!modal) {
+            return false;
+        }
+
+        const sectionHeading = modal.querySelector(
+            '.jobs-easy-apply-form-section__title, form h3.t-bold, form h3, .ph5 h3.t-bold, .ph5 h3',
+        );
+        const heading = normalize(sectionHeading?.textContent || modal.querySelector('h3')?.textContent || '');
+
+        if (/^resume$/i.test(heading) || /\bresume\b/i.test(heading)) {
+            return true;
+        }
+
+        return Boolean(
+            modal.querySelector('.jobs-document-upload-redesign-card__container')
+            || modal.querySelector('input[type="file"][id*="upload-resume" i]')
+            || modal.querySelector('.jobs-document-upload__upload-button'),
+        );
+    }
+
+    function hasSelectedResume(modal) {
+        if (!modal) {
+            return false;
+        }
+
+        if (modal.querySelector('.jobs-document-upload-redesign-card__container--selected')) {
+            return true;
+        }
+
+        const checkedRadio = modal.querySelector(
+            '.jobs-document-upload-redesign-card__container input[type="radio"]:checked',
+        );
+
+        return Boolean(checkedRadio);
+    }
+
+    function findResumeCardToSelect(modal) {
+        if (!modal || hasSelectedResume(modal)) {
+            return null;
+        }
+
+        const byAria = modal.querySelector('.jobs-document-upload-redesign-card__container[aria-label="Select this resume"]');
+
+        if (byAria) {
+            return byAria;
+        }
+
+        for (const card of modal.querySelectorAll('.jobs-document-upload-redesign-card__container')) {
+            if (!card.classList.contains('jobs-document-upload-redesign-card__container--selected')) {
+                return card;
+            }
+        }
+
+        return null;
+    }
+
+    function clickResumeCard(card) {
+        if (!(card instanceof HTMLElement)) {
+            return false;
+        }
+
+        const radio = card.querySelector('input[type="radio"]');
+        const label = card.querySelector('label[for]')
+            || card.querySelector('.jobs-document-upload-redesign-card__toggle-label');
+
+        if (radio instanceof HTMLInputElement) {
+            radio.checked = true;
+            dispatchBubbledEvent(radio, 'input');
+            dispatchBubbledEvent(radio, 'change');
+        }
+
+        if (label instanceof HTMLElement) {
+            label.click();
+        }
+
+        card.click();
+
+        return true;
+    }
+
+    function findLinkedInResumeFileInput(modal) {
+        if (!modal) {
+            return null;
+        }
+
+        return modal.querySelector('input[type="file"][id*="upload-resume" i]:not([disabled])')
+            || modal.querySelector('.js-jobs-document-upload__container input[type="file"]:not([disabled])')
+            || modal.querySelector('input[type="file"][name="file"]:not([disabled])');
+    }
+
+    async function attachCvToFileInput(fileInput, getCvDocument) {
+        if (!(fileInput instanceof HTMLInputElement) || typeof getCvDocument !== 'function') {
+            return false;
+        }
+
+        if (fileInput.files?.length > 0 || fileInput.value) {
+            return true;
+        }
+
+        const result = await getCvDocument();
+        const fetchImpl = typeof fetch === 'function' ? fetch : null;
+
+        if (!fetchImpl || !result?.base64) {
+            return false;
+        }
+
+        const response = await fetchImpl(result.base64);
+        const blob = await response.blob();
+        const file = new File([blob], result.fileName || 'cv.pdf', {
+            type: result.mimeType || blob.type || 'application/pdf',
+        });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+
+        const view = fileInput.ownerDocument?.defaultView || window;
+        const prototype = view.HTMLInputElement?.prototype;
+        const descriptor = prototype ? Object.getOwnPropertyDescriptor(prototype, 'files') : null;
+
+        if (descriptor?.set) {
+            descriptor.set.call(fileInput, dataTransfer.files);
+        } else {
+            fileInput.files = dataTransfer.files;
+        }
+
+        dispatchBubbledEvent(fileInput, 'input');
+        dispatchBubbledEvent(fileInput, 'change');
+
+        return true;
+    }
+
+    async function fillResumeStep(modal, options = {}) {
+        if (!modal || !isResumeStep(modal)) {
+            return { filled: 0, success: true, skipped: true, resumeSelected: false };
+        }
+
+        if (hasSelectedResume(modal)) {
+            return { filled: 0, success: true, skipped: false, resumeSelected: true, method: 'already-selected' };
+        }
+
+        const card = findResumeCardToSelect(modal);
+
+        if (card) {
+            clickResumeCard(card);
+            await sleep(350);
+
+            if (hasSelectedResume(modal)) {
+                return { filled: 1, success: true, resumeSelected: true, method: 'select-card' };
+            }
+        }
+
+        const fileInput = findLinkedInResumeFileInput(modal);
+
+        if (fileInput && typeof options.getCvDocument === 'function') {
+            const attached = await attachCvToFileInput(fileInput, options.getCvDocument);
+            await sleep(300);
+
+            return {
+                filled: attached ? 1 : 0,
+                success: attached || hasSelectedResume(modal),
+                resumeSelected: hasSelectedResume(modal),
+                method: attached ? 'upload' : 'upload-failed',
+                errors: attached ? [] : ['Could not attach CV to LinkedIn resume upload.'],
+            };
+        }
+
+        return {
+            filled: 0,
+            success: false,
+            resumeSelected: hasSelectedResume(modal),
+            errors: ['No resume selected on LinkedIn Resume step.'],
+        };
     }
 
     function normalizeSettingValue(value) {
@@ -665,12 +841,17 @@ const AutoCVApplyLinkedInEasyApplyFields = (() => {
 
     return {
         fillContactInfoStep,
+        fillResumeStep,
         fillEmailSelect,
         fillLocationTypeahead,
         fillPhoneCountrySelect,
         fillMobilePhoneInput,
+        findLinkedInResumeFileInput,
         findLocationTypeaheadInput,
+        findResumeCardToSelect,
+        hasSelectedResume,
         isContactInfoStep,
+        isResumeStep,
         isPlaceholderSelectOption,
         isSelectPlaceholder,
         locationTypeaheadNeedsFill,

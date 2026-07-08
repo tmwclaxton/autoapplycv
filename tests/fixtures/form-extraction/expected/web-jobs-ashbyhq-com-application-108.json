@@ -1,0 +1,462 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-108",
+  "min_fields": 22,
+  "exact_field_count": 22,
+  "fields": [
+    {
+      "question": "have you worked in or with a startup or small team?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "d96fc72d-d0f1-47ad-8f21-f18ea7202055",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you comfortable taking full ownership from architecture to deployment?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "a4986b66-255b-4c4b-a4ef-c7e57aa47771",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you open to working full-time from doha, qatar?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "d2dfa73b-0d11-4094-aeb3-7da34a0bafeb",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin/website link",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "6ecc1312-eacd-4ea0-94dc-bf3912c3b36f",
+        "name": "6ecc1312-eacd-4ea0-94dc-bf3912c3b36f",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "6ecc1312-eacd-4ea0-94dc-bf3912c3b36f",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github link",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "1f445879-0d04-4312-951e-f004202debe2",
+        "name": "1f445879-0d04-4312-951e-f004202debe2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "1f445879-0d04-4312-951e-f004202debe2",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of engineering experience do you have?",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "13c536e1-e278-428a-96f8-b353005ba4aa",
+        "name": "13c536e1-e278-428a-96f8-b353005ba4aa",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "13c536e1-e278-428a-96f8-b353005ba4aa",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your preferred stack",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Backend",
+        "Frontend",
+        "Full stack"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "be0ae017-8ecc-46d8-b0e7-ce2435bdd762_702bdaf7-4b5e-4382-bf1a-bfa560054cc2-labeled-checkbox-0",
+        "name": "Backend ",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current or most recent company",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "d57b8e67-92b4-4890-9ca7-8d4e54fb63e5",
+        "name": "d57b8e67-92b4-4890-9ca7-8d4e54fb63e5",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "d57b8e67-92b4-4890-9ca7-8d4e54fb63e5",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what languages, frameworks, and tools do you use most often?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "6dd3af20-4a7f-4d9f-92d4-313b40d73c34",
+        "name": "6dd3af20-4a7f-4d9f-92d4-313b40d73c34",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "6dd3af20-4a7f-4d9f-92d4-313b40d73c34",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "have you architected or maintained production infrastructure? (y/n + short example)",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "046ba77f-8f5b-4f5a-93cf-c8b90efa99ec",
+        "name": "046ba77f-8f5b-4f5a-93cf-c8b90efa99ec",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "046ba77f-8f5b-4f5a-93cf-c8b90efa99ec",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "can you share your experience with: react / next.js python / fastapi data pipelines (dagster, airflow, etc.) cloud infra (aws, gcp, docker, kubernetes)",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "7e593a13-cd27-434c-8c5b-a3b26cec9e7b",
+        "name": "7e593a13-cd27-434c-8c5b-a3b26cec9e7b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "7e593a13-cd27-434c-8c5b-a3b26cec9e7b",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "have you built or deployed ai-integrated systems or data pipelines? (y/n + brief details)",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e566f928-27e3-4ddf-ad37-79206d1c5e70",
+        "name": "e566f928-27e3-4ddf-ad37-79206d1c5e70",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e566f928-27e3-4ddf-ad37-79206d1c5e70",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "describe one system or product you built that scaled successfully. what made it reliable?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "7ad1c529-553b-404d-af23-0af6f1ad56eb",
+        "name": "7ad1c529-553b-404d-af23-0af6f1ad56eb",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "7ad1c529-553b-404d-af23-0af6f1ad56eb",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how do you decide what to automate or standardize when building?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "2333e4a5-597e-426a-b380-0b970bba106d",
+        "name": "2333e4a5-597e-426a-b380-0b970bba106d",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "2333e4a5-597e-426a-b380-0b970bba106d",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how do you approach balancing technical rigor with startup speed?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "16a7199d-29b4-490b-bd61-ca571a790409",
+        "name": "16a7199d-29b4-490b-bd61-ca571a790409",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "16a7199d-29b4-490b-bd61-ca571a790409",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you were building a ai-native product, what would you use as a base?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "83ee1a0c-a6be-41df-b512-52e98fdcde33",
+        "name": "83ee1a0c-a6be-41df-b512-52e98fdcde33",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "83ee1a0c-a6be-41df-b512-52e98fdcde33",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what kind of problems or industries excite you to build infrastructure for?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "3804c2c2-e219-46ec-9e8c-655d176f3869",
+        "name": "3804c2c2-e219-46ec-9e8c-655d176f3869",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "3804c2c2-e219-46ec-9e8c-655d176f3869",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "expected compensation range",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "dbf3a062-e04c-46d3-8fcc-3c452e2a62e7",
+        "name": "dbf3a062-e04c-46d3-8fcc-3c452e2a62e7",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "dbf3a062-e04c-46d3-8fcc-3c452e2a62e7",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "earliest start date",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e1d1641f-1cba-44bd-9d18-cdf777d1b486",
+        "placeholder": "Pick date...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

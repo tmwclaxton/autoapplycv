@@ -10,6 +10,7 @@ import {
     formatProfileSaveValue,
     formatContextualProfileLine,
     formatPhoneForForm,
+    formatPhoneForMaskedTelInput,
     isAvailabilityQuestionLabel,
     isCityLocationQuestionLabel,
     isEeoQuestionLabel,
@@ -23,12 +24,17 @@ import {
     partitionBatchAnswers,
     resolveConciseLocationValue,
     resolveProfileMappingForLabel,
+    resolveIdentityProfileAnswer,
     resolveSalaryPeriodPath,
     shouldDeferFieldToAiDraft,
     shouldPromptUserForField,
     shouldSaveToApplicationAnswers,
     shouldSkipAiDraftAnswer,
     splitFullName,
+    isThirdPartyContactField,
+    partitionReferenceProfileFields,
+    partitionPriorEmployerContactFields,
+    isPriorEmployerContactField,
 } from '../../extension/src/shared/pending-fields.js';
 
 function assert(condition, message) {
@@ -587,5 +593,106 @@ assert(
     ),
     'hours commitment with salary mapping should save to application Q&A',
 );
+
+assert(
+    isThirdPartyContactField({
+        label: 'Phone',
+        context: 'REFERENCES · Please list three references',
+    }),
+    'reference-context phone fields should be treated as third-party contacts',
+);
+
+assert(
+    resolveIdentityProfileAnswer({
+        label: 'Phone',
+        context: 'REFERENCES',
+        field_type: 'tel',
+    }, tobyProfile) === '',
+    'reference phone fields must not fill applicant identity phone',
+);
+
+assert(
+    resolveIdentityProfileAnswer({
+        label: 'Phone',
+        field_type: 'tel',
+    }, tobyProfile) !== '',
+    'applicant phone fields should still fill from profile',
+);
+
+const referenceProfile = {
+    profile: {
+        full_name: 'Toby Claxton',
+        phone: '7700900123',
+        structured_data: {
+            references: [
+                {
+                    name: 'Ada Reference',
+                    company: 'Acme Salon',
+                    relationship: 'Former manager',
+                    phone: '7700900999',
+                    email: 'ada@example.com',
+                },
+                {
+                    name: 'Bob Referee',
+                    company: 'Beta Cuts',
+                    relationship: 'Colleague',
+                    phone: '7700900888',
+                    email: 'bob@example.com',
+                },
+            ],
+        },
+    },
+    application_settings: {
+        phone_country_code: '+44',
+    },
+};
+
+const { referenceAnswers, remainingFields: referenceRemaining } = partitionReferenceProfileFields([
+    { ref: 'r1', label: 'Full Name', field_type: 'text', context: 'REFERENCES' },
+    { ref: 'r2', label: 'Relationship', field_type: 'text', context: 'REFERENCES' },
+    { ref: 'r3', label: 'Company', field_type: 'text', context: 'REFERENCES' },
+    { ref: 'r4', label: 'Phone', field_type: 'tel', context: 'REFERENCES' },
+    { ref: 'r5', label: 'Full Name', field_type: 'text', context: 'REFERENCES' },
+    { ref: 'r6', label: 'Phone', field_type: 'tel', context: 'REFERENCES' },
+    { ref: 'i1', label: 'Phone', field_type: 'tel' },
+], referenceProfile);
+
+const referenceByRef = new Map(referenceAnswers.map((row) => [row.ref, row.answer]));
+
+assert(referenceByRef.get('r1') === 'Ada Reference', 'first reference name should fill');
+assert(referenceByRef.get('r2') === 'Former manager', 'first reference relationship should fill');
+assert(referenceByRef.get('r3') === 'Acme Salon', 'first reference company should fill');
+assert(referenceByRef.get('r4') === '(770) 090-0999', 'first reference phone should fill masked');
+assert(referenceByRef.get('r5') === 'Bob Referee', 'second reference name should fill');
+assert(referenceByRef.get('r6') === '(770) 090-0888', 'second reference phone should fill masked');
+assert(
+    referenceRemaining.some((field) => field.ref === 'i1'),
+    'applicant phone should remain outside reference partition',
+);
+
+assert(
+    formatPhoneForMaskedTelInput(referenceProfile, '7700900999') === '(770) 090-0999',
+    'masked tel formatting should use national 10-digit groups',
+);
+
+assert(
+    formatPhoneForMaskedTelInput(referenceProfile, '7700900888') === '(770) 090-0888',
+    'distinct reference phones should stay distinct in masked format',
+);
+
+const { pendingFields: priorPending, remainingFields: priorRemaining } = partitionPriorEmployerContactFields([
+    { ref: 'e1', label: 'phone', field_type: 'tel', context: 'PREVIOUS EMPLOYMENT' },
+    { ref: 'e2', label: 'supervisor', field_type: 'text', context: 'PREVIOUS EMPLOYMENT' },
+    { ref: 'r1', label: 'phone', field_type: 'tel', context: 'REFERENCES' },
+], referenceProfile);
+
+assert(priorPending.length === 2, 'prior employer contact fields should become pending');
+assert(priorRemaining.length === 1 && priorRemaining[0].ref === 'r1', 'reference fields should stay for reference fill');
+assert(
+    isPriorEmployerContactField({ label: 'phone', field_type: 'tel', context: 'PREVIOUS EMPLOYMENT' }),
+    'employment history phone should be prior employer contact',
+);
+
+console.log('test-pending-fields: all assertions passed');
 
 console.log('pending-fields tests passed');

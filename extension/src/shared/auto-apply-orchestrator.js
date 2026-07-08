@@ -30,8 +30,15 @@ import {
     resumeAutoApplyFromInput,
     saveAutoApplySession,
 } from './auto-apply-session.js';
+import {
+    closeAutoApplyWindow,
+    createAutoApplyTab,
+    createAutoApplyWindow,
+    isAutoApplyWindowOpen,
+    navigateAutoApplyTab,
+} from './auto-apply-window.js';
 import { logError, logInfo, logWarn } from './debug-log.js';
-import { invalidateTabFrameCache, sendTabMessage, findBestFormFrameId } from './form-frame-messaging.js';
+import { invalidateTabFrameCache, sendTabMessage, findBestFormFrameId, scanFormValidationOnTab } from './form-frame-messaging.js';
 import { buildIndeedJobOpenUrl, isIndeedJobsSearchUrl, urlsMatchIndeedSearch } from './indeed-platform.js';
 import { buildLinkedInJobOpenUrl } from './linkedin-platform.js';
 import { capturePageFromTab, fetchPageHtmlFromTab, normalizePageCapturePayload } from './page-capture.js';
@@ -45,6 +52,8 @@ const AUTO_APPLY_DELAY_MS = {
     afterNavigation: 2200,
     afterModalStep: 1400,
     beforeDraftAll: 900,
+    rateLimitBackoff: 45_000,
+    afterSubmit: 4000,
 };
 
 const STUCK_TIMEOUT_MS = 45_000;
@@ -139,12 +148,7 @@ async function ensureLinkedInJobViewForFit(tabId, job) {
 
     await logSession('info', `Opening full job page for fit check: ${job.title}`);
 
-    try {
-        await chrome.tabs.update(tabId, { url: jobUrl, active: true });
-    } catch {
-        const tab = await chrome.tabs.create({ url: jobUrl, active: true });
-        tabId = tab.id;
-    }
+    tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
 
     await waitForTabLoadComplete(tabId);
     await waitForTabContentScript(tabId);
@@ -185,7 +189,7 @@ async function fetchJobDescriptionForFit(tabId, job = null) {
         const jobUrl = buildLinkedInJobOpenUrl(job.jobId, { preferJobView: true });
 
         await logSession('info', `Opening full job page to read description for ${job.title}.`);
-        await chrome.tabs.update(tabId, { url: jobUrl, active: true });
+        tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
         await waitForTabLoadComplete(tabId);
         await waitForTabContentScript(tabId);
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
@@ -240,7 +244,7 @@ async function evaluateJobFit(tabId, job, session) {
         return { proceed: true, score: null };
     }
 
-    const { description } = await fetchJobDescriptionForFit(tabId, job);
+    const { description, jobMeta } = await fetchJobDescriptionForFit(tabId, job);
 
     if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
         await logSession(
@@ -305,6 +309,27 @@ async function evaluateJobFit(tabId, job, session) {
 /** @type {Promise<void>|null} */
 let activeRunPromise = null;
 
+/** Serializes Auto Apply start/stop so UI and bridge cannot overlap runs. */
+let autoApplyStartChain = Promise.resolve();
+
+/** Serializes LinkedIn tab navigation and Easy Apply on a single tab. */
+let linkedInTabChain = Promise.resolve();
+
+function withLinkedInTabLock(fn) {
+    const run = linkedInTabChain.then(() => fn());
+    linkedInTabChain = run.catch(() => {});
+
+    return run;
+}
+
+async function stabilizeLinkedInTab(tabId) {
+    await sendLinkedInMessage(tabId, 'LINKEDIN_CLOSE_EASY_APPLY').catch(() => {});
+    await sendLinkedInMessage(tabId, 'LINKEDIN_DISMISS_SAVE_DIALOG').catch(() => {});
+    await sendLinkedInMessage(tabId, 'LINKEDIN_DISMISS_BLOCKING_MODAL').catch(() => {});
+    await acceptLinkedInCookieConsent(tabId).catch(() => {});
+    await sleep(randomDelay(500, 400));
+}
+
 /** @type {{ lastProgressAt: number, recoveryCount: number, lastSessionFingerprint: string|null }} */
 let watchdogState = {
     lastProgressAt: 0,
@@ -320,6 +345,68 @@ function randomDelay(baseMs, spreadMs = null) {
     const spread = spreadMs ?? Math.max(700, Math.floor(baseMs * 0.45));
 
     return baseMs + Math.floor(Math.random() * (spread + 1));
+}
+
+async function resolveAutoApplyWindowId(session = null) {
+    const current = session || await loadAutoApplySession();
+
+    if (await isAutoApplyWindowOpen(current?.windowId)) {
+        return current.windowId;
+    }
+
+    return null;
+}
+
+async function rememberAutoApplyWindow(windowId, tabId = null) {
+    await updateSession((current) => ({
+        ...current,
+        windowId,
+        tabId: tabId ?? current.tabId,
+    }));
+}
+
+async function openUrlInAutoApplyWindow(url, tabId = null) {
+    let windowId = await resolveAutoApplyWindowId();
+
+    if (!windowId && !tabId) {
+        const created = await createAutoApplyWindow(url);
+        await rememberAutoApplyWindow(created.windowId, created.tabId);
+
+        if (created.tabId) {
+            return created.tabId;
+        }
+
+        windowId = created.windowId;
+    }
+
+    if (!windowId) {
+        const created = await createAutoApplyWindow('about:blank');
+        await rememberAutoApplyWindow(created.windowId, created.tabId);
+        windowId = created.windowId;
+    }
+
+    if (tabId) {
+        try {
+            const tab = await chrome.tabs.get(tabId);
+
+            if (tab?.id) {
+                if (tab.windowId !== windowId) {
+                    await chrome.tabs.move(tabId, { windowId, index: -1 });
+                }
+
+                await navigateAutoApplyTab(tabId, url);
+
+                return tabId;
+            }
+        } catch {
+            // Recreate tab below.
+        }
+    }
+
+    const tab = await createAutoApplyTab(windowId, url);
+    await rememberAutoApplyWindow(windowId, tab.id);
+
+    return tab.id;
 }
 
 function broadcastAutoApplyStatus(session) {
@@ -348,6 +435,7 @@ function sanitizeSessionForBroadcast(session) {
         platform: session.platform,
         roleDescription: session.roleDescription,
         tabId: session.tabId,
+        windowId: session.windowId,
         maxApplications: session.maxApplications,
         filters: session.filters || null,
         fitCheckEnabled: session.fitCheckEnabled !== false,
@@ -399,8 +487,93 @@ async function logSession(level, message) {
     return updateSession((session) => appendAutoApplyLog(session, level, message));
 }
 
-async function sendLinkedInMessage(tabId, type, payload = {}) {
-    return sendTabMessage(tabId, { type, ...payload }, 0);
+async function sendLinkedInMessage(tabId, type, payload = {}, options = {}) {
+    const maxAttempts = options.maxAttempts ?? 3;
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+        try {
+            return await sendTabMessage(tabId, { type, ...payload }, 0);
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+
+            if (attempt < maxAttempts && isExtensionMessagingError(message)) {
+                invalidateTabFrameCache(tabId);
+                await logSession('warn', `[linkedin_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
+                await waitForTabContentScript(tabId).catch(() => {});
+                await sleep(randomDelay(1400, 900));
+
+                continue;
+            }
+
+            throw error;
+        }
+    }
+
+    return null;
+}
+
+async function advanceLinkedInEasyApplyStep(tabId, { skipPrefill = false } = {}) {
+    const advanceType = skipPrefill ? 'LINKEDIN_ADVANCE_EASY_APPLY' : 'LINKEDIN_FILL_AND_ADVANCE';
+    let advanceResponse = await sendLinkedInMessage(tabId, advanceType);
+
+    if (advanceResponse?.success || !/modal is not open/i.test(advanceResponse?.error || '')) {
+        return advanceResponse;
+    }
+
+    await sleep(randomDelay(1200, 700));
+
+    const modalState = await readLinkedInModalState(tabId, { retries: 4 });
+
+    if (modalState?.open) {
+        return sendLinkedInMessage(tabId, advanceType);
+    }
+
+    const reopenResponse = await sendLinkedInMessage(tabId, 'LINKEDIN_OPEN_EASY_APPLY');
+
+    if (reopenResponse?.success && !reopenResponse?.alreadyApplied) {
+        await sleep(randomDelay(900, 500));
+        advanceResponse = await sendLinkedInMessage(tabId, advanceType);
+    }
+
+    return advanceResponse;
+}
+
+function isLinkedInReviewStep(modalState) {
+    if (!modalState) {
+        return false;
+    }
+
+    const label = String(modalState.stepLabel || modalState.actionLabel || '');
+
+    return modalState.canSubmit === true
+        || modalState.action === 'submit'
+        || /review your application/i.test(label);
+}
+
+function isLinkedInResumeStep(modalState) {
+    if (!modalState) {
+        return false;
+    }
+
+    return /resume/i.test(String(modalState.stepLabel || ''));
+}
+
+async function readLinkedInModalState(tabId, { retries = 3 } = {}) {
+    let lastState = null;
+
+    for (let attempt = 1; attempt <= retries; attempt += 1) {
+        lastState = await sendLinkedInMessage(tabId, 'LINKEDIN_EASY_APPLY_STATE');
+
+        if (lastState?.open || lastState?.submitted) {
+            return lastState;
+        }
+
+        if (attempt < retries) {
+            await sleep(randomDelay(450, 300) + attempt * 150);
+        }
+    }
+
+    return lastState;
 }
 
 async function sendIndeedMessage(tabId, type, payload = {}, options = {}) {
@@ -448,7 +621,7 @@ async function returnToIndeedSearch(tabId, session) {
             return tabId;
         }
 
-        await chrome.tabs.update(tabId, { url: searchUrl, active: true });
+        await openUrlInAutoApplyWindow(searchUrl, tabId);
         await waitForTabLoadComplete(tabId);
         await waitForIndeedContentScript(tabId);
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
@@ -457,16 +630,15 @@ async function returnToIndeedSearch(tabId, session) {
 
         return tabId;
     } catch {
-        const tab = await chrome.tabs.create({
-            url: buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session)),
-            active: true,
-        });
+        tabId = await openUrlInAutoApplyWindow(
+            buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session)),
+        );
 
-        await waitForTabLoadComplete(tab.id);
-        await waitForIndeedContentScript(tab.id);
+        await waitForTabLoadComplete(tabId);
+        await waitForIndeedContentScript(tabId);
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
 
-        return tab.id;
+        return tabId;
     }
 }
 
@@ -577,10 +749,12 @@ async function recoverLinkedInTab(tabId, session, reason) {
         `[stuck_recovery] ${reason} - refresh ${watchdogState.recoveryCount}/${STUCK_RECOVERY_LIMIT}`,
     );
 
-    await sendLinkedInMessage(tabId, 'LINKEDIN_CLOSE_EASY_APPLY').catch(() => {});
-    await acceptLinkedInCookieConsent(tabId).catch(() => {});
-    await dismissSaveApplicationPrompt(tabId).catch(() => {});
-    await sendLinkedInMessage(tabId, 'LINKEDIN_DISMISS_BLOCKING_MODAL').catch(() => {});
+    if (/rate_limit|slow down/i.test(reason)) {
+        await logSession('warn', `[rate_limit] Backing off ${Math.round(AUTO_APPLY_DELAY_MS.rateLimitBackoff / 1000)}s before retry.`);
+        await sleep(AUTO_APPLY_DELAY_MS.rateLimitBackoff);
+    }
+
+    await stabilizeLinkedInTab(tabId);
 
     try {
         await chrome.tabs.reload(tabId);
@@ -592,20 +766,10 @@ async function recoverLinkedInTab(tabId, session, reason) {
 
     const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
 
-    try {
-        await chrome.tabs.update(tabId, { url: searchUrl, active: true });
-    } catch {
-        const tab = await chrome.tabs.create({ url: searchUrl, active: true });
-
-        await waitForTabLoadComplete(tab.id);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
-        await acceptLinkedInCookieConsent(tab.id).catch(() => {});
-        markWatchdogProgress(session);
-
-        return tab.id;
-    }
+    tabId = await openUrlInAutoApplyWindow(searchUrl, tabId);
 
     await waitForTabLoadComplete(tabId);
+    await waitForTabContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
     await acceptLinkedInCookieConsent(tabId).catch(() => {});
     markWatchdogProgress(session);
@@ -697,11 +861,13 @@ async function ensureLinkedInTab(session) {
                 const currentUrl = tab.url || '';
 
                 if (!currentUrl.includes('/jobs/search') || !urlsMatchLinkedInSearch(session, currentUrl, searchUrl)) {
-                    await chrome.tabs.update(tab.id, { url: searchUrl, active: true });
-                    await waitForTabLoadComplete(tab.id);
-                    await waitForTabContentScript(tab.id);
+                    const tabId = await openUrlInAutoApplyWindow(searchUrl, tab.id);
+                    await waitForTabLoadComplete(tabId);
+                    await waitForTabContentScript(tabId);
                     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
-                    await acceptLinkedInCookieConsent(tab.id).catch(() => {});
+                    await acceptLinkedInCookieConsent(tabId).catch(() => {});
+
+                    return tabId;
                 }
 
                 return tab.id;
@@ -711,15 +877,21 @@ async function ensureLinkedInTab(session) {
         }
     }
 
+    const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
+
+    if (!hadWindow) {
+        await logSession('info', 'Running Auto Apply in a minimized background window so you can keep browsing.');
+    }
+
     await logSession('info', `LinkedIn search: ${searchUrl}`);
-    const tab = await chrome.tabs.create({ url: searchUrl, active: true });
+    const tabId = await openUrlInAutoApplyWindow(searchUrl);
 
-    await waitForTabLoadComplete(tab.id);
-    await waitForTabContentScript(tab.id);
+    await waitForTabLoadComplete(tabId);
+    await waitForTabContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
-    await acceptLinkedInCookieConsent(tab.id).catch(() => {});
+    await acceptLinkedInCookieConsent(tabId).catch(() => {});
 
-    return tab.id;
+    return tabId;
 }
 
 async function collectJobsFromTab(tabId) {
@@ -821,6 +993,8 @@ async function recordAnalyticsEvent(session, eventType, job = null, extra = {}, 
 }
 
 async function openLinkedInJob(tabId, job) {
+    await stabilizeLinkedInTab(tabId);
+
     let selectResponse = await sendLinkedInMessage(tabId, 'LINKEDIN_SELECT_JOB', { jobId: job.jobId });
 
     if (selectResponse?.success) {
@@ -844,14 +1018,10 @@ async function openLinkedInJob(tabId, job) {
 
     const jobUrl = buildLinkedInJobOpenUrl(job.jobId, { currentUrl, preferJobView: true });
 
-    try {
-        await chrome.tabs.update(tabId, { url: jobUrl, active: true });
-    } catch {
-        const tab = await chrome.tabs.create({ url: jobUrl, active: true });
-        tabId = tab.id;
-    }
+    tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
 
     await waitForTabLoadComplete(tabId);
+    await waitForTabContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
     await acceptLinkedInCookieConsent(tabId).catch(() => {});
 
@@ -1241,7 +1411,33 @@ async function tryAutoAnswerScreenerField(tabId, field, profileData = null) {
 
 async function ensureStepFilledOrPaused(tabId, job, modalState, draftResult, session, profileData) {
     const enrichedDraftResult = await enrichDraftResultWithGaps(tabId, draftResult);
-    const blocker = detectUnfilledBlockers(modalState, enrichedDraftResult, { profileData });
+    let effectiveModalState = modalState || {};
+
+    if (!effectiveModalState.validationErrors?.length && !effectiveModalState?.open) {
+        try {
+            const formFrameId = await findBestFormFrameId(tabId);
+            const validationScan = await scanFormValidationOnTab(tabId, formFrameId, { triggerValidation: false });
+
+            if (validationScan.hasErrors) {
+                effectiveModalState = {
+                    ...effectiveModalState,
+                    validationErrors: validationScan.validationErrors,
+                    invalidFields: validationScan.invalidFields,
+                };
+
+                if (validationScan.pendingFields.length > 0) {
+                    enrichedDraftResult.pendingFields = mergePendingFields(
+                        enrichedDraftResult.pendingFields,
+                        validationScan.pendingFields,
+                    );
+                }
+            }
+        } catch {
+            // Best-effort generic validation scan after Draft All.
+        }
+    }
+
+    const blocker = detectUnfilledBlockers(effectiveModalState, enrichedDraftResult, { profileData });
 
     if (!blocker.blocked) {
         return { paused: false, session };
@@ -1260,7 +1456,7 @@ async function ensureStepFilledOrPaused(tabId, job, modalState, draftResult, ses
         }
     }
 
-    await pauseForUserInput(session, tabId, job, modalState, blocker, profileData);
+    await pauseForUserInput(session, tabId, job, effectiveModalState, blocker, profileData);
     const resumedSession = await waitForAutoApplyResume();
 
     if (resumedSession.stopRequested) {
@@ -1424,7 +1620,7 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
     while (guard < EASY_APPLY_MAX_STEPS) {
         guard += 1;
 
-        const modalState = await sendLinkedInMessage(tabId, 'LINKEDIN_EASY_APPLY_STATE');
+        const modalState = await readLinkedInModalState(tabId, { retries: 5 });
 
         if (modalState?.submitted) {
             submitted = true;
@@ -1436,45 +1632,54 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
 
             if (closedVerify?.submitted) {
                 submitted = true;
+            } else {
+                const recheck = await readLinkedInModalState(tabId, { retries: 3 });
+
+                if (recheck?.submitted) {
+                    submitted = true;
+                } else if (!recheck?.open) {
+                    throw new Error('Easy Apply modal is not open.');
+                }
             }
 
-            break;
+            if (submitted) {
+                break;
+            }
+
+            if (!modalState?.open) {
+                continue;
+            }
         }
 
-        if (modalState.stepFingerprint && modalState.stepFingerprint === lastStepFingerprint) {
-            sameStepCount += 1;
-        } else {
-            sameStepCount = 0;
+        const isReviewStep = isLinkedInReviewStep(modalState);
+        const isResumeStep = isLinkedInResumeStep(modalState);
+
+        if (lastStepFingerprint === null && modalState.stepFingerprint) {
             lastStepFingerprint = modalState.stepFingerprint;
-        }
-
-        if (sameStepCount >= EASY_APPLY_STUCK_STEP_LIMIT) {
-            const debugExport = await sendLinkedInMessage(tabId, 'LINKEDIN_EXPORT_EASY_APPLY_MODAL').catch(() => null);
-            const debugFingerprint = debugExport?.diagnostics?.stepFingerprint || modalState.stepFingerprint || 'unknown';
-            const debugHtmlLength = debugExport?.html?.length || 0;
-
-            await logSession(
-                'warn',
-                `[stuck_debug] ${job.title} fingerprint=${debugFingerprint} html_bytes=${debugHtmlLength} `
-                + `errors=${(debugExport?.diagnostics?.errors || modalState.validationErrors || []).slice(0, 2).join('; ') || 'none'}`,
-            );
-
-            throw new Error(
-                `Stuck on Easy Apply step "${modalState.stepLabel || 'unknown'}" `
-                + `(${EASY_APPLY_STUCK_STEP_LIMIT}x). `
-                + (modalState.validationErrors?.[0] || modalState.actionLabel || 'No progress after repeated attempts.'),
-            );
         }
 
         await logSession(
             'info',
-            `[fill] ${job.title} step ${guard}: ${modalState.stepLabel || modalState.actionLabel || 'Easy Apply'}`,
+            `[fill] ${job.title} step ${guard}: ${modalState.stepLabel || modalState.actionLabel || 'Easy Apply'}`
+            + (isReviewStep ? ' (review)' : ''),
         );
 
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
+        if (isReviewStep) {
+            await logSession('info', `[review] ${job.title}: reached review step.`);
+        }
 
-        const draftResult = await runDraftAllForStep(tabId, job, modalState.stepLabel, runDraftAll, session, LINKEDIN_PLATFORM_ID);
-        const postDraftModalState = await sendLinkedInMessage(tabId, 'LINKEDIN_EASY_APPLY_STATE');
+        let draftResult = { fieldsFilled: 0, pendingFields: [] };
+
+        if (isReviewStep || isResumeStep) {
+            await sendLinkedInMessage(tabId, 'LINKEDIN_PREFILL_EASY_APPLY').catch(() => null);
+            await sleep(randomDelay(500, 400));
+        } else {
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
+
+            draftResult = await runDraftAllForStep(tabId, job, modalState.stepLabel, runDraftAll, session, LINKEDIN_PLATFORM_ID);
+        }
+
+        const postDraftModalState = await readLinkedInModalState(tabId, { retries: 3 });
         const pauseOutcome = await ensureStepFilledOrPaused(
             tabId,
             job,
@@ -1490,7 +1695,9 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
             return { outcome: 'stopped', reason: 'user_input_stop', tabId };
         }
 
-        const advanceResponse = await sendLinkedInMessage(tabId, 'LINKEDIN_FILL_AND_ADVANCE');
+        let advanceResponse = await advanceLinkedInEasyApplyStep(tabId, {
+            skipPrefill: isReviewStep || isResumeStep,
+        });
 
         if (advanceResponse?.validationErrors?.length) {
             await logSession(
@@ -1499,8 +1706,42 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
             );
         }
 
+        if (advanceResponse?.action === 'submit' || isReviewStep) {
+            await logSession(
+                'info',
+                `[submit] ${job.title}: clicked ${advanceResponse?.actionLabel || advanceResponse?.action || 'Submit'}`
+                + `${advanceResponse?.submitted ? ' - confirmed' : ' - waiting for confirmation'}.`,
+            );
+
+            if (!advanceResponse?.submitted) {
+                const confirmDeadline = Date.now() + 28_000;
+
+                while (Date.now() < confirmDeadline) {
+                    await sleep(randomDelay(1800, 900));
+                    const confirmVerify = await sendLinkedInMessage(tabId, 'LINKEDIN_VERIFY_SUBMITTED');
+
+                    if (confirmVerify?.submitted) {
+                        advanceResponse = {
+                            ...advanceResponse,
+                            submitted: true,
+                            confirmation: confirmVerify.confirmation,
+                        };
+                        break;
+                    }
+
+                    const confirmState = await readLinkedInModalState(tabId, { retries: 2 });
+
+                    if (confirmState?.submitted) {
+                        advanceResponse = { ...advanceResponse, submitted: true };
+                        break;
+                    }
+                }
+            }
+        }
+
         if (advanceResponse?.submitted) {
             submitted = true;
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterSubmit, 2000));
             break;
         }
 
@@ -1509,6 +1750,7 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
 
             if (postAdvanceVerify?.submitted) {
                 submitted = true;
+                await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterSubmit, 2000));
                 break;
             }
         }
@@ -1567,6 +1809,35 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
                 'warn',
                 `[advance] ${job.title}: clicked ${advanceResponse?.action || 'next'} without step transition.`,
             );
+
+            const postAdvanceFingerprint = advanceResponse?.stepFingerprint
+                || (await sendLinkedInMessage(tabId, 'LINKEDIN_EASY_APPLY_STATE'))?.stepFingerprint
+                || lastStepFingerprint;
+
+            if (postAdvanceFingerprint && postAdvanceFingerprint === lastStepFingerprint) {
+                sameStepCount += 1;
+            } else {
+                sameStepCount = 0;
+                lastStepFingerprint = postAdvanceFingerprint;
+            }
+
+            if (sameStepCount >= EASY_APPLY_STUCK_STEP_LIMIT) {
+                const debugExport = await sendLinkedInMessage(tabId, 'LINKEDIN_EXPORT_EASY_APPLY_MODAL').catch(() => null);
+                const debugFingerprint = debugExport?.diagnostics?.stepFingerprint || postAdvanceFingerprint || 'unknown';
+                const debugHtmlLength = debugExport?.html?.length || 0;
+
+                await logSession(
+                    'warn',
+                    `[stuck_debug] ${job.title} fingerprint=${debugFingerprint} html_bytes=${debugHtmlLength} `
+                    + `errors=${(debugExport?.diagnostics?.errors || advanceResponse?.validationErrors || []).slice(0, 2).join('; ') || 'none'}`,
+                );
+
+                throw new Error(
+                    `Stuck on Easy Apply step "${modalState.stepLabel || 'unknown'}" `
+                    + `(${EASY_APPLY_STUCK_STEP_LIMIT}x). `
+                    + (advanceResponse?.validationErrors?.[0] || modalState.actionLabel || 'No progress after repeated attempts.'),
+                );
+            }
         }
 
         if (advanceResponse?.closed) {
@@ -1628,11 +1899,13 @@ async function ensureIndeedTab(session) {
                 const currentUrl = tab.url || '';
 
                 if (!isIndeedJobsSearchUrl(currentUrl) || !urlsMatchIndeedSearch(currentUrl, searchUrl, session.filters)) {
-                    await chrome.tabs.update(tab.id, { url: searchUrl, active: true });
-                    await waitForTabLoadComplete(tab.id);
-                    await waitForIndeedContentScript(tab.id);
+                    const tabId = await openUrlInAutoApplyWindow(searchUrl, tab.id);
+                    await waitForTabLoadComplete(tabId);
+                    await waitForIndeedContentScript(tabId);
                     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
-                    await sendIndeedMessage(tab.id, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+                    await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+
+                    return tabId;
                 }
 
                 return tab.id;
@@ -1642,15 +1915,21 @@ async function ensureIndeedTab(session) {
         }
     }
 
+    const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
+
+    if (!hadWindow) {
+        await logSession('info', 'Running Auto Apply in a minimized background window so you can keep browsing.');
+    }
+
     await logSession('info', `Indeed search: ${searchUrl}`);
-    const tab = await chrome.tabs.create({ url: searchUrl, active: true });
+    const tabId = await openUrlInAutoApplyWindow(searchUrl);
 
-    await waitForTabLoadComplete(tab.id);
-    await waitForIndeedContentScript(tab.id);
+    await waitForTabLoadComplete(tabId);
+    await waitForIndeedContentScript(tabId);
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
-    await sendIndeedMessage(tab.id, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+    await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
 
-    return tab.id;
+    return tabId;
 }
 
 async function collectIndeedJobsFromTab(tabId) {
@@ -1773,12 +2052,7 @@ async function openIndeedJobInner(tabId, job, session) {
 
     const jobUrl = buildIndeedJobOpenUrl(job.jobId);
 
-    try {
-        await chrome.tabs.update(tabId, { url: jobUrl, active: true });
-    } catch {
-        const tab = await chrome.tabs.create({ url: jobUrl, active: true });
-        tabId = tab.id;
-    }
+    tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
 
     await waitForTabLoadComplete(tabId);
     await waitForIndeedContentScript(tabId);
@@ -1825,7 +2099,7 @@ async function fetchIndeedJobDescriptionForFit(tabId, job = null) {
         const jobUrl = buildIndeedJobOpenUrl(job.jobId);
 
         await logSession('info', `Opening full Indeed job page to read description for ${job.title}.`);
-        await chrome.tabs.update(tabId, { url: jobUrl, active: true });
+        tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
         await waitForTabLoadComplete(tabId);
         await waitForIndeedContentScript(tabId);
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
@@ -2226,76 +2500,83 @@ export async function startAutoApply({
     force = false,
     runDraftAll,
 }) {
-    if (activeRunPromise) {
-        if (!force) {
-            throw new Error('Auto Apply is already running.');
-        }
-
-        await forceResetAutoApply();
-    }
-
-    const trimmedRole = String(roleDescription || '').trim();
-
-    if (!trimmedRole) {
-        throw new Error('Enter a role description before starting Auto Apply.');
-    }
-
-    if (platform !== LINKEDIN_PLATFORM_ID && platform !== INDEED_PLATFORM_ID) {
-        throw new Error('Only LinkedIn and Indeed are supported right now.');
-    }
-
-    let session = createInitialSession({
-        platform,
-        roleDescription: trimmedRole,
-        maxApplications,
-        filters,
-        fitCheckEnabled,
-        minFitScore,
-    });
-
-    session = appendAutoApplyLog(session, 'info', `Starting Auto Apply on ${platform}.`);
-    const analyticsSessionId = await startAutoApplyAnalyticsSession({
-        platform,
-        roleDescription: trimmedRole,
-        maxApplications,
-    });
-    session = {
-        ...session,
-        analyticsSessionId,
-    };
-    await saveAutoApplySession(session);
-    broadcastAutoApplyStatus(session);
-
-    activeRunPromise = (async () => {
-        const profileData = await getProfileForAutoApply();
-
-        return runAutoApplyLoop(session, runDraftAll, profileData);
-    })()
-        .catch(async (error) => {
-            const failedSession = await updateSession((current) => {
-                const withLog = appendAutoApplyLog(current, 'error', error.message || 'Auto Apply failed.');
-
-                return {
-                    ...withLog,
-                    status: current.stopRequested ? 'stopped' : 'error',
-                    finishedAt: new Date().toISOString(),
-                    lastError: isExtensionMessagingError(error.message) ? null : (error.message || 'Auto Apply failed.'),
-                };
-            });
-
-            if (failedSession) {
-                await finalizeAutoApplyAnalyticsSession(failedSession);
+    const run = async () => {
+        if (activeRunPromise) {
+            if (!force) {
+                throw new Error('Auto Apply is already running.');
             }
 
-            logError('background', 'auto-apply.run', 'Auto Apply run failed', {
-                error: error.message,
-            });
-        })
-        .finally(() => {
-            activeRunPromise = null;
+            await forceResetAutoApply();
+        }
+
+        const trimmedRole = String(roleDescription || '').trim();
+
+        if (!trimmedRole) {
+            throw new Error('Enter a role description before starting Auto Apply.');
+        }
+
+        if (platform !== LINKEDIN_PLATFORM_ID && platform !== INDEED_PLATFORM_ID) {
+            throw new Error('Only LinkedIn and Indeed are supported right now.');
+        }
+
+        let session = createInitialSession({
+            platform,
+            roleDescription: trimmedRole,
+            maxApplications,
+            filters,
+            fitCheckEnabled,
+            minFitScore,
         });
 
-    return loadAutoApplySession();
+        session = appendAutoApplyLog(session, 'info', `Starting Auto Apply on ${platform}.`);
+        const analyticsSessionId = await startAutoApplyAnalyticsSession({
+            platform,
+            roleDescription: trimmedRole,
+            maxApplications,
+        });
+        session = {
+            ...session,
+            analyticsSessionId,
+        };
+        await saveAutoApplySession(session);
+        broadcastAutoApplyStatus(session);
+
+        activeRunPromise = (async () => {
+            const profileData = await getProfileForAutoApply();
+
+            return runAutoApplyLoop(session, runDraftAll, profileData);
+        })()
+            .catch(async (error) => {
+                const failedSession = await updateSession((current) => {
+                    const withLog = appendAutoApplyLog(current, 'error', error.message || 'Auto Apply failed.');
+
+                    return {
+                        ...withLog,
+                        status: current.stopRequested ? 'stopped' : 'error',
+                        finishedAt: new Date().toISOString(),
+                        lastError: isExtensionMessagingError(error.message) ? null : (error.message || 'Auto Apply failed.'),
+                    };
+                });
+
+                if (failedSession) {
+                    await finalizeAutoApplyAnalyticsSession(failedSession);
+                }
+
+                logError('background', 'auto-apply.run', 'Auto Apply run failed', {
+                    error: error.message,
+                });
+            })
+            .finally(() => {
+                activeRunPromise = null;
+            });
+
+        return loadAutoApplySession();
+    };
+
+    const next = autoApplyStartChain.then(run);
+    autoApplyStartChain = next.catch(() => {});
+
+    return next;
 }
 
 async function shouldStop(_session) {
@@ -2548,7 +2829,13 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
         const job = session.queue[session.currentIndex];
 
         try {
-            const result = await processLinkedInJob(tabId, job, runDraftAll, session, profileData);
+            const result = await withLinkedInTabLock(() => processLinkedInJob(
+                tabId,
+                job,
+                runDraftAll,
+                session,
+                profileData,
+            ));
 
             if (result.tabId && result.tabId !== tabId) {
                 tabId = result.tabId;
@@ -2594,8 +2881,7 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
 
             markWatchdogProgress(session);
         } catch (error) {
-            await acceptLinkedInCookieConsent(tabId).catch(() => {});
-            await dismissSaveApplicationPrompt(tabId).catch(() => {});
+            await stabilizeLinkedInTab(tabId).catch(() => {});
 
             await recordAnalyticsEvent(session, 'error', job, {
                 metadata: { message: error.message || 'Auto Apply job failed.' },
@@ -2725,6 +3011,12 @@ export async function getAutoApplyStatus() {
 }
 
 export async function resetAutoApplySession() {
+    const session = await loadAutoApplySession();
+
+    if (session?.windowId) {
+        await closeAutoApplyWindow(session.windowId);
+    }
+
     await clearAutoApplySession();
     broadcastAutoApplyStatus({
         status: 'idle',

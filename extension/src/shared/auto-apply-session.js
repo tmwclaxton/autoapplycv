@@ -41,6 +41,7 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {string} platform
  * @property {string} roleDescription
  * @property {number|null} tabId
+ * @property {number|null} windowId
  * @property {number} maxApplications
  * @property {AutoApplySearchFilters|null} filters
  * @property {boolean} fitCheckEnabled
@@ -82,6 +83,7 @@ export function createInitialSession({
         platform,
         roleDescription,
         tabId: null,
+        windowId: null,
         maxApplications,
         filters: filters || null,
         fitCheckEnabled: fitCheckEnabled !== false,

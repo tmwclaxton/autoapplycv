@@ -1,0 +1,98 @@
+{
+  "id": "web-jobs-jobvite-com-apply-5",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "keyword: search jobs",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "jv-search-keyword",
+        "name": "q",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search Jobs",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "region:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select a Region",
+        "{{ item.name }}"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jv-search-region",
+        "name": "r",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select a Location",
+        "{{ item.name }}"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jv-search-location",
+        "name": "l",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "category:",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select a Category",
+        "{{ item.name }}"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "jv-search-category",
+        "name": "c",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

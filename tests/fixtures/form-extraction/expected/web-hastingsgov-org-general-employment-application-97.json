@@ -1,0 +1,910 @@
+{
+  "id": "web-hastingsgov-org-general-employment-application-97",
+  "min_fields": 43,
+  "exact_field_count": 43,
+  "fields": [
+    {
+      "question": "search search...",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "searchField10663f5c-18bf-469a-a61d-fb62f352032b",
+        "name": "searchField",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search forms by: word or phrase",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "inputFCTerm",
+        "name": "term",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Word or Phrase",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search",
+      "field_type": "image",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "image",
+        "id": "inputFCSearch",
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_3",
+        "name": "fields[2].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Name",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "date of birth",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_10",
+        "name": "fields[3].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Date of Birth",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email address",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_4",
+        "name": "fields[4].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Email Address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_5",
+        "name": "fields[5].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Address",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "village/town/city city",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_6",
+        "name": "fields[6].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "City",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "state",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_7",
+        "name": "fields[7].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "State",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "zip code",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_8",
+        "name": "fields[8].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Zip Code",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_9",
+        "name": "fields[9].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Phone Number",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "department desired",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "-- Select One --",
+        "Parks and Recreation",
+        "Hastings Day Camp",
+        "Chemka Pool",
+        "Department of Public Works",
+        "Police Department",
+        "Youth Advocate/Services",
+        "Senior Outreach Program",
+        "Treasury",
+        "Village Clerk",
+        "Technology Department",
+        "Hastings Public Library",
+        "Village Justice Court"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "e_12",
+        "name": "fields[11].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "position desired",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_13",
+        "name": "fields[12].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Position Desired",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you currently employed?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_14_0",
+        "name": "e_14",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you are employed, may we contact your current employer?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_15_0",
+        "name": "e_15",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "have you previously applied to work for the village?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_16_0",
+        "name": "e_16",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if yes, when did you previously apply? date of application",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_17",
+        "name": "fields[16].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Date of Application",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "have you previously worked for the village?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_18_0",
+        "name": "e_18",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if yes, when did you work for the village? enter year",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_19",
+        "name": "fields[18].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Enter Year",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you currently a high school student?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_20_0",
+        "name": "e_20",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you have any educational experience beyond high school?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_74_0",
+        "name": "e_74",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you currently a college/trade student?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_27_0",
+        "name": "e_27",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you currently a graduate/doctoral student?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_28_0",
+        "name": "e_28",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "high school ex: hastings high school, hastings-on-hudson, ny. attended 4 years. graduated.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e_29",
+        "name": "fields[24].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: Hastings High School, Hastings-on-Hudson, NY. Attended 4 years. Graduated.",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "college/trade school ex: fordham university, bronx, ny. history major. attended 4 years. graduated.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e_30",
+        "name": "fields[25].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: Fordham University, Bronx, NY. History major. Attended 4 years. Graduated.",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "graduate/doctoral school ex: cuny john jay college of criminal justice, manhattan, ny. mpa, mgmt. graduated.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e_31",
+        "name": "fields[26].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: CUNY John Jay College of Criminal Justice, Manhattan, NY. MPA, Mgmt. Graduated.",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name and address of employer ex: village of hastings-on-hudson, hastings-on-hudson, ny",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_43",
+        "name": "fields[29].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: Village of Hastings-on-Hudson, Hastings-on-Hudson, NY",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "number of years at job ex: 10",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_44",
+        "name": "fields[30].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: 10",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "position held ex: camp counselor",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_45",
+        "name": "fields[31].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: Camp Counselor",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "description of work ex: daily supervision of campers, including engaging in activities.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e_46",
+        "name": "fields[32].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: Daily supervision of campers, including engaging in activities.",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "reason for leaving ex: position eliminated",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_47",
+        "name": "fields[33].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: Position eliminated",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name and title of supervisor ex: john doe, camp director",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_48",
+        "name": "fields[34].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: John Doe, Camp Director",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "supervisor phone number ex: 914-478-3400",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_49",
+        "name": "fields[35].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: 914-478-3400",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "may we contact your supervisor?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "e_50_0",
+        "name": "e_50",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "position held ex: lifeguard",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_54",
+        "name": "fields[39].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: Lifeguard",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "description of work ex: daily supervision of swimmers, providing first aid as necessary.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e_55",
+        "name": "fields[40].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: Daily supervision of swimmers, providing first aid as necessary.",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "reason for leaving ex: seasonal position",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_56",
+        "name": "fields[41].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: Seasonal position",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name and title of supervisor ex: jane doe, pool director",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e_57",
+        "name": "fields[42].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: Jane Doe, Pool Director",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "reference 1 ex: john doe, 914-478-3400. high school guidance counselor. 4 years",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e_63",
+        "name": "fields[47].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: John Doe, 914-478-3400. High school guidance counselor. 4 years",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "reference 2 ex: jane doe, janedoe@email.com, previous supervisor. 6 years.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e_64",
+        "name": "fields[48].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: Jane Doe, janedoe@email.com, previous supervisor. 6 years.",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "reference 3 ex: james doe, 914-478-3400. family friend. 2 years.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e_65",
+        "name": "fields[49].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: James Doe, 914-478-3400. Family friend. 2 years.",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "skills & training ex: certified lifeguard, responding to emergencies, cprp, cpr/aed certified.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "e_69",
+        "name": "fields[52].Value",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Ex: Certified lifeguard, Responding to Emergencies, CPRP, CPR/AED certified.",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "e_empty1",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": "e_empty1",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

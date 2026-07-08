@@ -1,0 +1,319 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-115",
+  "min_fields": 15,
+  "exact_field_count": 15,
+  "fields": [
+    {
+      "question": "do you require sponsorship to work in the given location?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "afc25456-d95f-480d-81a6-4e54cea1e65a",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you fluent in english?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "cf086a22-9d97-4a6e-b8c7-1d15c4f293f0",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "2f8da77a-7d3f-4c35-8f05-d3fe60432522",
+        "name": "2f8da77a-7d3f-4c35-8f05-d3fe60432522",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "2f8da77a-7d3f-4c35-8f05-d3fe60432522",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "8877116d-63c0-4c09-a508-adc14026c56f",
+        "name": "8877116d-63c0-4c09-a508-adc14026c56f",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8877116d-63c0-4c09-a508-adc14026c56f",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "available start date",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e0839d11-b514-4b13-abc4-72b1459b3cf1",
+        "placeholder": "Pick date...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "yearly salary expectation",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "0dfbd5e8-42ea-4af2-b5b3-0220dd0b2f57",
+        "name": "0dfbd5e8-42ea-4af2-b5b3-0220dd0b2f57",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "0dfbd5e8-42ea-4af2-b5b3-0220dd0b2f57",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "work arrangement preference",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Onsite",
+        "Hybrid",
+        "Remote"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "b2b8fba0-9751-4dbf-9ef3-1e4787f063b6_c7c4e92e-9c5c-4f01-804d-5ff5c4af71a7-labeled-checkbox-0",
+        "name": "Onsite",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "why do you want to work at dash0?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "ed872e53-78bc-4b8a-beea-049a32298b11",
+        "name": "ed872e53-78bc-4b8a-beea-049a32298b11",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "ed872e53-78bc-4b8a-beea-049a32298b11",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how can you help dash0 grow?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "3bf29d19-dc0a-40bc-9274-e1c601737323",
+        "name": "3bf29d19-dc0a-40bc-9274-e1c601737323",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "3bf29d19-dc0a-40bc-9274-e1c601737323",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what's your experience, if any, with observability?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "118a45b3-d445-4cd2-a0d7-11b58d7871e5",
+        "name": "118a45b3-d445-4cd2-a0d7-11b58d7871e5",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "118a45b3-d445-4cd2-a0d7-11b58d7871e5",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what experience, if any, do you have working in a startup environment?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "17d01c72-8d9a-4751-b00c-865bec359df6",
+        "name": "17d01c72-8d9a-4751-b00c-865bec359df6",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "17d01c72-8d9a-4751-b00c-865bec359df6",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "have you operated software in production? if so, how?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "4955b1af-6e02-4c99-826c-22f98dbcf8eb",
+        "name": "4955b1af-6e02-4c99-826c-22f98dbcf8eb",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "4955b1af-6e02-4c99-826c-22f98dbcf8eb",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

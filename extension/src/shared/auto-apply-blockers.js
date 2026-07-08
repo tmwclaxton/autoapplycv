@@ -431,10 +431,10 @@ export function buildAutoApplyValidationRetryQuestion(field, options = {}) {
         parts.push(`Your answer "${lastAttempt}" was not accepted.`);
     }
 
-    parts.push(`LinkedIn says: ${validationError}.`);
+    parts.push(`The form says: ${validationError}.`);
 
     if (validationAttempt >= AUTO_APPLY_VALIDATION_RETRY_LIMIT) {
-        parts.push('Maximum retries reached. Enter a valid answer or stop Auto Apply.');
+        parts.push('Auto Apply is stuck on this field. Enter a valid answer or stop Auto Apply.');
     } else {
         parts.push('What should I enter instead?');
     }

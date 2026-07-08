@@ -203,6 +203,10 @@ export function compactFieldsForDraft(fields) {
             }
         }
 
+        if (typeof field.context === 'string' && field.context.trim() !== '') {
+            compact.context = field.context.trim().slice(0, 240);
+        }
+
         return compact;
     });
 }
@@ -284,6 +288,7 @@ export function buildMechanicalInventoryFields(snapshot) {
             max_chars: element.max_chars ?? null,
             options: element.options ?? null,
             dom: element.dom ?? null,
+            context: element.context ?? null,
         }));
 }
 

@@ -137,6 +137,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
     const SUBMIT_PATTERN = /\b(submit(?:\s+application)?|send\s+application)\b/i;
     const REVIEW_PATTERN = /\b(review|review your application)\b/i;
     const NEXT_PATTERN = /\b(next|continue)\b/i;
+    const SUBMIT_CONFIRMATION_TIMEOUT_MS = 25_000;
+    const SUBMIT_POST_CLICK_SETTLE_MS = 1_500;
     const APPLICATION_SENT_PATTERN = /(?:your\s+application\s+was\s+sent|application\s+(?:submitted|sent)|thanks\s+for\s+applying)/i;
     const STANDALONE_JOB_VIEW_PATTERN = /\/jobs\/view\/(\d+)/;
 
@@ -1211,8 +1213,12 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         const fieldCount = modal.querySelectorAll('input, textarea, select').length;
         const progress = normalize(modal.querySelector('.artdeco-stepper__indicator, .jpac-form-header')?.textContent);
         const primary = findPrimaryActionButton(modal);
+        const resumeSelected = typeof AutoCVApplyLinkedInEasyApplyFields !== 'undefined'
+            && AutoCVApplyLinkedInEasyApplyFields.isResumeStep(modal)
+            ? (AutoCVApplyLinkedInEasyApplyFields.hasSelectedResume(modal) ? '1' : '0')
+            : '';
 
-        return `${heading}|${fieldCount}|${progress}|${primary?.action || 'none'}|${primary?.label || ''}`;
+        return `${heading}|${fieldCount}|${progress}|${primary?.action || 'none'}|${primary?.label || ''}|resume:${resumeSelected}`;
     }
 
     function readModalValidationErrors(modal = readEasyApplyModal()) {
@@ -1304,6 +1310,24 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         return fields;
     }
 
+    async function fetchCvDocumentForUpload() {
+        if (typeof AutoCVApplyExtensionContext === 'undefined') {
+            throw new Error('Extension context unavailable.');
+        }
+
+        return new Promise((resolve, reject) => {
+            AutoCVApplyExtensionContext.safeRuntimeSendCallback({ type: 'GET_CV_DOCUMENT' }, (response) => {
+                if (response?.error) {
+                    reject(new Error(response.error));
+
+                    return;
+                }
+
+                resolve(response);
+            });
+        });
+    }
+
     function prefillContactInfo(profileData) {
         const modal = readEasyApplyModal();
 
@@ -1312,6 +1336,31 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         }
 
         return AutoCVApplyLinkedInEasyApplyFields.fillContactInfoStep(modal, profileData);
+    }
+
+    async function prefillResumeStep(_profileData) {
+        const modal = readEasyApplyModal();
+
+        if (!modal || typeof AutoCVApplyLinkedInEasyApplyFields === 'undefined') {
+            return { filled: 0, success: false, skipped: true, errors: [] };
+        }
+
+        return AutoCVApplyLinkedInEasyApplyFields.fillResumeStep(modal, {
+            getCvDocument: fetchCvDocumentForUpload,
+        });
+    }
+
+    async function prefillEasyApplyStep(profileData) {
+        const contactResult = await prefillContactInfo(profileData);
+        const resumeResult = await prefillResumeStep(profileData);
+
+        return {
+            contact: contactResult,
+            resume: resumeResult,
+            filled: (contactResult.filled || 0) + (resumeResult.filled || 0),
+            success: (contactResult.success !== false) && (resumeResult.success !== false),
+            errors: [...(contactResult.errors || []), ...(resumeResult.errors || [])],
+        };
     }
 
     function getEasyApplyModalState() {
@@ -1430,17 +1479,23 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         return { transitioned: false, closed: false, stepFingerprint: readStepFingerprint() };
     }
 
-    async function waitForSubmissionConfirmation(timeoutMs = 12_000) {
+    async function waitForSubmissionConfirmation(timeoutMs = SUBMIT_CONFIRMATION_TIMEOUT_MS) {
         const deadline = Date.now() + timeoutMs;
 
         while (Date.now() < deadline) {
+            const modal = readEasyApplyModal();
+
+            if (modal) {
+                await waitForLoadingToSettle(modal, 8_000);
+            }
+
             const verify = verifySubmitted();
 
             if (verify.submitted) {
                 return verify;
             }
 
-            await sleep(250);
+            await sleep(400);
         }
 
         return verifySubmitted();
@@ -1450,7 +1505,12 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         await acceptCookieConsent();
         await dismissSaveApplicationDialog();
 
-        const modal = readEasyApplyModal();
+        let modal = readEasyApplyModal();
+
+        if (!modal) {
+            await sleep(450);
+            modal = readEasyApplyModal();
+        }
 
         if (!modal) {
             return { success: false, error: 'Easy Apply modal is not open.' };
@@ -1517,6 +1577,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         await clickElement(primary.button);
 
         if (primary.action === 'submit') {
+            await sleep(SUBMIT_POST_CLICK_SETTLE_MS);
+            await waitForLoadingToSettle(readEasyApplyModal() || modal, 12_000);
             const verify = await waitForSubmissionConfirmation();
 
             return {
@@ -1856,6 +1918,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         scanPageHealth,
         readEasyApplyModalErrors,
         prefillContactInfo,
+        prefillResumeStep,
+        prefillEasyApplyStep,
         dismissBlockingModal,
         findSaveApplicationDialog,
         dismissSaveApplicationDialog,

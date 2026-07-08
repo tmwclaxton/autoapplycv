@@ -69,6 +69,7 @@ const cases = [
             assert.equal(session.fitCheckEnabled, true);
             assert.equal(session.minFitScore, 72);
             assert.equal(session.stats.fitSkipped, 0);
+            assert.equal(session.windowId, null);
         },
     },
     {

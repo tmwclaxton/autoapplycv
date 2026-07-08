@@ -121,6 +121,8 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
 
         if (autoApplyHint) {
             hint.textContent = autoApplyHint;
+        } else if (field.reason === 'validation_error' && field.validationMessage) {
+            hint.textContent = `Validation error: ${field.validationMessage}`;
         } else if (field.profile_path) {
             hint.textContent = field.profile_label
                 ? `Saved to your profile as ${field.profile_label.toLowerCase()}.`

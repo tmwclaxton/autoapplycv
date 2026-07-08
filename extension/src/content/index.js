@@ -856,6 +856,8 @@ const contentMessageListener = (message, sender, sendResponse) => {
 
         try {
         if (!ensureExtensionContextOrTeardown()) {
+            sendResponse({ error: 'Extension context unavailable.' });
+
             return;
         }
 
@@ -1015,6 +1017,121 @@ const contentMessageListener = (message, sender, sendResponse) => {
             }
 
             sendResponse({ success: clicked, error });
+
+            return;
+        }
+
+        if (message.type === 'BRIDGE_READ_FIELD_VALUES') {
+            const skipTypes = new Set(['hidden', 'submit', 'button', 'image', 'reset', 'file']);
+            const controls = [];
+
+            document.querySelectorAll('input, textarea, select').forEach((element, index) => {
+                const tag = String(element.tagName || '').toLowerCase();
+                const type = String(element.type || (tag === 'textarea' ? 'textarea' : tag === 'select' ? 'select-one' : 'text')).toLowerCase();
+                const name = element.name || '';
+                const id = element.id || '';
+                const labelBits = `${name} ${id} ${element.getAttribute('aria-label') || ''}`.toLowerCase();
+
+                if (skipTypes.has(type)) {
+                    return;
+                }
+
+                if (/search|captcha|honeypot|leave this blank|csrf|_token/.test(labelBits)) {
+                    return;
+                }
+
+                let value = '';
+                let checked = false;
+
+                if (type === 'checkbox' || type === 'radio') {
+                    checked = Boolean(element.checked);
+                    value = checked ? String(element.value || 'on') : '';
+                } else if (tag === 'select') {
+                    value = String(element.value || '');
+                } else {
+                    value = String(element.value || '');
+                }
+
+                controls.push({
+                    index,
+                    tag,
+                    type,
+                    id: id || null,
+                    name: name || null,
+                    value,
+                    checked,
+                    required: Boolean(element.required),
+                    visible: element.offsetParent !== null
+                        || (element.getClientRects?.().length ?? 0) > 0,
+                });
+            });
+
+            const filled = controls.filter((control) => {
+                if (control.type === 'checkbox' || control.type === 'radio') {
+                    return control.checked;
+                }
+
+                return String(control.value || '').trim() !== '';
+            });
+
+            sendResponse({
+                success: true,
+                page_url: window.location.href.split('?')[0],
+                page_title: document.title || '',
+                count: controls.length,
+                filled_count: filled.length,
+                fill_rate: controls.length === 0 ? 0 : Number((filled.length / controls.length).toFixed(4)),
+                controls,
+            });
+
+            return;
+        }
+
+        if (message.type === 'SCAN_FORM_VALIDATION' || message.type === 'BRIDGE_SCAN_FORM_VALIDATION') {
+            if (typeof AutoCVApplyFormValidation === 'undefined') {
+                sendResponse({ success: false, error: 'Form validation helpers unavailable.' });
+
+                return;
+            }
+
+            const triggerValidation = message.triggerValidation !== false;
+            const state = triggerValidation
+                ? await AutoCVApplyFormValidation.scanFormValidationStateWithTrigger(document, {
+                    triggerValidation: true,
+                    waitMs: message.waitMs,
+                })
+                : AutoCVApplyFormValidation.scanFormValidationState(document);
+
+            sendResponse({
+                success: true,
+                page_url: window.location.href.split('?')[0],
+                ...state,
+            });
+
+            return;
+        }
+
+        if (message.type === 'VALIDATE_BLOCKED_FIELD') {
+            if (typeof AutoCVApplyFormValidation === 'undefined') {
+                sendResponse({
+                    valid: true,
+                    validationErrors: [],
+                    invalidFields: [],
+                    validationError: null,
+                    error: 'Form validation helpers unavailable.',
+                });
+
+                return;
+            }
+
+            const result = AutoCVApplyFormValidation.validateBlockedField(document, {
+                ref: message.ref || null,
+                label: message.label || null,
+                question: message.question || message.label || null,
+                dom: message.dom || null,
+            });
+
+            sendResponse(result);
 
             return;
         }
@@ -1289,7 +1406,33 @@ const contentMessageListener = (message, sender, sendResponse) => {
             return;
         }
 
-        if (message.type === 'LINKEDIN_ADVANCE_EASY_APPLY' || message.type === 'LINKEDIN_FILL_AND_ADVANCE') {
+        if (message.type === 'LINKEDIN_PREFILL_EASY_APPLY') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ filled: 0, success: false, skipped: true, errors: [] });
+
+                return;
+            }
+
+            const profileData = await ensureProfileLoaded();
+
+            sendResponse(await AutoCVApplyLinkedInAutoApply.prefillEasyApplyStep(profileData));
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_ADVANCE_EASY_APPLY') {
+            if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyLinkedInAutoApply.clickNextOrSubmit());
+
+            return;
+        }
+
+        if (message.type === 'LINKEDIN_FILL_AND_ADVANCE') {
             if (typeof AutoCVApplyLinkedInAutoApply === 'undefined') {
                 sendResponse({ success: false, error: 'LinkedIn auto-apply helpers unavailable.' });
 
@@ -1297,7 +1440,7 @@ const contentMessageListener = (message, sender, sendResponse) => {
             }
 
             const profileData = await ensureProfileLoaded();
-            await AutoCVApplyLinkedInAutoApply.prefillContactInfo(profileData);
+            await AutoCVApplyLinkedInAutoApply.prefillEasyApplyStep(profileData);
 
             sendResponse(await AutoCVApplyLinkedInAutoApply.clickNextOrSubmit());
 
@@ -1577,6 +1720,10 @@ const contentMessageListener = (message, sender, sendResponse) => {
 
             return;
         }
+        } catch (error) {
+            sendResponse({
+                error: error instanceof Error ? error.message : String(error),
+            });
         } finally {
             if (linkedInBurst) {
                 endAutoApplyBurst();

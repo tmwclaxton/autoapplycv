@@ -1,0 +1,80 @@
+{
+  "id": "web-tractivegmbh-teamtailor-com-6585049-senior-embedded-firmware-enginee",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "search positions",
+      "field_type": "search",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "search",
+        "id": "search-positions",
+        "name": "query",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search Positions",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "hardware & firmware",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Hardware & Firmware"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "department",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linz, austria",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Linz, Austria"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": null,
+        "name": "location",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Next button"
+    },
+    {
+      "name": "Next"
+    }
+  ],
+  "vet_notes": []
+}

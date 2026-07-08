@@ -560,6 +560,14 @@ export function initAutoApplyPanel({ showMessage }) {
                 minFitScore,
             };
             const ctx = extensionContext();
+            const statusResponse = ctx
+                ? await ctx.safeRuntimeSend({ type: 'AUTO_APPLY_STATUS' })
+                : await chrome.runtime.sendMessage({ type: 'AUTO_APPLY_STATUS' });
+
+            if (statusResponse?.running) {
+                throw new Error('Auto Apply is already running. Stop it first or wait for the current run to finish.');
+            }
+
             const response = ctx
                 ? await ctx.safeRuntimeSend(payload)
                 : await chrome.runtime.sendMessage(payload);

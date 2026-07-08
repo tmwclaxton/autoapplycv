@@ -1,0 +1,192 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-97",
+  "min_fields": 9,
+  "exact_field_count": 9,
+  "fields": [
+    {
+      "question": "name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "8dd02ebc-644b-4d38-886c-9f862b54498c",
+        "name": "8dd02ebc-644b-4d38-886c-9f862b54498c",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8dd02ebc-644b-4d38-886c-9f862b54498c",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "why are you excited about joining our company, and how does this role fit into your career journey?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "1341c1da-dde7-4b06-b327-61e5c56a4dcc",
+        "name": "1341c1da-dde7-4b06-b327-61e5c56a4dcc",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "1341c1da-dde7-4b06-b327-61e5c56a4dcc",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what’s one way you believe you could make an immediate impact in this role within your first 90 days?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "470be0f7-e735-400f-8069-75e6626c71d9",
+        "name": "470be0f7-e735-400f-8069-75e6626c71d9",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "470be0f7-e735-400f-8069-75e6626c71d9",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "when can you start?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "679c9a74-6a92-4a18-aa32-e11d6cd5dbb4",
+        "placeholder": "Pick date...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you authorised to work in this country?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I am authorised to work in this country",
+        "No, I need sponsorship"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "9c945135-3a3e-4cfd-a7f1-435bdb0019f1_398083ac-1198-4de6-bca0-a4a17b7b2009-labeled-radio-0",
+        "name": "9c945135-3a3e-4cfd-a7f1-435bdb0019f1_398083ac-1198-4de6-bca0-a4a17b7b2009",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please share your salary expectations or desired compensation range:",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "e579c151-14fb-4b72-9c5d-fe18217220eb",
+        "name": "e579c151-14fb-4b72-9c5d-fe18217220eb",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "e579c151-14fb-4b72-9c5d-fe18217220eb",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is your current location?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "2bd6b15a-8e90-493e-b77b-fb6e3ae4451a",
+        "name": "2bd6b15a-8e90-493e-b77b-fb6e3ae4451a",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "2bd6b15a-8e90-493e-b77b-fb6e3ae4451a",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

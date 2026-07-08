@@ -109,26 +109,85 @@ const AutoCVApplyFieldInventory = (() => {
         };
     }
 
+    function normalizeContextSnippet(text) {
+        return String(text || '').replace(/\s+/g, ' ').trim();
+    }
+
+    function getPrecedingSectionTitle(element) {
+        const fieldRow = element.closest(
+            '.gfield, .form-group, .field, [class*="question"], fieldset, [data-testid^="input-q_"]',
+        );
+        let cursor = fieldRow?.previousElementSibling || element.parentElement;
+
+        for (let hops = 0; hops < 40 && cursor; hops += 1) {
+            const sectionTitle = cursor.querySelector?.(
+                '.gsection_title, legend, h2, h3, h4, [class*="section-title"], [class*="sectionTitle"]',
+            );
+            const titleText = normalizeContextSnippet(
+                sectionTitle?.textContent || (
+                    /^(H[2-4]|LEGEND)$/i.test(cursor.tagName || '')
+                        ? cursor.textContent
+                        : ''
+                ),
+            );
+
+            // Skip empty Gravity Forms section dividers that wipe following context.
+            if (titleText.length >= 3 && titleText.length < 120) {
+                return titleText;
+            }
+
+            if (cursor.classList?.contains('gsection')) {
+                cursor = cursor.previousElementSibling;
+
+                continue;
+            }
+
+            if (cursor.matches?.('fieldset, section')) {
+                const direct = normalizeContextSnippet(cursor.textContent || '').slice(0, 120);
+
+                if (direct.length >= 3) {
+                    return direct;
+                }
+            }
+
+            cursor = cursor.previousElementSibling;
+        }
+
+        return null;
+    }
+
     function getContextText(element) {
+        const parts = [];
+        const sectionTitle = getPrecedingSectionTitle(element);
+
+        if (sectionTitle) {
+            parts.push(sectionTitle);
+        }
+
         const container = element.closest(
-            'fieldset, [data-testid^="input-q_"], .ia-Questions-item, .form-group, [class*="question"]',
+            'fieldset, [data-testid^="input-q_"], .ia-Questions-item, .form-group, [class*="question"], .gfield',
         );
 
-        if (!container) {
-            return null;
+        if (container) {
+            const helper = container.querySelector(
+                '.gsection_description, [aria-describedby], .help-text, .helper-text, [class*="description"], p',
+            );
+            const helperText = normalizeContextSnippet(helper?.textContent || '');
+
+            if (helperText.length >= 8 && helperText.length < 500) {
+                parts.push(helperText);
+            }
+
+            const legend = normalizeContextSnippet(container.querySelector('legend')?.textContent || '');
+
+            if (legend.length >= 3 && legend.length < 200) {
+                parts.push(legend);
+            }
         }
 
-        const helper = container.querySelector(
-            '[aria-describedby], .help-text, .helper-text, [class*="description"], p',
-        );
+        const combined = normalizeContextSnippet(parts.join(' · '));
 
-        if (!helper) {
-            return null;
-        }
-
-        const text = helper.textContent.replace(/\s+/g, ' ').trim();
-
-        return text.length > 8 && text.length < 500 ? text : null;
+        return combined.length >= 3 ? combined.slice(0, 500) : null;
     }
 
     function isFinalSubmitLabel(name) {
@@ -551,6 +610,44 @@ const AutoCVApplyFieldInventory = (() => {
         return Boolean(target.contains?.(element));
     }
 
+    function findRefForElement(element) {
+        if (!element) {
+            return null;
+        }
+
+        for (const [ref, entry] of refRegistry.entries()) {
+            if (elementMatchesDraftTarget(element, entry.target, null)) {
+                return ref;
+            }
+        }
+
+        return null;
+    }
+
+    function registerValidationField(element) {
+        if (!element) {
+            return null;
+        }
+
+        const existing = findRefForElement(element);
+
+        if (existing) {
+            return existing;
+        }
+
+        if (element.type === 'radio' || element.type === 'checkbox') {
+            const group = element.closest('fieldset, [role="radiogroup"], [role="group"], .gfield');
+            const groupInputs = group
+                ? [...group.querySelectorAll(`input[type="${element.type}"]`)]
+                    .filter((input) => !element.name || input.name === element.name)
+                : [element];
+
+            return registerTarget(groupInputs.length ? groupInputs : element, groupInputs);
+        }
+
+        return registerTarget(element, null);
+    }
+
     function resolveDraftableFieldForElement(root, element, profilePayload, settings, memo = {}) {
         const profile = profilePayload?.profile;
 
@@ -596,6 +693,8 @@ const AutoCVApplyFieldInventory = (() => {
         elementMatchesDraftTarget,
         fieldsFromInventory,
         getRefEntry,
+        findRefForElement,
+        registerValidationField,
         resetRegistry,
         resolveDraftableFieldForElement,
     };

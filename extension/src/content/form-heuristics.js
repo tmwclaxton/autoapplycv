@@ -421,6 +421,79 @@ const AutoCVApplyFormHeuristics = (() => {
         );
     }
 
+    /**
+     * Gravity Forms address/name/date compounds share one fieldset legend.
+     * Prefer the per-input sublabel or placeholder so each control stays distinct.
+     */
+    function getComplexSubfieldLabel(element) {
+        if (!element?.closest) {
+            return '';
+        }
+
+        const complex = element.closest(
+            '.ginput_complex, .ginput_container_address, .ginput_container_name, .ginput_container_date, .ginput_container_email',
+        );
+
+        if (!complex) {
+            return '';
+        }
+
+        const doc = element.ownerDocument || document;
+        const id = element.getAttribute?.('id');
+
+        if (id) {
+            const escapedId = typeof CSS !== 'undefined' && CSS.escape ? CSS.escape(id) : id.replace(/"/g, '\\"');
+            const explicit = doc.querySelector(`label[for="${escapedId}"]`);
+            const explicitText = explicit?.textContent ? normalize(explicit.textContent) : '';
+
+            if (explicitText.length >= 2) {
+                return explicitText;
+            }
+        }
+
+        if (element.labels?.length) {
+            const labelText = normalize(element.labels[0].textContent || '');
+
+            if (labelText.length >= 2) {
+                return labelText;
+            }
+        }
+
+        const placeholder = normalize(element.getAttribute?.('placeholder') || '');
+
+        if (placeholder.length >= 2) {
+            return placeholder;
+        }
+
+        const ariaLabel = normalize(element.getAttribute?.('aria-label') || '');
+
+        if (ariaLabel.length >= 2) {
+            return ariaLabel;
+        }
+
+        return '';
+    }
+
+    function draftableIdentityKey(element, label, { dataFieldPath = null, groupName = null } = {}) {
+        if (dataFieldPath) {
+            return `path:${dataFieldPath}`;
+        }
+
+        if (groupName) {
+            return `group:${groupName}`;
+        }
+
+        if (element?.id) {
+            return `id:${element.id}`;
+        }
+
+        if (element?.name) {
+            return `name:${element.name}:${(element.type || element.tagName || '').toLowerCase()}`;
+        }
+
+        return `label:${label}`;
+    }
+
     function getAshbyFieldEntry(element) {
         return element.closest('[data-field-path], .ashby-application-form-field-entry');
     }
@@ -1786,6 +1859,12 @@ const AutoCVApplyFormHeuristics = (() => {
 
         if (oracleLabel.length >= 3) {
             return oracleLabel;
+        }
+
+        const complexSubLabel = getComplexSubfieldLabel(element);
+
+        if (complexSubLabel.length >= 2) {
+            return complexSubLabel;
         }
 
         const container = getQuestionContainer(element);
@@ -3735,6 +3814,8 @@ const AutoCVApplyFormHeuristics = (() => {
                 // Treat dial-code-only phone widgets as unfilled.
             } else if (isMicro1DefaultNumberValue(element)) {
                 // micro1 steppers and hourly rate inputs ship with placeholder default "1".
+            } else if (/^\$+$/.test(element.value.trim())) {
+                // Gravity Forms currency masks often ship with a lone "$".
             } else if (element.getAttribute?.('role') === 'combobox' && hasVisibleValidationError(element)) {
                 // LinkedIn and similar typeaheads can hold typed text without a valid selection.
             } else if (isIndeedApplyPage(element.ownerDocument || document) && isIndeedIdentityField(element)) {
@@ -3753,7 +3834,9 @@ const AutoCVApplyFormHeuristics = (() => {
         let id = 0;
 
         for (const { buttons, label, optionLabels, dataFieldPath } of collectAshbyYesNoFields(root)) {
-            if (label.length < 3 || seen.has(label)) {
+            const identity = draftableIdentityKey(buttons?.[0], label, { dataFieldPath });
+
+            if (label.length < 3 || seen.has(identity)) {
                 continue;
             }
 
@@ -3761,7 +3844,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
-            seen.add(label);
+            seen.add(identity);
 
             callback({
                 id,
@@ -3775,7 +3858,9 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         for (const { buttons, label, optionLabels } of collectOracleSelectPillFields(root)) {
-            if (label.length < 3 || seen.has(label)) {
+            const identity = draftableIdentityKey(buttons?.[0], label);
+
+            if (label.length < 3 || seen.has(identity)) {
                 continue;
             }
 
@@ -3783,7 +3868,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
-            seen.add(label);
+            seen.add(identity);
 
             callback({
                 id,
@@ -3819,12 +3904,13 @@ const AutoCVApplyFormHeuristics = (() => {
                 const label = qualificationLabel.length >= 3
                     ? qualificationLabel
                     : (getRadiogroupLabel(groupRoot || element) || getQuestionLabel(element));
+                const identity = draftableIdentityKey(element, label, { groupName });
 
-                if (seen.has(label)) {
+                if (seen.has(identity)) {
                     continue;
                 }
 
-                seen.add(label);
+                seen.add(identity);
 
                 callback({
                     id,
@@ -3844,12 +3930,13 @@ const AutoCVApplyFormHeuristics = (() => {
             }
 
             const label = getQuestionLabel(element);
+            const identity = draftableIdentityKey(element, label);
 
-            if (seen.has(label)) {
+            if (seen.has(identity)) {
                 continue;
             }
 
-            seen.add(label);
+            seen.add(identity);
 
             callback({
                 id,
@@ -3863,7 +3950,9 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         for (const { combobox, label, optionLabels } of collectStandaloneComboboxFields(root)) {
-            if (label.length < 3 || seen.has(label)) {
+            const identity = draftableIdentityKey(combobox, label);
+
+            if (label.length < 3 || seen.has(identity)) {
                 continue;
             }
 
@@ -3871,7 +3960,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
-            seen.add(label);
+            seen.add(identity);
 
             callback({
                 id,
@@ -3885,7 +3974,9 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         for (const { radios, label } of collectRoleRadioGroups(root)) {
-            if (label.length < 3 || seen.has(label)) {
+            const identity = draftableIdentityKey(radios?.[0], label);
+
+            if (label.length < 3 || seen.has(identity)) {
                 continue;
             }
 
@@ -3893,7 +3984,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
-            seen.add(label);
+            seen.add(identity);
 
             callback({
                 id,
@@ -3907,7 +3998,9 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         for (const { listbox, label, optionLabels } of collectRoleListboxFields(root)) {
-            if (label.length < 3 || seen.has(label)) {
+            const identity = draftableIdentityKey(listbox, label);
+
+            if (label.length < 3 || seen.has(identity)) {
                 continue;
             }
 
@@ -3915,7 +4008,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
-            seen.add(label);
+            seen.add(identity);
 
             callback({
                 id,
@@ -3929,7 +4022,9 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         for (const { checkboxes, label, optionLabels } of collectRoleCheckboxGroups(root)) {
-            if (label.length < 3 || seen.has(label)) {
+            const identity = draftableIdentityKey(checkboxes?.[0], label);
+
+            if (label.length < 3 || seen.has(identity)) {
                 continue;
             }
 
@@ -3937,7 +4032,7 @@ const AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
-            seen.add(label);
+            seen.add(identity);
 
             callback({
                 id,

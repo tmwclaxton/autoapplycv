@@ -235,6 +235,7 @@ copyFileSync(join(SRC, 'shared/indeed-platform.js'), join(DIST, 'indeed-platform
 copyFileSync(join(SRC, 'shared/auto-apply-fit.js'), join(DIST, 'auto-apply-fit.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-platforms.js'), join(DIST, 'auto-apply-platforms.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-session.js'), join(DIST, 'auto-apply-session.js'));
+copyFileSync(join(SRC, 'shared/auto-apply-window.js'), join(DIST, 'auto-apply-window.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-activity-ui.js'), join(DIST, 'auto-apply-activity-ui.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-pause-ui.js'), join(DIST, 'auto-apply-pause-ui.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-blockers.js'), join(DIST, 'auto-apply-blockers.js'));
@@ -248,6 +249,7 @@ copyFileSync(join(SRC, 'content/form-content-signature.js'), join(DIST, 'form-co
 copyFileSync(join(SRC, 'content/answer-normalization.js'), join(DIST, 'answer-normalization-content.js'));
 copyFileSync(join(SRC, 'content/form-heuristics.js'), join(DIST, 'form-heuristics.js'));
 copyFileSync(join(SRC, 'content/field-inventory.js'), join(DIST, 'field-inventory.js'));
+copyFileSync(join(SRC, 'content/form-validation-errors.js'), join(DIST, 'form-validation-errors.js'));
 copyFileSync(join(SRC, 'content/linkedin-parser.js'), join(DIST, 'linkedin-parser.js'));
 copyFileSync(join(SRC, 'content/linkedin-page-health.js'), join(DIST, 'linkedin-page-health.js'));
 copyFileSync(join(SRC, 'content/linkedin-easy-apply-fields.js'), join(DIST, 'linkedin-easy-apply-fields.js'));

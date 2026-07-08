@@ -3,7 +3,7 @@
     "name": "AutoCVApply",
     "version": "2.25.14",
     "description": "Auto-fill job application forms on any site and draft answers, cover letters, and tailored resumes from the sidebar.",
-    "permissions": ["storage", "tabs", "scripting", "sidePanel", "contextMenus", "webNavigation"],
+    "permissions": ["storage", "tabs", "windows", "scripting", "sidePanel", "contextMenus", "webNavigation"],
     "host_permissions": ["<all_urls>"],
     "externally_connectable": {
         "matches": [
@@ -47,6 +47,7 @@
                 "answer-normalization-content.js",
                 "form-heuristics.js",
                 "field-inventory.js",
+                "form-validation-errors.js",
                 "linkedin-parser.js",
                 "linkedin-page-health.js",
                 "linkedin-easy-apply-fields.js",

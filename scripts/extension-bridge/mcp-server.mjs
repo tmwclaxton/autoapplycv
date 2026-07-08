@@ -418,5 +418,220 @@ server.tool(
     },
 );
 
+server.tool(
+    'read_field_values',
+    'Read live DOM .value / checked state for input/textarea/select controls so Draft All can be verified against the actual page.',
+    {
+        tabId: z.number().int().optional(),
+        frameId: z.number().int().optional(),
+    },
+    async ({ tabId, frameId }) => {
+        const result = await runCommand('read_field_values', { tabId, frameId }, 60000);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'read_form_validation',
+    'Scan the page for form validation errors. Optionally clicks submit to trigger client-side validation (Gravity Forms, etc.).',
+    {
+        tabId: z.number().int().optional(),
+        frameId: z.number().int().optional(),
+        triggerValidation: z.boolean().optional(),
+    },
+    async ({ tabId, frameId, triggerValidation }) => {
+        const result = await runCommand('read_form_validation', {
+            tabId,
+            frameId,
+            triggerValidation,
+        }, 60000);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'start_auto_apply',
+    'Start LinkedIn or Indeed Auto Apply via the extension bridge.',
+    {
+        platform: z.enum(['linkedin', 'indeed']).optional().describe('Job board platform. Defaults to indeed.'),
+        roleDescription: z.string().describe('Role search query, e.g. software engineer'),
+        maxApplications: z.number().int().min(1).max(50).optional().describe('Stop after this many successful applications. Default 2.'),
+        fitCheckEnabled: z.boolean().optional().describe('When true, skip low ATS-fit jobs.'),
+        minFitScore: z.number().int().optional().describe('Minimum ATS score when fit check is enabled.'),
+        location: z.string().optional().describe('Location filter for Indeed or LinkedIn search.'),
+        workType: z.string().optional().describe('LinkedIn work type filter, e.g. remote.'),
+        force: z.boolean().optional().describe('Force-start even if a prior session is still marked running.'),
+    },
+    async ({
+        platform = 'indeed',
+        roleDescription,
+        maxApplications = 2,
+        fitCheckEnabled = false,
+        minFitScore = 10,
+        location,
+        workType,
+        force = false,
+    }) => {
+        const filters = {};
+
+        if (location) {
+            filters.location = location;
+        }
+
+        if (workType) {
+            filters.workType = workType;
+        }
+
+        const result = await runCommand('start_auto_apply', {
+            platform,
+            roleDescription,
+            maxApplications,
+            fitCheckEnabled,
+            minFitScore,
+            filters: Object.keys(filters).length > 0 ? filters : null,
+            force,
+        }, 180000);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'auto_apply_status',
+    'Poll the current Auto Apply session (running flag, stats, recent log).',
+    {},
+    async () => {
+        const result = await runCommand('auto_apply_status', {}, 30000);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'auto_apply_stop',
+    'Request Auto Apply to stop after the current job.',
+    {},
+    async () => {
+        const result = await runCommand('auto_apply_stop', {}, 30000);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'auto_apply_resume',
+    'Resume Auto Apply after answering a paused blocker field.',
+    {},
+    async () => {
+        const result = await runCommand('auto_apply_resume', {}, 30000);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'auto_apply_submit_blocker',
+    'Submit an answer for the current Auto Apply pause blocker and attempt to continue.',
+    {
+        answer: z.string().describe('Answer text to fill into the blocked field.'),
+    },
+    async ({ answer }) => {
+        const result = await runCommand('auto_apply_submit_blocker', { answer }, 60000);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'auto_apply_reset',
+    'Force-stop and clear the Auto Apply session.',
+    {},
+    async () => {
+        const result = await runCommand('auto_apply_reset', {}, 60000);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'linkedin_tab_message',
+    'Send a LinkedIn content-script message (LINKEDIN_EASY_APPLY_STATE, LINKEDIN_EXPORT_EASY_APPLY_MODAL, LINKEDIN_FILL_AND_ADVANCE, etc.).',
+    {
+        tabId: z.number().int().optional(),
+        type: z.string().describe('LinkedIn message type, e.g. LINKEDIN_EASY_APPLY_STATE.'),
+    },
+    async ({ tabId, type, ...messageParams }) => {
+        const result = await runCommand('linkedin_tab_message', { tabId, type, ...messageParams }, 60000);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'indeed_tab_message',
+    'Send an Indeed content-script message (INDEED_APPLY_STATE, INDEED_FILL_AND_ADVANCE, etc.).',
+    {
+        tabId: z.number().int().optional(),
+        type: z.string().describe('Indeed message type, e.g. INDEED_APPLY_STATE.'),
+    },
+    async ({ tabId, type, ...messageParams }) => {
+        const result = await runCommand('indeed_tab_message', { tabId, type, ...messageParams }, 60000);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
 const transport = new StdioServerTransport();
 await server.connect(transport);
