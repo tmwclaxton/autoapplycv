@@ -1,0 +1,128 @@
+{
+  "id": "syn-gd-300-050",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "what is the highest level of education you have completed?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select an option",
+        "GCSE or equivalent",
+        "A-Level",
+        "Bachelor's",
+        "Master's",
+        "PhD",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "ia-select-300050-what-is-the-highest-leve",
+        "name": "ia-select-300050-what-is-the-highest-leve",
+        "data_testid": "ia-select-300050-what-is-the-highest-leve-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "why are you interested in this role?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "ia-textarea-300050-why-are-you-interested-i",
+        "name": "ia-textarea-300050-why-are-you-interested-i",
+        "data_testid": "ia-textarea-300050-why-are-you-interested-i-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "describe your experience relevant to this position",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "ia-textarea-300050-describe-your-experience",
+        "name": "ia-textarea-300050-describe-your-experience",
+        "data_testid": "ia-textarea-300050-describe-your-experience-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you authorized to work in the united kingdom?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "ia-radio-300050-are-you-authorized-t-0",
+        "name": "ia-radio-300050-are-you-authorized-t",
+        "data_testid": "input-ia-radio-300050-are-you-authorized-t",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you require sponsorship now or in the future?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Not sure"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "ia-radio-300050-will-you-require-spo-0",
+        "name": "ia-radio-300050-will-you-require-spo",
+        "data_testid": "input-ia-radio-300050-will-you-require-spo",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

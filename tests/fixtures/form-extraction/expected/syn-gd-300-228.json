@@ -1,0 +1,80 @@
+{
+  "id": "syn-gd-300-228",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "portfolio or github url",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "ia-field-300228-portfolio-or-github-url",
+        "name": "ia-field-300228-portfolio-or-github-url",
+        "data_testid": "ia-field-300228-portfolio-or-github-url-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile url",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "ia-field-300228-linkedin-profile-url",
+        "name": "ia-field-300228-linkedin-profile-url",
+        "data_testid": "ia-field-300228-linkedin-profile-url-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about this job?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select an option",
+        "Glassdoor",
+        "Indeed",
+        "Referral",
+        "Company website",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "ia-select-300228-how-did-you-hear-about-t",
+        "name": "ia-select-300228-how-did-you-hear-about-t",
+        "data_testid": "ia-select-300228-how-did-you-hear-about-t-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue to review"
+    }
+  ],
+  "vet_notes": []
+}

@@ -19,7 +19,7 @@ import {
     resolveAutoApplyFitDecision,
     summarizeAtsFitReason,
 } from './auto-apply-fit.js';
-import { buildJobSearchUrl, INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, TOTALJOBS_PLATFORM_ID } from './auto-apply-platforms.js';
+import { buildJobSearchUrl, GLASSDOOR_PLATFORM_ID, INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, TOTALJOBS_PLATFORM_ID } from './auto-apply-platforms.js';
 import {
     appendAutoApplyLog,
     clearAutoApplySession,
@@ -38,7 +38,13 @@ import {
     navigateAutoApplyTab,
 } from './auto-apply-window.js';
 import { logError, logInfo, logWarn } from './debug-log.js';
-import { invalidateTabFrameCache, sendTabMessage, findBestFormFrameId, scanFormValidationOnTab } from './form-frame-messaging.js';
+import { invalidateTabFrameCache, sendIndeedApplyFlowMessage, sendTabMessage, findBestFormFrameId, scanFormValidationOnTab } from './form-frame-messaging.js';
+import { runGlassdoorAutoApplyLoop } from './glassdoor-auto-apply-runner.js';
+import {
+    buildGlassdoorJobOpenUrl,
+    isGlassdoorJobsSearchUrl,
+    urlsMatchGlassdoorSearch,
+} from './glassdoor-platform.js';
 import { buildIndeedJobOpenUrl, isIndeedJobsSearchUrl, urlsMatchIndeedSearch } from './indeed-platform.js';
 import { buildLinkedInJobOpenUrl } from './linkedin-platform.js';
 import { capturePageFromTab, fetchPageHtmlFromTab, normalizePageCapturePayload } from './page-capture.js';
@@ -66,6 +72,7 @@ const STUCK_TIMEOUT_MS = 45_000;
 const STUCK_RECOVERY_LIMIT = 3;
 const EASY_APPLY_MAX_STEPS = 10;
 const EASY_APPLY_STUCK_STEP_LIMIT = 3;
+const DRAFT_ALL_STEP_TIMEOUT_MS = 90_000;
 
 function buildSessionSearchOptions(session) {
     return {
@@ -221,6 +228,7 @@ function formatIndeedSkipLogMessage(job, reason, detail = '') {
     const reasonText = {
         no_indeed_apply: 'external apply only (not Indeed Apply)',
         no_totaljobs_apply: 'external apply only (not Totaljobs Quick Apply)',
+        no_glassdoor_apply: 'external apply only (not Glassdoor Easy Apply)',
         job_unavailable: 'job page did not load',
         job_open_failed: 'could not open job listing',
         unknown_job_metadata: 'missing job details',
@@ -649,6 +657,45 @@ async function sendTotalJobsMessage(tabId, type, payload = {}, options = {}) {
     throw new Error('Totaljobs tab messaging failed.');
 }
 
+async function sendGlassdoorMessage(tabId, type, payload = {}, options = {}) {
+    const maxAttempts = options.maxAttempts ?? 3;
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+        try {
+            return await sendTabMessage(tabId, { type, ...payload }, 0);
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+
+            if (attempt < maxAttempts && isExtensionMessagingError(message)) {
+                invalidateTabFrameCache(tabId);
+                await logSession('warn', `[glassdoor_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
+
+                try {
+                    await waitForGlassdoorContentScript(tabId);
+                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1200));
+                    await sendTabMessage(tabId, { type: 'GLASSDOOR_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
+                } catch {
+                    try {
+                        await chrome.tabs.reload(tabId);
+                        await waitForTabLoadComplete(tabId);
+                        await waitForGlassdoorContentScript(tabId);
+                        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1200));
+                        await sendTabMessage(tabId, { type: 'GLASSDOOR_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
+                    } catch {
+                        // Fall through to retry send on next loop iteration.
+                    }
+                }
+
+                continue;
+            }
+
+            throw error;
+        }
+    }
+
+    throw new Error('Glassdoor tab messaging failed.');
+}
+
 async function returnToIndeedSearch(tabId, session) {
     try {
         const tab = await chrome.tabs.get(tabId);
@@ -709,6 +756,39 @@ async function returnToTotalJobsSearch(tabId, session) {
 
         await waitForTabLoadComplete(tabId);
         await waitForTotalJobsContentScript(tabId);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+
+        return tabId;
+    }
+}
+
+async function returnToGlassdoorSearch(tabId, session) {
+    try {
+        const tab = await chrome.tabs.get(tabId);
+        const currentUrl = tab.url || '';
+        const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+
+        if (isGlassdoorJobsSearchUrl(currentUrl) && urlsMatchGlassdoorSearch(currentUrl, searchUrl, session.filters)) {
+            await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH').catch(() => {});
+
+            return tabId;
+        }
+
+        await openUrlInAutoApplyWindow(searchUrl, tabId);
+        await waitForTabLoadComplete(tabId);
+        await waitForGlassdoorContentScript(tabId);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(() => {});
+        await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH').catch(() => {});
+
+        return tabId;
+    } catch {
+        tabId = await openUrlInAutoApplyWindow(
+            buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session)),
+        );
+
+        await waitForTabLoadComplete(tabId);
+        await waitForGlassdoorContentScript(tabId);
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
 
         return tabId;
@@ -897,6 +977,32 @@ async function recoverTotalJobsTab(tabId, session, reason) {
     }
 
     tabId = await returnToTotalJobsSearch(tabId, session);
+    markWatchdogProgress(session);
+
+    return tabId;
+}
+
+async function recoverGlassdoorTab(tabId, session, reason) {
+    if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
+        throw new Error(`Glassdoor navigation stuck (${reason}). Recovery limit reached.`);
+    }
+
+    watchdogState.recoveryCount += 1;
+
+    await logSession(
+        'warn',
+        `[stuck_recovery] ${reason} - refresh ${watchdogState.recoveryCount}/${STUCK_RECOVERY_LIMIT}`,
+    );
+
+    try {
+        await chrome.tabs.reload(tabId);
+        await waitForTabLoadComplete(tabId);
+        await waitForGlassdoorContentScript(tabId);
+    } catch {
+        // Fall through to search navigation.
+    }
+
+    tabId = await returnToGlassdoorSearch(tabId, session);
     markWatchdogProgress(session);
 
     return tabId;
@@ -1581,7 +1687,15 @@ async function runDraftAllForStep(tabId, job, stepLabel, runDraftAll, session, p
         }
     }
 
-    const draftResult = await runDraftAll(tabId);
+    const draftResult = await Promise.race([
+        runDraftAll(tabId),
+        new Promise((resolve) => {
+            setTimeout(() => resolve({
+                error: `Draft All timed out after ${Math.round(DRAFT_ALL_STEP_TIMEOUT_MS / 1000)}s`,
+                timedOut: true,
+            }), DRAFT_ALL_STEP_TIMEOUT_MS);
+        }),
+    ]);
     const fieldsFilled = Number(draftResult?.fieldsFilled || 0);
 
     await updateSession((current) => ({
@@ -2005,6 +2119,26 @@ async function waitForTotalJobsContentScript(tabId, timeoutMs = 45_000) {
     }
 
     throw new Error('Totaljobs content script did not load in time.');
+}
+
+async function waitForGlassdoorContentScript(tabId, timeoutMs = 45_000) {
+    const deadline = Date.now() + timeoutMs;
+
+    while (Date.now() < deadline) {
+        try {
+            await sendTabMessage(tabId, { type: 'GLASSDOOR_SCAN_PAGE_HEALTH' }, 0);
+
+            return;
+        } catch (error) {
+            if (!isExtensionMessagingError(error instanceof Error ? error.message : String(error))) {
+                throw error;
+            }
+
+            await sleep(400);
+        }
+    }
+
+    throw new Error('Glassdoor content script did not load in time.');
 }
 
 async function ensureIndeedTab(session) {
@@ -3146,6 +3280,570 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
     return { outcome: 'applied', tabId };
 }
 
+async function ensureGlassdoorTab(session) {
+    const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+
+    if (session.tabId) {
+        try {
+            const tab = await chrome.tabs.get(session.tabId);
+
+            if (tab?.id) {
+                const currentUrl = tab.url || '';
+
+                if (!isGlassdoorJobsSearchUrl(currentUrl) || !urlsMatchGlassdoorSearch(currentUrl, searchUrl, session.filters)) {
+                    const tabId = await openUrlInAutoApplyWindow(searchUrl, tab.id);
+                    await waitForTabLoadComplete(tabId);
+                    await waitForGlassdoorContentScript(tabId);
+                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
+                    await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(() => {});
+
+                    return tabId;
+                }
+
+                return tab.id;
+            }
+        } catch {
+            // Tab was closed; recreate below.
+        }
+    }
+
+    const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
+
+    if (!hadWindow) {
+        await logSession('info', 'Running Auto Apply in a minimized background window so you can keep browsing.');
+    }
+
+    await logSession('info', `Glassdoor search: ${searchUrl}`);
+    const tabId = await openUrlInAutoApplyWindow(searchUrl);
+
+    await waitForTabLoadComplete(tabId);
+    await waitForGlassdoorContentScript(tabId);
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
+    await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(() => {});
+
+    return tabId;
+}
+
+async function collectGlassdoorJobsFromTab(tabId) {
+    const deadline = Date.now() + 60_000;
+    let lastError = 'Could not read Glassdoor job cards.';
+
+    while (Date.now() < deadline) {
+        await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH').catch(() => {});
+
+        const response = await sendGlassdoorMessage(tabId, 'GLASSDOOR_COLLECT_JOB_CARDS');
+
+        if (!response?.success) {
+            lastError = response?.error || lastError;
+            await sleep(1500);
+
+            continue;
+        }
+
+        if ((response.jobs?.length || 0) > 0) {
+            return response.jobs;
+        }
+
+        await sleep(1500);
+    }
+
+    throw new Error(lastError);
+}
+
+async function appendUniqueGlassdoorJobs(tabId, session) {
+    const jobs = await collectGlassdoorJobsFromTab(tabId);
+
+    if (jobs.length === 0) {
+        return session;
+    }
+
+    const existingIds = new Set(session.queue.map((job) => job.jobId));
+    const batchSeen = new Set();
+    const freshJobs = jobs.filter((job) => (
+        !existingIds.has(job.jobId)
+        && !batchSeen.has(job.jobId)
+        && job.glassdoorApply !== false
+        && job.easyApply !== false
+        && !job.alreadyApplied
+        && job.title !== 'Unknown role'
+        && (batchSeen.add(job.jobId), true)
+    ));
+
+    if (freshJobs.length === 0) {
+        return session;
+    }
+
+    return updateSession((current) => ({
+        ...current,
+        queue: [...current.queue, ...freshJobs],
+        stats: {
+            ...current.stats,
+            found: current.stats.found + freshJobs.length,
+        },
+    })) || session;
+}
+
+async function openGlassdoorJobInner(tabId, job, session) {
+    tabId = await returnToGlassdoorSearch(tabId, session);
+    await waitForGlassdoorContentScript(tabId);
+    await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH').catch(() => {});
+    await sleep(randomDelay(1400, 900));
+
+    let selectResponse = await sendGlassdoorMessage(tabId, 'GLASSDOOR_SELECT_JOB', { jobId: job.jobId });
+
+    if (!selectResponse?.success) {
+        const jobUrl = buildGlassdoorJobOpenUrl(job.jobId, { path: job.path, url: job.url });
+
+        await logSession('info', `Opening ${job.title} directly on Glassdoor.`);
+
+        tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
+        await waitForTabLoadComplete(tabId);
+        await waitForGlassdoorContentScript(tabId);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1100));
+        await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+        await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(() => {});
+        selectResponse = await sendGlassdoorMessage(tabId, 'GLASSDOOR_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
+    }
+
+    if (!selectResponse?.success) {
+        return {
+            success: false,
+            tabId,
+            skipReason: 'job_unavailable',
+            error: selectResponse?.error || 'Could not open Glassdoor job listing.',
+        };
+    }
+
+    const detailResponse = await sendGlassdoorMessage(tabId, 'GLASSDOOR_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
+
+    if (!detailResponse?.success) {
+        return {
+            success: false,
+            tabId,
+            skipReason: 'job_unavailable',
+            error: detailResponse?.error || 'Glassdoor job detail did not load.',
+        };
+    }
+
+    return { success: true, jobId: job.jobId, tabId, navigated: true };
+}
+
+async function fetchGlassdoorJobDescriptionForFit(tabId, job = null) {
+    const deadline = Date.now() + 15_000;
+    let description = '';
+
+    while (Date.now() < deadline) {
+        await sendGlassdoorMessage(tabId, 'GLASSDOOR_WAIT_FOR_JOB_DESCRIPTION', {
+            minLength: MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
+        }).catch(() => {});
+
+        const metaResponse = await fetchJobMetaFromTab(tabId);
+        description = resolveJobDescriptionFromMetaResponse(metaResponse);
+
+        if (description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
+            return { jobMeta: metaResponse?.job || null, description };
+        }
+
+        await sleep(randomDelay(800, 500));
+    }
+
+    if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT && job?.jobId) {
+        const jobUrl = buildGlassdoorJobOpenUrl(job.jobId, { path: job.path, url: job.url });
+
+        tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
+        await waitForTabLoadComplete(tabId);
+        await waitForGlassdoorContentScript(tabId);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
+
+        const retryDeadline = Date.now() + 15_000;
+
+        while (Date.now() < retryDeadline) {
+            const metaResponse = await fetchJobMetaFromTab(tabId);
+            description = resolveJobDescriptionFromMetaResponse(metaResponse);
+
+            if (description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
+                return { jobMeta: metaResponse?.job || null, description };
+            }
+
+            await sleep(randomDelay(800, 500));
+        }
+    }
+
+    return { jobMeta: null, description };
+}
+
+async function evaluateGlassdoorJobFit(tabId, job, session) {
+    if (!session.fitCheckEnabled) {
+        return { proceed: true, score: null };
+    }
+
+    const { description } = await fetchGlassdoorJobDescriptionForFit(tabId, job);
+
+    if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
+        await logSession(
+            'warn',
+            `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
+        );
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'short_job_description' },
+        }, tabId);
+
+        return { proceed: false, reason: 'short_job_description', score: null };
+    }
+
+    const scoreResult = await requestAutoApplyAtsScore(description, session.roleDescription);
+
+    if (!scoreResult.ok) {
+        if (scoreResult.insufficientCredits) {
+            throw new Error(`${scoreResult.error} Auto Apply paused - top up credits and start a new run.`);
+        }
+
+        await logSession('warn', `Skipped ${job.title} - could not score fit (${scoreResult.error}).`);
+
+        return { proceed: false, reason: 'fit_score_failed', score: null };
+    }
+
+    const fitDecision = resolveAutoApplyFitDecision({
+        fitCheckEnabled: true,
+        minFitScore: session.minFitScore,
+        score: scoreResult.score,
+        jobDescriptionLength: description.length,
+    });
+
+    job.atsScore = scoreResult.score;
+
+    if (fitDecision === 'skip_low_score') {
+        const fitReason = summarizeAtsFitReason(scoreResult.result, false);
+
+        await logSession(
+            'info',
+            formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, false, fitReason),
+        );
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'low_fit_score', score: scoreResult.score, min_fit_score: session.minFitScore },
+        }, tabId);
+
+        return { proceed: false, reason: 'low_fit_score', score: scoreResult.score, fitReason };
+    }
+
+    await logSession(
+        'info',
+        formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, true),
+    );
+
+    return { proceed: true, score: scoreResult.score };
+}
+
+async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData = null) {
+    await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(() => {});
+
+    if (job.title === 'Unknown role' || job.company === 'Unknown company') {
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'unknown_job_metadata' },
+        });
+
+        return { outcome: 'skipped', reason: 'unknown_job_metadata', tabId };
+    }
+
+    await logSession('info', `Opening ${job.title} at ${job.company}`);
+    await recordAnalyticsEvent(session, 'job_opened', job);
+
+    const openResult = await openGlassdoorJobInner(tabId, job, session);
+    tabId = openResult.tabId || tabId;
+
+    if (!openResult.success) {
+        await logSession(
+            'info',
+            formatIndeedSkipLogMessage(job, openResult.skipReason || 'job_unavailable', openResult.error || ''),
+        );
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: openResult.skipReason || 'job_unavailable' },
+        });
+
+        return {
+            outcome: 'skipped',
+            reason: openResult.skipReason || 'job_unavailable',
+            detail: openResult.error || '',
+            tabId,
+        };
+    }
+
+    if (!openResult.navigated) {
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 800));
+    }
+
+    await captureJobPage(tabId);
+
+    const fitSession = await loadAutoApplySession();
+    const fitResult = await evaluateGlassdoorJobFit(tabId, job, fitSession || session);
+
+    if (!fitResult.proceed) {
+        return {
+            outcome: 'skipped',
+            reason: fitResult.reason || 'low_fit_score',
+            tabId,
+            atsScore: fitResult.score,
+            fitReason: fitResult.fitReason || '',
+        };
+    }
+
+    const health = await sendGlassdoorMessage(tabId, 'GLASSDOOR_SCAN_PAGE_HEALTH');
+
+    if (health && health.ok === false) {
+        throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'Glassdoor page blocked.');
+    }
+
+    await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+
+    const applyResponse = await sendGlassdoorMessage(tabId, 'GLASSDOOR_OPEN_APPLY');
+
+    if (applyResponse?.easyApply === false) {
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'no_glassdoor_apply' },
+        });
+
+        return { outcome: 'skipped', reason: 'no_glassdoor_apply', tabId };
+    }
+
+    if (!applyResponse?.success) {
+        await logSession(
+            'info',
+            formatIndeedSkipLogMessage(job, 'no_glassdoor_apply', applyResponse?.error || 'Could not start Easy Apply.'),
+        );
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'no_glassdoor_apply' },
+        });
+
+        return {
+            outcome: 'skipped',
+            reason: 'no_glassdoor_apply',
+            detail: applyResponse?.error || '',
+            tabId,
+        };
+    }
+
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 2000));
+    invalidateTabFrameCache(tabId);
+
+    const iframeDeadline = Date.now() + 25_000;
+
+    while (Date.now() < iframeDeadline) {
+        const state = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' }).catch(() => null);
+
+        if (state?.open) {
+            break;
+        }
+
+        await sleep(800);
+    }
+
+    await captureJobPage(tabId, { force: true });
+
+    let submitted = false;
+    let guard = 0;
+    let lastStepFingerprint = null;
+    let sameStepCount = 0;
+
+    while (guard < EASY_APPLY_MAX_STEPS) {
+        guard += 1;
+
+        const applyState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
+
+        if (applyState?.submitted) {
+            submitted = true;
+            break;
+        }
+
+        if (!applyState?.open) {
+            const closedVerify = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_VERIFY_SUBMITTED' });
+
+            if (closedVerify?.submitted) {
+                submitted = true;
+            }
+
+            break;
+        }
+
+        if (applyState.stepFingerprint && applyState.stepFingerprint === lastStepFingerprint) {
+            sameStepCount += 1;
+        } else {
+            sameStepCount = 0;
+            lastStepFingerprint = applyState.stepFingerprint;
+        }
+
+        if (sameStepCount >= EASY_APPLY_STUCK_STEP_LIMIT) {
+            throw new Error(
+                `Stuck on Easy Apply step "${applyState.stepLabel || 'unknown'}" `
+                + `(${EASY_APPLY_STUCK_STEP_LIMIT}x). `
+                + (applyState.validationErrors?.[0] || applyState.actionLabel || 'No progress after repeated attempts.'),
+            );
+        }
+
+        await logSession(
+            'info',
+            `[fill] ${job.title} step ${guard}: ${applyState.stepLabel || applyState.actionLabel || 'Easy Apply'}`
+            + (applyState.isReviewStep ? ' (review)' : ''),
+        );
+
+        if (applyState.isReviewStep) {
+            await logSession('info', `[review] ${job.title}: attempting submit.`);
+            const advanceResponse = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_FILL_AND_ADVANCE' });
+
+            if (advanceResponse?.action === 'submit') {
+                await logSession(
+                    'info',
+                    `[submit] ${job.title}: clicked Submit${advanceResponse.submitted ? ' - confirmed' : ''}.`,
+                );
+            }
+
+            if (!advanceResponse?.submitted && advanceResponse?.action === 'submit') {
+                const verifyDeadline = Date.now() + 6_000;
+
+                while (Date.now() < verifyDeadline) {
+                    await sleep(1000);
+                    const confirmVerify = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_VERIFY_SUBMITTED' });
+
+                    if (confirmVerify?.submitted) {
+                        submitted = true;
+                        break;
+                    }
+                }
+            } else if (advanceResponse?.submitted) {
+                submitted = true;
+            }
+
+            if (!submitted) {
+                const reviewState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
+
+                if (advanceResponse?.error?.includes('captcha') || reviewState?.captchaPresent) {
+                    await logSession('warn', `[captcha] ${job.title}: captcha on review step - skipping job.`);
+                    await recordAnalyticsEvent(session, 'skipped', job, {
+                        metadata: { reason: 'captcha_required' },
+                    });
+
+                    return { outcome: 'skipped', reason: 'captcha_required', tabId };
+                }
+
+                throw new Error(advanceResponse?.error || 'Could not submit on review step.');
+            }
+
+            break;
+        }
+
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
+
+        const draftResult = await runDraftAllForStep(
+            tabId,
+            job,
+            applyState.stepLabel,
+            runDraftAll,
+            session,
+            GLASSDOOR_PLATFORM_ID,
+        );
+        const postDraftState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
+        const pauseOutcome = await ensureStepFilledOrPaused(
+            tabId,
+            job,
+            postDraftState || applyState,
+            draftResult,
+            session,
+            profileData,
+        );
+
+        session = pauseOutcome.session || session;
+
+        if (pauseOutcome.stopped) {
+            return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+        }
+
+        const advanceResponse = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_FILL_AND_ADVANCE' });
+
+        if (advanceResponse?.action === 'submit') {
+            await logSession(
+                'info',
+                `[submit] ${job.title}: clicked Submit${advanceResponse.submitted ? ' - confirmed' : ''}.`,
+            );
+
+            if (!advanceResponse.submitted) {
+                await sleep(randomDelay(1200, 600));
+                const confirmState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
+                const confirmVerify = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_VERIFY_SUBMITTED' });
+
+                if (confirmState?.submitted || confirmVerify?.submitted) {
+                    submitted = true;
+                    break;
+                }
+            }
+        } else if (advanceResponse?.action === 'continue') {
+            await logSession('info', `[advance] ${job.title}: continued to next step.`);
+        }
+
+        if (advanceResponse?.submitted) {
+            submitted = true;
+            break;
+        }
+
+        if (advanceResponse?.error?.includes('captcha')) {
+            await logSession('warn', `[captcha] ${job.title}: captcha on review step - skipping job.`);
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'captcha_required' },
+            });
+
+            return { outcome: 'skipped', reason: 'captcha_required', tabId };
+        }
+
+        if (!advanceResponse?.success) {
+            throw new Error(advanceResponse?.error || 'Could not advance Easy Apply step.');
+        }
+
+        if (advanceResponse?.transitioned && advanceResponse?.stepFingerprint && advanceResponse.stepFingerprint !== lastStepFingerprint) {
+            sameStepCount = 0;
+            lastStepFingerprint = advanceResponse.stepFingerprint;
+        }
+
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterModalStep));
+    }
+
+    if (!submitted) {
+        const verifyResponse = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_VERIFY_SUBMITTED' });
+        submitted = Boolean(verifyResponse?.submitted);
+    }
+
+    if (!submitted) {
+        throw new Error('Could not submit Glassdoor Easy Apply application.');
+    }
+
+    await logSession('success', `[submitted] ${job.title} at ${job.company}.`);
+    await recordAnalyticsEvent(session, 'submitted', job);
+
+    return { outcome: 'applied', tabId };
+}
+
+function buildGlassdoorRunnerContext() {
+    return {
+        resetWatchdog,
+        ensureGlassdoorTab,
+        appendUniqueGlassdoorJobs,
+        sendGlassdoorMessage,
+        processGlassdoorJob,
+        recoverGlassdoorTab,
+        returnToGlassdoorSearch,
+        loadAutoApplySession,
+        updateSession,
+        logSession,
+        finalizeAutoApplyAnalyticsSession,
+        shouldStop,
+        isWatchdogStuck,
+        markWatchdogProgress,
+        formatJobOutcomeLogMessage,
+        recordAnalyticsEvent,
+        appendAutoApplyLog,
+        randomDelay,
+        AUTO_APPLY_DELAY_MS,
+        sleep,
+    };
+}
+
 function buildTotalJobsRunnerContext() {
     return {
         resetWatchdog,
@@ -3199,8 +3897,11 @@ export async function startAutoApply({
             throw new Error('Enter a role description before starting Auto Apply.');
         }
 
-        if (platform !== LINKEDIN_PLATFORM_ID && platform !== INDEED_PLATFORM_ID && platform !== TOTALJOBS_PLATFORM_ID) {
-            throw new Error('Only LinkedIn, Indeed, and Totaljobs are supported right now.');
+        if (platform !== LINKEDIN_PLATFORM_ID
+            && platform !== INDEED_PLATFORM_ID
+            && platform !== TOTALJOBS_PLATFORM_ID
+            && platform !== GLASSDOOR_PLATFORM_ID) {
+            throw new Error('Only LinkedIn, Indeed, Totaljobs, and Glassdoor are supported right now.');
         }
 
         let session = createInitialSession({
@@ -3444,6 +4145,10 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
 
     if (initialSession.platform === TOTALJOBS_PLATFORM_ID) {
         return runTotalJobsAutoApplyLoop(buildTotalJobsRunnerContext(), initialSession, runDraftAll, profileData);
+    }
+
+    if (initialSession.platform === GLASSDOOR_PLATFORM_ID) {
+        return runGlassdoorAutoApplyLoop(buildGlassdoorRunnerContext(), initialSession, runDraftAll, profileData);
     }
 
     resetWatchdog();

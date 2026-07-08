@@ -701,7 +701,23 @@ const AutoCVApplyIndeedAutoApply = (() => {
     }
 
     function readIndeedCaptchaPresent() {
-        return Boolean(document.querySelector('[data-testid="captcha"], #captcha-wrapper, textarea.g-recaptcha-response'));
+        for (const selector of ['[data-testid="captcha"]', '#captcha-wrapper']) {
+            const element = document.querySelector(selector);
+
+            if (element instanceof HTMLElement && isElementMostlyVisible(element)) {
+                return true;
+            }
+        }
+
+        for (const iframe of document.querySelectorAll('iframe[src*="recaptcha"], iframe[title*="reCAPTCHA"]')) {
+            if (iframe instanceof HTMLElement && isElementMostlyVisible(iframe)) {
+                return true;
+            }
+        }
+
+        const responseField = document.querySelector('textarea.g-recaptcha-response');
+
+        return Boolean(responseField?.value?.trim());
     }
 
     function readContinueButton() {
@@ -965,10 +981,21 @@ const AutoCVApplyIndeedAutoApply = (() => {
         const onReviewStep = isIndeedReviewStep();
 
         if (onReviewStep) {
-            const captchaPresent = readIndeedCaptchaPresent();
-            const submitButton = findSubmitButton({ includeDisabled: true, reviewOnly: true });
+            let submitButton = findSubmitButton({ includeDisabled: true, reviewOnly: true });
 
-            if (submitButton && !submitButton.disabled) {
+            for (let attempt = 0; attempt < 10; attempt += 1) {
+                submitButton = findSubmitButton({ includeDisabled: true, reviewOnly: true });
+
+                if (submitButton && !submitButton.disabled && submitButton.getAttribute('aria-disabled') !== 'true') {
+                    break;
+                }
+
+                if (attempt < 9) {
+                    await humanPause(350, 650);
+                }
+            }
+
+            if (submitButton && !submitButton.disabled && submitButton.getAttribute('aria-disabled') !== 'true') {
                 await clickElement(submitButton, { skipScroll: isElementMostlyVisible(submitButton) });
                 await humanPause(1400, 2400);
 
@@ -985,6 +1012,27 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 };
             }
 
+            if (submitButton) {
+                await clickElement(submitButton, { skipScroll: true, force: true });
+                await humanPause(1400, 2400);
+
+                const forcedVerify = verifySubmitted();
+
+                if (forcedVerify.submitted) {
+                    return {
+                        success: true,
+                        action: 'submit',
+                        submitted: true,
+                        transitioned: true,
+                        stepFingerprint: readStepFingerprint(),
+                        validationErrors: readValidationErrors(),
+                        confirmation: forcedVerify.confirmation,
+                    };
+                }
+            }
+
+            const captchaPresent = readIndeedCaptchaPresent();
+
             if (captchaPresent) {
                 return {
                     success: false,
@@ -995,7 +1043,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 };
             }
 
-            if (submitButton?.disabled) {
+            if (submitButton?.disabled || submitButton?.getAttribute('aria-disabled') === 'true') {
                 return {
                     success: false,
                     action: 'blocked',
@@ -1004,6 +1052,16 @@ const AutoCVApplyIndeedAutoApply = (() => {
                     stepFingerprint: previousFingerprint,
                 };
             }
+
+            return {
+                success: false,
+                action: 'blocked',
+                error: submitButton
+                    ? 'Submit click did not confirm on Indeed review step.'
+                    : 'No Submit button found on Indeed review step.',
+                validationErrors: readValidationErrors(),
+                stepFingerprint: previousFingerprint,
+            };
         }
 
         const continueButton = readContinueButton();

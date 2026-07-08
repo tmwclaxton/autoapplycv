@@ -1,0 +1,175 @@
+{
+  "id": "syn-gd-300-084",
+  "min_fields": 7,
+  "exact_field_count": 7,
+  "fields": [
+    {
+      "question": "do you have the right to work in the uk without sponsorship?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "ia-radio-300084-do-you-have-the-righ-0",
+        "name": "ia-radio-300084-do-you-have-the-righ",
+        "data_testid": "input-ia-radio-300084-do-you-have-the-righ",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "notice period",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select an option",
+        "Immediate",
+        "1 week",
+        "2 weeks",
+        "1 month",
+        "2 months",
+        "3 months"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "ia-select-300084-notice-period",
+        "name": "ia-select-300084-notice-period",
+        "data_testid": "ia-select-300084-notice-period-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current salary (£)",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "ia-field-300084-current-salary",
+        "name": "ia-field-300084-current-salary",
+        "data_testid": "ia-field-300084-current-salary-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "expected salary (£)",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "ia-field-300084-expected-salary",
+        "name": "ia-field-300084-expected-salary",
+        "data_testid": "ia-field-300084-expected-salary-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "years of experience in a similar role",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select an option",
+        "0-1",
+        "1-3",
+        "3-5",
+        "5-10",
+        "10+"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "ia-select-300084-years-of-experience-in-a",
+        "name": "ia-select-300084-years-of-experience-in-a",
+        "data_testid": "ia-select-300084-years-of-experience-in-a-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you willing to work on-site?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Hybrid only"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "ia-radio-300084-are-you-willing-to-w-0",
+        "name": "ia-radio-300084-are-you-willing-to-w",
+        "data_testid": "input-ia-radio-300084-are-you-willing-to-w",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "additional information for the hiring team",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "ia-textarea-300084-additional-information-f",
+        "name": "ia-textarea-300084-additional-information-f",
+        "data_testid": "ia-textarea-300084-additional-information-f-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

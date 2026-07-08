@@ -48,6 +48,16 @@ const AutoCVApplyFormHeuristics = (() => {
         return String(label || '').trim();
     }
 
+    function isGlassdoorNavSearchInput(element) {
+        if (!/glassdoor\.(com|co\.uk)$/i.test(window.location.hostname)) {
+            return false;
+        }
+
+        const testId = element?.getAttribute?.('data-test') || '';
+
+        return testId === 'keyword-search-input' || testId === 'location-search-input';
+    }
+
     function isIndeedApplyPage(root = document) {
         const doc = root.ownerDocument || root.defaultView?.document || (root.nodeType === 9 ? root : document);
 
@@ -58,7 +68,21 @@ const AutoCVApplyFormHeuristics = (() => {
                 return true;
             }
 
-            return /indeedapply/i.test(pathname || '');
+            if (/indeedapply/i.test(pathname || '')) {
+                return true;
+            }
+
+            const docTitle = doc.title || '';
+
+            if (/job application form/i.test(docTitle)) {
+                return true;
+            }
+
+            if (/glassdoor\.(com|co\.uk)$/i.test(hostname) && doc.querySelector?.('iframe[title*="Job application form"]')) {
+                return true;
+            }
+
+            return false;
         } catch {
             return false;
         }
@@ -940,6 +964,10 @@ const AutoCVApplyFormHeuristics = (() => {
             return false;
         }
 
+        if (element.getAttribute?.('role') === 'combobox' && isIndeedApplyPage(element.ownerDocument || document)) {
+            return false;
+        }
+
         return stringValue.length <= CHAR_BY_CHAR_MAX_LENGTH;
     }
 
@@ -1213,7 +1241,7 @@ const AutoCVApplyFormHeuristics = (() => {
             return null;
         }
 
-        if (isIndeedApplyQuestionCombobox(element)) {
+        if (isIndeedApplyQuestionCombobox(element) || isIndeedApplyResumeCombobox(element)) {
             return readIndeedApplyComboboxValue(element);
         }
 
@@ -1416,12 +1444,30 @@ const AutoCVApplyFormHeuristics = (() => {
         return testId.includes('select-list-filter-input');
     }
 
+    function isIndeedApplyResumeCombobox(element) {
+        if (!element || element.getAttribute?.('role') !== 'combobox') {
+            return false;
+        }
+
+        if (!isIndeedApplyPage(element.ownerDocument || document)) {
+            return false;
+        }
+
+        const testId = element.getAttribute('data-testid') || '';
+        const name = element.getAttribute('name') || '';
+
+        return testId === 'job-title-input'
+            || testId === 'company-name-input'
+            || name === 'jobTitle'
+            || name === 'companyName';
+    }
+
     function isIndeedApplyQuestionCombobox(element) {
         if (!element || element.getAttribute?.('role') !== 'combobox') {
             return false;
         }
 
-        if (isIndeedApplyLocationCombobox(element)) {
+        if (isIndeedApplyLocationCombobox(element) || isIndeedApplyResumeCombobox(element)) {
             return false;
         }
 
@@ -1433,6 +1479,14 @@ const AutoCVApplyFormHeuristics = (() => {
     function readIndeedApplyComboboxValue(element) {
         if (!element) {
             return null;
+        }
+
+        if (element.tagName?.toLowerCase() === 'input') {
+            const inputValue = String(element.value || '').trim();
+
+            if (inputValue) {
+                return inputValue;
+            }
         }
 
         const dedicatedDisplay = element.querySelector('[class*="ew4qyo"]');
@@ -1467,6 +1521,85 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         return value.length >= 2;
+    }
+
+    async function setIndeedApplyResumeComboboxValue(element, value) {
+        if (!element || value === null || value === undefined || value === '') {
+            return false;
+        }
+
+        const doc = element.ownerDocument || document;
+        const stringValue = String(value).trim();
+        const typedValue = stringValue.split(',')[0].trim() || stringValue;
+
+        heuristicsLog('debug', 'apply.combobox', 'Starting Indeed resume combobox fill', {
+            testId: element.getAttribute('data-testid'),
+            valuePreview: typedValue.slice(0, 80),
+        });
+
+        element.focus();
+        dispatchPointerClick(element);
+        element.setAttribute('aria-expanded', 'true');
+        fillTextControlInstant(element, typedValue);
+        element.dispatchEvent(new InputEvent('input', {
+            bubbles: true,
+            cancelable: true,
+            inputType: 'insertFromPaste',
+            data: typedValue,
+        }));
+
+        let options = await waitForComboboxOptions(doc, element, 1500);
+
+        if (options.length === 0) {
+            element.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }));
+            options = await waitForComboboxOptions(doc, element, 1000);
+        }
+
+        const normalizedAnswer = normalizeOption(stringValue);
+
+        for (const option of options) {
+            const optionText = (option.textContent || option.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim();
+
+            if (optionMatchesAnswer(optionText, stringValue) || normalizeOption(optionText).includes(normalizedAnswer.slice(0, 24))) {
+                heuristicsLog('info', 'apply.combobox', 'Indeed resume combobox option matched', { optionText });
+                dispatchPointerClick(option);
+                option.setAttribute('aria-selected', 'true');
+                element.setAttribute('aria-expanded', 'false');
+                element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+                clearValidationState(element);
+
+                return valueMatchesAnswer(element.value, optionText)
+                    || valueMatchesAnswer(element.value, typedValue)
+                    || valueMatchesAnswer(element.value, stringValue);
+            }
+        }
+
+        if (options.length > 0) {
+            const fallbackText = (options[0].textContent || '').replace(/\s+/g, ' ').trim();
+            heuristicsLog('warn', 'apply.combobox', 'Indeed resume combobox using first option fallback', { fallbackText });
+            dispatchPointerClick(options[0]);
+            element.setAttribute('aria-expanded', 'false');
+            element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+            clearValidationState(element);
+
+            return valueMatchesAnswer(element.value, fallbackText)
+                || valueMatchesAnswer(element.value, typedValue);
+        }
+
+        element.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+        element.dispatchEvent(new Event('change', { bubbles: true }));
+        element.setAttribute('aria-expanded', 'false');
+        element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+        clearValidationState(element);
+
+        const committed = valueMatchesAnswer(element.value, typedValue) || element.value.trim().length >= 2;
+        heuristicsLog(committed ? 'info' : 'warn', 'apply.combobox', committed
+            ? 'Indeed resume combobox committed typed value'
+            : 'Indeed resume combobox fill failed', {
+            typedValue: element.value?.slice(0, 80),
+        });
+
+        return committed;
     }
 
     async function setIndeedApplyQuestionComboboxValue(element, value) {
@@ -3529,6 +3662,12 @@ const AutoCVApplyFormHeuristics = (() => {
                 return filled && verifyFieldApplied(element, 'select', value);
             }
 
+            if (isIndeedApplyResumeCombobox(element)) {
+                const filled = await setIndeedApplyResumeComboboxValue(element, value);
+
+                return filled && verifyFieldApplied(element, 'select', value);
+            }
+
             if (isIndeedApplyQuestionCombobox(element)) {
                 const filled = await setIndeedApplyQuestionComboboxValue(element, value);
 
@@ -3603,6 +3742,10 @@ const AutoCVApplyFormHeuristics = (() => {
     function collectFillableElements(root) {
         return Array.from(root.querySelectorAll('input, textarea, select')).filter((element) => {
             if (isAshbyHiddenYesNoInput(element)) {
+                return false;
+            }
+
+            if (isGlassdoorNavSearchInput(element)) {
                 return false;
             }
 
@@ -3694,7 +3837,7 @@ const AutoCVApplyFormHeuristics = (() => {
         if (isIndeedApplyPage(root)) {
             return collectFillableElements(root).length >= 1
                 || Boolean(root.querySelector(
-                    '[data-testid^="location-fields"], .ia-Questions-item, [data-testid^="input-q_"], [class*="mosaic-provider-module-apply"]',
+                    '[data-testid^="location-fields"], .ia-Questions-item, [data-testid^="input-q_"], [class*="mosaic-provider-module-apply"], #applicant\\.name, [id*="applicant.name"], [id^="input-applicant"]',
                 ));
         }
 
@@ -3800,7 +3943,8 @@ const AutoCVApplyFormHeuristics = (() => {
                 return false;
             }
         } else if (element.getAttribute?.('role') === 'combobox') {
-            if (isIndeedApplyQuestionCombobox(element) && isIndeedApplyComboboxFilled(element) && !hasVisibleValidationError(element)) {
+            if ((isIndeedApplyQuestionCombobox(element) || isIndeedApplyResumeCombobox(element))
+                && isIndeedApplyComboboxFilled(element) && !hasVisibleValidationError(element)) {
                 return false;
             }
 
@@ -4124,7 +4268,11 @@ const AutoCVApplyFormHeuristics = (() => {
                 continue;
             }
 
-            if (isIndeedApplyQuestionCombobox(combobox)) {
+            if (isIndeedApplyResumeCombobox(combobox)) {
+                if (await setIndeedApplyResumeComboboxValue(combobox, answer)) {
+                    return true;
+                }
+            } else if (isIndeedApplyQuestionCombobox(combobox)) {
                 if (await setIndeedApplyQuestionComboboxValue(combobox, answer)) {
                     return true;
                 }
@@ -4249,6 +4397,8 @@ const AutoCVApplyFormHeuristics = (() => {
         } else if (target?.getAttribute?.('role') === 'combobox') {
             if (isIndeedApplyLocationCombobox(target)) {
                 applied = await setIndeedApplyLocationComboboxValue(target, answer);
+            } else if (isIndeedApplyResumeCombobox(target)) {
+                applied = await setIndeedApplyResumeComboboxValue(target, answer);
             } else if (isIndeedApplyQuestionCombobox(target)) {
                 applied = await setIndeedApplyQuestionComboboxValue(target, answer);
             } else {

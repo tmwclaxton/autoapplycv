@@ -157,6 +157,8 @@ Third-party API keys embedded in live page HTML (Google Maps, GoCardless widgets
 | Prefix | Count | Purpose | Generation |
 | --- | --- | --- | --- |
 | `syn-complex-500-*` | 500 | Volume/regression for multi-section ATS-like forms | Parametric generator (`generate-complex-corpus-500.mjs`) - low structural diversity by design |
+| `syn-tj-500-*` | 500 | Totaljobs / Genesis Quick Apply flows | `generate-totaljobs-corpus-500.mjs` |
+| `syn-gd-300-*` | 300 | Glassdoor Easy Apply host pages + Indeed Apply iframe steps | `generate-glassdoor-corpus-300.mjs` |
 | `syn-weird-*` | 60 | Intentional edge cases for DOM/label/control weirdness | Hand-crafted templates (`lib/weird-form-templates.mjs`) - each structurally distinct |
 | `syn-fw-*`, `syn-ix-*`, `syn-mega-*` | varies | Framework shells, interactive widgets, mega forms | Targeted generators |
 | `web-*` | varies | Real scraped ATS pages | Firecrawl scrape pipeline |
@@ -175,6 +177,15 @@ npm run form-corpus:validate-weird-corpus
 npm run form-corpus:fill-verify:weird
 npm run form-corpus:build-weird-scoring
 npm run form-corpus:build-curated
+```
+
+**Glassdoor (`syn-gd-300-*`):** host-page DOM for job search/listings/detail plus Indeed Apply contact, screening, documents, and review steps.
+
+```bash
+npm run form-corpus:generate-glassdoor-300
+npm run form-corpus:validate-glassdoor-corpus
+node scripts/form-corpus/vet-corpus.mjs --id-prefix=syn-gd-300-
+node scripts/form-corpus/run-fill-verify.mjs --id-prefix=syn-gd-300- --check-validity --workers=8
 ```
 
 ### syn-weird-* fixture reference (60 hand-crafted edge cases)

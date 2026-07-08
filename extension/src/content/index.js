@@ -208,10 +208,28 @@ function extractJobDescriptionFromPage() {
         }
     }
 
+    if (typeof AutoCVApplyTotalJobsAutoApply?.readJobDescriptionText === 'function') {
+        const totaljobsText = AutoCVApplyTotalJobsAutoApply.readJobDescriptionText();
+
+        if (totaljobsText) {
+            return totaljobsText;
+        }
+    }
+
+    if (typeof AutoCVApplyGlassdoorAutoApply?.readJobDescriptionText === 'function') {
+        const glassdoorText = AutoCVApplyGlassdoorAutoApply.readJobDescriptionText();
+
+        if (glassdoorText) {
+            return glassdoorText;
+        }
+    }
+
     const selectors = [
         '#jobDescriptionText',
         '.jobsearch-JobComponent-description',
         '[id*="jobDescriptionText"]',
+        '[data-test="job-description"]',
+        '[data-test="jobDescriptionContent"]',
         '.jobs-description-content',
         '.jobs-description__content',
         '.jobs-description',
@@ -710,6 +728,31 @@ function isIndeedApplyHostPage() {
     }
 }
 
+function isGlassdoorApplyHostPage() {
+    if (typeof AutoCVApplyGlassdoorAutoApply?.isEasyApplyHostPage === 'function') {
+        return AutoCVApplyGlassdoorAutoApply.isEasyApplyHostPage();
+    }
+
+    try {
+        if (!/glassdoor\.(com|co\.uk)$/i.test(window.location.hostname)) {
+            return false;
+        }
+
+        for (const iframe of document.querySelectorAll('iframe')) {
+            const title = iframe.getAttribute('title') || '';
+            const src = iframe.getAttribute('src') || '';
+
+            if (/job application form/i.test(title) || /indeedapply|smartapply\.indeed/i.test(src)) {
+                return true;
+            }
+        }
+
+        return false;
+    } catch {
+        return false;
+    }
+}
+
 async function runOverlayRefresh(explicitSidePanelOpen) {
     try {
         if (window !== window.top) {
@@ -733,7 +776,7 @@ async function runOverlayRefresh(explicitSidePanelOpen) {
             return;
         }
 
-        const showPortalBar = sidePanelOpen || isIndeedApplyHostPage();
+        const showPortalBar = sidePanelOpen || isIndeedApplyHostPage() || isGlassdoorApplyHostPage();
 
         AutoCVApplyPortalBar.update({
             visible: showPortalBar,
@@ -1703,6 +1746,135 @@ const contentMessageListener = (message, sender, sendResponse) => {
             const minLength = Number(message.minLength) || 200;
 
             void AutoCVApplyIndeedAutoApply.waitForJobDescriptionReady(minLength, 20_000)
+                .then((result) => sendResponse({ success: result.ready, ...result }))
+                .catch((error) => sendResponse({ success: false, error: error.message }));
+
+            return;
+        }
+
+        if (message.type === 'GLASSDOOR_PREPARE_JOB_SEARCH') {
+            if (typeof AutoCVApplyGlassdoorAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Glassdoor auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyGlassdoorAutoApply.prepareJobSearch());
+
+            return;
+        }
+
+        if (message.type === 'GLASSDOOR_PREPARE_JOB_VIEW') {
+            if (typeof AutoCVApplyGlassdoorAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Glassdoor auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyGlassdoorAutoApply.prepareJobView({
+                light: message.light === true,
+            }));
+
+            return;
+        }
+
+        if (message.type === 'GLASSDOOR_COLLECT_JOB_CARDS') {
+            if (typeof AutoCVApplyGlassdoorAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Glassdoor auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse({
+                success: true,
+                jobs: AutoCVApplyGlassdoorAutoApply.collectJobCards(),
+            });
+
+            return;
+        }
+
+        if (message.type === 'GLASSDOOR_SELECT_JOB') {
+            if (typeof AutoCVApplyGlassdoorAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Glassdoor auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyGlassdoorAutoApply.selectJobById(message.jobId));
+
+            return;
+        }
+
+        if (message.type === 'GLASSDOOR_WAIT_FOR_JOB_DETAIL') {
+            if (typeof AutoCVApplyGlassdoorAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Glassdoor auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyGlassdoorAutoApply.waitForJobDetailReady(message.jobId));
+
+            return;
+        }
+
+        if (message.type === 'GLASSDOOR_OPEN_APPLY') {
+            if (typeof AutoCVApplyGlassdoorAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Glassdoor auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyGlassdoorAutoApply.clickGlassdoorApply());
+
+            return;
+        }
+
+        if (message.type === 'GLASSDOOR_NEXT_SEARCH_PAGE') {
+            if (typeof AutoCVApplyGlassdoorAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Glassdoor auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyGlassdoorAutoApply.goToNextSearchPage());
+
+            return;
+        }
+
+        if (message.type === 'GLASSDOOR_SCAN_PAGE_HEALTH') {
+            if (typeof AutoCVApplyGlassdoorAutoApply === 'undefined') {
+                sendResponse({ ok: true, issues: [], blocking: [], primary: null });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplyGlassdoorAutoApply.scanPageHealth());
+
+            return;
+        }
+
+        if (message.type === 'GLASSDOOR_ACCEPT_COOKIE_CONSENT') {
+            if (typeof AutoCVApplyGlassdoorAutoApply === 'undefined') {
+                sendResponse({ accepted: false });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyGlassdoorAutoApply.acceptCookieConsent());
+
+            return;
+        }
+
+        if (message.type === 'GLASSDOOR_WAIT_FOR_JOB_DESCRIPTION') {
+            if (typeof AutoCVApplyGlassdoorAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Glassdoor auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            const minLength = Number(message.minLength) || 200;
+
+            void AutoCVApplyGlassdoorAutoApply.waitForJobDescriptionReady(minLength, 20_000)
                 .then((result) => sendResponse({ success: result.ready, ...result }))
                 .catch((error) => sendResponse({ success: false, error: error.message }));
 

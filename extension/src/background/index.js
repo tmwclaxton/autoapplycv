@@ -1957,9 +1957,10 @@ async function runDraftAll(tabId, e2eOptions = null) {
                             batchIndex: event.batch_index,
                             success: applyResult?.success,
                             applied: applyResult?.applied,
+                            error: applyResult?.error || null,
                         }, tabId);
 
-                        totalFieldsFilled += Number(applyResult?.applied || toApply.length || 0);
+                        totalFieldsFilled += Number(applyResult?.applied || 0);
 
                         return applyResult;
                     })
@@ -1968,13 +1969,18 @@ async function runDraftAll(tabId, e2eOptions = null) {
                             batchIndex: event.batch_index,
                         });
 
-                        throw error;
+                        return {
+                            success: false,
+                            applied: 0,
+                            error: error instanceof Error ? error.message : String(error),
+                        };
                     })
                     .finally(() => {
                         perf.end(applyPhase);
                     });
 
                 applyPromises.push(applyPromise);
+                await applyPromise;
                 void saveLocalMemo(toApply, fieldsByRef, profileData);
                 batchIndex = batchNumber;
 
@@ -2842,6 +2848,15 @@ initExtensionBridge({
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
         totaljobs_tab_message: async ({ tabId, type, ...messageParams }) => {
+            if (!type || typeof type !== 'string') {
+                throw new Error('type is required.');
+            }
+
+            const resolvedTabId = await resolveActiveTabId(tabId);
+
+            return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
+        },
+        glassdoor_tab_message: async ({ tabId, type, ...messageParams }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }

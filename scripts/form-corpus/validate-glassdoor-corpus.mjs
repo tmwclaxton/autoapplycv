@@ -1,0 +1,90 @@
+#!/usr/bin/env node
+/**
+ * Deterministic validation for syn-gd-300-* Glassdoor corpus fixtures.
+ */
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { loadManifest } from './lib/manifest.mjs';
+import { EXPECTED_DIR, HTML_DIR } from './lib/paths.mjs';
+
+const ID_PREFIX = 'syn-gd-300-';
+const EXPECTED_COUNT = Number(process.argv.find((arg) => arg.startsWith('--count='))?.split('=')[1] || 300);
+
+function assert(condition, message) {
+    if (!condition) {
+        throw new Error(message);
+    }
+}
+
+function main() {
+    const manifest = loadManifest();
+    const scenarios = manifest.scenarios
+        .filter((scenario) => scenario.id?.startsWith(ID_PREFIX))
+        .sort((left, right) => left.id.localeCompare(right.id));
+
+    assert(scenarios.length === EXPECTED_COUNT, `Expected ${EXPECTED_COUNT} ${ID_PREFIX} scenarios, got ${scenarios.length}`);
+
+    const failures = [];
+    const categoryCounts = {};
+    let applyFieldTotal = 0;
+    let applyScenarioCount = 0;
+
+    for (const scenario of scenarios) {
+        categoryCounts[scenario.category] = (categoryCounts[scenario.category] || 0) + 1;
+
+        const htmlPath = join(HTML_DIR, scenario.html_file);
+        const expectedPath = join(EXPECTED_DIR, `${scenario.id}.json`);
+
+        if (!existsSync(htmlPath)) {
+            failures.push(`${scenario.id}: missing HTML`);
+            continue;
+        }
+
+        if (!existsSync(expectedPath)) {
+            failures.push(`${scenario.id}: missing expected JSON`);
+            continue;
+        }
+
+        const expected = JSON.parse(readFileSync(expectedPath, 'utf8'));
+        const fieldCount = expected.fields?.length || 0;
+
+        assert(expected.id === scenario.id, `${scenario.id}: expected id mismatch`);
+
+        if (scenario.category?.startsWith('glassdoor-indeed-apply-')) {
+            applyScenarioCount += 1;
+            applyFieldTotal += fieldCount;
+
+            if (fieldCount < 3) {
+                failures.push(`${scenario.id}: Indeed Apply form has only ${fieldCount} fields`);
+            }
+        }
+
+        const onGlassdoor = scenario.page_url?.includes('glassdoor.com');
+        const onIndeedApply = scenario.page_url?.includes('smartapply.indeed.com');
+
+        if (!onGlassdoor && !onIndeedApply) {
+            failures.push(`${scenario.id}: page_url should be on glassdoor.com or smartapply.indeed.com`);
+        }
+    }
+
+    if (failures.length > 0) {
+        console.error(`Validation failed (${failures.length} issues):`);
+        failures.slice(0, 20).forEach((line) => console.error(`  - ${line}`));
+
+        if (failures.length > 20) {
+            console.error(`  ... and ${failures.length - 20} more`);
+        }
+
+        process.exit(1);
+    }
+
+    const avgApplyFields = applyScenarioCount > 0
+        ? (applyFieldTotal / applyScenarioCount).toFixed(1)
+        : '0';
+
+    console.log(`Validated ${scenarios.length} ${ID_PREFIX} scenarios.`);
+    console.log(`Categories: ${JSON.stringify(categoryCounts)}`);
+    console.log(`Indeed Apply forms: ${applyScenarioCount}, avg fields ${avgApplyFields}`);
+}
+
+main();

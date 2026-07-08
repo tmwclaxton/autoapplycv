@@ -26,6 +26,7 @@ export const AUTO_APPLY_SUPPORTED_PLATFORMS = [
     'LinkedIn',
     'Indeed',
     'Totaljobs',
+    'Glassdoor',
 ] as const;
 
 /** Job boards planned for Auto Apply across the Anglosphere - not ATS or employer career sites. */
@@ -41,7 +42,6 @@ export const AUTO_APPLY_COMING_SOON_PLATFORMS = [
     'EthicalJobs',
     'Find a Job',
     'FlexJobs',
-    'Glassdoor',
     'Government Jobs',
     'Guardian Jobs',
     'Idealist',

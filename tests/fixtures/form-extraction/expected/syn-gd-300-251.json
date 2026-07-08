@@ -1,0 +1,116 @@
+{
+  "id": "syn-gd-300-251",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "confirm email address",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ia-field-300251-confirm-email-address",
+        "name": "ia-field-300251-confirm-email-address",
+        "data_testid": "ia-field-300251-confirm-email-address-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "confirm phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ia-field-300251-confirm-phone-number",
+        "name": "ia-field-300251-confirm-phone-number",
+        "data_testid": "ia-field-300251-confirm-phone-number-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "final comments for the recruiter (optional)",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "ia-textarea-300251-final-comments-for-the-r",
+        "name": "ia-textarea-300251-final-comments-for-the-r",
+        "data_testid": "ia-textarea-300251-final-comments-for-the-r-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred contact method",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select an option",
+        "Email",
+        "Phone",
+        "Either"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "ia-select-300251-preferred-contact-method",
+        "name": "ia-select-300251-preferred-contact-method",
+        "data_testid": "ia-select-300251-preferred-contact-method-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i certify that the information provided is accurate",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I agree"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "ia-radio-300251-i-certify-that-the-i-0",
+        "name": "ia-radio-300251-i-certify-that-the-i",
+        "data_testid": "input-ia-radio-300251-i-certify-that-the-i",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

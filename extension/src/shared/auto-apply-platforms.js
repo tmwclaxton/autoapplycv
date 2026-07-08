@@ -1,4 +1,9 @@
 import {
+    buildGlassdoorJobSearchUrl,
+    GLASSDOOR_PLATFORM_ID,
+    isGlassdoorJobsSearchUrl,
+} from './glassdoor-platform.js';
+import {
     buildIndeedJobSearchUrl,
     INDEED_PLATFORM_ID,
     isIndeedJobsSearchUrl,
@@ -38,6 +43,11 @@ export const AUTO_APPLY_PLATFORM_LIST = [
         label: 'Totaljobs',
         enabled: true,
     },
+    {
+        id: GLASSDOOR_PLATFORM_ID,
+        label: 'Glassdoor',
+        enabled: true,
+    },
 ];
 
 /** @type {Record<string, PlatformDefinition>} */
@@ -69,6 +79,13 @@ export function buildJobSearchUrl(platformId, roleDescription, options = {}) {
         });
     }
 
+    if (platformId === GLASSDOOR_PLATFORM_ID) {
+        return buildGlassdoorJobSearchUrl(roleDescription, {
+            filters: options.filters,
+            easyApplyOnly: options.easyApplyOnly !== false,
+        });
+    }
+
     throw new Error(`Unsupported auto-apply platform: ${platformId}`);
 }
 
@@ -90,7 +107,11 @@ export function urlMatchesPlatform(url, platformId) {
         return isTotalJobsJobsSearchUrl(url);
     }
 
+    if (platformId === GLASSDOOR_PLATFORM_ID) {
+        return isGlassdoorJobsSearchUrl(url);
+    }
+
     return false;
 }
 
-export { INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, TOTALJOBS_PLATFORM_ID };
+export { GLASSDOOR_PLATFORM_ID, INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, TOTALJOBS_PLATFORM_ID };

@@ -42,6 +42,38 @@ export async function sendTabMessage(tabId, message, frameId = 0) {
     return chrome.tabs.sendMessage(tabId, message, { frameId });
 }
 
+export async function findIndeedApplyFrameId(tabId) {
+    const frames = await chrome.webNavigation.getAllFrames({ tabId });
+    let bestFrameId = 0;
+    let bestScore = -1;
+
+    for (const frame of frames) {
+        const url = frame.url || '';
+        let score = 0;
+
+        if (/smartapply\.indeed\.com/i.test(url)) {
+            score += 100;
+        }
+
+        if (/indeedapply/i.test(url)) {
+            score += 50;
+        }
+
+        if (score > bestScore) {
+            bestScore = score;
+            bestFrameId = frame.frameId;
+        }
+    }
+
+    return bestScore > 0 ? bestFrameId : 0;
+}
+
+export async function sendIndeedApplyFlowMessage(tabId, message) {
+    const frameId = await findIndeedApplyFrameId(tabId);
+
+    return sendTabMessage(tabId, message, frameId);
+}
+
 export async function findBestFormFrameId(tabId, { force = false } = {}) {
     if (!force) {
         const cachedFrameId = readCachedFrameId(tabId);
@@ -190,8 +222,22 @@ export async function clickInventoryRefOnTab(tabId, ref, frameId) {
 
 export async function applyDraftBatchToTab(tabId, answers, frameId) {
     const resolvedFrameId = await resolveFormFrameId(tabId, frameId);
+    const timeoutMs = 45_000;
 
-    return sendTabMessage(tabId, { type: 'APPLY_DRAFT_BATCH', answers }, resolvedFrameId);
+    try {
+        return await Promise.race([
+            sendTabMessage(tabId, { type: 'APPLY_DRAFT_BATCH', answers }, resolvedFrameId),
+            new Promise((_, reject) => {
+                setTimeout(() => reject(new Error('APPLY_DRAFT_BATCH timed out')), timeoutMs);
+            }),
+        ]);
+    } catch (error) {
+        return {
+            success: false,
+            applied: 0,
+            error: error instanceof Error ? error.message : String(error),
+        };
+    }
 }
 
 export async function applyDraftAnswerToTab(tabId, label, answer, options = {}) {
