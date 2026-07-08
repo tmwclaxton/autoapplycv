@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head><meta charset="utf-8"><title>Apply - Business Analyst</title></head>
+<body>
+<div id="app-root" data-genesis-element="BASE">
+<header data-testid="header-container" data-genesis-element="BASE">
+<a data-testid="logo" href="/">Totaljobs</a>
+</header>
+<main data-genesis-element="BASE"><form data-testid="application-form" data-at="application-form" data-genesis-element="FORM" action="/job/application" method="post">
+<h1 data-testid="application-step-title" data-genesis-element="TEXT">Apply for Business Analyst</h1>
+
+<section data-at="application-form-section">
+<h2 data-testid="application-step-subtitle">Contact details</h2>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-full-name-60305">
+<label for="full-name-60305" data-testid="field-full-name-60305-label">Full name</label>
+<input type="text" id="full-name-60305" name="full-name-60305" data-testid="field-full-name-60305-input" required>
+</div>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-email-address-60305">
+<label for="email-address-60305" data-testid="field-email-address-60305-label">Email address</label>
+<input type="email" id="email-address-60305" name="email-address-60305" data-testid="field-email-address-60305-input" required>
+</div>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-mobile-number-60305">
+<label for="mobile-number-60305" data-testid="field-mobile-number-60305-label">Mobile number</label>
+<input type="tel" id="mobile-number-60305" name="mobile-number-60305" data-testid="field-mobile-number-60305-input" required>
+</div>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-linkedin-profile-url-60305">
+<label for="linkedin-profile-url-60305" data-testid="field-linkedin-profile-url-60305-label">LinkedIn profile URL</label>
+<input type="url" id="linkedin-profile-url-60305" name="linkedin-profile-url-60305" data-testid="field-linkedin-profile-url-60305-input" >
+</div>
+</section>
+<section data-at="application-form-section">
+<h2 data-testid="application-step-subtitle">Role questions</h2>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-cover-letter-60305">
+<label for="cover-letter-60305">Cover letter</label>
+<textarea id="cover-letter-60305" name="cover-letter-60305" rows="6" data-testid="field-cover-letter-60305-input" maxlength="1200"></textarea>
+</div>
+<fieldset data-testid="fieldset-are-you-willing-to-work-on-s" data-genesis-element="BASE">
+<legend data-testid="application-step-subtitle">Are you willing to work on-site in London?</legend>
+<label for="are-you-willing-to-work-on-s-0"><input type="radio" id="are-you-willing-to-work-on-s-0" name="are-you-willing-to-work-on-s" value="yes" data-testid="radio-are-you-willing-to-work-on-s-0"> Yes</label><label for="are-you-willing-to-work-on-s-1"><input type="radio" id="are-you-willing-to-work-on-s-1" name="are-you-willing-to-work-on-s" value="no" data-testid="radio-are-you-willing-to-work-on-s-1"> No</label><label for="are-you-willing-to-work-on-s-2"><input type="radio" id="are-you-willing-to-work-on-s-2" name="are-you-willing-to-work-on-s" value="hybrid-only" data-testid="radio-are-you-willing-to-work-on-s-2"> Hybrid only</label>
+</fieldset>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-preferred-work-arrangement-60305">
+<label for="preferred-work-arrangement-60305">Preferred work arrangement</label>
+<select id="preferred-work-arrangement-60305" name="preferred-work-arrangement-60305" data-testid="field-preferred-work-arrangement-60305-input">
+<option value="">Please select</option><option value="remote">Remote</option><option value="hybrid">Hybrid</option><option value="on-site">On-site</option>
+</select>
+</div>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-national-insurance-number-option">
+<label for="national-insurance-number-option" data-testid="field-national-insurance-number-option-label">National Insurance number (optional)</label>
+<input type="text" id="national-insurance-number-option" name="national-insurance-number-option" data-testid="field-national-insurance-number-option-input" >
+</div>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-how-did-you-hear-about-this-job-">
+<label for="how-did-you-hear-about-this-job-">How did you hear about this job?</label>
+<select id="how-did-you-hear-about-this-job-" name="how-did-you-hear-about-this-job-" data-testid="field-how-did-you-hear-about-this-job--input">
+<option value="">Please select</option><option value="totaljobs">Totaljobs</option><option value="linkedin">LinkedIn</option><option value="referral">Referral</option><option value="company-website">Company website</option><option value="other">Other</option>
+</select>
+</div>
+</section>
+<section data-at="application-form-section">
+<h2 data-testid="application-step-subtitle">Documents</h2>
+<div class="res-field" data-testid="field-file-60305">
+<label for="file-60305">Upload CV</label>
+<input type="file" id="file-60305" name="file-60305" accept=".pdf,.doc,.docx" data-testid="field-file-60305-input">
+</div>
+<fieldset data-testid="fieldset-technologies-you-have-used-p">
+<legend>Technologies you have used professionally</legend>
+<label for="technologies-you-have-used-p-cb-0"><input type="checkbox" id="technologies-you-have-used-p-cb-0" name="technologies-you-have-used-p[]" value="python" data-testid="checkbox-technologies-you-have-used-p-cb-0"> Python</label><label for="technologies-you-have-used-p-cb-1"><input type="checkbox" id="technologies-you-have-used-p-cb-1" name="technologies-you-have-used-p[]" value="c" data-testid="checkbox-technologies-you-have-used-p-cb-1"> C#</label><label for="technologies-you-have-used-p-cb-2"><input type="checkbox" id="technologies-you-have-used-p-cb-2" name="technologies-you-have-used-p[]" value="sql" data-testid="checkbox-technologies-you-have-used-p-cb-2"> SQL</label><label for="technologies-you-have-used-p-cb-3"><input type="checkbox" id="technologies-you-have-used-p-cb-3" name="technologies-you-have-used-p[]" value="typescript" data-testid="checkbox-technologies-you-have-used-p-cb-3"> TypeScript</label><label for="technologies-you-have-used-p-cb-4"><input type="checkbox" id="technologies-you-have-used-p-cb-4" name="technologies-you-have-used-p[]" value="aws" data-testid="checkbox-technologies-you-have-used-p-cb-4"> AWS</label><label for="technologies-you-have-used-p-cb-5"><input type="checkbox" id="technologies-you-have-used-p-cb-5" name="technologies-you-have-used-p[]" value="java" data-testid="checkbox-technologies-you-have-used-p-cb-5"> Java</label>
+</fieldset>
+</section>
+
+<div data-at="application-actions"><button type="button" data-testid="continue-button" data-genesis-element="BUTTON">Continue</button> <button type="submit" data-testid="submit-application-button" data-genesis-element="BUTTON">Submit application</button></div>
+</form></main>
+<footer data-genesis-element="PAGE_FOOTER"><p>Totaljobs synthetic corpus fixture</p></footer>
+</div>
+</body>
+</html>

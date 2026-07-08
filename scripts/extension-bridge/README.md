@@ -86,7 +86,8 @@ Start `npm run extension-bridge` before using MCP tools.
 | `read_form_validation` | Scan validation errors; optionally trigger client-side validation via submit |
 | `linkedin_tab_message` | Send LinkedIn content-script messages (`LINKEDIN_EASY_APPLY_STATE`, `LINKEDIN_EXPORT_EASY_APPLY_MODAL`, etc.) |
 | `indeed_tab_message` | Send Indeed content-script messages (`INDEED_APPLY_STATE`, `INDEED_FILL_AND_ADVANCE`, etc.) |
-| `start_auto_apply` | Start LinkedIn or Indeed Auto Apply |
+| `totaljobs_tab_message` | Send Totaljobs content-script messages (`TOTALJOBS_APPLY_STATE`, `TOTALJOBS_FILL_AND_ADVANCE`, etc.) |
+| `start_auto_apply` | Start LinkedIn, Indeed, or Totaljobs Auto Apply |
 
 ## Test the connection
 

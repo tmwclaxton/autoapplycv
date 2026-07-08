@@ -1709,6 +1709,172 @@ const contentMessageListener = (message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'TOTALJOBS_PREPARE_JOB_SEARCH') {
+            if (typeof AutoCVApplyTotalJobsAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Totaljobs auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyTotalJobsAutoApply.prepareJobSearch());
+
+            return;
+        }
+
+        if (message.type === 'TOTALJOBS_PREPARE_JOB_VIEW') {
+            if (typeof AutoCVApplyTotalJobsAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Totaljobs auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyTotalJobsAutoApply.prepareJobView({
+                force: message.force === true,
+                light: message.light === true,
+            }));
+
+            return;
+        }
+
+        if (message.type === 'TOTALJOBS_COLLECT_JOB_CARDS') {
+            if (typeof AutoCVApplyTotalJobsAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Totaljobs auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse({
+                success: true,
+                jobs: AutoCVApplyTotalJobsAutoApply.collectJobCards(),
+            });
+
+            return;
+        }
+
+        if (message.type === 'TOTALJOBS_SELECT_JOB') {
+            if (typeof AutoCVApplyTotalJobsAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Totaljobs auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyTotalJobsAutoApply.selectJobById(message.jobId));
+
+            return;
+        }
+
+        if (message.type === 'TOTALJOBS_WAIT_FOR_JOB_DETAIL') {
+            if (typeof AutoCVApplyTotalJobsAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Totaljobs auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyTotalJobsAutoApply.waitForJobDetailReady(message.jobId));
+
+            return;
+        }
+
+        if (message.type === 'TOTALJOBS_OPEN_APPLY') {
+            if (typeof AutoCVApplyTotalJobsAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Totaljobs auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyTotalJobsAutoApply.clickTotalJobsApply());
+
+            return;
+        }
+
+        if (message.type === 'TOTALJOBS_APPLY_STATE') {
+            if (typeof AutoCVApplyTotalJobsAutoApply === 'undefined') {
+                sendResponse({ open: false, error: 'Totaljobs auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplyTotalJobsAutoApply.getTotalJobsApplyState());
+
+            return;
+        }
+
+        if (message.type === 'TOTALJOBS_FILL_AND_ADVANCE') {
+            if (typeof AutoCVApplyTotalJobsAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Totaljobs auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyTotalJobsAutoApply.clickContinueOrSubmit());
+
+            return;
+        }
+
+        if (message.type === 'TOTALJOBS_VERIFY_SUBMITTED') {
+            if (typeof AutoCVApplyTotalJobsAutoApply === 'undefined') {
+                sendResponse({ submitted: false, error: 'Totaljobs auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplyTotalJobsAutoApply.verifySubmitted());
+
+            return;
+        }
+
+        if (message.type === 'TOTALJOBS_NEXT_SEARCH_PAGE') {
+            if (typeof AutoCVApplyTotalJobsAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Totaljobs auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyTotalJobsAutoApply.goToNextSearchPage());
+
+            return;
+        }
+
+        if (message.type === 'TOTALJOBS_SCAN_PAGE_HEALTH') {
+            if (typeof AutoCVApplyTotalJobsAutoApply === 'undefined') {
+                sendResponse({ ok: true, issues: [], blocking: [], primary: null });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyTotalJobsAutoApply.scanPageHealth());
+
+            return;
+        }
+
+        if (message.type === 'TOTALJOBS_ACCEPT_COOKIE_CONSENT') {
+            if (typeof AutoCVApplyTotalJobsAutoApply === 'undefined') {
+                sendResponse({ accepted: false });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyTotalJobsAutoApply.acceptCookieConsent());
+
+            return;
+        }
+
+        if (message.type === 'TOTALJOBS_WAIT_FOR_JOB_DESCRIPTION') {
+            if (typeof AutoCVApplyTotalJobsAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Totaljobs auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            const minLength = Number(message.minLength) || 200;
+
+            void AutoCVApplyTotalJobsAutoApply.waitForJobDescriptionReady(minLength, 20_000)
+                .then((result) => sendResponse({ success: result.ready, ...result }))
+                .catch((error) => sendResponse({ success: false, error: error.message }));
+
+            return;
+        }
+
         if (message.type === 'AUTOFILL_VISIBILITY_CHANGED' || message.type === 'AUTH_STATE_CHANGED') {
             if (!isAutoApplyBurstActive()) {
                 scheduleOverlayRefresh(

@@ -262,7 +262,7 @@ async function showOnboardingIfNeeded() {
     overlay.innerHTML = `
         <div class="onboarding-card postbox-panel">
             <h2>Welcome to AutoCVApply</h2>
-            <p>Use Assist to chat with AI, draft answers, and update your profile. Auto Apply runs LinkedIn Easy Apply batches. ATS and Cover tabs handle scoring and cover letters. Upload files on Docs.</p>
+            <p>Use Assist to chat with AI, draft answers, and update your profile. Auto Apply runs batches on LinkedIn, Indeed, and Totaljobs. ATS and Cover tabs handle scoring and cover letters. Upload files on Docs.</p>
             <button type="button" class="postbox-btn" id="finish-onboarding-btn">Got it</button>
         </div>
     `;

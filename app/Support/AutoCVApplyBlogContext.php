@@ -45,8 +45,12 @@ Supported platforms (extension autofill - verified examples include):
 - Ashby
 - SmartRecruiters
 - Teamtailor
-- Indeed
-- LinkedIn
+- Oracle
+- BambooHR
+- Workable
+- iCIMS
+- Trakstar
+- WordPress
 - Other major ATS and employer career sites
 
 ## Pricing (GBP, monthly; allowances reset on the 1st of each month)

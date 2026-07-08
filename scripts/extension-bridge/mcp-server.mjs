@@ -463,9 +463,9 @@ server.tool(
 
 server.tool(
     'start_auto_apply',
-    'Start LinkedIn or Indeed Auto Apply via the extension bridge.',
+    'Send LinkedIn or Indeed or Totaljobs Auto Apply via the extension bridge.',
     {
-        platform: z.enum(['linkedin', 'indeed']).optional().describe('Job board platform. Defaults to indeed.'),
+        platform: z.enum(['linkedin', 'indeed', 'totaljobs']).optional().describe('Job board platform. Defaults to indeed.'),
         roleDescription: z.string().describe('Role search query, e.g. software engineer'),
         maxApplications: z.number().int().min(1).max(50).optional().describe('Stop after this many successful applications. Default 2.'),
         fitCheckEnabled: z.boolean().optional().describe('When true, skip low ATS-fit jobs.'),
@@ -623,6 +623,25 @@ server.tool(
     },
     async ({ tabId, type, ...messageParams }) => {
         const result = await runCommand('indeed_tab_message', { tabId, type, ...messageParams }, 60000);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'totaljobs_tab_message',
+    'Send a Totaljobs content-script message (TOTALJOBS_APPLY_STATE, TOTALJOBS_FILL_AND_ADVANCE, etc.).',
+    {
+        tabId: z.number().int().optional(),
+        type: z.string().describe('Totaljobs message type, e.g. TOTALJOBS_APPLY_STATE.'),
+    },
+    async ({ tabId, type, ...messageParams }) => {
+        const result = await runCommand('totaljobs_tab_message', { tabId, type, ...messageParams }, 60000);
 
         return {
             content: [{

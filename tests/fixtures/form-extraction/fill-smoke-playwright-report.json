@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T05:25:46.178Z",
+  "generated_at": "2026-07-08T22:04:16.781Z",
   "totals": {
     "scenarios": 13,
     "evaluated": 10,
@@ -544,7 +544,7 @@
         {
           "stage": "a11yState",
           "field": "a united states citizen a united states citizen a united states citizen",
-          "ref": "f13",
+          "ref": "f14",
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
@@ -552,7 +552,7 @@
         {
           "stage": "a11yState",
           "field": "campus visit campus visit campus visit",
-          "ref": "f16",
+          "ref": "f18",
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
@@ -560,7 +560,7 @@
         {
           "stage": "a11yState",
           "field": "no no no",
-          "ref": "f19",
+          "ref": "f21",
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
@@ -587,37 +587,37 @@
           "fieldType": "radio"
         },
         {
-          "ref": "f13",
+          "ref": "f14",
           "expected": "A United States Citizen",
           "actual": "checked",
           "fieldType": "radio"
         },
         {
-          "ref": "f16",
+          "ref": "f18",
           "expected": "Campus visit",
           "actual": "checked",
           "fieldType": "radio"
         },
         {
-          "ref": "f18",
+          "ref": "f20",
           "expected": "FillVerify-18",
           "actual": "FillVerify-18",
           "fieldType": "text"
         },
         {
-          "ref": "f19",
+          "ref": "f21",
           "expected": "No",
           "actual": "checked",
           "fieldType": "radio"
         },
         {
-          "ref": "f24",
+          "ref": "f26",
           "expected": "FillVerify-textarea-24",
           "actual": "FillVerify-textarea-24",
           "fieldType": "textarea"
         },
         {
-          "ref": "f25",
+          "ref": "f27",
           "expected": "Yes",
           "actual": "Yes",
           "fieldType": "select"
@@ -636,21 +636,21 @@
             },
             {
               "field": "a united states citizen a united states citizen a united states citizen",
-              "ref": "f13",
+              "ref": "f14",
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
             },
             {
               "field": "campus visit campus visit campus visit",
-              "ref": "f16",
+              "ref": "f18",
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
             },
             {
               "field": "no no no",
-              "ref": "f19",
+              "ref": "f21",
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
@@ -794,7 +794,7 @@
         {
           "stage": "a11yState",
           "field": "where did you hear about this opportunity?",
-          "ref": "f6",
+          "ref": "f7",
           "message": "comboboxEmpty",
           "expected": "LinkedIn",
           "actual": ""
@@ -802,7 +802,7 @@
         {
           "stage": "a11yState",
           "field": "do you have a disability?",
-          "ref": "f7",
+          "ref": "f8",
           "message": "radioGroupSelectionCount",
           "expected": 1,
           "actual": 0
@@ -811,19 +811,19 @@
       "readback_failures_detail": [],
       "readbacks": [
         {
-          "ref": "f6",
+          "ref": "f7",
           "expected": "LinkedIn",
           "actual": "LinkedIn",
           "fieldType": "select"
         },
         {
-          "ref": "f7",
+          "ref": "f8",
           "expected": "No",
           "actual": "checked",
           "fieldType": "radio"
         },
         {
-          "ref": "f8",
+          "ref": "f9",
           "expected": "FillVerify-8",
           "actual": "FillVerify-8",
           "fieldType": "text"
@@ -835,14 +835,14 @@
           "failures": [
             {
               "field": "where did you hear about this opportunity?",
-              "ref": "f6",
+              "ref": "f7",
               "reason": "comboboxEmpty",
               "expected": "LinkedIn",
               "actual": ""
             },
             {
               "field": "do you have a disability?",
-              "ref": "f7",
+              "ref": "f8",
               "reason": "radioGroupSelectionCount",
               "expected": 1,
               "actual": 0
@@ -927,43 +927,43 @@
           "fieldType": "text"
         },
         {
-          "ref": "f1",
+          "ref": "f2",
           "expected": "FillVerify-1",
           "actual": "FillVerify-1",
           "fieldType": "text"
         },
         {
-          "ref": "f2",
+          "ref": "f3",
           "expected": "fillverify2@test.example",
           "actual": "fillverify2@test.example",
           "fieldType": "email"
         },
         {
-          "ref": "f3",
+          "ref": "f4",
           "expected": "+15550000003",
           "actual": "+15550000003",
           "fieldType": "tel"
         },
         {
-          "ref": "f4",
+          "ref": "f5",
           "expected": "FillVerify-4",
           "actual": "FillVerify-4",
           "fieldType": "text"
         },
         {
-          "ref": "f13",
+          "ref": "f19",
           "expected": "FillVerify-13",
           "actual": "FillVerify-13",
           "fieldType": "text"
         },
         {
-          "ref": "f18",
+          "ref": "f25",
           "expected": "FillVerify-18",
           "actual": "FillVerify-18",
           "fieldType": "text"
         },
         {
-          "ref": "f19",
+          "ref": "f27",
           "expected": "+15550000019",
           "actual": "+15550000019",
           "fieldType": "tel"
@@ -1088,42 +1088,9 @@
       "plan_count": 10,
       "apply_failures": 0,
       "readback_failures": 0,
-      "a11y_failures": 4,
+      "a11y_failures": 0,
       "error_banner_count": 0,
-      "failures": [
-        {
-          "stage": "a11yState",
-          "field": "svgs not supported by this browser. yes svgs not supported by this browser. yes",
-          "ref": "f24",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "do you have a driver's license?",
-          "ref": "f25",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "do you have current right to work in the uk?",
-          "ref": "f26",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        },
-        {
-          "stage": "a11yState",
-          "field": "will you require sponsorship within the next 12 months?",
-          "ref": "f52",
-          "message": "radioGroupSelectionCount",
-          "expected": 1,
-          "actual": 0
-        }
-      ],
+      "failures": [],
       "readback_failures_detail": [],
       "readbacks": [
         {
@@ -1169,57 +1136,28 @@
           "fieldType": "radio"
         },
         {
-          "ref": "f25",
+          "ref": "f74",
           "expected": "Yes",
-          "actual": "checked",
+          "actual": "SVGs not supported by this browser. YES",
           "fieldType": "radio"
         },
         {
-          "ref": "f26",
+          "ref": "f75",
           "expected": "Yes",
-          "actual": "checked",
+          "actual": "SVGs not supported by this browser. YES",
           "fieldType": "radio"
         },
         {
-          "ref": "f52",
+          "ref": "f87",
           "expected": "Yes",
-          "actual": "checked",
+          "actual": "SVGs not supported by this browser. YES",
           "fieldType": "radio"
         }
       ],
       "checks": {
         "a11yState": {
-          "passed": false,
-          "failures": [
-            {
-              "field": "svgs not supported by this browser. yes svgs not supported by this browser. yes",
-              "ref": "f24",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "do you have a driver's license?",
-              "ref": "f25",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "do you have current right to work in the uk?",
-              "ref": "f26",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            },
-            {
-              "field": "will you require sponsorship within the next 12 months?",
-              "ref": "f52",
-              "reason": "radioGroupSelectionCount",
-              "expected": 1,
-              "actual": 0
-            }
-          ]
+          "passed": true,
+          "failures": []
         },
         "errorBanner": {
           "passed": true,

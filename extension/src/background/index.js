@@ -2841,6 +2841,15 @@ initExtensionBridge({
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
+        totaljobs_tab_message: async ({ tabId, type, ...messageParams }) => {
+            if (!type || typeof type !== 'string') {
+                throw new Error('type is required.');
+            }
+
+            const resolvedTabId = await resolveActiveTabId(tabId);
+
+            return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
+        },
         linkedin_tab_message: async ({ tabId, type, ...messageParams }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');

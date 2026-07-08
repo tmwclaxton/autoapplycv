@@ -8,12 +8,17 @@ import {
     buildLinkedInJobSearchUrl,
     isLinkedInJobsSearchUrl,
 } from './linkedin-platform.js';
+import {
+    buildTotalJobsJobSearchUrl,
+    isTotalJobsJobsSearchUrl,
+    TOTALJOBS_PLATFORM_ID,
+} from './totaljobs-platform.js';
 
 /** @typedef {{ id: string, label: string, enabled: boolean, comingSoon?: boolean }} PlatformDefinition */
 
 /**
- * Keep in sync with SUPPORTED_PLATFORMS in resources/js/lib/site.ts.
- * LinkedIn and Indeed are enabled for auto-apply; others are listed as coming soon.
+ * Job boards with Auto Apply support. Keep labels in sync with
+ * AUTO_APPLY_SUPPORTED_PLATFORMS / AUTO_APPLY_COMING_SOON_PLATFORMS in resources/js/lib/site.ts.
  *
  * @type {PlatformDefinition[]}
  */
@@ -24,81 +29,14 @@ export const AUTO_APPLY_PLATFORM_LIST = [
         enabled: true,
     },
     {
-        id: 'workday',
-        label: 'Workday',
-        enabled: false,
-        comingSoon: true,
-    },
-    {
-        id: 'greenhouse',
-        label: 'Greenhouse',
-        enabled: false,
-        comingSoon: true,
-    },
-    {
-        id: 'lever',
-        label: 'Lever',
-        enabled: false,
-        comingSoon: true,
-    },
-    {
-        id: 'ashby',
-        label: 'Ashby',
-        enabled: false,
-        comingSoon: true,
-    },
-    {
-        id: 'smartrecruiters',
-        label: 'SmartRecruiters',
-        enabled: false,
-        comingSoon: true,
-    },
-    {
-        id: 'teamtailor',
-        label: 'Teamtailor',
-        enabled: false,
-        comingSoon: true,
-    },
-    {
-        id: 'oracle',
-        label: 'Oracle',
-        enabled: false,
-        comingSoon: true,
-    },
-    {
-        id: 'bamboohr',
-        label: 'BambooHR',
-        enabled: false,
-        comingSoon: true,
-    },
-    {
-        id: 'workable',
-        label: 'Workable',
-        enabled: false,
-        comingSoon: true,
-    },
-    {
-        id: 'icims',
-        label: 'iCIMS',
-        enabled: false,
-        comingSoon: true,
-    },
-    {
         id: INDEED_PLATFORM_ID,
         label: 'Indeed',
         enabled: true,
     },
     {
-        id: 'trakstar',
-        label: 'Trakstar',
-        enabled: false,
-        comingSoon: true,
-    },
-    {
-        id: 'wordpress',
-        label: 'WordPress',
-        enabled: false,
-        comingSoon: true,
+        id: TOTALJOBS_PLATFORM_ID,
+        label: 'Totaljobs',
+        enabled: true,
     },
 ];
 
@@ -125,6 +63,12 @@ export function buildJobSearchUrl(platformId, roleDescription, options = {}) {
         });
     }
 
+    if (platformId === TOTALJOBS_PLATFORM_ID) {
+        return buildTotalJobsJobSearchUrl(roleDescription, {
+            filters: options.filters,
+        });
+    }
+
     throw new Error(`Unsupported auto-apply platform: ${platformId}`);
 }
 
@@ -142,7 +86,11 @@ export function urlMatchesPlatform(url, platformId) {
         return isIndeedJobsSearchUrl(url);
     }
 
+    if (platformId === TOTALJOBS_PLATFORM_ID) {
+        return isTotalJobsJobsSearchUrl(url);
+    }
+
     return false;
 }
 
-export { INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID };
+export { INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, TOTALJOBS_PLATFORM_ID };

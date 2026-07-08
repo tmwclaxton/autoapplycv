@@ -5,7 +5,7 @@
  *
  * Usage:
  *   node scripts/extension-test/auto-apply-marathon.mjs --platform=linkedin --target=20
- *   node scripts/extension-test/auto-apply-marathon.mjs --platform=indeed --target=20 --role="software engineer"
+ *   node scripts/extension-test/auto-apply-marathon.mjs --platform=totaljobs --target=20 --role="software engineer"
  */
 import { appendFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -23,10 +23,14 @@ const args = Object.fromEntries(
     }),
 );
 
-const PLATFORM = args.platform === 'indeed' ? 'indeed' : 'linkedin';
+const PLATFORM = args.platform === 'indeed'
+    ? 'indeed'
+    : args.platform === 'totaljobs'
+        ? 'totaljobs'
+        : 'linkedin';
 const TARGET = Number(args.target || 20);
 const ROLE = args.role || 'software engineer';
-const LOCATION = args.location || (PLATFORM === 'indeed' ? 'London' : 'United Kingdom');
+const LOCATION = args.location || (PLATFORM === 'linkedin' ? 'United Kingdom' : 'London');
 const WORK_TYPE = args['work-type'] || args.workType || '';
 const FIT_CHECK = args.fit === '1' || args.fit === 'true';
 const MIN_FIT = Number(args['min-fit'] || 10);

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head><meta charset="utf-8"><title>Apply - QA Engineer</title></head>
+<body>
+<div id="app-root" data-genesis-element="BASE">
+<header data-testid="header-container" data-genesis-element="BASE">
+<a data-testid="logo" href="/">Totaljobs</a>
+</header>
+<main data-genesis-element="BASE"><form data-testid="application-form" data-at="application-form" data-genesis-element="FORM" action="/job/application" method="post">
+<h1 data-testid="application-step-title" data-genesis-element="TEXT">Screening questions</h1>
+
+<fieldset data-testid="fieldset-do-you-have-the-right-to-wor" data-genesis-element="BASE">
+<legend data-testid="application-step-subtitle">Do you have the right to work in the United Kingdom?</legend>
+<label for="do-you-have-the-right-to-wor-0"><input type="radio" id="do-you-have-the-right-to-wor-0" name="do-you-have-the-right-to-wor" value="yes" data-testid="radio-do-you-have-the-right-to-wor-0"> Yes</label><label for="do-you-have-the-right-to-wor-1"><input type="radio" id="do-you-have-the-right-to-wor-1" name="do-you-have-the-right-to-wor" value="no" data-testid="radio-do-you-have-the-right-to-wor-1"> No</label>
+</fieldset>
+<fieldset data-testid="fieldset-will-you-require-visa-sponso" data-genesis-element="BASE">
+<legend data-testid="application-step-subtitle">Will you require visa sponsorship now or in the future?</legend>
+<label for="will-you-require-visa-sponso-0"><input type="radio" id="will-you-require-visa-sponso-0" name="will-you-require-visa-sponso" value="yes" data-testid="radio-will-you-require-visa-sponso-0"> Yes</label><label for="will-you-require-visa-sponso-1"><input type="radio" id="will-you-require-visa-sponso-1" name="will-you-require-visa-sponso" value="no" data-testid="radio-will-you-require-visa-sponso-1"> No</label><label for="will-you-require-visa-sponso-2"><input type="radio" id="will-you-require-visa-sponso-2" name="will-you-require-visa-sponso" value="not-sure" data-testid="radio-will-you-require-visa-sponso-2"> Not sure</label>
+</fieldset>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-highest-level-of-education-60132">
+<label for="highest-level-of-education-60132">Highest level of education</label>
+<select id="highest-level-of-education-60132" name="highest-level-of-education-60132" data-testid="field-highest-level-of-education-60132-input">
+<option value="">Please select</option><option value="gcse">GCSE</option><option value="a-level">A-Level</option><option value="bachelor-s-degree">Bachelor's degree</option><option value="master-s-degree">Master's degree</option><option value="phd">PhD</option><option value="other">Other</option>
+</select>
+</div>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-notice-period-60132">
+<label for="notice-period-60132">Notice period</label>
+<select id="notice-period-60132" name="notice-period-60132" data-testid="field-notice-period-60132-input">
+<option value="">Please select</option><option value="immediate">Immediate</option><option value="1-week">1 week</option><option value="2-weeks">2 weeks</option><option value="1-month">1 month</option><option value="2-months">2 months</option><option value="3-months">3 months</option>
+</select>
+</div>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-current-salary-60132">
+<label for="current-salary-60132" data-testid="field-current-salary-60132-label">Current salary (£)</label>
+<input type="number" id="current-salary-60132" name="current-salary-60132" data-testid="field-current-salary-60132-input" min="0" step="1000">
+</div>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-expected-salary-60132">
+<label for="expected-salary-60132" data-testid="field-expected-salary-60132-label">Expected salary (£)</label>
+<input type="number" id="expected-salary-60132" name="expected-salary-60132" data-testid="field-expected-salary-60132-input" min="0" step="1000">
+</div>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-why-are-you-interested-in-this-q">
+<label for="why-are-you-interested-in-this-q">Why are you interested in this qa engineer role?</label>
+<textarea id="why-are-you-interested-in-this-q" name="why-are-you-interested-in-this-q" rows="5" data-testid="field-why-are-you-interested-in-this-q-input" maxlength="800"></textarea>
+</div>
+<fieldset data-testid="fieldset-which-skills-do-you-have-601">
+<legend>Which skills do you have?</legend>
+<label for="which-skills-do-you-have-601-cb-0"><input type="checkbox" id="which-skills-do-you-have-601-cb-0" name="which-skills-do-you-have-601[]" value="sql" data-testid="checkbox-which-skills-do-you-have-601-cb-0"> SQL</label><label for="which-skills-do-you-have-601-cb-1"><input type="checkbox" id="which-skills-do-you-have-601-cb-1" name="which-skills-do-you-have-601[]" value="go" data-testid="checkbox-which-skills-do-you-have-601-cb-1"> Go</label><label for="which-skills-do-you-have-601-cb-2"><input type="checkbox" id="which-skills-do-you-have-601-cb-2" name="which-skills-do-you-have-601[]" value="javascript" data-testid="checkbox-which-skills-do-you-have-601-cb-2"> JavaScript</label><label for="which-skills-do-you-have-601-cb-3"><input type="checkbox" id="which-skills-do-you-have-601-cb-3" name="which-skills-do-you-have-601[]" value="typescript" data-testid="checkbox-which-skills-do-you-have-601-cb-3"> TypeScript</label><label for="which-skills-do-you-have-601-cb-4"><input type="checkbox" id="which-skills-do-you-have-601-cb-4" name="which-skills-do-you-have-601[]" value="react" data-testid="checkbox-which-skills-do-you-have-601-cb-4"> React</label>
+</fieldset>
+
+<div data-at="application-actions"><button type="button" data-testid="continue-button" data-genesis-element="BUTTON">Continue</button></div>
+</form></main>
+<footer data-genesis-element="PAGE_FOOTER"><p>Totaljobs synthetic corpus fixture</p></footer>
+</div>
+</body>
+</html>

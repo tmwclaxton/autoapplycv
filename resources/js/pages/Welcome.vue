@@ -146,7 +146,7 @@ defineProps<{
                         Fills behave like a person, not a macro:
                         character-by-character typing on short fields, natural
                         pauses between questions, and human-like navigation on
-                        LinkedIn and Indeed Auto Apply.
+                        job board Auto Apply runs.
                     </p>
                 </div>
 
@@ -157,14 +157,14 @@ defineProps<{
                         <Bot class="size-5 text-postbox-red" />
                     </div>
                     <h3 class="text-base font-bold text-postbox-navy">
-                        LinkedIn & Indeed Auto Apply
+                        Job board Auto Apply
                     </h3>
                     <p
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
-                        Auto Apply from the extension sidebar on LinkedIn Easy
-                        Apply and Indeed Apply jobs - search, fill, review, and
-                        submit. More platforms coming soon.
+                        Auto Apply from the extension sidebar on LinkedIn,
+                        Indeed, and Totaljobs - search, fill, review, and
+                        submit. More job boards coming soon.
                     </p>
                 </div>
 

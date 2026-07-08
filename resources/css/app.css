@@ -252,6 +252,19 @@
         color: var(--postbox-navy);
     }
 
+    .postbox-badge-more {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        font-style: italic;
+        letter-spacing: normal;
+        text-transform: none;
+        color: var(--muted-foreground);
+        background: transparent;
+    }
+
     .postbox-label {
         display: block;
         margin-bottom: 0.375rem;

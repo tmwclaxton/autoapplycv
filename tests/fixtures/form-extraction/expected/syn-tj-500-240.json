@@ -1,0 +1,80 @@
+{
+  "id": "syn-tj-500-240",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "how easy was it to apply?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "Very easy",
+        "Easy",
+        "Neutral",
+        "Difficult",
+        "Very difficult"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "how-easy-was-it-to-apply-60240",
+        "name": "how-easy-was-it-to-apply-60240",
+        "data_testid": "field-how-easy-was-it-to-apply-60240-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "any feedback on the application process?",
+      "field_type": "textarea",
+      "max_chars": 400,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "any-feedback-on-the-application-",
+        "name": "any-feedback-on-the-application-",
+        "data_testid": "field-any-feedback-on-the-application--input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "would you recommend totaljobs to a friend?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Maybe"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "would-you-recommend-totaljob-0",
+        "name": "would-you-recommend-totaljob",
+        "data_testid": "fieldset-would-you-recommend-totaljob",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

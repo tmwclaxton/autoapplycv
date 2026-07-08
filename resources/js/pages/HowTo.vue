@@ -29,14 +29,14 @@ import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
         <PostboxPlatformBadges class="mt-10" show-auto-apply-platforms />
 
         <PostboxProse class="mt-10">
-            <h2>Auto Apply on LinkedIn and Indeed</h2>
+            <h2>Auto Apply on job boards</h2>
             <p>
                 Open the extension sidebar <strong>Auto Apply</strong> tab,
-                choose LinkedIn or Indeed, set your search filters, and start a
-                run. The extension searches for Easy Apply / Indeed Apply jobs,
-                opens each posting, fills every step with Draft All, and submits
-                when the flow allows. You can pause, resume, or stop from the
-                sidebar at any time.
+                choose LinkedIn, Indeed, or Totaljobs, set your search filters,
+                and start a run. The extension searches for Easy Apply, Indeed
+                Apply, or Totaljobs Quick Apply jobs, opens each posting, fills
+                every step with Draft All, and submits when the flow allows. You
+                can pause, resume, or stop from the sidebar at any time.
             </p>
 
             <h2>Install the extension</h2>

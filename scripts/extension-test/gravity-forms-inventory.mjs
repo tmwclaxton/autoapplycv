@@ -3,9 +3,9 @@
  * Gravity Forms complex address fields must each appear in draftable inventory.
  * Label-only dedupe previously kept only Street Address under a shared "Address" legend.
  */
-import { JSDOM } from 'jsdom';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
+import { JSDOM } from 'jsdom';
 import { FORM_HEURISTICS_PATH } from '../form-corpus/lib/paths.mjs';
 
 function assert(condition, message) {

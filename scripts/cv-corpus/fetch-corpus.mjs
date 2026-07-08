@@ -4,10 +4,10 @@
  *
  * Usage: node scripts/cv-corpus/fetch-corpus.mjs
  */
+import { spawnSync } from 'node:child_process';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { spawnSync } from 'node:child_process';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '../..');
@@ -73,6 +73,7 @@ async function main() {
 
     if (failed.length > 0) {
         console.warn('\nSome downloads failed (corpus may still be usable):');
+
         for (const row of failed) {
             console.warn(`  - ${row.id}: ${row.error}`);
         }

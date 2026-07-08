@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head><meta charset="utf-8"><title>Review application</title></head>
+<body>
+<div id="app-root" data-genesis-element="BASE">
+<header data-testid="header-container" data-genesis-element="BASE">
+<a data-testid="logo" href="/">Totaljobs</a>
+</header>
+<main data-genesis-element="BASE"><form data-testid="application-form" data-at="application-form" data-genesis-element="FORM" action="/job/application" method="post">
+<h1 data-testid="application-step-title" data-genesis-element="TEXT">Check your application</h1>
+
+<p data-testid="application-review-summary">You are applying for <strong>Cloud Architect</strong> at <strong>RedTech Recruitment</strong>.</p>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-confirm-email-address-60244">
+<label for="confirm-email-address-60244" data-testid="field-confirm-email-address-60244-label">Confirm email address</label>
+<input type="email" id="confirm-email-address-60244" name="confirm-email-address-60244" data-testid="field-confirm-email-address-60244-input" required>
+</div>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-confirm-phone-number-60244">
+<label for="confirm-phone-number-60244" data-testid="field-confirm-phone-number-60244-label">Confirm phone number</label>
+<input type="tel" id="confirm-phone-number-60244" name="confirm-phone-number-60244" data-testid="field-confirm-phone-number-60244-input" required>
+</div>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-final-comments-for-the-recruiter">
+<label for="final-comments-for-the-recruiter">Final comments for the recruiter (optional)</label>
+<textarea id="final-comments-for-the-recruiter" name="final-comments-for-the-recruiter" rows="3" data-testid="field-final-comments-for-the-recruiter-input" maxlength="300"></textarea>
+</div>
+<div class="res-field" data-genesis-element="BASE" data-testid="field-preferred-contact-method-60244">
+<label for="preferred-contact-method-60244">Preferred contact method</label>
+<select id="preferred-contact-method-60244" name="preferred-contact-method-60244" data-testid="field-preferred-contact-method-60244-input">
+<option value="">Please select</option><option value="email">Email</option><option value="phone">Phone</option><option value="either">Either</option>
+</select>
+</div>
+<fieldset data-testid="fieldset-i-agree-to-the-privacy-polic" data-genesis-element="BASE">
+<legend data-testid="application-step-subtitle">I agree to the privacy policy and terms</legend>
+<label for="i-agree-to-the-privacy-polic-0"><input type="radio" id="i-agree-to-the-privacy-polic-0" name="i-agree-to-the-privacy-polic" value="i-agree" data-testid="radio-i-agree-to-the-privacy-polic-0"> I agree</label>
+</fieldset>
+
+<div data-at="application-actions"><button type="submit" data-testid="submit-application-button" data-genesis-element="BUTTON">Send application</button></div>
+</form></main>
+<footer data-genesis-element="PAGE_FOOTER"><p>Totaljobs synthetic corpus fixture</p></footer>
+</div>
+</body>
+</html>

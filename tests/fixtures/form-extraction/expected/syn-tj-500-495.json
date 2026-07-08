@@ -1,0 +1,236 @@
+{
+  "id": "syn-tj-500-495",
+  "min_fields": 10,
+  "exact_field_count": 10,
+  "fields": [
+    {
+      "question": "full name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "full-name-60495",
+        "name": "full-name-60495",
+        "data_testid": "field-full-name-60495-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email address",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "email-address-60495",
+        "name": "email-address-60495",
+        "data_testid": "field-email-address-60495-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "mobile number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "mobile-number-60495",
+        "name": "mobile-number-60495",
+        "data_testid": "field-mobile-number-60495-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile url",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "linkedin-profile-url-60495",
+        "name": "linkedin-profile-url-60495",
+        "data_testid": "field-linkedin-profile-url-60495-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "max_chars": 1200,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter-60495",
+        "name": "cover-letter-60495",
+        "data_testid": "field-cover-letter-60495-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you willing to work on-site in london?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Hybrid only"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "are-you-willing-to-work-on-s-0",
+        "name": "are-you-willing-to-work-on-s",
+        "data_testid": "fieldset-are-you-willing-to-work-on-s",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred work arrangement",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "Remote",
+        "Hybrid",
+        "On-site"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-work-arrangement-60495",
+        "name": "preferred-work-arrangement-60495",
+        "data_testid": "field-preferred-work-arrangement-60495-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "national insurance number (optional)",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "national-insurance-number-option",
+        "name": "national-insurance-number-option",
+        "data_testid": "field-national-insurance-number-option-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about this job?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "Totaljobs",
+        "LinkedIn",
+        "Referral",
+        "Company website",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "how-did-you-hear-about-this-job-",
+        "name": "how-did-you-hear-about-this-job-",
+        "data_testid": "field-how-did-you-hear-about-this-job--input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "technologies you have used professionally",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Python",
+        "React",
+        "Java",
+        "Azure",
+        "JavaScript",
+        "C#"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "technologies-you-have-used-p-cb-0",
+        "name": "technologies-you-have-used-p[]",
+        "data_testid": "fieldset-technologies-you-have-used-p",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

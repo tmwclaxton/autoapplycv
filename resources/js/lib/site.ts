@@ -5,6 +5,7 @@ export const DISCORD_INVITE_URL = 'https://discord.gg/DqqqTv3Spt';
 
 export const CONTACT_EMAIL = 'hello@autocvapply.com';
 
+/** ATS and employer career sites where extension autofill is verified. */
 export const SUPPORTED_PLATFORMS = [
     'Workday',
     'Greenhouse',
@@ -16,20 +17,62 @@ export const SUPPORTED_PLATFORMS = [
     'BambooHR',
     'Workable',
     'iCIMS',
-    'Indeed',
     'Trakstar',
     'WordPress',
-    'LinkedIn',
 ] as const;
 
-export const AUTO_APPLY_COMING_SOON_PLATFORMS = SUPPORTED_PLATFORMS.filter(
-    (
-        platform,
-    ): platform is Exclude<
-        (typeof SUPPORTED_PLATFORMS)[number],
-        'LinkedIn' | 'Indeed'
-    > => platform !== 'LinkedIn' && platform !== 'Indeed',
-);
+/** Job boards with end-to-end Auto Apply in the extension sidebar. */
+export const AUTO_APPLY_SUPPORTED_PLATFORMS = [
+    'LinkedIn',
+    'Indeed',
+    'Totaljobs',
+] as const;
+
+/** Job boards planned for Auto Apply across the Anglosphere - not ATS or employer career sites. */
+export const AUTO_APPLY_COMING_SOON_PLATFORMS = [
+    'Adzuna',
+    'APS Jobs',
+    'CareerBuilder',
+    'CareerOne',
+    'Civil Service Jobs',
+    'CV-Library',
+    'Dice',
+    'Eluta',
+    'EthicalJobs',
+    'Find a Job',
+    'FlexJobs',
+    'Glassdoor',
+    'Government Jobs',
+    'Guardian Jobs',
+    'Idealist',
+    'IrishJobs.ie',
+    'Job Bank',
+    'Jobs.ac.uk',
+    'Jobs Go Public',
+    'JobSearch',
+    'Jobs.ie',
+    'JobsIreland',
+    'Jobserve',
+    'JobsDB',
+    'JobStreet',
+    'Jobillico',
+    'Jora',
+    'Ladders',
+    'LG Jobs',
+    'LinkUp',
+    'Monster',
+    'NHS Jobs',
+    'NZ Government Jobs',
+    'Publicjobs.ie',
+    'Reed',
+    'SEEK',
+    'SimplyHired',
+    'Snagajob',
+    'Trade Me Jobs',
+    'USAJobs',
+    'Workopolis',
+    'ZipRecruiter',
+] as const;
 
 export const PLATFORM_MARKETING_LINE =
     'Most major ATS and employer career sites - including Workday, Greenhouse, Lever, Ashby, SmartRecruiters, and many more.';

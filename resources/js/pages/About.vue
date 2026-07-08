@@ -31,13 +31,14 @@ import { GITHUB_REPOSITORY_URL, PLATFORM_MARKETING_INLINE } from '@/lib/site';
                 {{ PLATFORM_MARKETING_INLINE }}.
             </p>
             <p>
-                On <strong>LinkedIn Easy Apply</strong> and
-                <strong>Indeed Apply</strong>, the extension can run end-to-end
-                Auto Apply from the sidebar: search for roles, open each
-                posting, fill every step, and submit applications on your
-                behalf. On other ATS and career sites, autofill and Draft All
+                On <strong>LinkedIn Easy Apply</strong>,
+                <strong>Indeed Apply</strong>, and
+                <strong>Totaljobs Quick Apply</strong>, the extension can run
+                end-to-end Auto Apply from the sidebar: search for roles, open
+                each posting, fill every step, and submit applications on your
+                behalf. On ATS and employer career sites, autofill and Draft All
                 still fill the fields - you review and click Submit yourself.
-                More full Auto Apply platforms are on the way.
+                More job board Auto Apply platforms are on the way.
             </p>
 
             <h2>How we keep fills working</h2>
@@ -65,11 +66,11 @@ import { GITHUB_REPOSITORY_URL, PLATFORM_MARKETING_INLINE } from '@/lib/site';
             <h2>What it does not do</h2>
             <p>
                 We do not sell your data, scrape your inbox, or apply to jobs
-                without you starting the run. Auto Apply on LinkedIn or Indeed
-                is something you launch from the extension; on other platforms
-                you stay at the keyboard for the final submit. The extension
-                reads your profile and fills fields in the browser - that is the
-                pitch.
+                without you starting the run. Auto Apply on supported job boards
+                is something you launch from the extension; on ATS and career
+                sites you stay at the keyboard for the final submit. The
+                extension reads your profile and fills fields in the browser -
+                that is the pitch.
             </p>
 
             <h2>Source code</h2>
