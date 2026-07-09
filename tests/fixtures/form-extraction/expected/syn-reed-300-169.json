@@ -1,0 +1,123 @@
+{
+  "id": "syn-reed-300-169",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "cover letter",
+      "field_type": "textarea",
+      "max_chars": 2000,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "cover-letter-571000169",
+        "name": "cover-letter-571000169",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "why do you want to work at this company?",
+      "field_type": "textarea",
+      "max_chars": 1000,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-do-you-want-to-work-at-this-",
+        "name": "why-do-you-want-to-work-at-this-",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of experience do you have in this field?",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "0-1",
+        "1-3",
+        "3-5",
+        "5-10",
+        "10+"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "how-many-years-of-experience-do-",
+        "name": "how-many-years-of-experience-do-",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile url",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "linkedin-profile-url-571000169",
+        "name": "linkedin-profile-url-571000169",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you happy to undergo a background check?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "are-you-happy-to-undergo-a-b-0",
+        "name": "are-you-happy-to-undergo-a-b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

@@ -19,7 +19,7 @@ import {
     resolveAutoApplyFitDecision,
     summarizeAtsFitReason,
 } from './auto-apply-fit.js';
-import { buildJobSearchUrl, GLASSDOOR_PLATFORM_ID, INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, TOTALJOBS_PLATFORM_ID } from './auto-apply-platforms.js';
+import { buildJobSearchUrl, GLASSDOOR_PLATFORM_ID, INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, REED_PLATFORM_ID, TOTALJOBS_PLATFORM_ID } from './auto-apply-platforms.js';
 import {
     appendAutoApplyLog,
     clearAutoApplySession,
@@ -52,6 +52,12 @@ import {
     mergePendingFields,
     pendingFieldsStorageKey,
 } from './pending-fields.js';
+import { runReedAutoApplyLoop } from './reed-auto-apply-runner.js';
+import {
+    buildReedJobOpenUrl,
+    isReedJobsSearchUrl,
+    urlsMatchReedSearch,
+} from './reed-platform.js';
 import { runTotalJobsAutoApplyLoop } from './totaljobs-auto-apply-runner.js';
 import {
     buildTotalJobsJobOpenUrl,
@@ -229,6 +235,7 @@ function formatIndeedSkipLogMessage(job, reason, detail = '') {
         no_indeed_apply: 'external apply only (not Indeed Apply)',
         no_totaljobs_apply: 'external apply only (not Totaljobs Quick Apply)',
         no_glassdoor_apply: 'external apply only (not Glassdoor Easy Apply)',
+        no_reed_apply: 'external apply only (not Reed Easy Apply)',
         job_unavailable: 'job page did not load',
         job_open_failed: 'could not open job listing',
         unknown_job_metadata: 'missing job details',
@@ -657,6 +664,39 @@ async function sendTotalJobsMessage(tabId, type, payload = {}, options = {}) {
     throw new Error('Totaljobs tab messaging failed.');
 }
 
+async function sendReedMessage(tabId, type, payload = {}, options = {}) {
+    const maxAttempts = options.maxAttempts ?? 2;
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+        try {
+            return await sendTabMessage(tabId, { type, ...payload }, 0);
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+
+            if (attempt < maxAttempts && isExtensionMessagingError(message)) {
+                invalidateTabFrameCache(tabId);
+                await logSession('warn', `[reed_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
+
+                try {
+                    await chrome.tabs.reload(tabId);
+                    await waitForTabLoadComplete(tabId);
+                    await waitForReedContentScript(tabId);
+                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1200));
+                    await sendTabMessage(tabId, { type: 'REED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
+                } catch {
+                    // Fall through to retry send on next loop iteration.
+                }
+
+                continue;
+            }
+
+            throw error;
+        }
+    }
+
+    throw new Error('Reed tab messaging failed.');
+}
+
 async function sendGlassdoorMessage(tabId, type, payload = {}, options = {}) {
     const maxAttempts = options.maxAttempts ?? 3;
 
@@ -756,6 +796,39 @@ async function returnToTotalJobsSearch(tabId, session) {
 
         await waitForTabLoadComplete(tabId);
         await waitForTotalJobsContentScript(tabId);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+
+        return tabId;
+    }
+}
+
+async function returnToReedSearch(tabId, session) {
+    try {
+        const tab = await chrome.tabs.get(tabId);
+        const currentUrl = tab.url || '';
+        const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+
+        if (isReedJobsSearchUrl(currentUrl) && urlsMatchReedSearch(currentUrl, searchUrl, session.filters)) {
+            await sendReedMessage(tabId, 'REED_PREPARE_JOB_SEARCH').catch(() => {});
+
+            return tabId;
+        }
+
+        await openUrlInAutoApplyWindow(searchUrl, tabId);
+        await waitForTabLoadComplete(tabId);
+        await waitForReedContentScript(tabId);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        await sendReedMessage(tabId, 'REED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+        await sendReedMessage(tabId, 'REED_PREPARE_JOB_SEARCH').catch(() => {});
+
+        return tabId;
+    } catch {
+        tabId = await openUrlInAutoApplyWindow(
+            buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session)),
+        );
+
+        await waitForTabLoadComplete(tabId);
+        await waitForReedContentScript(tabId);
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
 
         return tabId;
@@ -977,6 +1050,32 @@ async function recoverTotalJobsTab(tabId, session, reason) {
     }
 
     tabId = await returnToTotalJobsSearch(tabId, session);
+    markWatchdogProgress(session);
+
+    return tabId;
+}
+
+async function recoverReedTab(tabId, session, reason) {
+    if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
+        throw new Error(`Reed navigation stuck (${reason}). Recovery limit reached.`);
+    }
+
+    watchdogState.recoveryCount += 1;
+
+    await logSession(
+        'warn',
+        `[stuck_recovery] ${reason} - refresh ${watchdogState.recoveryCount}/${STUCK_RECOVERY_LIMIT}`,
+    );
+
+    try {
+        await chrome.tabs.reload(tabId);
+        await waitForTabLoadComplete(tabId);
+        await waitForReedContentScript(tabId);
+    } catch {
+        // Fall through to search navigation.
+    }
+
+    tabId = await returnToReedSearch(tabId, session);
     markWatchdogProgress(session);
 
     return tabId;
@@ -2119,6 +2218,46 @@ async function waitForTotalJobsContentScript(tabId, timeoutMs = 45_000) {
     }
 
     throw new Error('Totaljobs content script did not load in time.');
+}
+
+async function waitForReedApplyFlowOpen(tabId, timeoutMs = 30_000) {
+    const deadline = Date.now() + timeoutMs;
+
+    while (Date.now() < deadline) {
+        const state = await sendReedMessage(tabId, 'REED_APPLY_STATE').catch(() => null);
+
+        if (state?.open) {
+            return true;
+        }
+
+        if (state?.submitted) {
+            return true;
+        }
+
+        await sleep(1000);
+    }
+
+    return false;
+}
+
+async function waitForReedContentScript(tabId, timeoutMs = 45_000) {
+    const deadline = Date.now() + timeoutMs;
+
+    while (Date.now() < deadline) {
+        try {
+            await sendTabMessage(tabId, { type: 'REED_SCAN_PAGE_HEALTH' }, 0);
+
+            return;
+        } catch (error) {
+            if (!isExtensionMessagingError(error instanceof Error ? error.message : String(error))) {
+                throw error;
+            }
+
+            await sleep(400);
+        }
+    }
+
+    throw new Error('Reed content script did not load in time.');
 }
 
 async function waitForGlassdoorContentScript(tabId, timeoutMs = 45_000) {
@@ -3280,6 +3419,661 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
     return { outcome: 'applied', tabId };
 }
 
+async function ensureReedTab(session) {
+    const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+
+    if (session.tabId) {
+        try {
+            const tab = await chrome.tabs.get(session.tabId);
+
+            if (tab?.id) {
+                const currentUrl = tab.url || '';
+
+                if (!isReedJobsSearchUrl(currentUrl) || !urlsMatchReedSearch(currentUrl, searchUrl, session.filters)) {
+                    const tabId = await openUrlInAutoApplyWindow(searchUrl, tab.id);
+                    await waitForTabLoadComplete(tabId);
+                    await waitForReedContentScript(tabId);
+                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
+                    await sendReedMessage(tabId, 'REED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+
+                    return tabId;
+                }
+
+                return tab.id;
+            }
+        } catch {
+            // Tab was closed; recreate below.
+        }
+    }
+
+    const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
+
+    if (!hadWindow) {
+        await logSession('info', 'Running Auto Apply in a minimized background window so you can keep browsing.');
+    }
+
+    await logSession('info', `Reed search: ${searchUrl}`);
+    const tabId = await openUrlInAutoApplyWindow(searchUrl);
+
+    await waitForTabLoadComplete(tabId);
+    await waitForReedContentScript(tabId);
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
+    await sendReedMessage(tabId, 'REED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+
+    return tabId;
+}
+
+async function collectReedJobsFromTab(tabId, session = null) {
+    const deadline = Date.now() + 90_000;
+    let lastError = 'Could not read Reed job cards.';
+    let pageTurns = 0;
+
+    while (Date.now() < deadline) {
+        await sendReedMessage(tabId, 'REED_PREPARE_JOB_SEARCH').catch(() => {});
+
+        const response = await sendReedMessage(tabId, 'REED_COLLECT_JOB_CARDS');
+
+        if (!response?.success) {
+            lastError = response?.error || lastError;
+            await sleep(1500);
+
+            continue;
+        }
+
+        const jobs = response.jobs || [];
+        const freshJobs = jobs.filter((job) => job.reedApply !== false && !job.alreadyApplied);
+
+        if (freshJobs.length > 0) {
+            return freshJobs;
+        }
+
+        if (pageTurns < 6) {
+            const nextPage = await sendReedMessage(tabId, 'REED_NEXT_SEARCH_PAGE');
+
+            if (nextPage?.success) {
+                pageTurns += 1;
+                await waitForTabLoadComplete(tabId);
+                await sleep(randomDelay(1500, 2500));
+
+                continue;
+            }
+        }
+
+        if (session && pageTurns === 0) {
+            const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, {
+                ...buildSessionSearchOptions(session),
+                page: 1,
+            });
+
+            await chrome.tabs.update(tabId, { url: searchUrl });
+            await waitForTabLoadComplete(tabId);
+            await waitForReedContentScript(tabId);
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+            pageTurns += 1;
+
+            continue;
+        }
+
+        if (jobs.length > 0) {
+            lastError = 'No unapplied Reed Easy Apply jobs found on the current search pages.';
+        }
+
+        await sleep(1500);
+    }
+
+    throw new Error(lastError);
+}
+
+async function appendUniqueReedJobs(tabId, session) {
+    const jobs = await collectReedJobsFromTab(tabId, session);
+
+    if (jobs.length === 0) {
+        return session;
+    }
+
+    const existingIds = new Set(session.queue.map((job) => job.jobId));
+    const batchSeen = new Set();
+    const freshJobs = jobs.filter((job) => (
+        !existingIds.has(job.jobId)
+        && !batchSeen.has(job.jobId)
+        && job.reedApply !== false
+        && !job.alreadyApplied
+        && job.title !== 'Unknown role'
+        && (batchSeen.add(job.jobId), true)
+    ));
+
+    if (freshJobs.length === 0) {
+        return session;
+    }
+
+    return updateSession((current) => ({
+        ...current,
+        queue: [...current.queue, ...freshJobs],
+        stats: {
+            ...current.stats,
+            found: current.stats.found + freshJobs.length,
+        },
+    })) || session;
+}
+
+async function openReedJobInner(tabId, job, session) {
+    let jobUrl;
+
+    if (job.path || job.url) {
+        jobUrl = buildReedJobOpenUrl(job.jobId, { path: job.path || job.url });
+    } else if (session?.roleDescription) {
+        const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
+        jobUrl = `${searchUrl}${searchUrl.includes('?') ? '&' : '?'}jobId=${job.jobId}`;
+    } else {
+        jobUrl = buildReedJobOpenUrl(job.jobId, { path: job.path || job.url });
+    }
+
+    tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
+
+    await waitForTabLoadComplete(tabId);
+    await waitForReedContentScript(tabId);
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1100));
+    await sendReedMessage(tabId, 'REED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+    await sendReedMessage(tabId, 'REED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+
+    const readyResponse = await sendReedMessage(tabId, 'REED_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
+
+    if (!readyResponse?.success) {
+        return {
+            success: false,
+            tabId,
+            skipReason: readyResponse?.noReedApply
+                ? 'no_reed_apply'
+                : 'job_unavailable',
+            error: readyResponse?.error || 'Could not open Reed job listing.',
+        };
+    }
+
+    return { success: true, jobId: job.jobId, tabId, navigated: true };
+}
+
+async function verifyReedApplicationSubmitted(tabId, job) {
+    const readSubmitted = async (targetTabId) => {
+        const verifyResponse = await sendReedMessage(targetTabId, 'REED_VERIFY_SUBMITTED').catch(() => null);
+
+        return Boolean(verifyResponse?.submitted);
+    };
+
+    if (await readSubmitted(tabId)) {
+        return { submitted: true, tabId };
+    }
+
+    const jobUrl = buildReedJobOpenUrl(job.jobId, { path: job.path || job.url });
+    let verifyTabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
+
+    await waitForTabLoadComplete(verifyTabId);
+    await waitForReedContentScript(verifyTabId);
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+    await sendReedMessage(verifyTabId, 'REED_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId }).catch(() => {});
+
+    return {
+        submitted: await readSubmitted(verifyTabId),
+        tabId: verifyTabId,
+    };
+}
+
+async function fetchReedJobDescriptionForFit(tabId, job = null) {
+    const deadline = Date.now() + 15_000;
+    let description = '';
+
+    while (Date.now() < deadline) {
+        await sendReedMessage(tabId, 'REED_WAIT_FOR_JOB_DESCRIPTION', {
+            minLength: MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
+        }).catch(() => {});
+
+        const metaResponse = await fetchJobMetaFromTab(tabId);
+        description = resolveJobDescriptionFromMetaResponse(metaResponse);
+
+        if (description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
+            return { jobMeta: metaResponse?.job || null, description };
+        }
+
+        await sleep(randomDelay(800, 500));
+    }
+
+    if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT && job?.jobId) {
+        const jobUrl = buildReedJobOpenUrl(job.jobId, { path: job.path || job.url });
+
+        await logSession('info', `Opening full Reed job page to read description for ${job.title}.`);
+        tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
+        await waitForTabLoadComplete(tabId);
+        await waitForReedContentScript(tabId);
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation));
+
+        const retryDeadline = Date.now() + 15_000;
+
+        while (Date.now() < retryDeadline) {
+            const metaResponse = await fetchJobMetaFromTab(tabId);
+            description = resolveJobDescriptionFromMetaResponse(metaResponse);
+
+            if (description.length >= MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
+                return { jobMeta: metaResponse?.job || null, description };
+            }
+
+            await sleep(randomDelay(800, 500));
+        }
+    }
+
+    return { jobMeta: null, description };
+}
+
+async function evaluateReedJobFit(tabId, job, session) {
+    if (!session.fitCheckEnabled) {
+        return { proceed: true, score: null };
+    }
+
+    const { description } = await fetchReedJobDescriptionForFit(tabId, job);
+
+    if (description.length < MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT) {
+        await logSession(
+            'warn',
+            `Skipped ${job.title} at ${job.company} - job description too short to score fit (${description.length} chars, need ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT}+).`,
+        );
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'short_job_description' },
+        }, tabId);
+
+        return { proceed: false, reason: 'short_job_description', score: null };
+    }
+
+    const scoreResult = await requestAutoApplyAtsScore(description, session.roleDescription);
+
+    if (!scoreResult.ok) {
+        if (scoreResult.insufficientCredits) {
+            throw new Error(`${scoreResult.error} Auto Apply paused - top up credits and start a new run.`);
+        }
+
+        await logSession('warn', `Skipped ${job.title} - could not score fit (${scoreResult.error}).`);
+
+        return { proceed: false, reason: 'fit_score_failed', score: null };
+    }
+
+    await logSession(
+        'info',
+        `ATS score for ${job.title} at ${job.company}: ${scoreResult.score}/100 (min ${session.minFitScore}).`,
+    );
+
+    const fitDecision = resolveAutoApplyFitDecision({
+        fitCheckEnabled: true,
+        minFitScore: session.minFitScore,
+        score: scoreResult.score,
+        jobDescriptionLength: description.length,
+    });
+
+    job.atsScore = scoreResult.score;
+
+    if (fitDecision === 'skip_low_score') {
+        const fitReason = summarizeAtsFitReason(scoreResult.result, false);
+
+        await logSession(
+            'info',
+            formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, false, fitReason),
+        );
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'low_fit_score', score: scoreResult.score, min_fit_score: session.minFitScore },
+        }, tabId);
+
+        return { proceed: false, reason: 'low_fit_score', score: scoreResult.score, fitReason };
+    }
+
+    await logSession(
+        'info',
+        formatAutoApplyFitLogMessage(job.title, job.company, scoreResult.score, session.minFitScore, true),
+    );
+
+    return { proceed: true, score: scoreResult.score };
+}
+
+async function processReedJob(tabId, job, runDraftAll, session, profileData = null) {
+    await sendReedMessage(tabId, 'REED_ACCEPT_COOKIE_CONSENT').catch(() => {});
+
+    if (job.title === 'Unknown role' || job.company === 'Unknown company') {
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'unknown_job_metadata' },
+        });
+
+        return { outcome: 'skipped', reason: 'unknown_job_metadata', tabId };
+    }
+
+    await logSession('info', `Opening ${job.title} at ${job.company}`);
+    await recordAnalyticsEvent(session, 'job_opened', job);
+
+    const openResult = await openReedJobInner(tabId, job, session);
+    tabId = openResult.tabId || tabId;
+
+    if (!openResult.success) {
+        await logSession(
+            'info',
+            formatIndeedSkipLogMessage(job, openResult.skipReason || 'job_unavailable', openResult.error || ''),
+        );
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: openResult.skipReason || 'job_unavailable' },
+        });
+
+        return {
+            outcome: 'skipped',
+            reason: openResult.skipReason || 'job_unavailable',
+            detail: openResult.error || '',
+            tabId,
+        };
+    }
+
+    if (!openResult.navigated) {
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 800));
+    }
+
+    await captureJobPage(tabId);
+
+    const fitSession = await loadAutoApplySession();
+    const fitResult = await evaluateReedJobFit(tabId, job, fitSession || session);
+
+    if (!fitResult.proceed) {
+        return {
+            outcome: 'skipped',
+            reason: fitResult.reason || 'low_fit_score',
+            tabId,
+            atsScore: fitResult.score,
+            fitReason: fitResult.fitReason || '',
+        };
+    }
+
+    const health = await sendReedMessage(tabId, 'REED_SCAN_PAGE_HEALTH');
+
+    if (health && health.ok === false) {
+        throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'Reed page blocked.');
+    }
+
+    await sendReedMessage(tabId, 'REED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+
+    const applyResponse = await sendReedMessage(tabId, 'REED_OPEN_APPLY').catch(async (error) => {
+        const message = error instanceof Error ? error.message : String(error);
+
+        if (!isExtensionMessagingError(message)) {
+            throw error;
+        }
+
+        await waitForTabLoadComplete(tabId);
+        await waitForReedContentScript(tabId);
+
+        const fallbackState = await sendReedMessage(tabId, 'REED_APPLY_STATE').catch(() => null);
+
+        if (fallbackState?.open) {
+            return { success: true, reedApply: true, navigating: true };
+        }
+
+        return null;
+    });
+
+    if (applyResponse?.reedApply === false) {
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'no_reed_apply' },
+        });
+
+        return { outcome: 'skipped', reason: 'no_reed_apply', tabId };
+    }
+
+    if (!applyResponse?.success) {
+        await logSession(
+            'info',
+            formatIndeedSkipLogMessage(job, 'no_reed_apply', applyResponse?.error || 'Could not start Reed Easy Apply.'),
+        );
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'no_reed_apply' },
+        });
+
+        return {
+            outcome: 'skipped',
+            reason: 'no_reed_apply',
+            detail: applyResponse?.error || '',
+            tabId,
+        };
+    }
+
+    await waitForTabLoadComplete(tabId);
+    await waitForReedContentScript(tabId);
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+    invalidateTabFrameCache(tabId);
+    await captureJobPage(tabId, { force: true });
+
+    const applyFlowReady = await waitForReedApplyFlowOpen(tabId);
+
+    if (!applyFlowReady) {
+        throw new Error('Reed Easy Apply form did not open after navigation.');
+    }
+
+    const postOpenVerify = await sendReedMessage(tabId, 'REED_VERIFY_SUBMITTED');
+
+    if (postOpenVerify?.submitted) {
+        await logSession('success', `[submitted] ${job.title} at ${job.company}.`);
+        await recordAnalyticsEvent(session, 'submitted', job);
+
+        return { outcome: 'applied', tabId };
+    }
+
+    let submitted = false;
+    let guard = 0;
+    let lastStepFingerprint = null;
+    let sameStepCount = 0;
+
+    while (guard < EASY_APPLY_MAX_STEPS) {
+        guard += 1;
+
+        const applyState = await sendReedMessage(tabId, 'REED_APPLY_STATE');
+
+        if (applyState?.submitted) {
+            submitted = true;
+            break;
+        }
+
+        if (!applyState?.open) {
+            const closedVerify = await sendReedMessage(tabId, 'REED_VERIFY_SUBMITTED');
+
+            if (closedVerify?.submitted) {
+                submitted = true;
+            }
+
+            break;
+        }
+
+        if (applyState.stepFingerprint && applyState.stepFingerprint === lastStepFingerprint) {
+            sameStepCount += 1;
+        } else {
+            sameStepCount = 0;
+            lastStepFingerprint = applyState.stepFingerprint;
+        }
+
+        if (sameStepCount >= EASY_APPLY_STUCK_STEP_LIMIT) {
+            throw new Error(
+                `Stuck on Reed Apply step "${applyState.stepLabel || 'unknown'}" `
+                + `(${EASY_APPLY_STUCK_STEP_LIMIT}x). `
+                + (applyState.validationErrors?.[0] || applyState.actionLabel || 'No progress after repeated attempts.'),
+            );
+        }
+
+        await logSession(
+            'info',
+            `[fill] ${job.title} step ${guard}: ${applyState.stepLabel || applyState.actionLabel || 'Reed Apply'}`
+            + (applyState.isReviewStep ? ' (review)' : ''),
+        );
+
+        if (applyState.isReviewStep) {
+            await logSession('info', `[review] ${job.title}: reached review step.`);
+        }
+
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
+
+        const draftResult = applyState.isReviewStep
+            ? {
+                pendingFields: [],
+                filledFields: [],
+                skippedFields: [],
+                failedFields: [],
+            }
+            : await runDraftAllForStep(
+                tabId,
+                job,
+                applyState.stepLabel,
+                runDraftAll,
+                session,
+                REED_PLATFORM_ID,
+            );
+        const postDraftState = await sendReedMessage(tabId, 'REED_APPLY_STATE');
+        const pauseOutcome = await ensureStepFilledOrPaused(
+            tabId,
+            job,
+            postDraftState || applyState,
+            draftResult,
+            session,
+            profileData,
+        );
+
+        session = pauseOutcome.session || session;
+
+        if (pauseOutcome.stopped) {
+            return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+        }
+
+        let advanceResponse;
+
+        try {
+            advanceResponse = await sendReedMessage(tabId, 'REED_FILL_AND_ADVANCE');
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+
+            if (!isExtensionMessagingError(message)) {
+                throw error;
+            }
+
+            await waitForTabLoadComplete(tabId);
+            await waitForReedContentScript(tabId);
+            await sleep(randomDelay(1500, 2800));
+            const confirmVerify = await sendReedMessage(tabId, 'REED_VERIFY_SUBMITTED').catch(() => null);
+
+            if (confirmVerify?.submitted) {
+                submitted = true;
+                break;
+            }
+
+            advanceResponse = {
+                success: true,
+                action: 'submit',
+                submitted: false,
+                pendingConfirmation: true,
+            };
+        }
+
+        if (advanceResponse?.action === 'submit') {
+            await logSession(
+                'info',
+                `[submit] ${job.title}: clicked Submit${advanceResponse.submitted ? ' - confirmed' : ''}.`,
+            );
+
+            if (!advanceResponse.submitted) {
+                await waitForTabLoadComplete(tabId).catch(() => {});
+                await waitForReedContentScript(tabId).catch(() => {});
+                await sleep(randomDelay(1500, 2800));
+                const confirmResult = await verifyReedApplicationSubmitted(tabId, job);
+                tabId = confirmResult.tabId || tabId;
+
+                if (confirmResult.submitted) {
+                    submitted = true;
+                    break;
+                }
+            } else {
+                submitted = true;
+                break;
+            }
+        } else if (advanceResponse?.action === 'continue') {
+            await logSession('info', `[advance] ${job.title}: continued to next step.`);
+        }
+
+        if (advanceResponse?.validationErrors?.length) {
+            await logSession(
+                'warn',
+                `[validation] ${job.title}: ${advanceResponse.validationErrors.slice(0, 3).join('; ')}`,
+            );
+        }
+
+        if (advanceResponse?.submitted) {
+            submitted = true;
+            break;
+        }
+
+        if (advanceResponse?.action === 'blocked' || (
+            (advanceResponse?.validationErrors?.length || 0) > 0
+            && !advanceResponse?.transitioned
+            && !advanceResponse?.submitted
+        )) {
+            const postAdvanceState = await sendReedMessage(tabId, 'REED_APPLY_STATE');
+            const retryOutcome = await handleAdvanceValidationRetry(
+                session,
+                tabId,
+                job,
+                postAdvanceState || advanceResponse,
+                profileData,
+            );
+
+            session = retryOutcome.session || session;
+
+            if (retryOutcome.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+
+            if (retryOutcome.retried) {
+                sameStepCount = 0;
+                continue;
+            }
+
+            throw new Error(advanceResponse.error || 'Reed Apply action blocked by validation.');
+        }
+
+        if (!advanceResponse?.success) {
+            throw new Error(advanceResponse?.error || 'Could not advance Reed Apply step.');
+        }
+
+        if (advanceResponse?.transitioned && advanceResponse?.stepFingerprint && advanceResponse.stepFingerprint !== lastStepFingerprint) {
+            sameStepCount = 0;
+            lastStepFingerprint = advanceResponse.stepFingerprint;
+
+            await recordAnalyticsEvent(session, 'step_advanced', job, {
+                metadata: {
+                    step_label: applyState.stepLabel || applyState.actionLabel || null,
+                },
+            });
+
+            await updateSession((current) => ({
+                ...current,
+                stats: {
+                    ...current.stats,
+                    stepsAdvanced: (current.stats?.stepsAdvanced || 0) + 1,
+                },
+            }));
+        }
+
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterModalStep));
+    }
+
+    if (!submitted) {
+        const verifyResult = await verifyReedApplicationSubmitted(tabId, job);
+        tabId = verifyResult.tabId || tabId;
+        submitted = verifyResult.submitted;
+    }
+
+    if (!submitted) {
+        throw new Error('Could not submit Reed Easy Apply application.');
+    }
+
+    await logSession('success', `[submitted] ${job.title} at ${job.company}.`);
+    await recordAnalyticsEvent(session, 'submitted', job);
+
+    return { outcome: 'applied', tabId };
+}
+
 async function ensureGlassdoorTab(session) {
     const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
 
@@ -3844,6 +4638,31 @@ function buildGlassdoorRunnerContext() {
     };
 }
 
+function buildReedRunnerContext() {
+    return {
+        resetWatchdog,
+        ensureReedTab,
+        appendUniqueReedJobs,
+        sendReedMessage,
+        processReedJob,
+        recoverReedTab,
+        returnToReedSearch,
+        loadAutoApplySession,
+        updateSession,
+        logSession,
+        finalizeAutoApplyAnalyticsSession,
+        shouldStop,
+        isWatchdogStuck,
+        markWatchdogProgress,
+        formatJobOutcomeLogMessage,
+        recordAnalyticsEvent,
+        appendAutoApplyLog,
+        randomDelay,
+        AUTO_APPLY_DELAY_MS,
+        sleep,
+    };
+}
+
 function buildTotalJobsRunnerContext() {
     return {
         resetWatchdog,
@@ -3900,8 +4719,9 @@ export async function startAutoApply({
         if (platform !== LINKEDIN_PLATFORM_ID
             && platform !== INDEED_PLATFORM_ID
             && platform !== TOTALJOBS_PLATFORM_ID
-            && platform !== GLASSDOOR_PLATFORM_ID) {
-            throw new Error('Only LinkedIn, Indeed, Totaljobs, and Glassdoor are supported right now.');
+            && platform !== GLASSDOOR_PLATFORM_ID
+            && platform !== REED_PLATFORM_ID) {
+            throw new Error('Only LinkedIn, Indeed, Totaljobs, Glassdoor, and Reed are supported right now.');
         }
 
         let session = createInitialSession({
@@ -4149,6 +4969,10 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
 
     if (initialSession.platform === GLASSDOOR_PLATFORM_ID) {
         return runGlassdoorAutoApplyLoop(buildGlassdoorRunnerContext(), initialSession, runDraftAll, profileData);
+    }
+
+    if (initialSession.platform === REED_PLATFORM_ID) {
+        return runReedAutoApplyLoop(buildReedRunnerContext(), initialSession, runDraftAll, profileData);
     }
 
     resetWatchdog();

@@ -224,6 +224,14 @@ function extractJobDescriptionFromPage() {
         }
     }
 
+    if (typeof AutoCVApplyReedAutoApply?.readJobDescriptionText === 'function') {
+        const reedText = AutoCVApplyReedAutoApply.readJobDescriptionText();
+
+        if (reedText) {
+            return reedText;
+        }
+    }
+
     const selectors = [
         '#jobDescriptionText',
         '.jobsearch-JobComponent-description',
@@ -753,6 +761,26 @@ function isGlassdoorApplyHostPage() {
     }
 }
 
+function isReedApplyHostPage() {
+    if (typeof AutoCVApplyReedAutoApply?.isEasyApplyHostPage === 'function') {
+        return AutoCVApplyReedAutoApply.isEasyApplyHostPage();
+    }
+
+    try {
+        if (!/^(www\.)?reed\.co\.uk$/i.test(window.location.hostname)) {
+            return false;
+        }
+
+        const path = window.location.pathname;
+
+        return /^\/jobs\/apply\/\d+/i.test(path)
+            || /^\/jobs\/application\/\d+/i.test(path)
+            || /\/\d+\/apply$/i.test(path);
+    } catch {
+        return false;
+    }
+}
+
 async function runOverlayRefresh(explicitSidePanelOpen) {
     try {
         if (window !== window.top) {
@@ -776,7 +804,7 @@ async function runOverlayRefresh(explicitSidePanelOpen) {
             return;
         }
 
-        const showPortalBar = sidePanelOpen || isIndeedApplyHostPage() || isGlassdoorApplyHostPage();
+        const showPortalBar = sidePanelOpen || isIndeedApplyHostPage() || isGlassdoorApplyHostPage() || isReedApplyHostPage();
 
         AutoCVApplyPortalBar.update({
             visible: showPortalBar,
@@ -2041,6 +2069,172 @@ const contentMessageListener = (message, sender, sendResponse) => {
             const minLength = Number(message.minLength) || 200;
 
             void AutoCVApplyTotalJobsAutoApply.waitForJobDescriptionReady(minLength, 20_000)
+                .then((result) => sendResponse({ success: result.ready, ...result }))
+                .catch((error) => sendResponse({ success: false, error: error.message }));
+
+            return;
+        }
+
+        if (message.type === 'REED_PREPARE_JOB_SEARCH') {
+            if (typeof AutoCVApplyReedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Reed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyReedAutoApply.prepareJobSearch());
+
+            return;
+        }
+
+        if (message.type === 'REED_PREPARE_JOB_VIEW') {
+            if (typeof AutoCVApplyReedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Reed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyReedAutoApply.prepareJobView({
+                force: message.force === true,
+                light: message.light === true,
+            }));
+
+            return;
+        }
+
+        if (message.type === 'REED_COLLECT_JOB_CARDS') {
+            if (typeof AutoCVApplyReedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Reed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse({
+                success: true,
+                jobs: AutoCVApplyReedAutoApply.collectJobCards(),
+            });
+
+            return;
+        }
+
+        if (message.type === 'REED_SELECT_JOB') {
+            if (typeof AutoCVApplyReedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Reed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyReedAutoApply.selectJobById(message.jobId));
+
+            return;
+        }
+
+        if (message.type === 'REED_WAIT_FOR_JOB_DETAIL') {
+            if (typeof AutoCVApplyReedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Reed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyReedAutoApply.waitForJobDetailReady(message.jobId));
+
+            return;
+        }
+
+        if (message.type === 'REED_OPEN_APPLY') {
+            if (typeof AutoCVApplyReedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Reed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyReedAutoApply.clickReedApply());
+
+            return;
+        }
+
+        if (message.type === 'REED_APPLY_STATE') {
+            if (typeof AutoCVApplyReedAutoApply === 'undefined') {
+                sendResponse({ open: false, error: 'Reed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplyReedAutoApply.getReedApplyState());
+
+            return;
+        }
+
+        if (message.type === 'REED_FILL_AND_ADVANCE') {
+            if (typeof AutoCVApplyReedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Reed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyReedAutoApply.clickContinueOrSubmit());
+
+            return;
+        }
+
+        if (message.type === 'REED_VERIFY_SUBMITTED') {
+            if (typeof AutoCVApplyReedAutoApply === 'undefined') {
+                sendResponse({ submitted: false, error: 'Reed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplyReedAutoApply.verifySubmitted());
+
+            return;
+        }
+
+        if (message.type === 'REED_NEXT_SEARCH_PAGE') {
+            if (typeof AutoCVApplyReedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Reed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyReedAutoApply.goToNextSearchPage());
+
+            return;
+        }
+
+        if (message.type === 'REED_SCAN_PAGE_HEALTH') {
+            if (typeof AutoCVApplyReedAutoApply === 'undefined') {
+                sendResponse({ ok: true, issues: [], blocking: [], primary: null });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyReedAutoApply.scanPageHealth());
+
+            return;
+        }
+
+        if (message.type === 'REED_ACCEPT_COOKIE_CONSENT') {
+            if (typeof AutoCVApplyReedAutoApply === 'undefined') {
+                sendResponse({ accepted: false });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyReedAutoApply.acceptCookieConsent());
+
+            return;
+        }
+
+        if (message.type === 'REED_WAIT_FOR_JOB_DESCRIPTION') {
+            if (typeof AutoCVApplyReedAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'Reed auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            const minLength = Number(message.minLength) || 200;
+
+            void AutoCVApplyReedAutoApply.waitForJobDescriptionReady(minLength, 20_000)
                 .then((result) => sendResponse({ success: result.ready, ...result }))
                 .catch((error) => sendResponse({ success: false, error: error.message }));
 

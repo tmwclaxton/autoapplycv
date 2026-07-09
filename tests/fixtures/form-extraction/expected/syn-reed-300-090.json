@@ -1,0 +1,202 @@
+{
+  "id": "syn-reed-300-090",
+  "min_fields": 8,
+  "exact_field_count": 8,
+  "fields": [
+    {
+      "question": "do you have the right to work in the united kingdom?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "do-you-have-the-right-to-wor-0",
+        "name": "do-you-have-the-right-to-wor",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you require visa sponsorship now or in the future?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No",
+        "Not sure"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "will-you-require-visa-sponso-0",
+        "name": "will-you-require-visa-sponso",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "highest level of education",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "GCSE",
+        "A-Level",
+        "Bachelor's degree",
+        "Master's degree",
+        "PhD",
+        "Other"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "highest-level-of-education-57100",
+        "name": "highest-level-of-education-57100",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "notice period",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "Immediate",
+        "1 week",
+        "2 weeks",
+        "1 month",
+        "2 months",
+        "3 months"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "notice-period-571000090",
+        "name": "notice-period-571000090",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "current salary (£)",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "current-salary-571000090",
+        "name": "current-salary-571000090",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "expected salary (£)",
+      "field_type": "number",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "number",
+        "id": "expected-salary-571000090",
+        "name": "expected-salary-571000090",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": "0",
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "why are you interested in this product manager role?",
+      "field_type": "textarea",
+      "max_chars": 800,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "why-are-you-interested-in-this-p",
+        "name": "why-are-you-interested-in-this-p",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which skills do you have?",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "SQL",
+        "Azure",
+        "Python",
+        "Go",
+        "JavaScript"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "which-skills-do-you-have-571-cb-0",
+        "name": "which-skills-do-you-have-571[]",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "Continue"
+    }
+  ],
+  "vet_notes": []
+}

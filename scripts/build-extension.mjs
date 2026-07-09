@@ -233,9 +233,11 @@ copyFileSync(join(SRC, 'shared/side-panel-state.js'), join(DIST, 'side-panel-sta
 copyFileSync(join(SRC, 'shared/linkedin-platform.js'), join(DIST, 'linkedin-platform.js'));
 copyFileSync(join(SRC, 'shared/indeed-platform.js'), join(DIST, 'indeed-platform.js'));
 copyFileSync(join(SRC, 'shared/totaljobs-platform.js'), join(DIST, 'totaljobs-platform.js'));
+copyFileSync(join(SRC, 'shared/reed-platform.js'), join(DIST, 'reed-platform.js'));
 copyFileSync(join(SRC, 'shared/totaljobs-auto-apply-runner.js'), join(DIST, 'totaljobs-auto-apply-runner.js'));
 copyFileSync(join(SRC, 'shared/glassdoor-platform.js'), join(DIST, 'glassdoor-platform.js'));
 copyFileSync(join(SRC, 'shared/glassdoor-auto-apply-runner.js'), join(DIST, 'glassdoor-auto-apply-runner.js'));
+copyFileSync(join(SRC, 'shared/reed-auto-apply-runner.js'), join(DIST, 'reed-auto-apply-runner.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-fit.js'), join(DIST, 'auto-apply-fit.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-platforms.js'), join(DIST, 'auto-apply-platforms.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-session.js'), join(DIST, 'auto-apply-session.js'));
@@ -261,6 +263,7 @@ copyFileSync(join(SRC, 'content/linkedin-auto-apply.js'), join(DIST, 'linkedin-a
 copyFileSync(join(SRC, 'content/indeed-auto-apply.js'), join(DIST, 'indeed-auto-apply.js'));
 copyFileSync(join(SRC, 'content/totaljobs-auto-apply.js'), join(DIST, 'totaljobs-auto-apply.js'));
 copyFileSync(join(SRC, 'content/glassdoor-auto-apply.js'), join(DIST, 'glassdoor-auto-apply.js'));
+copyFileSync(join(SRC, 'content/reed-auto-apply.js'), join(DIST, 'reed-auto-apply.js'));
 copyFileSync(join(SRC, 'content/focus-tracker.js'), join(DIST, 'focus-tracker.js'));
 copyFileSync(join(SRC, 'content/field-highlighter.js'), join(DIST, 'field-highlighter.js'));
 copyFileSync(join(SRC, 'content/portal-bar.js'), join(DIST, 'portal-bar.js'));

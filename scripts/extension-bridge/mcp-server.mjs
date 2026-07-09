@@ -463,9 +463,9 @@ server.tool(
 
 server.tool(
     'start_auto_apply',
-    'Send LinkedIn, Indeed, Totaljobs, or Glassdoor Auto Apply via the extension bridge.',
+    'Send LinkedIn, Indeed, Totaljobs, Glassdoor, or Reed Auto Apply via the extension bridge.',
     {
-        platform: z.enum(['linkedin', 'indeed', 'totaljobs', 'glassdoor']).optional().describe('Job board platform. Defaults to indeed.'),
+        platform: z.enum(['linkedin', 'indeed', 'totaljobs', 'glassdoor', 'reed']).optional().describe('Job board platform. Defaults to indeed.'),
         roleDescription: z.string().describe('Role search query, e.g. software engineer'),
         maxApplications: z.number().int().min(1).max(50).optional().describe('Stop after this many successful applications. Default 2.'),
         fitCheckEnabled: z.boolean().optional().describe('When true, skip low ATS-fit jobs.'),
@@ -661,6 +661,25 @@ server.tool(
     },
     async ({ tabId, type, ...messageParams }) => {
         const result = await runCommand('glassdoor_tab_message', { tabId, type, ...messageParams }, 60000);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'reed_tab_message',
+    'Send a Reed content-script message (REED_OPEN_APPLY, REED_COLLECT_JOB_CARDS, etc.).',
+    {
+        tabId: z.number().int().optional(),
+        type: z.string().describe('Reed message type, e.g. REED_APPLY_STATE.'),
+    },
+    async ({ tabId, type, ...messageParams }) => {
+        const result = await runCommand('reed_tab_message', { tabId, type, ...messageParams }, 60000);
 
         return {
             content: [{

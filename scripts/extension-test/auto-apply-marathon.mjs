@@ -23,11 +23,9 @@ const args = Object.fromEntries(
     }),
 );
 
-const PLATFORM = args.platform === 'indeed'
-    ? 'indeed'
-    : args.platform === 'totaljobs'
-        ? 'totaljobs'
-        : 'linkedin';
+const PLATFORM = ['indeed', 'totaljobs', 'glassdoor', 'reed', 'linkedin'].includes(args.platform)
+    ? args.platform
+    : 'linkedin';
 const TARGET = Number(args.target || 20);
 const ROLE = args.role || 'software engineer';
 const LOCATION = args.location || (PLATFORM === 'linkedin' ? 'United Kingdom' : 'London');

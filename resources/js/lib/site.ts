@@ -27,6 +27,7 @@ export const AUTO_APPLY_SUPPORTED_PLATFORMS = [
     'Indeed',
     'Totaljobs',
     'Glassdoor',
+    'Reed',
 ] as const;
 
 /** Job boards planned for Auto Apply across the Anglosphere - not ATS or employer career sites. */
@@ -64,7 +65,6 @@ export const AUTO_APPLY_COMING_SOON_PLATFORMS = [
     'NHS Jobs',
     'NZ Government Jobs',
     'Publicjobs.ie',
-    'Reed',
     'SEEK',
     'SimplyHired',
     'Snagajob',

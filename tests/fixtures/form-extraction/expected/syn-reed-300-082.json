@@ -1,0 +1,116 @@
+{
+  "id": "syn-reed-300-082",
+  "min_fields": 5,
+  "exact_field_count": 5,
+  "fields": [
+    {
+      "question": "confirm email address",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "confirm-email-address-571000082",
+        "name": "confirm-email-address-571000082",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "confirm phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "confirm-phone-number-571000082",
+        "name": "confirm-phone-number-571000082",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "final comments for the recruiter (optional)",
+      "field_type": "textarea",
+      "max_chars": 300,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "final-comments-for-the-recruiter",
+        "name": "final-comments-for-the-recruiter",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred contact method",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Please select",
+        "Email",
+        "Phone",
+        "Either"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "preferred-contact-method-5710000",
+        "name": "preferred-contact-method-5710000",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i agree to the privacy policy and terms",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I agree"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "i-agree-to-the-privacy-polic-0",
+        "name": "i-agree-to-the-privacy-polic",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

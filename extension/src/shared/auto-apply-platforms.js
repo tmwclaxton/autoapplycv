@@ -14,6 +14,11 @@ import {
     isLinkedInJobsSearchUrl,
 } from './linkedin-platform.js';
 import {
+    buildReedJobSearchUrl,
+    isReedJobsSearchUrl,
+    REED_PLATFORM_ID,
+} from './reed-platform.js';
+import {
     buildTotalJobsJobSearchUrl,
     isTotalJobsJobsSearchUrl,
     TOTALJOBS_PLATFORM_ID,
@@ -46,6 +51,11 @@ export const AUTO_APPLY_PLATFORM_LIST = [
     {
         id: GLASSDOOR_PLATFORM_ID,
         label: 'Glassdoor',
+        enabled: true,
+    },
+    {
+        id: REED_PLATFORM_ID,
+        label: 'Reed',
         enabled: true,
     },
 ];
@@ -86,6 +96,13 @@ export function buildJobSearchUrl(platformId, roleDescription, options = {}) {
         });
     }
 
+    if (platformId === REED_PLATFORM_ID) {
+        return buildReedJobSearchUrl(roleDescription, {
+            filters: options.filters,
+            easyApplyOnly: options.easyApplyOnly !== false,
+        });
+    }
+
     throw new Error(`Unsupported auto-apply platform: ${platformId}`);
 }
 
@@ -111,7 +128,11 @@ export function urlMatchesPlatform(url, platformId) {
         return isGlassdoorJobsSearchUrl(url);
     }
 
+    if (platformId === REED_PLATFORM_ID) {
+        return isReedJobsSearchUrl(url);
+    }
+
     return false;
 }
 
-export { GLASSDOOR_PLATFORM_ID, INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, TOTALJOBS_PLATFORM_ID };
+export { GLASSDOOR_PLATFORM_ID, INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, REED_PLATFORM_ID, TOTALJOBS_PLATFORM_ID };
