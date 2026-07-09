@@ -308,8 +308,30 @@ function handleSidePanelHidden() {
 }
 
 function startSidePanelHeartbeat() {
+    const resolveHostTab = async () => {
+        try {
+            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+            if (!tab?.id || typeof tab.windowId !== 'number') {
+                return {};
+            }
+
+            return {
+                tabId: tab.id,
+                windowId: tab.windowId,
+            };
+        } catch {
+            return {};
+        }
+    };
+
     const markOpen = () => {
-        chrome.runtime.sendMessage({ type: 'SIDE_PANEL_HEARTBEAT' }).catch(() => {});
+        void resolveHostTab().then((host) => {
+            chrome.runtime.sendMessage({
+                type: 'SIDE_PANEL_HEARTBEAT',
+                ...host,
+            }).catch(() => {});
+        });
     };
 
     const markClosed = () => {
@@ -339,6 +361,7 @@ function startSidePanelHeartbeat() {
         });
         sidePanelPresencePort.onDisconnect.addListener(() => {
             sidePanelPresencePort = null;
+            handleSidePanelHidden();
         });
     } catch {
         sidePanelPresencePort = null;

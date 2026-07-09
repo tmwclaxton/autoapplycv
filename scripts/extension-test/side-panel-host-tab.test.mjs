@@ -51,3 +51,63 @@ test('pickSidePanelHostTab returns null when side panel is closed', () => {
 test('isUsableSidePanelHostTab rejects extension pages', () => {
     assert.equal(isUsableSidePanelHostTab({ id: 1, windowId: 1, url: 'chrome-extension://abc/sidepanel.html' }), false);
 });
+
+test('resolveSidePanelHostFromHint prefers hinted tab when injectable', async () => {
+    const tabs = new Map([
+        [12, { id: 12, windowId: 3, url: 'https://www.linkedin.com/jobs/search' }],
+    ]);
+
+    globalThis.chrome = {
+        tabs: {
+            async get(tabId) {
+                const tab = tabs.get(tabId);
+
+                if (!tab) {
+                    throw new Error('No tab');
+                }
+
+                return tab;
+            },
+            async query({ active, windowId }) {
+                if (!active || windowId !== 3) {
+                    return [];
+                }
+
+                return [{ id: 99, windowId: 3, url: 'https://example.com' }];
+            },
+        },
+    };
+
+    const { resolveSidePanelHostFromHint } = await import(
+        pathToFileURL(join(ROOT, 'extension/src/shared/side-panel-host-tab.js')).href + `?hint=${Date.now()}`
+    );
+
+    const picked = await resolveSidePanelHostFromHint({ tabId: 12, windowId: 3 });
+
+    assert.deepEqual(picked, { tabId: 12, windowId: 3 });
+});
+
+test('resolveSidePanelHostFromHint falls back to active tab in hinted window', async () => {
+    globalThis.chrome = {
+        tabs: {
+            async get() {
+                throw new Error('missing tab');
+            },
+            async query({ active, windowId }) {
+                if (!active || windowId !== 3) {
+                    return [];
+                }
+
+                return [{ id: 99, windowId: 3, url: 'https://www.indeed.com/jobs' }];
+            },
+        },
+    };
+
+    const { resolveSidePanelHostFromHint } = await import(
+        pathToFileURL(join(ROOT, 'extension/src/shared/side-panel-host-tab.js')).href + `?hint-window=${Date.now()}`
+    );
+
+    const picked = await resolveSidePanelHostFromHint({ windowId: 3 });
+
+    assert.deepEqual(picked, { tabId: 99, windowId: 3 });
+});

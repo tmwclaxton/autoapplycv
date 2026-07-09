@@ -8,14 +8,20 @@ import {
     bridgeFetch,
     bridgeStatus,
     clearActiveBridgeInstance,
+    clearActiveBridgeWindow,
     resolveBridgeInstanceId,
     setActiveBridgeInstance,
+    setActiveBridgeWindow,
 } from './lib/bridge-http.mjs';
 
 const config = resolveBridgeConfig();
 
 const instanceIdSchema = z.string().optional().describe(
     'Extension instance id when multiple Chrome profiles are connected. Defaults to EXTENSION_BRIDGE_INSTANCE_ID env or the sole connected instance.',
+);
+
+const windowIdSchema = z.number().int().optional().describe(
+    'Chrome window id. Uses bridge active window pin or the focused window when omitted.',
 );
 
 async function runCommand(action, params = {}, timeoutMs = config.commandTimeoutMs, instanceId = null) {
@@ -108,14 +114,54 @@ server.tool(
 );
 
 server.tool(
+    'open_side_panel',
+    'Open the AutoCVApply Chrome side panel for the active tab or a selected tab/window.',
+    {
+        tabId: z.number().int().optional().describe('Chrome tab id. Uses bridge active tab or focused tab when omitted.'),
+        windowId: windowIdSchema,
+        instanceId: instanceIdSchema,
+    },
+    async ({ tabId, windowId, instanceId }) => {
+        const result = await runCommand('open_side_panel', { tabId, windowId }, config.commandTimeoutMs, instanceId);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'close_side_panel',
+    'Close the AutoCVApply Chrome side panel for the active window or a selected window.',
+    {
+        windowId: windowIdSchema,
+        instanceId: instanceIdSchema,
+    },
+    async ({ windowId, instanceId }) => {
+        const result = await runCommand('close_side_panel', { windowId }, config.commandTimeoutMs, instanceId);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
     'get_page_html',
     'Fetch HTML from the active or selected tab via the extension content script.',
     {
         tabId: z.number().int().optional().describe('Chrome tab id. Uses bridge active tab or focused tab when omitted.'),
+        windowId: windowIdSchema,
         frameId: z.number().int().optional().describe('Frame id. Defaults to best form frame discovery.'),
     },
-    async ({ tabId, frameId }) => {
-        const result = await runCommand('get_page_html', { tabId, frameId });
+    async ({ tabId, windowId, frameId }) => {
+        const result = await runCommand('get_page_html', { tabId, windowId, frameId });
 
         return {
             content: [{
@@ -131,10 +177,11 @@ server.tool(
     'Build a mechanical field inventory snapshot from the active tab.',
     {
         tabId: z.number().int().optional(),
+        windowId: windowIdSchema,
         frameId: z.number().int().optional(),
     },
-    async ({ tabId, frameId }) => {
-        const result = await runCommand('get_field_inventory', { tabId, frameId });
+    async ({ tabId, windowId, frameId }) => {
+        const result = await runCommand('get_field_inventory', { tabId, windowId, frameId });
 
         return {
             content: [{
@@ -208,14 +255,52 @@ server.tool(
 );
 
 server.tool(
+    'set_active_window',
+    'Pin bridge commands to a Chrome window id, or clear the override to use the focused window.',
+    {
+        windowId: z.number().int().nullable().optional().describe('Window id to pin. Pass null or omit to clear override.'),
+        instanceId: instanceIdSchema,
+    },
+    async ({ windowId, instanceId }) => {
+        const resolvedInstanceId = resolveBridgeInstanceId(instanceId);
+        const body = { windowId: windowId ?? null };
+
+        if (resolvedInstanceId) {
+            body.instanceId = resolvedInstanceId;
+        }
+
+        if (windowId === null || windowId === undefined) {
+            const result = await clearActiveBridgeWindow({ instanceId: resolvedInstanceId });
+
+            return {
+                content: [{
+                    type: 'text',
+                    text: JSON.stringify(result, null, 2),
+                }],
+            };
+        }
+
+        const result = await setActiveBridgeWindow(windowId, { instanceId: resolvedInstanceId });
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
     'request_auth',
     'Report AutoCVApply API token state and optional site login pending state for the active tab.',
     {
         tabId: z.number().int().optional(),
+        windowId: windowIdSchema,
         waitMs: z.number().int().min(0).max(120000).optional().describe('Poll until auth completes or timeout.'),
     },
-    async ({ tabId, waitMs }) => {
-        const result = await runCommand('request_auth', { tabId, waitMs: waitMs ?? 0 }, Math.max(config.commandTimeoutMs, (waitMs ?? 0) + 5000));
+    async ({ tabId, windowId, waitMs }) => {
+        const result = await runCommand('request_auth', { tabId, windowId, waitMs: waitMs ?? 0 }, Math.max(config.commandTimeoutMs, (waitMs ?? 0) + 5000));
 
         return {
             content: [{
@@ -250,11 +335,32 @@ server.tool(
 );
 
 server.tool(
+    'list_windows',
+    'List Chrome windows in the connected profile with tab counts and focused-tab summaries.',
+    {
+        instanceId: instanceIdSchema,
+    },
+    async ({ instanceId }) => {
+        const result = await runCommand('list_windows', {}, config.commandTimeoutMs, instanceId);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
     'list_tabs',
     'List open http/https tabs in the connected Chrome profile.',
-    {},
-    async () => {
-        const result = await runCommand('list_tabs');
+    {
+        windowId: windowIdSchema.describe('When set, only tabs in this window are returned.'),
+        instanceId: instanceIdSchema,
+    },
+    async ({ windowId, instanceId }) => {
+        const result = await runCommand('list_tabs', { windowId }, config.commandTimeoutMs, instanceId);
 
         return {
             content: [{
@@ -288,11 +394,12 @@ server.tool(
     'Navigate the active or selected tab to a new http/https URL, or open a new tab.',
     {
         tabId: z.number().int().optional().describe('Tab to navigate. Uses bridge active/focused tab when omitted.'),
+        windowId: windowIdSchema,
         url: z.string().url().describe('Destination URL.'),
         newTab: z.boolean().optional().describe('Open in a new tab instead of reusing the current tab.'),
     },
-    async ({ tabId, url, newTab }) => {
-        const result = await runCommand('navigate_tab', { tabId, url, newTab: Boolean(newTab) }, 60000);
+    async ({ tabId, windowId, url, newTab }) => {
+        const result = await runCommand('navigate_tab', { tabId, windowId, url, newTab: Boolean(newTab) }, 60000);
 
         return {
             content: [{
@@ -308,12 +415,14 @@ server.tool(
     'Wait until the tab finishes loading, optionally until the URL contains a substring.',
     {
         tabId: z.number().int().optional(),
+        windowId: windowIdSchema,
         urlIncludes: z.string().optional().describe('Wait until tab.url includes this substring.'),
         timeoutMs: z.number().int().min(1000).max(120000).optional(),
     },
-    async ({ tabId, urlIncludes, timeoutMs }) => {
+    async ({ tabId, windowId, urlIncludes, timeoutMs }) => {
         const result = await runCommand('wait_for_tab', {
             tabId,
+            windowId,
             urlIncludes,
             timeoutMs: timeoutMs ?? 30000,
         }, Math.max(config.commandTimeoutMs, (timeoutMs ?? 30000) + 5000));
@@ -332,12 +441,13 @@ server.tool(
     'Parse buttons and links from the captured page HTML (Continue, Apply, Next, etc.).',
     {
         tabId: z.number().int().optional(),
+        windowId: windowIdSchema,
         frameId: z.number().int().optional(),
     },
-    async ({ tabId, frameId }) => {
+    async ({ tabId, windowId, frameId }) => {
         const result = await bridgeFetch('/command', {
             method: 'POST',
-            body: JSON.stringify({ action: 'find_buttons', params: { tabId, frameId } }),
+            body: JSON.stringify({ action: 'find_buttons', params: { tabId, windowId, frameId } }),
         });
 
         return {
@@ -354,13 +464,14 @@ server.tool(
     'Click Continue/Next/Apply by label. Uses inventory refs, then HTML parsing, then live text match.',
     {
         tabId: z.number().int().optional(),
+        windowId: windowIdSchema,
         frameId: z.number().int().optional(),
         name: z.string().describe('Visible control label, e.g. Continue.'),
     },
-    async ({ tabId, frameId, name }) => {
+    async ({ tabId, windowId, frameId, name }) => {
         const result = await bridgeFetch('/command', {
             method: 'POST',
-            body: JSON.stringify({ action: 'click_control', params: { tabId, frameId, name } }),
+            body: JSON.stringify({ action: 'click_control', params: { tabId, windowId, frameId, name } }),
         });
 
         return {
@@ -485,10 +596,11 @@ server.tool(
     'Read live DOM .value / checked state for input/textarea/select controls so Draft All can be verified against the actual page.',
     {
         tabId: z.number().int().optional(),
+        windowId: windowIdSchema,
         frameId: z.number().int().optional(),
     },
-    async ({ tabId, frameId }) => {
-        const result = await runCommand('read_field_values', { tabId, frameId }, 60000);
+    async ({ tabId, windowId, frameId }) => {
+        const result = await runCommand('read_field_values', { tabId, windowId, frameId }, 60000);
 
         return {
             content: [{
@@ -662,10 +774,11 @@ server.tool(
     'Send a LinkedIn content-script message (LINKEDIN_EASY_APPLY_STATE, LINKEDIN_EXPORT_EASY_APPLY_MODAL, LINKEDIN_FILL_AND_ADVANCE, etc.).',
     {
         tabId: z.number().int().optional(),
+        windowId: windowIdSchema,
         type: z.string().describe('LinkedIn message type, e.g. LINKEDIN_EASY_APPLY_STATE.'),
     },
-    async ({ tabId, type, ...messageParams }) => {
-        const result = await runCommand('linkedin_tab_message', { tabId, type, ...messageParams }, 60000);
+    async ({ tabId, windowId, type, ...messageParams }) => {
+        const result = await runCommand('linkedin_tab_message', { tabId, windowId, type, ...messageParams }, 60000);
 
         return {
             content: [{
@@ -681,10 +794,11 @@ server.tool(
     'Send an Indeed content-script message (INDEED_APPLY_STATE, INDEED_FILL_AND_ADVANCE, etc.).',
     {
         tabId: z.number().int().optional(),
+        windowId: windowIdSchema,
         type: z.string().describe('Indeed message type, e.g. INDEED_APPLY_STATE.'),
     },
-    async ({ tabId, type, ...messageParams }) => {
-        const result = await runCommand('indeed_tab_message', { tabId, type, ...messageParams }, 60000);
+    async ({ tabId, windowId, type, ...messageParams }) => {
+        const result = await runCommand('indeed_tab_message', { tabId, windowId, type, ...messageParams }, 60000);
 
         return {
             content: [{

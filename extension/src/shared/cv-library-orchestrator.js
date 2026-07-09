@@ -50,6 +50,7 @@ export function createCvLibraryOrchestrator(deps) {
         isWatchdogStuck,
         formatJobOutcomeLogMessage,
         appendAutoApplyLog,
+        waitForApplicationSubmitConfirmation,
     } = deps;
 
     async function sendCvLibraryMessage(tabId, type, payload = {}, options = {}) {
@@ -69,7 +70,7 @@ export function createCvLibraryOrchestrator(deps) {
                         await chrome.tabs.reload(tabId);
                         await waitForTabLoadComplete(tabId);
                         await waitForCvLibraryContentScript(tabId);
-                        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1200));
+                        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
                         await sendTabMessage(tabId, { type: 'CV_LIBRARY_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
                     } catch {
                         // Fall through to retry send on next loop iteration.
@@ -100,7 +101,7 @@ export function createCvLibraryOrchestrator(deps) {
             await openUrlInAutoApplyWindow(searchUrl, tabId);
             await waitForTabLoadComplete(tabId);
             await waitForCvLibraryContentScript(tabId);
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
             await sendCvLibraryMessage(tabId, 'CV_LIBRARY_ACCEPT_COOKIE_CONSENT').catch(() => {});
             await sendCvLibraryMessage(tabId, 'CV_LIBRARY_PREPARE_JOB_SEARCH').catch(() => {});
 
@@ -112,7 +113,7 @@ export function createCvLibraryOrchestrator(deps) {
 
             await waitForTabLoadComplete(tabId);
             await waitForCvLibraryContentScript(tabId);
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
 
             return tabId;
         }
@@ -262,7 +263,7 @@ export function createCvLibraryOrchestrator(deps) {
                 if (nextPage?.success) {
                     pageTurns += 1;
                     await waitForTabLoadComplete(tabId);
-                    await sleep(randomDelay(1500, 2500));
+                    await sleep(randomDelay(900, 600));
 
                     continue;
                 }
@@ -277,7 +278,7 @@ export function createCvLibraryOrchestrator(deps) {
                 await chrome.tabs.update(tabId, { url: searchUrl });
                 await waitForTabLoadComplete(tabId);
                 await waitForCvLibraryContentScript(tabId);
-                await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+                await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
                 pageTurns += 1;
 
                 continue;
@@ -333,7 +334,7 @@ export function createCvLibraryOrchestrator(deps) {
 
         await waitForTabLoadComplete(tabId);
         await waitForCvLibraryContentScript(tabId);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1100));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 650));
         await sendCvLibraryMessage(tabId, 'CV_LIBRARY_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
         await sendCvLibraryMessage(tabId, 'CV_LIBRARY_ACCEPT_COOKIE_CONSENT').catch(() => {});
 
@@ -369,7 +370,7 @@ export function createCvLibraryOrchestrator(deps) {
 
         await waitForTabLoadComplete(verifyTabId);
         await waitForCvLibraryContentScript(verifyTabId);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
         await sendCvLibraryMessage(verifyTabId, 'CV_LIBRARY_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId }).catch(() => {});
 
         return {
@@ -516,7 +517,7 @@ export function createCvLibraryOrchestrator(deps) {
         }
 
         if (!openResult.navigated) {
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 800));
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
         }
 
         await captureJobPage(tabId);
@@ -565,7 +566,7 @@ export function createCvLibraryOrchestrator(deps) {
         tabId = await openUrlInAutoApplyWindow(applyUrl, tabId);
         await waitForTabLoadComplete(tabId);
         await waitForCvLibraryContentScript(tabId);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
         invalidateTabFrameCache(tabId);
         await captureJobPage(tabId, { force: true });
 
@@ -699,10 +700,17 @@ export function createCvLibraryOrchestrator(deps) {
 
                 await waitForTabLoadComplete(tabId);
                 await waitForCvLibraryContentScript(tabId);
-                await sleep(randomDelay(1500, 2800));
-                const confirmVerify = await sendCvLibraryMessage(tabId, 'CV_LIBRARY_VERIFY_SUBMITTED').catch(() => null);
+                const confirmResult = await waitForApplicationSubmitConfirmation(
+                    tabId,
+                    CV_LIBRARY_PLATFORM_ID,
+                    session,
+                );
 
-                if (confirmVerify?.submitted) {
+                if (confirmResult.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
+
+                if (confirmResult.submitted) {
                     submitted = true;
                     break;
                 }
@@ -724,11 +732,25 @@ export function createCvLibraryOrchestrator(deps) {
                 if (!advanceResponse.submitted) {
                     await waitForTabLoadComplete(tabId).catch(() => {});
                     await waitForCvLibraryContentScript(tabId).catch(() => {});
-                    await sleep(randomDelay(1500, 2800));
-                    const confirmResult = await verifyCvLibraryApplicationSubmitted(tabId, job);
-                    tabId = confirmResult.tabId || tabId;
+                    const confirmResult = await waitForApplicationSubmitConfirmation(
+                        tabId,
+                        CV_LIBRARY_PLATFORM_ID,
+                        session,
+                    );
+
+                    if (confirmResult.stopped) {
+                        return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    }
 
                     if (confirmResult.submitted) {
+                        submitted = true;
+                        break;
+                    }
+
+                    const verifyResult = await verifyCvLibraryApplicationSubmitted(tabId, job);
+                    tabId = verifyResult.tabId || tabId;
+
+                    if (verifyResult.submitted) {
                         submitted = true;
                         break;
                     }
@@ -807,9 +829,23 @@ export function createCvLibraryOrchestrator(deps) {
         }
 
         if (!submitted) {
-            const verifyResult = await verifyCvLibraryApplicationSubmitted(tabId, job);
-            tabId = verifyResult.tabId || tabId;
-            submitted = verifyResult.submitted;
+            const confirmResult = await waitForApplicationSubmitConfirmation(
+                tabId,
+                CV_LIBRARY_PLATFORM_ID,
+                session,
+            );
+
+            if (confirmResult.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+
+            if (confirmResult.submitted) {
+                submitted = true;
+            } else {
+                const verifyResult = await verifyCvLibraryApplicationSubmitted(tabId, job);
+                tabId = verifyResult.tabId || tabId;
+                submitted = verifyResult.submitted;
+            }
         }
 
         if (!submitted) {

@@ -124,6 +124,7 @@ async function buildStatusPayload() {
     const { apiToken, apiBase } = await chrome.storage.local.get(['apiToken', 'apiBase']);
     const { instanceId, instanceLabel } = await readInstanceIdentity();
     let activeTab = null;
+    let activeWindowId = null;
     let windowCount = 0;
 
     try {
@@ -136,6 +137,7 @@ async function buildStatusPayload() {
                 title: tab.title ?? null,
                 windowId: tab.windowId ?? null,
             };
+            activeWindowId = tab.windowId ?? null;
         }
     } catch {
         activeTab = null;
@@ -144,6 +146,11 @@ async function buildStatusPayload() {
     try {
         const windows = await chrome.windows.getAll();
         windowCount = windows.length;
+
+        if (activeWindowId === null) {
+            const focused = await chrome.windows.getLastFocused();
+            activeWindowId = focused?.id ?? null;
+        }
     } catch {
         windowCount = 0;
     }
@@ -155,6 +162,7 @@ async function buildStatusPayload() {
         tokenSet: Boolean(apiToken),
         apiBase: apiBase ?? null,
         activeTab,
+        activeWindowId,
         windowCount,
         extensionVersion: chrome.runtime.getManifest().version,
     };

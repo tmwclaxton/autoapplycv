@@ -225,7 +225,7 @@ const AutoCVApplySimplyHiredAutoApply = (() => {
             }
 
             window.scrollBy({ top: 700, behavior: 'smooth' });
-            await humanPause(900, 1400);
+            await humanPause(550, 850);
         }
 
         const cardCount = document.querySelectorAll('[data-testid="searchSerpJob"]').length;
@@ -371,7 +371,7 @@ const AutoCVApplySimplyHiredAutoApply = (() => {
                 };
             }
 
-            await humanPause(900, 1400);
+            await humanPause(550, 850);
         }
 
         return { success: false, error: 'SimplyHired Quick Apply button not found on job page.' };
@@ -403,7 +403,7 @@ const AutoCVApplySimplyHiredAutoApply = (() => {
             || match.item;
 
         await clickElement(clickTarget);
-        await humanPause(1200, 1800);
+        await humanPause(700, 1100);
 
         return { success: true, jobId };
     }
@@ -526,7 +526,7 @@ const AutoCVApplySimplyHiredAutoApply = (() => {
         }
 
         await clickElement(next);
-        await humanPause(1200, 2000);
+        await humanPause(800, 1300);
 
         return { success: true };
     }

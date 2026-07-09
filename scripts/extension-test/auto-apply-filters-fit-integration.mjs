@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
 import { MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT } from '../../extension/src/shared/auto-apply-fit.js';
-import { buildJobSearchUrl, LINKEDIN_PLATFORM_ID } from '../../extension/src/shared/auto-apply-platforms.js';
+import { buildJobSearchUrl, INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, buildSearchFiltersForPlatform, normalizeAutoApplyPlatform } from '../../extension/src/shared/auto-apply-platforms.js';
 import { createInitialSession } from '../../extension/src/shared/auto-apply-session.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -111,6 +111,60 @@ const cases = [
                 `expected at least ${MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT} chars, got ${description.length}`,
             );
             assert.match(description, /software engineer|developer|engineer/i);
+        },
+    },
+    {
+        name: 'normalizeAutoApplyPlatform accepts enabled boards only',
+        fn: () => {
+            assert.equal(normalizeAutoApplyPlatform('indeed'), INDEED_PLATFORM_ID);
+            assert.equal(normalizeAutoApplyPlatform(' LinkedIn '), LINKEDIN_PLATFORM_ID);
+            assert.equal(normalizeAutoApplyPlatform(''), null);
+            assert.equal(normalizeAutoApplyPlatform('monster'), null);
+        },
+    },
+    {
+        name: 'Indeed search URL uses location filter and omits LinkedIn-only params',
+        fn: () => {
+            const session = createInitialSession({
+                platform: INDEED_PLATFORM_ID,
+                roleDescription: 'software engineer',
+                filters: buildSearchFiltersForPlatform(INDEED_PLATFORM_ID, {
+                    location: 'London',
+                    workType: 'remote',
+                    experience: 'mid_senior',
+                }),
+            });
+
+            const url = buildJobSearchUrl(session.platform, session.roleDescription, {
+                easyApplyOnly: true,
+                filters: session.filters,
+            });
+            const parsed = new URL(url);
+
+            assert.equal(parsed.hostname, 'uk.indeed.com');
+            assert.equal(parsed.searchParams.get('q'), 'software engineer');
+            assert.equal(parsed.searchParams.get('l'), 'London');
+            assert.equal(parsed.searchParams.get('f_WT'), null);
+            assert.match(parsed.searchParams.get('sc') || '', /DSQF7/);
+        },
+    },
+    {
+        name: 'buildSearchFiltersForPlatform keeps LinkedIn-only filters off Indeed runs',
+        fn: () => {
+            const indeedFilters = buildSearchFiltersForPlatform(INDEED_PLATFORM_ID, {
+                location: 'Manchester',
+                workType: 'remote',
+                minSalaryUk: '60k',
+            });
+            const linkedInFilters = buildSearchFiltersForPlatform(LINKEDIN_PLATFORM_ID, {
+                location: 'Manchester',
+                workType: 'remote',
+                minSalaryUk: '60k',
+            });
+
+            assert.deepEqual(indeedFilters, { location: 'Manchester' });
+            assert.equal(linkedInFilters?.workType, 'remote');
+            assert.equal(linkedInFilters?.minSalaryUk, '60k');
         },
     },
 ];

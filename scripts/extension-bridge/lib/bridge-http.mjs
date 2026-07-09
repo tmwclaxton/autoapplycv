@@ -92,3 +92,38 @@ export async function clearActiveBridgeInstance(options = {}) {
         method: 'DELETE',
     }, { baseUrl: options.baseUrl });
 }
+
+/**
+ * @param {number} windowId
+ * @param {{ instanceId?: string | null, baseUrl?: string }} [options]
+ */
+export async function setActiveBridgeWindow(windowId, options = {}) {
+    const instanceId = resolveBridgeInstanceId(options.instanceId);
+    const body = { windowId };
+
+    if (instanceId) {
+        body.instanceId = instanceId;
+    }
+
+    return bridgeFetch('/active-window', {
+        method: 'POST',
+        body: JSON.stringify(body),
+    }, { baseUrl: options.baseUrl });
+}
+
+/**
+ * @param {{ instanceId?: string | null, baseUrl?: string }} [options]
+ */
+export async function clearActiveBridgeWindow(options = {}) {
+    const instanceId = resolveBridgeInstanceId(options.instanceId);
+    const body = {};
+
+    if (instanceId) {
+        body.instanceId = instanceId;
+    }
+
+    return bridgeFetch('/active-window', {
+        method: 'DELETE',
+        body: JSON.stringify(body),
+    }, { baseUrl: options.baseUrl });
+}

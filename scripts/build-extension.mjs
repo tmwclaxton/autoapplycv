@@ -250,6 +250,7 @@ copyFileSync(join(SRC, 'shared/auto-apply-platforms.js'), join(DIST, 'auto-apply
 copyFileSync(join(SRC, 'shared/auto-apply-session.js'), join(DIST, 'auto-apply-session.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-window.js'), join(DIST, 'auto-apply-window.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-activity-ui.js'), join(DIST, 'auto-apply-activity-ui.js'));
+copyFileSync(join(SRC, 'shared/auto-apply-controls-ui.js'), join(DIST, 'auto-apply-controls-ui.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-pause-ui.js'), join(DIST, 'auto-apply-pause-ui.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-blockers.js'), join(DIST, 'auto-apply-blockers.js'));
 copyFileSync(join(SRC, 'shared/auto-apply-analytics.js'), join(DIST, 'auto-apply-analytics.js'));

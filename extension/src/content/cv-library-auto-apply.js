@@ -245,7 +245,7 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
             }
 
             window.scrollBy({ top: 700, behavior: 'smooth' });
-            await humanPause(900, 1400);
+            await humanPause(600, 900);
         }
 
         return {
@@ -645,6 +645,8 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
         };
     }
 
+    const SUBMIT_CONFIRMATION_TIMEOUT_MS = 35_000;
+
     function readAppliedConfirmationText() {
         const body = normalize(document.body?.textContent || '');
 
@@ -674,6 +676,22 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
         };
     }
 
+    async function waitForSubmissionConfirmation(timeoutMs = SUBMIT_CONFIRMATION_TIMEOUT_MS) {
+        const deadline = Date.now() + timeoutMs;
+
+        while (Date.now() < deadline) {
+            const verify = verifySubmitted();
+
+            if (verify.submitted) {
+                return verify;
+            }
+
+            await humanPause(400, 650);
+        }
+
+        return verifySubmitted();
+    }
+
     async function clickContinueOrSubmit() {
         await acceptCookieConsent();
 
@@ -698,10 +716,8 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
         const isReview = /review|check your application|summary|your details/i.test(readStepLabel() || '');
 
         if (submitButton && (isReview || !continueButton)) {
-            void clickElement(submitButton, { quick: true });
-            await humanPause(1200, 2200);
-
-            const verify = verifySubmitted();
+            await clickElement(submitButton);
+            const verify = await waitForSubmissionConfirmation();
 
             return {
                 success: true,
@@ -717,7 +733,7 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
 
         if (continueButton) {
             await clickElement(continueButton);
-            await humanPause(1200, 2200);
+            await humanPause(650, 1100);
 
             const nextFingerprint = readStepFingerprint();
             const transitioned = nextFingerprint !== previousFingerprint;
@@ -752,7 +768,7 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
         }
 
         await clickElement(next);
-        await humanPause(1200, 2000);
+        await humanPause(800, 1300);
 
         return { success: true };
     }

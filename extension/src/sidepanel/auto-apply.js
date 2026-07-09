@@ -1,12 +1,16 @@
 import {
-    hasAutoApplyLogEntries,
-    hasNonZeroAutoApplyStats,
     isAutoApplyActivityPanelExpanded,
     shouldShowAutoApplyActivityControls,
 } from './auto-apply-activity-ui.js';
+import { resolveAutoApplyControlsState } from './auto-apply-controls-ui.js';
 import { DEFAULT_MIN_FIT_SCORE } from './auto-apply-fit.js';
 import { buildAutoApplyPauseBannerMessage } from './auto-apply-pause-ui.js';
-import { AUTO_APPLY_PLATFORM_LIST, LINKEDIN_PLATFORM_ID } from './auto-apply-platforms.js';
+import {
+    AUTO_APPLY_PLATFORM_LIST,
+    LINKEDIN_PLATFORM_ID,
+    buildSearchFiltersForPlatform,
+    normalizeAutoApplyPlatform,
+} from './auto-apply-platforms.js';
 import { isActiveAutoApplyStatus, isTerminalAutoApplyStatus } from './auto-apply-session.js';
 
 const SETTINGS_STORAGE_KEY = 'autoApplySettings';
@@ -30,6 +34,7 @@ const activityToggleEl = document.getElementById('auto-apply-activity-toggle');
 const activityPanelEl = document.getElementById('auto-apply-activity-panel');
 const statsEl = document.getElementById('auto-apply-stats');
 const logEl = document.getElementById('auto-apply-log');
+const clearLogBtn = document.getElementById('auto-apply-clear-log-btn');
 const filtersDetailsEl = document.getElementById('auto-apply-filters-details');
 
 /** @type {ReturnType<typeof setInterval>|null} */
@@ -43,6 +48,7 @@ let notifyUser = null;
 let lastRenderedSession = null;
 /** @type {ReturnType<typeof setTimeout>|null} */
 let saveSettingsTimer = null;
+let automationRunning = false;
 
 function extensionContext() {
     return typeof AutoCVApplyExtensionContext !== 'undefined'
@@ -50,7 +56,9 @@ function extensionContext() {
         : null;
 }
 
-function renderPlatformOptions() {
+function renderPlatformOptions(preferredPlatformId = LINKEDIN_PLATFORM_ID) {
+    const selectedPlatform = normalizeAutoApplyPlatform(preferredPlatformId) || LINKEDIN_PLATFORM_ID;
+
     platformSelect.innerHTML = '';
 
     for (const platform of AUTO_APPLY_PLATFORM_LIST) {
@@ -60,10 +68,14 @@ function renderPlatformOptions() {
             ? `${platform.label} (coming soon)`
             : platform.label;
         option.disabled = !platform.enabled;
-        option.selected = platform.id === LINKEDIN_PLATFORM_ID;
+        option.selected = platform.id === selectedPlatform;
 
         platformSelect.appendChild(option);
     }
+}
+
+function readSelectedPlatform() {
+    return normalizeAutoApplyPlatform(platformSelect.value);
 }
 
 function readMinFitScore() {
@@ -76,7 +88,7 @@ function readMinFitScore() {
     return Math.max(0, Math.min(100, parsed));
 }
 
-function readSearchFilters() {
+function readRawSearchFilters() {
     /** @type {import('./linkedin-platform.js').LinkedInSearchFilters} */
     const filters = {};
     const location = locationInput.value.trim();
@@ -104,8 +116,13 @@ function readSearchFilters() {
     return Object.keys(filters).length ? filters : null;
 }
 
+function readSearchFilters(platformId = readSelectedPlatform() || LINKEDIN_PLATFORM_ID) {
+    return buildSearchFiltersForPlatform(platformId, readRawSearchFilters());
+}
+
 function readSettingsFromForm() {
     return {
+        platform: readSelectedPlatform() || LINKEDIN_PLATFORM_ID,
         roleDescription: roleInput.value,
         maxApplications: Number.parseInt(maxApplicationsInput.value, 10) || 3,
         location: locationInput.value,
@@ -121,6 +138,14 @@ function readSettingsFromForm() {
 function applySettingsToForm(settings) {
     if (!settings) {
         return;
+    }
+
+    if (typeof settings.platform === 'string') {
+        const normalizedPlatform = normalizeAutoApplyPlatform(settings.platform);
+
+        if (normalizedPlatform) {
+            platformSelect.value = normalizedPlatform;
+        }
     }
 
     if (typeof settings.roleDescription === 'string') {
@@ -165,6 +190,7 @@ function applySettingsToForm(settings) {
 
 async function loadPersistedSettings() {
     const { [SETTINGS_STORAGE_KEY]: settings } = await chrome.storage.local.get([SETTINGS_STORAGE_KEY]);
+    renderPlatformOptions(settings?.platform);
     applySettingsToForm(settings);
 }
 
@@ -286,44 +312,31 @@ function renderLog(session) {
     logEl.scrollTop = logEl.scrollHeight;
 }
 
-function isStopActionAvailable(session) {
-    if (!session) {
-        return false;
+function setControlsForSession(session, { stopPending: stopPendingOverride = stopPending } = {}) {
+    const controls = resolveAutoApplyControlsState(session, {
+        automationRunning,
+        stopPending: stopPendingOverride,
+    });
+
+    startBtn.disabled = controls.startDisabled;
+    stopBtn.disabled = controls.stopDisabled;
+    stopBtn.textContent = controls.stopLabel;
+
+    if (clearLogBtn) {
+        clearLogBtn.disabled = controls.clearLogDisabled;
     }
 
-    if (isActiveAutoApplyStatus(session.status)) {
-        return true;
-    }
+    platformSelect.disabled = controls.formLocked;
+    roleInput.disabled = controls.formLocked;
+    locationInput.disabled = controls.formLocked;
+    workTypeSelect.disabled = controls.formLocked;
+    experienceSelect.disabled = controls.formLocked;
+    datePostedSelect.disabled = controls.formLocked;
+    minSalarySelect.disabled = controls.formLocked;
+    fitEnabledInput.disabled = controls.formLocked;
+    maxApplicationsInput.disabled = controls.formLocked;
 
-    if (!isTerminalAutoApplyStatus(session.status)) {
-        return false;
-    }
-
-    return shouldShowAutoApplyActivityControls(session)
-        || hasNonZeroAutoApplyStats(session.stats)
-        || hasAutoApplyLogEntries(session)
-        || Boolean(session.lastError);
-}
-
-function setControlsForSession(session, { stopping = false } = {}) {
-    const isRunning = session?.status === 'running' || session?.status === 'paused_for_input';
-    const locked = isRunning || stopping;
-    const stopAvailable = isStopActionAvailable(session) && !stopping;
-
-    startBtn.disabled = locked;
-    stopBtn.disabled = !stopAvailable;
-    stopBtn.textContent = isRunning || stopping ? 'Stop' : 'Clear';
-    platformSelect.disabled = locked;
-    roleInput.disabled = locked;
-    locationInput.disabled = locked;
-    workTypeSelect.disabled = locked;
-    experienceSelect.disabled = locked;
-    datePostedSelect.disabled = locked;
-    minSalarySelect.disabled = locked;
-    fitEnabledInput.disabled = locked;
-    maxApplicationsInput.disabled = locked;
-
-    if (locked) {
+    if (controls.formLocked) {
         minFitScoreInput.disabled = true;
     } else {
         syncFitGateControls();
@@ -347,6 +360,7 @@ function renderActivityVisibility(session) {
 function renderCleanState() {
     allowTerminalDisplay = false;
     stopPending = false;
+    automationRunning = false;
     lastRenderedSession = null;
     resetActivityPanelVisibility();
     renderStatusLine(null);
@@ -407,8 +421,66 @@ function renderSession(session) {
 
     renderActivityVisibility(session);
 
-    const isRunning = session?.status === 'running' || session?.status === 'paused_for_input';
-    setControlsForSession(session, { stopping: Boolean(isRunning && session?.stopRequested) });
+    setControlsForSession(session);
+}
+
+function applyStatusResponse(response) {
+    automationRunning = Boolean(response?.running);
+
+    const session = response?.session || null;
+
+    if (session && isTerminalAutoApplyStatus(session.status)) {
+        if (allowTerminalDisplay) {
+            renderSession(session);
+            stopPolling();
+
+            return;
+        }
+
+        void dismissFinishedSession().then(() => {
+            renderCleanState();
+        });
+
+        return;
+    }
+
+    if (session && isActiveAutoApplyStatus(session.status)) {
+        renderSession(session);
+        startPolling();
+
+        return;
+    }
+
+    if (automationRunning && session) {
+        renderSession(session);
+        startPolling();
+
+        return;
+    }
+
+    if (!automationRunning) {
+        renderCleanState();
+    }
+}
+
+async function sendRuntimeMessage(type) {
+    const ctx = extensionContext();
+
+    if (ctx) {
+        return ctx.safeRuntimeSend({ type });
+    }
+
+    return new Promise((resolve) => {
+        chrome.runtime.sendMessage({ type }, (response) => {
+            if (chrome.runtime.lastError) {
+                resolve({ error: chrome.runtime.lastError.message });
+
+                return;
+            }
+
+            resolve(response);
+        });
+    });
 }
 
 async function fetchStatus() {
@@ -447,30 +519,7 @@ async function dismissFinishedSession() {
 
 async function refreshStatus() {
     const response = await fetchStatus();
-    const session = response?.session || null;
-
-    if (session && isTerminalAutoApplyStatus(session.status)) {
-        if (allowTerminalDisplay) {
-            renderSession(session);
-            stopPolling();
-
-            return;
-        }
-
-        await dismissFinishedSession();
-        renderCleanState();
-
-        return;
-    }
-
-    if (session && isActiveAutoApplyStatus(session.status)) {
-        renderSession(session);
-        startPolling();
-
-        return;
-    }
-
-    renderCleanState();
+    applyStatusResponse(response);
 }
 
 function startPolling() {
@@ -485,6 +534,7 @@ function startPolling() {
 
         void fetchStatus().then((response) => {
             if (response?.session) {
+                automationRunning = Boolean(response.running);
                 renderSession(response.session);
             }
         });
@@ -512,6 +562,7 @@ function expandActivityPanelForRun() {
 
 function bindSettingsPersistence() {
     const inputs = [
+        platformSelect,
         roleInput,
         locationInput,
         workTypeSelect,
@@ -547,7 +598,6 @@ function bindSettingsPersistence() {
 
 export function initAutoApplyPanel({ showMessage }) {
     notifyUser = showMessage;
-    renderPlatformOptions();
     bindSettingsPersistence();
     void loadPersistedSettings();
 
@@ -557,11 +607,18 @@ export function initAutoApplyPanel({ showMessage }) {
     });
 
     startBtn.addEventListener('click', async () => {
+        const platform = readSelectedPlatform();
         const roleDescription = roleInput.value.trim();
         const maxApplications = Number.parseInt(maxApplicationsInput.value, 10) || 3;
-        const filters = readSearchFilters();
+        const filters = readSearchFilters(platform);
         const fitCheckEnabled = fitEnabledInput.checked;
         const minFitScore = readMinFitScore();
+
+        if (!platform) {
+            showMessage('Choose a supported job board.', 'error');
+
+            return;
+        }
 
         if (!roleDescription) {
             showMessage('Enter a role description.', 'error');
@@ -572,16 +629,22 @@ export function initAutoApplyPanel({ showMessage }) {
         await chrome.storage.local.set({ [SETTINGS_STORAGE_KEY]: readSettingsFromForm() });
 
         startBtn.disabled = true;
+        stopBtn.disabled = false;
+        stopBtn.textContent = 'Stop';
+        automationRunning = true;
 
         try {
+            const [hostTab] = await chrome.tabs.query({ active: true, currentWindow: true });
             const payload = {
                 type: 'AUTO_APPLY_START',
-                platform: platformSelect.value,
+                platform,
                 roleDescription,
                 maxApplications,
                 filters,
                 fitCheckEnabled,
                 minFitScore,
+                hostTabId: hostTab?.id ?? null,
+                hostWindowId: hostTab?.windowId ?? null,
             };
             const ctx = extensionContext();
             const statusResponse = ctx
@@ -601,40 +664,45 @@ export function initAutoApplyPanel({ showMessage }) {
             }
 
             expandActivityPanelForRun();
+            automationRunning = Boolean(statusResponse?.running) || true;
             renderSession(response.session);
             startPolling();
             showMessage('Auto Apply started.', 'success');
         } catch (error) {
+            automationRunning = false;
             showMessage(error.message, 'error');
             startBtn.disabled = false;
+            void refreshStatus();
         }
     });
 
     stopBtn.addEventListener('click', async () => {
-        const session = lastRenderedSession;
-        const clearingTerminal = session && isTerminalAutoApplyStatus(session.status);
+        stopPending = true;
+        automationRunning = true;
 
-        stopPending = !clearingTerminal;
-        setControlsForSession(session, { stopping: !clearingTerminal });
+        if (lastRenderedSession) {
+            renderSession({
+                ...lastRenderedSession,
+                stopRequested: true,
+                status: lastRenderedSession.status === 'paused_for_input' ? 'running' : lastRenderedSession.status,
+            });
+        } else {
+            setControlsForSession(null, { stopPending: true });
+        }
 
         try {
-            const ctx = extensionContext();
-            const response = ctx
-                ? await ctx.safeRuntimeSend({ type: 'AUTO_APPLY_STOP' })
-                : await chrome.runtime.sendMessage({ type: 'AUTO_APPLY_STOP' });
+            const response = await sendRuntimeMessage('AUTO_APPLY_FORCE_STOP');
 
             if (response?.error) {
                 throw new Error(response.error);
             }
 
-            if (!response?.session) {
-                renderCleanState();
-                showMessage(clearingTerminal ? 'Activity cleared.' : 'Auto Apply stopped.', 'success');
-
-                return;
-            }
-
-            renderSession(response.session);
+            stopPending = false;
+            automationRunning = false;
+            allowTerminalDisplay = true;
+            stopPolling();
+            renderCleanState();
+            showMessage('Auto Apply stopped.', 'success');
         } catch (error) {
             stopPending = false;
             showMessage(error.message, 'error');
@@ -642,11 +710,48 @@ export function initAutoApplyPanel({ showMessage }) {
         }
     });
 
+    if (clearLogBtn) {
+        clearLogBtn.addEventListener('click', async () => {
+            try {
+                const response = await sendRuntimeMessage('AUTO_APPLY_CLEAR_ACTIVITY');
+
+                if (response?.error) {
+                    throw new Error(response.error);
+                }
+
+                automationRunning = Boolean(response?.running);
+
+                if (!response?.session) {
+                    allowTerminalDisplay = false;
+                    renderCleanState();
+                    showMessage('Activity log cleared.', 'success');
+
+                    return;
+                }
+
+                allowTerminalDisplay = isTerminalAutoApplyStatus(response.session.status);
+                renderSession(response.session);
+                showMessage('Activity log cleared.', 'success');
+            } catch (error) {
+                showMessage(error.message, 'error');
+                void refreshStatus();
+            }
+        });
+    }
+
     chrome.runtime.onMessage.addListener((message) => {
         if (message.type === 'AUTO_APPLY_STATUS' && message.session) {
+            if (typeof message.running === 'boolean') {
+                automationRunning = message.running;
+            } else if (isActiveAutoApplyStatus(message.session.status)) {
+                automationRunning = true;
+            } else if (isTerminalAutoApplyStatus(message.session.status)) {
+                automationRunning = false;
+            }
+
             renderSession(message.session);
 
-            if (!isActiveAutoApplyStatus(message.session.status)) {
+            if (!isActiveAutoApplyStatus(message.session.status) && !automationRunning) {
                 stopPolling();
             }
         }

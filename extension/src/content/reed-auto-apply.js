@@ -800,6 +800,22 @@ const AutoCVApplyReedAutoApply = (() => {
         };
     }
 
+    async function waitForSubmissionConfirmation(timeoutMs = 30_000) {
+        const deadline = Date.now() + timeoutMs;
+
+        while (Date.now() < deadline) {
+            const verify = verifySubmitted();
+
+            if (verify.submitted) {
+                return verify;
+            }
+
+            await humanPause(450, 700);
+        }
+
+        return verifySubmitted();
+    }
+
     async function clickContinueOrSubmit() {
         await acceptCookieConsent();
         await recoverSessionExpired().catch(() => {});
@@ -842,9 +858,8 @@ const AutoCVApplyReedAutoApply = (() => {
             || /review|check your application|summary/i.test(readStepLabel() || '');
 
         if (submitButton && (isReview || !continueButton)) {
-            void clickElement(submitButton, { quick: true });
-
-            const verify = verifySubmitted();
+            await clickElement(submitButton);
+            const verify = await waitForSubmissionConfirmation();
 
             return {
                 success: true,
@@ -860,7 +875,7 @@ const AutoCVApplyReedAutoApply = (() => {
 
         if (continueButton) {
             await clickElement(continueButton);
-            await humanPause(1200, 2200);
+            await humanPause(650, 1100);
 
             const nextFingerprint = readStepFingerprint();
             const transitioned = nextFingerprint !== previousFingerprint;
@@ -895,7 +910,7 @@ const AutoCVApplyReedAutoApply = (() => {
         }
 
         await clickElement(nextLink);
-        await humanPause(1200, 2000);
+        await humanPause(800, 1300);
 
         return { success: true };
     }
@@ -928,7 +943,7 @@ const AutoCVApplyReedAutoApply = (() => {
 
             if (/^refresh$/i.test(normalize(button.textContent))) {
                 await clickElement(button);
-                await humanPause(2000, 3500);
+                await humanPause(1200, 2000);
 
                 return { recovered: true, method: 'refresh_button' };
             }

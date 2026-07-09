@@ -137,9 +137,9 @@ const AutoCVApplyLinkedInAutoApply = (() => {
     const SUBMIT_PATTERN = /\b(submit(?:\s+application)?|send\s+application)\b/i;
     const REVIEW_PATTERN = /\b(review|review your application)\b/i;
     const NEXT_PATTERN = /\b(next|continue)\b/i;
-    const SUBMIT_CONFIRMATION_TIMEOUT_MS = 25_000;
-    const SUBMIT_POST_CLICK_SETTLE_MS = 1_500;
-    const APPLICATION_SENT_PATTERN = /(?:your\s+application\s+was\s+sent|application\s+(?:submitted|sent)|thanks\s+for\s+applying)/i;
+    const SUBMIT_CONFIRMATION_TIMEOUT_MS = 35_000;
+    const SUBMIT_POST_CLICK_SETTLE_MS = 3_000;
+    const APPLICATION_SENT_PATTERN = /(?:your\s+application\s+was\s+sent|application\s+(?:submitted|sent|received)|thanks\s+for\s+applying|you\s+applied|successfully\s+submitted)/i;
     const STANDALONE_JOB_VIEW_PATTERN = /\/jobs\/view\/(\d+)/;
 
     const APPLY_BUTTON_SELECTORS = [
@@ -249,7 +249,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         const heading = normalize(readStepSectionTitle(modal) || modal.querySelector('h2')?.textContent || '');
 
-        if (/^application sent$/i.test(heading)) {
+        if (/^application sent$/i.test(heading) || /^application submitted$/i.test(heading)) {
             return heading;
         }
 
@@ -799,7 +799,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         }
 
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        await humanPause(650, 1100);
+        await humanPause(450, 750);
         window.scrollTo({ top: 0, behavior: 'smooth' });
         await humanPause(320, 680);
 
@@ -993,7 +993,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
     }
 
     async function openEasyApplyFromControl(control) {
-        await humanPause(520, 1200);
+        await humanPause(350, 750);
         await clickElement(control);
         let modal = await waitForEasyApplyModal(10_000);
 
@@ -1657,7 +1657,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             await humanPause(320, 760);
             await clickElement(primary.button);
 
-            const verify = verifySubmitted();
+            const verify = await waitForSubmissionConfirmation(12_000);
 
             return {
                 success: true,
@@ -1734,6 +1734,8 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             /application sent/i,
             /your application was sent/i,
             /thanks for applying/i,
+            /you applied/i,
+            /successfully submitted/i,
         ];
 
         for (const pattern of successPatterns) {
@@ -1853,7 +1855,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         await humanPause(420, 900);
         await clickElement(nextButton);
-        await humanPause(1400, 2600);
+        await humanPause(900, 1500);
 
         return { success: true };
     }

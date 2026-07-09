@@ -86,6 +86,116 @@ export const AUTO_APPLY_PLATFORMS = Object.fromEntries(
 );
 
 /**
+ * @param {string|null|undefined} platformId
+ * @returns {string|null}
+ */
+export function normalizeAutoApplyPlatform(platformId) {
+    const normalized = String(platformId || '').trim().toLowerCase();
+    const platform = AUTO_APPLY_PLATFORMS[normalized];
+
+    if (!platform?.enabled) {
+        return null;
+    }
+
+    return platform.id;
+}
+
+/**
+ * @param {string|null|undefined} platformId
+ * @returns {boolean}
+ */
+export function isEnabledAutoApplyPlatform(platformId) {
+    return normalizeAutoApplyPlatform(platformId) !== null;
+}
+
+/**
+ * Keep only filters supported by the selected job board.
+ *
+ * @param {string} platformId
+ * @param {import('./linkedin-platform.js').LinkedInSearchFilters|null|undefined} rawFilters
+ * @returns {import('./linkedin-platform.js').LinkedInSearchFilters|null}
+ */
+export function buildSearchFiltersForPlatform(platformId, rawFilters) {
+    if (!rawFilters) {
+        return null;
+    }
+
+    const filters = {};
+    const location = String(rawFilters.location || '').trim();
+
+    if (location) {
+        filters.location = location;
+    }
+
+    if (platformId === LINKEDIN_PLATFORM_ID) {
+        if (rawFilters.workType) {
+            filters.workType = rawFilters.workType;
+        }
+
+        if (rawFilters.experience) {
+            filters.experience = rawFilters.experience;
+        }
+
+        if (rawFilters.datePosted) {
+            filters.datePosted = rawFilters.datePosted;
+        }
+
+        if (rawFilters.minSalaryUk) {
+            filters.minSalaryUk = rawFilters.minSalaryUk;
+        }
+    }
+
+    return Object.keys(filters).length ? filters : null;
+}
+
+/**
+ * @param {string|null|undefined} url
+ * @param {string} platformId
+ * @returns {boolean}
+ */
+export function urlBelongsToPlatform(url, platformId) {
+    if (!url) {
+        return false;
+    }
+
+    try {
+        const { hostname } = new URL(url);
+
+        if (platformId === LINKEDIN_PLATFORM_ID) {
+            return /(^|\.)linkedin\.com$/i.test(hostname);
+        }
+
+        if (platformId === INDEED_PLATFORM_ID) {
+            return /(^|\.)indeed\.com$/i.test(hostname);
+        }
+
+        if (platformId === TOTALJOBS_PLATFORM_ID) {
+            return /(^|\.)totaljobs\.com$/i.test(hostname);
+        }
+
+        if (platformId === GLASSDOOR_PLATFORM_ID) {
+            return /(^|\.)glassdoor\.(com|co\.uk)$/i.test(hostname);
+        }
+
+        if (platformId === REED_PLATFORM_ID) {
+            return /(^|\.)reed\.co\.uk$/i.test(hostname);
+        }
+
+        if (platformId === SIMPLYHIRED_PLATFORM_ID) {
+            return /(^|\.)simplyhired\.(com|co\.uk)$/i.test(hostname);
+        }
+
+        if (platformId === CV_LIBRARY_PLATFORM_ID) {
+            return /(^|\.)cv-library\.co\.uk$/i.test(hostname);
+        }
+    } catch {
+        return false;
+    }
+
+    return false;
+}
+
+/**
  * @param {string} platformId
  * @param {string} roleDescription
  * @param {{ easyApplyOnly?: boolean, filters?: import('./linkedin-platform.js').LinkedInSearchFilters|null }} [options]

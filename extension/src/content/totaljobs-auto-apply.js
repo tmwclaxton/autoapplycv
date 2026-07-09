@@ -368,7 +368,7 @@ const AutoCVApplyTotalJobsAutoApply = (() => {
                 };
             }
 
-            await humanPause(700, 1200);
+            await humanPause(500, 850);
         }
 
         return { success: false, error: 'Totaljobs Apply button not found on job page.' };
@@ -558,6 +558,22 @@ const AutoCVApplyTotalJobsAutoApply = (() => {
         };
     }
 
+    async function waitForSubmissionConfirmation(timeoutMs = 30_000) {
+        const deadline = Date.now() + timeoutMs;
+
+        while (Date.now() < deadline) {
+            const verify = verifySubmitted();
+
+            if (verify.submitted) {
+                return verify;
+            }
+
+            await humanPause(450, 700);
+        }
+
+        return verifySubmitted();
+    }
+
     async function clickContinueOrSubmit() {
         await acceptCookieConsent();
 
@@ -583,9 +599,7 @@ const AutoCVApplyTotalJobsAutoApply = (() => {
 
         if (submitButton && (isReview || !continueButton)) {
             await clickElement(submitButton);
-            await humanPause(1500, 2800);
-
-            const verify = verifySubmitted();
+            const verify = await waitForSubmissionConfirmation();
 
             return {
                 success: true,
@@ -600,7 +614,7 @@ const AutoCVApplyTotalJobsAutoApply = (() => {
 
         if (continueButton) {
             await clickElement(continueButton);
-            await humanPause(1200, 2200);
+            await humanPause(650, 1100);
 
             const nextFingerprint = readStepFingerprint();
             const transitioned = nextFingerprint !== previousFingerprint;
@@ -636,7 +650,7 @@ const AutoCVApplyTotalJobsAutoApply = (() => {
         }
 
         await clickElement(nextLink);
-        await humanPause(1200, 2000);
+        await humanPause(800, 1300);
 
         return { success: true };
     }

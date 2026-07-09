@@ -19,17 +19,18 @@ import {
     resolveAutoApplyFitDecision,
     summarizeAtsFitReason,
 } from './auto-apply-fit.js';
-import { buildJobSearchUrl, CV_LIBRARY_PLATFORM_ID, GLASSDOOR_PLATFORM_ID, INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, REED_PLATFORM_ID, SIMPLYHIRED_PLATFORM_ID, TOTALJOBS_PLATFORM_ID } from './auto-apply-platforms.js';
+import { buildJobSearchUrl, CV_LIBRARY_PLATFORM_ID, GLASSDOOR_PLATFORM_ID, INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, REED_PLATFORM_ID, SIMPLYHIRED_PLATFORM_ID, TOTALJOBS_PLATFORM_ID, normalizeAutoApplyPlatform, urlBelongsToPlatform } from './auto-apply-platforms.js';
 import {
     appendAutoApplyLog,
+    buildStoppedSessionState,
     clearAutoApplySession,
     createInitialSession,
+    isActiveAutoApplyStatus,
     isTerminalAutoApplyStatus,
     loadAutoApplySession,
     pauseAutoApplyForInput,
     resumeAutoApplyFromInput,
     saveAutoApplySession,
-    buildStoppedSessionState,
 } from './auto-apply-session.js';
 import {
     closeAutoApplyWindow,
@@ -63,8 +64,11 @@ import {
     urlsMatchReedSearch,
 } from './reed-platform.js';
 import {
+    rememberSidePanelHostTab,
+    resolveSidePanelHostFromHint,
     resolveSidePanelHostTab,
 } from './side-panel-host-tab.js';
+import { resolveSidePanelOpen } from './side-panel-state.js';
 import { runSimplyHiredAutoApplyLoop } from './simplyhired-auto-apply-runner.js';
 import { createSimplyHiredOrchestrator } from './simplyhired-orchestrator.js';
 import { runTotalJobsAutoApplyLoop } from './totaljobs-auto-apply-runner.js';
@@ -75,13 +79,16 @@ import {
 } from './totaljobs-platform.js';
 
 const AUTO_APPLY_DELAY_MS = {
-    betweenJobs: 3800,
-    afterNavigation: 2200,
-    afterModalStep: 1400,
-    beforeDraftAll: 900,
+    betweenJobs: 2600,
+    afterNavigation: 1400,
+    afterModalStep: 750,
+    beforeDraftAll: 500,
     rateLimitBackoff: 45_000,
-    afterSubmit: 4000,
+    afterSubmit: 6500,
 };
+
+const SUBMIT_CONFIRMATION_TIMEOUT_MS = 45_000;
+const SUBMIT_CONFIRMATION_POLL_MS = { base: 2000, spread: 1200 };
 
 const STUCK_TIMEOUT_MS = 45_000;
 const STUCK_RECOVERY_LIMIT = 3;
@@ -397,6 +404,127 @@ function randomDelay(baseMs, spreadMs = null) {
     return baseMs + Math.floor(Math.random() * (spread + 1));
 }
 
+/**
+ * Poll platform-specific submit confirmation after clicking Submit.
+ *
+ * @param {number} tabId
+ * @param {string} platform
+ * @param {import('./auto-apply-session.js').AutoApplySession|null} [session]
+ */
+async function waitForApplicationSubmitConfirmation(tabId, platform, session = null) {
+    const deadline = Date.now() + SUBMIT_CONFIRMATION_TIMEOUT_MS;
+
+    while (Date.now() < deadline) {
+        if (session && await shouldStop(session)) {
+            return { submitted: false, stopped: true };
+        }
+
+        if (platform === LINKEDIN_PLATFORM_ID) {
+            const verify = await sendLinkedInMessage(tabId, 'LINKEDIN_VERIFY_SUBMITTED');
+
+            if (verify?.submitted) {
+                return { submitted: true, confirmation: verify.confirmation || null };
+            }
+
+            const state = await readLinkedInModalState(tabId, { retries: 1 });
+
+            if (state?.submitted) {
+                return { submitted: true, confirmation: state.confirmation || null };
+            }
+        } else if (platform === INDEED_PLATFORM_ID || platform === GLASSDOOR_PLATFORM_ID || platform === SIMPLYHIRED_PLATFORM_ID) {
+            const useIndeedFlow = platform !== INDEED_PLATFORM_ID;
+            const verify = useIndeedFlow
+                ? await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_VERIFY_SUBMITTED' })
+                : await sendIndeedMessage(tabId, 'INDEED_VERIFY_SUBMITTED');
+
+            if (verify?.submitted) {
+                return { submitted: true, confirmation: verify.confirmation || null };
+            }
+
+            const state = useIndeedFlow
+                ? await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' })
+                : await sendIndeedMessage(tabId, 'INDEED_APPLY_STATE');
+
+            if (state?.submitted) {
+                return { submitted: true, confirmation: state.confirmation || null };
+            }
+        } else if (platform === TOTALJOBS_PLATFORM_ID) {
+            const verify = await sendTotalJobsMessage(tabId, 'TOTALJOBS_VERIFY_SUBMITTED');
+
+            if (verify?.submitted) {
+                return { submitted: true, confirmation: verify.confirmation || null };
+            }
+
+            const state = await sendTotalJobsMessage(tabId, 'TOTALJOBS_APPLY_STATE');
+
+            if (state?.submitted) {
+                return { submitted: true, confirmation: state.confirmation || null };
+            }
+        } else if (platform === REED_PLATFORM_ID) {
+            const verify = await sendReedMessage(tabId, 'REED_VERIFY_SUBMITTED').catch(() => null);
+
+            if (verify?.submitted) {
+                return { submitted: true, confirmation: verify.confirmation || null };
+            }
+
+            const state = await sendReedMessage(tabId, 'REED_APPLY_STATE').catch(() => null);
+
+            if (state?.submitted) {
+                return { submitted: true, confirmation: state.confirmation || null };
+            }
+        } else if (platform === CV_LIBRARY_PLATFORM_ID) {
+            const verify = await sendTabMessage(tabId, { type: 'CV_LIBRARY_VERIFY_SUBMITTED' }, 0).catch(() => null);
+
+            if (verify?.submitted) {
+                return { submitted: true, confirmation: verify.confirmation || null };
+            }
+
+            const state = await sendTabMessage(tabId, { type: 'CV_LIBRARY_APPLY_STATE' }, 0).catch(() => null);
+
+            if (state?.submitted) {
+                return { submitted: true, confirmation: state.confirmation || null };
+            }
+        }
+
+        await sleep(randomDelay(SUBMIT_CONFIRMATION_POLL_MS.base, SUBMIT_CONFIRMATION_POLL_MS.spread));
+    }
+
+    if (platform === LINKEDIN_PLATFORM_ID) {
+        const verify = await sendLinkedInMessage(tabId, 'LINKEDIN_VERIFY_SUBMITTED');
+
+        return { submitted: Boolean(verify?.submitted), confirmation: verify?.confirmation || null };
+    }
+
+    if (platform === INDEED_PLATFORM_ID || platform === GLASSDOOR_PLATFORM_ID || platform === SIMPLYHIRED_PLATFORM_ID) {
+        const useIndeedFlow = platform !== INDEED_PLATFORM_ID;
+        const verify = useIndeedFlow
+            ? await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_VERIFY_SUBMITTED' })
+            : await sendIndeedMessage(tabId, 'INDEED_VERIFY_SUBMITTED');
+
+        return { submitted: Boolean(verify?.submitted), confirmation: verify?.confirmation || null };
+    }
+
+    if (platform === TOTALJOBS_PLATFORM_ID) {
+        const verify = await sendTotalJobsMessage(tabId, 'TOTALJOBS_VERIFY_SUBMITTED');
+
+        return { submitted: Boolean(verify?.submitted), confirmation: verify?.confirmation || null };
+    }
+
+    if (platform === REED_PLATFORM_ID) {
+        const verify = await sendReedMessage(tabId, 'REED_VERIFY_SUBMITTED').catch(() => null);
+
+        return { submitted: Boolean(verify?.submitted), confirmation: verify?.confirmation || null };
+    }
+
+    if (platform === CV_LIBRARY_PLATFORM_ID) {
+        const verify = await sendTabMessage(tabId, { type: 'CV_LIBRARY_VERIFY_SUBMITTED' }, 0).catch(() => null);
+
+        return { submitted: Boolean(verify?.submitted), confirmation: verify?.confirmation || null };
+    }
+
+    return { submitted: false, confirmation: null };
+}
+
 async function resolveAutoApplyWindowId(session = null) {
     const current = session || await loadAutoApplySession();
 
@@ -416,13 +544,35 @@ async function rememberAutoApplyWindow(windowId, tabId = null, { usesDedicatedWi
     }));
 }
 
+async function resolveSidePanelHostForAutoApply() {
+    const sessionStorage = await chrome.storage.session.get([
+        'sidePanelOpen',
+        'sidePanelLastHeartbeatAt',
+    ]);
+
+    if (!resolveSidePanelOpen(sessionStorage)) {
+        return null;
+    }
+
+    return resolveSidePanelHostTab(sessionStorage);
+}
+
 async function openUrlInAutoApplyWindow(url, tabId = null) {
     let windowId = await resolveAutoApplyWindowId();
     const session = await loadAutoApplySession();
     const preferVisibleTab = session?.usesDedicatedWindow === false;
 
+    if (!windowId && session?.usesDedicatedWindow === false) {
+        windowId = session.windowId ?? null;
+        tabId = tabId ?? session.tabId ?? null;
+
+        if (windowId && !(await isAutoApplyWindowOpen(windowId))) {
+            windowId = null;
+        }
+    }
+
     if (!windowId && !tabId) {
-        const hostTab = await resolveSidePanelHostTab();
+        const hostTab = await resolveSidePanelHostForAutoApply();
 
         if (hostTab) {
             tabId = hostTab.tabId;
@@ -445,6 +595,15 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
     }
 
     if (!windowId && !tabId) {
+        const sidePanelOpen = resolveSidePanelOpen(await chrome.storage.session.get([
+            'sidePanelOpen',
+            'sidePanelLastHeartbeatAt',
+        ]));
+
+        if (sidePanelOpen) {
+            throw new Error('Open a job board tab in the browser window where AutoCVApply is open, then press Start again.');
+        }
+
         const created = await createAutoApplyWindow(url);
         await rememberAutoApplyWindow(created.windowId, created.tabId, { usesDedicatedWindow: true });
 
@@ -489,6 +648,7 @@ function broadcastAutoApplyStatus(session) {
     chrome.runtime.sendMessage({
         type: 'AUTO_APPLY_STATUS',
         session: sanitizeSessionForBroadcast(session),
+        running: isAutoApplyRunning(),
     }).catch(() => {});
 
     const tabId = session?.tabId;
@@ -578,7 +738,7 @@ async function sendLinkedInMessage(tabId, type, payload = {}, options = {}) {
                     invalidateTabFrameCache(tabId);
                     await logSession('warn', `[linkedin_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
                     await waitForTabContentScript(tabId).catch(() => {});
-                    await sleep(randomDelay(1400, 900));
+                    await sleep(randomDelay(850, 550));
 
                     continue;
                 }
@@ -620,7 +780,7 @@ async function advanceLinkedInEasyApplyStep(tabId, { skipPrefill = false } = {})
         return advanceResponse;
     }
 
-    await sleep(randomDelay(1200, 700));
+    await sleep(randomDelay(750, 450));
 
     const modalState = await readLinkedInModalState(tabId, { retries: 4 });
 
@@ -699,7 +859,7 @@ async function sendIndeedMessage(tabId, type, payload = {}, options = {}) {
                     await chrome.tabs.reload(tabId);
                     await waitForTabLoadComplete(tabId);
                     await waitForIndeedContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1200));
+                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
                     await sendTabMessage(tabId, { type: 'INDEED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
                 } catch {
                     // Fall through to retry send on next loop iteration.
@@ -732,7 +892,7 @@ async function sendTotalJobsMessage(tabId, type, payload = {}, options = {}) {
                     await chrome.tabs.reload(tabId);
                     await waitForTabLoadComplete(tabId);
                     await waitForTotalJobsContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1200));
+                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
                     await sendTabMessage(tabId, { type: 'TOTALJOBS_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
                 } catch {
                     // Fall through to retry send on next loop iteration.
@@ -765,7 +925,7 @@ async function sendReedMessage(tabId, type, payload = {}, options = {}) {
                     await chrome.tabs.reload(tabId);
                     await waitForTabLoadComplete(tabId);
                     await waitForReedContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1200));
+                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
                     await sendTabMessage(tabId, { type: 'REED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
                 } catch {
                     // Fall through to retry send on next loop iteration.
@@ -796,14 +956,14 @@ async function sendGlassdoorMessage(tabId, type, payload = {}, options = {}) {
 
                 try {
                     await waitForGlassdoorContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1200));
+                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
                     await sendTabMessage(tabId, { type: 'GLASSDOOR_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
                 } catch {
                     try {
                         await chrome.tabs.reload(tabId);
                         await waitForTabLoadComplete(tabId);
                         await waitForGlassdoorContentScript(tabId);
-                        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1200));
+                        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
                         await sendTabMessage(tabId, { type: 'GLASSDOOR_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
                     } catch {
                         // Fall through to retry send on next loop iteration.
@@ -835,7 +995,7 @@ async function returnToIndeedSearch(tabId, session) {
         await openUrlInAutoApplyWindow(searchUrl, tabId);
         await waitForTabLoadComplete(tabId);
         await waitForIndeedContentScript(tabId);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
         await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
         await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(() => {});
 
@@ -847,7 +1007,7 @@ async function returnToIndeedSearch(tabId, session) {
 
         await waitForTabLoadComplete(tabId);
         await waitForIndeedContentScript(tabId);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
 
         return tabId;
     }
@@ -868,7 +1028,7 @@ async function returnToTotalJobsSearch(tabId, session) {
         await openUrlInAutoApplyWindow(searchUrl, tabId);
         await waitForTabLoadComplete(tabId);
         await waitForTotalJobsContentScript(tabId);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
         await sendTotalJobsMessage(tabId, 'TOTALJOBS_ACCEPT_COOKIE_CONSENT').catch(() => {});
         await sendTotalJobsMessage(tabId, 'TOTALJOBS_PREPARE_JOB_SEARCH').catch(() => {});
 
@@ -880,7 +1040,7 @@ async function returnToTotalJobsSearch(tabId, session) {
 
         await waitForTabLoadComplete(tabId);
         await waitForTotalJobsContentScript(tabId);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
 
         return tabId;
     }
@@ -901,7 +1061,7 @@ async function returnToReedSearch(tabId, session) {
         await openUrlInAutoApplyWindow(searchUrl, tabId);
         await waitForTabLoadComplete(tabId);
         await waitForReedContentScript(tabId);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
         await sendReedMessage(tabId, 'REED_ACCEPT_COOKIE_CONSENT').catch(() => {});
         await sendReedMessage(tabId, 'REED_PREPARE_JOB_SEARCH').catch(() => {});
 
@@ -913,7 +1073,7 @@ async function returnToReedSearch(tabId, session) {
 
         await waitForTabLoadComplete(tabId);
         await waitForReedContentScript(tabId);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
 
         return tabId;
     }
@@ -934,7 +1094,7 @@ async function returnToGlassdoorSearch(tabId, session) {
         await openUrlInAutoApplyWindow(searchUrl, tabId);
         await waitForTabLoadComplete(tabId);
         await waitForGlassdoorContentScript(tabId);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
         await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(() => {});
         await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH').catch(() => {});
 
@@ -946,7 +1106,7 @@ async function returnToGlassdoorSearch(tabId, session) {
 
         await waitForTabLoadComplete(tabId);
         await waitForGlassdoorContentScript(tabId);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
 
         return tabId;
     }
@@ -1264,6 +1424,10 @@ async function waitForTabContentScript(tabId, timeoutMs = 45_000) {
 }
 
 async function ensureLinkedInTab(session) {
+    if (session.platform !== LINKEDIN_PLATFORM_ID) {
+        throw new Error(`Auto Apply expected LinkedIn but session platform is ${session.platform}.`);
+    }
+
     const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
 
     if (session.tabId) {
@@ -1273,7 +1437,9 @@ async function ensureLinkedInTab(session) {
             if (tab?.id) {
                 const currentUrl = tab.url || '';
 
-                if (!currentUrl.includes('/jobs/search') || !urlsMatchLinkedInSearch(session, currentUrl, searchUrl)) {
+                if (!urlBelongsToPlatform(currentUrl, LINKEDIN_PLATFORM_ID)
+                    || !currentUrl.includes('/jobs/search')
+                    || !urlsMatchLinkedInSearch(session, currentUrl, searchUrl)) {
                     const tabId = await openUrlInAutoApplyWindow(searchUrl, tab.id);
                     await waitForTabLoadComplete(tabId);
                     await waitForTabContentScript(tabId);
@@ -2010,7 +2176,7 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
     await acceptLinkedInCookieConsent(tabId).catch(() => {});
     await dismissSaveApplicationPrompt(tabId).catch(() => {});
 
-    await sleep(randomDelay(700, 600));
+    await sleep(randomDelay(450, 350));
 
     await wakeAutoApplyTab(tabId).catch(() => {});
 
@@ -2068,7 +2234,7 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
             await chrome.tabs.reload(tabId);
             await waitForTabLoadComplete(tabId);
             await waitForTabContentScript(tabId);
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
         } catch {
             // Continue to reopen attempt below.
         }
@@ -2173,7 +2339,7 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
                     await chrome.tabs.reload(tabId);
                     await waitForTabLoadComplete(tabId);
                     await waitForTabContentScript(tabId);
-                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
                 } catch {
                     // Continue to reopen attempt below.
                 }
@@ -2200,12 +2366,12 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
 
                 stepLoadAttempts = 0;
                 lastStepFingerprint = null;
-                await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1200));
+                await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
 
                 continue;
             }
 
-            await sleep(randomDelay(1500, 2500));
+            await sleep(randomDelay(900, 600));
 
             continue;
         }
@@ -2235,7 +2401,7 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
             await sendLinkedInMessage(tabId, 'LINKEDIN_PREFILL_EASY_APPLY').catch(() => null);
             await sleep(randomDelay(500, 400));
         } else {
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
 
             draftResult = await runDraftAllForStep(tabId, job, modalState.stepLabel, runDraftAll, session, LINKEDIN_PLATFORM_ID);
         }
@@ -2275,27 +2441,18 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
             );
 
             if (!advanceResponse?.submitted) {
-                const confirmDeadline = Date.now() + 28_000;
+                const confirmResult = await waitForApplicationSubmitConfirmation(tabId, LINKEDIN_PLATFORM_ID, session);
 
-                while (Date.now() < confirmDeadline) {
-                    await sleep(randomDelay(1800, 900));
-                    const confirmVerify = await sendLinkedInMessage(tabId, 'LINKEDIN_VERIFY_SUBMITTED');
+                if (confirmResult.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
 
-                    if (confirmVerify?.submitted) {
-                        advanceResponse = {
-                            ...advanceResponse,
-                            submitted: true,
-                            confirmation: confirmVerify.confirmation,
-                        };
-                        break;
-                    }
-
-                    const confirmState = await readLinkedInModalState(tabId, { retries: 2 });
-
-                    if (confirmState?.submitted) {
-                        advanceResponse = { ...advanceResponse, submitted: true };
-                        break;
-                    }
+                if (confirmResult.submitted) {
+                    advanceResponse = {
+                        ...advanceResponse,
+                        submitted: true,
+                        confirmation: confirmResult.confirmation,
+                    };
                 }
             }
         }
@@ -2530,6 +2687,10 @@ async function waitForGlassdoorContentScript(tabId, timeoutMs = 45_000) {
 }
 
 async function ensureIndeedTab(session) {
+    if (session.platform !== INDEED_PLATFORM_ID) {
+        throw new Error(`Auto Apply expected Indeed but session platform is ${session.platform}.`);
+    }
+
     const searchUrl = buildJobSearchUrl(session.platform, session.roleDescription, buildSessionSearchOptions(session));
 
     if (session.tabId) {
@@ -2539,7 +2700,9 @@ async function ensureIndeedTab(session) {
             if (tab?.id) {
                 const currentUrl = tab.url || '';
 
-                if (!isIndeedJobsSearchUrl(currentUrl) || !urlsMatchIndeedSearch(currentUrl, searchUrl, session.filters)) {
+                if (!urlBelongsToPlatform(currentUrl, INDEED_PLATFORM_ID)
+                    || !isIndeedJobsSearchUrl(currentUrl)
+                    || !urlsMatchIndeedSearch(currentUrl, searchUrl, session.filters)) {
                     const tabId = await openUrlInAutoApplyWindow(searchUrl, tab.id);
                     await waitForTabLoadComplete(tabId);
                     await waitForIndeedContentScript(tabId);
@@ -2639,7 +2802,7 @@ async function openIndeedJobInner(tabId, job, session) {
     tabId = await returnToIndeedSearch(tabId, session);
     await waitForIndeedContentScript(tabId);
     await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(() => {});
-    await sleep(randomDelay(1400, 900));
+    await sleep(randomDelay(850, 550));
 
     let selectResponse = null;
 
@@ -2664,7 +2827,7 @@ async function openIndeedJobInner(tabId, job, session) {
         }
 
         await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_SEARCH').catch(() => {});
-        await sleep(randomDelay(1200, 800));
+        await sleep(randomDelay(750, 500));
     }
 
     if (selectResponse?.success) {
@@ -2697,7 +2860,7 @@ async function openIndeedJobInner(tabId, job, session) {
 
     await waitForTabLoadComplete(tabId);
     await waitForIndeedContentScript(tabId);
-    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1100));
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 650));
     await sendIndeedMessage(tabId, 'INDEED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
     await sendIndeedMessage(tabId, 'INDEED_ACCEPT_COOKIE_CONSENT').catch(() => {});
 
@@ -2860,7 +3023,7 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
         }
 
         if (!openResult.navigated) {
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 800));
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
         }
 
         await captureJobPage(tabId);
@@ -2913,7 +3076,7 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
 
         await waitForTabLoadComplete(tabId);
         await waitForIndeedContentScript(tabId);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
         invalidateTabFrameCache(tabId);
         await captureJobPage(tabId, { force: true });
 
@@ -2967,7 +3130,7 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
             await logSession('info', `[review] ${job.title}: reached review step.`);
         }
 
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
 
         const draftResult = await runDraftAllForStep(
             tabId,
@@ -2995,18 +3158,20 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
 
         const advanceResponse = await sendIndeedMessage(tabId, 'INDEED_FILL_AND_ADVANCE');
 
-        if (advanceResponse?.action === 'submit') {
+        if (advanceResponse?.action === 'submit' || applyState?.isReviewStep) {
             await logSession(
                 'info',
                 `[submit] ${job.title}: clicked Submit${advanceResponse.submitted ? ' - confirmed' : ''}.`,
             );
 
-            if (!advanceResponse.submitted) {
-                await sleep(randomDelay(1200, 600));
-                const confirmState = await sendIndeedMessage(tabId, 'INDEED_APPLY_STATE');
-                const confirmVerify = await sendIndeedMessage(tabId, 'INDEED_VERIFY_SUBMITTED');
+            if (!advanceResponse?.submitted) {
+                const confirmResult = await waitForApplicationSubmitConfirmation(tabId, INDEED_PLATFORM_ID, session);
 
-                if (confirmState?.submitted || confirmVerify?.submitted) {
+                if (confirmResult.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
+
+                if (confirmResult.submitted) {
                     submitted = true;
                     break;
                 }
@@ -3229,7 +3394,7 @@ async function openTotalJobsJobInner(tabId, job, _session) {
 
     await waitForTabLoadComplete(tabId);
     await waitForTotalJobsContentScript(tabId);
-    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1100));
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 650));
     await sendTotalJobsMessage(tabId, 'TOTALJOBS_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
     await sendTotalJobsMessage(tabId, 'TOTALJOBS_ACCEPT_COOKIE_CONSENT').catch(() => {});
 
@@ -3392,7 +3557,7 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
     }
 
     if (!openResult.navigated) {
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 800));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
     }
 
     await captureJobPage(tabId);
@@ -3460,7 +3625,7 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
 
     await waitForTabLoadComplete(tabId);
     await waitForTotalJobsContentScript(tabId);
-    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
     invalidateTabFrameCache(tabId);
     await captureJobPage(tabId, { force: true });
 
@@ -3523,7 +3688,7 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
             await logSession('info', `[review] ${job.title}: reached review step.`);
         }
 
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
 
         const draftResult = await runDraftAllForStep(
             tabId,
@@ -3551,18 +3716,20 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
 
         const advanceResponse = await sendTotalJobsMessage(tabId, 'TOTALJOBS_FILL_AND_ADVANCE');
 
-        if (advanceResponse?.action === 'submit') {
+        if (advanceResponse?.action === 'submit' || applyState?.isReviewStep) {
             await logSession(
                 'info',
                 `[submit] ${job.title}: clicked Submit${advanceResponse.submitted ? ' - confirmed' : ''}.`,
             );
 
             if (!advanceResponse.submitted) {
-                await sleep(randomDelay(1200, 600));
-                const confirmState = await sendTotalJobsMessage(tabId, 'TOTALJOBS_APPLY_STATE');
-                const confirmVerify = await sendTotalJobsMessage(tabId, 'TOTALJOBS_VERIFY_SUBMITTED');
+                const confirmResult = await waitForApplicationSubmitConfirmation(tabId, TOTALJOBS_PLATFORM_ID, session);
 
-                if (confirmState?.submitted || confirmVerify?.submitted) {
+                if (confirmResult.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
+
+                if (confirmResult.submitted) {
                     submitted = true;
                     break;
                 }
@@ -3751,7 +3918,7 @@ async function collectReedJobsFromTab(tabId, session = null) {
             if (nextPage?.success) {
                 pageTurns += 1;
                 await waitForTabLoadComplete(tabId);
-                await sleep(randomDelay(1500, 2500));
+                await sleep(randomDelay(900, 600));
 
                 continue;
             }
@@ -3766,7 +3933,7 @@ async function collectReedJobsFromTab(tabId, session = null) {
             await chrome.tabs.update(tabId, { url: searchUrl });
             await waitForTabLoadComplete(tabId);
             await waitForReedContentScript(tabId);
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
             pageTurns += 1;
 
             continue;
@@ -3830,7 +3997,7 @@ async function openReedJobInner(tabId, job, session) {
 
     await waitForTabLoadComplete(tabId);
     await waitForReedContentScript(tabId);
-    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1100));
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 650));
     await sendReedMessage(tabId, 'REED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
     await sendReedMessage(tabId, 'REED_ACCEPT_COOKIE_CONSENT').catch(() => {});
 
@@ -3851,6 +4018,12 @@ async function openReedJobInner(tabId, job, session) {
 }
 
 async function verifyReedApplicationSubmitted(tabId, job) {
+    const confirmResult = await waitForApplicationSubmitConfirmation(tabId, REED_PLATFORM_ID);
+
+    if (confirmResult.submitted) {
+        return { submitted: true, tabId };
+    }
+
     const readSubmitted = async (targetTabId) => {
         const verifyResponse = await sendReedMessage(targetTabId, 'REED_VERIFY_SUBMITTED').catch(() => null);
 
@@ -3866,7 +4039,7 @@ async function verifyReedApplicationSubmitted(tabId, job) {
 
     await waitForTabLoadComplete(verifyTabId);
     await waitForReedContentScript(verifyTabId);
-    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
     await sendReedMessage(verifyTabId, 'REED_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId }).catch(() => {});
 
     return {
@@ -4018,7 +4191,7 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
     }
 
     if (!openResult.navigated) {
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 800));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
     }
 
     await captureJobPage(tabId);
@@ -4086,7 +4259,7 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
 
     await waitForTabLoadComplete(tabId);
     await waitForReedContentScript(tabId);
-    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
     invalidateTabFrameCache(tabId);
     await captureJobPage(tabId, { force: true });
 
@@ -4159,7 +4332,7 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
             await logSession('info', `[review] ${job.title}: reached review step.`);
         }
 
-        await interruptibleSleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
+        await interruptibleSleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
 
         const draftResult = applyState.isReviewStep
             ? {
@@ -4210,10 +4383,13 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
 
             await waitForTabLoadComplete(tabId);
             await waitForReedContentScript(tabId);
-            await sleep(randomDelay(1500, 2800));
-            const confirmVerify = await sendReedMessage(tabId, 'REED_VERIFY_SUBMITTED').catch(() => null);
+            const confirmResult = await waitForApplicationSubmitConfirmation(tabId, REED_PLATFORM_ID, session);
 
-            if (confirmVerify?.submitted) {
+            if (confirmResult.stopped) {
+                return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+            }
+
+            if (confirmResult.submitted) {
                 submitted = true;
                 break;
             }
@@ -4235,9 +4411,11 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
             if (!advanceResponse.submitted) {
                 await waitForTabLoadComplete(tabId).catch(() => {});
                 await waitForReedContentScript(tabId).catch(() => {});
-                await sleep(randomDelay(1500, 2800));
-                const confirmResult = await verifyReedApplicationSubmitted(tabId, job);
-                tabId = confirmResult.tabId || tabId;
+                const confirmResult = await waitForApplicationSubmitConfirmation(tabId, REED_PLATFORM_ID, session);
+
+                if (confirmResult.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
 
                 if (confirmResult.submitted) {
                     submitted = true;
@@ -4440,7 +4618,7 @@ async function openGlassdoorJobInner(tabId, job, session) {
     tabId = await returnToGlassdoorSearch(tabId, session);
     await waitForGlassdoorContentScript(tabId);
     await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_SEARCH').catch(() => {});
-    await sleep(randomDelay(1400, 900));
+    await sleep(randomDelay(850, 550));
 
     let selectResponse = await sendGlassdoorMessage(tabId, 'GLASSDOOR_SELECT_JOB', { jobId: job.jobId });
 
@@ -4452,7 +4630,7 @@ async function openGlassdoorJobInner(tabId, job, session) {
         tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
         await waitForTabLoadComplete(tabId);
         await waitForGlassdoorContentScript(tabId);
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1100));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 650));
         await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
         await sendGlassdoorMessage(tabId, 'GLASSDOOR_ACCEPT_COOKIE_CONSENT').catch(() => {});
         selectResponse = await sendGlassdoorMessage(tabId, 'GLASSDOOR_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
@@ -4618,7 +4796,7 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
     }
 
     if (!openResult.navigated) {
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 800));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
     }
 
     await captureJobPage(tabId);
@@ -4684,7 +4862,7 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
         };
     }
 
-    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 2000));
+    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1000));
     invalidateTabFrameCache(tabId);
 
     const iframeDeadline = Date.now() + 30_000;
@@ -4783,16 +4961,18 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
             }
 
             if (!advanceResponse?.submitted && advanceResponse?.action === 'submit') {
-                const verifyDeadline = Date.now() + 6_000;
+                const confirmResult = await waitForApplicationSubmitConfirmation(
+                    tabId,
+                    GLASSDOOR_PLATFORM_ID,
+                    session,
+                );
 
-                while (Date.now() < verifyDeadline) {
-                    await sleep(1000);
-                    const confirmVerify = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_VERIFY_SUBMITTED' });
+                if (confirmResult.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
 
-                    if (confirmVerify?.submitted) {
-                        submitted = true;
-                        break;
-                    }
+                if (confirmResult.submitted) {
+                    submitted = true;
                 }
             } else if (advanceResponse?.submitted) {
                 submitted = true;
@@ -4825,7 +5005,7 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
             break;
         }
 
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
 
         const draftResult = await runDraftAllForStep(
             tabId,
@@ -4853,18 +5033,24 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
 
         const advanceResponse = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_FILL_AND_ADVANCE' });
 
-        if (advanceResponse?.action === 'submit') {
+        if (advanceResponse?.action === 'submit' || applyState?.isReviewStep) {
             await logSession(
                 'info',
                 `[submit] ${job.title}: clicked Submit${advanceResponse.submitted ? ' - confirmed' : ''}.`,
             );
 
-            if (!advanceResponse.submitted) {
-                await sleep(randomDelay(1200, 600));
-                const confirmState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
-                const confirmVerify = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_VERIFY_SUBMITTED' });
+            if (!advanceResponse?.submitted) {
+                const confirmResult = await waitForApplicationSubmitConfirmation(
+                    tabId,
+                    GLASSDOOR_PLATFORM_ID,
+                    session,
+                );
 
-                if (confirmState?.submitted || confirmVerify?.submitted) {
+                if (confirmResult.stopped) {
+                    return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                }
+
+                if (confirmResult.submitted) {
                     submitted = true;
                     break;
                 }
@@ -5017,13 +5203,15 @@ function buildTotalJobsRunnerContext() {
  * @param {{ platform?: string, roleDescription?: string, maxApplications?: number, runDraftAll: Function }} options
  */
 export async function startAutoApply({
-    platform = LINKEDIN_PLATFORM_ID,
+    platform,
     roleDescription,
     maxApplications = 10,
     filters = null,
     fitCheckEnabled = true,
     minFitScore = 10,
     force = false,
+    hostTabId = null,
+    hostWindowId = null,
     runDraftAll,
 }) {
     const run = async () => {
@@ -5035,20 +5223,18 @@ export async function startAutoApply({
             await forceResetAutoApply();
         }
 
+        const normalizedPlatform = normalizeAutoApplyPlatform(platform);
+
+        if (!normalizedPlatform) {
+            throw new Error('Choose a supported job board before starting Auto Apply.');
+        }
+
+        platform = normalizedPlatform;
+
         const trimmedRole = String(roleDescription || '').trim();
 
         if (!trimmedRole) {
             throw new Error('Enter a role description before starting Auto Apply.');
-        }
-
-        if (platform !== LINKEDIN_PLATFORM_ID
-            && platform !== INDEED_PLATFORM_ID
-            && platform !== TOTALJOBS_PLATFORM_ID
-            && platform !== GLASSDOOR_PLATFORM_ID
-            && platform !== SIMPLYHIRED_PLATFORM_ID
-            && platform !== REED_PLATFORM_ID
-            && platform !== CV_LIBRARY_PLATFORM_ID) {
-            throw new Error('Only LinkedIn, Indeed, Totaljobs, Glassdoor, SimplyHired, Reed, and CV-Library are supported right now.');
         }
 
         let session = createInitialSession({
@@ -5060,7 +5246,22 @@ export async function startAutoApply({
             minFitScore,
         });
 
-        const hostTab = await resolveSidePanelHostTab();
+        let hostTab = null;
+
+        if (typeof hostTabId === 'number' || typeof hostWindowId === 'number') {
+            hostTab = await resolveSidePanelHostFromHint({
+                tabId: hostTabId,
+                windowId: hostWindowId,
+            });
+
+            if (hostTab) {
+                await rememberSidePanelHostTab(hostTab);
+            }
+        }
+
+        if (!hostTab) {
+            hostTab = await resolveSidePanelHostForAutoApply();
+        }
 
         if (hostTab) {
             session = {
@@ -5072,9 +5273,18 @@ export async function startAutoApply({
             session = appendAutoApplyLog(
                 session,
                 'info',
-                'Starting Auto Apply using the browser tab where AutoCVApply is open.',
+                `Starting Auto Apply on ${platform} using the browser tab where AutoCVApply is open.`,
             );
         } else {
+            const sidePanelOpen = resolveSidePanelOpen(await chrome.storage.session.get([
+                'sidePanelOpen',
+                'sidePanelLastHeartbeatAt',
+            ]));
+
+            if (sidePanelOpen) {
+                throw new Error('Open a job board tab in the browser window where AutoCVApply is open, then press Start again.');
+            }
+
             session = appendAutoApplyLog(session, 'info', `Starting Auto Apply on ${platform}.`);
         }
 
@@ -5090,7 +5300,7 @@ export async function startAutoApply({
         await saveAutoApplySession(session);
         broadcastAutoApplyStatus(session);
 
-        activeRunPromise = (async () => {
+        const runPromise = (async () => {
             const profileData = await getProfileForAutoApply();
 
             return runAutoApplyLoop(session, runDraftAll, profileData);
@@ -5120,8 +5330,12 @@ export async function startAutoApply({
                 });
             })
             .finally(() => {
-                activeRunPromise = null;
+                if (activeRunPromise === runPromise) {
+                    activeRunPromise = null;
+                }
             });
+
+        activeRunPromise = runPromise;
 
         return loadAutoApplySession();
     };
@@ -5581,6 +5795,12 @@ export async function stopAutoApply() {
         return session;
     }
 
+    if (session.stopRequested) {
+        await forceResetAutoApply();
+
+        return null;
+    }
+
     const updated = await updateSession({
         stopRequested: true,
         pauseContext: null,
@@ -5594,10 +5814,53 @@ export async function stopAutoApply() {
     return updated;
 }
 
-export async function getAutoApplyStatus() {
+export async function reconcileOrphanedAutoApplySession() {
+    if (isAutoApplyRunning()) {
+        return loadAutoApplySession();
+    }
+
     const session = await loadAutoApplySession();
 
+    if (!session || !isActiveAutoApplyStatus(session.status)) {
+        return session;
+    }
+
+    const stopped = await updateSession((current) => buildStoppedSessionState(
+        appendAutoApplyLog(
+            current,
+            'warn',
+            'Auto Apply stopped because the extension restarted. Start again from the sidebar if you want to continue.',
+        ),
+        { clearLog: false },
+    ));
+
+    if (stopped) {
+        await finalizeAutoApplyAnalyticsSession(stopped);
+        broadcastAutoApplyStatus(stopped);
+    }
+
+    return stopped;
+}
+
+export async function getAutoApplyStatus() {
+    const session = await reconcileOrphanedAutoApplySession();
+
     return session ? sanitizeSessionForBroadcast(session) : null;
+}
+
+export async function stopAutoApplyForSidePanelClosed() {
+    if (isAutoApplyRunning()) {
+        await stopAutoApply();
+        await forceResetAutoApply();
+
+        return;
+    }
+
+    const session = await loadAutoApplySession();
+
+    if (session && isActiveAutoApplyStatus(session.status)) {
+        await forceResetAutoApply();
+    }
 }
 
 export async function resetAutoApplySession() {
@@ -5625,19 +5888,66 @@ export async function resetAutoApplySession() {
     });
 }
 
+const FORCE_RESET_WAIT_MS = 1000;
+
+export async function clearAutoApplyActivityLog() {
+    const session = await loadAutoApplySession();
+
+    if (!session) {
+        return null;
+    }
+
+    if (isAutoApplyRunning() || isActiveAutoApplyStatus(session.status)) {
+        const cleared = await updateSession((current) => ({
+            ...current,
+            log: [],
+            stats: {
+                found: 0,
+                applied: 0,
+                skipped: 0,
+                errors: 0,
+                draftAllRuns: 0,
+                stepsAdvanced: 0,
+                fitSkipped: 0,
+            },
+        }));
+
+        if (cleared) {
+            broadcastAutoApplyStatus(cleared);
+        }
+
+        return cleared;
+    }
+
+    if (isTerminalAutoApplyStatus(session.status)) {
+        await resetAutoApplySession();
+
+        return null;
+    }
+
+    return session;
+}
+
 export async function forceResetAutoApply() {
-    try {
-        await stopAutoApply();
-    } catch {
-        // Best-effort stop before reset.
+    const session = await loadAutoApplySession();
+
+    if (session && isActiveAutoApplyStatus(session.status)) {
+        const updated = await updateSession({
+            stopRequested: true,
+            pauseContext: null,
+            status: session.status === 'paused_for_input' ? 'running' : session.status,
+        });
+
+        if (updated) {
+            broadcastAutoApplyStatus(updated);
+        }
     }
 
     if (activeRunPromise) {
-        try {
-            await activeRunPromise;
-        } catch {
-            // Ignore failed runs while resetting.
-        }
+        await Promise.race([
+            activeRunPromise.catch(() => {}),
+            sleep(FORCE_RESET_WAIT_MS),
+        ]);
     }
 
     await resetAutoApplySession();
@@ -5719,6 +6029,7 @@ const {
     isWatchdogStuck,
     formatJobOutcomeLogMessage,
     appendAutoApplyLog,
+    waitForApplicationSubmitConfirmation,
 });
 
 const {
@@ -5764,4 +6075,5 @@ const {
     isWatchdogStuck,
     formatJobOutcomeLogMessage,
     appendAutoApplyLog,
+    waitForApplicationSubmitConfirmation,
 });

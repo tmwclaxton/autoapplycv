@@ -589,7 +589,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         ) || card;
 
         await clickElement(clickable);
-        await humanPause(900, 1500);
+        await humanPause(550, 900);
 
         const detailReady = await waitForJobDetailReady(target, 25_000);
 
@@ -667,7 +667,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
             if (applyButton) {
                 await clickElement(applyButton, { skipScroll: isElementMostlyVisible(applyButton) });
-                await humanPause(1200, 2200);
+                await humanPause(700, 1100);
 
                 return { success: true, easyApply: true };
             }
@@ -680,7 +680,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 };
             }
 
-            await humanPause(900, 1500);
+            await humanPause(550, 900);
         }
 
         return { success: false, error: 'Indeed Apply button not found on job page.' };
@@ -1004,6 +1004,22 @@ const AutoCVApplyIndeedAutoApply = (() => {
         return { selected: false };
     }
 
+    async function waitForSubmissionConfirmation(timeoutMs = 30_000) {
+        const deadline = Date.now() + timeoutMs;
+
+        while (Date.now() < deadline) {
+            const verify = verifySubmitted();
+
+            if (verify.submitted) {
+                return verify;
+            }
+
+            await humanPause(400, 650);
+        }
+
+        return verifySubmitted();
+    }
+
     async function clickContinueOrSubmit() {
         await acceptCookieConsent();
         await selectResumeCardIfNeeded();
@@ -1028,9 +1044,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
             if (submitButton && !submitButton.disabled && submitButton.getAttribute('aria-disabled') !== 'true') {
                 await clickElement(submitButton, { skipScroll: isElementMostlyVisible(submitButton) });
-                await humanPause(1400, 2400);
-
-                const verify = verifySubmitted();
+                const verify = await waitForSubmissionConfirmation();
 
                 return {
                     success: true,
@@ -1045,9 +1059,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
 
             if (submitButton) {
                 await clickElement(submitButton, { skipScroll: true, force: true });
-                await humanPause(1400, 2400);
-
-                const forcedVerify = verifySubmitted();
+                const forcedVerify = await waitForSubmissionConfirmation();
 
                 if (forcedVerify.submitted) {
                     return {
@@ -1231,7 +1243,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
         }
 
         await clickElement(nextLink);
-        await humanPause(1200, 2000);
+        await humanPause(800, 1300);
 
         return { success: true };
     }

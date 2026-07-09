@@ -60,6 +60,44 @@ export function pickSidePanelHostTab({ sidePanelOpen, hostTab, activeTabInWindow
 }
 
 /**
+ * Resolve the side panel host tab from explicit tab/window hints (e.g. side panel heartbeat or Start click).
+ *
+ * @param {{ tabId?: number|null, windowId?: number|null }} hint
+ * @returns {Promise<{ tabId: number, windowId: number }|null>}
+ */
+export async function resolveSidePanelHostFromHint({ tabId = null, windowId = null } = {}) {
+    /** @type {chrome.tabs.Tab|null} */
+    let hostTab = null;
+
+    if (typeof tabId === 'number') {
+        try {
+            hostTab = await chrome.tabs.get(tabId);
+        } catch {
+            hostTab = null;
+        }
+    }
+
+    /** @type {chrome.tabs.Tab|null} */
+    let activeTabInWindow = null;
+
+    const resolvedWindowId = typeof windowId === 'number'
+        ? windowId
+        : (typeof hostTab?.windowId === 'number' ? hostTab.windowId : null);
+
+    if (typeof resolvedWindowId === 'number') {
+        const [tab] = await chrome.tabs.query({ active: true, windowId: resolvedWindowId });
+
+        activeTabInWindow = tab || null;
+    }
+
+    return pickSidePanelHostTab({
+        sidePanelOpen: true,
+        hostTab,
+        activeTabInWindow,
+    });
+}
+
+/**
  * @param {Record<string, unknown>} storage
  * @returns {Promise<{ tabId: number, windowId: number }|null>}
  */

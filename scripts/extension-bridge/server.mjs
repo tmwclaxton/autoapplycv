@@ -13,15 +13,18 @@ import { runClickControl, runFindButtons } from './lib/bridge-actions.mjs';
 import {
     buildBridgeStatus,
     clearActiveTabOverride,
+    clearActiveWindowOverride,
     clearDefaultInstanceId,
     getInstance,
     listConnectedInstances,
     registerInstance,
     setActiveTabOverride,
+    setActiveWindowOverride,
     setDefaultInstanceId,
     unregisterInstance,
     updateInstanceStatus,
 } from './lib/instances.mjs';
+import { withResolvedCommandParams } from './lib/resolve-command-params.mjs';
 
 const config = resolveBridgeConfig();
 
@@ -44,32 +47,10 @@ function sendToExtension(instanceId, payload) {
 
 /**
  * @param {Record<string, unknown>} params
- * @param {{ activeTabOverride: number | null }} instance
- */
-function resolveTabId(params = {}, instance) {
-    if (typeof params.tabId === 'number') {
-        return params.tabId;
-    }
-
-    if (instance.activeTabOverride !== null) {
-        return instance.activeTabOverride;
-    }
-
-    return null;
-}
-
-/**
- * @param {Record<string, unknown>} params
- * @param {{ activeTabOverride: number | null }} instance
+ * @param {{ activeTabOverride: number | null, activeWindowOverride: number | null }} instance
  */
 function withResolvedTabId(params = {}, instance) {
-    const tabId = resolveTabId(params, instance);
-
-    if (tabId === null) {
-        return { ...params };
-    }
-
-    return { ...params, tabId };
+    return withResolvedCommandParams(params, instance);
 }
 
 /**
@@ -297,6 +278,27 @@ async function handleHttpRequest(req, res) {
                 : await readJsonBody(req);
             const activeTabOverride = clearActiveTabOverride(body.instanceId ?? null);
             sendJson(res, 200, { activeTabOverride, instanceId: getInstance(body.instanceId ?? null).instanceId });
+
+            return;
+        }
+
+        if (req.method === 'POST' && url.pathname === '/active-window') {
+            const body = await readJsonBody(req);
+            const activeWindowOverride = setActiveWindowOverride(
+                body.instanceId ?? null,
+                typeof body.windowId === 'number' ? body.windowId : null,
+            );
+            sendJson(res, 200, { activeWindowOverride, instanceId: getInstance(body.instanceId ?? null).instanceId });
+
+            return;
+        }
+
+        if (req.method === 'DELETE' && url.pathname === '/active-window') {
+            const body = req.headers['content-length'] === '0'
+                ? {}
+                : await readJsonBody(req);
+            const activeWindowOverride = clearActiveWindowOverride(body.instanceId ?? null);
+            sendJson(res, 200, { activeWindowOverride, instanceId: getInstance(body.instanceId ?? null).instanceId });
 
             return;
         }

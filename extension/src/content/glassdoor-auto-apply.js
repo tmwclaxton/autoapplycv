@@ -336,7 +336,7 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
                 };
             }
 
-            await humanPause(900, 1400);
+            await humanPause(550, 850);
         }
 
         return { success: false, error: 'Glassdoor Easy Apply button not found on job page.' };
@@ -370,7 +370,7 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
             || match.item;
 
         await clickElement(cardClickTarget);
-        await humanPause(1200, 1800);
+        await humanPause(700, 1100);
 
         return { success: true, jobId };
     }
@@ -498,7 +498,7 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         }
 
         await clickElement(next);
-        await humanPause(1200, 2000);
+        await humanPause(800, 1300);
 
         return { success: true };
     }

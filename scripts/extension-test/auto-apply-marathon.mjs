@@ -58,15 +58,15 @@ async function bridgeCommand(action, params = {}, timeoutMs = 120000) {
     const response = await fetch(`${BRIDGE}/command`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action, params, timeoutMs }),
+        body: JSON.stringify(body),
     });
-    const body = await response.json().catch(() => ({}));
+    const responseBody = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-        throw new Error(body.error || `HTTP ${response.status} for ${action}`);
+        throw new Error(responseBody.error || `HTTP ${response.status} for ${action}`);
     }
 
-    return body.result;
+    return responseBody.result;
 }
 
 async function bridgeCommandSafe(action, params = {}, timeoutMs = 120000) {

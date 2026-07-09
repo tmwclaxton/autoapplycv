@@ -7,15 +7,18 @@ import {
 } from './auto-apply-blockers.js';
 import {
     configureAutoApplyProfileLoader,
+    clearAutoApplyActivityLog,
     dismissFinishedAutoApplySession,
     getAutoApplyStatus,
     isAutoApplyRunning,
     rePauseAutoApplyForValidationRetry,
+    reconcileOrphanedAutoApplySession,
     resetAutoApplySession,
     resumeAutoApplyFromPause,
     startAutoApply,
     stopAutoApply,
     forceResetAutoApply,
+    stopAutoApplyForSidePanelClosed,
 } from './auto-apply-orchestrator.js';
 import { loadAutoApplySession } from './auto-apply-session.js';
 import { initExtensionBridge } from './bridge-client.js';
@@ -96,6 +99,7 @@ import { validateCvUpload, validateDocumentUpload } from './upload-validation.js
 
 void initDebugLog();
 configureAutoApplyProfileLoader(getProfile);
+void reconcileOrphanedAutoApplySession();
 
 let cachedProfile = null;
 let cacheTimestamp = 0;
@@ -618,7 +622,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'OPEN_SIDE_PANEL') {
-        openSidePanelForTab(sender.tab?.id).then(() => sendResponse({ success: true })).catch((err) => sendResponse({ error: err.message }));
+        resolveActiveTabId(sender.tab?.id)
+            .then((tabId) => openSidePanelForTab(tabId))
+            .then(sendResponse)
+            .catch((err) => sendResponse({ error: err.message }));
 
         return true;
     }
@@ -661,17 +668,32 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'AUTO_APPLY_START') {
-        startAutoApply({
-            platform: message.platform,
-            roleDescription: message.roleDescription,
-            maxApplications: message.maxApplications,
-            filters: message.filters || null,
-            fitCheckEnabled: message.fitCheckEnabled !== false,
-            minFitScore: message.minFitScore,
-            runDraftAll,
-        })
-            .then((session) => sendResponse({ success: true, session: session ? sanitizeAutoApplySessionResponse(session) : null }))
-            .catch((err) => sendResponse({ error: err.message }));
+        void (async () => {
+            if (typeof message.hostTabId === 'number' || typeof message.hostWindowId === 'number') {
+                await rememberSidePanelHostTab({
+                    tabId: message.hostTabId,
+                    windowId: message.hostWindowId,
+                });
+            }
+
+            try {
+                const session = await startAutoApply({
+                    platform: message.platform,
+                    roleDescription: message.roleDescription,
+                    maxApplications: message.maxApplications,
+                    filters: message.filters || null,
+                    fitCheckEnabled: message.fitCheckEnabled !== false,
+                    minFitScore: message.minFitScore,
+                    hostTabId: message.hostTabId ?? null,
+                    hostWindowId: message.hostWindowId ?? null,
+                    runDraftAll,
+                });
+
+                sendResponse({ success: true, session: session ? sanitizeAutoApplySessionResponse(session) : null });
+            } catch (err) {
+                sendResponse({ error: err.message });
+            }
+        })();
 
         return true;
     }
@@ -681,6 +703,31 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             .then((session) => sendResponse({
                 success: true,
                 session: session ? sanitizeAutoApplySessionResponse(session) : null,
+                running: isAutoApplyRunning(),
+            }))
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'AUTO_APPLY_FORCE_STOP') {
+        forceResetAutoApply()
+            .then(() => sendResponse({
+                success: true,
+                session: null,
+                running: false,
+            }))
+            .catch((err) => sendResponse({ error: err.message }));
+
+        return true;
+    }
+
+    if (message.type === 'AUTO_APPLY_CLEAR_ACTIVITY') {
+        clearAutoApplyActivityLog()
+            .then((session) => sendResponse({
+                success: true,
+                session: session ? sanitizeAutoApplySessionResponse(session) : null,
+                running: isAutoApplyRunning(),
             }))
             .catch((err) => sendResponse({ error: err.message }));
 
@@ -760,7 +807,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     }
 
     if (message.type === 'SIDE_PANEL_HEARTBEAT') {
-        recordSidePanelHeartbeat()
+        recordSidePanelHeartbeat({
+            tabId: message.tabId,
+            windowId: message.windowId,
+        })
             .then(() => sendResponse({ success: true }))
             .catch((err) => sendResponse({ error: err.message }));
 
@@ -878,18 +928,34 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     quickAnswerFocused(tab.id).catch(() => {});
 });
 
-async function resolveActiveTabId(preferredTabId) {
+async function resolveActiveTabId(preferredTabId, preferredWindowId) {
     if (preferredTabId) {
         return preferredTabId;
     }
 
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    const query = typeof preferredWindowId === 'number'
+        ? { active: true, windowId: preferredWindowId }
+        : { active: true, currentWindow: true };
+
+    const [tab] = await chrome.tabs.query(query);
 
     if (!tab?.id) {
+        if (typeof preferredWindowId === 'number') {
+            throw new Error(`No active tab found in window ${preferredWindowId}.`);
+        }
+
         throw new Error('No active tab found.');
     }
 
     return tab.id;
+}
+
+async function getSidePanelStateResponse() {
+    const storage = await chrome.storage.session.get(['sidePanelOpen', 'sidePanelLastHeartbeatAt']);
+
+    return {
+        sidePanelOpen: resolveSidePanelOpen(storage),
+    };
 }
 
 async function openSidePanelForTab(tabId) {
@@ -897,9 +963,50 @@ async function openSidePanelForTab(tabId) {
         throw new Error('Open a job application tab first.');
     }
 
-    if (chrome.sidePanel?.open) {
-        await chrome.sidePanel.open({ tabId });
+    if (!chrome.sidePanel?.open) {
+        throw new Error('Side panel API is not available in this browser.');
     }
+
+    const tab = await chrome.tabs.get(tabId);
+
+    await chrome.sidePanel.open({
+        tabId,
+        windowId: tab.windowId,
+    });
+
+    await rememberSidePanelHostTab({
+        tabId,
+        windowId: tab.windowId,
+    });
+
+    return {
+        success: true,
+        tabId,
+        windowId: tab.windowId,
+        ...(await getSidePanelStateResponse()),
+    };
+}
+
+async function closeSidePanelForWindow(windowId = null) {
+    let resolvedWindowId = windowId;
+
+    if (typeof resolvedWindowId !== 'number') {
+        const tabId = await resolveActiveTabId();
+        const tab = await chrome.tabs.get(tabId);
+        resolvedWindowId = tab.windowId;
+    }
+
+    if (chrome.sidePanel?.close) {
+        await chrome.sidePanel.close({ windowId: resolvedWindowId });
+    } else {
+        await markSidePanelClosed();
+    }
+
+    return {
+        success: true,
+        windowId: resolvedWindowId,
+        ...(await getSidePanelStateResponse()),
+    };
 }
 
 async function buildAutofillSettings() {
@@ -2366,13 +2473,17 @@ async function postAssist(path, body) {
     return data;
 }
 
-async function recordSidePanelHeartbeat() {
+async function recordSidePanelHeartbeat({ tabId = null, windowId = null } = {}) {
     const { sidePanelOpen: wasOpen } = await chrome.storage.session.get(['sidePanelOpen']);
 
     await chrome.storage.session.set({
         sidePanelOpen: true,
         sidePanelLastHeartbeatAt: Date.now(),
     });
+
+    if (typeof tabId === 'number' || typeof windowId === 'number') {
+        await rememberSidePanelHostTab({ tabId, windowId });
+    }
 
     if (wasOpen !== true) {
         await broadcastAutofillVisibility();
@@ -2393,6 +2504,8 @@ async function markSidePanelClosed() {
         await broadcastAutofillVisibility();
     }
 
+    await stopAutoApplyForSidePanelClosed();
+    await clearLogs();
     await dismissFinishedAutoApplySession();
 }
 
@@ -2588,8 +2701,8 @@ function assertBridgeNavigableUrl(url) {
     return parsed.toString();
 }
 
-async function bridgeWaitForTab(tabId, { urlIncludes = null, timeoutMs = 30000 } = {}) {
-    const resolvedTabId = await resolveActiveTabId(tabId);
+async function bridgeWaitForTab(tabId, { windowId = null, urlIncludes = null, timeoutMs = 30000 } = {}) {
+    const resolvedTabId = await resolveActiveTabId(tabId, windowId);
     const deadline = Date.now() + Math.max(0, Number(timeoutMs) || 0);
 
     while (Date.now() < deadline) {
@@ -2645,9 +2758,9 @@ async function bridgeFindControlRef(tabId, frameId, name) {
     return control;
 }
 
-async function bridgeBuildAuthStatus(tabId) {
+async function bridgeBuildAuthStatus(tabId, windowId = null) {
     const { apiToken, apiBase } = await chrome.storage.local.get(['apiToken', 'apiBase']);
-    const resolvedTabId = await resolveActiveTabId(tabId);
+    const resolvedTabId = await resolveActiveTabId(tabId, windowId);
     const tab = await chrome.tabs.get(resolvedTabId);
     const loginPending = bridgeDetectLoginUrl(tab.url || '');
 
@@ -2673,15 +2786,15 @@ async function bridgeBuildAuthStatus(tabId) {
 initExtensionBridge({
     resolveActiveTabId,
     handlers: {
-        get_status: async () => bridgeBuildAuthStatus(),
-        get_page_html: async ({ tabId, frameId }) => {
-            const resolvedTabId = await resolveActiveTabId(tabId);
+        get_status: async ({ tabId, windowId } = {}) => bridgeBuildAuthStatus(tabId, windowId),
+        get_page_html: async ({ tabId, windowId, frameId }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
             const resolvedFrameId = typeof frameId === 'number' ? frameId : 0;
 
             return sendTabMessage(resolvedTabId, { type: 'GET_PAGE_HTML' }, resolvedFrameId);
         },
-        get_field_inventory: async ({ tabId, frameId }) => {
-            const resolvedTabId = await resolveActiveTabId(tabId);
+        get_field_inventory: async ({ tabId, windowId, frameId }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
             let profilePayload = null;
 
             try {
@@ -2705,8 +2818,10 @@ initExtensionBridge({
 
             return { success: true };
         },
-        list_tabs: async () => {
-            const tabs = await chrome.tabs.query({});
+        list_tabs: async ({ windowId } = {}) => {
+            const tabs = await chrome.tabs.query(
+                typeof windowId === 'number' ? { windowId } : {},
+            );
 
             return tabs
                 .filter((tab) => typeof tab.url === 'string' && /^https?:/i.test(tab.url))
@@ -2718,8 +2833,32 @@ initExtensionBridge({
                     windowId: tab.windowId,
                 }));
         },
-        activate_tab: async ({ tabId }) => {
-            const resolvedTabId = await resolveActiveTabId(tabId);
+        list_windows: async () => {
+            const windows = await chrome.windows.getAll({ populate: true });
+
+            return windows.map((win) => {
+                const httpTabs = (win.tabs || []).filter(
+                    (tab) => typeof tab.url === 'string' && /^https?:/i.test(tab.url),
+                );
+                const focusedTab = (win.tabs || []).find((tab) => tab.active) ?? null;
+
+                return {
+                    id: win.id,
+                    focused: win.focused ?? false,
+                    state: win.state ?? 'normal',
+                    tabCount: httpTabs.length,
+                    activeTab: focusedTab
+                        ? {
+                            id: focusedTab.id,
+                            url: focusedTab.url ?? null,
+                            title: focusedTab.title ?? '',
+                        }
+                        : null,
+                };
+            });
+        },
+        activate_tab: async ({ tabId, windowId }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
             await chrome.tabs.update(resolvedTabId, { active: true });
             const tab = await chrome.tabs.get(resolvedTabId);
 
@@ -2729,11 +2868,25 @@ initExtensionBridge({
                 title: tab.title ?? '',
             };
         },
-        navigate_tab: async ({ tabId, url, newTab = false }) => {
+        open_side_panel: async ({ tabId, windowId }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
+
+            return openSidePanelForTab(resolvedTabId);
+        },
+        close_side_panel: async ({ windowId }) => closeSidePanelForWindow(
+            typeof windowId === 'number' ? windowId : null,
+        ),
+        navigate_tab: async ({ tabId, windowId, url, newTab = false }) => {
             const destination = assertBridgeNavigableUrl(url);
 
             if (newTab) {
-                const tab = await chrome.tabs.create({ url: destination, active: true });
+                const createOptions = { url: destination, active: true };
+
+                if (typeof windowId === 'number') {
+                    createOptions.windowId = windowId;
+                }
+
+                const tab = await chrome.tabs.create(createOptions);
 
                 return {
                     tabId: tab.id,
@@ -2743,7 +2896,7 @@ initExtensionBridge({
                 };
             }
 
-            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
             await chrome.tabs.update(resolvedTabId, { url: destination, active: true });
 
             return {
@@ -2752,16 +2905,17 @@ initExtensionBridge({
                 newTab: false,
             };
         },
-        wait_for_tab: async ({ tabId, urlIncludes = null, timeoutMs = 30000 }) => bridgeWaitForTab(tabId, {
+        wait_for_tab: async ({ tabId, windowId, urlIncludes = null, timeoutMs = 30000 }) => bridgeWaitForTab(tabId, {
+            windowId,
             urlIncludes: urlIncludes || null,
             timeoutMs,
         }),
-        click_ref: async ({ tabId, frameId, ref }) => {
+        click_ref: async ({ tabId, windowId, frameId, ref }) => {
             if (!ref) {
                 throw new Error('ref is required.');
             }
 
-            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
             const result = await clickInventoryRefOnTab(resolvedTabId, ref, frameId);
 
             return {
@@ -2769,8 +2923,8 @@ initExtensionBridge({
                 ref,
             };
         },
-        click_control_inventory: async ({ tabId, frameId, name }) => {
-            const resolvedTabId = await resolveActiveTabId(tabId);
+        click_control_inventory: async ({ tabId, windowId, frameId, name }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
             const control = await bridgeFindControlRef(resolvedTabId, frameId, name);
             const result = await clickInventoryRefOnTab(resolvedTabId, control.ref, frameId);
 
@@ -2779,12 +2933,12 @@ initExtensionBridge({
                 control,
             };
         },
-        click_text: async ({ tabId, frameId, text }) => {
+        click_text: async ({ tabId, windowId, frameId, text }) => {
             if (!text || typeof text !== 'string') {
                 throw new Error('text is required.');
             }
 
-            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
             const resolvedFrameId = typeof frameId === 'number' ? frameId : await findBestFormFrameId(resolvedTabId);
 
             return sendTabMessage(resolvedTabId, {
@@ -2792,12 +2946,12 @@ initExtensionBridge({
                 text,
             }, resolvedFrameId);
         },
-        click_selector: async ({ tabId, frameId, selector }) => {
+        click_selector: async ({ tabId, windowId, frameId, selector }) => {
             if (!selector || typeof selector !== 'string') {
                 throw new Error('selector is required.');
             }
 
-            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
             const resolvedFrameId = typeof frameId === 'number' ? frameId : await findBestFormFrameId(resolvedTabId);
 
             return sendTabMessage(resolvedTabId, {
@@ -2805,24 +2959,24 @@ initExtensionBridge({
                 selector,
             }, resolvedFrameId);
         },
-        read_field_values: async ({ tabId, frameId }) => {
-            const resolvedTabId = await resolveActiveTabId(tabId);
+        read_field_values: async ({ tabId, windowId, frameId }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
             const resolvedFrameId = typeof frameId === 'number' ? frameId : await findBestFormFrameId(resolvedTabId);
 
             return sendTabMessage(resolvedTabId, {
                 type: 'BRIDGE_READ_FIELD_VALUES',
             }, resolvedFrameId);
         },
-        read_form_validation: async ({ tabId, frameId, triggerValidation = true }) => {
-            const resolvedTabId = await resolveActiveTabId(tabId);
+        read_form_validation: async ({ tabId, windowId, frameId, triggerValidation = true }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
             const resolvedFrameId = typeof frameId === 'number' ? frameId : await findBestFormFrameId(resolvedTabId);
 
             return scanFormValidationOnTab(resolvedTabId, resolvedFrameId, {
                 triggerValidation: triggerValidation !== false,
             });
         },
-        apply_answer: async ({ tabId, frameId, ref, label, answer, field_type, dom, data_field_path }) => {
-            const resolvedTabId = await resolveActiveTabId(tabId);
+        apply_answer: async ({ tabId, windowId, frameId, ref, label, answer, field_type, dom, data_field_path }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
 
             if (!ref && !label) {
                 throw new Error('ref or label is required.');
@@ -2842,71 +2996,71 @@ initExtensionBridge({
                 label: label || null,
             };
         },
-        start_draft_all: async ({ tabId }) => {
-            const resolvedTabId = await resolveActiveTabId(tabId);
+        start_draft_all: async ({ tabId, windowId }) => {
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
 
             return runDraftAll(resolvedTabId);
         },
-        indeed_tab_message: async ({ tabId, type, ...messageParams }) => {
+        indeed_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }
 
-            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
-        totaljobs_tab_message: async ({ tabId, type, ...messageParams }) => {
+        totaljobs_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }
 
-            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
-        glassdoor_tab_message: async ({ tabId, type, ...messageParams }) => {
+        glassdoor_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }
 
-            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
-        simplyhired_tab_message: async ({ tabId, type, ...messageParams }) => {
+        simplyhired_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }
 
-            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
-        reed_tab_message: async ({ tabId, type, ...messageParams }) => {
+        reed_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }
 
-            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
-        cvlibrary_tab_message: async ({ tabId, type, ...messageParams }) => {
+        cvlibrary_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }
 
-            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
-        linkedin_tab_message: async ({ tabId, type, ...messageParams }) => {
+        linkedin_tab_message: async ({ tabId, windowId, type, ...messageParams }) => {
             if (!type || typeof type !== 'string') {
                 throw new Error('type is required.');
             }
 
-            const resolvedTabId = await resolveActiveTabId(tabId);
+            const resolvedTabId = await resolveActiveTabId(tabId, windowId);
 
             return sendTabMessage(resolvedTabId, { type, ...messageParams }, 0);
         },
@@ -2986,12 +3140,12 @@ initExtensionBridge({
                 message: 'Extension reload scheduled.',
             };
         },
-        request_auth: async ({ tabId, waitMs = 0 }) => {
+        request_auth: async ({ tabId, windowId, waitMs = 0 }) => {
             const timeoutMs = Math.max(0, Number(waitMs) || 0);
             const deadline = Date.now() + timeoutMs;
 
             do {
-                const status = await bridgeBuildAuthStatus(tabId);
+                const status = await bridgeBuildAuthStatus(tabId, windowId);
 
                 if (status.state !== 'pending' || timeoutMs <= 0) {
                     return status;
@@ -3000,7 +3154,7 @@ initExtensionBridge({
                 await bridgeSleep(500);
             } while (Date.now() < deadline);
 
-            return bridgeBuildAuthStatus(tabId);
+            return bridgeBuildAuthStatus(tabId, windowId);
         },
     },
 });

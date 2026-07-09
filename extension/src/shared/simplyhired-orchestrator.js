@@ -49,6 +49,7 @@ export function createSimplyHiredOrchestrator(deps) {
         isWatchdogStuck,
         formatJobOutcomeLogMessage,
         appendAutoApplyLog,
+        waitForApplicationSubmitConfirmation,
     } = deps;
 
     async function sendSimplyHiredMessage(tabId, type, payload = {}, options = {}) {
@@ -66,14 +67,14 @@ export function createSimplyHiredOrchestrator(deps) {
 
                     try {
                         await waitForSimplyHiredContentScript(tabId);
-                        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1200));
+                        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
                         await sendTabMessage(tabId, { type: 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
                     } catch {
                         try {
                             await chrome.tabs.reload(tabId);
                             await waitForTabLoadComplete(tabId);
                             await waitForSimplyHiredContentScript(tabId);
-                            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1200));
+                            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 700));
                             await sendTabMessage(tabId, { type: 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT' }, 0).catch(() => {});
                         } catch {
                             // Fall through to retry send on next loop iteration.
@@ -105,7 +106,7 @@ export function createSimplyHiredOrchestrator(deps) {
             await openUrlInAutoApplyWindow(searchUrl, tabId);
             await waitForTabLoadComplete(tabId);
             await waitForSimplyHiredContentScript(tabId);
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
             await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT').catch(() => {});
             await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_PREPARE_JOB_SEARCH').catch(() => {});
 
@@ -117,7 +118,7 @@ export function createSimplyHiredOrchestrator(deps) {
 
             await waitForTabLoadComplete(tabId);
             await waitForSimplyHiredContentScript(tabId);
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 550));
 
             return tabId;
         }
@@ -280,7 +281,7 @@ export function createSimplyHiredOrchestrator(deps) {
         tabId = await returnToSimplyHiredSearch(tabId, session);
         await waitForSimplyHiredContentScript(tabId);
         await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_PREPARE_JOB_SEARCH').catch(() => {});
-        await sleep(randomDelay(1400, 900));
+        await sleep(randomDelay(850, 550));
 
         let selectResponse = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_SELECT_JOB', { jobId: job.jobId });
 
@@ -292,7 +293,7 @@ export function createSimplyHiredOrchestrator(deps) {
             tabId = await openUrlInAutoApplyWindow(jobUrl, tabId);
             await waitForTabLoadComplete(tabId);
             await waitForSimplyHiredContentScript(tabId);
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1100));
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 650));
             await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
             await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT').catch(() => {});
             selectResponse = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId });
@@ -458,7 +459,7 @@ export function createSimplyHiredOrchestrator(deps) {
         }
 
         if (!openResult.navigated) {
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 800));
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 500));
         }
 
         await captureJobPage(tabId);
@@ -524,7 +525,7 @@ export function createSimplyHiredOrchestrator(deps) {
             };
         }
 
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 2000));
+        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1000));
         invalidateTabFrameCache(tabId);
 
         const iframeDeadline = Date.now() + 30_000;
@@ -623,16 +624,18 @@ export function createSimplyHiredOrchestrator(deps) {
                 }
 
                 if (!advanceResponse?.submitted && advanceResponse?.action === 'submit') {
-                    const verifyDeadline = Date.now() + 6_000;
+                    const confirmResult = await waitForApplicationSubmitConfirmation(
+                        tabId,
+                        SIMPLYHIRED_PLATFORM_ID,
+                        session,
+                    );
 
-                    while (Date.now() < verifyDeadline) {
-                        await sleep(1000);
-                        const confirmVerify = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_VERIFY_SUBMITTED' });
+                    if (confirmResult.stopped) {
+                        return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    }
 
-                        if (confirmVerify?.submitted) {
-                            submitted = true;
-                            break;
-                        }
+                    if (confirmResult.submitted) {
+                        submitted = true;
                     }
                 } else if (advanceResponse?.submitted) {
                     submitted = true;
@@ -665,7 +668,7 @@ export function createSimplyHiredOrchestrator(deps) {
                 break;
             }
 
-            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 400));
 
             const draftResult = await runDraftAllForStep(
                 tabId,
@@ -700,11 +703,17 @@ export function createSimplyHiredOrchestrator(deps) {
                 );
 
                 if (!advanceResponse.submitted) {
-                    await sleep(randomDelay(1200, 600));
-                    const confirmState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' });
-                    const confirmVerify = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_VERIFY_SUBMITTED' });
+                    const confirmResult = await waitForApplicationSubmitConfirmation(
+                        tabId,
+                        SIMPLYHIRED_PLATFORM_ID,
+                        session,
+                    );
 
-                    if (confirmState?.submitted || confirmVerify?.submitted) {
+                    if (confirmResult.stopped) {
+                        return { outcome: 'stopped', reason: 'user_input_stop', tabId };
+                    }
+
+                    if (confirmResult.submitted) {
                         submitted = true;
                         break;
                     }

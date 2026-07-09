@@ -3,12 +3,14 @@ import assert from 'node:assert/strict';
 import { afterEach, describe, it } from 'node:test';
 import {
     buildBridgeStatus,
+    clearActiveWindowOverride,
     getInstance,
     registerInstance,
     resetBridgeInstancesForTests,
     resolveInstanceId,
     setDefaultInstanceId,
     setActiveTabOverride,
+    setActiveWindowOverride,
     unregisterInstance,
 } from './lib/instances.mjs';
 
@@ -56,6 +58,32 @@ describe('extension bridge instances', () => {
 
         assert.equal(getInstance('worker-a').activeTabOverride, 101);
         assert.equal(getInstance('worker-b').activeTabOverride, 202);
+    });
+
+    it('keeps active window overrides per instance', () => {
+        registerInstance('worker-a', mockWs());
+        registerInstance('worker-b', mockWs());
+
+        setActiveWindowOverride('worker-a', 1001);
+        setActiveWindowOverride('worker-b', 2002);
+
+        assert.equal(getInstance('worker-a').activeWindowOverride, 1001);
+        assert.equal(getInstance('worker-b').activeWindowOverride, 2002);
+
+        clearActiveWindowOverride('worker-a');
+        assert.equal(getInstance('worker-a').activeWindowOverride, null);
+        assert.equal(getInstance('worker-b').activeWindowOverride, 2002);
+    });
+
+    it('includes active window override in bridge status', () => {
+        const ws = mockWs();
+        registerInstance('worker-a', ws);
+        setActiveWindowOverride('worker-a', 55);
+
+        const status = buildBridgeStatus();
+
+        assert.equal(status.activeWindowOverride, 55);
+        assert.equal(status.instances[0].activeWindowOverride, 55);
     });
 
     it('unregisters instances when their socket closes', () => {

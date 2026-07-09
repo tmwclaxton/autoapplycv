@@ -6,6 +6,7 @@
  *   ws: import('ws').WebSocket,
  *   lastStatus: Record<string, unknown> | null,
  *   activeTabOverride: number | null,
+ *   activeWindowOverride: number | null,
  *   connectedAt: number,
  *   extensionVersion: string | null,
  *   instanceLabel: string | null,
@@ -48,6 +49,7 @@ export function registerInstance(instanceId, ws, metadata = {}) {
         ws,
         lastStatus: null,
         activeTabOverride: existing?.activeTabOverride ?? null,
+        activeWindowOverride: existing?.activeWindowOverride ?? null,
         connectedAt: Date.now(),
         extensionVersion: metadata.extensionVersion ?? null,
         instanceLabel: metadata.instanceLabel ?? null,
@@ -149,7 +151,7 @@ export function resolveInstanceId(explicitId) {
 
 /**
  * @param {string | null | undefined} instanceId
- * @returns {{ instanceId: string, ws: import('ws').WebSocket, lastStatus: Record<string, unknown> | null, activeTabOverride: number | null, connectedAt: number, extensionVersion: string | null, instanceLabel: string | null }}
+ * @returns {{ instanceId: string, ws: import('ws').WebSocket, lastStatus: Record<string, unknown> | null, activeTabOverride: number | null, activeWindowOverride: number | null, connectedAt: number, extensionVersion: string | null, instanceLabel: string | null }}
  */
 export function getInstance(instanceId) {
     const resolvedId = resolveInstanceId(instanceId);
@@ -212,6 +214,39 @@ export function clearActiveTabOverride(instanceId) {
     return null;
 }
 
+/**
+ * @param {string | null | undefined} instanceId
+ * @param {number | null} windowId
+ */
+export function setActiveWindowOverride(instanceId, windowId) {
+    const instance = getInstance(instanceId);
+    const record = instances.get(instance.instanceId);
+
+    if (!record) {
+        throw new Error(`Extension instance "${instance.instanceId}" is not connected.`);
+    }
+
+    record.activeWindowOverride = windowId;
+
+    return record.activeWindowOverride;
+}
+
+/**
+ * @param {string | null | undefined} instanceId
+ */
+export function clearActiveWindowOverride(instanceId) {
+    const instance = getInstance(instanceId);
+    const record = instances.get(instance.instanceId);
+
+    if (!record) {
+        throw new Error(`Extension instance "${instance.instanceId}" is not connected.`);
+    }
+
+    record.activeWindowOverride = null;
+
+    return null;
+}
+
 export function listConnectedInstances() {
     return connectedEntries().map(([id, instance]) => ({
         instanceId: id,
@@ -219,6 +254,7 @@ export function listConnectedInstances() {
         extensionVersion: instance.extensionVersion,
         connectedAt: instance.connectedAt,
         activeTabOverride: instance.activeTabOverride,
+        activeWindowOverride: instance.activeWindowOverride,
         status: instance.lastStatus,
     }));
 }
@@ -237,6 +273,9 @@ export function buildBridgeStatus() {
         instanceCount: connected.length,
         defaultInstanceId: resolvedDefault,
         activeTabOverride: activeInstance?.activeTabOverride ?? null,
+        activeWindowOverride: activeInstance?.activeWindowOverride ?? null,
+        activeWindowId: activeInstance?.lastStatus?.activeWindowId ?? null,
+        windowCount: activeInstance?.lastStatus?.windowCount ?? null,
         extension: activeInstance?.lastStatus ?? connected[0]?.status ?? null,
         instances: connected,
     };
