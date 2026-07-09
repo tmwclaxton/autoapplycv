@@ -84,6 +84,11 @@ import {
 } from './pending-fields.js';
 import { createPerfTimer } from './perf-timer.js';
 import {
+    clearSidePanelHostTab,
+    isInjectableBrowserTabUrl,
+    rememberSidePanelHostTab,
+} from './side-panel-host-tab.js';
+import {
     buildSidePanelVisibilityMessage,
     resolveSidePanelOpen,
 } from './side-panel-state.js';
@@ -304,8 +309,12 @@ function configureSidePanel() {
 
     chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch(() => {});
 
-    chrome.sidePanel.onOpened?.addListener(() => {
+    chrome.sidePanel.onOpened?.addListener((info) => {
         recordSidePanelHeartbeat().catch(() => {});
+        rememberSidePanelHostTab({
+            tabId: info.tabId,
+            windowId: info.windowId,
+        }).catch(() => {});
     });
 
     chrome.sidePanel.onClosed?.addListener(() => {
@@ -381,17 +390,7 @@ let draftAllRunning = false;
 let sidePanelPort = null;
 
 function isInjectableTabUrl(url) {
-    if (!url) {
-        return false;
-    }
-
-    try {
-        const { protocol } = new URL(url);
-
-        return protocol === 'http:' || protocol === 'https:';
-    } catch {
-        return false;
-    }
+    return isInjectableBrowserTabUrl(url);
 }
 
 async function notifyTabOverlayVisibility(tabId) {
@@ -423,8 +422,16 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
         .catch(() => {});
 });
 
-chrome.tabs.onActivated.addListener(({ tabId }) => {
-    notifyTabOverlayVisibility(tabId);
+chrome.tabs.onActivated.addListener(({ tabId, windowId }) => {
+    void (async () => {
+        const storage = await chrome.storage.session.get(['sidePanelOpen', 'sidePanelLastHeartbeatAt']);
+
+        if (resolveSidePanelOpen(storage)) {
+            await rememberSidePanelHostTab({ tabId, windowId });
+        }
+
+        await notifyTabOverlayVisibility(tabId);
+    })();
 });
 
 async function deliverDraftBatchAnswersToSidepanel(payload) {
@@ -2379,6 +2386,8 @@ async function markSidePanelClosed() {
         sidePanelOpen: false,
         sidePanelLastHeartbeatAt: 0,
     });
+
+    await clearSidePanelHostTab();
 
     if (wasOpen !== false) {
         await broadcastAutofillVisibility();

@@ -108,9 +108,23 @@ function sendJson(payload) {
     return true;
 }
 
+async function readInstanceIdentity() {
+    const stored = await chrome.storage.local.get([
+        'EXTENSION_BRIDGE_INSTANCE_ID',
+        'EXTENSION_BRIDGE_INSTANCE_LABEL',
+    ]);
+
+    return {
+        instanceId: stored.EXTENSION_BRIDGE_INSTANCE_ID || chrome.runtime.id,
+        instanceLabel: stored.EXTENSION_BRIDGE_INSTANCE_LABEL || null,
+    };
+}
+
 async function buildStatusPayload() {
     const { apiToken, apiBase } = await chrome.storage.local.get(['apiToken', 'apiBase']);
+    const { instanceId, instanceLabel } = await readInstanceIdentity();
     let activeTab = null;
+    let windowCount = 0;
 
     try {
         if (resolveActiveTabIdFn) {
@@ -120,17 +134,28 @@ async function buildStatusPayload() {
                 id: tab.id,
                 url: tab.url ?? null,
                 title: tab.title ?? null,
+                windowId: tab.windowId ?? null,
             };
         }
     } catch {
         activeTab = null;
     }
 
+    try {
+        const windows = await chrome.windows.getAll();
+        windowCount = windows.length;
+    } catch {
+        windowCount = 0;
+    }
+
     return {
         connected: socket?.readyState === WebSocket.OPEN,
+        instanceId,
+        instanceLabel,
         tokenSet: Boolean(apiToken),
         apiBase: apiBase ?? null,
         activeTab,
+        windowCount,
         extensionVersion: chrome.runtime.getManifest().version,
     };
 }
@@ -187,10 +212,14 @@ function attachSocketHandlers(ws) {
             url: bridgeWsUrl(),
         });
 
-        sendJson({
-            type: 'hello',
-            version: 1,
-            extensionVersion: chrome.runtime.getManifest().version,
+        void readInstanceIdentity().then(({ instanceId, instanceLabel }) => {
+            sendJson({
+                type: 'hello',
+                version: 2,
+                instanceId,
+                instanceLabel,
+                extensionVersion: chrome.runtime.getManifest().version,
+            });
         });
 
         void pushStatus();
@@ -314,7 +343,22 @@ export function initExtensionBridge({ resolveActiveTabId, handlers }) {
             return;
         }
 
-        if (changes.apiBase || changes.EXTENSION_BRIDGE_ENABLED || changes.apiToken) {
+        if (
+            changes.apiBase
+            || changes.EXTENSION_BRIDGE_ENABLED
+            || changes.apiToken
+            || changes.EXTENSION_BRIDGE_INSTANCE_ID
+            || changes.EXTENSION_BRIDGE_INSTANCE_LABEL
+        ) {
+            if (
+                bridgeEnabled
+                && socket?.readyState === WebSocket.OPEN
+                && (changes.EXTENSION_BRIDGE_INSTANCE_ID || changes.EXTENSION_BRIDGE_INSTANCE_LABEL)
+            ) {
+                socket.close();
+                socket = null;
+            }
+
             void refreshBridgeState();
 
             if (bridgeEnabled && socket?.readyState === WebSocket.OPEN) {

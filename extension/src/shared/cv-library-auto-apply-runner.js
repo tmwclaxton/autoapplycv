@@ -22,6 +22,8 @@ export async function runCvLibraryAutoApplyLoop(ctx, initialSession, runDraftAll
         logSession,
         finalizeAutoApplyAnalyticsSession,
         shouldStop,
+        finalizeStoppedSession,
+        interruptibleSleep,
         isWatchdogStuck,
         markWatchdogProgress,
         formatJobOutcomeLogMessage,
@@ -29,7 +31,6 @@ export async function runCvLibraryAutoApplyLoop(ctx, initialSession, runDraftAll
         appendAutoApplyLog,
         randomDelay,
         AUTO_APPLY_DELAY_MS,
-        sleep,
     } = ctx;
 
     resetWatchdog();
@@ -48,7 +49,7 @@ export async function runCvLibraryAutoApplyLoop(ctx, initialSession, runDraftAll
         throw new Error('No CV-Library Easy Apply job listings found on the search page.');
     }
 
-    await logSession('info', `Found ${session.queue.length} jobs on CV-Library.`);
+    await logSession('info', `Found ${session.queue.length} jobs (Easy Apply filter enabled).`);
 
     while ((await loadAutoApplySession())?.stats.applied < session.maxApplications) {
         session = await loadAutoApplySession();
@@ -58,12 +59,7 @@ export async function runCvLibraryAutoApplyLoop(ctx, initialSession, runDraftAll
         }
 
         if (session.stopRequested) {
-            session = await updateSession({
-                status: 'stopped',
-                finishedAt: new Date().toISOString(),
-            }) || session;
-            await logSession('warn', 'Auto Apply stopped.');
-            await finalizeAutoApplyAnalyticsSession(session);
+            await finalizeStoppedSession();
 
             return;
         }
@@ -85,6 +81,12 @@ export async function runCvLibraryAutoApplyLoop(ctx, initialSession, runDraftAll
         }
 
         if (isWatchdogStuck(session)) {
+            if (await shouldStop(session)) {
+                await finalizeStoppedSession();
+
+                return;
+            }
+
             tabId = await recoverCvLibraryTab(tabId, session, 'No CV-Library Auto Apply progress detected');
             session = await updateSession({ tabId }) || session;
             markWatchdogProgress(session);
@@ -103,12 +105,7 @@ export async function runCvLibraryAutoApplyLoop(ctx, initialSession, runDraftAll
             }
 
             if (result.outcome === 'stopped') {
-                session = await updateSession({
-                    status: 'stopped',
-                    finishedAt: new Date().toISOString(),
-                }) || session;
-                await logSession('warn', 'Auto Apply stopped while waiting for input.');
-                await finalizeAutoApplyAnalyticsSession(session);
+                await finalizeStoppedSession();
 
                 return;
             }
@@ -146,12 +143,22 @@ export async function runCvLibraryAutoApplyLoop(ctx, initialSession, runDraftAll
             }, tabId);
 
             session = await updateSession((current) => {
-                const stats = { ...current.stats, errors: current.stats.errors + 1 };
-                const withLog = appendAutoApplyLog(current, 'error', `${job.title}: ${error.message}`);
+                const withLog = appendAutoApplyLog(
+                    current,
+                    'error',
+                    formatJobOutcomeLogMessage(job, {
+                        outcome: 'error',
+                        reason: 'error',
+                        detail: error.message || 'Auto Apply job failed.',
+                    }),
+                );
 
                 return {
                     ...withLog,
-                    stats,
+                    stats: {
+                        ...withLog.stats,
+                        errors: withLog.stats.errors + 1,
+                    },
                     currentIndex: current.currentIndex + 1,
                 };
             }) || session;
@@ -161,22 +168,24 @@ export async function runCvLibraryAutoApplyLoop(ctx, initialSession, runDraftAll
 
         try {
             tabId = await returnToCvLibrarySearch(tabId, session);
+            session = await updateSession({ tabId }) || session;
         } catch {
             // Best-effort return to search between jobs.
         }
 
         if (await shouldStop(session)) {
-            session = await updateSession({
-                status: 'stopped',
-                finishedAt: new Date().toISOString(),
-            }) || session;
-            await logSession('warn', 'Auto Apply stopped.');
-            await finalizeAutoApplyAnalyticsSession(session);
+            await finalizeStoppedSession();
 
             return;
         }
 
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
+        const slept = await interruptibleSleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
+
+        if (!slept) {
+            await finalizeStoppedSession();
+
+            return;
+        }
     }
 
     session = await loadAutoApplySession();

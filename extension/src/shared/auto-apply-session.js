@@ -42,6 +42,7 @@ const STORAGE_KEY = 'autoApplySession';
  * @property {string} roleDescription
  * @property {number|null} tabId
  * @property {number|null} windowId
+ * @property {boolean} usesDedicatedWindow
  * @property {number} maxApplications
  * @property {AutoApplySearchFilters|null} filters
  * @property {boolean} fitCheckEnabled
@@ -117,10 +118,17 @@ export function createInitialSession({
  * @returns {AutoApplySession}
  */
 export function appendAutoApplyLog(session, level, message) {
+    const normalizedMessage = String(message || '').trim();
+    const lastEntry = session.log?.[session.log.length - 1];
+
+    if (lastEntry?.message === normalizedMessage && Date.now() - lastEntry.ts < 5000) {
+        return session;
+    }
+
     const entry = {
         ts: Date.now(),
         level,
-        message: String(message || '').trim(),
+        message: normalizedMessage,
     };
 
     const log = [...(session.log || []), entry].slice(-200);
@@ -199,4 +207,21 @@ export function isActiveAutoApplyStatus(status) {
 /** @param {AutoApplySession['status']} status */
 export function isTerminalAutoApplyStatus(status) {
     return status === 'stopped' || status === 'completed' || status === 'error';
+}
+
+/**
+ * @param {AutoApplySession} current
+ * @param {{ clearLog?: boolean }} [options]
+ * @returns {AutoApplySession}
+ */
+export function buildStoppedSessionState(current, { clearLog = true } = {}) {
+    return {
+        ...current,
+        status: 'stopped',
+        finishedAt: new Date().toISOString(),
+        stopRequested: false,
+        pauseContext: null,
+        lastError: null,
+        log: clearLog ? [] : (current.log || []),
+    };
 }

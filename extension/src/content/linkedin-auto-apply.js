@@ -1426,11 +1426,95 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             const spinner = modal.querySelector('.artdeco-loader, .jobs-loader, [data-test-loader]');
 
             if (!spinner || !isElementVisible(spinner)) {
-                return;
+                return true;
             }
 
             await sleep(200);
         }
+
+        const spinner = modal.querySelector('.artdeco-loader, .jobs-loader, [data-test-loader]');
+
+        return !(spinner && isElementVisible(spinner));
+    }
+
+    function isEasyApplyStepLoading(modal) {
+        if (!modal) {
+            return false;
+        }
+
+        const spinner = modal.querySelector('.artdeco-loader, .jobs-loader, [data-test-loader]');
+
+        return Boolean(spinner && isElementVisible(spinner));
+    }
+
+    function hasEasyApplyStepContent(modal) {
+        if (!modal) {
+            return false;
+        }
+
+        const fieldCount = modal.querySelectorAll('input, textarea, select').length;
+
+        if (fieldCount > 0) {
+            return true;
+        }
+
+        if (typeof AutoCVApplyLinkedInEasyApplyFields !== 'undefined'
+            && AutoCVApplyLinkedInEasyApplyFields.isResumeStep(modal)) {
+            return true;
+        }
+
+        const progress = modal.querySelector('progress[aria-valuenow], progress[value]');
+        const progressValue = Number(progress?.getAttribute('aria-valuenow') || progress?.value || 0);
+
+        if (progressValue > 0) {
+            return true;
+        }
+
+        const primary = findPrimaryActionButton(modal);
+
+        if (primary?.action === 'submit' || primary?.action === 'review') {
+            return true;
+        }
+
+        const bodyText = normalize(modal.textContent || '');
+
+        return /review your application/i.test(bodyText);
+    }
+
+    async function waitForEasyApplyStepReady(timeoutMs = 20_000) {
+        const deadline = Date.now() + timeoutMs;
+
+        while (Date.now() < deadline) {
+            const modal = readEasyApplyModal();
+
+            if (!modal) {
+                return { ready: false, error: 'Easy Apply modal is not open.' };
+            }
+
+            await waitForLoadingToSettle(modal, 2_000);
+
+            if (!isEasyApplyStepLoading(modal) && hasEasyApplyStepContent(modal)) {
+                return {
+                    ready: true,
+                    stepFingerprint: readStepFingerprint(modal),
+                    state: getEasyApplyModalState(),
+                };
+            }
+
+            await sleep(250);
+        }
+
+        const modal = readEasyApplyModal();
+
+        return {
+            ready: false,
+            zombie: isEasyApplyStepLoading(modal) && !hasEasyApplyStepContent(modal),
+            error: isEasyApplyStepLoading(modal)
+                ? 'Easy Apply step is still loading.'
+                : 'Easy Apply step has no fillable content yet.',
+            stepFingerprint: readStepFingerprint(modal),
+            state: modal ? getEasyApplyModalState() : null,
+        };
     }
 
     async function waitForStepTransition(previousFingerprint, timeoutMs = 10_000) {
@@ -1530,7 +1614,21 @@ const AutoCVApplyLinkedInAutoApply = (() => {
             };
         }
 
-        await waitForLoadingToSettle(modal);
+        await waitForLoadingToSettle(modal, 15_000);
+
+        if (isEasyApplyStepLoading(modal) || !hasEasyApplyStepContent(modal)) {
+            const ready = await waitForEasyApplyStepReady(12_000);
+
+            if (!ready.ready) {
+                return {
+                    success: false,
+                    action: 'blocked',
+                    error: ready.error || 'Easy Apply step is not ready.',
+                    stepFingerprint: ready.stepFingerprint || readStepFingerprint(modal),
+                    validationErrors: readModalValidationErrors(modal),
+                };
+            }
+        }
 
         const validationErrors = readModalValidationErrors(modal);
         const previousFingerprint = readStepFingerprint(modal);
@@ -1700,7 +1798,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         };
     }
 
-    async function closeEasyApplyModal() {
+    async function closeEasyApplyModal({ force = false } = {}) {
         const modal = readEasyApplyModal();
 
         if (!modal) {
@@ -1715,10 +1813,23 @@ const AutoCVApplyLinkedInAutoApply = (() => {
 
         if (dismiss) {
             await clickElement(dismiss, { quick: true });
-            await humanPause(380, 720);
-            await dismissSaveApplicationDialog();
+            await sleep(force ? 200 : humanDelayMs(380, 720));
+            await dismissSaveApplicationDialog().catch(() => {});
 
-            return { success: true, closed: true };
+            if (!readEasyApplyModal()) {
+                return { success: true, closed: true };
+            }
+        }
+
+        if (force) {
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
+            await sleep(250);
+            await dismissSaveApplicationDialog().catch(() => {});
+
+            return {
+                success: !readEasyApplyModal(),
+                closed: !readEasyApplyModal(),
+            };
         }
 
         const saveDialogResult = await dismissSaveApplicationDialog();
@@ -1906,6 +2017,7 @@ const AutoCVApplyLinkedInAutoApply = (() => {
         waitForJobDescriptionReady,
         clickEasyApply,
         getEasyApplyModalState,
+        waitForEasyApplyStepReady,
         clickNextOrSubmit,
         verifySubmitted,
         closeEasyApplyModal,

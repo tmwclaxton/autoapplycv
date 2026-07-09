@@ -124,6 +124,7 @@
         "corpus:babysitter": "node scripts/extension-test/auto-apply-babysitter.mjs",
         "extension-bridge": "node scripts/extension-bridge/server.mjs",
         "extension-bridge:mcp": "node scripts/extension-bridge/mcp-server.mjs",
+        "extension-bridge:test": "node --test scripts/extension-bridge/test-instances.mjs",
         "extension:reload": "node scripts/extension-bridge/reload-extension.mjs",
         "extension:build-reload": "npm run build:extension && npm run extension:reload",
         "discord:invite": "node scripts/discord/setup-server.mjs",

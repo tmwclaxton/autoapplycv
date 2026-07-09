@@ -27,7 +27,6 @@ export function createSimplyHiredOrchestrator(deps) {
         fetchJobMetaFromTab,
         resolveJobDescriptionFromMetaResponse,
         MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
-        formatIndeedSkipLogMessage,
         formatAutoApplyFitLogMessage,
         requestAutoApplyAtsScore,
         resolveAutoApplyFitDecision,
@@ -45,6 +44,8 @@ export function createSimplyHiredOrchestrator(deps) {
         resetWatchdog,
         finalizeAutoApplyAnalyticsSession,
         shouldStop,
+        finalizeStoppedSession,
+        interruptibleSleep,
         isWatchdogStuck,
         formatJobOutcomeLogMessage,
         appendAutoApplyLog,
@@ -123,6 +124,10 @@ export function createSimplyHiredOrchestrator(deps) {
     }
 
     async function recoverSimplyHiredTab(tabId, session, reason) {
+        if (await shouldStop(session)) {
+            return tabId;
+        }
+
         if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
             throw new Error(`SimplyHired navigation stuck (${reason}). Recovery limit reached.`);
         }
@@ -197,8 +202,8 @@ export function createSimplyHiredOrchestrator(deps) {
 
         const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
 
-        if (!hadWindow) {
-            await logSession('info', 'Running Auto Apply in a minimized background window so you can keep browsing.');
+        if (!hadWindow && session.usesDedicatedWindow !== false) {
+            await logSession('info', 'Running Auto Apply in a background window so you can keep browsing.');
         }
 
         await logSession('info', `SimplyHired search: ${searchUrl}`);
@@ -440,10 +445,6 @@ export function createSimplyHiredOrchestrator(deps) {
         tabId = openResult.tabId || tabId;
 
         if (!openResult.success) {
-            await logSession(
-                'info',
-                formatIndeedSkipLogMessage(job, openResult.skipReason || 'job_unavailable', openResult.error || ''),
-            );
             await recordAnalyticsEvent(session, 'skipped', job, {
                 metadata: { reason: openResult.skipReason || 'job_unavailable' },
             });
@@ -462,6 +463,31 @@ export function createSimplyHiredOrchestrator(deps) {
 
         await captureJobPage(tabId);
 
+        const health = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_SCAN_PAGE_HEALTH');
+
+        if (health && health.ok === false) {
+            throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'SimplyHired page blocked.');
+        }
+
+        await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+
+        const applyAvailability = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_CHECK_APPLY_AVAILABILITY');
+
+        if (applyAvailability?.quickApply === false || !applyAvailability?.hasApplyButton) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'no_simplyhired_apply' },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: 'no_simplyhired_apply',
+                detail: applyAvailability?.externalApply
+                    ? 'Job uses external apply, not Quick Apply.'
+                    : 'SimplyHired Quick Apply button not found on job page.',
+                tabId,
+            };
+        }
+
         const fitSession = await loadAutoApplySession();
         const fitResult = await evaluateSimplyHiredJobFit(tabId, job, fitSession || session);
 
@@ -475,14 +501,6 @@ export function createSimplyHiredOrchestrator(deps) {
             };
         }
 
-        const health = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_SCAN_PAGE_HEALTH');
-
-        if (health && health.ok === false) {
-            throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'SimplyHired page blocked.');
-        }
-
-        await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
-
         const applyResponse = await sendSimplyHiredMessage(tabId, 'SIMPLYHIRED_OPEN_APPLY');
 
         if (applyResponse?.quickApply === false) {
@@ -494,10 +512,6 @@ export function createSimplyHiredOrchestrator(deps) {
         }
 
         if (!applyResponse?.success) {
-            await logSession(
-                'info',
-                formatIndeedSkipLogMessage(job, 'no_simplyhired_apply', applyResponse?.error || 'Could not start Quick Apply.'),
-            );
             await recordAnalyticsEvent(session, 'skipped', job, {
                 metadata: { reason: 'no_simplyhired_apply' },
             });
@@ -513,16 +527,32 @@ export function createSimplyHiredOrchestrator(deps) {
         await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 2000));
         invalidateTabFrameCache(tabId);
 
-        const iframeDeadline = Date.now() + 25_000;
+        const iframeDeadline = Date.now() + 30_000;
 
         while (Date.now() < iframeDeadline) {
             const state = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' }).catch(() => null);
+
+            if (state?.open && (state.canContinue || state.canSubmit || state.isReviewStep || state.invalidFields?.length)) {
+                break;
+            }
 
             if (state?.open) {
                 break;
             }
 
             await sleep(800);
+        }
+
+        const readyDeadline = Date.now() + 12_000;
+
+        while (Date.now() < readyDeadline) {
+            const readyState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' }).catch(() => null);
+
+            if (readyState?.canContinue || readyState?.canSubmit || readyState?.isReviewStep) {
+                break;
+            }
+
+            await sleep(500);
         }
 
         await captureJobPage(tabId, { force: true });
@@ -560,11 +590,19 @@ export function createSimplyHiredOrchestrator(deps) {
             }
 
             if (sameStepCount >= EASY_APPLY_STUCK_STEP_LIMIT) {
-                throw new Error(
-                    `Stuck on Easy Apply step "${applyState.stepLabel || 'unknown'}" `
-                    + `(${EASY_APPLY_STUCK_STEP_LIMIT}x). `
-                    + (applyState.validationErrors?.[0] || applyState.actionLabel || 'No progress after repeated attempts.'),
-                );
+                await recordAnalyticsEvent(session, 'skipped', job, {
+                    metadata: {
+                        reason: 'apply_step_unavailable',
+                        step: applyState.stepLabel || 'unknown',
+                    },
+                });
+
+                return {
+                    outcome: 'skipped',
+                    reason: 'apply_step_unavailable',
+                    detail: `Stuck on Easy Apply step "${applyState.stepLabel || 'unknown'}".`,
+                    tabId,
+                };
             }
 
             await logSession(
@@ -612,7 +650,16 @@ export function createSimplyHiredOrchestrator(deps) {
                         return { outcome: 'skipped', reason: 'captcha_required', tabId };
                     }
 
-                    throw new Error(advanceResponse?.error || 'Could not submit on review step.');
+                    await recordAnalyticsEvent(session, 'skipped', job, {
+                        metadata: { reason: 'apply_submit_failed' },
+                    });
+
+                    return {
+                        outcome: 'skipped',
+                        reason: 'apply_submit_failed',
+                        detail: advanceResponse?.error || 'Could not submit on review step.',
+                        tabId,
+                    };
                 }
 
                 break;
@@ -681,7 +728,20 @@ export function createSimplyHiredOrchestrator(deps) {
             }
 
             if (!advanceResponse?.success) {
-                throw new Error(advanceResponse?.error || 'Could not advance Easy Apply step.');
+                const skipReason = /continue|submit button/i.test(advanceResponse?.error || '')
+                    ? 'apply_step_unavailable'
+                    : 'apply_step_unavailable';
+
+                await recordAnalyticsEvent(session, 'skipped', job, {
+                    metadata: { reason: skipReason, message: advanceResponse?.error || '' },
+                });
+
+                return {
+                    outcome: 'skipped',
+                    reason: skipReason,
+                    detail: advanceResponse?.error || 'Could not advance Easy Apply step.',
+                    tabId,
+                };
             }
 
             if (advanceResponse?.transitioned && advanceResponse?.stepFingerprint && advanceResponse.stepFingerprint !== lastStepFingerprint) {
@@ -698,7 +758,16 @@ export function createSimplyHiredOrchestrator(deps) {
         }
 
         if (!submitted) {
-            throw new Error('Could not submit SimplyHired Quick Apply application.');
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'apply_submit_failed' },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: 'apply_submit_failed',
+                detail: 'Could not submit SimplyHired Quick Apply application.',
+                tabId,
+            };
         }
 
         await logSession('success', `[submitted] ${job.title} at ${job.company}.`);
@@ -721,6 +790,8 @@ export function createSimplyHiredOrchestrator(deps) {
             logSession,
             finalizeAutoApplyAnalyticsSession,
             shouldStop,
+            finalizeStoppedSession,
+            interruptibleSleep,
             isWatchdogStuck,
             markWatchdogProgress,
             formatJobOutcomeLogMessage,

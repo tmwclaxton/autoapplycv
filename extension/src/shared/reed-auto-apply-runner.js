@@ -22,6 +22,8 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
         logSession,
         finalizeAutoApplyAnalyticsSession,
         shouldStop,
+        finalizeStoppedSession,
+        interruptibleSleep,
         isWatchdogStuck,
         markWatchdogProgress,
         formatJobOutcomeLogMessage,
@@ -29,7 +31,6 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
         appendAutoApplyLog,
         randomDelay,
         AUTO_APPLY_DELAY_MS,
-        sleep,
     } = ctx;
 
     resetWatchdog();
@@ -58,12 +59,7 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
         }
 
         if (session.stopRequested) {
-            session = await updateSession({
-                status: 'stopped',
-                finishedAt: new Date().toISOString(),
-            }) || session;
-            await logSession('warn', 'Auto Apply stopped.');
-            await finalizeAutoApplyAnalyticsSession(session);
+            await finalizeStoppedSession();
 
             return;
         }
@@ -85,6 +81,12 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
         }
 
         if (isWatchdogStuck(session)) {
+            if (await shouldStop(session)) {
+                await finalizeStoppedSession();
+
+                return;
+            }
+
             tabId = await recoverReedTab(tabId, session, 'No Reed Auto Apply progress detected');
             session = await updateSession({ tabId }) || session;
             markWatchdogProgress(session);
@@ -103,12 +105,7 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
             }
 
             if (result.outcome === 'stopped') {
-                session = await updateSession({
-                    status: 'stopped',
-                    finishedAt: new Date().toISOString(),
-                }) || session;
-                await logSession('warn', 'Auto Apply stopped while waiting for input.');
-                await finalizeAutoApplyAnalyticsSession(session);
+                await finalizeStoppedSession();
 
                 return;
             }
@@ -166,17 +163,18 @@ export async function runReedAutoApplyLoop(ctx, initialSession, runDraftAll, pro
         }
 
         if (await shouldStop(session)) {
-            session = await updateSession({
-                status: 'stopped',
-                finishedAt: new Date().toISOString(),
-            }) || session;
-            await logSession('warn', 'Auto Apply stopped.');
-            await finalizeAutoApplyAnalyticsSession(session);
+            await finalizeStoppedSession();
 
             return;
         }
 
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
+        const slept = await interruptibleSleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
+
+        if (!slept) {
+            await finalizeStoppedSession();
+
+            return;
+        }
     }
 
     session = await loadAutoApplySession();

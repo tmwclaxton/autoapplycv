@@ -1,4 +1,6 @@
 import {
+    hasAutoApplyLogEntries,
+    hasNonZeroAutoApplyStats,
     isAutoApplyActivityPanelExpanded,
     shouldShowAutoApplyActivityControls,
 } from './auto-apply-activity-ui.js';
@@ -284,11 +286,33 @@ function renderLog(session) {
     logEl.scrollTop = logEl.scrollHeight;
 }
 
-function setControlsRunning(isRunning, { stopping = false } = {}) {
+function isStopActionAvailable(session) {
+    if (!session) {
+        return false;
+    }
+
+    if (isActiveAutoApplyStatus(session.status)) {
+        return true;
+    }
+
+    if (!isTerminalAutoApplyStatus(session.status)) {
+        return false;
+    }
+
+    return shouldShowAutoApplyActivityControls(session)
+        || hasNonZeroAutoApplyStats(session.stats)
+        || hasAutoApplyLogEntries(session)
+        || Boolean(session.lastError);
+}
+
+function setControlsForSession(session, { stopping = false } = {}) {
+    const isRunning = session?.status === 'running' || session?.status === 'paused_for_input';
     const locked = isRunning || stopping;
+    const stopAvailable = isStopActionAvailable(session) && !stopping;
 
     startBtn.disabled = locked;
-    stopBtn.disabled = !isRunning || stopping;
+    stopBtn.disabled = !stopAvailable;
+    stopBtn.textContent = isRunning || stopping ? 'Stop' : 'Clear';
     platformSelect.disabled = locked;
     roleInput.disabled = locked;
     locationInput.disabled = locked;
@@ -330,12 +354,12 @@ function renderCleanState() {
     statsEl.textContent = '';
     renderLog(null);
     renderActivityVisibility(null);
-    setControlsRunning(false);
+    setControlsForSession(null);
 }
 
 function handleTerminalSession(session) {
     stopPending = false;
-    setControlsRunning(false);
+    setControlsForSession(session);
 
     if (!notifyUser) {
         return;
@@ -384,7 +408,7 @@ function renderSession(session) {
     renderActivityVisibility(session);
 
     const isRunning = session?.status === 'running' || session?.status === 'paused_for_input';
-    setControlsRunning(isRunning, { stopping: Boolean(session?.stopRequested && session?.status === 'running') });
+    setControlsForSession(session, { stopping: Boolean(isRunning && session?.stopRequested) });
 }
 
 async function fetchStatus() {
@@ -587,8 +611,11 @@ export function initAutoApplyPanel({ showMessage }) {
     });
 
     stopBtn.addEventListener('click', async () => {
-        stopPending = true;
-        setControlsRunning(true, { stopping: true });
+        const session = lastRenderedSession;
+        const clearingTerminal = session && isTerminalAutoApplyStatus(session.status);
+
+        stopPending = !clearingTerminal;
+        setControlsForSession(session, { stopping: !clearingTerminal });
 
         try {
             const ctx = extensionContext();
@@ -598,6 +625,13 @@ export function initAutoApplyPanel({ showMessage }) {
 
             if (response?.error) {
                 throw new Error(response.error);
+            }
+
+            if (!response?.session) {
+                renderCleanState();
+                showMessage(clearingTerminal ? 'Activity cleared.' : 'Auto Apply stopped.', 'success');
+
+                return;
             }
 
             renderSession(response.session);

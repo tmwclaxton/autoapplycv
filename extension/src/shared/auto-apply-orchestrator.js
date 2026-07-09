@@ -29,6 +29,7 @@ import {
     pauseAutoApplyForInput,
     resumeAutoApplyFromInput,
     saveAutoApplySession,
+    buildStoppedSessionState,
 } from './auto-apply-session.js';
 import {
     closeAutoApplyWindow,
@@ -36,6 +37,7 @@ import {
     createAutoApplyWindow,
     isAutoApplyWindowOpen,
     navigateAutoApplyTab,
+    wakeAutoApplyTab,
 } from './auto-apply-window.js';
 import { runCvLibraryAutoApplyLoop } from './cv-library-auto-apply-runner.js';
 import { createCvLibraryOrchestrator } from './cv-library-orchestrator.js';
@@ -60,6 +62,9 @@ import {
     isReedJobsSearchUrl,
     urlsMatchReedSearch,
 } from './reed-platform.js';
+import {
+    resolveSidePanelHostTab,
+} from './side-panel-host-tab.js';
 import { runSimplyHiredAutoApplyLoop } from './simplyhired-auto-apply-runner.js';
 import { createSimplyHiredOrchestrator } from './simplyhired-orchestrator.js';
 import { runTotalJobsAutoApplyLoop } from './totaljobs-auto-apply-runner.js';
@@ -247,6 +252,8 @@ function formatIndeedSkipLogMessage(job, reason, detail = '') {
         unknown_job_metadata: 'missing job details',
         short_job_description: 'description too short to score fit',
         fit_score_failed: 'could not score fit',
+        apply_step_unavailable: 'apply form could not advance',
+        apply_submit_failed: 'application could not be submitted',
     }[reason] || String(reason || 'skipped').replace(/_/g, ' ');
     const suffix = detail ? ` - ${detail}` : '';
 
@@ -369,6 +376,21 @@ function sleep(ms) {
     return new Promise((resolve) => globalThis.setTimeout(resolve, ms));
 }
 
+async function interruptibleSleep(ms) {
+    const deadline = Date.now() + Math.max(0, ms);
+
+    while (Date.now() < deadline) {
+        if (await shouldStop()) {
+            return false;
+        }
+
+        const remaining = deadline - Date.now();
+        await sleep(Math.min(400, remaining));
+    }
+
+    return true;
+}
+
 function randomDelay(baseMs, spreadMs = null) {
     const spread = spreadMs ?? Math.max(700, Math.floor(baseMs * 0.45));
 
@@ -385,20 +407,46 @@ async function resolveAutoApplyWindowId(session = null) {
     return null;
 }
 
-async function rememberAutoApplyWindow(windowId, tabId = null) {
+async function rememberAutoApplyWindow(windowId, tabId = null, { usesDedicatedWindow = null } = {}) {
     await updateSession((current) => ({
         ...current,
         windowId,
         tabId: tabId ?? current.tabId,
+        usesDedicatedWindow: usesDedicatedWindow ?? current.usesDedicatedWindow,
     }));
 }
 
 async function openUrlInAutoApplyWindow(url, tabId = null) {
     let windowId = await resolveAutoApplyWindowId();
+    const session = await loadAutoApplySession();
+    const preferVisibleTab = session?.usesDedicatedWindow === false;
+
+    if (!windowId && !tabId) {
+        const hostTab = await resolveSidePanelHostTab();
+
+        if (hostTab) {
+            tabId = hostTab.tabId;
+            windowId = hostTab.windowId;
+            await rememberAutoApplyWindow(windowId, tabId, { usesDedicatedWindow: false });
+        }
+    }
+
+    if (!windowId && tabId) {
+        try {
+            const tab = await chrome.tabs.get(tabId);
+
+            if (tab?.windowId) {
+                windowId = tab.windowId;
+                await rememberAutoApplyWindow(windowId, tabId, { usesDedicatedWindow: false });
+            }
+        } catch {
+            tabId = null;
+        }
+    }
 
     if (!windowId && !tabId) {
         const created = await createAutoApplyWindow(url);
-        await rememberAutoApplyWindow(created.windowId, created.tabId);
+        await rememberAutoApplyWindow(created.windowId, created.tabId, { usesDedicatedWindow: true });
 
         if (created.tabId) {
             return created.tabId;
@@ -409,7 +457,7 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
 
     if (!windowId) {
         const created = await createAutoApplyWindow('about:blank');
-        await rememberAutoApplyWindow(created.windowId, created.tabId);
+        await rememberAutoApplyWindow(created.windowId, created.tabId, { usesDedicatedWindow: true });
         windowId = created.windowId;
     }
 
@@ -422,7 +470,7 @@ async function openUrlInAutoApplyWindow(url, tabId = null) {
                     await chrome.tabs.move(tabId, { windowId, index: -1 });
                 }
 
-                await navigateAutoApplyTab(tabId, url);
+                await navigateAutoApplyTab(tabId, url, { active: preferVisibleTab });
 
                 return tabId;
             }
@@ -517,27 +565,51 @@ async function logSession(level, message) {
 
 async function sendLinkedInMessage(tabId, type, payload = {}, options = {}) {
     const maxAttempts = options.maxAttempts ?? 3;
+    const timeoutMs = options.timeoutMs ?? null;
 
-    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
-        try {
-            return await sendTabMessage(tabId, { type, ...payload }, 0);
-        } catch (error) {
-            const message = error instanceof Error ? error.message : String(error);
+    const sendOnce = async () => {
+        for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+            try {
+                return await sendTabMessage(tabId, { type, ...payload }, 0);
+            } catch (error) {
+                const message = error instanceof Error ? error.message : String(error);
 
-            if (attempt < maxAttempts && isExtensionMessagingError(message)) {
-                invalidateTabFrameCache(tabId);
-                await logSession('warn', `[linkedin_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
-                await waitForTabContentScript(tabId).catch(() => {});
-                await sleep(randomDelay(1400, 900));
+                if (attempt < maxAttempts && isExtensionMessagingError(message)) {
+                    invalidateTabFrameCache(tabId);
+                    await logSession('warn', `[linkedin_tab] Recovering stale tab (${attempt}/${maxAttempts - 1}).`);
+                    await waitForTabContentScript(tabId).catch(() => {});
+                    await sleep(randomDelay(1400, 900));
 
-                continue;
+                    continue;
+                }
+
+                throw error;
             }
-
-            throw error;
         }
+
+        return null;
+    };
+
+    if (!timeoutMs) {
+        return sendOnce();
     }
 
-    return null;
+    let timeoutId = null;
+
+    try {
+        return await Promise.race([
+            sendOnce(),
+            new Promise((_, reject) => {
+                timeoutId = setTimeout(() => {
+                    reject(new Error(`LinkedIn tab message timed out: ${type}`));
+                }, timeoutMs);
+            }),
+        ]);
+    } finally {
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+    }
 }
 
 async function advanceLinkedInEasyApplyStep(tabId, { skipPrefill = false } = {}) {
@@ -581,6 +653,12 @@ function isLinkedInReviewStep(modalState) {
 function isLinkedInResumeStep(modalState) {
     if (!modalState) {
         return false;
+    }
+
+    const fingerprint = String(modalState.stepFingerprint || '');
+
+    if (/resume:[01]/.test(fingerprint)) {
+        return true;
     }
 
     return /resume/i.test(String(modalState.stepLabel || ''));
@@ -970,6 +1048,10 @@ async function assertLinkedInTabHealthy(tabId, contextLabel) {
 }
 
 async function recoverLinkedInTab(tabId, session, reason) {
+    if (await shouldStop(session)) {
+        return tabId;
+    }
+
     if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
         throw new Error(`LinkedIn navigation stuck (${reason}). Recovery limit reached.`);
     }
@@ -983,7 +1065,12 @@ async function recoverLinkedInTab(tabId, session, reason) {
 
     if (/rate_limit|slow down/i.test(reason)) {
         await logSession('warn', `[rate_limit] Backing off ${Math.round(AUTO_APPLY_DELAY_MS.rateLimitBackoff / 1000)}s before retry.`);
-        await sleep(AUTO_APPLY_DELAY_MS.rateLimitBackoff);
+
+        const slept = await interruptibleSleep(AUTO_APPLY_DELAY_MS.rateLimitBackoff);
+
+        if (!slept) {
+            return tabId;
+        }
     }
 
     await stabilizeLinkedInTab(tabId);
@@ -1010,6 +1097,10 @@ async function recoverLinkedInTab(tabId, session, reason) {
 }
 
 async function recoverIndeedTab(tabId, session, reason) {
+    if (await shouldStop(session)) {
+        return tabId;
+    }
+
     if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
         throw new Error(`Indeed navigation stuck (${reason}). Recovery limit reached.`);
     }
@@ -1036,6 +1127,10 @@ async function recoverIndeedTab(tabId, session, reason) {
 }
 
 async function recoverTotalJobsTab(tabId, session, reason) {
+    if (await shouldStop(session)) {
+        return tabId;
+    }
+
     if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
         throw new Error(`Totaljobs navigation stuck (${reason}). Recovery limit reached.`);
     }
@@ -1062,6 +1157,10 @@ async function recoverTotalJobsTab(tabId, session, reason) {
 }
 
 async function recoverReedTab(tabId, session, reason) {
+    if (await shouldStop(session)) {
+        return tabId;
+    }
+
     if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
         throw new Error(`Reed navigation stuck (${reason}). Recovery limit reached.`);
     }
@@ -1088,6 +1187,10 @@ async function recoverReedTab(tabId, session, reason) {
 }
 
 async function recoverGlassdoorTab(tabId, session, reason) {
+    if (await shouldStop(session)) {
+        return tabId;
+    }
+
     if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
         throw new Error(`Glassdoor navigation stuck (${reason}). Recovery limit reached.`);
     }
@@ -1189,8 +1292,8 @@ async function ensureLinkedInTab(session) {
 
     const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
 
-    if (!hadWindow) {
-        await logSession('info', 'Running Auto Apply in a minimized background window so you can keep browsing.');
+    if (!hadWindow && session.usesDedicatedWindow !== false) {
+        await logSession('info', 'Running Auto Apply in a background window so you can keep browsing.');
     }
 
     await logSession('info', `LinkedIn search: ${searchUrl}`);
@@ -1794,13 +1897,31 @@ async function runDraftAllForStep(tabId, job, stepLabel, runDraftAll, session, p
 
     const draftResult = await Promise.race([
         runDraftAll(tabId),
-        new Promise((resolve) => {
-            setTimeout(() => resolve({
+        (async () => {
+            const deadline = Date.now() + DRAFT_ALL_STEP_TIMEOUT_MS;
+
+            while (Date.now() < deadline) {
+                if (await shouldStop(session)) {
+                    return {
+                        error: 'Auto Apply stopped.',
+                        stopped: true,
+                    };
+                }
+
+                await sleep(400);
+            }
+
+            return {
                 error: `Draft All timed out after ${Math.round(DRAFT_ALL_STEP_TIMEOUT_MS / 1000)}s`,
                 timedOut: true,
-            }), DRAFT_ALL_STEP_TIMEOUT_MS);
-        }),
+            };
+        })(),
     ]);
+
+    if (draftResult?.stopped) {
+        return draftResult;
+    }
+
     const fieldsFilled = Number(draftResult?.fieldsFilled || 0);
 
     await updateSession((current) => ({
@@ -1891,6 +2012,8 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
 
     await sleep(randomDelay(700, 600));
 
+    await wakeAutoApplyTab(tabId).catch(() => {});
+
     const applyResponse = await sendLinkedInMessage(tabId, 'LINKEDIN_OPEN_EASY_APPLY');
 
     if (applyResponse?.alreadyApplied) {
@@ -1928,12 +2051,67 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
     }
 
     invalidateTabFrameCache(tabId);
-    await captureJobPage(tabId, { force: true });
+
+    await wakeAutoApplyTab(tabId).catch(() => {});
+
+    let postOpenReady = await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_STEP_READY', { timeoutMs: 25_000 }).catch(() => null);
+
+    if (!postOpenReady?.ready) {
+        await logSession('warn', `[linkedin_load] ${job.title}: Easy Apply form slow to load - reloading job page.`);
+
+        await sendLinkedInMessage(tabId, 'LINKEDIN_CLOSE_EASY_APPLY', { force: true }, {
+            maxAttempts: 1,
+            timeoutMs: 12_000,
+        }).catch(() => null);
+
+        try {
+            await chrome.tabs.reload(tabId);
+            await waitForTabLoadComplete(tabId);
+            await waitForTabContentScript(tabId);
+            await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+        } catch {
+            // Continue to reopen attempt below.
+        }
+
+        await wakeAutoApplyTab(tabId).catch(() => {});
+        await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId }).catch(() => null);
+
+        const reopen = await sendLinkedInMessage(tabId, 'LINKEDIN_OPEN_EASY_APPLY', {}, { timeoutMs: 25_000 }).catch(() => null);
+
+        if (!reopen?.success) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'apply_step_unavailable' },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: 'apply_step_unavailable',
+                detail: reopen?.error || postOpenReady?.error || 'Easy Apply form never loaded.',
+                tabId,
+            };
+        }
+
+        postOpenReady = await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_STEP_READY', { timeoutMs: 25_000 }).catch(() => null);
+
+        if (!postOpenReady?.ready) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'apply_step_unavailable' },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: 'apply_step_unavailable',
+                detail: postOpenReady?.error || 'Easy Apply form never loaded after reload.',
+                tabId,
+            };
+        }
+    }
 
     let submitted = false;
     let guard = 0;
     let lastStepFingerprint = null;
     let sameStepCount = 0;
+    let stepLoadAttempts = 0;
 
     while (guard < EASY_APPLY_MAX_STEPS) {
         guard += 1;
@@ -1968,6 +2146,71 @@ async function processLinkedInJob(tabId, job, runDraftAll, session, profileData 
                 continue;
             }
         }
+
+        await wakeAutoApplyTab(tabId).catch(() => {});
+
+        const stepReady = await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_STEP_READY', { timeoutMs: 8_000 }).catch(() => null);
+
+        if (stepReady && stepReady.ready === false) {
+            stepLoadAttempts += 1;
+
+            await logSession(
+                'warn',
+                `[linkedin_load] ${job.title}: ${stepReady.error || 'Easy Apply step not ready yet.'}`,
+            );
+
+            if (stepLoadAttempts >= 1) {
+                await logSession('warn', `[linkedin_load] ${job.title}: resetting stuck Easy Apply modal.`);
+
+                await sendLinkedInMessage(tabId, 'LINKEDIN_CLOSE_EASY_APPLY', { force: true }, {
+                    maxAttempts: 1,
+                    timeoutMs: 12_000,
+                }).catch(() => null);
+                await sleep(randomDelay(600, 900));
+                await wakeAutoApplyTab(tabId).catch(() => {});
+
+                try {
+                    await chrome.tabs.reload(tabId);
+                    await waitForTabLoadComplete(tabId);
+                    await waitForTabContentScript(tabId);
+                    await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 900));
+                } catch {
+                    // Continue to reopen attempt below.
+                }
+
+                await wakeAutoApplyTab(tabId).catch(() => {});
+                await sendLinkedInMessage(tabId, 'LINKEDIN_WAIT_FOR_JOB_DETAIL', { jobId: job.jobId }).catch(() => null);
+
+                const reopen = await sendLinkedInMessage(tabId, 'LINKEDIN_OPEN_EASY_APPLY', {}, {
+                    timeoutMs: 25_000,
+                }).catch(() => null);
+
+                if (!reopen?.success) {
+                    await recordAnalyticsEvent(session, 'skipped', job, {
+                        metadata: { reason: 'apply_step_unavailable' },
+                    });
+
+                    return {
+                        outcome: 'skipped',
+                        reason: 'apply_step_unavailable',
+                        detail: reopen?.error || stepReady.error || 'Easy Apply form never loaded.',
+                        tabId,
+                    };
+                }
+
+                stepLoadAttempts = 0;
+                lastStepFingerprint = null;
+                await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 1200));
+
+                continue;
+            }
+
+            await sleep(randomDelay(1500, 2500));
+
+            continue;
+        }
+
+        stepLoadAttempts = 0;
 
         const isReviewStep = isLinkedInReviewStep(modalState);
         const isResumeStep = isLinkedInResumeStep(modalState);
@@ -2315,8 +2558,8 @@ async function ensureIndeedTab(session) {
 
     const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
 
-    if (!hadWindow) {
-        await logSession('info', 'Running Auto Apply in a minimized background window so you can keep browsing.');
+    if (!hadWindow && session.usesDedicatedWindow !== false) {
+        await logSession('info', 'Running Auto Apply in a background window so you can keep browsing.');
     }
 
     await logSession('info', `Indeed search: ${searchUrl}`);
@@ -2604,10 +2847,6 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
         tabId = openResult.tabId || tabId;
 
         if (!openResult.success) {
-            await logSession(
-                'info',
-                formatIndeedSkipLogMessage(job, openResult.skipReason || 'job_unavailable', openResult.error || ''),
-            );
             await recordAnalyticsEvent(session, 'skipped', job, {
                 metadata: { reason: openResult.skipReason || 'job_unavailable' },
             });
@@ -2660,10 +2899,6 @@ async function processIndeedJob(tabId, job, runDraftAll, session, profileData = 
         if (!applyResponse?.success) {
             const skipReason = applyResponse?.easyApply === false ? 'no_indeed_apply' : 'no_indeed_apply';
 
-            await logSession(
-                'info',
-                formatIndeedSkipLogMessage(job, skipReason, applyResponse?.error || 'Could not start Indeed Apply.'),
-            );
             await recordAnalyticsEvent(session, 'skipped', job, {
                 metadata: { reason: skipReason },
             });
@@ -2914,8 +3149,8 @@ async function ensureTotalJobsTab(session) {
 
     const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
 
-    if (!hadWindow) {
-        await logSession('info', 'Running Auto Apply in a minimized background window so you can keep browsing.');
+    if (!hadWindow && session.usesDedicatedWindow !== false) {
+        await logSession('info', 'Running Auto Apply in a background window so you can keep browsing.');
     }
 
     await logSession('info', `Totaljobs search: ${searchUrl}`);
@@ -3144,10 +3379,6 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
     tabId = openResult.tabId || tabId;
 
     if (!openResult.success) {
-        await logSession(
-            'info',
-            formatIndeedSkipLogMessage(job, openResult.skipReason || 'job_unavailable', openResult.error || ''),
-        );
         await recordAnalyticsEvent(session, 'skipped', job, {
             metadata: { reason: openResult.skipReason || 'job_unavailable' },
         });
@@ -3215,10 +3446,6 @@ async function processTotalJobsJob(tabId, job, runDraftAll, session, profileData
     }
 
     if (!applyResponse?.success) {
-        await logSession(
-            'info',
-            formatIndeedSkipLogMessage(job, 'no_totaljobs_apply', applyResponse?.error || 'Could not start Totaljobs Apply.'),
-        );
         await recordAnalyticsEvent(session, 'skipped', job, {
             metadata: { reason: 'no_totaljobs_apply' },
         });
@@ -3454,8 +3681,8 @@ async function ensureReedTab(session) {
 
     const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
 
-    if (!hadWindow) {
-        await logSession('info', 'Running Auto Apply in a minimized background window so you can keep browsing.');
+    if (!hadWindow && session.usesDedicatedWindow !== false) {
+        await logSession('info', 'Running Auto Apply in a background window so you can keep browsing.');
     }
 
     await logSession('info', `Reed search: ${searchUrl}`);
@@ -3491,6 +3718,31 @@ async function collectReedJobsFromTab(tabId, session = null) {
 
         if (freshJobs.length > 0) {
             return freshJobs;
+        }
+
+        if (jobs.length === 0) {
+            const health = await sendReedMessage(tabId, 'REED_SCAN_PAGE_HEALTH').catch(() => null);
+
+            if (health?.ok === false) {
+                const blockingMessage = health.primary?.message || health.blocking?.[0]?.message;
+
+                if (blockingMessage) {
+                    throw new Error(blockingMessage);
+                }
+            }
+
+            try {
+                const tab = await chrome.tabs.get(tabId);
+                const tabUrl = tab?.url || '';
+
+                if (tabUrl && !isReedJobsSearchUrl(tabUrl)) {
+                    lastError = `Reed tab is not on a job search page (${tabUrl}).`;
+                } else if (tabUrl) {
+                    lastError = `Reed search page loaded but no job cards were found (${tabUrl}).`;
+                }
+            } catch {
+                // Keep default lastError.
+            }
         }
 
         if (pageTurns < 6) {
@@ -3753,10 +4005,6 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
     tabId = openResult.tabId || tabId;
 
     if (!openResult.success) {
-        await logSession(
-            'info',
-            formatIndeedSkipLogMessage(job, openResult.skipReason || 'job_unavailable', openResult.error || ''),
-        );
         await recordAnalyticsEvent(session, 'skipped', job, {
             metadata: { reason: openResult.skipReason || 'job_unavailable' },
         });
@@ -3824,10 +4072,6 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
     }
 
     if (!applyResponse?.success) {
-        await logSession(
-            'info',
-            formatIndeedSkipLogMessage(job, 'no_reed_apply', applyResponse?.error || 'Could not start Reed Easy Apply.'),
-        );
         await recordAnalyticsEvent(session, 'skipped', job, {
             metadata: { reason: 'no_reed_apply' },
         });
@@ -3868,6 +4112,10 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
 
     while (guard < EASY_APPLY_MAX_STEPS) {
         guard += 1;
+
+        if (await shouldStop(session)) {
+            return { outcome: 'stopped', reason: 'user_stop', tabId };
+        }
 
         const applyState = await sendReedMessage(tabId, 'REED_APPLY_STATE');
 
@@ -3911,7 +4159,7 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
             await logSession('info', `[review] ${job.title}: reached review step.`);
         }
 
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
+        await interruptibleSleep(randomDelay(AUTO_APPLY_DELAY_MS.beforeDraftAll, 700));
 
         const draftResult = applyState.isReviewStep
             ? {
@@ -3928,6 +4176,11 @@ async function processReedJob(tabId, job, runDraftAll, session, profileData = nu
                 session,
                 REED_PLATFORM_ID,
             );
+
+        if (draftResult?.stopped) {
+            return { outcome: 'stopped', reason: 'user_stop', tabId };
+        }
+
         const postDraftState = await sendReedMessage(tabId, 'REED_APPLY_STATE');
         const pauseOutcome = await ensureStepFilledOrPaused(
             tabId,
@@ -4109,8 +4362,8 @@ async function ensureGlassdoorTab(session) {
 
     const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
 
-    if (!hadWindow) {
-        await logSession('info', 'Running Auto Apply in a minimized background window so you can keep browsing.');
+    if (!hadWindow && session.usesDedicatedWindow !== false) {
+        await logSession('info', 'Running Auto Apply in a background window so you can keep browsing.');
     }
 
     await logSession('info', `Glassdoor search: ${searchUrl}`);
@@ -4352,10 +4605,6 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
     tabId = openResult.tabId || tabId;
 
     if (!openResult.success) {
-        await logSession(
-            'info',
-            formatIndeedSkipLogMessage(job, openResult.skipReason || 'job_unavailable', openResult.error || ''),
-        );
         await recordAnalyticsEvent(session, 'skipped', job, {
             metadata: { reason: openResult.skipReason || 'job_unavailable' },
         });
@@ -4374,6 +4623,31 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
 
     await captureJobPage(tabId);
 
+    const health = await sendGlassdoorMessage(tabId, 'GLASSDOOR_SCAN_PAGE_HEALTH');
+
+    if (health && health.ok === false) {
+        throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'Glassdoor page blocked.');
+    }
+
+    await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+
+    const applyAvailability = await sendGlassdoorMessage(tabId, 'GLASSDOOR_CHECK_APPLY_AVAILABILITY');
+
+    if (applyAvailability?.easyApply === false || !applyAvailability?.hasApplyButton) {
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'no_glassdoor_apply' },
+        });
+
+        return {
+            outcome: 'skipped',
+            reason: 'no_glassdoor_apply',
+            detail: applyAvailability?.externalApply
+                ? 'Job uses external apply, not Easy Apply.'
+                : 'Glassdoor Easy Apply button not found on job page.',
+            tabId,
+        };
+    }
+
     const fitSession = await loadAutoApplySession();
     const fitResult = await evaluateGlassdoorJobFit(tabId, job, fitSession || session);
 
@@ -4387,14 +4661,6 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
         };
     }
 
-    const health = await sendGlassdoorMessage(tabId, 'GLASSDOOR_SCAN_PAGE_HEALTH');
-
-    if (health && health.ok === false) {
-        throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'Glassdoor page blocked.');
-    }
-
-    await sendGlassdoorMessage(tabId, 'GLASSDOOR_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
-
     const applyResponse = await sendGlassdoorMessage(tabId, 'GLASSDOOR_OPEN_APPLY');
 
     if (applyResponse?.easyApply === false) {
@@ -4406,10 +4672,6 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
     }
 
     if (!applyResponse?.success) {
-        await logSession(
-            'info',
-            formatIndeedSkipLogMessage(job, 'no_glassdoor_apply', applyResponse?.error || 'Could not start Easy Apply.'),
-        );
         await recordAnalyticsEvent(session, 'skipped', job, {
             metadata: { reason: 'no_glassdoor_apply' },
         });
@@ -4425,16 +4687,32 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
     await sleep(randomDelay(AUTO_APPLY_DELAY_MS.afterNavigation, 2000));
     invalidateTabFrameCache(tabId);
 
-    const iframeDeadline = Date.now() + 25_000;
+    const iframeDeadline = Date.now() + 30_000;
 
     while (Date.now() < iframeDeadline) {
         const state = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' }).catch(() => null);
+
+        if (state?.open && (state.canContinue || state.canSubmit || state.isReviewStep || state.invalidFields?.length)) {
+            break;
+        }
 
         if (state?.open) {
             break;
         }
 
         await sleep(800);
+    }
+
+    const readyDeadline = Date.now() + 12_000;
+
+    while (Date.now() < readyDeadline) {
+        const readyState = await sendIndeedApplyFlowMessage(tabId, { type: 'INDEED_APPLY_STATE' }).catch(() => null);
+
+        if (readyState?.canContinue || readyState?.canSubmit || readyState?.isReviewStep) {
+            break;
+        }
+
+        await sleep(500);
     }
 
     await captureJobPage(tabId, { force: true });
@@ -4472,11 +4750,19 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
         }
 
         if (sameStepCount >= EASY_APPLY_STUCK_STEP_LIMIT) {
-            throw new Error(
-                `Stuck on Easy Apply step "${applyState.stepLabel || 'unknown'}" `
-                + `(${EASY_APPLY_STUCK_STEP_LIMIT}x). `
-                + (applyState.validationErrors?.[0] || applyState.actionLabel || 'No progress after repeated attempts.'),
-            );
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: {
+                    reason: 'apply_step_unavailable',
+                    step: applyState.stepLabel || 'unknown',
+                },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: 'apply_step_unavailable',
+                detail: `Stuck on Easy Apply step "${applyState.stepLabel || 'unknown'}".`,
+                tabId,
+            };
         }
 
         await logSession(
@@ -4524,7 +4810,16 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
                     return { outcome: 'skipped', reason: 'captcha_required', tabId };
                 }
 
-                throw new Error(advanceResponse?.error || 'Could not submit on review step.');
+                await recordAnalyticsEvent(session, 'skipped', job, {
+                    metadata: { reason: 'apply_submit_failed' },
+                });
+
+                return {
+                    outcome: 'skipped',
+                    reason: 'apply_submit_failed',
+                    detail: advanceResponse?.error || 'Could not submit on review step.',
+                    tabId,
+                };
             }
 
             break;
@@ -4593,7 +4888,16 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
         }
 
         if (!advanceResponse?.success) {
-            throw new Error(advanceResponse?.error || 'Could not advance Easy Apply step.');
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'apply_step_unavailable', message: advanceResponse?.error || '' },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: 'apply_step_unavailable',
+                detail: advanceResponse?.error || 'Could not advance Easy Apply step.',
+                tabId,
+            };
         }
 
         if (advanceResponse?.transitioned && advanceResponse?.stepFingerprint && advanceResponse.stepFingerprint !== lastStepFingerprint) {
@@ -4610,7 +4914,16 @@ async function processGlassdoorJob(tabId, job, runDraftAll, session, profileData
     }
 
     if (!submitted) {
-        throw new Error('Could not submit Glassdoor Easy Apply application.');
+        await recordAnalyticsEvent(session, 'skipped', job, {
+            metadata: { reason: 'apply_submit_failed' },
+        });
+
+        return {
+            outcome: 'skipped',
+            reason: 'apply_submit_failed',
+            detail: 'Could not submit Glassdoor Easy Apply application.',
+            tabId,
+        };
     }
 
     await logSession('success', `[submitted] ${job.title} at ${job.company}.`);
@@ -4633,6 +4946,8 @@ function buildGlassdoorRunnerContext() {
         logSession,
         finalizeAutoApplyAnalyticsSession,
         shouldStop,
+        finalizeStoppedSession,
+        interruptibleSleep,
         isWatchdogStuck,
         markWatchdogProgress,
         formatJobOutcomeLogMessage,
@@ -4658,6 +4973,8 @@ function buildReedRunnerContext() {
         logSession,
         finalizeAutoApplyAnalyticsSession,
         shouldStop,
+        finalizeStoppedSession,
+        interruptibleSleep,
         isWatchdogStuck,
         markWatchdogProgress,
         formatJobOutcomeLogMessage,
@@ -4683,6 +5000,8 @@ function buildTotalJobsRunnerContext() {
         logSession,
         finalizeAutoApplyAnalyticsSession,
         shouldStop,
+        finalizeStoppedSession,
+        interruptibleSleep,
         isWatchdogStuck,
         markWatchdogProgress,
         formatJobOutcomeLogMessage,
@@ -4741,7 +5060,24 @@ export async function startAutoApply({
             minFitScore,
         });
 
-        session = appendAutoApplyLog(session, 'info', `Starting Auto Apply on ${platform}.`);
+        const hostTab = await resolveSidePanelHostTab();
+
+        if (hostTab) {
+            session = {
+                ...session,
+                tabId: hostTab.tabId,
+                windowId: hostTab.windowId,
+                usesDedicatedWindow: false,
+            };
+            session = appendAutoApplyLog(
+                session,
+                'info',
+                'Starting Auto Apply using the browser tab where AutoCVApply is open.',
+            );
+        } else {
+            session = appendAutoApplyLog(session, 'info', `Starting Auto Apply on ${platform}.`);
+        }
+
         const analyticsSessionId = await startAutoApplyAnalyticsSession({
             platform,
             roleDescription: trimmedRole,
@@ -4761,11 +5097,15 @@ export async function startAutoApply({
         })()
             .catch(async (error) => {
                 const failedSession = await updateSession((current) => {
+                    if (current.stopRequested) {
+                        return buildStoppedSessionState(current);
+                    }
+
                     const withLog = appendAutoApplyLog(current, 'error', error.message || 'Auto Apply failed.');
 
                     return {
                         ...withLog,
-                        status: current.stopRequested ? 'stopped' : 'error',
+                        status: 'error',
                         finishedAt: new Date().toISOString(),
                         lastError: isExtensionMessagingError(error.message) ? null : (error.message || 'Auto Apply failed.'),
                     };
@@ -4798,6 +5138,17 @@ async function shouldStop(_session) {
     return !latest || latest.stopRequested;
 }
 
+async function finalizeStoppedSession() {
+    const session = await updateSession((current) => buildStoppedSessionState(current));
+
+    if (session) {
+        await finalizeAutoApplyAnalyticsSession(session);
+        broadcastAutoApplyStatus(session);
+    }
+
+    return session;
+}
+
 async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData = null) {
     resetWatchdog();
 
@@ -4825,12 +5176,7 @@ async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData =
         }
 
         if (session.stopRequested) {
-            session = await updateSession({
-                status: 'stopped',
-                finishedAt: new Date().toISOString(),
-            }) || session;
-            await logSession('warn', 'Auto Apply stopped.');
-            await finalizeAutoApplyAnalyticsSession(session);
+            await finalizeStoppedSession();
 
             return;
         }
@@ -4852,6 +5198,12 @@ async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData =
         }
 
         if (isWatchdogStuck(session)) {
+            if (await shouldStop(session)) {
+                await finalizeStoppedSession();
+
+                return;
+            }
+
             tabId = await recoverIndeedTab(tabId, session, 'No Indeed Auto Apply progress detected');
             session = await updateSession({ tabId }) || session;
             markWatchdogProgress(session);
@@ -4870,12 +5222,7 @@ async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData =
             }
 
             if (result.outcome === 'stopped') {
-                session = await updateSession({
-                    status: 'stopped',
-                    finishedAt: new Date().toISOString(),
-                }) || session;
-                await logSession('warn', 'Auto Apply stopped while waiting for input.');
-                await finalizeAutoApplyAnalyticsSession(session);
+                await finalizeStoppedSession();
 
                 return;
             }
@@ -4935,17 +5282,18 @@ async function runIndeedAutoApplyLoop(initialSession, runDraftAll, profileData =
         }
 
         if (await shouldStop(session)) {
-            session = await updateSession({
-                status: 'stopped',
-                finishedAt: new Date().toISOString(),
-            }) || session;
-            await logSession('warn', 'Auto Apply stopped.');
-            await finalizeAutoApplyAnalyticsSession(session);
+            await finalizeStoppedSession();
 
             return;
         }
 
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
+        const slept = await interruptibleSleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
+
+        if (!slept) {
+            await finalizeStoppedSession();
+
+            return;
+        }
     }
 
     session = await loadAutoApplySession();
@@ -5019,12 +5367,7 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
         }
 
         if (session.stopRequested) {
-            session = await updateSession({
-                status: 'stopped',
-                finishedAt: new Date().toISOString(),
-            }) || session;
-            await logSession('warn', 'Auto Apply stopped.');
-            await finalizeAutoApplyAnalyticsSession(session);
+            await finalizeStoppedSession();
 
             return;
         }
@@ -5046,6 +5389,12 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
         }
 
         if (isWatchdogStuck(session)) {
+            if (await shouldStop(session)) {
+                await finalizeStoppedSession();
+
+                return;
+            }
+
             const health = await scanLinkedInTabHealth(tabId, { loadingStuck: true });
             const reason = health.primary
                 ? formatLinkedInIssue(health.primary)
@@ -5076,12 +5425,7 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
             }
 
             if (result.outcome === 'stopped') {
-                session = await updateSession({
-                    status: 'stopped',
-                    finishedAt: new Date().toISOString(),
-                }) || session;
-                await logSession('warn', 'Auto Apply stopped while waiting for input.');
-                await finalizeAutoApplyAnalyticsSession(session);
+                await finalizeStoppedSession();
 
                 return;
             }
@@ -5147,17 +5491,18 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
         }
 
         if (await shouldStop(session)) {
-            session = await updateSession({
-                status: 'stopped',
-                finishedAt: new Date().toISOString(),
-            }) || session;
-            await logSession('warn', 'Auto Apply stopped.');
-            await finalizeAutoApplyAnalyticsSession(session);
+            await finalizeStoppedSession();
 
             return;
         }
 
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
+        const slept = await interruptibleSleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
+
+        if (!slept) {
+            await finalizeStoppedSession();
+
+            return;
+        }
     }
 
     session = await loadAutoApplySession();
@@ -5226,15 +5571,27 @@ export async function stopAutoApply() {
         return null;
     }
 
+    if (isTerminalAutoApplyStatus(session.status)) {
+        await resetAutoApplySession();
+
+        return null;
+    }
+
     if (!['running', 'paused_for_input'].includes(session.status)) {
         return session;
     }
 
-    return updateSession({
+    const updated = await updateSession({
         stopRequested: true,
+        pauseContext: null,
         status: session.status === 'paused_for_input' ? 'running' : session.status,
-        pauseContext: session.status === 'paused_for_input' ? null : session.pauseContext,
     });
+
+    if (updated) {
+        broadcastAutoApplyStatus(updated);
+    }
+
+    return updated;
 }
 
 export async function getAutoApplyStatus() {
@@ -5246,7 +5603,7 @@ export async function getAutoApplyStatus() {
 export async function resetAutoApplySession() {
     const session = await loadAutoApplySession();
 
-    if (session?.windowId) {
+    if (session?.usesDedicatedWindow === true && session?.windowId) {
         await closeAutoApplyWindow(session.windowId);
     }
 
@@ -5357,6 +5714,8 @@ const {
     resetWatchdog,
     finalizeAutoApplyAnalyticsSession,
     shouldStop,
+    finalizeStoppedSession,
+    interruptibleSleep,
     isWatchdogStuck,
     formatJobOutcomeLogMessage,
     appendAutoApplyLog,
@@ -5400,6 +5759,8 @@ const {
     resetWatchdog,
     finalizeAutoApplyAnalyticsSession,
     shouldStop,
+    finalizeStoppedSession,
+    interruptibleSleep,
     isWatchdogStuck,
     formatJobOutcomeLogMessage,
     appendAutoApplyLog,

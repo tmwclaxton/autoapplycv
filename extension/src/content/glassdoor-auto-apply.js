@@ -284,6 +284,23 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         return false;
     }
 
+    function readApplyAvailability() {
+        if (hasIndeedApplyIframe()) {
+            return { easyApply: true, hasApplyButton: true, alreadyOpen: true };
+        }
+
+        if (readExternalApplyMarker()) {
+            return { easyApply: false, hasApplyButton: false, externalApply: true };
+        }
+
+        const applyButton = readApplyButton();
+
+        return {
+            easyApply: Boolean(applyButton),
+            hasApplyButton: Boolean(applyButton),
+        };
+    }
+
     async function clickGlassdoorApply() {
         for (let attempt = 0; attempt < 4; attempt += 1) {
             dismissLoginOverlay();
@@ -298,8 +315,14 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
                 await scrollIntoViewHuman(applyButton);
                 await clickElement(applyButton, { quick: false });
 
-                if (hasIndeedApplyIframe()) {
-                    return { success: true, easyApply: true };
+                const iframeDeadline = Date.now() + 18_000;
+
+                while (Date.now() < iframeDeadline) {
+                    if (hasIndeedApplyIframe()) {
+                        return { success: true, easyApply: true };
+                    }
+
+                    await humanPause(500, 800);
                 }
 
                 return { success: true, easyApply: true, clicked: true };
@@ -497,6 +520,7 @@ const AutoCVApplyGlassdoorAutoApply = (() => {
         isGlassdoorSearchPage,
         prepareJobSearch,
         prepareJobView,
+        readApplyAvailability,
         readJobDescriptionText,
         scanPageHealth,
         selectJobById,

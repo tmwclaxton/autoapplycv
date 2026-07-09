@@ -32,12 +32,18 @@ const AutoCVApplyIndeedAutoApply = (() => {
     }
 
     function isIndeedApplyFlowPage() {
+        const host = window.location.hostname;
+
+        if (/smartapply\.indeed\.com|apply\.indeed\.com/i.test(host)) {
+            return true;
+        }
+
         if (!isIndeedHostname()) {
             return false;
         }
 
-        return /smartapply\.indeed\.com/i.test(window.location.hostname)
-            || /indeedapply/i.test(window.location.pathname);
+        return /indeedapply/i.test(window.location.pathname)
+            || /indeedapply/i.test(window.location.href);
     }
 
     function readJobIdFromUrl() {
@@ -724,7 +730,12 @@ const AutoCVApplyIndeedAutoApply = (() => {
         const scopes = [readApplyModuleScope(), document];
 
         for (const scope of scopes) {
-            for (const testId of ['continue-button', 'save-and-continue-button']) {
+            for (const testId of [
+                'continue-button',
+                'save-and-continue-button',
+                'apply-button-continue',
+                'application-module-continue-button',
+            ]) {
                 const byTestId = scope.querySelector(`[data-testid="${testId}"]`);
 
                 if (byTestId instanceof HTMLElement && !byTestId.disabled) {
@@ -732,7 +743,27 @@ const AutoCVApplyIndeedAutoApply = (() => {
                 }
             }
 
-            for (const button of scope.querySelectorAll('button, [role="button"]')) {
+            for (const selector of [
+                'input[type="submit"]',
+                'button[type="submit"]',
+                '[data-tn-element="continue-button"]',
+                '[data-indeed-apply-button]',
+            ]) {
+                const candidate = scope.querySelector(selector);
+
+                if (!(candidate instanceof HTMLElement) || candidate.disabled) {
+                    continue;
+                }
+
+                const label = normalize(candidate.getAttribute('aria-label') || candidate.getAttribute('value') || candidate.textContent);
+
+                if (/^(continue|save and continue|next|review)$/i.test(label)
+                    || /\b(continue|next)\b/i.test(label)) {
+                    return candidate;
+                }
+            }
+
+            for (const button of scope.querySelectorAll('button, [role="button"], input[type="button"]')) {
                 if (!(button instanceof HTMLElement) || button.disabled) {
                     continue;
                 }
@@ -745,7 +776,7 @@ const AutoCVApplyIndeedAutoApply = (() => {
                     continue;
                 }
 
-                const label = normalize(button.getAttribute('aria-label') || button.textContent);
+                const label = normalize(button.getAttribute('aria-label') || button.getAttribute('value') || button.textContent);
 
                 if (
                     /^(continue|save and continue|next)$/i.test(label)
@@ -1067,6 +1098,65 @@ const AutoCVApplyIndeedAutoApply = (() => {
         const continueButton = readContinueButton();
 
         if (!continueButton) {
+            for (let attempt = 0; attempt < 12; attempt += 1) {
+                await humanPause(400, 700);
+
+                const retryButton = readContinueButton();
+
+                if (retryButton) {
+                    if (retryButton.disabled) {
+                        continue;
+                    }
+
+                    await clickElement(retryButton, { skipScroll: isElementMostlyVisible(retryButton) });
+
+                    const deadline = Date.now() + 14_000;
+
+                    while (Date.now() < deadline) {
+                        await humanPause(320, 560);
+
+                        const nextFingerprint = readStepFingerprint();
+
+                        if (nextFingerprint !== previousFingerprint) {
+                            return {
+                                success: true,
+                                action: 'continue',
+                                submitted: false,
+                                transitioned: true,
+                                stepFingerprint: nextFingerprint,
+                                validationErrors: readValidationErrors(),
+                            };
+                        }
+
+                        const verify = verifySubmitted();
+
+                        if (verify.submitted) {
+                            return {
+                                success: true,
+                                action: 'submit',
+                                submitted: true,
+                                transitioned: true,
+                                stepFingerprint: nextFingerprint,
+                                validationErrors: [],
+                                confirmation: verify.confirmation,
+                            };
+                        }
+                    }
+
+                    const validationErrors = readValidationErrors();
+
+                    return {
+                        success: validationErrors.length === 0,
+                        action: validationErrors.length > 0 ? 'blocked' : 'continue',
+                        submitted: false,
+                        transitioned: false,
+                        stepFingerprint: readStepFingerprint(),
+                        validationErrors,
+                        error: validationErrors[0] || 'Indeed Apply did not advance after Continue.',
+                    };
+                }
+            }
+
             return {
                 success: false,
                 error: 'No Continue or Submit button found on Indeed Apply page.',

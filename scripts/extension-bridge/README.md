@@ -67,6 +67,8 @@ Start `npm run extension-bridge` before using MCP tools.
 | Tool | Purpose |
 |------|---------|
 | `extension_status` | Bridge + extension connection, token, active tab |
+| `list_extension_instances` | All connected Chrome profiles / instances |
+| `set_active_instance` | Pin commands to one extension instance |
 | `get_page_html` | HTML from content script |
 | `get_field_inventory` | Mechanical field snapshot |
 | `get_debug_logs` | Debug log buffer (optional E2E export) |
@@ -117,6 +119,53 @@ Environment variables (optional):
 | `EXTENSION_BRIDGE_HTTP_HOST` | `127.0.0.1` |
 | `EXTENSION_BRIDGE_HTTP_PORT` | `7433` |
 | `EXTENSION_BRIDGE_COMMAND_TIMEOUT_MS` | `30000` |
+| `EXTENSION_BRIDGE_INSTANCE_ID` | (none) - pin HTTP/MCP commands to one connected instance |
+
+## Multiple Chrome profiles / parallel tasks
+
+Each Chrome **profile** with the extension loaded is a separate bridge **instance**. Multiple browser windows in the same profile still share one instance (one service worker), but you can target tabs by `tabId` / `windowId` inside that profile.
+
+### Label each profile
+
+In each Chrome profile's extension service worker console:
+
+```javascript
+await chrome.storage.local.set({
+  EXTENSION_BRIDGE_INSTANCE_ID: 'worker-linkedin',
+  EXTENSION_BRIDGE_INSTANCE_LABEL: 'LinkedIn marathon',
+});
+```
+
+Reload the extension in that profile. Repeat in other profiles with different ids, e.g. `worker-indeed`, `worker-reed`.
+
+`instanceId` defaults to `chrome.runtime.id` when unset (unique per profile install).
+
+### Route commands to an instance
+
+HTTP:
+
+```bash
+curl -s http://127.0.0.1:7433/instances
+curl -s http://127.0.0.1:7433/active-instance -X POST \
+  -H 'Content-Type: application/json' \
+  -d '{"instanceId":"worker-linkedin"}'
+curl -s http://127.0.0.1:7433/command \
+  -H 'Content-Type: application/json' \
+  -d '{"action":"list_tabs","instanceId":"worker-indeed"}'
+```
+
+MCP: call `list_extension_instances`, then `set_active_instance` with an id, or pass `instanceId` on individual tools.
+
+Test scripts:
+
+```bash
+EXTENSION_BRIDGE_INSTANCE_ID=worker-linkedin \
+  node scripts/extension-test/auto-apply-marathon.mjs --platform=linkedin --target=3
+
+node scripts/extension-test/auto-apply-all-platforms.mjs --instance=worker-indeed --target=10
+```
+
+When more than one instance is connected, marathon scripts require `--instance` or `EXTENSION_BRIDGE_INSTANCE_ID`.
 
 ## Interaction workflow
 
@@ -144,9 +193,9 @@ curl -s http://127.0.0.1:7433/command -H 'Content-Type: application/json' \
 - Navigation is limited to `http`/`https` URLs.
 - `save_fixture` redacts known secret patterns before writing HTML.
 
-## Limitations (MVP)
+## Limitations
 
-- One extension connection at a time (latest reconnect wins).
+- Multiple extension instances supported (one per Chrome profile). Same profile / multiple windows share one connection.
 - No remote access; localhost only.
 - `request_auth` detects common login URL patterns but does not automate SSO.
 - `save_fixture` adds draft manifest entries; vet/propose steps are manual.

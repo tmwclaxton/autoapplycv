@@ -230,6 +230,7 @@ copyFileSync(join(SRC, 'shared/bridge-client.js'), join(DIST, 'bridge-client.js'
 copyFileSync(join(SRC, 'shared/draft-batch-chat.js'), join(DIST, 'draft-batch-chat.js'));
 copyFileSync(join(SRC, 'shared/upload-validation.js'), join(DIST, 'upload-validation.js'));
 copyFileSync(join(SRC, 'shared/side-panel-state.js'), join(DIST, 'side-panel-state.js'));
+copyFileSync(join(SRC, 'shared/side-panel-host-tab.js'), join(DIST, 'side-panel-host-tab.js'));
 copyFileSync(join(SRC, 'shared/linkedin-platform.js'), join(DIST, 'linkedin-platform.js'));
 copyFileSync(join(SRC, 'shared/indeed-platform.js'), join(DIST, 'indeed-platform.js'));
 copyFileSync(join(SRC, 'shared/totaljobs-platform.js'), join(DIST, 'totaljobs-platform.js'));

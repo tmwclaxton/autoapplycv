@@ -10,15 +10,21 @@ import { redactSecrets } from '../form-corpus/lib/redact-secrets.mjs';
 import { writeHtmlFixture } from '../form-corpus/lib/write-html-fixture.mjs';
 import { httpBaseUrl, resolveBridgeConfig, wsUrl } from './config.mjs';
 import { runClickControl, runFindButtons } from './lib/bridge-actions.mjs';
+import {
+    buildBridgeStatus,
+    clearActiveTabOverride,
+    clearDefaultInstanceId,
+    getInstance,
+    listConnectedInstances,
+    registerInstance,
+    setActiveTabOverride,
+    setDefaultInstanceId,
+    unregisterInstance,
+    updateInstanceStatus,
+} from './lib/instances.mjs';
 
 const config = resolveBridgeConfig();
 
-/** @type {import('ws').WebSocket | null} */
-let extensionSocket = null;
-/** @type {Record<string, unknown> | null} */
-let lastExtensionStatus = null;
-/** @type {number | null} */
-let activeTabOverride = null;
 /** @type {Map<string, { resolve: (value: unknown) => void, reject: (error: Error) => void, timer: ReturnType<typeof setTimeout> }>} */
 const pendingCommands = new Map();
 
@@ -27,28 +33,37 @@ function log(message, details = null) {
     console.log(`[extension-bridge] ${message}${suffix}`);
 }
 
-function sendToExtension(payload) {
-    if (!extensionSocket || extensionSocket.readyState !== 1) {
-        throw new Error('Extension is not connected. Reload the extension with bridge dev mode enabled.');
-    }
-
-    extensionSocket.send(JSON.stringify(payload));
+/**
+ * @param {string | null | undefined} instanceId
+ * @param {Record<string, unknown>} payload
+ */
+function sendToExtension(instanceId, payload) {
+    const instance = getInstance(instanceId);
+    instance.ws.send(JSON.stringify(payload));
 }
 
-function resolveTabId(params = {}) {
+/**
+ * @param {Record<string, unknown>} params
+ * @param {{ activeTabOverride: number | null }} instance
+ */
+function resolveTabId(params = {}, instance) {
     if (typeof params.tabId === 'number') {
         return params.tabId;
     }
 
-    if (activeTabOverride !== null) {
-        return activeTabOverride;
+    if (instance.activeTabOverride !== null) {
+        return instance.activeTabOverride;
     }
 
     return null;
 }
 
-function withResolvedTabId(params = {}) {
-    const tabId = resolveTabId(params);
+/**
+ * @param {Record<string, unknown>} params
+ * @param {{ activeTabOverride: number | null }} instance
+ */
+function withResolvedTabId(params = {}, instance) {
+    const tabId = resolveTabId(params, instance);
 
     if (tabId === null) {
         return { ...params };
@@ -57,8 +72,14 @@ function withResolvedTabId(params = {}) {
     return { ...params, tabId };
 }
 
-function sendCommand(action, params = {}, { timeoutMs = config.commandTimeoutMs } = {}) {
+/**
+ * @param {string} action
+ * @param {Record<string, unknown>} [params]
+ * @param {{ timeoutMs?: number, instanceId?: string | null }} [options]
+ */
+function sendCommand(action, params = {}, { timeoutMs = config.commandTimeoutMs, instanceId = null } = {}) {
     const id = randomUUID();
+    const instance = getInstance(instanceId);
 
     return new Promise((resolve, reject) => {
         const timer = setTimeout(() => {
@@ -69,11 +90,11 @@ function sendCommand(action, params = {}, { timeoutMs = config.commandTimeoutMs 
         pendingCommands.set(id, { resolve, reject, timer });
 
         try {
-            sendToExtension({
+            sendToExtension(instance.instanceId, {
                 type: 'command',
                 id,
                 action,
-                params: withResolvedTabId(params),
+                params: withResolvedTabId(params, instance),
             });
         } catch (error) {
             clearTimeout(timer);
@@ -83,7 +104,11 @@ function sendCommand(action, params = {}, { timeoutMs = config.commandTimeoutMs 
     });
 }
 
-function handleExtensionMessage(raw) {
+/**
+ * @param {import('ws').RawData} raw
+ * @param {import('ws').WebSocket} ws
+ */
+function handleExtensionMessage(raw, ws) {
     let message;
 
     try {
@@ -95,7 +120,17 @@ function handleExtensionMessage(raw) {
     }
 
     if (message.type === 'hello') {
+        const instanceId = typeof message.instanceId === 'string' && message.instanceId.trim() !== ''
+            ? message.instanceId.trim()
+            : 'default';
+
+        registerInstance(instanceId, ws, {
+            extensionVersion: message.extensionVersion ?? null,
+            instanceLabel: message.instanceLabel ?? null,
+        });
         log('extension connected', {
+            instanceId,
+            instanceLabel: message.instanceLabel ?? null,
             extensionVersion: message.extensionVersion ?? null,
         });
 
@@ -103,7 +138,7 @@ function handleExtensionMessage(raw) {
     }
 
     if (message.type === 'status') {
-        lastExtensionStatus = message.payload ?? null;
+        updateInstanceStatus(ws, message.payload ?? null);
 
         return;
     }
@@ -124,14 +159,6 @@ function handleExtensionMessage(raw) {
             pending.reject(new Error(message.error || 'Bridge command failed'));
         }
     }
-}
-
-function buildBridgeStatus() {
-    return {
-        extensionConnected: extensionSocket?.readyState === 1,
-        activeTabOverride,
-        extension: lastExtensionStatus,
-    };
 }
 
 async function readJsonBody(req) {
@@ -166,8 +193,11 @@ function slugifyFixtureId(value) {
         .slice(0, 80) || 'fixture';
 }
 
-async function saveFixtureFromExtension({ id, category = 'captured', notes = '' }) {
-    const page = await sendCommand('get_page_html', {}, { timeoutMs: config.commandTimeoutMs });
+/**
+ * @param {{ id?: string, category?: string, notes?: string, instanceId?: string | null }} options
+ */
+async function saveFixtureFromExtension({ id, category = 'captured', notes = '', instanceId = null }) {
+    const page = await sendCommand('get_page_html', {}, { timeoutMs: config.commandTimeoutMs, instanceId });
     const html = typeof page?.html === 'string' ? page.html : '';
 
     if (!html.trim()) {
@@ -226,17 +256,47 @@ async function handleHttpRequest(req, res) {
             return;
         }
 
+        if (req.method === 'GET' && url.pathname === '/instances') {
+            sendJson(res, 200, {
+                defaultInstanceId: buildBridgeStatus().defaultInstanceId,
+                instances: listConnectedInstances(),
+            });
+
+            return;
+        }
+
+        if (req.method === 'POST' && url.pathname === '/active-instance') {
+            const body = await readJsonBody(req);
+            const defaultInstanceId = setDefaultInstanceId(body.instanceId);
+            sendJson(res, 200, { defaultInstanceId });
+
+            return;
+        }
+
+        if (req.method === 'DELETE' && url.pathname === '/active-instance') {
+            clearDefaultInstanceId();
+            sendJson(res, 200, { defaultInstanceId: null });
+
+            return;
+        }
+
         if (req.method === 'POST' && url.pathname === '/active-tab') {
             const body = await readJsonBody(req);
-            activeTabOverride = typeof body.tabId === 'number' ? body.tabId : null;
-            sendJson(res, 200, { activeTabOverride });
+            const activeTabOverride = setActiveTabOverride(
+                body.instanceId ?? null,
+                typeof body.tabId === 'number' ? body.tabId : null,
+            );
+            sendJson(res, 200, { activeTabOverride, instanceId: getInstance(body.instanceId ?? null).instanceId });
 
             return;
         }
 
         if (req.method === 'DELETE' && url.pathname === '/active-tab') {
-            activeTabOverride = null;
-            sendJson(res, 200, { activeTabOverride: null });
+            const body = req.headers['content-length'] === '0'
+                ? {}
+                : await readJsonBody(req);
+            const activeTabOverride = clearActiveTabOverride(body.instanceId ?? null);
+            sendJson(res, 200, { activeTabOverride, instanceId: getInstance(body.instanceId ?? null).instanceId });
 
             return;
         }
@@ -253,13 +313,14 @@ async function handleHttpRequest(req, res) {
 
             const timeoutMs = Number(body.timeoutMs || config.commandTimeoutMs);
             const params = body.params || {};
+            const instanceId = body.instanceId ?? null;
 
             if (action === 'find_buttons') {
                 const result = await runFindButtons(
                     (bridgeAction, bridgeParams, options = {}) => sendCommand(
                         bridgeAction,
                         bridgeParams,
-                        { timeoutMs: options.timeoutMs ?? timeoutMs },
+                        { timeoutMs: options.timeoutMs ?? timeoutMs, instanceId },
                     ),
                     params,
                     timeoutMs,
@@ -274,7 +335,7 @@ async function handleHttpRequest(req, res) {
                     (bridgeAction, bridgeParams, options = {}) => sendCommand(
                         bridgeAction,
                         bridgeParams,
-                        { timeoutMs: options.timeoutMs ?? timeoutMs },
+                        { timeoutMs: options.timeoutMs ?? timeoutMs, instanceId },
                     ),
                     params,
                     timeoutMs,
@@ -284,7 +345,7 @@ async function handleHttpRequest(req, res) {
                 return;
             }
 
-            const result = await sendCommand(action, params, { timeoutMs });
+            const result = await sendCommand(action, params, { timeoutMs, instanceId });
             sendJson(res, 200, { result });
 
             return;
@@ -312,24 +373,13 @@ const wss = new WebSocketServer({
 });
 
 wss.on('connection', (ws) => {
-    if (extensionSocket && extensionSocket.readyState === 1) {
-        log('replacing previous extension connection');
-        extensionSocket.close();
-    }
-
-    extensionSocket = ws;
-    lastExtensionStatus = null;
-
     ws.on('message', (data) => {
-        handleExtensionMessage(data);
+        handleExtensionMessage(data, ws);
     });
 
     ws.on('close', () => {
-        if (extensionSocket === ws) {
-            extensionSocket = null;
-            lastExtensionStatus = null;
-            log('extension disconnected');
-        }
+        const instanceId = unregisterInstance(ws);
+        log('extension disconnected', { instanceId });
     });
 });
 

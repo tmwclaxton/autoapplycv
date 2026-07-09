@@ -347,6 +347,19 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
         return null;
     }
 
+    function readApplyAvailability() {
+        if (readExternalApplyMarker()) {
+            return { cvLibraryApply: false, hasApplyButton: false, externalApply: true };
+        }
+
+        const applyButton = readApplyButton();
+
+        return {
+            cvLibraryApply: Boolean(applyButton),
+            hasApplyButton: Boolean(applyButton),
+        };
+    }
+
     async function waitForJobDetailReady(jobId, timeoutMs = 20_000) {
         const target = String(jobId || '').trim();
         const deadline = Date.now() + timeoutMs;
@@ -820,6 +833,7 @@ const AutoCVApplyCvLibraryAutoApply = (() => {
         collectJobCards,
         selectJobById,
         waitForJobDetailReady,
+        readApplyAvailability,
         readJobDescriptionText,
         waitForJobDescriptionReady,
         clickCvLibraryApply,

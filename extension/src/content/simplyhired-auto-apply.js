@@ -305,6 +305,33 @@ const AutoCVApplySimplyHiredAutoApply = (() => {
         return false;
     }
 
+    function readApplyAvailability() {
+        if (hasIndeedApplyIframe()) {
+            return { quickApply: true, hasApplyButton: true, alreadyOpen: true };
+        }
+
+        if (readExternalApplyMarker()) {
+            return { quickApply: false, hasApplyButton: false, externalApply: true };
+        }
+
+        const applyButton = readApplyButton();
+
+        if (applyButton) {
+            const href = applyButton.getAttribute('href') || '';
+            const external = /^https?:\/\//i.test(href)
+                && !/simplyhired\.(co\.uk|com)/i.test(href)
+                && !/indeedapply|smartapply/i.test(href);
+
+            return {
+                quickApply: !external,
+                hasApplyButton: true,
+                externalApply: external,
+            };
+        }
+
+        return { quickApply: false, hasApplyButton: false };
+    }
+
     async function clickSimplyHiredApply() {
         for (let attempt = 0; attempt < 4; attempt += 1) {
             if (hasIndeedApplyIframe()) {
@@ -316,10 +343,15 @@ const AutoCVApplySimplyHiredAutoApply = (() => {
             if (applyButton) {
                 await scrollIntoViewHuman(applyButton);
                 await clickElement(applyButton, { quick: false });
-                await humanPause(1200, 2000);
 
-                if (hasIndeedApplyIframe()) {
-                    return { success: true, quickApply: true };
+                const iframeDeadline = Date.now() + 18_000;
+
+                while (Date.now() < iframeDeadline) {
+                    if (hasIndeedApplyIframe()) {
+                        return { success: true, quickApply: true };
+                    }
+
+                    await humanPause(500, 800);
                 }
 
                 const href = applyButton.getAttribute('href') || '';
@@ -516,6 +548,7 @@ const AutoCVApplySimplyHiredAutoApply = (() => {
         isSimplyHiredSearchPage,
         prepareJobSearch,
         prepareJobView,
+        readApplyAvailability,
         readJobDescriptionText,
         scanPageHealth,
         selectJobById,

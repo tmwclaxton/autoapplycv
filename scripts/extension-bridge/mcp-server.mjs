@@ -2,37 +2,27 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
-import { httpBaseUrl, resolveBridgeConfig } from './config.mjs';
+import { resolveBridgeConfig } from './config.mjs';
+import {
+    bridgeCommand,
+    bridgeFetch,
+    bridgeStatus,
+    clearActiveBridgeInstance,
+    resolveBridgeInstanceId,
+    setActiveBridgeInstance,
+} from './lib/bridge-http.mjs';
 
 const config = resolveBridgeConfig();
-const baseUrl = httpBaseUrl(config);
 
-async function bridgeFetch(path, options = {}) {
-    const response = await fetch(`${baseUrl}${path}`, {
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            ...(options.headers || {}),
-        },
-        ...options,
+const instanceIdSchema = z.string().optional().describe(
+    'Extension instance id when multiple Chrome profiles are connected. Defaults to EXTENSION_BRIDGE_INSTANCE_ID env or the sole connected instance.',
+);
+
+async function runCommand(action, params = {}, timeoutMs = config.commandTimeoutMs, instanceId = null) {
+    return bridgeCommand(action, params, {
+        instanceId: resolveBridgeInstanceId(instanceId),
+        timeoutMs,
     });
-
-    const data = await response.json().catch(() => ({}));
-
-    if (!response.ok) {
-        throw new Error(data.error || `Bridge HTTP ${response.status} for ${path}`);
-    }
-
-    return data;
-}
-
-async function runCommand(action, params = {}, timeoutMs = config.commandTimeoutMs) {
-    const data = await bridgeFetch('/command', {
-        method: 'POST',
-        body: JSON.stringify({ action, params, timeoutMs }),
-    });
-
-    return data.result;
 }
 
 const server = new McpServer({
@@ -42,15 +32,76 @@ const server = new McpServer({
 
 server.tool(
     'extension_status',
-    'Check whether the local Chrome extension is connected to the bridge and report token/tab state.',
-    {},
-    async () => {
-        const status = await bridgeFetch('/status');
+    'Check whether local Chrome extension instances are connected to the bridge and report token/tab state.',
+    {
+        instanceId: instanceIdSchema,
+    },
+    async ({ instanceId }) => {
+        const status = await bridgeStatus();
+
+        if (instanceId) {
+            const match = status.instances?.find((instance) => instance.instanceId === instanceId);
+
+            return {
+                content: [{
+                    type: 'text',
+                    text: JSON.stringify({
+                        ...status,
+                        selectedInstance: match ?? null,
+                    }, null, 2),
+                }],
+            };
+        }
 
         return {
             content: [{
                 type: 'text',
                 text: JSON.stringify(status, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'list_extension_instances',
+    'List all Chrome extension profiles currently connected to the bridge.',
+    {},
+    async () => {
+        const result = await bridgeFetch('/instances');
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
+            }],
+        };
+    },
+);
+
+server.tool(
+    'set_active_instance',
+    'Pin bridge commands to a specific connected extension instance, or clear the override.',
+    {
+        instanceId: z.string().nullable().optional().describe('Instance id to pin. Pass null to clear override.'),
+    },
+    async ({ instanceId }) => {
+        if (instanceId === null || instanceId === undefined) {
+            const result = await clearActiveBridgeInstance();
+
+            return {
+                content: [{
+                    type: 'text',
+                    text: JSON.stringify(result, null, 2),
+                }],
+            };
+        }
+
+        const result = await setActiveBridgeInstance(instanceId);
+
+        return {
+            content: [{
+                type: 'text',
+                text: JSON.stringify(result, null, 2),
             }],
         };
     },
@@ -118,10 +169,21 @@ server.tool(
     'Pin bridge commands to a specific Chrome tab id, or clear the override to use the focused tab.',
     {
         tabId: z.number().int().nullable().optional().describe('Tab id to pin. Pass null or omit to clear override and use focused tab.'),
+        instanceId: instanceIdSchema,
     },
-    async ({ tabId }) => {
+    async ({ tabId, instanceId }) => {
+        const resolvedInstanceId = resolveBridgeInstanceId(instanceId);
+        const body = { tabId: tabId ?? null };
+
+        if (resolvedInstanceId) {
+            body.instanceId = resolvedInstanceId;
+        }
+
         if (tabId === null || tabId === undefined) {
-            const result = await bridgeFetch('/active-tab', { method: 'DELETE' });
+            const result = await bridgeFetch('/active-tab', {
+                method: 'DELETE',
+                body: JSON.stringify(body),
+            });
 
             return {
                 content: [{
@@ -133,7 +195,7 @@ server.tool(
 
         const result = await bridgeFetch('/active-tab', {
             method: 'POST',
-            body: JSON.stringify({ tabId }),
+            body: JSON.stringify(body),
         });
 
         return {

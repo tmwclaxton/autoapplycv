@@ -35,6 +35,7 @@ const MIN_FIT = Number(args['min-fit'] || 10);
 const POLL_MS = Number(args.poll || 3000);
 const CAPTCHA_WAIT_MS = Number(args['captcha-wait'] || 120_000);
 const RUN_TIMEOUT_MS = Number(args.timeout || 6 * 60 * 60 * 1000);
+const INSTANCE_ID = args.instance || process.env.EXTENSION_BRIDGE_INSTANCE_ID || null;
 
 function log(message) {
     const line = `[${new Date().toISOString().slice(11, 19)}] ${message}`;
@@ -48,6 +49,12 @@ function log(message) {
 }
 
 async function bridgeCommand(action, params = {}, timeoutMs = 120000) {
+    const body = { action, params, timeoutMs };
+
+    if (INSTANCE_ID) {
+        body.instanceId = INSTANCE_ID;
+    }
+
     const response = await fetch(`${BRIDGE}/command`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

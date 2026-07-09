@@ -28,7 +28,6 @@ export function createCvLibraryOrchestrator(deps) {
         fetchJobMetaFromTab,
         resolveJobDescriptionFromMetaResponse,
         MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
-        formatIndeedSkipLogMessage,
         formatAutoApplyFitLogMessage,
         requestAutoApplyAtsScore,
         resolveAutoApplyFitDecision,
@@ -46,6 +45,8 @@ export function createCvLibraryOrchestrator(deps) {
         resetWatchdog,
         finalizeAutoApplyAnalyticsSession,
         shouldStop,
+        finalizeStoppedSession,
+        interruptibleSleep,
         isWatchdogStuck,
         formatJobOutcomeLogMessage,
         appendAutoApplyLog,
@@ -118,6 +119,10 @@ export function createCvLibraryOrchestrator(deps) {
     }
 
     async function recoverCvLibraryTab(tabId, session, reason) {
+        if (await shouldStop(session)) {
+            return tabId;
+        }
+
         if (watchdogState.recoveryCount >= STUCK_RECOVERY_LIMIT) {
             throw new Error(`CV-Library navigation stuck (${reason}). Recovery limit reached.`);
         }
@@ -212,8 +217,8 @@ export function createCvLibraryOrchestrator(deps) {
 
         const hadWindow = Boolean(await resolveAutoApplyWindowId(session));
 
-        if (!hadWindow) {
-            await logSession('info', 'Running Auto Apply in a minimized background window so you can keep browsing.');
+        if (!hadWindow && session.usesDedicatedWindow !== false) {
+            await logSession('info', 'Running Auto Apply in a background window so you can keep browsing.');
         }
 
         await logSession('info', `CV-Library search: ${searchUrl}`);
@@ -498,10 +503,6 @@ export function createCvLibraryOrchestrator(deps) {
         tabId = openResult.tabId || tabId;
 
         if (!openResult.success) {
-            await logSession(
-                'info',
-                formatIndeedSkipLogMessage(job, openResult.skipReason || 'job_unavailable', openResult.error || ''),
-            );
             await recordAnalyticsEvent(session, 'skipped', job, {
                 metadata: { reason: openResult.skipReason || 'job_unavailable' },
             });
@@ -520,6 +521,31 @@ export function createCvLibraryOrchestrator(deps) {
 
         await captureJobPage(tabId);
 
+        const health = await sendCvLibraryMessage(tabId, 'CV_LIBRARY_SCAN_PAGE_HEALTH');
+
+        if (health && health.ok === false) {
+            throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'CV-Library page blocked.');
+        }
+
+        await sendCvLibraryMessage(tabId, 'CV_LIBRARY_PREPARE_JOB_VIEW', { light: true }).catch(() => {});
+
+        const applyAvailability = await sendCvLibraryMessage(tabId, 'CV_LIBRARY_CHECK_APPLY_AVAILABILITY');
+
+        if (applyAvailability?.cvLibraryApply === false || !applyAvailability?.hasApplyButton) {
+            await recordAnalyticsEvent(session, 'skipped', job, {
+                metadata: { reason: 'no_cvlibrary_apply' },
+            });
+
+            return {
+                outcome: 'skipped',
+                reason: 'no_cvlibrary_apply',
+                detail: applyAvailability?.externalApply
+                    ? 'Job uses external apply, not CV-Library Easy Apply.'
+                    : 'CV-Library Easy Apply button not found on job page.',
+                tabId,
+            };
+        }
+
         const fitSession = await loadAutoApplySession();
         const fitResult = await evaluateCvLibraryJobFit(tabId, job, fitSession || session);
 
@@ -531,12 +557,6 @@ export function createCvLibraryOrchestrator(deps) {
                 atsScore: fitResult.score,
                 fitReason: fitResult.fitReason || '',
             };
-        }
-
-        const health = await sendCvLibraryMessage(tabId, 'CV_LIBRARY_SCAN_PAGE_HEALTH');
-
-        if (health && health.ok === false) {
-            throw new Error(health.primary?.message || health.blocking?.[0]?.message || 'CV-Library page blocked.');
         }
 
         const applyUrl = buildCvLibraryJobApplyUrl(job.jobId);
@@ -562,10 +582,6 @@ export function createCvLibraryOrchestrator(deps) {
         const applyFlowReady = await waitForCvLibraryApplyFlowOpen(tabId);
 
         if (!applyFlowReady) {
-            await logSession(
-                'info',
-                formatIndeedSkipLogMessage(job, 'no_cvlibrary_apply', 'CV-Library Easy Apply form did not open.'),
-            );
             await recordAnalyticsEvent(session, 'skipped', job, {
                 metadata: { reason: 'no_cvlibrary_apply' },
             });
@@ -820,6 +836,8 @@ export function createCvLibraryOrchestrator(deps) {
             logSession,
             finalizeAutoApplyAnalyticsSession,
             shouldStop,
+            finalizeStoppedSession,
+            interruptibleSleep,
             isWatchdogStuck,
             markWatchdogProgress,
             formatJobOutcomeLogMessage,

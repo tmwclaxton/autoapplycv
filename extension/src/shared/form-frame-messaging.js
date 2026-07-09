@@ -44,28 +44,45 @@ export async function sendTabMessage(tabId, message, frameId = 0) {
 
 export async function findIndeedApplyFrameId(tabId) {
     const frames = await chrome.webNavigation.getAllFrames({ tabId });
-    let bestFrameId = 0;
-    let bestScore = -1;
+    /** @type {{ frameId: number, urlScore: number }[]} */
+    const candidates = [];
 
     for (const frame of frames) {
         const url = frame.url || '';
-        let score = 0;
+        let urlScore = 0;
 
         if (/smartapply\.indeed\.com/i.test(url)) {
-            score += 100;
+            urlScore += 100;
+        }
+
+        if (/apply\.indeed\.com/i.test(url)) {
+            urlScore += 90;
         }
 
         if (/indeedapply/i.test(url)) {
-            score += 50;
+            urlScore += 50;
         }
 
-        if (score > bestScore) {
-            bestScore = score;
-            bestFrameId = frame.frameId;
+        if (urlScore > 0) {
+            candidates.push({ frameId: frame.frameId, urlScore });
         }
     }
 
-    return bestScore > 0 ? bestFrameId : 0;
+    candidates.sort((left, right) => right.urlScore - left.urlScore);
+
+    for (const candidate of candidates) {
+        try {
+            const state = await sendTabMessage(tabId, { type: 'INDEED_APPLY_STATE' }, candidate.frameId);
+
+            if (state?.open || state?.canContinue || state?.canSubmit || state?.submitted) {
+                return candidate.frameId;
+            }
+        } catch {
+            // Try the next candidate frame.
+        }
+    }
+
+    return candidates[0]?.frameId ?? 0;
 }
 
 export async function sendIndeedApplyFlowMessage(tabId, message) {

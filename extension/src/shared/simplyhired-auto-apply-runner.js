@@ -22,6 +22,8 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
         logSession,
         finalizeAutoApplyAnalyticsSession,
         shouldStop,
+        finalizeStoppedSession,
+        interruptibleSleep,
         isWatchdogStuck,
         markWatchdogProgress,
         formatJobOutcomeLogMessage,
@@ -29,7 +31,6 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
         appendAutoApplyLog,
         randomDelay,
         AUTO_APPLY_DELAY_MS,
-        sleep,
     } = ctx;
 
     resetWatchdog();
@@ -58,12 +59,7 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
         }
 
         if (session.stopRequested) {
-            session = await updateSession({
-                status: 'stopped',
-                finishedAt: new Date().toISOString(),
-            }) || session;
-            await logSession('warn', 'Auto Apply stopped.');
-            await finalizeAutoApplyAnalyticsSession(session);
+            await finalizeStoppedSession();
 
             return;
         }
@@ -85,6 +81,12 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
         }
 
         if (isWatchdogStuck(session)) {
+            if (await shouldStop(session)) {
+                await finalizeStoppedSession();
+
+                return;
+            }
+
             tabId = await recoverSimplyHiredTab(tabId, session, 'No SimplyHired Auto Apply progress detected');
             session = await updateSession({ tabId }) || session;
             markWatchdogProgress(session);
@@ -103,12 +105,7 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
             }
 
             if (result.outcome === 'stopped') {
-                session = await updateSession({
-                    status: 'stopped',
-                    finishedAt: new Date().toISOString(),
-                }) || session;
-                await logSession('warn', 'Auto Apply stopped while waiting for input.');
-                await finalizeAutoApplyAnalyticsSession(session);
+                await finalizeStoppedSession();
 
                 return;
             }
@@ -177,17 +174,18 @@ export async function runSimplyHiredAutoApplyLoop(ctx, initialSession, runDraftA
         }
 
         if (await shouldStop(session)) {
-            session = await updateSession({
-                status: 'stopped',
-                finishedAt: new Date().toISOString(),
-            }) || session;
-            await logSession('warn', 'Auto Apply stopped.');
-            await finalizeAutoApplyAnalyticsSession(session);
+            await finalizeStoppedSession();
 
             return;
         }
 
-        await sleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
+        const slept = await interruptibleSleep(randomDelay(AUTO_APPLY_DELAY_MS.betweenJobs));
+
+        if (!slept) {
+            await finalizeStoppedSession();
+
+            return;
+        }
     }
 
     session = await loadAutoApplySession();
