@@ -88,7 +88,7 @@ Start `npm run extension-bridge` before using MCP tools.
 | `indeed_tab_message` | Send Indeed content-script messages (`INDEED_APPLY_STATE`, `INDEED_FILL_AND_ADVANCE`, etc.) |
 | `totaljobs_tab_message` | Send Totaljobs content-script messages (`TOTALJOBS_APPLY_STATE`, `TOTALJOBS_FILL_AND_ADVANCE`, etc.) |
 | `glassdoor_tab_message` | Send Glassdoor content-script messages (`GLASSDOOR_OPEN_APPLY`, `GLASSDOOR_COLLECT_JOB_CARDS`, etc.) |
-| `start_auto_apply` | Start LinkedIn, Indeed, Totaljobs, or Glassdoor Auto Apply |
+| `start_auto_apply` | Start LinkedIn, Indeed, Totaljobs, Glassdoor, or Reed Auto Apply |
 
 ## Test the connection
 

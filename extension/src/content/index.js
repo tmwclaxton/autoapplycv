@@ -224,11 +224,27 @@ function extractJobDescriptionFromPage() {
         }
     }
 
+    if (typeof AutoCVApplySimplyHiredAutoApply?.readJobDescriptionText === 'function') {
+        const simplyHiredText = AutoCVApplySimplyHiredAutoApply.readJobDescriptionText();
+
+        if (simplyHiredText) {
+            return simplyHiredText;
+        }
+    }
+
     if (typeof AutoCVApplyReedAutoApply?.readJobDescriptionText === 'function') {
         const reedText = AutoCVApplyReedAutoApply.readJobDescriptionText();
 
         if (reedText) {
             return reedText;
+        }
+    }
+
+    if (typeof AutoCVApplyCvLibraryAutoApply?.readJobDescriptionText === 'function') {
+        const cvLibraryText = AutoCVApplyCvLibraryAutoApply.readJobDescriptionText();
+
+        if (cvLibraryText) {
+            return cvLibraryText;
         }
     }
 
@@ -761,6 +777,31 @@ function isGlassdoorApplyHostPage() {
     }
 }
 
+function isSimplyHiredApplyHostPage() {
+    if (typeof AutoCVApplySimplyHiredAutoApply?.isEasyApplyHostPage === 'function') {
+        return AutoCVApplySimplyHiredAutoApply.isEasyApplyHostPage();
+    }
+
+    try {
+        if (!/(^|\.)simplyhired\.(co\.uk|com)$/i.test(window.location.hostname)) {
+            return false;
+        }
+
+        for (const iframe of document.querySelectorAll('iframe')) {
+            const title = iframe.getAttribute('title') || '';
+            const src = iframe.getAttribute('src') || '';
+
+            if (/job application form/i.test(title) || /indeedapply|smartapply\.indeed/i.test(src)) {
+                return true;
+            }
+        }
+
+        return false;
+    } catch {
+        return false;
+    }
+}
+
 function isReedApplyHostPage() {
     if (typeof AutoCVApplyReedAutoApply?.isEasyApplyHostPage === 'function') {
         return AutoCVApplyReedAutoApply.isEasyApplyHostPage();
@@ -776,6 +817,24 @@ function isReedApplyHostPage() {
         return /^\/jobs\/apply\/\d+/i.test(path)
             || /^\/jobs\/application\/\d+/i.test(path)
             || /\/\d+\/apply$/i.test(path);
+    } catch {
+        return false;
+    }
+}
+
+function isCvLibraryApplyHostPage() {
+    if (typeof AutoCVApplyCvLibraryAutoApply?.isEasyApplyHostPage === 'function') {
+        return AutoCVApplyCvLibraryAutoApply.isEasyApplyHostPage();
+    }
+
+    try {
+        if (!/^(www\.)?cv-library\.co\.uk$/i.test(window.location.hostname)) {
+            return false;
+        }
+
+        const path = window.location.pathname;
+
+        return /^\/job\/apply\/\d+/i.test(path);
     } catch {
         return false;
     }
@@ -804,7 +863,7 @@ async function runOverlayRefresh(explicitSidePanelOpen) {
             return;
         }
 
-        const showPortalBar = sidePanelOpen || isIndeedApplyHostPage() || isGlassdoorApplyHostPage() || isReedApplyHostPage();
+        const showPortalBar = sidePanelOpen || isIndeedApplyHostPage() || isGlassdoorApplyHostPage() || isSimplyHiredApplyHostPage() || isReedApplyHostPage() || isCvLibraryApplyHostPage();
 
         AutoCVApplyPortalBar.update({
             visible: showPortalBar,
@@ -1909,6 +1968,135 @@ const contentMessageListener = (message, sender, sendResponse) => {
             return;
         }
 
+        if (message.type === 'SIMPLYHIRED_PREPARE_JOB_SEARCH') {
+            if (typeof AutoCVApplySimplyHiredAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'SimplyHired auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplySimplyHiredAutoApply.prepareJobSearch());
+
+            return;
+        }
+
+        if (message.type === 'SIMPLYHIRED_PREPARE_JOB_VIEW') {
+            if (typeof AutoCVApplySimplyHiredAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'SimplyHired auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplySimplyHiredAutoApply.prepareJobView({
+                light: message.light === true,
+            }));
+
+            return;
+        }
+
+        if (message.type === 'SIMPLYHIRED_COLLECT_JOB_CARDS') {
+            if (typeof AutoCVApplySimplyHiredAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'SimplyHired auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse({
+                success: true,
+                jobs: AutoCVApplySimplyHiredAutoApply.collectJobCards(),
+            });
+
+            return;
+        }
+
+        if (message.type === 'SIMPLYHIRED_SELECT_JOB') {
+            if (typeof AutoCVApplySimplyHiredAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'SimplyHired auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplySimplyHiredAutoApply.selectJobById(message.jobId));
+
+            return;
+        }
+
+        if (message.type === 'SIMPLYHIRED_WAIT_FOR_JOB_DETAIL') {
+            if (typeof AutoCVApplySimplyHiredAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'SimplyHired auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplySimplyHiredAutoApply.waitForJobDetailReady(message.jobId));
+
+            return;
+        }
+
+        if (message.type === 'SIMPLYHIRED_OPEN_APPLY') {
+            if (typeof AutoCVApplySimplyHiredAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'SimplyHired auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplySimplyHiredAutoApply.clickSimplyHiredApply());
+
+            return;
+        }
+
+        if (message.type === 'SIMPLYHIRED_NEXT_SEARCH_PAGE') {
+            if (typeof AutoCVApplySimplyHiredAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'SimplyHired auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplySimplyHiredAutoApply.goToNextSearchPage());
+
+            return;
+        }
+
+        if (message.type === 'SIMPLYHIRED_SCAN_PAGE_HEALTH') {
+            if (typeof AutoCVApplySimplyHiredAutoApply === 'undefined') {
+                sendResponse({ ok: true, issues: [], blocking: [], primary: null });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplySimplyHiredAutoApply.scanPageHealth());
+
+            return;
+        }
+
+        if (message.type === 'SIMPLYHIRED_ACCEPT_COOKIE_CONSENT') {
+            if (typeof AutoCVApplySimplyHiredAutoApply === 'undefined') {
+                sendResponse({ accepted: false });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplySimplyHiredAutoApply.acceptCookieConsent());
+
+            return;
+        }
+
+        if (message.type === 'SIMPLYHIRED_WAIT_FOR_JOB_DESCRIPTION') {
+            if (typeof AutoCVApplySimplyHiredAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'SimplyHired auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            const minLength = Number(message.minLength) || 200;
+
+            void AutoCVApplySimplyHiredAutoApply.waitForJobDescriptionReady(minLength, 20_000)
+                .then((result) => sendResponse({ success: result.ready, ...result }))
+                .catch((error) => sendResponse({ success: false, error: error.message }));
+
+            return;
+        }
+
         if (message.type === 'TOTALJOBS_PREPARE_JOB_SEARCH') {
             if (typeof AutoCVApplyTotalJobsAutoApply === 'undefined') {
                 sendResponse({ success: false, error: 'Totaljobs auto-apply helpers unavailable.' });
@@ -2235,6 +2423,172 @@ const contentMessageListener = (message, sender, sendResponse) => {
             const minLength = Number(message.minLength) || 200;
 
             void AutoCVApplyReedAutoApply.waitForJobDescriptionReady(minLength, 20_000)
+                .then((result) => sendResponse({ success: result.ready, ...result }))
+                .catch((error) => sendResponse({ success: false, error: error.message }));
+
+            return;
+        }
+
+        if (message.type === 'CV_LIBRARY_PREPARE_JOB_SEARCH') {
+            if (typeof AutoCVApplyCvLibraryAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'CV-Library auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyCvLibraryAutoApply.prepareJobSearch());
+
+            return;
+        }
+
+        if (message.type === 'CV_LIBRARY_PREPARE_JOB_VIEW') {
+            if (typeof AutoCVApplyCvLibraryAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'CV-Library auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyCvLibraryAutoApply.prepareJobView({
+                force: message.force === true,
+                light: message.light === true,
+            }));
+
+            return;
+        }
+
+        if (message.type === 'CV_LIBRARY_COLLECT_JOB_CARDS') {
+            if (typeof AutoCVApplyCvLibraryAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'CV-Library auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse({
+                success: true,
+                jobs: AutoCVApplyCvLibraryAutoApply.collectJobCards(),
+            });
+
+            return;
+        }
+
+        if (message.type === 'CV_LIBRARY_SELECT_JOB') {
+            if (typeof AutoCVApplyCvLibraryAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'CV-Library auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyCvLibraryAutoApply.selectJobById(message.jobId));
+
+            return;
+        }
+
+        if (message.type === 'CV_LIBRARY_WAIT_FOR_JOB_DETAIL') {
+            if (typeof AutoCVApplyCvLibraryAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'CV-Library auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyCvLibraryAutoApply.waitForJobDetailReady(message.jobId));
+
+            return;
+        }
+
+        if (message.type === 'CV_LIBRARY_OPEN_APPLY') {
+            if (typeof AutoCVApplyCvLibraryAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'CV-Library auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyCvLibraryAutoApply.clickCvLibraryApply());
+
+            return;
+        }
+
+        if (message.type === 'CV_LIBRARY_APPLY_STATE') {
+            if (typeof AutoCVApplyCvLibraryAutoApply === 'undefined') {
+                sendResponse({ open: false, error: 'CV-Library auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplyCvLibraryAutoApply.getCvLibraryApplyState());
+
+            return;
+        }
+
+        if (message.type === 'CV_LIBRARY_FILL_AND_ADVANCE') {
+            if (typeof AutoCVApplyCvLibraryAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'CV-Library auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyCvLibraryAutoApply.clickContinueOrSubmit());
+
+            return;
+        }
+
+        if (message.type === 'CV_LIBRARY_VERIFY_SUBMITTED') {
+            if (typeof AutoCVApplyCvLibraryAutoApply === 'undefined') {
+                sendResponse({ submitted: false, error: 'CV-Library auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(AutoCVApplyCvLibraryAutoApply.verifySubmitted());
+
+            return;
+        }
+
+        if (message.type === 'CV_LIBRARY_NEXT_SEARCH_PAGE') {
+            if (typeof AutoCVApplyCvLibraryAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'CV-Library auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyCvLibraryAutoApply.goToNextSearchPage());
+
+            return;
+        }
+
+        if (message.type === 'CV_LIBRARY_SCAN_PAGE_HEALTH') {
+            if (typeof AutoCVApplyCvLibraryAutoApply === 'undefined') {
+                sendResponse({ ok: true, issues: [], blocking: [], primary: null });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyCvLibraryAutoApply.scanPageHealth());
+
+            return;
+        }
+
+        if (message.type === 'CV_LIBRARY_ACCEPT_COOKIE_CONSENT') {
+            if (typeof AutoCVApplyCvLibraryAutoApply === 'undefined') {
+                sendResponse({ accepted: false });
+
+                return;
+            }
+
+            sendResponse(await AutoCVApplyCvLibraryAutoApply.acceptCookieConsent());
+
+            return;
+        }
+
+        if (message.type === 'CV_LIBRARY_WAIT_FOR_JOB_DESCRIPTION') {
+            if (typeof AutoCVApplyCvLibraryAutoApply === 'undefined') {
+                sendResponse({ success: false, error: 'CV-Library auto-apply helpers unavailable.' });
+
+                return;
+            }
+
+            const minLength = Number(message.minLength) || 200;
+
+            void AutoCVApplyCvLibraryAutoApply.waitForJobDescriptionReady(minLength, 20_000)
                 .then((result) => sendResponse({ success: result.ready, ...result }))
                 .catch((error) => sendResponse({ success: false, error: error.message }));
 

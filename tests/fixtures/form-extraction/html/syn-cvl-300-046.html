@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head><meta charset="utf-8"><title>Apply - Full Stack Engineer</title></head>
+<body>
+<header><a href="/">CV-Library</a></header>
+<main><form data-qa="application-form" action="/job/apply/submit" method="post">
+<h1 data-qa="application-step-title">Complete your application</h1>
+
+<div class="form-group" data-qa="field-first-name-225000046">
+<label for="first-name-225000046">First name</label>
+<input type="text" id="first-name-225000046" name="first-name-225000046" required>
+</div>
+<div class="form-group" data-qa="field-last-name-225000046">
+<label for="last-name-225000046">Last name</label>
+<input type="text" id="last-name-225000046" name="last-name-225000046" required>
+</div>
+<div class="form-group" data-qa="field-email-address-225000046">
+<label for="email-address-225000046">Email address</label>
+<input type="email" id="email-address-225000046" name="email-address-225000046" required>
+</div>
+<div class="form-group" data-qa="field-cover-letter-225000046">
+<label for="cover-letter-225000046">Cover letter</label>
+<textarea id="cover-letter-225000046" name="cover-letter-225000046" rows="6"></textarea>
+</div>
+<fieldset data-qa="fieldset-are-you-willing-to-work-hybr">
+<legend data-qa="application-step-subtitle">Are you willing to work hybrid in London?</legend>
+<label for="are-you-willing-to-work-hybr-0"><input type="radio" id="are-you-willing-to-work-hybr-0" name="are-you-willing-to-work-hybr" value="yes"> Yes</label><label for="are-you-willing-to-work-hybr-1"><input type="radio" id="are-you-willing-to-work-hybr-1" name="are-you-willing-to-work-hybr" value="no"> No</label>
+</fieldset>
+<div class="form-group" data-qa="field-how-did-you-hear-about-this-job-">
+<label for="how-did-you-hear-about-this-job-">How did you hear about this job?</label>
+<select id="how-did-you-hear-about-this-job-" name="how-did-you-hear-about-this-job-">
+<option value="">Please select</option><option value="cv-library">CV-Library</option><option value="linkedin">LinkedIn</option><option value="referral">Referral</option><option value="other">Other</option>
+</select>
+</div>
+
+<div data-qa="application-actions"><button type="button" data-qa="submit-button">Next</button> <button type="submit" data-qa="submit-button-apply">Submit application</button></div>
+</form></main>
+</body>
+</html>

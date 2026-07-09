@@ -1,0 +1,253 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-127",
+  "min_fields": 11,
+  "exact_field_count": 11,
+  "fields": [
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b1355574-a36c-40f8-a1f1-21c592631506",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now or in the future require visa sponsorship to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "0eb41c07-1ff6-451c-8edf-82e0a60deb37",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "full legal name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "a3c6ffd8-6069-42e9-949d-f860388c44e2",
+        "name": "a3c6ffd8-6069-42e9-949d-f860388c44e2",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "a3c6ffd8-6069-42e9-949d-f860388c44e2",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "3b2cbe7f-5ba7-4b19-8f9b-4922f56bcb91",
+        "name": "3b2cbe7f-5ba7-4b19-8f9b-4922f56bcb91",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "3b2cbe7f-5ba7-4b19-8f9b-4922f56bcb91",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred last name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "743d1d80-1654-4e4d-9fd6-069b9fccabb6",
+        "name": "743d1d80-1654-4e4d-9fd6-069b9fccabb6",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "743d1d80-1654-4e4d-9fd6-069b9fccabb6",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile or website",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "de6394d7-3899-4199-a9bf-e89deec09ffc",
+        "name": "de6394d7-3899-4199-a9bf-e89deec09ffc",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "de6394d7-3899-4199-a9bf-e89deec09ffc",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how did you hear about this opportunity? (select all that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "BuiltIn",
+        "Career Fair",
+        "Conference or Meetup",
+        "Glassdoor",
+        "I am a buyer/seller on Whatnot",
+        "LinkedIn",
+        "Other",
+        "Someone from Whatnot reached out to me",
+        "Whatnot blog",
+        "Whatnot Employee"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "1c017d36-68d0-49c1-bbf0-f529bb3eb34a_00e55bbf-2c9b-4886-8f53-ec036677577f-labeled-checkbox-0",
+        "name": "BuiltIn",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "we are a flexible remote-first company, but we do require employees to reside within 50 miles of the hub advertised on the job posting for this role. at the time of hire, will you be located within 50 miles of one of our hubs? if so, please select which location.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Los Angeles, CA",
+        "New York, NY",
+        "San Francisco, CA",
+        "Seattle, WA",
+        "N/A - I am not in one of the hub locations and am unable to relocate",
+        "N/A - I am not in one of the hub locations but I AM able to relocate"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "1c017d36-68d0-49c1-bbf0-f529bb3eb34a_997f6361-8bec-498e-99d5-c4200bd4375d-labeled-radio-0",
+        "name": "1c017d36-68d0-49c1-bbf0-f529bb3eb34a_997f6361-8bec-498e-99d5-c4200bd4375d",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "please list the city and state/province that you are located in today.",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "8d0c954b-c23f-4b43-a9e0-26a8ad3b3270",
+        "name": "8d0c954b-c23f-4b43-a9e0-26a8ad3b3270",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "8d0c954b-c23f-4b43-a9e0-26a8ad3b3270",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

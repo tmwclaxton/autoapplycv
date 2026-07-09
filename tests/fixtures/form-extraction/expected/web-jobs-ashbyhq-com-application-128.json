@@ -1,0 +1,705 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-128",
+  "min_fields": 32,
+  "exact_field_count": 32,
+  "fields": [
+    {
+      "question": "are you willing to undergo a background check, in accordance with local law/regulations?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "ad311c88-8230-47dd-a82b-cec3e9d777ed",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "were you referred to this career opportunity by someone at real?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "1b6463a4-9a72-4a87-b2cd-0fe7b976755c",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you answered yes to the question above, was the referral source a real brokerage agent?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "503aa749-3c19-45cf-8d37-1d618a8a00af",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you a licensed real estate agent?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "fe976f94-833e-438d-a1de-7e64da81792c",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you legally authorized to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b796291a-439a-44a9-8f8b-d003e3468b6a",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you require immigration sponsorship from us now or in the future to maintain your work authorization?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "cf8dd5a9-869c-4cec-af95-455e217d9eae",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "this role follows us eastern time zone hours. are you willing to work according to this schedule?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "718b07d5-aec7-4388-8520-5049c6376c39",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "this role offers a base salary in the range of $184,000 to $230,000 usd. are you comfortable with this compensation range?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "button",
+        "type": null,
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "999cf542-fdf9-45fc-adae-516836a9427b",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "legal first name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "19b93bd1-9e32-4454-b4ff-31c0072c0bad",
+        "name": "19b93bd1-9e32-4454-b4ff-31c0072c0bad",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "19b93bd1-9e32-4454-b4ff-31c0072c0bad",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "legal last name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "7ce23e21-5a7e-44fe-93c4-5330b4abf9f3",
+        "name": "7ce23e21-5a7e-44fe-93c4-5330b4abf9f3",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "7ce23e21-5a7e-44fe-93c4-5330b4abf9f3",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ec797fcf-e6de-4894-ac08-b7e2fb47e6ce",
+        "name": "ec797fcf-e6de-4894-ac08-b7e2fb47e6ce",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "ec797fcf-e6de-4894-ac08-b7e2fb47e6ce",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes - I consent to receiving text messages",
+        "No - I do not consent to receiving text messages"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": null,
+        "name": "communicationConsent",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "ec797fcf-e6de-4894-ac08-b7e2fb47e6ce",
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "address",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "1cae081a-5633-4408-b79a-f1f0c972d956",
+        "name": "1cae081a-5633-4408-b79a-f1f0c972d956",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "1cae081a-5633-4408-b79a-f1f0c972d956",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "address 2",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "b1cf5c47-4717-4772-8463-7f087ca47b07",
+        "name": "b1cf5c47-4717-4772-8463-7f087ca47b07",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b1cf5c47-4717-4772-8463-7f087ca47b07",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "location",
+      "field_type": "select",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": null,
+        "name": null,
+        "data_testid": null,
+        "role": "combobox",
+        "data_field_path": "_systemfield_location",
+        "placeholder": "Start typing...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "zip / postal code",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "d1640ed8-cd0c-4c3f-b3fa-ec30635f6f17",
+        "name": "d1640ed8-cd0c-4c3f-b3fa-ec30635f6f17",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "d1640ed8-cd0c-4c3f-b3fa-ec30635f6f17",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin profile",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "787c9767-1e06-496b-920c-e03edf288a26",
+        "name": "787c9767-1e06-496b-920c-e03edf288a26",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "787c9767-1e06-496b-920c-e03edf288a26",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "4bc708a3-c5ea-4ad1-b2ff-27c7492209f8",
+        "name": "4bc708a3-c5ea-4ad1-b2ff-27c7492209f8",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "4bc708a3-c5ea-4ad1-b2ff-27c7492209f8",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github url",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "733c6360-e3f6-4fe4-b1fc-ced7017279ae",
+        "name": "733c6360-e3f6-4fe4-b1fc-ced7017279ae",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "733c6360-e3f6-4fe4-b1fc-ced7017279ae",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "do you now or have you ever worked for real or any of our other companies?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "c17c9c1f-6d6e-405a-b617-8eca8824e7b4",
+        "name": "c17c9c1f-6d6e-405a-b617-8eca8824e7b4",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "c17c9c1f-6d6e-405a-b617-8eca8824e7b4",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you related to a current real employee?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "92239249-88aa-4da3-b486-3aa76ba9ca54",
+        "name": "92239249-88aa-4da3-b486-3aa76ba9ca54",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "92239249-88aa-4da3-b486-3aa76ba9ca54",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if you answered yes to any of the questions above, tell us the name of the employee or agent at real who referred you. if you answered no, please type \"n/a\"",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "2c98a48d-1adc-4318-92fb-d59e1ca0e062",
+        "name": "2c98a48d-1adc-4318-92fb-d59e1ca0e062",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "2c98a48d-1adc-4318-92fb-d59e1ca0e062",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "per company policy, full-time corporate employees of real may hold an active real estate license, but may not operate their own real estate business, engage in real estate transactions, or refer business for compensation while employed as a w2 employee at real. do you acknowledge and agree to comply with this policy?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes, I agree",
+        "No, I do not agree",
+        "N/A, I am not a licensed real estate agent."
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "304ee12c-7594-44fc-8194-c4535b8e72fe_189638ae-3e48-4d7b-a063-e9535ecc6f29-labeled-radio-0",
+        "name": "304ee12c-7594-44fc-8194-c4535b8e72fe_189638ae-3e48-4d7b-a063-e9535ecc6f29",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "if answered no to the above, what base compensation are you targeting?",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "5093e927-a9ba-4db1-b43c-762b26468d74",
+        "name": "5093e927-a9ba-4db1-b43c-762b26468d74",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "5093e927-a9ba-4db1-b43c-762b26468d74",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of hands-on devops engineering experience do you have in production environments?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Less than 2 Years",
+        "2 - 4 Years",
+        "4 - 8 Years",
+        "8+ Years"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "304ee12c-7594-44fc-8194-c4535b8e72fe_79961d3d-3327-4420-8cbf-e768bf6db579-labeled-radio-0",
+        "name": "304ee12c-7594-44fc-8194-c4535b8e72fe_79961d3d-3327-4420-8cbf-e768bf6db579",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of hands-on experience do you have managing kubernetes and aws eks clusters in production environments?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Less than 2 Years",
+        "2 - 4 Years",
+        "4 - 7 Years",
+        "7+ Years"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "304ee12c-7594-44fc-8194-c4535b8e72fe_03f9fb71-8fc1-49c7-ad71-3ce4f82d5971-labeled-radio-0",
+        "name": "304ee12c-7594-44fc-8194-c4535b8e72fe_03f9fb71-8fc1-49c7-ad71-3ce4f82d5971",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following tools have you worked with in a hands-on capacity? (select all that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "Infrastructure as Code (Terraform / AWS CDK)",
+        "CI/CD pipelines and automation (e.g., TeamCity, Jenkins, GitHub Actions)",
+        "GitOps Workflows (e.g., ArgoCD, Helm)",
+        "None of the above"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "304ee12c-7594-44fc-8194-c4535b8e72fe_1e15018f-af1b-44d8-b1d8-6a94f1d6d1b0-labeled-checkbox-0",
+        "name": "Infrastructure as Code (Terraform / AWS CDK)",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "which of the following security practices/tools have you worked with in a hands-on capacity? (select all that apply)",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "IAM and Least-privilege Access Controls",
+        "Secrets Management",
+        "Vulnerability and Patch Management",
+        "SAST / DAST / SCA Security scanning",
+        "None of the above"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "304ee12c-7594-44fc-8194-c4535b8e72fe_865717f6-d447-4c83-a13d-ebde0c95ddd8-labeled-checkbox-0",
+        "name": "IAM and Least-privilege Access Controls",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "how many years of experience do you have leading or mentoring devops and/or security engineers?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Less than 1 year",
+        "1 - 2 Years",
+        "3+ years"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "304ee12c-7594-44fc-8194-c4535b8e72fe_dc2e7556-ed79-45eb-9ab9-0147b02f330a-labeled-radio-0",
+        "name": "304ee12c-7594-44fc-8194-c4535b8e72fe_dc2e7556-ed79-45eb-9ab9-0147b02f330a",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "have you worked in a startup or mid-sized technology company (under 1,000 employees)? if yes, please specify the company name(s), and your role(s).",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "458dd0ef-f6a8-46f6-8c80-dcf6cfadcaf7",
+        "name": "458dd0ef-f6a8-46f6-8c80-dcf6cfadcaf7",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "458dd0ef-f6a8-46f6-8c80-dcf6cfadcaf7",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

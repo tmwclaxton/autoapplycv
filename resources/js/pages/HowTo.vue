@@ -8,6 +8,7 @@ import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
 import PostboxPlatformBadges from '@/components/postbox/PostboxPlatformBadges.vue';
 import PostboxProse from '@/components/postbox/PostboxProse.vue';
 import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
+import { FORM_CORPUS_SCENARIO_COUNT } from '@/lib/site';
 </script>
 
 <template>
@@ -32,12 +33,12 @@ import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
             <h2>Auto Apply on job boards</h2>
             <p>
                 Open the extension sidebar <strong>Auto Apply</strong> tab,
-                choose LinkedIn, Indeed, Totaljobs, or Glassdoor, set your
+                choose LinkedIn, Indeed, Totaljobs, Glassdoor, or Reed, set your
                 search filters, and start a run. The extension searches for Easy
-                Apply, Indeed Apply, Totaljobs Quick Apply, or Glassdoor Easy
-                Apply jobs, opens each posting, fills every step with Draft All,
-                and submits when the flow allows. You can pause, resume, or stop
-                from the sidebar at any time.
+                Apply, Indeed Apply, Totaljobs Quick Apply, Glassdoor Easy
+                Apply, or Reed Easy Apply jobs, opens each posting, fills every
+                step with Draft All, and submits when the flow allows. You can
+                pause, resume, or stop from the sidebar at any time.
             </p>
 
             <h2>Install the extension</h2>
@@ -93,9 +94,9 @@ import PostboxSteps from '@/components/postbox/PostboxSteps.vue';
                 Free-text answers are written from your profile and the job
                 posting. Behind the scenes we score drafts across 190
                 profile-mapping scenarios, 124 answer-quality scenarios, and
-                3,276 form fixtures - catching em dashes, common AI phrases, and
-                generic filler while keeping answers honest and specific to your
-                CV.
+                {{ FORM_CORPUS_SCENARIO_COUNT.toLocaleString() }} form fixtures
+                - catching em dashes, common AI phrases, and generic filler
+                while keeping answers honest and specific to your CV.
             </p>
             <ul>
                 <li>

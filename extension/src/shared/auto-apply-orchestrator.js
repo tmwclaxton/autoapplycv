@@ -19,7 +19,7 @@ import {
     resolveAutoApplyFitDecision,
     summarizeAtsFitReason,
 } from './auto-apply-fit.js';
-import { buildJobSearchUrl, GLASSDOOR_PLATFORM_ID, INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, REED_PLATFORM_ID, TOTALJOBS_PLATFORM_ID } from './auto-apply-platforms.js';
+import { buildJobSearchUrl, CV_LIBRARY_PLATFORM_ID, GLASSDOOR_PLATFORM_ID, INDEED_PLATFORM_ID, LINKEDIN_PLATFORM_ID, REED_PLATFORM_ID, SIMPLYHIRED_PLATFORM_ID, TOTALJOBS_PLATFORM_ID } from './auto-apply-platforms.js';
 import {
     appendAutoApplyLog,
     clearAutoApplySession,
@@ -37,6 +37,8 @@ import {
     isAutoApplyWindowOpen,
     navigateAutoApplyTab,
 } from './auto-apply-window.js';
+import { runCvLibraryAutoApplyLoop } from './cv-library-auto-apply-runner.js';
+import { createCvLibraryOrchestrator } from './cv-library-orchestrator.js';
 import { logError, logInfo, logWarn } from './debug-log.js';
 import { invalidateTabFrameCache, sendIndeedApplyFlowMessage, sendTabMessage, findBestFormFrameId, scanFormValidationOnTab } from './form-frame-messaging.js';
 import { runGlassdoorAutoApplyLoop } from './glassdoor-auto-apply-runner.js';
@@ -58,6 +60,8 @@ import {
     isReedJobsSearchUrl,
     urlsMatchReedSearch,
 } from './reed-platform.js';
+import { runSimplyHiredAutoApplyLoop } from './simplyhired-auto-apply-runner.js';
+import { createSimplyHiredOrchestrator } from './simplyhired-orchestrator.js';
 import { runTotalJobsAutoApplyLoop } from './totaljobs-auto-apply-runner.js';
 import {
     buildTotalJobsJobOpenUrl,
@@ -235,7 +239,9 @@ function formatIndeedSkipLogMessage(job, reason, detail = '') {
         no_indeed_apply: 'external apply only (not Indeed Apply)',
         no_totaljobs_apply: 'external apply only (not Totaljobs Quick Apply)',
         no_glassdoor_apply: 'external apply only (not Glassdoor Easy Apply)',
+        no_simplyhired_apply: 'external apply only (not SimplyHired Quick Apply)',
         no_reed_apply: 'external apply only (not Reed Easy Apply)',
+        no_cvlibrary_apply: 'external apply only (not CV-Library Easy Apply)',
         job_unavailable: 'job page did not load',
         job_open_failed: 'could not open job listing',
         unknown_job_metadata: 'missing job details',
@@ -4720,8 +4726,10 @@ export async function startAutoApply({
             && platform !== INDEED_PLATFORM_ID
             && platform !== TOTALJOBS_PLATFORM_ID
             && platform !== GLASSDOOR_PLATFORM_ID
-            && platform !== REED_PLATFORM_ID) {
-            throw new Error('Only LinkedIn, Indeed, Totaljobs, Glassdoor, and Reed are supported right now.');
+            && platform !== SIMPLYHIRED_PLATFORM_ID
+            && platform !== REED_PLATFORM_ID
+            && platform !== CV_LIBRARY_PLATFORM_ID) {
+            throw new Error('Only LinkedIn, Indeed, Totaljobs, Glassdoor, SimplyHired, Reed, and CV-Library are supported right now.');
         }
 
         let session = createInitialSession({
@@ -4971,8 +4979,16 @@ async function runAutoApplyLoop(initialSession, runDraftAll, profileData = null)
         return runGlassdoorAutoApplyLoop(buildGlassdoorRunnerContext(), initialSession, runDraftAll, profileData);
     }
 
+    if (initialSession.platform === SIMPLYHIRED_PLATFORM_ID) {
+        return runSimplyHiredAutoApplyLoop(buildSimplyHiredRunnerContext(), initialSession, runDraftAll, profileData);
+    }
+
     if (initialSession.platform === REED_PLATFORM_ID) {
         return runReedAutoApplyLoop(buildReedRunnerContext(), initialSession, runDraftAll, profileData);
+    }
+
+    if (initialSession.platform === CV_LIBRARY_PLATFORM_ID) {
+        return runCvLibraryAutoApplyLoop(buildCvLibraryRunnerContext(), initialSession, runDraftAll, profileData);
     }
 
     resetWatchdog();
@@ -5302,3 +5318,89 @@ function isExtensionMessagingError(message) {
 export function isAutoApplyRunning() {
     return activeRunPromise !== null;
 }
+
+const {
+    buildCvLibraryRunnerContext,
+} = createCvLibraryOrchestrator({
+    sendTabMessage,
+    invalidateTabFrameCache,
+    isExtensionMessagingError,
+    logSession,
+    updateSession,
+    loadAutoApplySession,
+    buildJobSearchUrl,
+    buildSessionSearchOptions,
+    openUrlInAutoApplyWindow,
+    waitForTabLoadComplete,
+    resolveAutoApplyWindowId,
+    randomDelay,
+    sleep,
+    AUTO_APPLY_DELAY_MS,
+    fetchJobMetaFromTab,
+    resolveJobDescriptionFromMetaResponse,
+    MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
+    formatIndeedSkipLogMessage,
+    formatAutoApplyFitLogMessage,
+    requestAutoApplyAtsScore,
+    resolveAutoApplyFitDecision,
+    summarizeAtsFitReason,
+    captureJobPage,
+    recordAnalyticsEvent,
+    runDraftAllForStep,
+    ensureStepFilledOrPaused,
+    handleAdvanceValidationRetry,
+    EASY_APPLY_MAX_STEPS,
+    EASY_APPLY_STUCK_STEP_LIMIT,
+    watchdogState,
+    STUCK_RECOVERY_LIMIT,
+    markWatchdogProgress,
+    resetWatchdog,
+    finalizeAutoApplyAnalyticsSession,
+    shouldStop,
+    isWatchdogStuck,
+    formatJobOutcomeLogMessage,
+    appendAutoApplyLog,
+});
+
+const {
+    buildSimplyHiredRunnerContext,
+} = createSimplyHiredOrchestrator({
+    sendTabMessage,
+    invalidateTabFrameCache,
+    isExtensionMessagingError,
+    logSession,
+    updateSession,
+    loadAutoApplySession,
+    buildJobSearchUrl,
+    buildSessionSearchOptions,
+    openUrlInAutoApplyWindow,
+    waitForTabLoadComplete,
+    resolveAutoApplyWindowId,
+    randomDelay,
+    sleep,
+    AUTO_APPLY_DELAY_MS,
+    fetchJobMetaFromTab,
+    resolveJobDescriptionFromMetaResponse,
+    MIN_JOB_DESCRIPTION_LENGTH_FOR_FIT,
+    formatIndeedSkipLogMessage,
+    formatAutoApplyFitLogMessage,
+    requestAutoApplyAtsScore,
+    resolveAutoApplyFitDecision,
+    summarizeAtsFitReason,
+    captureJobPage,
+    recordAnalyticsEvent,
+    sendIndeedApplyFlowMessage,
+    runDraftAllForStep,
+    ensureStepFilledOrPaused,
+    EASY_APPLY_MAX_STEPS,
+    EASY_APPLY_STUCK_STEP_LIMIT,
+    watchdogState,
+    STUCK_RECOVERY_LIMIT,
+    markWatchdogProgress,
+    resetWatchdog,
+    finalizeAutoApplyAnalyticsSession,
+    shouldStop,
+    isWatchdogStuck,
+    formatJobOutcomeLogMessage,
+    appendAutoApplyLog,
+});

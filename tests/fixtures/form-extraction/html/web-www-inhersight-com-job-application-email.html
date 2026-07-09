@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>10 Job Application Email Templates for Every Scenario | InHerSight</title>
+</head>
+<body>
+<form>
+<a id="top" class="top"></a>
+
+        
+        
+
+
+
+
+
+
+<div id="srch" class="bgDrk24 ppScrn dNone" style="z-index: 20000;">
+
+    <div class="pFxd wFul bgWht bbMidGry fbRowCtr hHdr ph20" style="z-index: 30000;">
+        <input id="srchQury" type="text" v-model.trim="query" autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="Type your search..." @input="fetchResults()" @keydown.esc="closeSearch()" class="fb1 srchInpt">
+        <div @click="closeSearch()" class="lnkBtn">
+            
+        </div>
+    </div>
+
+    <div v-if="searching" class="bgWht pv32" style="z-index: 30000;">
+        <div class="hHdr"></div>
+        <section class="ph32 mb32" v-for="x in 'xxxx'">
+            <div class="bgLgtGry brStd mb16" style="width: 16%; max-width: 80px; height: 12px;"></div>
+            <div class="fbRowCtr mb16" v-for="x in 'xxxx'">
+                <div class="s48 brStd bgLgtGry mr16"></div>
+                <div class="fb1">
+                    <div class="bgLgtGry brStd mb8" style="width: 64%; max-width: 320px; height: 16px;"></div>
+                    <div class="bgLgtGry brStd" style="width: 32%; max-width: 180px; height: 12px;"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    
+    <div v-if="query &amp;&amp; !searching" class="bgWht pv32 pbKybrd" style="z-index: 30000;"> 
+
+        <div class="hHdr"></div>
+        
+        
+        <section class="srchSctn" v-if="!isEmpty(companies.results)">
+
+            <h2 class="srchHdr">Companies</h2>
+
+            <a class="srchItm" :href="getCompanyUrl(company)" v-for="company in companies.results">
+                <div v-if="company.logo_square_url" class="s48 brStd oHdn mr16">
+                    <img loading="lazy" :src="getCompanyLogoUrl(company)" class="s48 ofCtn">
+                </div>
+                <div v-else="" class="s48 brStd bgMidGry mr16">
+                    
+                </div>
+                <div class="fb1">
+                    <h3 class="v0 mb2 fsStdStd fcStd">${ company.text }</h3>
+                    <p class="v0 fsSml fcGry fbRowCtr" style="flex-wrap: wrap;">
+                        <span v-if="company.id == -1">
+                            Be the first to rate this company&nbsp;&nbsp;
+                        </span>
+                        <span v-else-if="company.number_of_reviews == 0" class="dInFlx" style="align-items: center;">
+                            
+                            Not rated&nbsp;&nbsp;
+                        </span>
+                        <span v-else="" class="dInFlx" style="align-items: center;">
+                            
+                            ${ company.score } stars&nbsp;&nbsp;
+                        </span>
+                        <span v-if="company.industry" class="sml-dNone"><span class="op48">•</span>&nbsp;&nbsp;${ company.industry}&nbsp;&nbsp;</span>
+                        <span v-if="company.headquarters" class="sml-dNone"><span class="op48">•</span>&nbsp;&nbsp;${ company.headquarters}</span>
+                    </p>
+                </div>
+            </a>
+            
+            <a v-if="companies.more" class="srchItm fcPink" :href="getMoreUrl('company')">
+                <span class="lnkSubtle">See more ›</span>
+            </a>
+        </section>
+
+        
+        <section class="srchSctn" v-if="!isEmpty(articles.results)">
+
+            <h2 class="srchHdr">Articles</h2>
+
+            <a class="srchItm" :href="article.url" v-for="article in articles.results">
+                <div v-if="article.feature_img_preview" class="s48 brStd bgMidGry bgCvr mr16" :style="{backgroundImage: `url(${getArticleImgPreviewUrl(article, 96)})`}"></div>
+                <div v-else-if="article.feature_img" class="s48 brStd bgMidGry bgCvr mr16" :style="{backgroundImage: `url(${getArticleImgUrl(article, 96)})`}"></div>
+                <div v-else="" class="s48 brStd bgMidGry mr16">
+                    
+                </div>
+                <div class="fb1">
+                    <div class="v0 fsSmlStd fcGry">${ article.primary_tag.display_name }</div>
+                    <h3 class="v0 fsStdStd fcStd">${ getTruncatedString(article.title, 64) }</h3>
+                </div>
+            </a>
+
+            <a v-if="articles.more" class="srchItm fcPink" :href="getMoreUrl('article')">
+                <span class="lnkSubtle">See more ›</span>
+            </a>
+        </section>
+
+        
+        <section class="srchSctn" v-if="!isEmpty(surveys.results)">
+
+            <h2 class="srchHdr">Polls</h2>
+
+            <a class="srchItm" :href="survey.url" v-for="survey in surveys.results">
+                <div v-if="survey.open" class="s48 brStd bgMidGry mr16">
+                    
+                </div>
+                <div v-else="" class="s48 brStd bgMidGry mr16">
+                    
+                </div>
+                <div v-if="survey.open" class="fb1">
+                    <div class="v0 fsSmlStd fcGry">${ getTruncatedString(survey.title, 64) }</div>
+                    <h3 class="v0 fsStdStd fcStd">${ survey.teaser }</h3>
+                </div>
+                <div v-else-if="survey.result" class="fb1">
+                    <div v-if="survey.title != survey.result.title" class="fsSmlStd fcGry">${ getTruncatedString(survey.title, 64) }</div>
+                    <div v-else="" class="v0 fsSmlStd fcGry">Results</div>
+                    <h3 class="v0 fsStdStd fcStd">${ getTruncatedString(survey.result.title, 64) }</h3>
+                </div>
+                <div v-else="" class="fb1">
+                    <h3 class="v0 fsStdStd fcStd">${ getTruncatedString(survey.title, 64) }</h3>
+                </div>
+            </a>
+
+            <a v-if="surveys.more" class="srchItm fcPink" :href="getMoreUrl('poll')">
+                <span class="lnkSubtle">See more ›</span>
+            </a>
+        </section>
+
+        
+        <section class="srchSctn" v-if="!isEmpty(tags.results)">
+
+            <h2 class="srchHdr">Topics</h2>
+
+            <a class="srchItm" :href="tag.url" v-for="tag in tags.results">
+                <div class="s48 brStd bgMidGry mr16">
+                    
+                </div>
+                <div class="fb1">
+                    <h3 class="v0 fsStdStd fcStd">${ tag.display_name }</h3>
+                </div>
+            </a>
+        </section>
+
+        
+        <section class="srchSctn" v-if="!isEmpty(contributors.results)">
+
+            <h2 class="srchHdr">Contributors</h2>
+
+            <a class="srchItm" :href="contributor.url" v-for="contributor in contributors.results">
+                <div v-if="contributor.avatar_url" class="s48 brFul bgMidGry bgCvr mr16" :style="{backgroundImage: `url(${getContributorImgUrl(contributor)})`}"></div>
+                <div v-else="" class="s48 brFul bgMidGry mr16">
+                    
+                </div>
+                <div class="fb1">
+                    <h3 class="v0 fsStdStd fcStd">${ contributor.full_name }</h3>
+                    <p v-if="contributor.short_bio" class="v0 fsSml fcGry">${ contributor.short_bio }</p>
+                </div>
+            </a>
+        </section>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<header class="hdr ph20 fbRowCtr" style="z-index: 10000;">
+
+    
+    <div class="dNone med-dFlx">
+        <label for="tglLeftNav" class="lnkBtn">
+            
+        </label>
+    </div>
+    <div class="fb1 fbRowCtr">
+        <a href="/" title="InHerSight home" class="lnkBtn">
+            
+        </a>
+    </div>
+
+    
+    <div class="fbRowCtrCtr hFul med-dNone">
+
+        <div class="hFul fbRowCtrCtr hvrTrigger">
+            <a href="/companies/best" class="pRel fcStd lnkBtn lnkSwitch">
+                Companies
+                <div class="pAbs bgWht bMidGry hvr-vVisible delay" style="width: 16px; height: 16px; bottom: -32px; left: 50%; transform: translate(-50%) rotate(45deg);"></div>
+            </a>
+            <div class="pAbs hvr-vVisible delay wFul hdrClr" style="left: 0; z-index: 30000;">
+                <div class="rwLrg bgWht brLrg bgLrgDrk bsLrgDrk ph24 pv48">
+                    <div class="cl fb1">
+                        <a href="/companies/best" class="bgButter brLrg hFul fbRowCtrCtr p24">
+                            <div>
+                                <div class="fbRowCtr">
+                                    
+                                    <div class="taCtr fb1">
+                                        <div class="fsStdBld fcStd mb4">InHerSight's</div>
+                                        <div class="fsMsvBld ffSrf fcStd" style="font-size: 96px; line-height: 96px;">50</div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="taCtr">
+                                    <div class="fcStd">Best Companies to Work For</div>
+                                    <div class="fsStd fcGry">As Rated by the Women Who Work There</div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="cl fb1">
+                        <div class="v0 fsStdBld mb4">Best-Rated for...</div>
+                        <ul class="lsLnkGry">
+                            <li><a href="/companies/best/reviews/paid-time-off" title="Best companies for paid time off">Paid time off</a></li>
+                            <li><a href="/companies/best/reviews/salary" title="Best companies for salary satisfaction">Salary satisfaction</a></li>
+                            <li><a href="/companies/best/reviews/people" title="Best companies for the people you work with">The people you work with</a></li>
+                            <li><a href="/companies/best/reviews/flexible-hours" title="Best companies for flexible work hours">Flexible work hours</a></li>
+                            <li><a href="/companies/best/reviews/equal-opportunities" title="Best companies for equal opportunities">Equal opportunities for women and men</a></li>
+                            <li><a href="/companies/best/reviews/training" title="Best companies for learning opportunities">Learning opportunities</a></li>
+                            <li><a href="/companies/best/reviews/management-opportunities" title="Best companies for management opportunities">Management opportunities</a></li>
+                            <li><a href="/companies/best/reviews/telecommute" title="Best companies for ability to telecommute">Ability to telecommute</a></li>
+                            <li><a href="/companies/best/reviews/wellness-benefits" title="Best companies for wellness initiatives">Wellness initiatives</a></li>
+                            <li><a href="/companies/best/reviews/responsiveness" title="Best companies for employer responsiveness">Employer responsiveness</a></li>
+                            <li><a href="/companies/best/reviews">More categories...</a></li>
+                        </ul>
+                    </div>
+                    <div class="cl fb1">
+                        <div class="v0 fsStdBld mb4">More Best Companies Lists</div>
+                        <ul class="lsLnkGry mb24">
+                            <li><a href="/companies/best" title="InHerSight's 50 Best Companies to Work For">By InHerSight score</a></li>
+                            <li><a href="/companies/best/reviews" title="Best companies to work for by review category">By review category</a></li>
+                            <li><a href="/companies/best/industry" title="Best companies to work for by industry">By industry</a></li>
+                            <li><a href="/companies/best/state" title="Best companies to work for by state">By state</a></li>
+                            <li><a href="/companies/best/city" title="Best companies to work for by city">By city</a></li>
+                            <li><a href="/companies/best/size" title="Best companies to work for by size">By company size</a></li>
+                        </ul>
+                        <div>
+                            <a href="/companies" title="All women-rated companies" class="dBlock lnkGry mb2">Browse all companies ›</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="/match/signup" class="fcStd lnkBtn lnkSwitch">Jobs</a>
+
+        <div class="hFul fbRowCtrCtr hvrTrigger">
+            <a href="/blog" class="pRel fcStd lnkBtn lnkSwitch">
+                Articles
+                <div class="pAbs bgWht bMidGry hvr-vVisible delay" style="width: 16px; height: 16px; bottom: -32px; left: 50%; transform: translate(-50%) rotate(45deg);"></div>
+            </a>
+            <div class="pAbs hvr-vVisible delay wFul hdrClr" style="left: 0; z-index: 30000;">
+                <div class="rwLrg bgWht brLrg bgLrgDrk bsLrgDrk ph24 pv24">
+                    <div class="cl4 pv24">
+                        <div class="v0 fsStdBld mb4">Job Search</div>
+                        <ul class="lsLnkGry">
+                            <li><a href="/blog/finding-a-job">Finding a job</a></li>
+                            <li><a href="/blog/applying">Applying</a></li>
+                            <li><a href="/blog/interview">Interviewing</a></li>
+                            <li><a href="/blog/negotiating">Negotiating</a></li>
+                            <li><a href="/blog/networking">Networking</a></li>
+                            <li><a href="/blog/career-change">Career change</a></li>
+                            <li><a href="/blog/unemployment">Unemployment</a></li>
+                        </ul>
+                    </div>
+                    <div class="cl4 pv24">
+                        <div class="v0 fsStdBld mb4">Career Management</div>
+                        <ul class="lsLnkGry">
+                            <li><a href="/blog/career-development">Career development</a></li>
+                            <li><a href="/blog/advancement">Advancement</a></li>
+                            <li><a href="/blog/management">Management</a></li>
+                            <li><a href="/blog/negotiating">Negotiating</a></li>
+                            <li><a href="/blog/mentorship">Mentorship</a></li>
+                            <li><a href="/blog/people-belonging">People &amp; belonging</a></li>
+                            <li><a href="/blog/retirement">Retirement</a></li>
+                            <li><a href="/blog/students">Students</a></li>
+                        </ul>
+                    </div>
+                    <div class="cl4 pv24">
+                        <div class="v0 fsStdBld mb4">Inspiration &amp; Wellness</div>
+                        <ul class="lsLnkGry">
+                            <li><a href="/blog/women-to-know">Women to know</a></li>
+                            <li><a href="/blog/quotes">Quotes</a></li>
+                            <li><a href="/blog/quizzes">Quizzes</a></li>
+                            <li><a href="/blog/reading">Reading</a></li>
+                            <li><a href="/blog/playlist">Playlist</a></li>
+                            <li><a href="/blog/work-life-balance">Work-life balance</a></li>
+                            <li><a href="/blog/mental-health">Mental health</a></li>
+                        </ul>
+                    </div>
+                    <div class="cl4 pv24">
+                        <div class="v0 fsStdBld mb4">Benefits &amp; Policies</div>
+                        <ul class="lsLnkGry">
+                            <li><a href="/blog/paid-time-off">Paid time off</a></li>
+                            <li><a href="/blog/salary">Salary</a></li>
+                            <li><a href="/blog/flexibility">Flexibility</a></li>
+                            <li><a href="/blog/work-from-home">Work from home</a></li>
+                            <li><a href="/blog/inclusive-benefits">Other benefits</a></li>
+                            <li><a href="/blog/understanding-hr">Understanding HR</a></li>
+                        </ul>
+                    </div>
+                    <div class="cl4 pv24">
+                        <div class="v0 fsStdBld mb4">Working Mom</div>
+                        <ul class="lsLnkGry">
+                            <li><a href="/blog/work-life-balance">Work-life balance</a></li>
+                            <li><a href="/blog/pregnancy">Pregnancy</a></li>
+                            <li><a href="/blog/return-to-work">Return to work</a></li>
+                            <li><a href="/blog/parenting">Parenting</a></li>
+                        </ul>
+                    </div>
+                    <div class="cl4 pv24">
+                        <div class="v0 fsStdBld mb4">More</div>
+                        <ul class="lsLnkGry">
+                            <li><a href="/blog/ask-recruiter">Ask a recruiter</a></li>
+                            <li><a href="/blog/partners-in-diversity">Company voices</a></li>
+                            <li><a href="/blog/working-during-coronavirus">Working during coronavirus</a></li>
+                            <li><a href="/blog/employer-resources">Employer resources</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="/polls" class="fcStd lnkBtn lnkSwitch">Polls</a>
+        <a href="/newsletters" class="fcStd lnkBtn lnkSwitch">Newsletters</a>
+        <a href="/employer" class="fcStd lnkBtn lnkSwitch">For Employers</a>
+    </div>
+
+    
+    <div class="fb1 fbRowRevCtr">
+        <label for="tglRightNav" class="lnkBtn">
+            
+        </label>
+        <div class="tglSrch lnkBtn">
+            
+        </div>
+    </div>
+</header>
+
+
+<div> 
+    <input type="checkbox" id="tglLeftNav" class="tglInp">
+
+    <div class="pFxd fbColStr bgWht tglLeftSlide w400 sml-wFul" style="top: 0; bottom: 0; z-index: 30000;">
+        <div class="hHdr ph20 bbMidGry fbRowCtr">
+            <label for="tglLeftNav" class="lnkBtn">
+                
+            </label>
+        </div>
+        <div class="pv32 ph20 fb1 oScrlY">
+            <a href="/companies/best" class="lnkBtn">
+                
+                <span class="fb1 fsStd fcStd">Best Companies for Women</span>
+            </a>
+            <a href="/match/signup" class="lnkBtn">
+                
+                <span class="fb1 fsStd fcStd">Job Matches</span>
+            </a>
+            <a href="/blog" class="lnkBtn">
+                
+                <span class="fb1 fsStd fcStd">Articles</span>
+            </a>
+            <a href="/polls" class="lnkBtn">
+                
+                <span class="fb1 fsStd fcStd">Polls</span>
+            </a>
+            <a href="/newsletters" class="lnkBtn">
+                
+                <span class="fb1 fsStd fcStd">Newsletters</span>
+            </a>
+            <a href="/companies" class="lnkBtn">
+                
+                <span class="fb1 fsStd fcStd">Browse Companies</span>
+            </a>
+            <a href="/jobs" class="lnkBtn">
+                
+                <span class="fb1 fsStd fcStd">Browse Jobs</span>
+            </a>
+            <a href="/rate" class="lnkBtn">
+                
+                <span class="fb1 fsStd fcStd">Rate a Place You've Worked</span>
+            </a>
+            <a href="/employer" class="lnkBtn">
+                
+                <span class="fb1 fsStd fcStd">For Employers</span>
+            </a>
+        </div>
+    </div>
+
+    <label for="tglLeftNav" class="pFxd tglbgDrk24" style="top: 0; bottom: 0; left: 0; right: 0; z-index: 20000;"></label>
+</div>
+
+
+<div> 
+    <input type="checkbox" id="tglRightNav" class="tglInp">
+
+    <div class="pFxd fbColStr bgWht tglRightSlide w400 sml-wFul" style="top: 0; bottom: 0; z-index: 30000;">
+        <div class="hHdr ph20 bbMidGry fbRowRevCtr">
+            <label for="tglRightNav" class="lnkBtn">
+                
+            </label>
+        </div>
+        <div class="pv32 ph20 fb1 oScrlY">
+            
+            <div class="bgLgtGry p32 brStd taCtr mh8 mb24">
+                <p class="v0 fsStd mb24">Join InHerSight's growing community of professional women and get matched to great jobs and more!</p>
+                <a href="/match/signup" class="btn48 btnPri v7-button v7-button-48 v7-button-primary">Sign up now</a>
+            </div>
+            <p class="v0 fcGry taCtr">Already have an account? <a href="/login?next=/blog/how-to/job-application-email" class="fcStd" title="Log in" rel="nofollow">Log in ›</a></p>
+            
+        </div>
+    </div>
+
+    <label for="tglRightNav" class="pFxd tglbgDrk24" style="top: 0; bottom: 0; left: 0; right: 0; z-index: 20000;"></label>
+</div>
+
+
+        
+
+        
+
+
+
+
+
+
+
+<header>
+    <div class="rwLrg">
+        <div class="cl12 mv48">
+            
+            <ol class="bcStd mb16" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+                <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+                    <a href="/blog" title="InHerSight Blog" itemprop="item">
+                        <span itemprop="name">Blog</span>
+                    </a>
+                    <meta itemprop="position" content="1">
+                </li>
+                <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+                    <a href="/blog/applying" title="Applying Articles on InHerSight" itemprop="item">
+                        <span itemprop="name">Applying</span>
+                    </a>
+                    <meta itemprop="position" content="2">
+                </li>
+                
+            </ol>
+
+            
+            <h1 class="v0 ffSrf fsMsvBld sml-fsHgeBld">10 Job Application Email Templates for Every Scenario</h1>
+            
+            <p class="v0 mt16 fsLrg sml-fsMed">Plus, five easy steps for penning the perfect message</p>
+            
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="rwLrg">
+        <div class="cl8 med-cl12">
+            
+            <div class="btMidGry fbRowCtr pv16">
+                <div class="fb1 fsStd fcGry">
+                    By <a href="/blog/contributor/stephanie-olsen" target="_blank" class="fwBld fcStd">Stephanie Olsen</a>
+                </div>
+                
+
+<div class="fbRowCtr">
+    <a href="https://www.facebook.com/dialog/share?app_id=1775651912484980&amp;href=https://www.inhersight.com/blog/how-to/job-application-email" title="Share on Facebook" class="s48 brLrg hvr-bgDrk4 lnkPop">
+        
+    </a>
+    
+    <a href="https://twitter.com/intent/tweet?text=10 Job Application Email Templates for Every Scenario&amp;url=https://www.inhersight.com/blog/how-to/job-application-email&amp;via=InHerSight" title="Share on Twitter" class="s48 brLrg hvr-bgDrk4 lnkPop">
+    
+        
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.inhersight.com/blog/how-to/job-application-email" title="Share on LinkedIn" class="s48 brLrg hvr-bgDrk4 lnkPop">
+        
+    </a>
+</div>
+
+            </div>
+
+            
+            
+            <div class="mb48">
+                <figure class="pRel bgLgtGry mnh320 sml-mnh160 brLrg oHdn">
+                    <img loading="lazy" class="wFul vaBtm" alt="Person sending job application email" src="https://ucare.inhersight.com/6b52bad2-d568-4f45-9703-be2cc28404d9/-/format/auto/-/quality/lighter/-/progressive/yes/-/resize/800x/">
+                    
+                    <figcaption class="pAbs bgDrk48 brFul pv4 ph12 fsSml fcRev op64" style="bottom: 8px; right: 8px;">Photo courtesy of Ron McClenny</figcaption>
+                    
+                </figure>
+            </div>
+            
+
+            
+            
+
+            
+            
+
+            
+            <article class="mb48">
+                <p>Sometimes the cover letter, resume, and various application materials simply aren’t enough for hiring managers and recruiters—they want it all sent by email attachments. That means you also need to compose a job application email.</p>
+<p>Don’t panic! This can be a good thing. While the response rate of recruiters or hiring managers to job application emails can vary widely, generally, response rates range anywhere from around 10 to 50 percent or higher. Think of sending an email as an opportunity to humanize yourself to a hiring manager or a recruiter. Here, personalization is power.</p>
+<p>Of course, the application email and <a href="https://www.inhersight.com/blog/guide/how-to-address-a-cover-letter">cover letter</a> are two very different beasts. You can’t just copy and paste your cover letter and call it a day. So, we’ve compiled a best practice list: what you should and shouldn’t do to make that job application email as succinct, complete, and polished as the perfect haiku.</p>
+<h2>5 easy steps for writing a job application email&nbsp;</h2>
+<h3>Step 1: Clean up your email</h3>
+<p>Before anything else, get a real email address if you don’t already have one. It doesn’t matter how good your job application email is—if the first thing a recruiter sees is that your return email is “beer-chuggin-good-time-lovin@hotmail,” they’ll pass. Maintain your goofy personal email for goofy personal things, not job searching.</p>
+<h3>Step 2: Follow directions&nbsp;</h3>
+<p>Next, follow all subject line instructions exactly. If the job ad says to send your resume by email with the word “hamburger” in the subject line, do it. It may seem ridiculous, but the recipient knows that you read the full ad and can follow instructions. It also means they can, at a glance, clear their inbox of those applicants who didn’t.</p>
+<p>If no instructions are given for the subject line, <a href="https://zety.com/blog/email-cover-letter">Michael Tomaszewski</a> at resume builder platform Zety, says make the most of it. Put Your full name as applicant, the position you’re applying for, the company name and job ID number if applicable.</p>
+<h3>Step 3: Watch your language</h3>
+<p>Just because it’s a short email doesn’t mean you shouldn’t be using business format and language. Start with the salutation: Don’t use “Hey!” or a person’s first name when addressing them in a job application email (unless you have a prior relationship with that person). Typically erring on the side of formality (“Dear First Name Last Name”) is better than being too informal. You can reference this <a href="https://www.inhersight.com/blog/guide/how-to-address-a-cover-letter">guide on addressing a cover letter</a>—the same rules apply here, and read our explainers on <a href="https://www.inhersight.com/blog/people-belonging/miss-vs-ms">“miss vs. ms”</a> and <a href="https://www.inhersight.com/blog/people-belonging/pronoun-email-signature">pronouns</a> to understand why honorifics are a no-go.</p>
+<h3>Step 4: Get to the points—all of them</h3>
+<p>Similarly to the tone of the email, the body should nod to your professionalism by checking off all of the boxes: Include the reason for the email, what’s attached, and a thank you with an appropriate <a href="https://www.inhersight.com/blog/insight-commentary/how-to-end-an-email">sign-off</a> and signature that contains your full name and contact information.</p>
+<p>A sample job application email from the <a href="https://www.albany.edu/career/resumes_cover/coverletter_email.shtml">University at Albany</a> reads:</p>
+<div class="example">
+<p><em>Dear Ilene Fernandez:</em></p>
+<p><em>I am writing to apply for the position of Marketing Assistant which was posted on your website. I have attached my cover letter and resume for your review and I believe that you will find that my qualifications meet all of your requirements. Please contact me at (518) 555-1212 or at rw123456@albany.edu if you have any questions. I look forward to hearing from you about scheduling an interview.</em></p>
+<p><em>Sincerely,</em></p>
+<p><em>Ronald R. Weasley</em></p>
+</div>
+<p>Another, slightly less formal cover email comes from career strategist <a href="https://www.themuse.com/advice/the-difference-between-a-cover-letter-and-the-email-you-send-with-your-application">Jenny Foss</a>. It serves as a <a href="https://www.inhersight.com/blog/insight-commentary/letter-of-interest">letter of interest</a> and reads:</p>
+<div class="example">
+<p><em>I’ve learned you are seeking a senior project manager with ecommerce experience and knowledge of Jira. That’s me. My attached resume and cover letter outline my qualifications for the role. Thank you very much for your consideration. I hope to hear from you soon!</em></p>
+</div>
+<p>And from <a href="https://hls.harvard.edu/dept/opia/job-search-toolkit/preparing-materials/application-procedures/">Harvard Law School</a>, the sample job application email reads:</p>
+<div class="example">
+<p><em>Dear Ken Johnson,</em></p>
+<p><em>I am writing to apply for a summer internship with [EMPLOYER]. Attached please find my resume, cover letter, and writing sample. Please let me know if you need any additional information. Thank you for your time and consideration.</em></p>
+<p><em>Sincerely,</em></p>
+<p><em>Julia Richards</em></p>
+</div>
+<h3>Step 5: Add attachments first and the email recipient last</h3>
+<p>Don’t be that person who is perfect for the job, but blows it by forgetting to attach their cover letter and resume to their email. When writing your job application email, the first thing you should do is add all your attachments and the LAST thing is to insert the email address of the recipient.</p>
+<h2>Plus, 10 templates for job application emails you might need to send</h2>
+<h3>Job application email example 1: Applying for an advertised position</h3>
+<div class="example">
+<p><em>Subject: Job Application for [Position Title]</em></p>
+<p><em>Dear [Hiring manager's name],</em></p>
+<p><em>I hope this email finds you well. I am excited to apply for the [position title] advertised on [job board/company website]. Attached to this email, you will find my resume and a cover letter outlining my qualifications and enthusiasm for the role.</em></p>
+<p><em>Thank you for considering my application. I look forward to the opportunity to discuss how my skills align with your company's vision and contribute to its success.</em></p>
+<p><em>Best regards,</em></p>
+<p><em>[Your full name]</em></p>
+<p><em>[Contact number]</em></p>
+<p><em>[LinkedIn profile URL (if applicable)]</em></p>
+</div>
+<h3>Job application email example 2: Cold email for potential opportunities</h3>
+<div class="example">
+<p><em>Subject: Inquiry for Potential Opportunities</em></p>
+<p><em>Dear [Hiring manager's name],</em></p>
+<p><em>I trust this email reaches you in good spirits. I am reaching out to express my interest in potential job opportunities at [company name]. I have attached my resume for your reference and to showcase my background and skills.</em></p>
+<p><em>Thank you for your time and consideration. I would greatly appreciate the chance to discuss how my expertise can be an asset to your team.</em></p>
+<p><em>Sincerely,</em></p>
+<p><em>[Your full name]</em></p>
+<p><em>[Contact number]</em></p>
+<p><em>[LinkedIn profile URL (if applicable)]</em></p>
+</div>
+<h3>Job application email example 3: Referral from a current employee</h3>
+<div class="example">
+<p><em>Subject: Job Application with Referral from [Referrer's Name]</em></p>
+<p><em>Dear [Hiring manager's name],</em></p>
+<p><em>I hope this message finds you well. I am excited to apply for the [position title] at [company name], referred to me by [referrer's name]. Please find my resume attached, highlighting my experience and achievements.</em></p>
+<p><em>Thank you for considering my application. I am grateful for the referral and look forward to the opportunity to discuss how I can make a positive impact at [company name].</em></p>
+<p><em>Kind regards,</em></p>
+<p><em>[Your full name]</em></p>
+<p><em>[Contact number]</em></p>
+<p><em>[LinkedIn profile URL (if applicable)]</em></p>
+</div>
+<h3>Job application email example 4: Follow-up email after applying</h3>
+<div class="example">
+<p><em>Subject: Follow-Up on Job Application for [Position Title]</em></p>
+<p><em>Dear [Hiring manager's name],</em></p>
+<p><em>I hope this email finds you well. I recently applied for the [position title] at [company name] and wanted to follow up on my application. I have attached my resume and cover letter once again for your convenience.</em></p>
+<p><em>Thank you for reviewing my materials. I am enthusiastic about the opportunity to contribute my skills to [company name] and would appreciate any updates on the hiring process.</em></p>
+<p><em>Best regards,</em></p>
+<p><em>[Your full name]</em></p>
+<p><em>[Contact number]</em></p>
+<p><em>[LinkedIn profile URL (if applicable)]</em></p>
+</div>
+<h3>Job application email example example 5: Expressing gratitude for an interview</h3>
+<div class="example">
+<p><em>Subject: Thank You for the Interview - [Position Title]</em></p>
+<p><em>Dear [Interviewer's name],</em></p>
+<p><em>I sincerely appreciate the opportunity to interview for the [position title] at [company name]. I thoroughly enjoyed our conversation and am even more excited about the potential of joining your team.</em></p>
+<p><em>Thank you for considering my application. Please find attached any additional documents you may need. I look forward to hearing back about the next steps.</em></p>
+<p><em>Warm regards,</em></p>
+<p><em>[Your full name]</em></p>
+<p><em>[Contact number]</em></p>
+<p><em>[LinkedIn profile URL (if applicable)]</em></p>
+</div>
+<h3>Job application email example 6: Withdrawal of job application</h3>
+<div class="example">
+<p><em>Subject: Withdrawing Job Application for [Position Title]</em></p>
+<p><em>Dear [Hiring manager's name],</em></p>
+<p><em>I hope you are doing well. After careful consideration, I have decided to withdraw my application for the [position title] at [company name]. I am grateful for the opportunity to be considered for the role.</em></p>
+<p><em>Thank you for your understanding, and I wish you and your team all the best in finding the perfect candidate for the position.</em></p>
+<p><em>Sincerely,</em></p>
+<p><em>[Your full name]</em></p>
+<p><em>[Contact number]</em></p>
+<p><em>[LinkedIn profile URL (if applicable)]</em></p>
+</div>
+<h3>Job application email example 7: Requesting feedback on application</h3>
+<div class="example">
+<p><em>Subject: Seeking Feedback on Job Application</em></p>
+<p><em>Dear [Hiring manager's name],</em></p>
+<p><em>I trust you are doing well. I recently applied for the [position title] at [company name]. While I understand that my application might not have been successful, I would greatly appreciate any feedback you could provide to help me improve my future applications.</em></p>
+<p><em>Thank you for considering my request, and I look forward to any insights you can share.</em></p>
+<p><em>Best regards,</em></p>
+<p><em>[Your full name]</em></p>
+<p><em>[Contact number]</em></p>
+<p><em>[LinkedIn profile URL (if applicable)]</em></p>
+</div>
+<h3>Job application email example 8: Application submission with portfolio</h3>
+<div class="example">
+<p><em>Subject: Job Application with Portfolio for [Position Title]</em></p>
+<p><em>Dear [Hiring manager's name],</em></p>
+<p><em>I hope this email finds you well. I am excited to apply for the [position title] at [company name]. Along with my resume, I have attached a link to my portfolio, showcasing my relevant work and accomplishments.</em></p>
+<p><em>Thank you for considering my application. I am eager to discuss how my contributions align with [company name]'s goals.</em></p>
+<p><em>Kind regards,</em></p>
+<p><em>[Your full name]</em></p>
+<p><em>[Contact number]</em></p>
+<p><em>[LinkedIn profile URL (if applicable)]</em></p>
+</div>
+<h3>Job application email example 9: Application for internship or entry-level position</h3>
+<div class="example">
+<p><em>Subject: Application for [Internship/Entry-Level Position] at [Company Name]</em></p>
+<p><em>Dear [Hiring manager's name],</em></p>
+<p><em>I hope you are having a wonderful day. I am writing to express my strong interest in the [Internship/Entry-Level Position] at [company name]. Enclosed, you will find my resume, highlighting my academic achievements and relevant experiences.</em></p>
+<p><em>Thank you for considering my application. I am enthusiastic about the opportunity to learn and grow with [company name].</em></p>
+<p><em>Sincerely,</em></p>
+<p><em>[Your full name]</em></p>
+<p><em>[Contact number]</em></p>
+<p><em>[LinkedIn profile URL (if applicable)]</em></p>
+</div>
+<h3>Job application email example 10: Application for remote or freelance role</h3>
+<div class="example">
+<p><em>Subject: Job Application for Remote/Freelance [Position Title]</em></p>
+<p><em>Dear [Hiring manager's name],</em></p>
+<p><em>I hope this email finds you well. I am excited to apply for the Remote/Freelance [position title] at [company name]. Attached to this email, you will find my resume and a link to my online portfolio.</em></p>
+<p><em>Thank you for considering my application. I am eager to discuss how my skills and dedication can be an asset to [company name]'s projects.</em></p>
+<p><em>Best regards,</em></p>
+<p><em>[Your full name]</em></p>
+<p><em>[Contact number]</em></p>
+<p><em>[LinkedIn profile URL (if applicable)]</em></p>
+</div>
+<p style="line-height: 1.38; margin-top: 12pt; margin-bottom: 12pt;">Remember to tailor each email to the specific situation and position you are applying for, and always maintain a professional and courteous tone throughout. Good luck with your job applications!<span id="docs-internal-guid-5dbdebb1-7fff-a3e9-2358-32dc3f6e4e1f"></span></p>
+            </article>
+
+            <div v-cloak="" id="vue-el-contributors">
+                
+                <div v-if="experts.length > 0" class="mb48">
+                    <div class="bbMidGry mb48"></div>
+                    <h2 class="mb32 fs20Bld">About our expert${ getPlural(experts) }</h2>
+                    <div v-for="expert in experts" class="mb32">
+                        <contributor :contributor="expert"></contributor>
+                    </div>
+                </div>
+
+                
+                <div v-if="authors.length > 0" class="mb48">
+                    <div class="bbMidGry mb48"></div>
+                    <h2 class="mb32 fs20Bld">About our author${ getPlural(authors) }</h2>
+                    <div v-for="author in authors" class="mb32">
+                        <contributor :contributor="author"></contributor>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="fbRowCtr pv16 btMidGry">
+                <div class="v0 fb1 fsStdBld">Share this article</div>
+                
+
+<div class="fbRowCtr">
+    <a href="https://www.facebook.com/dialog/share?app_id=1775651912484980&amp;href=https://www.inhersight.com/blog/how-to/job-application-email" title="Share on Facebook" class="s48 brLrg hvr-bgDrk4 lnkPop">
+        
+    </a>
+    
+    <a href="https://twitter.com/intent/tweet?text=10 Job Application Email Templates for Every Scenario&amp;url=https://www.inhersight.com/blog/how-to/job-application-email&amp;via=InHerSight" title="Share on Twitter" class="s48 brLrg hvr-bgDrk4 lnkPop">
+    
+        
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.inhersight.com/blog/how-to/job-application-email" title="Share on LinkedIn" class="s48 brLrg hvr-bgDrk4 lnkPop">
+        
+    </a>
+</div>
+
+            </div>
+        </div>
+        
+        <div class="cl4 med-cl12 fbColStr">
+            
+            
+            <div class="fb1">
+                <div class="pStk mb48" style="top: 48px;">
+                    <div class="v0 fsStdBld mb16">Editors' Picks</div>
+                    
+                    <a href="/blog/applying/video-resumes" title="Should You Make a Video Resume? Experts Weigh In." target="_blank" class="fbRow mb24">
+                        <div class="s48 brLrg bgLgtGry bgLzy bgCvr mr16" style="background-image: url('https://ucare.inhersight.com/fdf8c587-6f8c-49fc-acd8-44a9f4b1a56a/-/crop/4160x2773/0,574/-/preview/-/format/auto/-/quality/lighter/-/progressive/yes/-/resize/96x/');"></div>
+                        <div class="fb1 fcStd">Should You Make a Video Resume? Experts Weigh In.</div>
+                    </a>
+                    
+                    <a href="/blog/finding-a-job/women-owned-companies" title="100 Women-Owned Companies to Know &amp; Support" target="_blank" class="fbRow mb24">
+                        <div class="s48 brLrg bgLgtGry bgLzy bgCvr mr16" style="background-image: url('https://ucare.inhersight.com/b45d8424-c1da-4daf-85ba-7c6999c550cb/-/crop/3456x2304/0,2498/-/preview/-/format/auto/-/quality/lighter/-/progressive/yes/-/resize/96x/');"></div>
+                        <div class="fb1 fcStd">100 Women-Owned Companies to Know &amp; Support</div>
+                    </a>
+                    
+                    <a href="/blog/career-development/how-to-reconnect-with-your-network" title="How to Genuinely Reconnect with Your Network: 10 Email Templates" target="_blank" class="fbRow mb24">
+                        <div class="s48 brLrg bgLgtGry bgLzy bgCvr mr16" style="background-image: url('https://ucare.inhersight.com/67c889e1-eec2-465e-b5f3-96b6c1a084e7/-/crop/4000x2666/0,1518/-/preview/-/format/auto/-/quality/lighter/-/progressive/yes/-/resize/96x/');"></div>
+                        <div class="fb1 fcStd">How to Genuinely Reconnect with Your Network: 10 Email Templates</div>
+                    </a>
+                    
+                    <a href="/blog" target="_blank">More articles ›</a>
+                </div>
+            </div>
+            
+            
+            
+            
+            <div class="fb1">
+                <div class="pStk mb48" style="top: 48px;">
+                    <h2 class="v0 fsStdBld mb16">Applying</h2>
+                    
+                    <a href="/blog/applying/qualified" title="Required Skills Aren’t Necessarily Required. Here’s What It Means to Be ‘Qualified’ for a Job" target="_blank" class="fbRow mb24">
+                        <div class="s48 brLrg bgLgtGry bgLzy bgCvr mr16" style="background-image: url('https://ucare.inhersight.com/a957ef45-7bdf-4ce6-a152-38ae2ed967d4/-/crop/3648x2434/0,921/-/preview/-/format/auto/-/quality/lighter/-/progressive/yes/-/resize/96x/');"></div>
+                        <div class="fb1 fcStd">Required Skills Aren’t Necessarily Required. Here’s What It Means to Be ‘Qualified’ for a Job</div>
+                    </a>
+                    
+                    <a href="/blog/how-to/resume" title="How to Write a Great Resume, Section by Section" target="_blank" class="fbRow mb24">
+                        <div class="s48 brLrg bgLgtGry bgLzy bgCvr mr16" style="background-image: url('https://ucare.inhersight.com/a9727946-8d02-4272-8318-8f716d20a9d2/-/format/auto/-/quality/lighter/-/progressive/yes/-/resize/96x/');"></div>
+                        <div class="fb1 fcStd">How to Write a Great Resume, Section by Section</div>
+                    </a>
+                    
+                    <a href="/blog/interview/questions-to-ask-recruiters" title="The 12 Questions You Should Be Asking Recruiters" target="_blank" class="fbRow mb24">
+                        <div class="s48 brLrg bgLgtGry bgLzy bgCvr mr16" style="background-image: url('https://ucare.inhersight.com/887ea18a-e15b-4285-bb06-25989014f470/-/format/auto/-/quality/lighter/-/progressive/yes/-/resize/96x/');"></div>
+                        <div class="fb1 fcStd">The 12 Questions You Should Be Asking Recruiters</div>
+                    </a>
+                    
+                    <a href="/blog/applying" target="_blank">More articles ›</a>
+                </div>
+            </div>
+            
+
+            
+            
+            <div id="ecap" class="fb1">
+                <div class="pStk mb48" style="top: 48px;">
+                    <div class="bMidGry brLrg p32">
+                        
+
+
+
+
+
+
+
+
+
+
+
+<div id="ecap-form-container">
+
+    <h3 class="v0 fsStdBld mb8">Don't Miss Out</h3>
+
+    <p class="v0 mb24">Create a free account to get unlimited access to our articles and to join millions of women growing with the InHerSight community</p>
+
+    <div id="ecap-user-exists-error" class="bgSltGry p16 brLrg taCtr mb16 dNone">
+        <p class="v0 fsSml fcGry">Looks like you already have an account!<br><a href="/login?next=/blog/how-to/job-application-email" class="fcStd" rel="nofollow">Click here to login ›</a></p>
+    </div>
+
+    <div id="ecap-invalid-email-error" class="bgSltGry p16 brLrg taCtr mb16 dNone">
+        <p class="v0 fsSml fcGry">Invalid email. Please try again!</p>
+    </div>
+    
+    
+
+
+
+
+
+    <div class="fbRowCtrCtr mb16">
+        <a href="/facebook/login/?process=connect&amp;next=/blog/how-to/job-application-email&amp;auth_params=signup_source_blog_ecap_sidebar,signup_page_/blog/how-to/job-application-email" title="Sign up with Facebook" class="s48 brLrg hvr-bgDrk4" rel="nofollow">
+            
+        </a>
+        <a href="/linkedin_oauth2/login/?process=connect&amp;next=/blog/how-to/job-application-email&amp;auth_params=signup_source_blog_ecap_sidebar,signup_page_/blog/how-to/job-application-email" title="Sign up with LinkedIn" class="s48 brLrg hvr-bgDrk4" rel="nofollow">
+            
+        </a>
+        <a href="/google/login/?process=connect&amp;next=/blog/how-to/job-application-email&amp;auth_params=signup_source_blog_ecap_sidebar,signup_page_/blog/how-to/job-application-email" title="Sign up with Google" class="s48 brLrg hvr-bgDrk4" rel="nofollow">
+            
+        </a>
+        <a href="/apple/login/?process=connect&amp;next=/blog/how-to/job-application-email&amp;auth_params=signup_source_blog_ecap_sidebar,signup_page_/blog/how-to/job-application-email" title="Sign up with Apple" class="s48 brLrg hvr-bgDrk4" rel="nofollow">
+            
+        </a>
+    </div>
+
+    <div class="taCtr fsSml fcGry mb16">Sign up with a social account or...</div>
+
+    
+    <form id="ecap-form" method="POST" action="/blog/how-to/job-application-email">
+        
+        <div id="ecap-button" class="taCtr">
+            <a href="#" title="Sign up with email" class="btn48 btnPri">Subscribe</a>
+        </div>
+        <div id="ecap-spinner" style="display:none;" class="taCtr">
+            <a href="#" class="btn48 btnDsbl">Loading...</a>
+        </div>
+    </form>
+
+    <p class="v0 fsSml fcGry taCtr mt32">If you already have an account, <a href="/login?next=/blog/how-to/job-application-email" class="fcStd" rel="nofollow">click here</a> to log in. By signing up, you agree to InHerSight's <a href="/terms" class="fcStd" target="_blank">Terms</a> and <a href="/privacy" class="fcStd" target="_blank">Privacy Policy</a></p>
+
+</div>
+
+<div id="ecap-success-container" class="dNone">
+    <h3 class="v0 fsStdBld mb8">Success!</h3>
+    <p class="v0">You now have access to all of our awesome content</p>
+</div>
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+            
+                
+            
+            
+            <div class="fb1">
+                <div class="pStk mb48" style="top: 48px;">
+                    <div class="bMidGry brLrg p32">
+                        <div class="v0 fsStdBld mb8">Looking for a New Job?</div>
+                        <p class="v0">InHerSight matches job seekers and companies based on millions of workplace ratings from women. Find a job at a place that supports the kinds of things you're looking for.</p>
+                        <div class="mt16 taCtr">
+                            <a href="https://www.inhersight.com/match/signup" class="btn48 btnPri">Get matched</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="rwLrg">
+        <div class="cl12 sml-dNone">
+            <div class="btMidGry mb48"></div>
+        </div>
+
+        
+        <div class="cl8 med-cl12">
+            <div class="mb48">
+                <div class="v0 fsStdBld mb16">Recent</div>
+                
+                <a href="/blog/stretch-break/stretch-break-time" title="Time for a Break: Lose Track of Time" target="_blank" class="fbRowStr sml-fbColStr bMidGry hvr-bGry brLrg oHdn mb24">
+                    <div class="fb1">
+                        <div class="hFul p6x4 bgLgtGry bgLzy bgCvr" style="background-image: url('https://ucare.inhersight.com/a137df89-8faa-4487-8dad-319790b85fe1/-/crop/2000x1332/0,134/-/preview/-/format/auto/-/quality/lighter/-/progressive/yes/-/resize/400x/');"></div>
+                    </div>
+                    <div class="fb1 fbRowCtr bgWht">
+                        <div class="p32">
+                            <p class="v0 fsSml fcGry mb8">Stretch Break</p>
+                            <div class="v0 fs20Bld fcStd">Time for a Break: Lose Track of Time</div>
+                            <p class="v0 mt4 fcStd">Your June pause</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="/blog/the-pipeline/why-you-cant-listicle-your-way-to-wisdom" title="Why You Can't Listicle Your Way to Wisdom" target="_blank" class="fbRowStr sml-fbColStr bMidGry hvr-bGry brLrg oHdn mb24">
+                    <div class="fb1">
+                        <div class="hFul p6x4 bgLgtGry bgLzy bgCvr" style="background-image: url('https://ucare.inhersight.com/e4354a21-2116-4438-b1ab-53514f8135db/-/format/auto/-/quality/lighter/-/progressive/yes/-/resize/400x/');"></div>
+                    </div>
+                    <div class="fb1 fbRowCtr bgWht">
+                        <div class="p32">
+                            <p class="v0 fsSml fcGry mb8">The Pipeline</p>
+                            <div class="v0 fs20Bld fcStd">Why You Can't Listicle Your Way to Wisdom</div>
+                            <p class="v0 mt4 fcStd">Sometimes you have to get in the van</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="/blog/employer-partners/working-dads-on-parenthood-leadership-fathers-day" title="Working Dads on Parenthood, Leadership, and Feeling Supported at Work" target="_blank" class="fbRowStr sml-fbColStr bMidGry hvr-bGry brLrg oHdn mb24">
+                    <div class="fb1">
+                        <div class="hFul p6x4 bgLgtGry bgLzy bgCvr" style="background-image: url('https://ucare.inhersight.com/05db69b7-07ac-4abf-904a-f37af9d145e8/-/crop/3024x2020/0,470/-/preview/-/format/auto/-/quality/lighter/-/progressive/yes/-/resize/400x/');"></div>
+                    </div>
+                    <div class="fb1 fbRowCtr bgWht">
+                        <div class="p32">
+                            <p class="v0 fsSml fcGry mb8">Employer Partners</p>
+                            <div class="v0 fs20Bld fcStd">Working Dads on Parenthood, Leadership, and Feeling Supported at Work</div>
+                            <p class="v0 mt4 fcStd">We asked working dads how parenthood has shaped their careers and how their workplaces have supported them along the way</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="/blog/the-pipeline/all-the-small-ways-we-stay-close-friendship" title="In Modern Friendships, These Are All the Small Ways We Stay Close" target="_blank" class="fbRowStr sml-fbColStr bMidGry hvr-bGry brLrg oHdn mb24">
+                    <div class="fb1">
+                        <div class="hFul p6x4 bgLgtGry bgLzy bgCvr" style="background-image: url('https://ucare.inhersight.com/10193d60-8689-4e59-aad3-df666ef739c2/-/format/auto/-/quality/lighter/-/progressive/yes/-/resize/400x/');"></div>
+                    </div>
+                    <div class="fb1 fbRowCtr bgWht">
+                        <div class="p32">
+                            <p class="v0 fsSml fcGry mb8">The Pipeline</p>
+                            <div class="v0 fs20Bld fcStd">In Modern Friendships, These Are All the Small Ways We Stay Close</div>
+                            <p class="v0 mt4 fcStd">What matters more than quality time? Consistency</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="/blog/the-pipeline/what-sustainable-care-looks-like-in-2026" title="What Sustainable Care Looks Like in 2026" target="_blank" class="fbRowStr sml-fbColStr bMidGry hvr-bGry brLrg oHdn mb24">
+                    <div class="fb1">
+                        <div class="hFul p6x4 bgLgtGry bgLzy bgCvr" style="background-image: url('https://ucare.inhersight.com/0d536a06-e7d5-49c2-ba3c-798f1b604142/-/format/auto/-/quality/lighter/-/progressive/yes/-/resize/400x/');"></div>
+                    </div>
+                    <div class="fb1 fbRowCtr bgWht">
+                        <div class="p32">
+                            <p class="v0 fsSml fcGry mb8">The Pipeline</p>
+                            <div class="v0 fs20Bld fcStd">What Sustainable Care Looks Like in 2026</div>
+                            <p class="v0 mt4 fcStd">When institutional support falls short, what makes care feel sustainable?</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="/blog/the-pipeline/success-is-a-game-show" title="Success Is a Game Show. Here’s How to Win." target="_blank" class="fbRowStr sml-fbColStr bMidGry hvr-bGry brLrg oHdn mb24">
+                    <div class="fb1">
+                        <div class="hFul p6x4 bgLgtGry bgLzy bgCvr" style="background-image: url('https://ucare.inhersight.com/be31c179-7d08-47db-b54f-26e1e6abe465/-/format/auto/-/quality/lighter/-/progressive/yes/-/resize/400x/');"></div>
+                    </div>
+                    <div class="fb1 fbRowCtr bgWht">
+                        <div class="p32">
+                            <p class="v0 fsSml fcGry mb8">The Pipeline</p>
+                            <div class="v0 fs20Bld fcStd">Success Is a Game Show. Here’s How to Win.</div>
+                            <p class="v0 mt4 fcStd">What can Who Wants to Be a Millionaire? teach us about support systems?</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <div class="mt24 taCtr">
+                    <a href="/blog" class="btn48 btnGryBrd">More articles</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cl4 med-cl12">
+            
+            <div v-cloak="" id="blog-el" v-if="popularPosts &amp;&amp; popularPosts.length > 0" class="mb48">
+                <div class="v0 fsStdBld mb16">Popular</div>
+                <ol>
+                    <li v-for="(post, index) in popularPosts" class="mb24">
+                        <a :href="post.url" :title="post.title" target="_blank" class="fsStd fcStd">${post.title}</a>
+                    </li>
+                </ol>
+            </div>
+
+            
+            <div class="bMidGry brLrg p32 mb48">
+                <div class="v0 fsStdBld mb8">About InHerSight</div>
+                <p class="v0">InHerSight is the career navigator for working women. Founded on the belief that data measurement leads to advancement, we manage the largest database of women-rated companies, and we use those insights to match our users to jobs and companies where they can achieve their goals. Anonymously rate your current or former employer now to unlock our one-of-a-kind resources.</p>
+                <div class="mt24 taCtr">
+                    <a href="/rate" class="btn48 btnPri">Rate now</a>
+                </div>
+            </div>
+
+            
+            
+            <div class="mb48">
+                <h2 class="v0 fsStdBld mb16">Topics in this article</h2>
+                <div class="fbRowWrp">
+                
+                    <a href="/blog/advancement" title="Advancement Articles on InHerSight" target="_blank" class="btn32 btnGry brFul mr8 mb8">Advancement</a>
+                
+                    <a href="/blog/networking" title="Networking Articles on InHerSight" target="_blank" class="btn32 btnGry brFul mr8 mb8">Networking</a>
+                
+                    <a href="/blog/applying" title="Applying Articles on InHerSight" target="_blank" class="btn32 btnGry brFul mr8 mb8">Applying</a>
+                
+                </div>
+            </div>
+            
+
+            
+            
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div @click.stop="" v-cloak="" id="signup-modal-el">
+    
+    <template v-if="showModal">
+
+        
+        <template v-if="halfPageModal">
+            <div class="ppScrn fbColStr fbColRev bgDrk24" style="z-index: 20000;">
+                <div class="wFul bgWht bsLrgDrk">
+
+                    <div class="pRel mw400 mhAuto pt48 ph32 pb32">
+
+                        <div v-if="!automaticPop" @click="hideModal" class="pAbs cPtr" style="top: 24px; right: 24px;">
+                            <img loading="eager" src="/assets/img/v8/icon-close-24.108ee24821ba.svg" class="s24">
+                        </div>
+
+                        <div v-if="jobsPage" class="mb16">
+                            <div v-if="signup" class="fsMedBld">Get job alerts</div> 
+                            <div v-else="" class="fsMedBld">Log in</div> 
+                            <div class="fcGry mt4">The latest and greatest job matches and recommendations from women, delivered straight to your inbox. <span v-if="signup">Already have an account?</span>
+                                <span v-else="">Need to create an account?</span> <a v-if="signup" @click="signup=false" class="wsNoWrp fcStd">Log in</a>
+                                <a v-else="" @click="signup=true" class="wsNoWrp fcStd">Sign up</a>.</div>
+                        </div>
+                        <div v-else="" class="mb16">
+                            <div v-if="signup" class="fsMedBld">Join us</div> 
+                            <div v-else="" class="fsMedBld">Log in</div> 
+                            <div class="fcGry mt4">Free, unlimited access to career advice, inspiration, and job matching. <span v-if="signup">Already have an account?</span>
+                                <span v-else="">Need to create an account?</span> <a v-if="signup" @click="signup=false" class="wsNoWrp fcStd">Log in</a>
+                                <a v-else="" @click="signup=true" class="wsNoWrp fcStd">Sign up</a>.</div>
+                        </div>
+
+                        
+                        
+                        <div v-if="errorMsg" id="modal-error" class="mb16">
+                            <div class="fcErr">${ errorMsg }</div>
+                        </div>
+
+                        <form id="modal-form">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="R7hPJYRywx4ZnhR7hiacwm22cfAkVMQciwp6BU6v88Tr0BIHsANIkFxqKPKWikXV">
+
+                            
+                            <div v-if="signup &amp;&amp; !jobsPage" class="mb24">
+                                <input v-model.trim="jobSettings.jobTitle" id="jobSettings.jobTitle" placeholder="Current job title" class="itStd">
+                            </div>
+
+                            <div class="fbRowCtr mb24">
+                                <div class="fb1 bbMidGry"></div>
+                                <div class="ph8 fsSml fcGry wsNoWrp"><span v-if="signup">Sign up</span>
+                                <span v-else="">Log in</span> with social or email</div>
+                                <div class="fb1 bbMidGry"></div>
+                            </div>
+
+                            
+                            <div class="fbRowCtr mb16">
+                                <a @click="facebookLogin" class="fb1 btn btn48 br4 mr8 fcRev" style="background-color: #3b5998;" rel="nofollow">
+                                    
+                                </a>
+                                <a @click="linkedinLogin" class="fb1 btn btn48 br4 mr8 fcRev" style="background-color: #2867B2;" rel="nofollow">
+                                    
+                                </a>
+                                <a @click="googleLogin" class="fb1 btn btn48 br4 mr8 fcRev" style="background-color: #4285F4;" rel="nofollow">
+                                    
+                                </a>
+                                <a @click="appleLogin" class="fb1 btn btn48 br4 fcRev" style="background-color: #000000;" rel="nofollow">
+                                    
+                                </a>
+                            </div>
+
+                            
+                            <div>
+                                <input v-model.trim="email" id="email" placeholder="Email address" class="itStd" @focus="emailFocused=true">
+                            </div>
+
+                            <div v-if="emailFocused" class="mt8">
+                                
+                                <div class="mb8 pRel">
+                                    <input :type="passwordFieldType" v-model.trim="password" id="password" placeholder="Password" class="itStd">
+                                    <div class="tglScp | pAbs op48" style="top: 8px; right: 8px;">
+                                        <input class="tglInp" type="checkbox" id="tglPw" tabindex="-1" v-model="showPassword">
+                                        <label for="tglPw" class="tglTgr | s32">
+                                            
+                                            
+                                        </label>
+                                    </div>
+                                </div>
+
+                                
+                                <div v-if="!showSpinner" id="modal-button">
+                                    <a href="#" @click="submitForm" class="btnBlk btn48" style="width: 100%;">
+                                        <span v-if="signup">Sign up with email</span>
+                                        <span v-else="">Log in with email</span>
+                                    </a>
+                                </div>
+                                <div v-else="" id="modal-spinner">
+                                    <a href="#" class="btnDsbl btn48" style="width: 100%;">
+                                        <span>Processing...</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <div class="bgLgtGry">
+                        <div class="mw360 mhAuto pv16 ph32">
+                            <div class="fsSml fcGry">By continuing, you agree to InHerSight's <a href="/terms" target="_blank" class="fcStd">Terms</a> and <a href="/privacy" target="_blank" class="fcStd">Privacy Policy</a>. Reset your password <a href="/password/reset" class="fcStd">here</a>.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </template>
+    
+        
+        <template v-else="">
+            <div class="ppScrn fbRowStr med-dBlock" style="z-index: 20000;">
+
+                <div class="fb1 fbRow med-dBlock">
+
+                    <div style="background-image: url(/assets/img/temp/power-moves-bg.88668ff23be4.png); background-repeat: no-repeat; background-position: top right;" class="fb1 fbCol | pRel | bgLgtGry bgCover">
+
+                        <a href="#" v-if="dismissable" @click="dismissModal" class=" dNone med-dFlx fbRowCtrCtr | s48 pAbs " style="top: 16px; right: 16px;">
+                            <img loading="eager" src="/assets/img/v8/icon-close-white-24.84888cc0a601.svg" class="s24">
+                        </a>
+
+                        <div class="mt32 taCtr">
+                            <img loading="eager" src="/assets/img/v8/inhersight-logo-white.60b10cbbbbe6.svg" style="width: 128px;">
+                        </div>
+
+                        <div class="fb1 fbRowCtrCtr p32">
+                            <div class="bgWht mhAuto p32 brStd">
+                                <div class="mw360">
+                                    <div class="fsHgeBld sml-fsLrgBld | mb16">Unlimited Free Access</div>
+                                    <div class="fsMed ffSrf | mb24" style="font-weight: 300;">Sign up today and say goodbye to popups forever</div>
+                                    <div class="fsStd">Create a free InHerSight account to get unlimited access to top companies lists, anonymous employer reviews, articles, career advice, daily job matches, and our growing community of professional women.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="h56 | med-dNone"></div> 
+
+                    </div>
+
+                    <div class="fb1 fbCol bgWht pRel">
+
+                        <a href="#" v-if="dismissable" @click="dismissModal" class="fbRowCtrCtr med-dNone | s48 pAbs" style="top: 16px; right: 16px;">
+                            <img loading="eager" src="/assets/img/v8/icon-close-24.108ee24821ba.svg" class="s24 op48">
+                        </a>
+
+                        <div class="med-dNone" style="height: 80px;"></div> 
+
+                        <div class="fb1 fbRowCtrCtr | p32">
+
+                            <div class="mw360 mhAuto">
+
+                                
+                                <div class="mb24">
+                                    <div v-if="signup" class="fsMedBld">Sign up</div> 
+                                    <div v-else="" class="fsMedBld">Log in</div> 
+                                    <div class="fsMed ffSrf" style="font-weight: 300;">
+                                    
+                                    to access our articles
+                                    
+                                    </div>
+                                </div>
+
+                                
+                                
+                                <div v-if="errorMsg" id="modal-error" class="mb16">
+                                    <div class="fcErr">${ errorMsg }</div>
+                                </div>
+
+                                
+                                <div class="fbRowCtr mb16">
+
+                                    <a @click="facebookLogin" class="fb1 btn btn48 br4 mr8 fcRev" style="background-color: #3b5998;" rel="nofollow">
+                                        
+                                    </a>
+
+                                    <a @click="linkedinLogin" class="fb1 btn btn48 br4 mr8 fcRev" style="background-color: #2867B2;" rel="nofollow">
+                                        
+                                    </a>
+
+                                    <a @click="googleLogin" class="fb1 btn btn48 br4 mr8 fcRev" style="background-color: #4285F4;" rel="nofollow">
+                                        
+                                    </a>
+
+                                    <a @click="appleLogin" class="fb1 btn btn48 br4 fcRev" style="background-color: #000000;" rel="nofollow">
+                                        
+                                    </a>
+
+                                </div>
+
+                                <div class="fcGry mb16">or</div>
+
+                                
+                                <form id="modal-form" class="mb24">
+                                    <input type="hidden" name="csrfmiddlewaretoken" value="R7hPJYRywx4ZnhR7hiacwm22cfAkVMQciwp6BU6v88Tr0BIHsANIkFxqKPKWikXV">
+
+                                    
+                                    <div class="mb8">
+                                        <input v-model="email" id="email" placeholder="Email address" class="bMidGry">
+                                    </div>
+
+                                    <div class="mb8 pRel">
+                                        <input :type="passwordFieldType" v-model="password" id="password" placeholder="Password" class="bMidGry">
+                                        <div class="tglScp | pAbs op48" style="top: 8px; right: 8px;">
+                                            <input class="tglInp" type="checkbox" id="tglPw" tabindex="-1" v-model="showPassword">
+                                            <label for="tglPw" class="tglTgr | s32">
+                                                
+                                                
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div v-if="!showSpinner" id="modal-button">
+                                        <a href="#" @click="submitForm" class="btnBlk btn48" style="width: 100%;">
+                                            <span v-if="signup">Sign up with email</span>
+                                            <span v-else="">Log in with email</span>
+                                        </a>
+                                    </div>
+                                    <div v-else="" id="modal-spinner">
+                                        <a href="#" class="btnDsbl btn48" style="width: 100%;">
+                                            <span>Processing...</span>
+                                        </a>
+                                    </div>
+
+                                </form>
+
+                                
+                                <div class="fbRowCtr">
+                                    <div class="fb1 fcGry">
+                                        <span v-if="signup">Already have an account?</span>
+                                        <span v-else="">Need to create an account?</span>
+                                    </div>
+                                    <div>
+                                        <a v-if="signup" @click="signup=false" class="wsNoWrp fcStd">Log in ›</a>
+                                        <a v-else="" @click="signup=true" class="wsNoWrp fcStd">Sign up ›</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="pv24 ph32 bgLgtGry">
+                            <div class="mw360 mhAuto">
+                                <div class="fsSml fcGry">By signing up or logging in, you agree to InHerSight's <a href="/terms" target="_blank" class="fcStd">Terms</a> and <a href="/privacy" target="_blank" class="fcStd">Privacy Policy</a>. Click here to <a href="/password/reset" class="fcStd">reset your password</a>.</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </template>
+    
+    </template>
+
+    
+    <div v-if="showSuccess" id="modal-success" class="page-screen v7-bg-darken-mid v7-padding-48 v7-small-padding-12 modal" style="display: none;">
+        <div class="v7-max-width-480 v7-margin-lr-auto v7-bg-white v7-round-lrg v7-overflow-hidden v6-shadow-large inner-modal">
+            <div class="v7-margin-lr-auto v7-max-width-480 v7-padding-24">
+                <div class="v7-padding-18 v7-text-align-center">
+                    <div class="v7-padding-6">
+                        <div class="v7-square v7-square-96">
+                            <img loading="auto" src="/assets/img/v5/icon-96-popper.cb272da1a80f.png" style="width: 96px;">
+                        </div>
+                    </div>
+                    <div class="v7-padding-6">
+                        <div class="v7-font-size-24 v7-weight-bold">Success!</div>
+                    </div>
+                    <div class="v7-padding-6">
+                        <div class="v7-color-grey">You now have access to all of our awesome content.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+        
+        
+        
+
+
+<footer class="bgBlack fcRev">
+    <div class="rwLrg pv32">
+        <div class="cl3 med-cl6 sml-cl12 pv12">
+            <div class="fsStdBld mb2">For Talent</div>
+            <ul class="lsLnkGry">
+                <li><a href="/jobs" title="Search for a new job">Jobs</a></li>
+                <li><a href="/companies" title="Browsw women-rated companies">Companies</a></li>
+                <li><a href="/companies/best" title="InHerSight's best companies for women'">Best companies</a></li>
+                <li><a href="/polls" title="Respond to polls">Polls</a></li>
+                <li><a href="/blog" title="Read our content">Articles</a></li>
+                <li><a href="/match/signup" title="Get matched to a job">Get matched to jobs</a></li>
+                <li><a href="/rate" title="Rate a company">Rate a place you've worked</a></li>
+                <li><a href="/newsletters" title="Sign up for our newsletters">Newsletters</a></li>
+            </ul>
+        </div>
+        <div class="cl3 med-cl6 sml-cl12 pv12">
+            <div class="fsStdBld mb2">For Employers</div>
+            <ul class="lsLnkGry">
+                <li><a href="/employer" title="Work with us">Solutions</a></li>
+                <li><a href="/employer#get-started" title="Work with us">Schedule a demo</a></li>
+            </ul>
+        </div>
+        <div class="cl3 med-cl6 sml-cl12 pv12">
+            <div class="fsStdBld mb2">For Advertisers</div>
+            <ul class="lsLnkGry">
+                <li><a href="/advertising" title="Work with us">Advertising opportunities</a></li>
+                <li><a href="/advertising#get-started" title="Work with us">Schedule a call</a></li>
+            </ul>
+        </div>
+        <div class="cl3 med-cl6 sml-cl12 pv12">
+            <div class="fsStdBld mb2">Our Company</div>
+            <ul class="lsLnkGry">
+                <li><a href="/about" title="About InHerSight">About us</a></li>
+                <li><a href="https://www.inhersight.com/company/inhersight/profile" title="Careers at InHerSight">Careers</a></li>
+                <li><a href="/contact" title="Contact InHerSight">Contact us</a></li>
+                <li><a href="/privacy" title="InHerSight Privacy Policy">Privacy policy</a></li>
+                <li><a href="/terms" title="InHerSight Terms of Use">Terms of use</a></li>
+            </ul>
+            <div class="fsStdBld mt16 mb2">More</div>
+            <ul class="lsLnkGry">
+                <li><a href="/blog/legacy" title="Legacy InHerSight articles">Legacy articles</a></li>
+                <li><a href="/companies/index" title="A to Z company directory">A–Z company directory</a></li>
+                <li><a href="/email/archive" title="Email archive">Email archive</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="rwLrg">
+        <div class="cl12">
+            <div class="bbDrkGry"></div>
+        </div>
+    </div>
+    <div class="rwLrg fbRowCtr sml-fbCol pv8">
+        <div class="cl sml-cl12 fb1 pv8">
+            <p class="v0 fcGry">
+                © 2026, InHerSight
+                <span class="version-label" title="Version: v3909Released on: Jul 07, 2026 18:53:17Commit: 8079fd6">v3909</span>
+            </p>
+        </div>
+        <div class="cl sml-cl12 fbRowCtr pv8">
+            <a href="/share" title="Share InHerSight" target="_blank" class="lnkBtn hvr-svgRev">
+                
+            </a>
+            <a href="https://www.facebook.com/InHerSight" rel="noreferrer noopener" title="InHerSight on Facebook" target="_blank" class="lnkBtn hvr-svgRev">
+                
+            </a>
+            <a href="https://www.twitter.com/InHerSight" rel="noreferrer noopener" title="InHerSight on Twitter" target="_blank" class="lnkBtn hvr-svgRev">
+                
+            </a>
+            <a href="https://www.linkedin.com/company/InHerSight" rel="noreferrer noopener" title="InHerSight on LinkedIn" target="_blank" class="lnkBtn hvr-svgRev">
+                
+            </a>
+            <a href="https://www.instagram.com/in_her_sight" rel="noreferrer noopener" title="InHerSight on Instagram" target="_blank" class="lnkBtn hvr-svgRev">
+                
+            </a>
+        </div>
+    </div>
+</footer>
+        
+
+        
+        
+
+
+
+
+
+        
+
+
+        <a href="/prize?source=web&amp;user=admin" style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">Prize login</a>
+</form>
+</body>
+</html>

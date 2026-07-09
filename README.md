@@ -27,13 +27,13 @@
   <img src="https://img.shields.io/badge/Inertia-3-E644AD" alt="Inertia v3" />
   <img src="https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white" alt="PHP 8.5" />
   <img src="https://img.shields.io/badge/Chrome-MV3-4285F4?logo=googlechrome&logoColor=white" alt="Chrome MV3" />
-  <img src="https://img.shields.io/badge/form%20corpus-3%2C276%20scenarios-2ea44f" alt="3,276 form scenarios" />
+  <img src="https://img.shields.io/badge/form%20corpus-4%2C604%20scenarios-2ea44f" alt="4,604 form scenarios" />
   <img src="https://img.shields.io/badge/License-PolyForm%20Noncommercial%201.0.0-orange.svg" alt="PolyForm Noncommercial License 1.0.0" />
 </p>
 
 <p align="center">
   <strong><a href="https://autocvapply.com">Sign up free at autocvapply.com</a></strong> - upload your CV, connect the extension, fill forms in minutes.<br />
-  <sub><strong>LinkedIn Easy Apply &amp; Indeed Apply:</strong> full end-to-end Auto Apply from the extension sidebar. On other ATS forms, you review every field and click Submit yourself.</sub>
+  <sub><strong>Job board Auto Apply:</strong> LinkedIn, Indeed, Totaljobs, Glassdoor, and Reed - full end-to-end apply from the extension sidebar. On other ATS forms, you review every field and click Submit yourself.</sub>
 </p>
 
 ---
@@ -50,7 +50,7 @@
 **Using AutoCVApply**
 
 - [How it works](#how-it-works)
-- [LinkedIn & Indeed Auto Apply](#linkedin--indeed-auto-apply)
+- [Job board Auto Apply](#job-board-auto-apply)
 - [Features](#features)
 - [Supported platforms](#supported-platforms)
 - [Postbox design](#postbox-design)
@@ -66,8 +66,9 @@
 - [Tech stack](#tech-stack)
 - [Project structure](#project-structure)
 - [Getting started (local dev)](#getting-started-local-dev)
+- [Extension bridge (MCP)](#extension-bridge-mcp)
 - [Form corpus quality engineering](#form-corpus-quality-engineering)
-- [LinkedIn & Indeed Auto Apply testing](#linkedin--indeed-auto-apply-testing)
+- [Job board Auto Apply testing](#job-board-auto-apply-testing)
 - [Key commands](#key-commands)
 - [API](#api)
 - [Deployment](#deployment)
@@ -100,12 +101,12 @@ Job applications are a copy-paste endurance test. Workday wants your address. Gr
 | Skip cover letters because they're tedious | **One-click cover letter** tailored to the job description |
 | Same generic CV for every posting | **Tailored resume draft** matched to the role |
 | No idea how your CV reads against the JD | **ATS score** with keyword and formatting feedback |
-| Pray comboboxes and wizards don't break mid-form | **3,276-scenario test corpus** - Greenhouse, Ashby, Workday, and more |
-| Obvious bot-like paste fills that trip ATS checks | **Anti-bot detection** - character-by-character typing, natural pauses, human-like navigation on LinkedIn and Indeed Auto Apply |
-| Click through Easy Apply / Indeed Apply one job at a time | **LinkedIn & Indeed Auto Apply** - search, open, fill, and submit from the extension sidebar |
+| Pray comboboxes and wizards don't break mid-form | **4,604-scenario test corpus** - Greenhouse, Ashby, Workday, UK job boards, and more |
+| Obvious bot-like paste fills that trip ATS checks | **Anti-bot detection** - character-by-character typing, natural pauses, human-like navigation on job board Auto Apply |
+| Click through Easy Apply one job at a time | **Job board Auto Apply** - LinkedIn, Indeed, Totaljobs, Glassdoor, and Reed from the extension sidebar |
 | Submit applications blindly | **You stay in control on ATS forms** - we fill fields; you review and submit |
 
-> **LinkedIn Easy Apply and Indeed Apply Auto Apply** run end-to-end: search filtered jobs, open each posting, fill every step, and submit. More platforms coming soon.
+> **Job board Auto Apply** (LinkedIn, Indeed, Totaljobs, Glassdoor, Reed) runs end-to-end: search filtered jobs, open each posting, fill every step, and submit. More boards are on the way.
 
 ## Who it's for
 
@@ -120,7 +121,7 @@ Job applications are a copy-paste endurance test. Workday wants your address. Gr
 - **Stay honest** - answers draw from your profile and preferences, not invented credentials
 - **Sound human, not generic** - Draft All answers are scored on hundreds of scenarios to catch AI tropes, em dashes, and filler while staying grounded in your CV
 - **Trust the engineering** - four-layer fill verification, Playwright smoke tests, and 410 PHPUnit methods
-- **Avoid bot flags** - human-like typing, pauses between fields, and natural navigation on LinkedIn and Indeed Auto Apply
+- **Avoid bot flags** - human-like typing, pauses between fields, and natural navigation on job board Auto Apply runs
 - **British Postbox UI** - Royal Mail red, navy, warm paper tones. Feels like sending a letter, not filling a spreadsheet
 
 ## Quick install
@@ -154,7 +155,7 @@ flowchart LR
     B --> C["✏️ Review profile<br/>Dashboard"]
     C --> D["🔌 Connect extension<br/>API token"]
     D --> E["⚡ Autofill + Draft All<br/>Any ATS · any site"]
-    D --> L["🤖 Auto Apply tab<br/>LinkedIn & Indeed E2E"]
+    D --> L["🤖 Auto Apply tab<br/>LinkedIn · Indeed · Totaljobs · Glassdoor · Reed"]
     E --> F["📝 Cover letters<br/>Tailored resumes · ATS score"]
     L --> F
 ```
@@ -165,20 +166,20 @@ flowchart LR
 | **2. Check the details** | Tweak anything we missed - summary, visa status, salary expectations, application preferences. |
 | **3. Connect the extension** | Install the Chrome or Firefox extension, paste your connection JSON (`token` + `api_base`) from the dashboard. |
 | **4. Fill and draft** | Autofill fields on any job form. **Draft All** streams AI-written answers for free-text questions, cover letters, and tailored resumes. **You submit when ready.** |
-| **5. Auto Apply (LinkedIn & Indeed)** | Open the extension sidebar **Auto Apply** tab, run a LinkedIn Easy Apply or Indeed Apply search, and let the extension open each job, fill every step, and submit. More platforms coming soon. |
+| **5. Auto Apply (job boards)** | Open the extension sidebar **Auto Apply** tab, pick LinkedIn, Indeed, Totaljobs, Glassdoor, or Reed, and let the extension search, open each job, fill every step, and submit. |
 
-## LinkedIn & Indeed Auto Apply
+## Job board Auto Apply
 
-Full end-to-end applications on **LinkedIn Easy Apply** and **Indeed Apply** - not just field fill:
+Full end-to-end applications on **LinkedIn Easy Apply**, **Indeed Apply**, **Totaljobs Quick Apply**, **Glassdoor Easy Apply**, and **Reed Easy Apply** - not just field fill:
 
 | Step | What happens |
 |------|--------------|
-| **Search** | Extension runs job search with Easy Apply / Indeed Apply filters from the sidebar **Auto Apply** tab |
+| **Search** | Extension runs job search with Easy Apply filters from the sidebar **Auto Apply** tab |
 | **Open** | Each matching job opens in a tab; listings without one-click apply are skipped |
 | **Fill** | Contact info, screening questions, resume steps, and multi-step wizards are filled from your profile |
 | **Submit** | Continue, review, and submit buttons advance and complete the application |
 
-On Greenhouse, Ashby, Workday, and other ATS platforms, autofill and Draft All still work as before - **you review and click Submit yourself**. More full Auto Apply platforms are on the way.
+On Greenhouse, Ashby, Workday, and other ATS platforms, autofill and Draft All still work as before - **you review and click Submit yourself**. More full Auto Apply job boards are on the way.
 
 ## Features
 
@@ -187,11 +188,13 @@ On Greenhouse, Ashby, Workday, and other ATS platforms, autofill and Draft All s
 | **CV parsing** | PDF & Word upload | Structured profile extraction with Tesseract OCR + local `pdftoppm` preprocessing |
 | **CV parsing** | Editable profile | Skills, experience, education, summary, application preferences - you control the source of truth |
 | **Autofill** | One-click fill | Profile data stamped onto native inputs, comboboxes, radios, checkboxes, multi-step wizards |
-| **Autofill** | Anti-bot detection | Character-by-character typing on short fields, pauses between applies, hover-and-click navigation on LinkedIn and Indeed |
+| **Autofill** | Anti-bot detection | Character-by-character typing on short fields, pauses between applies, hover-and-click navigation on job board Auto Apply |
 | **Autofill** | Shadow DOM & iframes | Content scripts traverse embedded ATS widgets other extensions miss |
 | **Auto Apply** | LinkedIn Easy Apply E2E | Sidebar **Auto Apply** tab: search, open jobs, fill steps, submit applications |
-| **Auto Apply** | Indeed Apply E2E | Sidebar **Auto Apply** tab: Indeed Apply search, multi-step flows, submit applications |
-| **Auto Apply** | More platforms soon | Full end-to-end Auto Apply for additional platforms is in development |
+| **Auto Apply** | Indeed Apply E2E | Indeed Apply search, contact/resume/questions/review steps, submit via **Auto Apply** tab |
+| **Auto Apply** | Totaljobs Quick Apply E2E | Genesis Quick Apply search, fill, and submit from the sidebar |
+| **Auto Apply** | Glassdoor Easy Apply E2E | Host-page search plus Indeed Apply iframe steps where required |
+| **Auto Apply** | Reed Easy Apply E2E | Reed search, job detail, modal review, and submit |
 | **Application Assistant** | Field inventory | AI maps the page's questions to fillable refs before drafting |
 | **Application Assistant** | Job context | Extracts title, company, and description from the posting |
 | **Application Assistant** | Draft All | Streams batch answers for unanswered fields (NDJSON) |
@@ -224,7 +227,7 @@ Job sites increasingly flag instant paste fills and robotic click patterns. Auto
 |-----------|--------------|
 | **Character-by-character typing** | Short text fields (names, emails, years, locations) type one keystroke at a time with realistic delays |
 | **Paced batch apply** | Draft All fills one field at a time with scroll, focus, and pause between each |
-| **Human-like LinkedIn & Indeed navigation** | Smooth scroll, hover-before-click, and variable delays when opening apply flows and stepping through multi-page forms |
+| **Human-like job board navigation** | Smooth scroll, hover-before-click, and variable delays when opening apply flows and stepping through multi-page forms on LinkedIn, Indeed, Totaljobs, Glassdoor, and Reed |
 | **Smart fallbacks** | Long free-text answers still paste instantly so multi-paragraph drafts do not take minutes |
 
 ## Supported platforms
@@ -235,6 +238,9 @@ AutoCVApply works on most major ATS and employer career sites - including Workda
 |----------|----------|-------|
 | **LinkedIn Easy Apply** | Full Auto Apply E2E | Search, open, fill, and submit via extension sidebar **Auto Apply** tab |
 | **Indeed Apply** | Full Auto Apply E2E | Indeed Apply search, contact/resume/questions/review steps, submit via **Auto Apply** tab |
+| **Totaljobs Quick Apply** | Full Auto Apply E2E | Genesis Quick Apply search and multi-step submit from the sidebar |
+| **Glassdoor Easy Apply** | Full Auto Apply E2E | Job board search plus Indeed Apply iframe steps where required |
+| **Reed Easy Apply** | Full Auto Apply E2E | Reed search, job detail, modal review, and submit |
 | **Ashby** | Curated + smoke + widget checks | Yes/no and checkbox widget scenarios |
 | **Greenhouse** | Curated + smoke | Scraped real boards in corpus |
 | **Lever** | Curated + smoke | Multi-step apply flows |
@@ -268,8 +274,8 @@ Plans are based on **extension autofill** allowance. CV upload and profile editi
 - **Extension fills locally** - the browser extension fetches your profile via a revocable Sanctum token and writes values into the page DOM. It does not send completed submissions back to us.
 - **No data selling** - we do not sell personal data. See the full [privacy policy](https://autocvapply.com/privacy).
 - **AI processing** - CV parsing and drafting send text to our NanoGPT provider as needed to extract fields or generate answers. Job context from the page may be included in draft requests.
-- **Source available** - PolyForm Noncommercial-licensed core. Inspect the extension, backend, and 3,276-scenario test corpus on GitHub. Free for personal and non-commercial use; commercial use requires permission.
-- **You submit on ATS forms** - autofill and Draft All never auto-click Submit on Greenhouse, Ashby, Workday, and similar sites. **LinkedIn Easy Apply and Indeed Apply Auto Apply** complete submissions end-to-end from the sidebar; other full Auto Apply platforms are coming soon.
+- **Source available** - PolyForm Noncommercial-licensed core. Inspect the extension, backend, and 4,604-scenario test corpus on GitHub. Free for personal and non-commercial use; commercial use requires permission.
+- **You submit on ATS forms** - autofill and Draft All never auto-click Submit on Greenhouse, Ashby, Workday, and similar sites. **Job board Auto Apply** (LinkedIn, Indeed, Totaljobs, Glassdoor, Reed) completes submissions end-to-end from the sidebar; more boards are on the way.
 
 ## Testing overview
 
@@ -277,10 +283,10 @@ AutoCVApply is verified by two complementary test pyramids - not a handful of sm
 
 | Pyramid | Scope | Fast tier (CI on every push) |
 |---------|-------|----------------------------|
-| **ATS form corpus** | 3,276 extraction scenarios, 124 curated fill-verify cases, 13 platform smoke fixtures | Curated JSDOM (70) + Playwright smoke |
-| **LinkedIn & Indeed Auto Apply** | 212 LinkedIn Easy Apply captures, 44 Indeed Apply step fixtures, synthetic edge cases | Unit tests + offline corpus |
+| **ATS form corpus** | 4,604 extraction scenarios (3,495 vetted), 124 curated fill-verify cases, 13 platform smoke fixtures | Curated JSDOM (70) + Playwright smoke |
+| **Job board Auto Apply** | 212 LinkedIn captures, 44 Indeed step fixtures, 1,100 synthetic job-board scenarios (Totaljobs, Glassdoor, Reed), unit + offline corpus tests | Unit tests + offline corpus |
 
-Both pyramids enforce **100% pass rates** on critical tiers before merge. Full tier breakdowns, commands, and fixture layout are in [Form corpus quality engineering](#form-corpus-quality-engineering) and [LinkedIn & Indeed Auto Apply testing](#linkedin--indeed-auto-apply-testing) below.
+Both pyramids enforce **100% pass rates** on critical tiers before merge. Full tier breakdowns, commands, and fixture layout are in [Form corpus quality engineering](#form-corpus-quality-engineering) and [Job board Auto Apply testing](#job-board-auto-apply-testing) below.
 
 ## Job search tips
 
@@ -307,6 +313,8 @@ Practical advice for high-volume applications (no magic numbers - your mileage v
 | **Discord** | [discord.gg/DqqqTv3Spt](https://discord.gg/DqqqTv3Spt) - extension help & community |
 | **Chrome Web Store** | *Listing not published yet - use dashboard zip download* |
 | **Form corpus docs** | [`scripts/form-corpus/README.md`](scripts/form-corpus/README.md) |
+| **Extension bridge (MCP)** | [`scripts/extension-bridge/README.md`](scripts/extension-bridge/README.md) |
+| **Job board automation playbook** | [`docs/platform-automation-playbook.md`](docs/platform-automation-playbook.md) |
 
 ---
 
@@ -370,13 +378,14 @@ autocvapply/
 │   ├── src/sidepanel/          # Connection, Draft All, documents
 │   └── dist/                   # Built extension (load unpacked)
 ├── scripts/form-corpus/        # Corpus generation + fill verification pyramid
+├── scripts/extension-bridge/   # Localhost bridge + MCP server for agent-driven Chrome
 ├── resources/js/
 │   ├── pages/                  # Inertia pages (Welcome, Dashboard, Billing…)
 │   └── components/postbox/     # Shared Postbox UI components
 ├── tests/
 │   ├── Unit/Extension/         # 11 extension test suites (fill, E2E, extraction)
 │   └── fixtures/
-│       ├── form-extraction/    # 3,276-scenario corpus (html, expected, manifest)
+│       ├── form-extraction/    # 4,604-scenario corpus (html, expected, manifest)
 │       └── extension-e2e/      # E2E mocks, scenarios, reports
 └── config/subscriptions.php    # Plan tiers and token limits
 ```
@@ -465,6 +474,116 @@ Then in Chrome:
 
 Generate a connection from the dashboard (**Copy** includes `token` + `api_base`) and paste it into the extension sidebar.
 
+## Extension bridge (MCP)
+
+For extension work, the slow path is edit → rebuild → manually click through Chrome → guess what broke. The **extension bridge** connects Cursor (or any MCP client) to your **real unpacked Chrome profile** over localhost so agents can inspect live DOM state, fill fields, advance apply steps, and run Auto Apply without you acting as the robot.
+
+Typical wins:
+
+- **See what the extension sees** - `get_field_inventory`, `read_field_values`, `get_page_html` on the tab you already have open (cookies, SSO, Reed/Indeed session intact).
+- **Step through apply flows** - platform tools like `reed_tab_message`, `indeed_tab_message`, `linkedin_tab_message` call the same content-script handlers the orchestrator uses (`REED_APPLY_STATE`, `REED_FILL_AND_ADVANCE`, etc.).
+- **Run Auto Apply from the agent** - `start_auto_apply` + `auto_apply_status` / `auto_apply_stop` for LinkedIn, Indeed, Totaljobs, Glassdoor, or Reed.
+- **Tight rebuild loop** - `npm run extension:build-reload` rebuilds `extension/dist/` and asks the connected extension to reload without a manual trip to `chrome://extensions`.
+
+### How it fits together
+
+```mermaid
+flowchart LR
+    Cursor["Cursor agent<br/>MCP tools"]
+    MCP["mcp-server.mjs<br/>stdio"]
+    HTTP["Bridge HTTP<br/>127.0.0.1:7433"]
+    WS["Bridge WebSocket<br/>127.0.0.1:7432"]
+    BG["Extension<br/>service worker"]
+    CS["Content scripts<br/>on job tabs"]
+
+    Cursor --> MCP --> HTTP --> WS --> BG --> CS
+```
+
+| Piece | Role |
+|-------|------|
+| `extension/src/shared/bridge-client.js` | Outbound WebSocket from the MV3 background worker |
+| `scripts/extension-bridge/server.mjs` | Local WebSocket + HTTP command API (`npm run extension-bridge`) |
+| `scripts/extension-bridge/mcp-server.mjs` | MCP stdio wrapper over the HTTP API |
+
+The bridge is **dev-only**: unpacked builds from `extension/dist/` auto-connect on localhost. It binds to `127.0.0.1` only.
+
+### Setup
+
+**Terminal 1** - bridge (leave running):
+
+```bash
+npm run extension-bridge
+```
+
+**Terminal 2** - Laravel + Vite as usual (`composer run dev`).
+
+**Chrome** - load unpacked from `extension/dist/` (see [Build the browser extension](#build-the-browser-extension)). Connect the extension to your dashboard token.
+
+**Cursor** - register the MCP server in `.cursor/mcp.json` (use your repo path for `cwd`):
+
+```json
+{
+  "mcpServers": {
+    "autocvapply-extension": {
+      "command": "node",
+      "args": ["scripts/extension-bridge/mcp-server.mjs"],
+      "cwd": "/path/to/autocvapply"
+    }
+  }
+}
+```
+
+Restart Cursor after editing MCP config. The bridge server must be running before MCP tools work.
+
+Verify:
+
+```bash
+curl -s http://127.0.0.1:7433/status
+```
+
+Expect `"extensionConnected": true` when Chrome has the unpacked extension loaded.
+
+### Fast iteration loop
+
+```bash
+# After editing extension/src/** or form-heuristics:
+npm run extension:build-reload
+
+# Optional: targeted platform unit test (no browser)
+node --test scripts/extension-test/reed-platform.test.mjs
+
+# Optional: drive Auto Apply from Node (uses the same bridge HTTP API)
+node scripts/extension-test/auto-apply-marathon.mjs --platform=reed --target=5 --role="software engineer" --location=London --fit=false
+```
+
+In Cursor, a productive apply-debug session usually looks like:
+
+1. `extension_status` or `list_tabs` - find the apply tab.
+2. `set_active_tab` - pin it for follow-up commands.
+3. `reed_tab_message` / `indeed_tab_message` / … with `REED_APPLY_STATE` (or equivalent) - read step fingerprint, validation errors, review/submit flags.
+4. `get_field_inventory` + `apply_answer` or `start_draft_all` - fill the current step.
+5. Platform `_FILL_AND_ADVANCE` message - click Continue/Submit in the real page.
+6. `save_fixture` - capture redacted HTML into the form corpus when you find a new edge case.
+
+For multi-step Indeed-style flows: fill → `click_control` (`Continue`) → `wait_for_tab` → repeat.
+
+### MCP tools (summary)
+
+| Tool | Use when |
+|------|----------|
+| `extension_status` | Check bridge + extension connection and active tab |
+| `get_field_inventory` / `read_field_values` | See fillable refs and live DOM values |
+| `apply_answer` / `start_draft_all` | Fill one field or run Draft All on the pinned tab |
+| `click_control` / `click_ref` | Advance wizards (Continue, Next, etc.) |
+| `navigate_tab` / `wait_for_tab` | Open jobs or wait for SPA navigation |
+| `linkedin_tab_message`, `indeed_tab_message`, `totaljobs_tab_message`, `glassdoor_tab_message`, `reed_tab_message` | Call platform content-script handlers directly |
+| `start_auto_apply`, `auto_apply_status`, `auto_apply_stop` | Run or monitor job-board Auto Apply |
+| `save_fixture` | Add redacted HTML to `tests/fixtures/form-extraction/` |
+
+Full tool list, HTTP examples, env vars, and security notes: [`scripts/extension-bridge/README.md`](scripts/extension-bridge/README.md).
+
+For the full job-board shipping workflow (MCP autofill → synthetic corpus → live marathon → commit), see [`docs/platform-automation-playbook.md`](docs/platform-automation-playbook.md).
+
 ## Form corpus quality engineering
 
 > **This is not a side-project extension with a handful of smoke tests.** AutoCVApply ships with one of the most exhaustive form-autofill verification pipelines in the job-application tooling space - built because a single missed combobox on a Greenhouse form is a failed application.
@@ -473,10 +592,11 @@ Generate a connection from the dashboard (**Copy** includes `token` + `api_base`
 
 | Metric | Count | Source |
 |--------|------:|--------|
-| Form extraction scenarios | **3,276** | `tests/fixtures/form-extraction/manifest.json` |
-| Vetted scenarios | **3,270** | same manifest (`status: vetted`; 6 pending) |
-| HTML fixtures + expected snapshots | **3,276 each** | `tests/fixtures/form-extraction/html/` · `expected/` |
-| Scraped real apply pages (`web-*`) | **908** (**829** via Firecrawl) | same manifest |
+| Form extraction scenarios | **4,604** | `tests/fixtures/form-extraction/manifest.json` |
+| Vetted scenarios | **3,495** | same manifest (`status: vetted`; remainder pending review) |
+| HTML fixtures + expected snapshots | **4,604 each** | `tests/fixtures/form-extraction/html/` · `expected/` |
+| Scraped real apply pages (`web-*`) | **1,136** | same manifest |
+| Job board synthetic (`syn-tj-500-*`, `syn-gd-300-*`, `syn-reed-300-*`) | **1,100** | Totaljobs, Glassdoor, Reed Auto Apply flows |
 | Curated fill-verify scenarios | **124** (70 JSDOM · 54 Playwright) | `tests/fixtures/form-extraction/fill-verify-curated.json` |
 | Platform smoke scenarios | **13** (+ 2 Ashby widget checks) | `fill-verify-smoke.json` · `run-ashby-*-playwright.mjs` |
 | Extension E2E scenarios | **103** (10 in CI) | `tests/fixtures/extension-e2e/e2e-scenarios.json` |
@@ -485,7 +605,7 @@ Generate a connection from the dashboard (**Copy** includes `token` + `api_base`
 | PHPUnit test methods | **410** | `tests/**/*Test.php` |
 | Platform buckets in curated tier | **16** | `scripts/form-corpus/lib/curated-manifest.mjs` |
 
-The corpus blends **908 scraped real ATS pages** (829 via Firecrawl) with **2,368 synthetic scenarios** - including 500 **syn-complex-500** ATS-style fixtures, 500 **syn-corpus2** bulk forms, 60 **syn-weird** edge cases, plus framework mega-forms for React, Vue, Angular, Svelte, Shadow DOM, Workday wizards, conditional fields, and combobox edge cases.
+The corpus blends **1,136 scraped real ATS and job-board pages** with **3,468 synthetic scenarios** - including 500 **syn-complex-500** ATS-style fixtures, 500 **syn-corpus2** bulk forms, 500 **syn-tj-500** Totaljobs flows, 300 **syn-gd-300** Glassdoor flows, 300 **syn-reed-300** Reed flows, 60 **syn-weird** edge cases, plus framework mega-forms for React, Vue, Angular, Svelte, Shadow DOM, Workday wizards, conditional fields, and combobox edge cases.
 
 ### The test pyramid
 
@@ -519,8 +639,8 @@ flowchart TB
 | Tier | Engine | Scope | CI job |
 |------|--------|-------|--------|
 | **Unit** | JSDOM / Node | Propagation, mock answers, debug-log replay | `tests.yml` → `php-tests` |
-| **Corpus sanity** | PHPUnit | Corpus size checks (3,276 scenarios, 3,270 vetted) | `tests.yml` → `php-tests` |
-| **Form extraction eval** | JSDOM | All 3,270 vetted scenarios vs expected field inventory | `tests-heavy.yml` (manual) |
+| **Corpus sanity** | PHPUnit | Corpus size checks (4,604 scenarios, 3,495 vetted) | `tests.yml` → `php-tests` |
+| **Form extraction eval** | JSDOM | All 3,495 vetted scenarios vs expected field inventory | `tests-heavy.yml` (manual) |
 | **Curated JSDOM** | JSDOM | 70 synthetic scenarios, 4-layer checks at 100% | `tests.yml` → `extension-fill` |
 | **Platform smoke** | Playwright | 1 scenario per ATS/platform + Ashby yes/no + checkbox | `tests.yml` → `extension-fill` |
 | **Curated Playwright** | Playwright | 54 priority scraped ATS fixtures | `tests-heavy.yml` (manual) |
@@ -557,7 +677,7 @@ Fast feedback runs on every push to `main` and `develop`; the heavy corpus eval 
 |----------|---------|-----------|
 | **`tests.yml` → `php-tests`** | Push / PR | Laravel suite on PostgreSQL 17 - excludes `@group playwright` and `@group extension-e2e`; corpus sanity checks only (not full extraction eval) |
 | **`tests.yml` → `extension-fill`** | Push / PR | `npm run build:extension` → curated JSDOM verify (70 scenarios) → Playwright platform smoke |
-| **`tests-heavy.yml`** | Manual dispatch | Full 3,270-scenario extraction eval · comprehensive fill verify · curated Playwright · visual regression · extension E2E batch (~103 scenarios) |
+| **`tests-heavy.yml`** | Manual dispatch | Full 3,495-scenario extraction eval · comprehensive fill verify · curated Playwright · visual regression · extension E2E batch (~103 scenarios) |
 | **`lint.yml`** | Push / PR | Laravel Pint, ESLint, Prettier |
 | **`prod_deploy.yml`** | Push to `main` | Docker build → GHCR push → deploy to production |
 
@@ -571,9 +691,9 @@ FORM_CORPUS_PLAYWRIGHT=1 php artisan test --compact --filter=test_platform_smoke
 
 See [`scripts/form-corpus/README.md`](scripts/form-corpus/README.md) for the full maintenance workflow, report paths, and the manual heavy tier.
 
-## LinkedIn & Indeed Auto Apply testing
+## Job board Auto Apply testing
 
-LinkedIn and Indeed Auto Apply have their own verification pyramid, separate from the 3,276-scenario ATS form corpus. It runs on every push via PHPUnit wrappers and can be exercised locally without a live session for most tiers.
+LinkedIn, Indeed, Totaljobs, Glassdoor, and Reed Auto Apply have their own verification pyramid, separate from the 4,604-scenario ATS form corpus. It runs on every push via PHPUnit wrappers and can be exercised locally without a live session for most tiers.
 
 ```mermaid
 flowchart TB
@@ -587,6 +707,7 @@ flowchart TB
     subgraph L2["Layer 2 - Offline corpus (JSDOM)"]
         C["linkedin-easy-apply-corpus.mjs<br/>212 live captures + 52 synthetic edge cases"]
         I["indeed-auto-apply-offline.mjs<br/>44 apply-step fixtures"]
+        TJ["syn-tj-500-* · syn-gd-300-* · syn-reed-300-*<br/>1,100 job board synthetic scenarios"]
     end
 
     subgraph L3["Layer 3 - Browser offline"]
@@ -606,6 +727,8 @@ flowchart TB
 | **Unit** | `auto-apply-pause-resume.mjs`, `auto-apply-activity-visibility.mjs` | Validation blockers, pause/resume session state, sidebar activity panel visibility | Default PHPUnit |
 | **Offline corpus** | `linkedin-easy-apply-corpus.mjs` | Each fixture: modal open/closed, primary actions (Next/Review/Submit), validation errors, submitted confirmation, multi-step flow progression | `LinkedInEasyApplyCorpusTest` |
 | **Offline corpus** | `indeed-auto-apply-offline.mjs`, `indeed-apply-*.mjs` | Indeed Apply search URLs, step detection, contact/resume/questions/review fixtures | `npm run test:indeed-auto-apply-offline` |
+| **Offline corpus** | `syn-tj-500-*`, `syn-gd-300-*`, `syn-reed-300-*` | 1,100 synthetic Totaljobs, Glassdoor, and Reed search/apply scenarios in the form corpus | `npm run form-corpus:validate-*-corpus` |
+| **Unit** | `reed-platform.test.mjs` | Reed search URLs, job ID parsing, apply URL builders | `node --test scripts/extension-test/reed-platform.test.mjs` |
 | **Browser offline** | `linkedin-auto-apply-offline-step.mjs` | Real Chrome + unpacked extension clicking through a fixture modal step | `LinkedInFullFlowReportTest` (requires `EXTENSION_E2E=1`) |
 | **Live E2E** | `linkedin-auto-apply-full-flow.mjs` | Full orchestrator: search, open jobs, Draft All per step, advance, submit; writes `tests/output/linkedin-auto-apply-full-flow/report.json` | Manual (`LINKEDIN_LIVE_E2E=1`) |
 
@@ -615,6 +738,9 @@ flowchart TB
 |----------|----------|
 | `tests/fixtures/auto-apply/linkedin/captured/` | **212 live-captured** LinkedIn HTML files (authoritative regression source) |
 | `tests/fixtures/form-extraction/html/web-indeed-*` | **44 Indeed Apply** step fixtures (contact, resume, questions, review) |
+| `tests/fixtures/form-extraction/html/syn-tj-500-*` | **500 Totaljobs** Quick Apply synthetic scenarios |
+| `tests/fixtures/form-extraction/html/syn-gd-300-*` | **300 Glassdoor** Easy Apply host + iframe scenarios |
+| `tests/fixtures/form-extraction/html/syn-reed-300-*` | **300 Reed** Easy Apply search, job detail, and modal review scenarios |
 | `tests/fixtures/auto-apply/linkedin/captured-manifest.json` | Metadata per capture: step, `capture_reason`, validation errors, stuck diagnostics |
 | `tests/fixtures/auto-apply/linkedin/` | **50 synthetic** progression flows plus `error-*` and `edge-*` fixtures (fallback when captures are unavailable) |
 | `tests/fixtures/auto-apply/linkedin-search-results*.html` | Search results and job detail page fixtures for card parsing |
@@ -723,6 +849,8 @@ Do not paste unredacted live LinkedIn HTML into `tests/fixtures/auto-apply/linke
 | `composer run dev` | Laravel + queue + Pail + Vite |
 | `composer test` | Pint check + full PHPUnit suite |
 | `npm run build:extension` | Build MV3 extension to `extension/dist/` |
+| `npm run extension:build-reload` | Build + hot-reload unpacked extension via bridge |
+| `npm run extension-bridge` | Start localhost bridge (WebSocket + HTTP for MCP) |
 | `npm run form-corpus:fill-verify:curated` | Curated JSDOM tier (CI default) |
 | `npm run form-corpus:fill-verify:smoke` | Per-platform Playwright smoke |
 | `npm run form-corpus:extension-e2e` | Extension E2E CI subset (~10 scenarios) |
@@ -794,5 +922,5 @@ Issues and pull requests welcome on [GitHub](https://github.com/tmwclaxton/autoa
 <p align="center">
   <strong><a href="https://autocvapply.com">Get started free at autocvapply.com</a></strong><br />
   <sub>Built for people who'd rather apply to jobs than retype their CV.<br />
-  Verified against 3,276 form scenarios. Battle-tested on real ATS platforms.</sub>
+  Verified against 4,604 form scenarios. Battle-tested on real ATS platforms and UK job boards.</sub>
 </p>

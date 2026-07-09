@@ -1,0 +1,100 @@
+{
+  "id": "web-www-chesterfield-gov-uk-completing-the-job-application-form",
+  "min_fields": 3,
+  "exact_field_count": 3,
+  "fields": [
+    {
+      "question": "select language",
+      "field_type": "select",
+      "max_chars": null,
+      "options": [
+        "Select Language",
+        "Afrikaans",
+        "Albanian",
+        "Arabic",
+        "Armenian",
+        "Azerbaijani",
+        "Basque",
+        "Belarusian",
+        "Bulgarian",
+        "Catalan",
+        "Chinese (Simplified)",
+        "Chinese (Traditional)",
+        "Croatian",
+        "Czech",
+        "Danish",
+        "Dutch",
+        "English",
+        "Estonian",
+        "Filipino",
+        "Finnish",
+        "French",
+        "Galician",
+        "Georgian",
+        "German",
+        "Greek",
+        "Haitian Creole",
+        "Hebrew",
+        "Hindi",
+        "Hungarian",
+        "Icelandic"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "select",
+        "type": "select-one",
+        "id": "googletranslate",
+        "name": "googletranslate",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "search website search",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "searchwebsite",
+        "name": "search",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "enter search criteria enter search criteria search",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "searchString1",
+        "name": "search",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": "Search",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

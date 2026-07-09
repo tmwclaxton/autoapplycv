@@ -270,6 +270,33 @@ function readNativeGroupSelection(document, dom, fieldType) {
     });
 }
 
+function readReactSelectDomValue(element) {
+    if (!element || element.getAttribute?.('role') !== 'combobox') {
+        return null;
+    }
+
+    const shell = element.closest('.select-shell, .select__container');
+    const control = element.closest('.select__control') || shell?.querySelector('.select__control');
+
+    if (control) {
+        const singleValue = control.querySelector('.select__single-value, .select__multi-value__label');
+
+        if (singleValue?.textContent?.trim()) {
+            return singleValue.textContent.replace(/\s+/g, ' ').trim();
+        }
+    }
+
+    const hiddenValue = shell?.querySelector('input[tabindex="-1"][aria-hidden="true"]');
+
+    if (hiddenValue?.value?.trim()) {
+        return hiddenValue.value.trim();
+    }
+
+    const typed = String(element.value || '').trim();
+
+    return typed || null;
+}
+
 function readDomValue(document, field, dom) {
     const fieldType = field.field_type || 'text';
     const domRole = dom?.role || null;
@@ -349,13 +376,31 @@ function readDomValue(document, field, dom) {
     const tag = element.tagName?.toLowerCase();
     const role = element.getAttribute?.('role');
 
-    if (role === 'combobox' || fieldType === 'combobox') {
+    if (role === 'combobox' || fieldType === 'combobox' || fieldType === 'select') {
+        const reactSelectValue = readReactSelectDomValue(element);
+
+        if (reactSelectValue) {
+            return { kind: 'option', value: reactSelectValue };
+        }
+
         const display = element.querySelector?.('[class*="ew4qyo"]')?.textContent
             || element.textContent
             || '';
         const typed = String(element.value || display).replace(/\s+/g, ' ').trim();
 
         return typed.length > 0 ? { kind: 'option', value: typed } : null;
+    }
+
+    const contentEditable = element.getAttribute?.('contenteditable');
+    const isEditable = element.isContentEditable
+        || contentEditable === ''
+        || contentEditable === 'true'
+        || contentEditable === 'plaintext-only';
+
+    if (isEditable) {
+        const textValue = String(element.textContent ?? '').trim();
+
+        return textValue.length > 0 ? { kind: 'text', value: textValue } : null;
     }
 
     if (tag === 'select' || fieldType === 'select') {

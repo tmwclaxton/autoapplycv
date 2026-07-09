@@ -1,0 +1,2766 @@
+{
+  "generated_at": "2026-07-09T03:31:43.635Z",
+  "totals": {
+    "scenarios": 100,
+    "evaluated": 47,
+    "passed": 16,
+    "failed": 31,
+    "pass_rate": 0.3404
+  },
+  "results": [
+    {
+      "id": "web-www-workwisecompliance-com-job-application-form-digital",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-84",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-126",
+      "passed": false,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-134",
+      "passed": false,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-www-careers-page-com-apply-13",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-88",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-139",
+      "passed": false,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-shake-smart-inc-breezy-hr-apply",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-26",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-www-template-net-application",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-141",
+      "passed": false,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-ea5850a0-f70a-4b0e-97f4-895c9a0b2085",
+      "passed": false,
+      "field_count": 5,
+      "failures": [
+        {
+          "field": "nopolicy",
+          "ref": "f12",
+          "stage": "verify",
+          "expected": "*",
+          "actual": null
+        }
+      ],
+      "apply_failures": 0,
+      "verify_failures": 1,
+      "checks": {
+        "domReadback": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "nopolicy",
+              "ref": "f12",
+              "stage": "verify",
+              "expected": "*",
+              "actual": null
+            }
+          ],
+          "apply_failures": 0,
+          "verify_failures": 1
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 0,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "nopolicy",
+              "ref": "f12",
+              "reason": "checkboxNotChecked",
+              "expected": "*",
+              "actual": []
+            }
+          ]
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "smartrecruiters"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-95",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-www-vertex42-com-job-application-form-html",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-85",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-127",
+      "passed": false,
+      "field_count": 7,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 7,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-135",
+      "passed": false,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-www-careers-page-com-apply-14",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-89",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-e49ed57f-9245-4508-ae6a-7ce2243ebc86",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 0,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "smartrecruiters"
+    },
+    {
+      "id": "web-new-incentives-breezy-hr-apply",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-27",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-wpforms-com-application-form-template",
+      "passed": true,
+      "field_count": 15,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 15,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-142",
+      "passed": false,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-19c27751-d345-4101-8269-98efcafe52e0",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 0,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "smartrecruiters"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-96",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-www-inhersight-com-job-application-email",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-25",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-128",
+      "passed": false,
+      "field_count": 11,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 11,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-136",
+      "passed": false,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-www-careers-page-com-apply-15",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-90",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-01ec3d18-d380-4cd6-bcc6-9b657e0cd0c3",
+      "passed": true,
+      "field_count": 6,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 0,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "smartrecruiters"
+    },
+    {
+      "id": "web-water-street-mission-breezy-hr-apply",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-28",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-wpforms-com-holiday-application-form-template",
+      "passed": true,
+      "field_count": 8,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 8,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-143",
+      "passed": false,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-6586579a-c447-421f-9b30-67da6dd65539",
+      "passed": false,
+      "field_count": 7,
+      "failures": [
+        {
+          "field": "nopolicy",
+          "ref": "f12",
+          "stage": "verify",
+          "expected": "*",
+          "actual": null
+        }
+      ],
+      "apply_failures": 0,
+      "verify_failures": 1,
+      "checks": {
+        "domReadback": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "nopolicy",
+              "ref": "f12",
+              "stage": "verify",
+              "expected": "*",
+              "actual": null
+            }
+          ],
+          "apply_failures": 0,
+          "verify_failures": 1
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 0,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "nopolicy",
+              "ref": "f12",
+              "reason": "checkboxNotChecked",
+              "expected": "*",
+              "actual": []
+            }
+          ]
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "smartrecruiters"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-97",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-www-careeronestop-org-practice-job-application-aspx",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-pdfliner-com-employment-applications",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 2,
+          "checked_forms": 2
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-129",
+      "passed": false,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-86",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-www-careers-page-com-apply-16",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-91",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-81c98f29-6a4d-4810-9a49-642d86df819c",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 0,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "smartrecruiters"
+    },
+    {
+      "id": "web-telespazio-be-breezy-hr-apply",
+      "passed": false,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": false,
+          "errors": [
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_FULL_NAME%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_EMAIL_ADDRESS%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_PHONE_NUMBER%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_ADDRESS%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM_COVER_LETTER%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_CONSENT_REQUIRED%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "%ERROR_INVALID_FORM%",
+              "ariaInvalid": null
+            },
+            {
+              "kind": "selector",
+              "selector": ".error, .errors, .field-error, .form-error",
+              "message": "{{ errorMessage }}",
+              "ariaInvalid": null
+            }
+          ],
+          "error_count": 8
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-29",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-wpforms-com-college-application-form-template",
+      "passed": true,
+      "field_count": 9,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 9,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-144",
+      "passed": false,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-8cc751b1-ad25-482c-9a20-4c3199800d4d",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 0,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "smartrecruiters"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-98",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-github-com-index-html-2",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-cocosign-com-employment-application",
+      "passed": true,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 0,
+          "checked_forms": 2
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-130",
+      "passed": false,
+      "field_count": 2,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 2,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-careers-page-com-apply",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-wearediverse2-teamtailor-com-new",
+      "passed": false,
+      "field_count": 2,
+      "failures": [
+        {
+          "field": "where did you hear about croud?required",
+          "ref": "f9",
+          "stage": "verify",
+          "expected": "FillVerify-9",
+          "actual": null
+        }
+      ],
+      "apply_failures": 0,
+      "verify_failures": 1,
+      "checks": {
+        "domReadback": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "where did you hear about croud?required",
+              "ref": "f9",
+              "stage": "verify",
+              "expected": "FillVerify-9",
+              "actual": null
+            }
+          ],
+          "apply_failures": 0,
+          "verify_failures": 1
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 1,
+          "checked_forms": 2
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "teamtailor"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-92",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-apply-workable-com-apply-21",
+      "passed": false,
+      "field_count": 47,
+      "failures": [
+        {
+          "field": "the position you are applying for may involve responsibilities that require a high level of trust and integrity. please be aware that a criminal record will not automatically prevent you from being considered for the position, and local public eatery will meet its obligations, if any, under applicable human rights legislation.",
+          "ref": "f50",
+          "stage": "apply",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "how are you applying to local public eatery?",
+          "ref": "f51",
+          "stage": "apply",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "what role/s are you applying for?",
+          "ref": "f52",
+          "stage": "apply",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "what is your availability?",
+          "ref": "f53",
+          "stage": "apply",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "have you interviewed with the local public eatery within the last 6 months?",
+          "ref": "f48",
+          "stage": "verify",
+          "expected": "YES",
+          "actual": null
+        },
+        {
+          "field": "have you ever worked with joey restaurant group (joey restaurants, local public eatery or saltlik) before?",
+          "ref": "f49",
+          "stage": "verify",
+          "expected": "YES",
+          "actual": null
+        },
+        {
+          "field": "the position you are applying for may involve responsibilities that require a high level of trust and integrity. please be aware that a criminal record will not automatically prevent you from being considered for the position, and local public eatery will meet its obligations, if any, under applicable human rights legislation.",
+          "ref": "f50",
+          "stage": "verify",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "how are you applying to local public eatery?",
+          "ref": "f51",
+          "stage": "verify",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "what role/s are you applying for?",
+          "ref": "f52",
+          "stage": "verify",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "what is your availability?",
+          "ref": "f53",
+          "stage": "verify",
+          "expected": "Yes",
+          "actual": null
+        }
+      ],
+      "apply_failures": 4,
+      "verify_failures": 6,
+      "checks": {
+        "domReadback": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "the position you are applying for may involve responsibilities that require a high level of trust and integrity. please be aware that a criminal record will not automatically prevent you from being considered for the position, and local public eatery will meet its obligations, if any, under applicable human rights legislation.",
+              "ref": "f50",
+              "stage": "apply",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "how are you applying to local public eatery?",
+              "ref": "f51",
+              "stage": "apply",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "what role/s are you applying for?",
+              "ref": "f52",
+              "stage": "apply",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "what is your availability?",
+              "ref": "f53",
+              "stage": "apply",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "have you interviewed with the local public eatery within the last 6 months?",
+              "ref": "f48",
+              "stage": "verify",
+              "expected": "YES",
+              "actual": null
+            },
+            {
+              "field": "have you ever worked with joey restaurant group (joey restaurants, local public eatery or saltlik) before?",
+              "ref": "f49",
+              "stage": "verify",
+              "expected": "YES",
+              "actual": null
+            },
+            {
+              "field": "the position you are applying for may involve responsibilities that require a high level of trust and integrity. please be aware that a criminal record will not automatically prevent you from being considered for the position, and local public eatery will meet its obligations, if any, under applicable human rights legislation.",
+              "ref": "f50",
+              "stage": "verify",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "how are you applying to local public eatery?",
+              "ref": "f51",
+              "stage": "verify",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "what role/s are you applying for?",
+              "ref": "f52",
+              "stage": "verify",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "what is your availability?",
+              "ref": "f53",
+              "stage": "verify",
+              "expected": "Yes",
+              "actual": null
+            }
+          ],
+          "apply_failures": 4,
+          "verify_failures": 6
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 7,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "the position you are applying for may involve responsibilities that require a high level of trust and integrity. please be aware that a criminal record will not automatically prevent you from being considered for the position, and local public eatery will meet its obligations, if any, under applicable human rights legislation.",
+              "ref": "f11",
+              "reason": "radioGroupSelectionCount",
+              "expected": 1,
+              "actual": 0
+            },
+            {
+              "field": "the position you are applying for may involve responsibilities that require a high level of trust and integrity. please be aware that a criminal record will not automatically prevent you from being considered for the position, and local public eatery will meet its obligations, if any, under applicable human rights legislation.",
+              "ref": "f50",
+              "reason": "radioGroupSelectionCount",
+              "expected": 1,
+              "actual": 0
+            },
+            {
+              "field": "how are you applying to local public eatery?",
+              "ref": "f51",
+              "reason": "checkboxNotChecked",
+              "expected": "Yes",
+              "actual": []
+            },
+            {
+              "field": "what role/s are you applying for?",
+              "ref": "f52",
+              "reason": "checkboxNotChecked",
+              "expected": "Yes",
+              "actual": []
+            },
+            {
+              "field": "what is your availability?",
+              "ref": "f53",
+              "reason": "checkboxNotChecked",
+              "expected": "Yes",
+              "actual": []
+            }
+          ]
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-kindred-bravely-breezy-hr-apply",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-30",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-wpforms-com-alumni-chapter-application-form-template",
+      "passed": true,
+      "field_count": 6,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 6,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-145",
+      "passed": false,
+      "field_count": 10,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 10,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-48e6dfb8-7169-4e59-be4f-0617295830ea",
+      "passed": true,
+      "field_count": 6,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 0,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "smartrecruiters"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-82",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-www-template-net-summer-internship-application-form",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-131",
+      "passed": false,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-www-careers-page-com-apply-10",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-myjobscotland-gov-uk-winning-application-form",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-93",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-apply-workable-com-apply-22",
+      "passed": false,
+      "field_count": 55,
+      "failures": [
+        {
+          "field": "please note this section will only be seen by those involved in the recruitment process and will be treated with the strictest confidence. the rehabilitation of offenders act 1974 aims to promote equality of opportunity and is committed to treating all applicants regardless of ethnicity, disability, age, gender or gender re-assignment, religion or belief, sexual orientation, pregnancy or maternity and marriage or civil partnership. undertakes not to discriminate unfairly against applicants based on a criminal conviction or other information declared. answering 'yes' to the question below will not necessarily prevent your employment. this will depend on the relevance of the information you provide in respect of the nature of the position and the circumstances. are you currently bound over or do you have any current unspent convictions that have been issued by a court or court-martial in the united kingdom or in any other country?",
+          "ref": "f56",
+          "stage": "apply",
+          "expected": "United States",
+          "actual": null
+        },
+        {
+          "field": "do you have any current unspent police cautions, reprimands or final warnings in the united kingdom or in any other country?",
+          "ref": "f57",
+          "stage": "apply",
+          "expected": "United States",
+          "actual": null
+        },
+        {
+          "field": "please note this section will only be seen by those involved in the recruitment process and will be treated with the strictest confidence. the rehabilitation of offenders act 1974 aims to promote equality of opportunity and is committed to treating all applicants regardless of ethnicity, disability, age, gender or gender re-assignment, religion or belief, sexual orientation, pregnancy or maternity and marriage or civil partnership. undertakes not to discriminate unfairly against applicants based on a criminal conviction or other information declared. answering 'yes' to the question below will not necessarily prevent your employment. this will depend on the relevance of the information you provide in respect of the nature of the position and the circumstances. are you currently bound over or do you have any current unspent convictions that have been issued by a court or court-martial in the united kingdom or in any other country?",
+          "ref": "f81",
+          "stage": "apply",
+          "expected": "United States",
+          "actual": null
+        },
+        {
+          "field": "do you have any current unspent police cautions, reprimands or final warnings in the united kingdom or in any other country?",
+          "ref": "f82",
+          "stage": "apply",
+          "expected": "United States",
+          "actual": null
+        },
+        {
+          "field": "please select your availability below",
+          "ref": "f86",
+          "stage": "apply",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "please note this section will only be seen by those involved in the recruitment process and will be treated with the strictest confidence. the rehabilitation of offenders act 1974 aims to promote equality of opportunity and is committed to treating all applicants regardless of ethnicity, disability, age, gender or gender re-assignment, religion or belief, sexual orientation, pregnancy or maternity and marriage or civil partnership. undertakes not to discriminate unfairly against applicants based on a criminal conviction or other information declared. answering 'yes' to the question below will not necessarily prevent your employment. this will depend on the relevance of the information you provide in respect of the nature of the position and the circumstances. are you currently bound over or do you have any current unspent convictions that have been issued by a court or court-martial in the united kingdom or in any other country?",
+          "ref": "f56",
+          "stage": "verify",
+          "expected": "United States",
+          "actual": null
+        },
+        {
+          "field": "do you have any current unspent police cautions, reprimands or final warnings in the united kingdom or in any other country?",
+          "ref": "f57",
+          "stage": "verify",
+          "expected": "United States",
+          "actual": null
+        },
+        {
+          "field": "do you have current right to work in the uk?",
+          "ref": "f74",
+          "stage": "verify",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "do you have any endorsements?",
+          "ref": "f76",
+          "stage": "verify",
+          "expected": "YES",
+          "actual": null
+        },
+        {
+          "field": "do you have proof of right to work in the uk as a uk citizen?",
+          "ref": "f77",
+          "stage": "verify",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "are you an overseas applicant or a uk citizen who has lived outside of the uk for a period of 6 months or more than 5 years ?",
+          "ref": "f78",
+          "stage": "verify",
+          "expected": "YES",
+          "actual": null
+        },
+        {
+          "field": "i understand that this role may include shift work, unsociable hours, lone working involved.",
+          "ref": "f79",
+          "stage": "verify",
+          "expected": "YES",
+          "actual": null
+        },
+        {
+          "field": "please note this section will only be seen by those involved in the recruitment process and will be treated with the strictest confidence. the rehabilitation of offenders act 1974 aims to promote equality of opportunity and is committed to treating all applicants regardless of ethnicity, disability, age, gender or gender re-assignment, religion or belief, sexual orientation, pregnancy or maternity and marriage or civil partnership. undertakes not to discriminate unfairly against applicants based on a criminal conviction or other information declared. answering 'yes' to the question below will not necessarily prevent your employment. this will depend on the relevance of the information you provide in respect of the nature of the position and the circumstances. are you currently bound over or do you have any current unspent convictions that have been issued by a court or court-martial in the united kingdom or in any other country?",
+          "ref": "f81",
+          "stage": "verify",
+          "expected": "United States",
+          "actual": null
+        },
+        {
+          "field": "do you have any current unspent police cautions, reprimands or final warnings in the united kingdom or in any other country?",
+          "ref": "f82",
+          "stage": "verify",
+          "expected": "United States",
+          "actual": null
+        },
+        {
+          "field": "please note this section is required by law if the role you are applying for involves working within a care home. the health and social care act 2008 (regulated activities) (amendment) (coronavirus) regulations 2021 make it mandatory for a person working in a care home to be fully vaccinated against covid-19 from 11 november 2021. are you fully vaccinated against covid-19 or exempt from vaccination?",
+          "ref": "f83",
+          "stage": "verify",
+          "expected": "YES",
+          "actual": null
+        },
+        {
+          "field": "are you able to evidence your vaccination or exemption status using the nhs covid pass?",
+          "ref": "f84",
+          "stage": "verify",
+          "expected": "YES",
+          "actual": null
+        },
+        {
+          "field": "please confirm. the information in this application form is true and complete. i agree that any deliberate omission, falsification, or misrepresentation in the application form will be grounds for rejecting this application or subsequent dismissal if employed. where applicable, i consent that can seek clarification regarding professional registration details.",
+          "ref": "f85",
+          "stage": "verify",
+          "expected": "YES",
+          "actual": null
+        },
+        {
+          "field": "please select your availability below",
+          "ref": "f86",
+          "stage": "verify",
+          "expected": "Yes",
+          "actual": null
+        }
+      ],
+      "apply_failures": 5,
+      "verify_failures": 13,
+      "checks": {
+        "domReadback": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "please note this section will only be seen by those involved in the recruitment process and will be treated with the strictest confidence. the rehabilitation of offenders act 1974 aims to promote equality of opportunity and is committed to treating all applicants regardless of ethnicity, disability, age, gender or gender re-assignment, religion or belief, sexual orientation, pregnancy or maternity and marriage or civil partnership. undertakes not to discriminate unfairly against applicants based on a criminal conviction or other information declared. answering 'yes' to the question below will not necessarily prevent your employment. this will depend on the relevance of the information you provide in respect of the nature of the position and the circumstances. are you currently bound over or do you have any current unspent convictions that have been issued by a court or court-martial in the united kingdom or in any other country?",
+              "ref": "f56",
+              "stage": "apply",
+              "expected": "United States",
+              "actual": null
+            },
+            {
+              "field": "do you have any current unspent police cautions, reprimands or final warnings in the united kingdom or in any other country?",
+              "ref": "f57",
+              "stage": "apply",
+              "expected": "United States",
+              "actual": null
+            },
+            {
+              "field": "please note this section will only be seen by those involved in the recruitment process and will be treated with the strictest confidence. the rehabilitation of offenders act 1974 aims to promote equality of opportunity and is committed to treating all applicants regardless of ethnicity, disability, age, gender or gender re-assignment, religion or belief, sexual orientation, pregnancy or maternity and marriage or civil partnership. undertakes not to discriminate unfairly against applicants based on a criminal conviction or other information declared. answering 'yes' to the question below will not necessarily prevent your employment. this will depend on the relevance of the information you provide in respect of the nature of the position and the circumstances. are you currently bound over or do you have any current unspent convictions that have been issued by a court or court-martial in the united kingdom or in any other country?",
+              "ref": "f81",
+              "stage": "apply",
+              "expected": "United States",
+              "actual": null
+            },
+            {
+              "field": "do you have any current unspent police cautions, reprimands or final warnings in the united kingdom or in any other country?",
+              "ref": "f82",
+              "stage": "apply",
+              "expected": "United States",
+              "actual": null
+            },
+            {
+              "field": "please select your availability below",
+              "ref": "f86",
+              "stage": "apply",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "please note this section will only be seen by those involved in the recruitment process and will be treated with the strictest confidence. the rehabilitation of offenders act 1974 aims to promote equality of opportunity and is committed to treating all applicants regardless of ethnicity, disability, age, gender or gender re-assignment, religion or belief, sexual orientation, pregnancy or maternity and marriage or civil partnership. undertakes not to discriminate unfairly against applicants based on a criminal conviction or other information declared. answering 'yes' to the question below will not necessarily prevent your employment. this will depend on the relevance of the information you provide in respect of the nature of the position and the circumstances. are you currently bound over or do you have any current unspent convictions that have been issued by a court or court-martial in the united kingdom or in any other country?",
+              "ref": "f56",
+              "stage": "verify",
+              "expected": "United States",
+              "actual": null
+            },
+            {
+              "field": "do you have any current unspent police cautions, reprimands or final warnings in the united kingdom or in any other country?",
+              "ref": "f57",
+              "stage": "verify",
+              "expected": "United States",
+              "actual": null
+            },
+            {
+              "field": "do you have current right to work in the uk?",
+              "ref": "f74",
+              "stage": "verify",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "do you have any endorsements?",
+              "ref": "f76",
+              "stage": "verify",
+              "expected": "YES",
+              "actual": null
+            },
+            {
+              "field": "do you have proof of right to work in the uk as a uk citizen?",
+              "ref": "f77",
+              "stage": "verify",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "are you an overseas applicant or a uk citizen who has lived outside of the uk for a period of 6 months or more than 5 years ?",
+              "ref": "f78",
+              "stage": "verify",
+              "expected": "YES",
+              "actual": null
+            },
+            {
+              "field": "i understand that this role may include shift work, unsociable hours, lone working involved.",
+              "ref": "f79",
+              "stage": "verify",
+              "expected": "YES",
+              "actual": null
+            },
+            {
+              "field": "please note this section will only be seen by those involved in the recruitment process and will be treated with the strictest confidence. the rehabilitation of offenders act 1974 aims to promote equality of opportunity and is committed to treating all applicants regardless of ethnicity, disability, age, gender or gender re-assignment, religion or belief, sexual orientation, pregnancy or maternity and marriage or civil partnership. undertakes not to discriminate unfairly against applicants based on a criminal conviction or other information declared. answering 'yes' to the question below will not necessarily prevent your employment. this will depend on the relevance of the information you provide in respect of the nature of the position and the circumstances. are you currently bound over or do you have any current unspent convictions that have been issued by a court or court-martial in the united kingdom or in any other country?",
+              "ref": "f81",
+              "stage": "verify",
+              "expected": "United States",
+              "actual": null
+            },
+            {
+              "field": "do you have any current unspent police cautions, reprimands or final warnings in the united kingdom or in any other country?",
+              "ref": "f82",
+              "stage": "verify",
+              "expected": "United States",
+              "actual": null
+            },
+            {
+              "field": "please note this section is required by law if the role you are applying for involves working within a care home. the health and social care act 2008 (regulated activities) (amendment) (coronavirus) regulations 2021 make it mandatory for a person working in a care home to be fully vaccinated against covid-19 from 11 november 2021. are you fully vaccinated against covid-19 or exempt from vaccination?",
+              "ref": "f83",
+              "stage": "verify",
+              "expected": "YES",
+              "actual": null
+            },
+            {
+              "field": "are you able to evidence your vaccination or exemption status using the nhs covid pass?",
+              "ref": "f84",
+              "stage": "verify",
+              "expected": "YES",
+              "actual": null
+            },
+            {
+              "field": "please confirm. the information in this application form is true and complete. i agree that any deliberate omission, falsification, or misrepresentation in the application form will be grounds for rejecting this application or subsequent dismissal if employed. where applicable, i consent that can seek clarification regarding professional registration details.",
+              "ref": "f85",
+              "stage": "verify",
+              "expected": "YES",
+              "actual": null
+            },
+            {
+              "field": "please select your availability below",
+              "ref": "f86",
+              "stage": "verify",
+              "expected": "Yes",
+              "actual": null
+            }
+          ],
+          "apply_failures": 5,
+          "verify_failures": 13
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "please note this section will only be seen by those involved in the recruitment process and will be treated with the strictest confidence. the rehabilitation of offenders act 1974 aims to promote equality of opportunity and is committed to treating all applicants regardless of ethnicity, disability, age, gender or gender re-assignment, religion or belief, sexual orientation, pregnancy or maternity and marriage or civil partnership. undertakes not to discriminate unfairly against applicants based on a criminal conviction or other information declared. answering 'yes' to the question below will not necessarily prevent your employment. this will depend on the relevance of the information you provide in respect of the nature of the position and the circumstances. are you currently bound over or do you have any current unspent convictions that have been issued by a court or court-martial in the united kingdom or in any other country?",
+              "ref": "f56",
+              "reason": "valueMissing",
+              "validationMessage": "Constraints not satisfied"
+            },
+            {
+              "field": "do you have any current unspent police cautions, reprimands or final warnings in the united kingdom or in any other country?",
+              "ref": "f57",
+              "reason": "valueMissing",
+              "validationMessage": "Constraints not satisfied"
+            },
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 23,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "please note this section will only be seen by those involved in the recruitment process and will be treated with the strictest confidence. the rehabilitation of offenders act 1974 aims to promote equality of opportunity and is committed to treating all applicants regardless of ethnicity, disability, age, gender or gender re-assignment, religion or belief, sexual orientation, pregnancy or maternity and marriage or civil partnership. undertakes not to discriminate unfairly against applicants based on a criminal conviction or other information declared. answering 'yes' to the question below will not necessarily prevent your employment. this will depend on the relevance of the information you provide in respect of the nature of the position and the circumstances. are you currently bound over or do you have any current unspent convictions that have been issued by a court or court-martial in the united kingdom or in any other country?",
+              "ref": "f56",
+              "reason": "radioGroupSelectionCount",
+              "expected": 1,
+              "actual": 0
+            },
+            {
+              "field": "do you have any current unspent police cautions, reprimands or final warnings in the united kingdom or in any other country?",
+              "ref": "f57",
+              "reason": "radioGroupSelectionCount",
+              "expected": 1,
+              "actual": 0
+            },
+            {
+              "field": "please note this section will only be seen by those involved in the recruitment process and will be treated with the strictest confidence. the rehabilitation of offenders act 1974 aims to promote equality of opportunity and is committed to treating all applicants regardless of ethnicity, disability, age, gender or gender re-assignment, religion or belief, sexual orientation, pregnancy or maternity and marriage or civil partnership. undertakes not to discriminate unfairly against applicants based on a criminal conviction or other information declared. answering 'yes' to the question below will not necessarily prevent your employment. this will depend on the relevance of the information you provide in respect of the nature of the position and the circumstances. are you currently bound over or do you have any current unspent convictions that have been issued by a court or court-martial in the united kingdom or in any other country?",
+              "ref": "f81",
+              "reason": "radioGroupSelectionCount",
+              "expected": 1,
+              "actual": 0
+            },
+            {
+              "field": "do you have any current unspent police cautions, reprimands or final warnings in the united kingdom or in any other country?",
+              "ref": "f82",
+              "reason": "radioGroupSelectionCount",
+              "expected": 1,
+              "actual": 0
+            },
+            {
+              "field": "please select your availability below",
+              "ref": "f86",
+              "reason": "checkboxNotChecked",
+              "expected": "Yes",
+              "actual": []
+            }
+          ]
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-the-93-club-breezy-hr-apply",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-31",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-wpforms-com-brand-ambassador-application-form-template",
+      "passed": true,
+      "field_count": 17,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 17,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-146",
+      "passed": false,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-cc018f76-492d-4126-9dea-0bd770bd04af",
+      "passed": true,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 0,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "smartrecruiters"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-83",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-www-notion-com-volunteer-application-form-non-profit-3",
+      "passed": false,
+      "field_count": 1,
+      "failures": [
+        {
+          "field": "search template gallery search 70,000+ templates",
+          "ref": "f0",
+          "stage": "apply",
+          "expected": "Yes",
+          "actual": null
+        },
+        {
+          "field": "search template gallery search 70,000+ templates",
+          "ref": "f0",
+          "stage": "verify",
+          "expected": "Yes",
+          "actual": null
+        }
+      ],
+      "apply_failures": 1,
+      "verify_failures": 1,
+      "checks": {
+        "domReadback": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "search template gallery search 70,000+ templates",
+              "ref": "f0",
+              "stage": "apply",
+              "expected": "Yes",
+              "actual": null
+            },
+            {
+              "field": "search template gallery search 70,000+ templates",
+              "ref": "f0",
+              "stage": "verify",
+              "expected": "Yes",
+              "actual": null
+            }
+          ],
+          "apply_failures": 1,
+          "verify_failures": 1
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "search template gallery search 70,000+ templates",
+              "ref": "f0",
+              "reason": "valueMissing",
+              "validationMessage": "Constraints not satisfied"
+            },
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 1,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "search template gallery search 70,000+ templates",
+              "ref": "f0",
+              "reason": "comboboxEmpty",
+              "expected": "Yes",
+              "actual": ""
+            }
+          ]
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-132",
+      "passed": false,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-www-careers-page-com-apply-11",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-www-chesterfield-gov-uk-completing-the-job-application-form",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-137",
+      "passed": false,
+      "field_count": 8,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 8,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-the-commonwealth-fund-breezy-hr-apply",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jmi-reports-breezy-hr-apply-2",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-32",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-wpforms-com-musician-application-form-template",
+      "passed": true,
+      "field_count": 11,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 11,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-147",
+      "passed": false,
+      "field_count": 9,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 9,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-cbfe8bcf-9d17-42df-9a2b-833b06218169",
+      "passed": true,
+      "field_count": 6,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": true,
+          "failures": [],
+          "checked_controls": 0,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "smartrecruiters"
+    },
+    {
+      "id": "web-jobs-eu-lever-co-apply-24",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-125",
+      "passed": false,
+      "field_count": 3,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 3,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-133",
+      "passed": false,
+      "field_count": 6,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-www-careers-page-com-apply-12",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-87",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-138",
+      "passed": false,
+      "field_count": 4,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 4,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-sva-breezy-hr-apply",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-agbo-breezy-hr-apply-3",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-hrcalifornia-calchamber-com-employment-application-short-form",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-140",
+      "passed": false,
+      "field_count": 5,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 5,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-148",
+      "passed": false,
+      "field_count": 8,
+      "failures": [],
+      "apply_failures": 0,
+      "verify_failures": 0,
+      "checks": {
+        "domReadback": {
+          "passed": true,
+          "failures": [],
+          "apply_failures": 0,
+          "verify_failures": 0
+        },
+        "html5Validity": {
+          "passed": false,
+          "failures": [
+            {
+              "field": "form",
+              "ref": "form",
+              "reason": "formInvalid",
+              "validationMessage": null
+            }
+          ],
+          "checked_controls": 8,
+          "checked_forms": 1
+        },
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "errors": [],
+          "error_count": 0
+        }
+      },
+      "stack": "ashby"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-94",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "failures": [],
+      "stack": "web"
+    }
+  ]
+}

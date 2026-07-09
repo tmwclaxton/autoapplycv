@@ -1,0 +1,352 @@
+{
+  "id": "web-jobs-ashbyhq-com-application-140",
+  "min_fields": 16,
+  "exact_field_count": 16,
+  "fields": [
+    {
+      "question": "full legal name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "_systemfield_name",
+        "name": "_systemfield_name",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_name",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "preferred name",
+      "field_type": "text",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "text",
+        "id": "5a1c7dde-1500-47f9-994c-20f9e9d287cd",
+        "name": "5a1c7dde-1500-47f9-994c-20f9e9d287cd",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "5a1c7dde-1500-47f9-994c-20f9e9d287cd",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "email",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "_systemfield_email",
+        "name": "_systemfield_email",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "_systemfield_email",
+        "placeholder": "hello@example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "82c20525-a9aa-46ae-bc4a-3f06ede1237b",
+        "name": "82c20525-a9aa-46ae-bc4a-3f06ede1237b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "82c20525-a9aa-46ae-bc4a-3f06ede1237b",
+        "placeholder": "1-415-555-1234...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "linkedin",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "b11952ae-2313-4570-870b-6753cbe3a9aa",
+        "name": "b11952ae-2313-4570-870b-6753cbe3a9aa",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "b11952ae-2313-4570-870b-6753cbe3a9aa",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "github",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "c9620e9f-8cea-44d7-93d2-1f97a325795d",
+        "name": "c9620e9f-8cea-44d7-93d2-1f97a325795d",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "c9620e9f-8cea-44d7-93d2-1f97a325795d",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "portfolio",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "4c75f7fb-9f89-4082-8a9c-ccbd6bd3dfb6",
+        "name": "4c75f7fb-9f89-4082-8a9c-ccbd6bd3dfb6",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "4c75f7fb-9f89-4082-8a9c-ccbd6bd3dfb6",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "publications",
+      "field_type": "url",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "url",
+        "id": "78f790c4-bb49-4077-bdf6-2fccd611bbdd",
+        "name": "78f790c4-bb49-4077-bdf6-2fccd611bbdd",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "78f790c4-bb49-4077-bdf6-2fccd611bbdd",
+        "placeholder": "https://example.com...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "briefly describe the intersection of disciplines you operate in, or the type of problems you are most passionate about solving at oxman.",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "580d0914-39e6-4d2f-b820-12e76e6bb51d",
+        "name": "580d0914-39e6-4d2f-b820-12e76e6bb51d",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "580d0914-39e6-4d2f-b820-12e76e6bb51d",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "are you authorized to work in the united states?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "0f6afeb7-754a-4245-a29d-07ee5dfca58a_d744ca4c-fbf5-478f-9b4c-a9c323239ea1-labeled-radio-0",
+        "name": "0f6afeb7-754a-4245-a29d-07ee5dfca58a_d744ca4c-fbf5-478f-9b4c-a9c323239ea1",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "will you now or in the future require visa sponsorship for employment authorization?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes - I currently require sponsorship",
+        "Yes - I will require sponsorship in the future",
+        "No - I am authorized to work without sponsorship"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "0f6afeb7-754a-4245-a29d-07ee5dfca58a_1c54e755-87fa-4111-bc1b-66a8c9c1946b-labeled-radio-0",
+        "name": "0f6afeb7-754a-4245-a29d-07ee5dfca58a_1c54e755-87fa-4111-bc1b-66a8c9c1946b",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "this position is 100% on-site in new york city with no remote or hybrid options. can you reliably commute to our nyc office?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes - I currently live in the NYC area and understand I will need to commute into the office daily",
+        "Yes - I am willing to relocate to NYC before the start date",
+        "No - I am not able to reliably commute into the NYC office"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "0f6afeb7-754a-4245-a29d-07ee5dfca58a_1441652b-f066-4f5d-ac03-3cc88b1a2d0a-labeled-radio-0",
+        "name": "0f6afeb7-754a-4245-a29d-07ee5dfca58a_1441652b-f066-4f5d-ac03-3cc88b1a2d0a",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what is the highest level of education you have completed?",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "High school diploma/GED",
+        "Associate's Degree",
+        "Bachelor's Degree",
+        "Master's Degree",
+        "Doctoral Degree",
+        "None"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "0f6afeb7-754a-4245-a29d-07ee5dfca58a_03ff42ff-f223-4235-8161-129664dc4020-labeled-radio-0",
+        "name": "0f6afeb7-754a-4245-a29d-07ee5dfca58a_03ff42ff-f223-4235-8161-129664dc4020",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "what were your fields of study?",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "1dc6f7eb-f7fc-4338-91a3-22c4b60f1361",
+        "name": "1dc6f7eb-f7fc-4338-91a3-22c4b60f1361",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": "1dc6f7eb-f7fc-4338-91a3-22c4b60f1361",
+        "placeholder": "Type here...",
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i acknowledge i have read and agree to the applicant privacy notice.",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "0f6afeb7-754a-4245-a29d-07ee5dfca58a_0c7d812a-58d5-461f-9717-b68d9b4707cf-labeled-radio-0",
+        "name": "0f6afeb7-754a-4245-a29d-07ee5dfca58a_0c7d812a-58d5-461f-9717-b68d9b4707cf",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i agree",
+      "field_type": "checkbox",
+      "max_chars": null,
+      "options": [
+        "I agree"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "checkbox",
+        "id": "c0512c75-7c69-434f-a765-2e71c38622a8__systemfield_data_consent_ack-labeled-checkbox-0",
+        "name": "I agree",
+        "data_testid": null,
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

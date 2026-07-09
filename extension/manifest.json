@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "AutoCVApply",
-    "version": "2.25.14",
+    "version": "2.25.15",
     "description": "Auto-fill job application forms on any site and draft answers, cover letters, and tailored resumes from the sidebar.",
     "permissions": ["storage", "tabs", "windows", "scripting", "sidePanel", "contextMenus", "webNavigation"],
     "host_permissions": ["<all_urls>"],
@@ -55,7 +55,9 @@
                 "indeed-auto-apply.js",
                 "totaljobs-auto-apply.js",
                 "glassdoor-auto-apply.js",
+                "simplyhired-auto-apply.js",
                 "reed-auto-apply.js",
+                "cv-library-auto-apply.js",
                 "focus-tracker.js",
                 "field-highlighter.js",
                 "portal-bar.js",

@@ -5,6 +5,9 @@ export const DISCORD_INVITE_URL = 'https://discord.gg/DqqqTv3Spt';
 
 export const CONTACT_EMAIL = 'hello@autocvapply.com';
 
+export const FORM_CORPUS_SCENARIO_COUNT = 5304;
+export const FORM_CORPUS_VETTED_COUNT = 3495;
+
 /** ATS and employer career sites where extension autofill is verified. */
 export const SUPPORTED_PLATFORMS = [
     'Workday',
@@ -27,7 +30,9 @@ export const AUTO_APPLY_SUPPORTED_PLATFORMS = [
     'Indeed',
     'Totaljobs',
     'Glassdoor',
+    'SimplyHired',
     'Reed',
+    'CV-Library',
 ] as const;
 
 /** Job boards planned for Auto Apply across the Anglosphere - not ATS or employer career sites. */
@@ -37,7 +42,6 @@ export const AUTO_APPLY_COMING_SOON_PLATFORMS = [
     'CareerBuilder',
     'CareerOne',
     'Civil Service Jobs',
-    'CV-Library',
     'Dice',
     'Eluta',
     'EthicalJobs',
@@ -66,13 +70,15 @@ export const AUTO_APPLY_COMING_SOON_PLATFORMS = [
     'NZ Government Jobs',
     'Publicjobs.ie',
     'SEEK',
-    'SimplyHired',
     'Snagajob',
     'Trade Me Jobs',
     'USAJobs',
     'Workopolis',
     'ZipRecruiter',
 ] as const;
+
+export const AUTO_APPLY_MARKETING_LINE =
+    'LinkedIn Easy Apply, Indeed Apply, Totaljobs Quick Apply, Glassdoor Easy Apply, SimplyHired Quick Apply, Reed Easy Apply, and CV-Library Easy Apply';
 
 export const PLATFORM_MARKETING_LINE =
     'Most major ATS and employer career sites - including Workday, Greenhouse, Lever, Ashby, SmartRecruiters, and many more.';

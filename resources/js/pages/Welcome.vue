@@ -15,6 +15,7 @@ import PostboxDraftAllDemo from '@/components/postbox/PostboxDraftAllDemo.vue';
 import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.vue';
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPlatformBadges from '@/components/postbox/PostboxPlatformBadges.vue';
+import { FORM_CORPUS_SCENARIO_COUNT } from '@/lib/site';
 import { howTo, login } from '@/routes';
 
 defineProps<{
@@ -163,8 +164,8 @@ defineProps<{
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
                         Auto Apply from the extension sidebar on LinkedIn,
-                        Indeed, and Totaljobs - search, fill, review, and
-                        submit. More job boards coming soon.
+                        Indeed, Totaljobs, Glassdoor, and Reed - search, fill,
+                        review, and submit.
                     </p>
                 </div>
 
@@ -180,7 +181,8 @@ defineProps<{
                     <p
                         class="mt-2 text-sm leading-relaxed text-muted-foreground"
                     >
-                        We score AI-generated form answers on 3,000+ test
+                        We score AI-generated form answers on
+                        {{ FORM_CORPUS_SCENARIO_COUNT.toLocaleString() }}+ test
                         scenarios before shipping changes. That catches em
                         dashes, common AI words and tropes, and generic filler -
                         while keeping the speed of automation and grounding

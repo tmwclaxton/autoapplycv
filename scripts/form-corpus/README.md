@@ -4,6 +4,8 @@ Multiple layers verify that extension autofill actually lands on the form fronte
 
 For cross-platform lessons (LinkedIn Auto Apply patterns, Oracle apply-flow session, new-platform checklists), see [`docs/platform-automation-playbook.md`](../../docs/platform-automation-playbook.md).
 
+The playbook's **five-phase workflow** (MCP autofill → 300-500 synthetic corpus → live marathon → fix loop → commit) is the standard path for shipping job-board Auto Apply.
+
 ## Test pyramid
 
 | Tier | Engine | Scope | CI job |

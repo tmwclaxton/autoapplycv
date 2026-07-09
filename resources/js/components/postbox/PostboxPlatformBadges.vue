@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
     AUTO_APPLY_COMING_SOON_PLATFORMS,
+    AUTO_APPLY_MARKETING_LINE,
     AUTO_APPLY_SUPPORTED_PLATFORMS,
     PLATFORM_MARKETING_LINE,
     SUPPORTED_PLATFORMS,
@@ -32,10 +33,9 @@ defineProps<{
             <p class="postbox-label mt-6 mb-2">Auto Apply platforms</p>
             <p class="mb-4 text-sm leading-relaxed text-muted-foreground">
                 End-to-end apply from the extension sidebar on job boards.
-                LinkedIn Easy Apply, Indeed Apply, Totaljobs Quick Apply, and
-                Glassdoor Easy Apply are supported today - more boards across
-                the UK, Ireland, US, Canada, Australia, and New Zealand coming
-                soon.
+                {{ AUTO_APPLY_MARKETING_LINE }} are supported today - more
+                boards across the UK, Ireland, US, Canada, Australia, and New
+                Zealand coming soon.
             </p>
             <div class="flex flex-wrap gap-2">
                 <span

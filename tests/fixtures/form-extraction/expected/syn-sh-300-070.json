@@ -1,0 +1,91 @@
+{
+  "id": "syn-sh-300-070",
+  "min_fields": 4,
+  "exact_field_count": 4,
+  "fields": [
+    {
+      "question": "confirm email address",
+      "field_type": "email",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "email",
+        "id": "ia-field-400070-confirm-email-address",
+        "name": "ia-field-400070-confirm-email-address",
+        "data_testid": "ia-field-400070-confirm-email-address-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "confirm phone number",
+      "field_type": "tel",
+      "max_chars": null,
+      "options": null,
+      "required": true,
+      "dom": {
+        "tag": "input",
+        "type": "tel",
+        "id": "ia-field-400070-confirm-phone-number",
+        "name": "ia-field-400070-confirm-phone-number",
+        "data_testid": "ia-field-400070-confirm-phone-number-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "final comments for the recruiter (optional)",
+      "field_type": "textarea",
+      "max_chars": null,
+      "options": null,
+      "required": false,
+      "dom": {
+        "tag": "textarea",
+        "type": "textarea",
+        "id": "ia-textarea-400070-final-comments-for-the-r",
+        "name": "ia-textarea-400070-final-comments-for-the-r",
+        "data_testid": "ia-textarea-400070-final-comments-for-the-r-input",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    },
+    {
+      "question": "i agree to the privacy policy and terms",
+      "field_type": "radio",
+      "max_chars": null,
+      "options": [
+        "I agree"
+      ],
+      "required": false,
+      "dom": {
+        "tag": "input",
+        "type": "radio",
+        "id": "ia-radio-400070-i-agree-to-the-priva-0",
+        "name": "ia-radio-400070-i-agree-to-the-priva",
+        "data_testid": "input-ia-radio-400070-i-agree-to-the-priva",
+        "role": null,
+        "data_field_path": null,
+        "placeholder": null,
+        "min": null,
+        "max": null,
+        "question_prefix": null
+      }
+    }
+  ],
+  "controls": [],
+  "vet_notes": []
+}

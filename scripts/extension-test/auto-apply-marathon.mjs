@@ -23,7 +23,7 @@ const args = Object.fromEntries(
     }),
 );
 
-const PLATFORM = ['indeed', 'totaljobs', 'glassdoor', 'reed', 'linkedin'].includes(args.platform)
+const PLATFORM = ['indeed', 'totaljobs', 'glassdoor', 'simplyhired', 'reed', 'cvlibrary', 'linkedin'].includes(args.platform)
     ? args.platform
     : 'linkedin';
 const TARGET = Number(args.target || 20);

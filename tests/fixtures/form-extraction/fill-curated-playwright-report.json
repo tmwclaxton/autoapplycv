@@ -1,16 +1,540 @@
 {
-  "generated_at": "2026-07-06T15:27:15.131Z",
+  "generated_at": "2026-07-09T03:39:14.481Z",
   "totals": {
-    "scenarios": 1,
-    "evaluated": 1,
-    "passed": 1,
+    "scenarios": 14,
+    "evaluated": 13,
+    "passed": 13,
     "failed": 0,
     "pass_rate": 1,
-    "critical_total": 1,
-    "critical_passed": 1,
+    "critical_total": 7,
+    "critical_passed": 7,
     "critical_pass_rate": 1
   },
   "results": [
+    {
+      "id": "web-ashby-notion-bdm-f603aedb",
+      "platform": "ashby",
+      "priority": "critical",
+      "passed": true,
+      "plan_count": 4,
+      "apply_failures": 0,
+      "readback_failures": 0,
+      "a11y_failures": 0,
+      "error_banner_count": 0,
+      "failures": [],
+      "readback_failures_detail": [],
+      "readbacks": [
+        {
+          "ref": "f2",
+          "expected": "FillVerify-2",
+          "actual": "FillVerify-2",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f3",
+          "expected": "fillverify3@test.example",
+          "actual": "fillverify3@test.example",
+          "fieldType": "email"
+        },
+        {
+          "ref": "f4",
+          "expected": "+15550000004",
+          "actual": "+15550000004",
+          "fieldType": "tel"
+        },
+        {
+          "ref": "f6",
+          "expected": "FillVerify-6",
+          "actual": "FillVerify-6",
+          "fieldType": "text"
+        }
+      ],
+      "checks": {
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "error_count": 0
+        }
+      },
+      "verify_engine": "playwright"
+    },
+    {
+      "id": "web-boards-greenhouse-io-8614025002",
+      "platform": "greenhouse",
+      "priority": "critical",
+      "passed": true,
+      "plan_count": 34,
+      "apply_failures": 0,
+      "readback_failures": 0,
+      "a11y_failures": 0,
+      "error_banner_count": 0,
+      "failures": [],
+      "readback_failures_detail": [],
+      "readbacks": [
+        {
+          "ref": "f0",
+          "expected": "FillVerify-0",
+          "actual": "FillVerify-0",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f1",
+          "expected": "FillVerify-1",
+          "actual": "FillVerify-1",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f2",
+          "expected": "FillVerify-2",
+          "actual": "FillVerify-2",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f3",
+          "expected": "FillVerify-3",
+          "actual": "FillVerify-3",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f9",
+          "expected": "FillVerify-5",
+          "actual": "FillVerify-5",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f6",
+          "expected": "FillVerify-6",
+          "actual": "FillVerify-6",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f7",
+          "expected": "FillVerify-7",
+          "actual": "FillVerify-7",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f8",
+          "expected": "FillVerify-8",
+          "actual": "FillVerify-8",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f10",
+          "expected": "FillVerify-9",
+          "actual": "FillVerify-9",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f11",
+          "expected": "FillVerify-10",
+          "actual": "FillVerify-10",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f12",
+          "expected": "FillVerify-11",
+          "actual": "FillVerify-11",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f14",
+          "expected": "FillVerify-12",
+          "actual": "FillVerify-12",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f13",
+          "expected": "FillVerify-13",
+          "actual": "FillVerify-13",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f18",
+          "expected": "FillVerify-14",
+          "actual": "FillVerify-14",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f15",
+          "expected": "FillVerify-15",
+          "actual": "FillVerify-15",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f16",
+          "expected": "FillVerify-16",
+          "actual": "FillVerify-16",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f17",
+          "expected": "FillVerify-17",
+          "actual": "FillVerify-17",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f19",
+          "expected": "FillVerify-18",
+          "actual": "FillVerify-18",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f20",
+          "expected": "FillVerify-19",
+          "actual": "FillVerify-19",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f21",
+          "expected": "FillVerify-20",
+          "actual": "FillVerify-20",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f29",
+          "expected": "FillVerify-21",
+          "actual": "FillVerify-21",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f30",
+          "expected": "FillVerify-22",
+          "actual": "FillVerify-22",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f22",
+          "expected": "Start-up",
+          "actual": "Other Experience *Start-upProduct LaunchInjectablesMatrix EnvironmentREMS ProductScheduled Class II to Class IV productPatient/ HUB Services",
+          "fieldType": "checkbox"
+        },
+        {
+          "ref": "f23",
+          "expected": "FillVerify-24",
+          "actual": "FillVerify-24",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f24",
+          "expected": "FillVerify-25",
+          "actual": "FillVerify-25",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f25",
+          "expected": "FillVerify-26",
+          "actual": "FillVerify-26",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f26",
+          "expected": "FillVerify-27",
+          "actual": "FillVerify-27",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f27",
+          "expected": "FillVerify-28",
+          "actual": "FillVerify-28",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f28",
+          "expected": "FillVerify-29",
+          "actual": "FillVerify-29",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f31",
+          "expected": "FillVerify-31",
+          "actual": "FillVerify-31",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f33",
+          "expected": "FillVerify-32",
+          "actual": "FillVerify-32",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f32",
+          "expected": "FillVerify-33",
+          "actual": "FillVerify-33",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f34",
+          "expected": "FillVerify-34",
+          "actual": "FillVerify-34",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f38",
+          "expected": "FillVerify-39",
+          "actual": "FillVerify-39",
+          "fieldType": "text"
+        }
+      ],
+      "checks": {
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "error_count": 0
+        }
+      },
+      "verify_engine": "playwright"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-11",
+      "platform": "lever",
+      "priority": "critical",
+      "passed": true,
+      "plan_count": 9,
+      "apply_failures": 0,
+      "readback_failures": 0,
+      "a11y_failures": 0,
+      "error_banner_count": 0,
+      "failures": [],
+      "readback_failures_detail": [],
+      "readbacks": [
+        {
+          "ref": "f1",
+          "expected": "FillVerify-1",
+          "actual": "FillVerify-1",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f2",
+          "expected": "fillverify2@test.example",
+          "actual": "fillverify2@test.example",
+          "fieldType": "email"
+        },
+        {
+          "ref": "f11",
+          "expected": "Yes",
+          "actual": "checked",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f14",
+          "expected": "A United States Citizen",
+          "actual": "checked",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f18",
+          "expected": "Campus visit",
+          "actual": "checked",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f20",
+          "expected": "FillVerify-18",
+          "actual": "FillVerify-18",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f21",
+          "expected": "No",
+          "actual": "checked",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f26",
+          "expected": "FillVerify-textarea-24",
+          "actual": "FillVerify-textarea-24",
+          "fieldType": "textarea"
+        },
+        {
+          "ref": "f27",
+          "expected": "Yes",
+          "actual": "Yes",
+          "fieldType": "select"
+        }
+      ],
+      "checks": {
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "error_count": 0
+        }
+      },
+      "verify_engine": "playwright"
+    },
+    {
+      "id": "web-jobs-smartrecruiters-com-99cf550a-4a3b-47f8-b682-449cc524d98f",
+      "platform": "smartrecruiters",
+      "priority": "critical",
+      "passed": true,
+      "plan_count": 5,
+      "apply_failures": 0,
+      "readback_failures": 0,
+      "a11y_failures": 0,
+      "error_banner_count": 0,
+      "failures": [],
+      "readback_failures_detail": [],
+      "readbacks": [
+        {
+          "ref": "f0",
+          "expected": "FillVerify-0",
+          "actual": "FillVerify-0",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f1",
+          "expected": "FillVerify-1",
+          "actual": "FillVerify-1",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f2",
+          "expected": "fillverify2@test.example",
+          "actual": "fillverify2@test.example",
+          "fieldType": "email"
+        },
+        {
+          "ref": "f3",
+          "expected": "fillverify3@test.example",
+          "actual": "fillverify3@test.example",
+          "fieldType": "email"
+        },
+        {
+          "ref": "f12",
+          "expected": "*",
+          "actual": "*\n                    \n                        \n                    \n                \n            \n        \n        \n\n                \n                    \n            \n        \n\n                    \n                \n                \n            \n        Please be informed that your application to this job offer will trigger some processing of your personal data by the recruiting company, the data controller. SmartRecruiters, the data processor, has no control over such personal data processing. For more information on these personal data processing, please refer to the recruiting company’s privacy notice.",
+          "fieldType": "checkbox"
+        }
+      ],
+      "checks": {
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "error_count": 0
+        }
+      },
+      "verify_engine": "playwright"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-9",
+      "platform": "ashby",
+      "priority": "critical",
+      "passed": true,
+      "plan_count": 7,
+      "apply_failures": 0,
+      "readback_failures": 0,
+      "a11y_failures": 0,
+      "error_banner_count": 0,
+      "failures": [],
+      "readback_failures_detail": [],
+      "readbacks": [
+        {
+          "ref": "f1",
+          "expected": "FillVerify-1",
+          "actual": "FillVerify-1",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f2",
+          "expected": "FillVerify-2",
+          "actual": "FillVerify-2",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f3",
+          "expected": "fillverify3@test.example",
+          "actual": "fillverify3@test.example",
+          "fieldType": "email"
+        },
+        {
+          "ref": "f13",
+          "expected": "FillVerify-textarea-13",
+          "actual": "FillVerify-textarea-13",
+          "fieldType": "textarea"
+        },
+        {
+          "ref": "f16",
+          "expected": "FillVerify-textarea-16",
+          "actual": "FillVerify-textarea-16",
+          "fieldType": "textarea"
+        },
+        {
+          "ref": "f18",
+          "expected": "FillVerify-textarea-18",
+          "actual": "FillVerify-textarea-18",
+          "fieldType": "textarea"
+        },
+        {
+          "ref": "f29",
+          "expected": "+15550000029",
+          "actual": "+15550000029",
+          "fieldType": "tel"
+        }
+      ],
+      "checks": {
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "error_count": 0
+        }
+      },
+      "verify_engine": "playwright"
+    },
+    {
+      "id": "web-jobs-micro1-ai-59336643",
+      "platform": "micro1",
+      "priority": "critical",
+      "passed": true,
+      "plan_count": 1,
+      "apply_failures": 0,
+      "readback_failures": 1,
+      "a11y_failures": 0,
+      "error_banner_count": 0,
+      "failures": [],
+      "readback_failures_detail": [
+        {
+          "stage": "verify",
+          "field": "phone number",
+          "ref": "f3",
+          "expected": "+15550000003",
+          "actual": null
+        }
+      ],
+      "readbacks": [
+        {
+          "ref": "f3",
+          "expected": "+15550000003",
+          "actual": null,
+          "fieldType": "tel"
+        }
+      ],
+      "checks": {
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "error_count": 0
+        }
+      },
+      "verify_engine": "playwright"
+    },
     {
       "id": "web-oraclecloud-apply-flow-itv",
       "platform": "oracle",
@@ -25,22 +549,615 @@
       "readback_failures_detail": [],
       "readbacks": [
         {
-          "ref": "f6",
+          "ref": "f7",
           "expected": "LinkedIn",
           "actual": "LinkedIn",
           "fieldType": "select"
         },
         {
-          "ref": "f7",
+          "ref": "f8",
           "expected": "No",
           "actual": "checked",
           "fieldType": "radio"
         },
         {
-          "ref": "f8",
+          "ref": "f9",
           "expected": "FillVerify-8",
           "actual": "FillVerify-8",
           "fieldType": "text"
+        }
+      ],
+      "checks": {
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "error_count": 0
+        }
+      },
+      "verify_engine": "playwright"
+    },
+    {
+      "id": "web-job-boards-greenhouse-io-5025215008",
+      "platform": "greenhouse",
+      "priority": "standard",
+      "passed": true,
+      "plan_count": 24,
+      "apply_failures": 0,
+      "readback_failures": 0,
+      "a11y_failures": 0,
+      "error_banner_count": 0,
+      "failures": [],
+      "readback_failures_detail": [],
+      "readbacks": [
+        {
+          "ref": "f0",
+          "expected": "FillVerify-0",
+          "actual": "FillVerify-0",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f1",
+          "expected": "FillVerify-1",
+          "actual": "FillVerify-1",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f2",
+          "expected": "FillVerify-2",
+          "actual": "FillVerify-2",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f3",
+          "expected": "FillVerify-3",
+          "actual": "FillVerify-3",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f20",
+          "expected": "FillVerify-5",
+          "actual": "FillVerify-5",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f6",
+          "expected": "FillVerify-6",
+          "actual": "FillVerify-6",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f7",
+          "expected": "FillVerify-7",
+          "actual": "FillVerify-7",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f29",
+          "expected": "FillVerify-8",
+          "actual": "FillVerify-8",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f8",
+          "expected": "FillVerify-9",
+          "actual": "FillVerify-9",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f11",
+          "expected": "FillVerify-textarea-12",
+          "actual": "FillVerify-textarea-12",
+          "fieldType": "textarea"
+        },
+        {
+          "ref": "f12",
+          "expected": "Alabama",
+          "actual": "Please select all states where you currently hold an ACTIVE medical license. (Select all that apply) *AlabamaAlaskaArizonaArkansasCaliforniaColoradoConnecticutDelawareFloridaGeorgiaHawaiiIdahoIllinoisIndianaIowaKansasKentuckyLouisianaMaineMarylandMassachusettsMichiganMinnesotaMississippiMissouriMontanaNebraskaNevadaNew HampshireNew JerseyNew MexicoNew YorkNorth CarolinaNorth DakotaOhioOklahomaOregonPennsylvaniaRhode IslandSouth CarolinaSouth DakotaTennesseeTexasUtahVermontVirginiaWashingtonWest VirginiaWisconsinWyomingDistrict of Columbia",
+          "fieldType": "checkbox"
+        },
+        {
+          "ref": "f13",
+          "expected": "Alabama",
+          "actual": "Please select all states where you hold a PENDING or INACTIVE medical license. (Select all that apply) *AlabamaAlaskaArizonaArkansasCaliforniaColoradoConnecticutDelawareFloridaGeorgiaHawaiiIdahoIllinoisIndianaIowaKansasKentuckyLouisianaMaineMarylandMassachusettsMichiganMinnesotaMississippiMissouriMontanaNebraskaNevadaNew HampshireNew JerseyNew MexicoNew YorkNorth CarolinaNorth DakotaOhioOklahomaOregonPennsylvaniaRhode IslandSouth CarolinaSouth DakotaTennesseeTexasUtahVermontVirginiaWashingtonWest VirginiaWisconsinWyomingDistrict of Columbia",
+          "fieldType": "checkbox"
+        },
+        {
+          "ref": "f14",
+          "expected": "FillVerify-15",
+          "actual": "FillVerify-15",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f15",
+          "expected": "FillVerify-16",
+          "actual": "FillVerify-16",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f17",
+          "expected": "FillVerify-18",
+          "actual": "FillVerify-18",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f18",
+          "expected": "FillVerify-19",
+          "actual": "FillVerify-19",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f19",
+          "expected": "Yes",
+          "actual": "Have you ever opted out of Medicare?  *YesNoNot Sure",
+          "fieldType": "checkbox"
+        },
+        {
+          "ref": "f22",
+          "expected": "FillVerify-textarea-23",
+          "actual": "FillVerify-textarea-23",
+          "fieldType": "textarea"
+        },
+        {
+          "ref": "f23",
+          "expected": "FillVerify-textarea-24",
+          "actual": "FillVerify-textarea-24",
+          "fieldType": "textarea"
+        },
+        {
+          "ref": "f24",
+          "expected": "FillVerify-25",
+          "actual": "FillVerify-25",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f25",
+          "expected": "W2 FTE (40 hours/week, seeing patients 5 days/week)",
+          "actual": "Please indicate which type of position (W2, full-time, part-time) you'd be most interested in. (Please select all that apply to you). We don't currently offer 1099 or part-time roles for APPs at this time and if you choose this option, we will keep your application on file for future needs. *W2 FTE (40 hours/week, seeing patients 5 days/week)W2 PT (20 hours/week)1099 ContractorI'm open to both 1099 and W2 roles",
+          "fieldType": "checkbox"
+        },
+        {
+          "ref": "f26",
+          "expected": "FillVerify-27",
+          "actual": "FillVerify-27",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f27",
+          "expected": "FillVerify-28",
+          "actual": "FillVerify-28",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f28",
+          "expected": "FillVerify-29",
+          "actual": "FillVerify-29",
+          "fieldType": "text"
+        }
+      ],
+      "checks": {
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "error_count": 0
+        }
+      },
+      "verify_engine": "playwright"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-16",
+      "platform": "ashby",
+      "priority": "standard",
+      "passed": true,
+      "plan_count": 5,
+      "apply_failures": 0,
+      "readback_failures": 0,
+      "a11y_failures": 0,
+      "error_banner_count": 0,
+      "failures": [],
+      "readback_failures_detail": [],
+      "readbacks": [
+        {
+          "ref": "f1",
+          "expected": "FillVerify-1",
+          "actual": "FillVerify-1",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f2",
+          "expected": "FillVerify-2",
+          "actual": "FillVerify-2",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f3",
+          "expected": "FillVerify-3",
+          "actual": "FillVerify-3",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f4",
+          "expected": "FillVerify-4",
+          "actual": "FillVerify-4",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f7",
+          "expected": "fillverify7@test.example",
+          "actual": "fillverify7@test.example",
+          "fieldType": "email"
+        }
+      ],
+      "checks": {
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "error_count": 0
+        }
+      },
+      "verify_engine": "playwright"
+    },
+    {
+      "id": "web-jobs-ashbyhq-com-application-3",
+      "platform": "ashby",
+      "priority": "standard",
+      "passed": true,
+      "plan_count": 15,
+      "apply_failures": 0,
+      "readback_failures": 0,
+      "a11y_failures": 0,
+      "error_banner_count": 0,
+      "failures": [],
+      "readback_failures_detail": [],
+      "readbacks": [
+        {
+          "ref": "f3",
+          "expected": "https://fillverify3.example.com",
+          "actual": "https://fillverify3.example.com",
+          "fieldType": "url"
+        },
+        {
+          "ref": "f4",
+          "expected": "FillVerify-4",
+          "actual": "FillVerify-4",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f5",
+          "expected": "FillVerify-5",
+          "actual": "FillVerify-5",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f6",
+          "expected": "FillVerify-6",
+          "actual": "FillVerify-6",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f7",
+          "expected": "fillverify7@test.example",
+          "actual": "fillverify7@test.example",
+          "fieldType": "email"
+        },
+        {
+          "ref": "f8",
+          "expected": "+15550000008",
+          "actual": "+15550000008",
+          "fieldType": "tel"
+        },
+        {
+          "ref": "f10",
+          "expected": "FillVerify-textarea-9",
+          "actual": "FillVerify-textarea-9",
+          "fieldType": "textarea"
+        },
+        {
+          "ref": "f12",
+          "expected": "FillVerify-11",
+          "actual": "FillVerify-11",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f14",
+          "expected": "FillVerify-13",
+          "actual": "FillVerify-13",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f15",
+          "expected": "FillVerify-14",
+          "actual": "FillVerify-14",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f18",
+          "expected": "1017",
+          "actual": "1017",
+          "fieldType": "number"
+        },
+        {
+          "ref": "f19",
+          "expected": "1018",
+          "actual": "1018",
+          "fieldType": "number"
+        },
+        {
+          "ref": "f20",
+          "expected": "1019",
+          "actual": "1019",
+          "fieldType": "number"
+        },
+        {
+          "ref": "f23",
+          "expected": "FillVerify-textarea-22",
+          "actual": "FillVerify-textarea-22",
+          "fieldType": "textarea"
+        },
+        {
+          "ref": "f24",
+          "expected": "FillVerify-textarea-23",
+          "actual": "FillVerify-textarea-23",
+          "fieldType": "textarea"
+        }
+      ],
+      "checks": {
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "error_count": 0
+        }
+      },
+      "verify_engine": "playwright"
+    },
+    {
+      "id": "web-jobs-lever-co-apply-5",
+      "platform": "lever",
+      "priority": "standard",
+      "passed": true,
+      "plan_count": 9,
+      "apply_failures": 0,
+      "readback_failures": 0,
+      "a11y_failures": 0,
+      "error_banner_count": 0,
+      "failures": [],
+      "readback_failures_detail": [],
+      "readbacks": [
+        {
+          "ref": "f0",
+          "expected": "FillVerify-0",
+          "actual": "FillVerify-0",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f3",
+          "expected": "fillverify3@test.example",
+          "actual": "fillverify3@test.example",
+          "fieldType": "email"
+        },
+        {
+          "ref": "f4",
+          "expected": "FillVerify-4",
+          "actual": "FillVerify-4",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f6",
+          "expected": "FillVerify-6",
+          "actual": "FillVerify-6",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f12",
+          "expected": "Yes",
+          "actual": "checked",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f13",
+          "expected": "FillVerify-textarea-13",
+          "actual": "FillVerify-textarea-13",
+          "fieldType": "textarea"
+        },
+        {
+          "ref": "f18",
+          "expected": "FillVerify-15",
+          "actual": "FillVerify-15",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f20",
+          "expected": "FillVerify-textarea-16",
+          "actual": "FillVerify-textarea-16",
+          "fieldType": "textarea"
+        },
+        {
+          "ref": "f23",
+          "expected": "FillVerify-textarea-17",
+          "actual": "FillVerify-textarea-17",
+          "fieldType": "textarea"
+        }
+      ],
+      "checks": {
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "error_count": 0
+        }
+      },
+      "verify_engine": "playwright"
+    },
+    {
+      "id": "web-vekst-teamtailor-com-new",
+      "platform": "teamtailor",
+      "priority": "standard",
+      "passed": false,
+      "skipped": true,
+      "reason": "no fillable fields matched",
+      "plan_count": 0,
+      "failures": [],
+      "verify_engine": "playwright"
+    },
+    {
+      "id": "web-wpforms-com-employment-agency-application-form-template",
+      "platform": "wordpress",
+      "priority": "standard",
+      "passed": true,
+      "plan_count": 8,
+      "apply_failures": 0,
+      "readback_failures": 0,
+      "a11y_failures": 0,
+      "error_banner_count": 0,
+      "failures": [],
+      "readback_failures_detail": [],
+      "readbacks": [
+        {
+          "ref": "f0",
+          "expected": "FillVerify-0",
+          "actual": "FillVerify-0",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f2",
+          "expected": "FillVerify-1",
+          "actual": "FillVerify-1",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f3",
+          "expected": "fillverify2@test.example",
+          "actual": "fillverify2@test.example",
+          "fieldType": "email"
+        },
+        {
+          "ref": "f4",
+          "expected": "+15550000003",
+          "actual": "+15550000003",
+          "fieldType": "tel"
+        },
+        {
+          "ref": "f5",
+          "expected": "FillVerify-4",
+          "actual": "FillVerify-4",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f19",
+          "expected": "FillVerify-13",
+          "actual": "FillVerify-13",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f25",
+          "expected": "FillVerify-18",
+          "actual": "FillVerify-18",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f27",
+          "expected": "+15550000019",
+          "actual": "+15550000019",
+          "fieldType": "tel"
+        }
+      ],
+      "checks": {
+        "a11yState": {
+          "passed": true,
+          "failures": []
+        },
+        "errorBanner": {
+          "passed": true,
+          "error_count": 0
+        }
+      },
+      "verify_engine": "playwright"
+    },
+    {
+      "id": "web-apply-workable-com-apply-7",
+      "platform": "generic-web",
+      "priority": "standard",
+      "passed": true,
+      "plan_count": 10,
+      "apply_failures": 0,
+      "readback_failures": 0,
+      "a11y_failures": 0,
+      "error_banner_count": 0,
+      "failures": [],
+      "readback_failures_detail": [],
+      "readbacks": [
+        {
+          "ref": "f0",
+          "expected": "FillVerify-0",
+          "actual": "FillVerify-0",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f1",
+          "expected": "FillVerify-1",
+          "actual": "FillVerify-1",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f2",
+          "expected": "fillverify2@test.example",
+          "actual": "fillverify2@test.example",
+          "fieldType": "email"
+        },
+        {
+          "ref": "f4",
+          "expected": "+15550000004",
+          "actual": "+15550000004",
+          "fieldType": "tel"
+        },
+        {
+          "ref": "f14",
+          "expected": "FillVerify-14",
+          "actual": "FillVerify-14",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f16",
+          "expected": "FillVerify-16",
+          "actual": "FillVerify-16",
+          "fieldType": "text"
+        },
+        {
+          "ref": "f24",
+          "expected": "SVGs not supported by this browser. YES",
+          "actual": "checked",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f74",
+          "expected": "Yes",
+          "actual": "SVGs not supported by this browser. YES",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f75",
+          "expected": "Yes",
+          "actual": "SVGs not supported by this browser. YES",
+          "fieldType": "radio"
+        },
+        {
+          "ref": "f87",
+          "expected": "Yes",
+          "actual": "SVGs not supported by this browser. YES",
+          "fieldType": "radio"
         }
       ],
       "checks": {
@@ -62,6 +1179,51 @@
     "overall_pass_rate": 1
   },
   "by_platform": {
+    "ashby": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "critical_total": 2,
+      "critical_passed": 2,
+      "pass_rate": 1,
+      "critical_pass_rate": 1
+    },
+    "greenhouse": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "critical_total": 1,
+      "critical_passed": 1,
+      "pass_rate": 1,
+      "critical_pass_rate": 1
+    },
+    "lever": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "critical_total": 1,
+      "critical_passed": 1,
+      "pass_rate": 1,
+      "critical_pass_rate": 1
+    },
+    "smartrecruiters": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "critical_total": 1,
+      "critical_passed": 1,
+      "pass_rate": 1,
+      "critical_pass_rate": 1
+    },
+    "micro1": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "critical_total": 1,
+      "critical_passed": 1,
+      "pass_rate": 1,
+      "critical_pass_rate": 1
+    },
     "oracle": {
       "total": 1,
       "passed": 1,
@@ -70,6 +1232,24 @@
       "critical_passed": 1,
       "pass_rate": 1,
       "critical_pass_rate": 1
+    },
+    "wordpress": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "critical_total": 0,
+      "critical_passed": 0,
+      "pass_rate": 1,
+      "critical_pass_rate": 0
+    },
+    "generic-web": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "critical_total": 0,
+      "critical_passed": 0,
+      "pass_rate": 1,
+      "critical_pass_rate": 0
     }
   }
 }

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Open Application Form - WILHELMSEN SHIP MANAGEMENT | Career Page</title>
+</head>
+<body>
+<form>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/wsmjobs">
+        
+        WILHELMSEN SHIP MANAGEMENT
+        
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <main>
+    
+<div class="banner d-flex flex-column justify-content-center align-items-center" style="background-color: #29588c;">
+  <h1 lang="en" class="mt-5 font-weight-light display-4 job-position-break ">
+    Submit your application</h1>
+  <div class="col-md-12">
+    <p></p><p><em><strong>No Recruitment Fees</strong><br>As a ship manager working on behalf of owners, Wilhelmsen Ship Management utilizes internal manning agents and external manning agents for crew recruitment. During the recruitment process, we neither accept or ask for any payment/gift from seafarers as recruitment/placement fees or any related cost.&nbsp;<em><a href="https://www.wilhelmsen.com/ship-management/crew-management/recruitment/no-recruitment-fees/">Read more</a>.</em></em>﻿</p><p></p>
+  </div>
+</div>
+
+<div class="container mt-4 mb-5 px-xl-5">
+  <div class="mt-5 pb-4">
+    
+    <div id="app">
+      <div v-if="!isApplied">
+        <div v-if="formSubmitLoading" class="submit-form-overlay">
+          <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+        <form @submit.prevent="submitApplicationForm">
+          <div v-for="field in formFields" class="form-group" :key="field.id">
+            <label v-if="field.response_type !== 'boolean'" for="">[[ field.label ]]: <span v-if="field.is_required">*</span></label>
+            
+            <div class="custom-file" style="width: fit-content; display: block; height:auto;" v-if="field.field_type === 'resume'">
+              <input type="file" :placeholder="field.label" :name="field.id" :class="field.validationError ? 'custom-file-input is-invalid' : 'custom-file-input'" :id="'field'+field.id" @change="fileinputChanged(field.id, 'resume')">
+              <label v-if="field.files === undefined" class="custom-file-label">Choose file</label>
+              <label v-else="" class="custom-file-label">[[ field.files[0].name ]]</label>
+              <div>
+                <small v-if="resumeError" class="text-danger">[[ resumeErrorMessage ]]</small>
+              </div>
+            </div>
+            
+            <div class="custom-file" style="width: fit-content; display: block; height:auto;" v-else-if="field.field_type === 'attachment'">
+              <input type="file" :placeholder="field.label" multiple="" :name="field.id" :class="field.validationError ? 'custom-file-input is-invalid' : 'custom-file-input'" :id="'field'+field.id" @change="fileinputChanged(field.id, 'attachment')">
+              <label v-if="field.files === undefined" class="custom-file-label">Choose files</label>
+              <label v-else="" class="custom-file-label">[[ field.files.length ]] [[ field.files.length === 1 ? 'file' : 'files' ]] selected</label>
+              <div>
+                <small v-if="attachmentError[field.id]" class="text-danger">[[ attachmentErrorMessage[field.id] ]]</small>
+              </div>
+            </div>
+
+             
+             <div v-else-if="field.field_type === 'educations'">
+                <div v-for="(education, eduIndex) in educations" class="container px-0 py-0">
+                  <div v-if="!education.status" class="row border-radius-5 border-1 education-experience-item py-2">
+                    <div class="py-2 col-lg-6 col-xs-12">
+                      
+                      <input type="text" class="form-control" name="school" placeholder="School *" v-model="education.school">
+                      <small v-if="education.school_error" class="text-danger">This field is required</small>
+                    </div>
+                    <div class="py-2 col-lg-6 col-xs-12">
+                      <select class="form-control" v-model="education.degree_name">
+                        <option value="">Select Degree *</option>
+                        <option v-for="(degreetype, dindex) in degreetypes"> [[ degreetype ]] </option>
+                      </select>
+                      <small v-if="education.degree_name_error" class="text-danger">This field is required</small>
+                    </div>
+                    <div class="py-2 col-lg-12 col-xs-12">
+                      
+                      <input type="text" class="form-control" name="specialization" placeholder="Specialization" v-model="education.specialization">
+                    </div>
+                    <div class="py-2 col-lg-6 col-xs-12">
+                      
+                      <input type="text" class="form-control datetimefield education_started_at" name="started_at" placeholder="Start Date" v-model="education.start_at">
+                    </div>
+                    <div class="py-2 col-lg-6 col-xs-12">
+                      
+                      <input type="text" v-if="education.start_at" class="form-control datetimefield education_ended_at" name="ended_at" placeholder="End Date" v-model="education.end_at">
+                    </div>
+                    <div class="py-2 col-lg-6 col-xs-12">
+                      
+                      <input type="text" class="form-control" name="final_grade" placeholder="Final Grade" v-model="education.final_grade">
+                    </div>
+                    <div class="py-2 col-lg-6 col-xs-12">
+                      
+                      <input type="text" class="form-control" name="score_type" placeholder="Score Type, Eg: %, GPA ..." v-model="education.score_type">
+                    </div>
+                    <div class="py-2 col-lg-12 col-xs-12">
+                      
+                      <input type="text" class="form-control" autocomplete="off" name="location" placeholder="Location" v-model="education.location" @keyup="getLocations(education.location, 'education')">
+                      <div v-if="locationField === 'education'" class="location-picker-popup">
+                          <ul class="list list-unstyled my-0">
+                            <li v-for="(location, lIndex) in locations.cities" @click="selectEducationLocation(education, location, 'city')">
+                              [[ location.name ]]
+                            </li>
+                            <li v-for="(location, lIndex) in locations.states" @click="selectEducationLocation(education, location, 'state')">
+                              [[ location.name ]]
+                            </li>
+                            <li v-for="(location, lIndex) in locations.countries" @click="selectEducationLocation(education, location, 'country')">
+                              [[ location.name ]]
+                            </li>
+                          </ul>
+                        </div>
+                    </div>
+                    <div class="py-2 col-lg-12 col-xs-12">
+                      
+                      <textarea type="text" class="form-control" name="description" placeholder="Description" v-model="education.description"></textarea>
+                    </div>
+                    <div class="py-2 col-lg-3 offset-md-10 col-xs-12">
+                      <button type="button" class="btn btn-xs" @click="removeEducation(eduIndex)">
+                        Cancel
+                      </button>
+                      <button type="button" class="btn btn-primary btn-success btn-xs btn-apply" @click="saveEducation(education)">
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                  <div v-else="" class="row border-radius-5 border-1 education-experience-item py-2">
+                    <div class="container py-0">
+                      <div class="row align-items-center justify-content-md-center">
+                        <div class="py-2 col-lg-11 col-8">
+                          <div class="row align-items-center justify-content-md-center">
+                            <div class="col-lg-2 col-3">
+                              <h6 class="my-0">School:</h6>
+                            </div>
+                            <div class="col-lg-10 col-9">
+                              <h6 class="my-0">[[ education.school ]]</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="py-2 col-lg-1 col-4 px-lg-0">
+                            <button type="button" class="btn btn-sm btn-success btn-apply pull-right" @click="editEducation(eduIndex)">
+                              <i class="far fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-danger pull-right" @click="removeEducation(eduIndex)">
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                      </div>
+                      <div class="row align-items-center justify-content-md-center py-2">
+                        <div class="col-lg-2 col-4">
+                          <h6 class="my-0">Degree:</h6>
+                        </div>
+                        <div class="col-lg-10 col-8 px-0">
+                          <h6 class="my-0">[[ education.degree_name ]]</h6>
+                        </div>
+                      </div>
+                      <div v-if="education.specialization" class="row align-items-center justify-content-md-center py-2">
+                        <div class="col-lg-2 col-4">
+                          <h6 class="my-0">Specialization:</h6>
+                        </div>
+                        <div class="col-lg-10 col-8 px-0">
+                          <h6 class="my-0">[[ education.specialization ]]</h6>
+                        </div>
+                      </div>
+                      <div v-if="education.start_at &amp;&amp; education.end_at" class="row align-items-center justify-content-md-center py-2">
+                        <div class="col-lg-2 col-4">
+                          <h6 class="my-0">Period:</h6>
+                        </div>
+                        <div class="col-lg-10 col-8 px-0">
+                          <h6 class="my-0">[[ formatDate(education.start_at, 'dd/mm/yyyy') ]] to [[ formatDate(education.end_at, 'dd/mm/yyyy') ]]</h6>
+                        </div>
+                      </div>
+                      <div v-if="education.final_grade" class="row align-items-center justify-content-md-center py-2">
+                        <div class="col-lg-2 col-4">
+                          <h6 class="my-0">Final score:</h6>
+                        </div>
+                        <div class="col-lg-10 col-8 px-0">
+                          <h6 class="my-0">
+                            [[ education.final_grade ]] <template v-if="education.score_type">[[ education.score_type ]]</template>
+                          </h6>
+                        </div>
+                      </div>
+                      <div v-if="education.location" class="row align-items-center justify-content-md-center py-2">
+                        <div class="col-lg-2 col-4">
+                          <h6 class="my-0">Location:</h6>
+                        </div>
+                        <div class="col-lg-10 col-8 px-0">
+                          <h6 class="my-0">[[ education.location ]]</h6>
+                        </div>
+                      </div>
+                      <div v-if="education.description" class="row align-items-center justify-content-md-center">
+                        <div class="col-lg-2 col-12 py-2">
+                          <h6 class="my-0">Description:</h6>
+                        </div>
+                        <div class="col-lg-10 col-12 py-2 px-lg-0">
+                          <h6 class="my-0">[[ education.description ]]</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button v-if="!isAddEducationMode" type="button" class="btn btn-primary btn-success btn-xs btn-apply" @click="addNewEducation">
+                  Add Education
+                </button>
+              </div>
+
+              
+              <div v-else-if="field.field_type === 'experiences'">
+                <div v-for="(experience, expIndex) in experiences" class="container px-0 py-0">
+                  <div v-if="!experience.status" class="row border-radius-5 border-1 education-experience-item py-2">
+                    <div class="py-2 col-lg-6 col-xs-12">
+                      
+                      <input type="text" class="form-control" name="title" placeholder="Position name *" v-model="experience.title">
+                      <small v-if="experience.title_error" class="text-danger">This field is required</small>
+                    </div>
+                    <div class="py-2 col-lg-6 col-xs-12">
+                      
+                      <input type="text" class="form-control" name="employer" placeholder="Employer *" v-model="experience.employer">
+                      <small v-if="experience.employer_error" class="text-danger">This field is required</small>
+                    </div>
+                    <div class="py-2 col-lg-4 col-xs-12">
+                      
+                      <input type="text" class="form-control" name="salary" placeholder="Salary" v-model="experience.salary">
+                    </div>
+                    <div class="py-2 col-lg-4 col-xs-12">
+                      
+                      <input type="text" class="form-control" name="currency" placeholder="Currency" v-model="experience.currency_code">
+                    </div>
+                    <div class="py-2 col-lg-4 col-xs-12">
+                      <select class="form-control" v-model="experience.frequency">
+                        <option value="">Select frequency</option>
+                        <option value="hour">Hour</option>
+                        <option value="day">Day</option>
+                        <option value="week">Week</option>
+                        <option value="month">Month</option>
+                        <option value="year">Year</option>
+                      </select>
+                    </div>
+                    <div class="py-2 col-lg-6 col-xs-12">
+                      
+                      <input type="text" class="form-control datetimefield experience_started_at" name="started_at" placeholder="Start Date" v-model="experience.start_at">
+                    </div>
+                    <div class="py-2 col-lg-6 col-xs-12">
+                      
+                      <input v-if="experience.start_at &amp;&amp; !experience.is_current_employer" type="text" class="form-control datetimefield experience_ended_at" name="ended_at" placeholder="End Date" v-model="experience.end_at">
+                    </div>
+                    <div class="py-2 col-lg-12 col-xs-12">
+                      
+                      <input type="text" class="form-control" autocomplete="off" name="location" placeholder="Location" v-model="experience.location" @keyup="getLocations(experience.location, 'experience')">
+                      <div v-if="locationField === 'experience'" class="location-picker-popup">
+                        <ul class="list list-unstyled my-0">
+                          <li v-for="(location, lIndex) in locations.cities" @click="selectExperienceLocation(experience, location, 'city')">
+                            [[ location.name ]]
+                          </li>
+                          <li v-for="(location, lIndex) in locations.states" @click="selectExperienceLocation(experience, location, 'state')">
+                            [[ location.name ]]
+                          </li>
+                          <li v-for="(location, lIndex) in locations.countries" @click="selectExperienceLocation(experience, location, 'country')">
+                            [[ location.name ]]
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="py-2 col-lg-12 col-xs-12">
+                      
+                      <textarea type="text" class="form-control" name="description" placeholder="Description" v-model="experience.description"></textarea>
+                    </div>
+                    <div class="py-2 col-lg-12 col-xs-12">
+                      
+                      <input type="checkbox" v-model="experience.is_current_employer" name="is_current_employer"> <label for="is_current_employer">"I currently work here"</label>
+                    </div>
+                    <div v-if="!experience.status" class="py-2 col-lg-3 offset-md-10 col-xs-12">
+                      <button type="button" class="btn btn-xs" @click="removeExperience(expIndex)">
+                        Cancel
+                      </button>
+                      <button type="button" class="btn btn-primary btn-success btn-xs btn-apply" @click="saveExperience(experience)">
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                  <div v-else="" class="row border-radius-5 border-1 education-experience-item py-2">
+                    <div class="container py-0">
+                      <div class="row align-items-center justify-content-md-center">
+                        <div class="py-2 col-lg-11 col-8">
+                          <div class="row align-items-center justify-content-md-center">
+                            <div class="col-lg-2 col-3">
+                              <h6 class="my-0">Position name:</h6>
+                            </div>
+                            <div class="col-lg-10 col-9">
+                              <h6 class="my-0">[[ experience.title ]]</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="py-2 col-lg-1 col-4 px-lg-0">
+                            <button type="button" class="btn btn-sm btn-success btn-apply pull-right" @click="editExperience(expIndex)">
+                              <i class="far fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-danger pull-right" @click="removeExperience(expIndex)">
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                      </div>
+                      <div v-if="experience.employer" class="row align-items-center justify-content-md-center py-2">
+                        <div class="col-lg-2 col-4">
+                          <h6 class="my-0">Employer:</h6>
+                        </div>
+                        <div class="col-lg-10 col-8 px-0">
+                          <h6 class="my-0">[[ experience.employer ]]</h6>
+                        </div>
+                      </div>
+                      <div v-if="experience.salary" class="row align-items-center justify-content-md-center py-2">
+                        <div class="col-lg-2 col-4">
+                          <h6 class="my-0">Salary:</h6>
+                        </div>
+                        <div class="col-lg-10 col-8 px-0">
+                          <h6 class="my-0">
+                            [[ experience.salary ]] <template class="my-0 education-experience-item-small">[[ experience.currency_code ]]</template> <template v-if="experience.frequency" class="my-0 education-experience-item-small">per [[ experience.frequency ]]</template>
+                          </h6>
+                        </div>
+                      </div>
+                      <div v-if="experience.start_at &amp;&amp; experience.end_at" class="row align-items-center justify-content-md-center py-2">
+                        <div class="col-lg-2 col-4">
+                          <h6 class="my-0">Period:</h6>
+                        </div>
+                        <div class="col-lg-10 col-8 px-0">
+                          <h6 class="my-0">[[ formatDate(experience.start_at, 'dd/mm/yyyy') ]] to <template v-if="!experience.is_current_employer">[[ formatDate(experience.end_at, 'dd/mm/yyyy') ]] </template> <template v-else="">Present</template></h6>
+                        </div>
+                      </div>
+                      <div v-if="experience.location" class="row align-items-center justify-content-md-center py-2">
+                        <div class="col-lg-2 col-4">
+                          <h6 class="my-0">Location:</h6>
+                        </div>
+                        <div class="col-lg-10 col-8 px-0">
+                          <h6 class="my-0">[[ experience.location ]]</h6>
+                        </div>
+                      </div>
+                      <div v-if="experience.description" class="row align-items-center justify-content-md-center">
+                        <div class="col-lg-2 col-12 py-2">
+                          <h6 class="my-0">Description:</h6>
+                        </div>
+                        <div class="col-lg-10 col-12 py-2 px-lg-0">
+                          <h6 class="my-0">[[ experience.description ]]</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button v-if="!isAddExperienceMode" type="button" class="btn btn-primary btn-success btn-xs btn-apply" @click="addNewExperience">
+                  Add Experience
+                </button>
+              </div>
+
+            
+            <div v-else-if="field.field_type === 'social_media'">
+              <input type="text" :placeholder="field.label" :name="field.id" :class="field.validationError ? 'form-control is-invalid' : 'form-control'" :id="'field'+field.id">
+            </div>
+
+            
+            <div v-else-if="field.field_type === 'candidate_field' &amp;&amp; field.client_field_slug === 'current_salary'" class="row">
+                <div class="col-md-4 col-xs-12">
+                  <input type="number" :placeholder="field.label" min="0" step="any" :name="field.id" :class="field.validationError ? 'form-control is-invalid' : 'form-control'" :id="'field'+field.id">
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <select :placeholder="field.label" :name="field.id" :class="field.validationError ? 'form-control is-invalid' : 'form-control'" id="current_currency">
+                        <option v-for="(currency, nIndex) in currencies" :key="nIndex" :value="currency.id">
+                          [[ currency.name ]]
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                  <select :placeholder="show_placeholder ? field.label : ''" :name="field.id" :class="field.validationError ? 'form-control is-invalid' : 'form-control'" id="current_frequency">
+                    <option v-for="(frequency, efIndex) in frequencies" :key="efIndex" :value="frequency.id">
+                      [[ frequency.name ]]
+                    </option>
+                  </select>
+                </div>
+            </div>
+
+            
+            <div v-else-if="field.field_type === 'candidate_field' &amp;&amp; field.client_field_slug === 'expected_salary'" class="row">
+              <div class="col-md-4 col-xs-12">
+                <input type="number" :placeholder="field.label" min="0" step="any" :name="field.id" :class="field.validationError ? 'form-control is-invalid' : 'form-control'" :id="'field'+field.id">
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <select :placeholder="field.label" :name="field.id" :class="field.validationError ? 'form-control is-invalid' : 'form-control'" id="expected_currency">
+                    <option v-for="(currency, nIndex) in currencies" :key="nIndex" :value="currency.id">
+                      [[ currency.name ]]
+                    </option>
+                </select>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <select :placeholder="show_placeholder ? field.label : ''" :name="field.id" :class="field.validationError ? 'form-control is-invalid' : 'form-control'" id="expected_frequency">
+                  <option v-for="(frequency, efIndex) in frequencies" :key="efIndex" :value="frequency.id">
+                    [[ frequency.name ]]
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            
+            <div v-else-if="field.field_type === 'candidate_field' &amp;&amp; field.client_field_slug === 'gender'">
+              <select :placeholder="field.label" :name="field.id" :class="field.validationError ? 'form-control is-invalid' : 'form-control'" :id="'field'+field.id">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            
+            <div v-else-if="field.field_type === 'candidate_field' &amp;&amp; field.client_field_slug === 'current_notice_period'">
+              <select :placeholder="field.label" :name="field.id" :class="field.validationError ? 'form-control is-invalid' : 'form-control'" :id="'field'+field.id">
+                  <option value="">Select Notice Period</option>
+                  <option v-for="(noticePeriod, nIndex) in noticePeriodOptions" v-key="nIndex" :value="noticePeriod.id">[[ noticePeriod.name ]]</option>
+              </select>
+            </div>
+            <div v-else-if="field.field_type === 'candidate_field' &amp;&amp; field.client_field_slug === 'years_of_experience'">
+              <select :placeholder="field.label" :name="field.id" :class="field.validationError ? 'form-control is-invalid' : 'form-control'" :id="'field'+field.id">
+                  <option value="">Select Years of Experience</option>
+                  <option v-for="(yearOfExperience, nIndex) in yearsOfExperienceOptions" v-key="nIndex" :value="yearOfExperience.value">[[ yearOfExperience.text ]]</option>
+              </select>
+            </div>
+            <div v-else-if="field.field_type === 'candidate_field' &amp;&amp; field.client_field_slug === 'nationalities'">
+              <select :placeholder="field.label" :name="field.id" multiple="multiple" :class="field.validationError ? 'form-control multiselect is-invalid' : 'form-control multiselect'" :id="'field'+field.id">
+                <option v-for="(nationality, nIndex) in nationalities" :key="nIndex" :value="nationality.id">
+                  [[ nationality.demonym ]] ([[ nationality.common_name ]])
+                </option>
+              </select>
+            </div>
+            <div v-else-if="field.field_type === 'candidate_field' &amp;&amp; field.client_field_slug === 'languages'">
+              <select :placeholder="field.label" :name="field.id" multiple="multiple" :class="field.validationError ? 'form-control multiselect is-invalid' : 'form-control multiselect'" :id="'field'+field.id">
+                <option v-for="(language, lIndex) in languages" :key="lIndex" :value="language.id">
+                  [[ language.name ]]
+                </option>
+              </select>
+            </div>
+            <div v-else-if="field.field_type === 'candidate_field' &amp;&amp; field.client_field_slug === 'industries'">
+              <select :placeholder="field.label" :name="field.id" multiple="multiple" :class="field.validationError ? 'form-control multiselect is-invalid' : 'form-control multiselect'" :id="'field'+field.id">
+                <option v-for="(industry, lIndex) in industries" :key="lIndex" :value="industry.id">
+                  [[ industry.name ]]
+                </option>
+              </select>
+            </div>
+            <div v-else-if="field.field_type === 'candidate_field' &amp;&amp; field.client_field_field_type === 'dropdown'">
+              <select :placeholder="field.label" :name="field.id" :class="field.validationError ? 'form-control is-invalid' : 'form-control'" :id="'field'+field.id">
+                <option value="">Select [[ field.label ]]</option>
+                <option v-for="(answer, index) in  field.client_field_answer_choices" :value="answer">[[ answer ]]</option>
+              </select>
+            </div>
+            <div v-else-if="field.field_type === 'candidate_field' &amp;&amp; field.client_field_field_type === 'multiple_select_dropdown'">
+              <select :placeholder="field.label" :name="field.id" multiple="multiple" :class="field.validationError ? 'form-control is-invalid multiselect' : 'form-control multiselect'" :id="'field'+field.id">
+                <option v-for="(answer, index) in  field.client_field_answer_choices" :value="answer">[[ answer ]]</option>
+              </select>
+            </div>
+            <div v-else-if="field.field_type === 'candidate_field' &amp;&amp; field.client_field_field_type === 'checkbox'">
+              <ul class="list-unstyled">
+                <li v-for="(answer, index) in  field.client_field_answer_choices">
+                  <label class="checkcontainer"> [[ answer ]]
+                    <input type="checkbox" :id="`${field.id}{index}`" :name="field.id" :value="answer" @change="hasCheckBoxOtherSelected(field.id)">
+                    <span class="checkmark"></span>
+                  </label>
+                  <div v-if="otherCount > 0 &amp;&amp; answer === 'Other' &amp;&amp; otherTypeFields &amp;&amp; otherTypeFields[field.id].isValid">
+                    <input type="text" class="form-control custom-other-val-input" v-model="otherTypeFields[field.id].value">
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div v-else-if="field.field_type === 'candidate_field' &amp;&amp; field.client_field_field_type === 'multiple_choice'">
+              <ul class="list-unstyled">
+                <li v-for="(answer, index) in  field.client_field_answer_choices">
+                  <label class="radiocontainer"> [[ answer ]]
+                    <input type="radio" :id="`${field.id}{index}`" :name="field.id" :value="answer" @change="hasRadioOtherSelected(field.id)">
+                    <span class="checkmark"></span>
+                  </label>
+                  <div v-if="otherCount > 0 &amp;&amp; answer === 'Other' &amp;&amp; otherTypeFields &amp;&amp; otherTypeFields[field.id].isValid">
+                    <input type="text" class="form-control custom-other-val-input" v-model="otherTypeFields[field.id].value">
+                  </div>
+                </li>
+              </ul>
+            </div>
+            
+            <div v-else="">
+              <template v-if="field.response_type === 'char'">
+                <input type="text" :placeholder="field.label" :name="field.id" :class="field.validationError ? 'form-control is-invalid' : 'form-control'" :id="'field'+field.id">
+              </template>
+              <template v-if="field.response_type === 'integer'">
+                <input type="number" :placeholder="field.label" :name="field.id" min="0" :class="field.validationError ? 'form-control is-invalid' : 'form-control'" :id="'field'+field.id" @keypress="onNumberInput">
+              </template>
+              <template v-else-if="field.response_type === 'boolean'">
+                <input type="checkbox" :placeholder="field.label" :name="field.id" :id="'field'+field.id" :class="field.validationError ? 'is-invalid' : ''">
+                <label for="field.id">[[ field.label ]]: <span v-if="field.is_required">*</span></label>
+              </template>
+              <template v-else-if="field.response_type === 'longtext'">
+                  <textarea :placeholder="field.label" :name="field.id" :id="'field'+field.id" :class="field.validationError ? 'form-control is-invalid' : 'form-control'"></textarea>
+                </template>
+              <template v-else-if="field.response_type === 'datetime'">
+                <input type="text" :placeholder="field.label" :name="field.id" :id="'field'+field.id" :class="field.validationError ? 'form-control datetimefield is-invalid' : 'form-control datetimefield'">
+              </template>
+            </div>
+
+            <small v-if="field.validationError" class="text-danger">
+              This field is required.
+            </small>
+          </div>
+          <div class="mt-3">
+            <div v-if="isTCPPRequired" class="">
+              <input type="checkbox" name="terms_and_condition" value="checked" v-model="terms_and_condition">
+              <span style="font-size: 13px">
+                I agree to the
+                <a href="/wsmjobs/terms-and-conditions" target="_blank">
+                  terms and conditions
+                </a> &amp;
+                <a href="/wsmjobs/privacy-policy" target="_blank">
+                  privacy policy
+                </a>
+              </span>
+              <br>
+              <small v-if="showTermsCondtionError" class="text-danger">
+                This field is required.
+              </small>
+            </div>
+            <br>
+            <small v-if="submittionError" class="text-danger">
+                [[ submittionError ]]
+            </small>
+            <br>
+            <button type="submit" name="submit" class="btn btn-primary mt-4 btn btn-success btn-lg btn-apply" id="submit-id-submit">
+                Apply
+            </button>
+          </div>
+        </form>
+      </div>
+      <div v-else="">
+        <div class="text-center">
+            <p class="font-weight-bold text-success">Thank you for your application!</p>
+            <div class="fa fa-check text-success" style="font-size:200px; padding: 30px;"></div>
+            <p class="font-weight-bold text-success">Your application was successfully submitted.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  </main>
+  
+  <footer class="py-4 text-center bg-primary-color">
+    <a href="https://www.manatal.com/features/career-page?utm_source=careers-page.com&amp;utm_medium=powered_by_manatal" alt="Manatal" style="color:#ffffff;">
+      Powered by <strong>Manatal</strong>
+    </a>
+  </footer>
+</form>
+</body>
+</html>

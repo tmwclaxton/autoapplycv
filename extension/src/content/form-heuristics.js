@@ -1028,10 +1028,51 @@ const AutoCVApplyFormHeuristics = (() => {
         return valueMatchesAnswer(element.value, stringValue);
     }
 
+    function isContentEditableField(element) {
+        if (!element) {
+            return false;
+        }
+
+        const tag = element.tagName?.toLowerCase();
+
+        if (tag === 'input' || tag === 'textarea' || tag === 'select') {
+            return false;
+        }
+
+        if (element.isContentEditable) {
+            return true;
+        }
+
+        const contentEditable = element.getAttribute?.('contenteditable');
+
+        return contentEditable === '' || contentEditable === 'true' || contentEditable === 'plaintext-only';
+    }
+
+    function fillContentEditableControl(element, value) {
+        const stringValue = String(value);
+
+        element.focus();
+        element.textContent = stringValue;
+        element.dispatchEvent(new InputEvent('input', {
+            bubbles: true,
+            cancelable: true,
+            inputType: 'insertFromPaste',
+            data: stringValue,
+        }));
+        element.dispatchEvent(new Event('change', { bubbles: true }));
+
+        return valueMatchesAnswer(element.textContent, stringValue);
+    }
+
     function fillTextControlInstant(element, value) {
         const stringValue = String(value);
 
         element.focus();
+
+        if (isContentEditableField(element)) {
+            return fillContentEditableControl(element, stringValue);
+        }
+
         setNativeValue(element, stringValue);
         element.dispatchEvent(new InputEvent('beforeinput', {
             bubbles: true,
@@ -1395,6 +1436,53 @@ const AutoCVApplyFormHeuristics = (() => {
         return valueMatchesAnswer(readReactSelectValue(element), typedValue)
             || valueMatchesAnswer(element.value, typedValue)
             || valueMatchesAnswer(hiddenValue?.value, typedValue);
+    }
+
+    function commitReactSelectStaticValue(element, value) {
+        const stringValue = String(value).trim();
+
+        if (!stringValue) {
+            return false;
+        }
+
+        const shell = element.closest('.select-shell, .select__container');
+        const control = element.closest('.select__control') || shell?.querySelector('.select__control');
+        const hiddenValue = shell?.querySelector('input[tabindex="-1"][aria-hidden="true"]');
+
+        setNativeValue(element, stringValue);
+        element.dispatchEvent(new Event('input', { bubbles: true }));
+
+        if (hiddenValue) {
+            setNativeValue(hiddenValue, stringValue);
+            hiddenValue.dispatchEvent(new Event('input', { bubbles: true }));
+            hiddenValue.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        if (control) {
+            const placeholder = control.querySelector('.select__placeholder');
+
+            if (placeholder) {
+                placeholder.style.display = 'none';
+            }
+
+            const valueContainer = control.querySelector('.select__value-container') || control;
+            let singleValue = control.querySelector('.select__single-value');
+
+            if (!singleValue) {
+                singleValue = (element.ownerDocument || document).createElement('div');
+                singleValue.className = 'select__single-value';
+                valueContainer.appendChild(singleValue);
+            }
+
+            singleValue.textContent = stringValue;
+        }
+
+        element.setAttribute('aria-expanded', 'false');
+        element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+
+        return valueMatchesAnswer(readReactSelectValue(element), stringValue)
+            || valueMatchesAnswer(element.value, stringValue)
+            || valueMatchesAnswer(hiddenValue?.value, stringValue);
     }
 
     function isIndeedIdentityField(element) {
@@ -1856,11 +1944,35 @@ const AutoCVApplyFormHeuristics = (() => {
         }
 
         const normalizedAnswer = normalizeOption(stringValue);
-        let options = await waitForComboboxOptions(doc, element);
+        let options = collectComboboxOptions(doc, element);
+
+        if (options.length === 0) {
+            options = await waitForComboboxOptions(doc, element, 250);
+        }
 
         if (options.length === 0 && !isYesNoAnswer) {
             openReactSelectDropdown(element);
             options = await waitForComboboxOptions(doc, element, 1200);
+        }
+
+        const reactSelectShell = element.closest('.select-shell, .select__container');
+
+        if (options.length === 0 && reactSelectShell
+            && !isIndeedApplyQuestionCombobox(element)
+            && !isIndeedApplyResumeCombobox(element)
+            && !isLinkedInGeoLocationCombobox(element)) {
+            const committed = commitReactSelectStaticValue(element, stringValue);
+            heuristicsLog(committed ? 'info' : 'warn', 'apply.combobox', committed
+                ? 'Combobox static react-select value committed'
+                : 'Combobox static react-select fill failed', {
+                typedValue: element.value?.slice(0, 80),
+            });
+
+            if (committed) {
+                clearValidationState(element);
+            }
+
+            return committed;
         }
 
         heuristicsLog('debug', 'apply.combobox', 'Combobox options collected', {
@@ -1908,28 +2020,18 @@ const AutoCVApplyFormHeuristics = (() => {
             return committed;
         }
 
-        element.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
-
-        const shell = element.closest('.select-shell, .select__container');
-        const hiddenValue = shell?.querySelector('input[tabindex="-1"][aria-hidden="true"]');
-
-        if (hiddenValue) {
-            setNativeValue(hiddenValue, stringValue);
-            hiddenValue.dispatchEvent(new Event('input', { bubbles: true }));
-            hiddenValue.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-
-        const selectedValue = readReactSelectValue(element);
-        const typedOnly = valueMatchesAnswer(selectedValue || element.value, stringValue);
-        heuristicsLog(typedOnly ? 'info' : 'warn', 'apply.combobox', typedOnly ? 'Combobox typed value only' : 'Combobox fill failed', {
+        const committed = commitReactSelectStaticValue(element, stringValue);
+        heuristicsLog(committed ? 'info' : 'warn', 'apply.combobox', committed
+            ? 'Combobox static value committed'
+            : 'Combobox fill failed', {
             typedValue: element.value?.slice(0, 80),
         });
 
-        if (typedOnly) {
+        if (committed) {
             clearValidationState(element);
         }
 
-        return typedOnly;
+        return committed;
     }
 
     function getOptionLabel(input) {
@@ -2594,12 +2696,13 @@ const AutoCVApplyFormHeuristics = (() => {
             }
 
             const label = getQuestionLabel(combobox) || getAccessibleLabel(doc, combobox);
+            const dedupeKey = combobox.id || label;
 
-            if (label.length < 3 || seen.has(label)) {
+            if (label.length < 3 || seen.has(dedupeKey)) {
                 continue;
             }
 
-            seen.add(label);
+            seen.add(dedupeKey);
 
             const scope = getIndeedQuestionFieldRoot(combobox);
             const optionLabels = scope
@@ -3740,7 +3843,7 @@ const AutoCVApplyFormHeuristics = (() => {
     }
 
     function collectFillableElements(root) {
-        return Array.from(root.querySelectorAll('input, textarea, select')).filter((element) => {
+        const nativeControls = Array.from(root.querySelectorAll('input, textarea, select')).filter((element) => {
             if (isAshbyHiddenYesNoInput(element)) {
                 return false;
             }
@@ -3767,6 +3870,22 @@ const AutoCVApplyFormHeuristics = (() => {
 
             return isVisible(element);
         });
+
+        const contentEditableControls = Array.from(
+            root.querySelectorAll('[contenteditable=""], [contenteditable="true"], [contenteditable="plaintext-only"]'),
+        ).filter((element) => {
+            if (!isContentEditableField(element) || !isVisible(element)) {
+                return false;
+            }
+
+            if (element.closest('form, [role="form"], .application--container, .gform_wrapper, .field-wrapper, .formio-form, .wpforms-container, #main-content')) {
+                return true;
+            }
+
+            return element.closest('[class*="application"], [class*="employment"], [class*="job-apply"]') !== null;
+        });
+
+        return [...nativeControls, ...contentEditableControls];
     }
 
     function forEachIframeDocument(callback) {
@@ -3854,6 +3973,10 @@ const AutoCVApplyFormHeuristics = (() => {
 
     function getFieldType(element) {
         const tag = element.tagName.toLowerCase();
+
+        if (isContentEditableField(element)) {
+            return 'textarea';
+        }
 
         if (tag === 'textarea') {
             return 'textarea';

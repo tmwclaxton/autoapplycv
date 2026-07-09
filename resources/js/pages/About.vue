@@ -5,7 +5,11 @@ import PostboxMarketingLayout from '@/components/postbox/PostboxMarketingLayout.
 import PostboxMarketingNav from '@/components/postbox/PostboxMarketingNav.vue';
 import PostboxPageHeader from '@/components/postbox/PostboxPageHeader.vue';
 import PostboxProse from '@/components/postbox/PostboxProse.vue';
-import { GITHUB_REPOSITORY_URL, PLATFORM_MARKETING_INLINE } from '@/lib/site';
+import {
+    FORM_CORPUS_SCENARIO_COUNT,
+    GITHUB_REPOSITORY_URL,
+    PLATFORM_MARKETING_INLINE,
+} from '@/lib/site';
 </script>
 
 <template>
@@ -32,8 +36,10 @@ import { GITHUB_REPOSITORY_URL, PLATFORM_MARKETING_INLINE } from '@/lib/site';
             </p>
             <p>
                 On <strong>LinkedIn Easy Apply</strong>,
-                <strong>Indeed Apply</strong>, and
-                <strong>Totaljobs Quick Apply</strong>, the extension can run
+                <strong>Indeed Apply</strong>,
+                <strong>Totaljobs Quick Apply</strong>,
+                <strong>Glassdoor Easy Apply</strong>, and
+                <strong>Reed Easy Apply</strong>, the extension can run
                 end-to-end Auto Apply from the sidebar: search for roles, open
                 each posting, fill every step, and submit applications on your
                 behalf. On ATS and employer career sites, autofill and Draft All
@@ -53,8 +59,10 @@ import { GITHUB_REPOSITORY_URL, PLATFORM_MARKETING_INLINE } from '@/lib/site';
                 When you use the extension - especially during Auto Apply runs -
                 we can capture HTML snapshots of the forms you hit (with your
                 profile details redacted). Those captures feed a growing test
-                corpus: 3,276 real and synthetic scenarios across major ATS
-                platforms, verified with JSDOM, Playwright, and extension
+                corpus:
+                {{ FORM_CORPUS_SCENARIO_COUNT.toLocaleString() }} real and
+                synthetic scenarios across major ATS platforms and UK job
+                boards, verified with JSDOM, Playwright, and extension
                 end-to-end tests before we ship changes.
             </p>
             <p>
