@@ -1194,8 +1194,25 @@ body {
     margin-bottom: 0;
 }
 
+.auto-apply-activity-toolbar {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    align-items: stretch;
+    margin-top: 2px;
+}
+
+.auto-apply-activity-toolbar .auto-apply-activity-toggle {
+    flex: 2 1 0;
+    min-width: 0;
+}
+
+.auto-apply-activity-toolbar .auto-apply-clear-log-btn {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
 .auto-apply-activity-toggle {
-    align-self: flex-start;
     width: auto;
     padding: 6px 12px;
     font-size: 12px;
@@ -1219,18 +1236,12 @@ body {
     max-height: 320px;
 }
 
-.auto-apply-log-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
-
 .auto-apply-clear-log-btn {
-    flex-shrink: 0;
     padding: 6px 10px;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1.2;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .auto-apply-log-title {

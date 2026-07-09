@@ -31,6 +31,7 @@ const statusEl = document.getElementById('auto-apply-status');
 const pauseBannerEl = document.getElementById('auto-apply-pause-banner');
 const pauseMessageEl = document.getElementById('auto-apply-pause-message');
 const activityToggleEl = document.getElementById('auto-apply-activity-toggle');
+const activityToolbarEl = document.getElementById('auto-apply-activity-toolbar');
 const activityPanelEl = document.getElementById('auto-apply-activity-panel');
 const statsEl = document.getElementById('auto-apply-stats');
 const logEl = document.getElementById('auto-apply-log');
@@ -351,7 +352,10 @@ function renderActivityVisibility(session) {
     const showControls = shouldShowAutoApplyActivityControls(session);
     const panelExpanded = isAutoApplyActivityPanelExpanded(session, activityPanelManuallyHidden);
 
-    activityToggleEl.hidden = !showControls;
+    if (activityToolbarEl) {
+        activityToolbarEl.hidden = !showControls;
+    }
+
     activityPanelEl.hidden = !panelExpanded;
     activityToggleEl.textContent = panelExpanded ? 'Hide activity' : 'Show activity';
     activityToggleEl.setAttribute('aria-expanded', panelExpanded ? 'true' : 'false');

@@ -224,6 +224,7 @@ copyFileSync(join(SRC, 'shared/debug-log.js'), join(DIST, 'debug-log.js'));
 copyFileSync(join(SRC, 'shared/debug-log-client.js'), join(DIST, 'debug-log-client.js'));
 copyFileSync(join(SRC, 'shared/perf-timer.js'), join(DIST, 'perf-timer.js'));
 copyFileSync(join(SRC, 'shared/draft-all-optimizations.js'), join(DIST, 'draft-all-optimizations.js'));
+copyFileSync(join(SRC, 'shared/draft-all-pipeline.js'), join(DIST, 'draft-all-pipeline.js'));
 copyFileSync(join(SRC, 'shared/pending-fields.js'), join(DIST, 'pending-fields.js'));
 copyFileSync(join(SRC, 'shared/page-capture.js'), join(DIST, 'page-capture.js'));
 copyFileSync(join(SRC, 'shared/bridge-client.js'), join(DIST, 'bridge-client.js'));

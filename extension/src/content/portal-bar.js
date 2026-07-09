@@ -28,7 +28,7 @@ const AutoCVApplyPortalBar = (() => {
         hostElement.id = 'autocvapply-portal-bar';
         hostElement.setAttribute('data-autocvapply-ui', 'portal');
 
-        shadowRoot = hostElement.attachShadow({ mode: 'closed' });
+        shadowRoot = hostElement.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
             <style>
                 :host {
@@ -151,8 +151,21 @@ const AutoCVApplyPortalBar = (() => {
         return hostElement;
     }
 
+    function shouldShow({ visible = false, sidebarOpen = false }) {
+        if (typeof AutoCVApplyPortalBarState !== 'undefined'
+            && typeof AutoCVApplyPortalBarState.shouldShowPortalBar === 'function') {
+            return AutoCVApplyPortalBarState.shouldShowPortalBar({
+                visible,
+                sidebarOpen,
+                fillHandler,
+            });
+        }
+
+        return Boolean(visible && sidebarOpen && fillHandler);
+    }
+
     function update({ visible = false, sidebarOpen = false }) {
-        if (!visible || !sidebarOpen || !fillHandler) {
+        if (!shouldShow({ visible, sidebarOpen })) {
             hide();
 
             return;
@@ -231,5 +244,9 @@ const AutoCVApplyPortalBar = (() => {
         }
     }
 
-    return { configure, destroy, hide, setStatus, update };
+    return { configure, destroy, hide, setStatus, shouldShow, update };
 })();
+
+if (typeof globalThis !== 'undefined') {
+    globalThis.AutoCVApplyPortalBar = AutoCVApplyPortalBar;
+}

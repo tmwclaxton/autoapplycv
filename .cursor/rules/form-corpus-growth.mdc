@@ -1,0 +1,44 @@
+---
+description: When increasing test coverage for forms, field inventory, Draft All, autofill, or the form corpus - grow the ever-growing fixture corpus via extension bridge exploration, not only unit tests
+alwaysApply: false
+---
+
+# Form corpus growth (test coverage)
+
+When the user asks to **increase test coverage**, **add tests**, **improve coverage**, or **strengthen regression** for application forms, question detection, field inventory, Draft All, or extension autofill, read and follow:
+
+**[`docs/form-corpus-growth.md`](../../docs/form-corpus-growth.md)**
+
+## Default stance
+
+- The **form corpus** (`tests/fixtures/form-extraction/`) is the primary spec for question detection and fill behaviour.
+- Prefer **volume and variety of real captures** plus **bridge-understood fixtures** over isolated unit tests that do not encode DOM patterns.
+- Use **extension bridge MCP** to explore live pages before freezing fixtures (`get_field_inventory`, `read_field_values`, `read_form_validation`, `save_fixture`).
+
+## What to add
+
+| Situation | Coverage to add |
+| --- | --- |
+| New or broken DOM pattern | `save_fixture` -> `propose-expectations` -> `vet-corpus` -> targeted `run-fill-verify-curated.mjs --id=...` |
+| Important / common pattern | Promote in curated or smoke manifest (`npm run form-corpus:build-curated`) |
+| Pure logic (pipeline, parsers) | Small node/PHPUnit tests (see `DraftAllExtensionTest`, `draft-all-pipeline.test.mjs`) |
+| Heuristic change in `form-heuristics.js` / `field-inventory.js` | `npm run form-corpus:fill-verify:smoke` minimum before merge |
+
+## What not to do
+
+- Do not satisfy "more coverage" with trivial tests that duplicate corpus behaviour.
+- Do not vet Firecrawl HTML without a bridge spot-check when the page is interactive or auth-gated.
+- Do not run full extension E2E batch for every small change - use `--id=` and smoke tier (`minimal-test-runs.mdc`).
+
+## Quick commands
+
+```bash
+npm run extension-bridge
+npm run extension:build-reload
+node scripts/form-corpus/propose-expectations.mjs --id=<fixture-id>
+node scripts/form-corpus/vet-corpus.mjs --id=<fixture-id>
+node scripts/form-corpus/run-fill-verify-curated.mjs --id=<fixture-id> --check-validity --check-a11y --check-errors
+npm run form-corpus:fill-verify:smoke
+```
+
+See also: `extension-e2e-mcp-testing.mdc`, `extension-bridge-mcp.mdc`, `docs/platform-automation-playbook.md`.

@@ -88,6 +88,7 @@
         "form-corpus:form-e2e-scoring": "node scripts/form-corpus/run-form-e2e-with-scoring.mjs",
         "form-corpus:answer-quality-audit": "EXTENSION_E2E=1 node scripts/form-corpus/run-answer-quality-audit.mjs",
         "test:quick-draft": "node scripts/extension-benchmark/test-quick-draft.mjs",
+        "test:draft-all-unit": "node scripts/extension-benchmark/test-draft-all-optimizations.mjs && node --test scripts/extension-test/draft-all-pipeline.test.mjs scripts/extension-test/draft-all-stream.test.mjs scripts/extension-test/portal-bar.test.mjs",
         "test:page-capture": "node scripts/extension-benchmark/test-page-capture.mjs",
         "test:e2e-fill": "npm run build:extension && node scripts/extension-benchmark/run-draft-all-dom-verify.mjs --fixture",
         "test:e2e-fill:live": "npm run build:extension && node scripts/extension-benchmark/run-draft-all-dom-verify.mjs --live",

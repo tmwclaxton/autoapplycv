@@ -47,20 +47,30 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
     let fields = [];
     let savingRef = null;
 
-    function renderClarifyingQuestion(pauseContext, hasAutoApplyPause) {
+    function renderClarifyingQuestion(pauseContext, hasAutoApplyPause, displayFields) {
         if (!clarifyingQuestionEl) {
             return;
         }
 
-        if (!hasAutoApplyPause) {
-            clarifyingQuestionEl.hidden = true;
-            clarifyingQuestionEl.textContent = '';
+        if (hasAutoApplyPause) {
+            clarifyingQuestionEl.textContent = resolveAutoApplyPauseClarifyingDisplay(pauseContext);
+            clarifyingQuestionEl.hidden = clarifyingQuestionEl.textContent.trim() === '';
 
             return;
         }
 
-        clarifyingQuestionEl.textContent = resolveAutoApplyPauseClarifyingDisplay(pauseContext);
-        clarifyingQuestionEl.hidden = clarifyingQuestionEl.textContent.trim() === '';
+        const firstPending = displayFields[0];
+        const pendingQuestion = String(firstPending?.question || firstPending?.label || '').trim();
+
+        if (pendingQuestion) {
+            clarifyingQuestionEl.textContent = pendingQuestion;
+            clarifyingQuestionEl.hidden = false;
+
+            return;
+        }
+
+        clarifyingQuestionEl.hidden = true;
+        clarifyingQuestionEl.textContent = '';
     }
 
     function render() {
@@ -70,7 +80,7 @@ export function initPendingFieldsPanel({ showMessage, getAutoApplyPauseContext =
         const hasAutoApplyPause = Boolean(pauseContext?.blockerField?.ref);
         const displayFields = buildDisplayFields(fields, pauseContext);
 
-        renderClarifyingQuestion(pauseContext, hasAutoApplyPause);
+        renderClarifyingQuestion(pauseContext, hasAutoApplyPause, displayFields);
 
         if (displayFields.length === 0) {
             sectionEl.hidden = true;

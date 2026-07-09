@@ -43,15 +43,17 @@ import {
 import {
     buildMechanicalInventoryFields,
     canUseMechanicalInventory,
-    compactFieldsForDraft,
     compactSnapshotForInventory,
     enrichApplyAnswers,
     enrichFieldsWithSnapshotDom,
-    partitionFieldsByQuestionMemo,
     shouldReuseCachedDraftAllSnapshot,
     snapshotFingerprint,
     tryInferJobContextFromPage,
 } from './draft-all-optimizations.js';
+import {
+    buildDraftAllApplyPlan,
+    partitionDraftAllBatchAnswers,
+} from './draft-all-pipeline.js';
 import { requestDraftAllStream, requestDraftField, requestAssistChatStream, requestFieldInventory, requestJobContext } from './draft-all-stream.js';
 import {
     appendDraftChatQueueEntry,
@@ -72,14 +74,10 @@ import {
 } from './form-frame-messaging.js';
 import { capturePageFromTab } from './page-capture.js';
 import {
-    buildPendingFieldsFromProfileGaps,
+    buildPendingFieldsFromUnfilledSnapshot,
     formatProfileSaveValue,
     isMeaningfulAnswer,
     mergePendingFields,
-    partitionBatchAnswers,
-    partitionIdentityProfileFields,
-    partitionReferenceProfileFields,
-    partitionPriorEmployerContactFields,
     pendingFieldsStorageKey,
     resolveIdentityProfileAnswer,
     resolveProfileMappingForLabel,
@@ -1274,6 +1272,8 @@ async function collectUnfilledRequiredFields(tabId, formFrameId) {
 }
 
 async function applyPostDraftValidation(tabId, formFrameId, pendingFields, message, options = {}) {
+    const profileData = options.profileData ?? null;
+
     if (isAutoApplyRunning()) {
         return {
             pendingFields,
@@ -1305,6 +1305,19 @@ async function applyPostDraftValidation(tabId, formFrameId, pendingFields, messa
         await savePendingFields(tabId, nextPendingFields);
     }
 
+    const unfilledRequiredFields = await collectUnfilledRequiredFields(tabId, formFrameId);
+    const unfilledPending = buildPendingFieldsFromUnfilledSnapshot(
+        unfilledRequiredFields,
+        profileData,
+        nextPendingFields,
+    );
+
+    if (unfilledPending.length > 0) {
+        nextPendingFields = mergePendingFields(nextPendingFields, unfilledPending);
+        pendingCount = nextPendingFields.length;
+        await savePendingFields(tabId, nextPendingFields);
+    }
+
     if (validationScan.hasErrors) {
         const errorPreview = validationScan.validationErrors.slice(0, 2).join('; ')
             || `${validationScan.invalidFieldCount} field(s) failed validation`;
@@ -1318,7 +1331,7 @@ async function applyPostDraftValidation(tabId, formFrameId, pendingFields, messa
         pendingCount,
         message: nextMessage,
         validationScan,
-        unfilledRequiredFields: await collectUnfilledRequiredFields(tabId, formFrameId),
+        unfilledRequiredFields,
     };
 }
 
@@ -1848,117 +1861,82 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
         // Draft All never keyword-maps profile values into fields. Profile context goes to the LLM;
         // question memo applies only explicit user-saved answers; pending-fields sidebar prompts for gaps.
-        const profileGapPending = buildPendingFieldsFromProfileGaps(fields, profileData);
-        pendingFields = mergePendingFields(pendingFields, profileGapPending);
-
         const questionMemo = await loadQuestionMemo();
-        let { memoAnswers, remainingFields } = partitionFieldsByQuestionMemo(fields, questionMemo);
+        const draftPlan = buildDraftAllApplyPlan({
+            fields,
+            profileData,
+            questionMemo,
+            existingPendingFields: pendingFields,
+        });
+        pendingFields = draftPlan.pendingFields;
         let totalFieldsFilled = 0;
 
         const profileYears = profileData?.application_settings?.years_of_experience ?? null;
 
-        if (memoAnswers.length > 0) {
+        const stageProgressMessages = {
+            memo: (count) => `Applying ${count} saved answer(s)…`,
+            reference: (count) => `Applying ${count} reference field(s)…`,
+            identity: (count) => `Applying ${count} profile field(s)…`,
+        };
+
+        for (const stage of draftPlan.applyStages) {
+            const stageCount = stage.answers.length;
+
             broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
-                message: `Applying ${memoAnswers.length} saved answer(s)…`,
+                message: stageProgressMessages[stage.type]?.(stageCount) || `Applying ${stageCount} field(s)…`,
             });
 
-            const { toApply: memoToApply } = partitionBatchAnswers(
-                memoAnswers.map(({ ref, label, answer, field_type }) => ({
-                    ref,
-                    label,
-                    answer,
-                    field_type,
-                })),
-                fieldsByRef,
-                profileData,
-            );
+            let answersToApply = stage.answers;
 
-            perf.start('apply.memo');
-            const memoApplyResult = await applyDraftBatchToTab(
+            if (stage.type === 'memo') {
+                ({ toApply: answersToApply } = partitionDraftAllBatchAnswers(
+                    stage.answers.map(({ ref, label, answer, field_type }) => ({
+                        ref,
+                        label,
+                        answer,
+                        field_type,
+                    })),
+                    fieldsByRef,
+                    profileData,
+                ));
+            }
+
+            const perfPhase = stage.type === 'memo'
+                ? 'apply.memo'
+                : stage.type === 'reference'
+                    ? 'apply.references'
+                    : 'apply.identity';
+
+            perf.start(perfPhase);
+            const applyResult = await applyDraftBatchToTab(
                 tabId,
-                enrichApplyAnswers(memoToApply, fieldsByRef, { profileYears }),
+                enrichApplyAnswers(answersToApply, fieldsByRef, { profileYears }),
                 formFrameId,
             );
-            perf.end('apply.memo');
+            perf.end(perfPhase);
 
-            logInfo('background', 'draft-all.memo', 'Applied question memo answers', {
-                memoCount: memoAnswers.length,
-                success: memoApplyResult?.success,
-                applied: memoApplyResult?.applied,
+            const logPhase = stage.type === 'memo'
+                ? 'draft-all.memo'
+                : stage.type === 'reference'
+                    ? 'draft-all.references'
+                    : 'draft-all.identity';
+
+            logInfo('background', logPhase, `Applied ${stage.type} profile fields`, {
+                count: stageCount,
+                success: applyResult?.success,
+                applied: applyResult?.applied,
             }, tabId);
 
-            totalFieldsFilled += Number(memoApplyResult?.applied || memoAnswers.length || 0);
-
-            pushDraftAnswersToSidepanelChat(0, memoToApply, fieldsByRef);
+            totalFieldsFilled += Number(applyResult?.applied || stageCount || 0);
+            pushDraftAnswersToSidepanelChat(0, answersToApply, fieldsByRef);
         }
 
-        const referencePartition = partitionReferenceProfileFields(remainingFields, profileData);
-        remainingFields = referencePartition.remainingFields;
-
-        if (referencePartition.referenceAnswers.length > 0) {
-            broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
-                message: `Applying ${referencePartition.referenceAnswers.length} reference field(s)…`,
-            });
-
-            perf.start('apply.references');
-            const referenceApplyResult = await applyDraftBatchToTab(
-                tabId,
-                enrichApplyAnswers(referencePartition.referenceAnswers, fieldsByRef, { profileYears }),
-                formFrameId,
-            );
-            perf.end('apply.references');
-
-            logInfo('background', 'draft-all.references', 'Applied reference profile fields', {
-                referenceCount: referencePartition.referenceAnswers.length,
-                success: referenceApplyResult?.success,
-                applied: referenceApplyResult?.applied,
-            }, tabId);
-
-            totalFieldsFilled += Number(
-                referenceApplyResult?.applied || referencePartition.referenceAnswers.length || 0,
-            );
-
-            pushDraftAnswersToSidepanelChat(0, referencePartition.referenceAnswers, fieldsByRef);
-        }
-
-        const identityPartition = partitionIdentityProfileFields(remainingFields, profileData);
-        remainingFields = identityPartition.remainingFields;
-
-        if (identityPartition.identityAnswers.length > 0) {
-            broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
-                message: `Applying ${identityPartition.identityAnswers.length} profile field(s)…`,
-            });
-
-            perf.start('apply.identity');
-            const identityApplyResult = await applyDraftBatchToTab(
-                tabId,
-                enrichApplyAnswers(identityPartition.identityAnswers, fieldsByRef, { profileYears }),
-                formFrameId,
-            );
-            perf.end('apply.identity');
-
-            logInfo('background', 'draft-all.identity', 'Applied identity profile fields', {
-                identityCount: identityPartition.identityAnswers.length,
-                success: identityApplyResult?.success,
-                applied: identityApplyResult?.applied,
-            }, tabId);
-
-            totalFieldsFilled += Number(identityApplyResult?.applied || identityPartition.identityAnswers.length || 0);
-        }
-
-        const priorEmployerPartition = partitionPriorEmployerContactFields(remainingFields, profileData);
-        remainingFields = priorEmployerPartition.remainingFields;
-
-        if (priorEmployerPartition.pendingFields.length > 0) {
-            pendingFields = mergePendingFields(pendingFields, priorEmployerPartition.pendingFields);
-        }
-
-        if (remainingFields.length === 0) {
+        if (draftPlan.skipsLlm) {
             let pendingCount = pendingFields.length;
             let message = pendingCount > 0
                 ? `Fill complete. ${pendingCount} question(s) need your input in the sidebar.`
-                : memoAnswers.length > 0
-                    ? `Fill complete (${memoAnswers.length} field(s) from saved answers).`
+                : draftPlan.memoAnswerCount > 0
+                    ? `Fill complete (${draftPlan.memoAnswerCount} field(s) from saved answers).`
                     : 'No fields required AI drafting.';
 
             if (!isAutoApplyRunning()) {
@@ -1969,7 +1947,9 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 }
             }
 
-            const postValidation = await applyPostDraftValidation(tabId, formFrameId, pendingFields, message);
+            const postValidation = await applyPostDraftValidation(tabId, formFrameId, pendingFields, message, {
+                profileData,
+            });
             pendingFields = postValidation.pendingFields;
             pendingCount = postValidation.pendingCount;
             message = postValidation.message;
@@ -1979,7 +1959,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
             perf.summary({
                 fieldCount: fields.length,
-                memoApplied: memoAnswers.length,
+                memoApplied: draftPlan.memoAnswerCount,
                 batchesApplied: 0,
                 url: tab.url,
             });
@@ -1996,19 +1976,19 @@ async function runDraftAll(tabId, e2eOptions = null) {
             };
         }
 
-        const draftFields = compactFieldsForDraft(remainingFields);
+        const draftFields = draftPlan.llmFields;
 
         logInfo('background', 'draft-all.stream', 'Starting draft-all stream', {
             fieldCount: fields.length,
-            memoApplied: memoAnswers.length,
-            aiFieldCount: remainingFields.length,
+            memoApplied: draftPlan.memoAnswerCount,
+            aiFieldCount: draftPlan.remainingFieldCount,
             compactFieldCount: draftFields.length,
             formFrameId,
             jobTitle: job?.title,
         }, tabId);
 
         broadcastDraftEvent('DRAFT_ALL_PROGRESS', {
-            message: `Drafting ${remainingFields.length} field(s)…`,
+            message: `Drafting ${draftPlan.remainingFieldCount} field(s)…`,
         });
 
         let batchIndex = 0;
@@ -2038,7 +2018,7 @@ async function runDraftAll(tabId, e2eOptions = null) {
                 const batchNumber = event.batch_index + 1;
                 const draftPhase = `draft.batch-${batchNumber}`;
                 const applyPhase = `apply.batch-${batchNumber}`;
-                const { toApply, pending: batchPending } = partitionBatchAnswers(
+                const { toApply, pending: batchPending } = partitionDraftAllBatchAnswers(
                     event.answers,
                     fieldsByRef,
                     profileData,
@@ -2168,8 +2148,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
             : `Fill complete (${fields.length} field(s) drafted).`;
         logInfo('background', 'draft-all.complete', 'Draft All finished', {
             fieldCount: fields.length,
-            memoApplied: memoAnswers.length,
-            aiFieldCount: remainingFields.length,
+            memoApplied: draftPlan.memoAnswerCount,
+            aiFieldCount: draftPlan.remainingFieldCount,
             batchesApplied: batchIndex,
             pendingCount,
         }, tabId);
@@ -2191,7 +2171,9 @@ async function runDraftAll(tabId, e2eOptions = null) {
             }
         }
 
-        const postValidation = await applyPostDraftValidation(tabId, formFrameId, pendingFields, message);
+        const postValidation = await applyPostDraftValidation(tabId, formFrameId, pendingFields, message, {
+            profileData,
+        });
         pendingFields = postValidation.pendingFields;
         pendingCount = postValidation.pendingCount;
         message = postValidation.message;
@@ -2213,8 +2195,8 @@ async function runDraftAll(tabId, e2eOptions = null) {
 
         perf.summary({
             fieldCount: fields.length,
-            memoApplied: memoAnswers.length,
-            aiFieldCount: remainingFields.length,
+            memoApplied: draftPlan.memoAnswerCount,
+            aiFieldCount: draftPlan.remainingFieldCount,
             batchesApplied: batchIndex,
             url: tab.url,
             inventorySource: resolved.inventorySource || 'llm',

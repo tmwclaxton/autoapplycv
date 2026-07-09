@@ -354,6 +354,42 @@ export function isNoticePeriodQuestionLabel(label) {
     return /notice period/i.test(String(label || ''));
 }
 
+export function isYearsExperienceQuestionLabel(label) {
+    const normalized = normalizeQuestionLabel(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    if (/\bhow many years\b/i.test(normalized)) {
+        return true;
+    }
+
+    return /\byears? of (?:work )?experience\b/i.test(normalized)
+        && /\b(how many|with|in|using|have|do you)\b/i.test(normalized);
+}
+
+export function isGenericTotalExperienceQuestionLabel(label) {
+    const normalized = normalizeLabelForMapping(label);
+
+    if (!normalized) {
+        return false;
+    }
+
+    const totalExperienceMapping = PROFILE_FIELD_MAPPINGS.find(
+        (mapping) => mapping.path === 'application_settings.years_of_experience',
+    );
+
+    return Boolean(
+        totalExperienceMapping?.keywords.some((keyword) => keywordMatchesNormalized(keyword, normalized)),
+    );
+}
+
+export function isSkillSpecificYearsExperienceQuestionLabel(label) {
+    return isYearsExperienceQuestionLabel(label)
+        && !isGenericTotalExperienceQuestionLabel(label);
+}
+
 export function isAvailabilityQuestionLabel(label) {
     const normalized = normalizeQuestionLabel(label);
 
@@ -1201,6 +1237,27 @@ function resolvePhoneNationalForApply(profileData) {
     return digits.replace(/^0+/, '');
 }
 
+function shouldSkipUserPromptForFieldLabel(label) {
+    return isHoursCommitmentQuestionLabel(label)
+        || isEeoQuestionLabel(label)
+        || isEducationQuestionLabel(label)
+        || isOpenEndedQuestionLabel(label);
+}
+
+function shouldPromptAvailabilityField(field, profileData) {
+    const label = field?.label || field?.question || '';
+
+    if (!isAvailabilityQuestionLabel(label)) {
+        return null;
+    }
+
+    if (isMeaningfulAnswer(readProfileValue(profileData, 'computed_earliest_start'))) {
+        return false;
+    }
+
+    return !isMeaningfulAnswer(readProfileValue(profileData, 'application_settings.notice_period'));
+}
+
 export function shouldPromptUserForField(field, profileData) {
     const label = field?.label || field?.question || '';
 
@@ -1208,15 +1265,13 @@ export function shouldPromptUserForField(field, profileData) {
         return false;
     }
 
-    if (isAvailabilityQuestionLabel(label)) {
-        if (isMeaningfulAnswer(readProfileValue(profileData, 'computed_earliest_start'))) {
-            return false;
-        }
+    const availabilityPrompt = shouldPromptAvailabilityField(field, profileData);
 
-        return !isMeaningfulAnswer(readProfileValue(profileData, 'application_settings.notice_period'));
+    if (availabilityPrompt !== null) {
+        return availabilityPrompt;
     }
 
-    if (isEeoQuestionLabel(label) || isEducationQuestionLabel(label) || isOpenEndedQuestionLabel(label)) {
+    if (shouldSkipUserPromptForFieldLabel(label)) {
         return false;
     }
 
@@ -1235,6 +1290,34 @@ export function shouldPromptUserForField(field, profileData) {
     }
 
     return !isMeaningfulAnswer(readProfileValue(profileData, mapping.path));
+}
+
+/**
+ * Draft All only sends empty fields to the LLM. When the model returns null, prompt the user
+ * unless the question is one we deliberately never ask in the sidebar (EEO, education, etc.).
+ */
+export function shouldPromptUserForMissingDraftAnswer(field, profileData) {
+    const label = field?.label || field?.question || '';
+
+    if (isHoursCommitmentQuestionLabel(label)) {
+        return false;
+    }
+
+    const availabilityPrompt = shouldPromptAvailabilityField(field, profileData);
+
+    if (availabilityPrompt !== null) {
+        return availabilityPrompt;
+    }
+
+    if (shouldSkipUserPromptForFieldLabel(label)) {
+        return false;
+    }
+
+    if (shouldPromptUserForField(field, profileData)) {
+        return true;
+    }
+
+    return isSkillSpecificYearsExperienceQuestionLabel(label);
 }
 
 export function shouldSaveToApplicationAnswers(field, mapping) {
@@ -1423,7 +1506,7 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
             continue;
         }
 
-        if (!shouldPromptUserForField(field, profileData)) {
+        if (!shouldPromptUserForMissingDraftAnswer(field, profileData)) {
             continue;
         }
 
@@ -1435,6 +1518,51 @@ export function partitionBatchAnswers(answers, fieldsByRef, profileData) {
     }
 
     return { toApply, pending };
+}
+
+export function buildPendingFieldsFromUnfilledSnapshot(elements, profileData, existingPending = []) {
+    const existingRefs = new Set((existingPending || []).map((field) => field.ref).filter(Boolean));
+    const pending = [];
+
+    for (const element of elements || []) {
+        if (!element?.ref || existingRefs.has(element.ref)) {
+            continue;
+        }
+
+        const field = {
+            ref: element.ref,
+            label: element.question || element.label || '',
+            question: element.question || element.label || '',
+            field_type: element.field_type || 'text',
+            options: element.options ?? null,
+            dom: element.dom ?? null,
+            required: element.required === true,
+        };
+
+        const label = field.label || field.question || '';
+
+        if (isHoursCommitmentQuestionLabel(label)) {
+            continue;
+        }
+
+        const availabilityPrompt = shouldPromptAvailabilityField(field, profileData);
+
+        if (availabilityPrompt === false) {
+            continue;
+        }
+
+        if (shouldSkipUserPromptForFieldLabel(label)) {
+            continue;
+        }
+
+        pending.push(createPendingField(
+            field,
+            resolvePendingProfileMapping(field, profileData),
+            'missing_answer',
+        ));
+    }
+
+    return pending;
 }
 
 export function mergePendingFields(existing, incoming) {

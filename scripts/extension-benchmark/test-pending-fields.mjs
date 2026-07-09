@@ -28,6 +28,10 @@ import {
     resolveSalaryPeriodPath,
     shouldDeferFieldToAiDraft,
     shouldPromptUserForField,
+    shouldPromptUserForMissingDraftAnswer,
+    buildPendingFieldsFromUnfilledSnapshot,
+    isSkillSpecificYearsExperienceQuestionLabel,
+    isGenericTotalExperienceQuestionLabel,
     shouldSaveToApplicationAnswers,
     shouldSkipAiDraftAnswer,
     splitFullName,
@@ -256,6 +260,56 @@ const { toApply, pending } = partitionBatchAnswers([
 assert(toApply.length === 1 && toApply[0].ref === 'f5', 'meaningful AI answers should apply');
 assert(pending.some((field) => field.ref === 'f2'), 'null salary answer should be pending');
 assert(!isMeaningfulAnswer(null), 'null is not meaningful');
+
+const financialServicesField = {
+    ref: 'q_financial',
+    label: 'How many years of Financial services experience do you have?',
+    field_type: 'text',
+};
+const financialPartition = partitionBatchAnswers(
+    [{ ref: 'q_financial', label: financialServicesField.label, answer: null }],
+    new Map([[financialServicesField.ref, financialServicesField]]),
+    emptySalaryProfile,
+);
+
+assert(
+    financialPartition.pending.some((field) => field.ref === 'q_financial'),
+    'null skill-specific years answer should prompt the user',
+);
+assert(
+    isSkillSpecificYearsExperienceQuestionLabel('How many years of Financial services experience do you have?'),
+    'domain-specific years questions should be detected',
+);
+assert(
+    !isSkillSpecificYearsExperienceQuestionLabel('How many years of experience do you have?'),
+    'generic total experience should not count as skill-specific',
+);
+assert(
+    isGenericTotalExperienceQuestionLabel('How many years of experience do you have?'),
+    'generic total experience should be recognized',
+);
+assert(
+    !shouldPromptUserForMissingDraftAnswer(
+        { ref: 'f5', label: 'Tell us about yourself', field_type: 'textarea' },
+        emptySalaryProfile,
+    ),
+    'open-ended questions should not prompt when the model returns null',
+);
+
+const unfilledSnapshotPending = buildPendingFieldsFromUnfilledSnapshot(
+    [{
+        ref: 'q_financial',
+        question: financialServicesField.label,
+        field_type: 'text',
+        required: true,
+    }],
+    emptySalaryProfile,
+);
+
+assert(
+    unfilledSnapshotPending.some((field) => field.ref === 'q_financial'),
+    'still-empty required snapshot fields should become pending',
+);
 
 assert(
     formatContextualProfileLine('Notice period', '2 weeks') === 'Notice period: 2 weeks',
