@@ -24,7 +24,7 @@ class OnboardingController extends Controller
         $cvProfile = $user->cvProfile;
 
         if ($cvProfile && $cvProfile->parsing_complete) {
-            return redirect()->route('dashboard');
+            return redirect()->route('dashboard', ['tab' => 'extension']);
         }
 
         return Inertia::render('Onboarding', [

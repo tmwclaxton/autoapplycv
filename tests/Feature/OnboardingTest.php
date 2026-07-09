@@ -42,7 +42,7 @@ class OnboardingTest extends TestCase
         $this->actingAs($user)
             ->withHeaders(['X-Inertia' => 'true'])
             ->get(route('onboarding'))
-            ->assertRedirect(route('dashboard'));
+            ->assertRedirect(route('dashboard', ['tab' => 'extension']));
     }
 
     public function test_authenticated_user_without_profile_redirects_from_dashboard_to_onboarding(): void
@@ -81,7 +81,7 @@ class OnboardingTest extends TestCase
                 'skills' => ['PHP', 'Laravel', 'Vue'],
                 'extra_context' => 'Authorised to work in the UK.',
             ])
-            ->assertRedirect(route('dashboard'));
+            ->assertRedirect(route('dashboard', ['tab' => 'extension']));
 
         $this->assertDatabaseHas('cv_profiles', [
             'user_id' => $user->id,

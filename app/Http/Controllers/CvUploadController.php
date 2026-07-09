@@ -151,7 +151,7 @@ class CvUploadController extends Controller
             ]);
         }
 
-        return redirect()->route('dashboard')->with('success', 'Profile saved.');
+        return redirect()->route('dashboard', ['tab' => 'extension'])->with('success', 'Profile saved.');
     }
 
     private function documentDownloadRoute(Request $request): string

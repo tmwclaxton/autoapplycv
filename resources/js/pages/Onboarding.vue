@@ -30,11 +30,9 @@ setLayoutProps({
 });
 
 const step = ref<'upload' | 'review' | 'download'>(
-    props.cvProfile?.parsing_complete
+    props.cvProfile?.parsing_complete || props.hasUploadedCv
         ? 'download'
-        : props.hasUploadedCv
-          ? 'review'
-          : 'upload',
+        : 'upload',
 );
 
 const isDragging = ref(false);
@@ -141,7 +139,7 @@ async function uploadCv(file: File) {
             uploadError.value = data.warning;
         }
 
-        step.value = 'review';
+        step.value = 'download';
 
         await nextTick();
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -333,11 +331,11 @@ async function saveProfile() {
                 OK
             </span>
             <h1 class="text-2xl font-bold text-postbox-navy sm:text-3xl">
-                Profile posted.
+                Install the extension
             </h1>
             <p class="mt-2 text-muted-foreground">
-                Choose your browser and install the extension to start stamping
-                job forms.
+                Your CV is uploaded. Choose your browser and install the
+                extension to start stamping job forms.
             </p>
         </div>
 
@@ -345,9 +343,19 @@ async function saveProfile() {
             <ExtensionDownloadPanel />
 
             <div class="mt-8 flex flex-col items-center gap-3 text-center">
-                <Link :href="dashboard()" class="postbox-link text-sm">
+                <Link
+                    :href="dashboard({ query: { tab: 'extension' } })"
+                    class="postbox-link text-sm"
+                >
                     Go to dashboard →
                 </Link>
+                <button
+                    type="button"
+                    class="postbox-link text-sm"
+                    @click="step = 'review'"
+                >
+                    Review extracted details
+                </button>
                 <button
                     type="button"
                     class="postbox-link text-sm"
