@@ -27,7 +27,7 @@
   <img src="https://img.shields.io/badge/Inertia-3-E644AD" alt="Inertia v3" />
   <img src="https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white" alt="PHP 8.5" />
   <img src="https://img.shields.io/badge/Chrome-MV3-4285F4?logo=googlechrome&logoColor=white" alt="Chrome MV3" />
-  <img src="https://img.shields.io/badge/form%20corpus-4%2C604%20scenarios-2ea44f" alt="4,604 form scenarios" />
+  <img src="https://img.shields.io/badge/form%20corpus-6%2C229%20scenarios-2ea44f" alt="6,229 form scenarios" />
   <img src="https://img.shields.io/badge/License-PolyForm%20Noncommercial%201.0.0-orange.svg" alt="PolyForm Noncommercial License 1.0.0" />
 </p>
 
@@ -101,7 +101,7 @@ Job applications are a copy-paste endurance test. Workday wants your address. Gr
 | Skip cover letters because they're tedious | **One-click cover letter** tailored to the job description |
 | Same generic CV for every posting | **Tailored resume draft** matched to the role |
 | No idea how your CV reads against the JD | **ATS score** with keyword and formatting feedback |
-| Pray comboboxes and wizards don't break mid-form | **4,604-scenario test corpus** - Greenhouse, Ashby, Workday, UK job boards, and more |
+| Pray comboboxes and wizards don't break mid-form | **6,229-scenario test corpus** - Greenhouse, Ashby, Workday, UK job boards, and more |
 | Obvious bot-like paste fills that trip ATS checks | **Anti-bot detection** - character-by-character typing, natural pauses, human-like navigation on job board Auto Apply |
 | Click through Easy Apply one job at a time | **Job board Auto Apply** - LinkedIn, Indeed, Totaljobs, Glassdoor, and Reed from the extension sidebar |
 | Submit applications blindly | **You stay in control on ATS forms** - we fill fields; you review and submit |
@@ -120,7 +120,7 @@ Job applications are a copy-paste endurance test. Workday wants your address. Gr
 - **Save time** - autofill plus AI drafting for the questions that actually slow you down
 - **Stay honest** - answers draw from your profile and preferences, not invented credentials
 - **Sound human, not generic** - Draft All answers are scored on hundreds of scenarios to catch AI tropes, em dashes, and filler while staying grounded in your CV
-- **Trust the engineering** - four-layer fill verification, Playwright smoke tests, and 410 PHPUnit methods
+- **Trust the engineering** - four-layer fill verification, Playwright smoke tests, and 437 PHPUnit methods
 - **Avoid bot flags** - human-like typing, pauses between fields, and natural navigation on job board Auto Apply runs
 - **British Postbox UI** - Royal Mail red, navy, warm paper tones. Feels like sending a letter, not filling a spreadsheet
 
@@ -274,7 +274,7 @@ Plans are based on **extension autofill** allowance. CV upload and profile editi
 - **Extension fills locally** - the browser extension fetches your profile via a revocable Sanctum token and writes values into the page DOM. It does not send completed submissions back to us.
 - **No data selling** - we do not sell personal data. See the full [privacy policy](https://autocvapply.com/privacy).
 - **AI processing** - CV parsing and drafting send text to our NanoGPT provider as needed to extract fields or generate answers. Job context from the page may be included in draft requests.
-- **Source available** - PolyForm Noncommercial-licensed core. Inspect the extension, backend, and 4,604-scenario test corpus on GitHub. Free for personal and non-commercial use; commercial use requires permission.
+- **Source available** - PolyForm Noncommercial-licensed core. Inspect the extension, backend, and 6,229-scenario test corpus on GitHub. Free for personal and non-commercial use; commercial use requires permission.
 - **You submit on ATS forms** - autofill and Draft All never auto-click Submit on Greenhouse, Ashby, Workday, and similar sites. **Job board Auto Apply** (LinkedIn, Indeed, Totaljobs, Glassdoor, Reed) completes submissions end-to-end from the sidebar; more boards are on the way.
 
 ## Testing overview
@@ -283,8 +283,8 @@ AutoCVApply is verified by two complementary test pyramids - not a handful of sm
 
 | Pyramid | Scope | Fast tier (CI on every push) |
 |---------|-------|----------------------------|
-| **ATS form corpus** | 4,604 extraction scenarios (3,495 vetted), 124 curated fill-verify cases, 13 platform smoke fixtures | Curated JSDOM (70) + Playwright smoke |
-| **Job board Auto Apply** | 212 LinkedIn captures, 44 Indeed step fixtures, 1,100 synthetic job-board scenarios (Totaljobs, Glassdoor, Reed), unit + offline corpus tests | Unit tests + offline corpus |
+| **ATS form corpus** | 6,229 extraction scenarios (3,942 vetted), 124 curated fill-verify cases, 13 platform smoke fixtures | Curated JSDOM (70) + Playwright smoke |
+| **Job board Auto Apply** | 212 LinkedIn captures, 44 Indeed step fixtures, 1,700 synthetic job-board scenarios (Totaljobs, Glassdoor, Reed, SimplyHired, CV-Library), unit + offline corpus tests | Unit tests + offline corpus |
 
 Both pyramids enforce **100% pass rates** on critical tiers before merge. Full tier breakdowns, commands, and fixture layout are in [Form corpus quality engineering](#form-corpus-quality-engineering) and [Job board Auto Apply testing](#job-board-auto-apply-testing) below.
 
@@ -385,7 +385,7 @@ autocvapply/
 ├── tests/
 │   ├── Unit/Extension/         # 11 extension test suites (fill, E2E, extraction)
 │   └── fixtures/
-│       ├── form-extraction/    # 4,604-scenario corpus (html, expected, manifest)
+│       ├── form-extraction/    # 6,229-scenario corpus (html, expected, manifest)
 │       └── extension-e2e/      # E2E mocks, scenarios, reports
 └── config/subscriptions.php    # Plan tiers and token limits
 ```
@@ -592,20 +592,21 @@ For the full job-board shipping workflow (MCP autofill → synthetic corpus → 
 
 | Metric | Count | Source |
 |--------|------:|--------|
-| Form extraction scenarios | **4,604** | `tests/fixtures/form-extraction/manifest.json` |
-| Vetted scenarios | **3,495** | same manifest (`status: vetted`; remainder pending review) |
-| HTML fixtures + expected snapshots | **4,604 each** | `tests/fixtures/form-extraction/html/` · `expected/` |
-| Scraped real apply pages (`web-*`) | **1,136** | same manifest |
-| Job board synthetic (`syn-tj-500-*`, `syn-gd-300-*`, `syn-reed-300-*`) | **1,100** | Totaljobs, Glassdoor, Reed Auto Apply flows |
+| Form extraction scenarios | **6,229** | `tests/fixtures/form-extraction/manifest.json` |
+| Vetted scenarios | **3,942** | same manifest (`status: vetted`; remainder pending review) |
+| HTML fixtures | **6,232** | `tests/fixtures/form-extraction/html/` |
+| Expected field-inventory snapshots | **6,006** | `tests/fixtures/form-extraction/expected/` |
+| Scraped real apply pages (`web-*`) | **1,761** | same manifest |
+| Job board synthetic (`syn-tj-500-*`, `syn-gd-300-*`, `syn-reed-300-*`, `syn-sh-300-*`, `syn-cvl-300-*`) | **1,700** | Totaljobs, Glassdoor, Reed, SimplyHired, CV-Library Auto Apply flows |
 | Curated fill-verify scenarios | **124** (70 JSDOM · 54 Playwright) | `tests/fixtures/form-extraction/fill-verify-curated.json` |
 | Platform smoke scenarios | **13** (+ 2 Ashby widget checks) | `fill-verify-smoke.json` · `run-ashby-*-playwright.mjs` |
 | Extension E2E scenarios | **103** (10 in CI) | `tests/fixtures/extension-e2e/e2e-scenarios.json` |
 | Profile-mapping benchmark scenarios | **190** | `scripts/extension-benchmark/profile-mapping-corpus.json` |
 | Answer-quality benchmark scenarios | **124** | `scripts/extension-benchmark/answer-quality-corpus.json` |
-| PHPUnit test methods | **410** | `tests/**/*Test.php` |
-| Platform buckets in curated tier | **16** | `scripts/form-corpus/lib/curated-manifest.mjs` |
+| PHPUnit test methods | **437** | `tests/**/*Test.php` |
+| Platform buckets in curated tier | **20** | `scripts/form-corpus/lib/curated-manifest.mjs` |
 
-The corpus blends **1,136 scraped real ATS and job-board pages** with **3,468 synthetic scenarios** - including 500 **syn-complex-500** ATS-style fixtures, 500 **syn-corpus2** bulk forms, 500 **syn-tj-500** Totaljobs flows, 300 **syn-gd-300** Glassdoor flows, 300 **syn-reed-300** Reed flows, 60 **syn-weird** edge cases, plus framework mega-forms for React, Vue, Angular, Svelte, Shadow DOM, Workday wizards, conditional fields, and combobox edge cases.
+The corpus blends **1,761 scraped real ATS and job-board pages** (`web-*`) with **4,156 synthetic scenarios** - including 500 **syn-complex-500** ATS-style fixtures, 500 **syn-corpus2** bulk forms, 500 **syn-tj-500** Totaljobs flows, 300 **syn-gd-300** Glassdoor flows, 300 **syn-reed-300** Reed flows, 300 **syn-sh-300** SimplyHired flows, 300 **syn-cvl-300** CV-Library flows, 60 **syn-weird** edge cases, plus framework mega-forms for React, Vue, Angular, Svelte, Shadow DOM, Workday wizards, conditional fields, and combobox edge cases.
 
 ### The test pyramid
 
@@ -614,7 +615,7 @@ Every change to `form-heuristics.js` or `field-inventory.js` must survive the fu
 ```mermaid
 flowchart TB
     subgraph L1["Layer 1 - Fast feedback"]
-        U["PHPUnit unit tests<br/>410 methods"]
+        U["PHPUnit unit tests<br/>437 methods"]
         P["Propagation + mock answer tests"]
         D["Debug log golden replay"]
     end
@@ -639,8 +640,8 @@ flowchart TB
 | Tier | Engine | Scope | CI job |
 |------|--------|-------|--------|
 | **Unit** | JSDOM / Node | Propagation, mock answers, debug-log replay | `tests.yml` → `php-tests` |
-| **Corpus sanity** | PHPUnit | Corpus size checks (4,604 scenarios, 3,495 vetted) | `tests.yml` → `php-tests` |
-| **Form extraction eval** | JSDOM | All 3,495 vetted scenarios vs expected field inventory | `tests-heavy.yml` (manual) |
+| **Corpus sanity** | PHPUnit | Corpus size checks (6,229 scenarios, 3,942 vetted) | `tests.yml` → `php-tests` |
+| **Form extraction eval** | JSDOM | All 3,942 vetted scenarios vs expected field inventory | `tests-heavy.yml` (manual) |
 | **Curated JSDOM** | JSDOM | 70 synthetic scenarios, 4-layer checks at 100% | `tests.yml` → `extension-fill` |
 | **Platform smoke** | Playwright | 1 scenario per ATS/platform + Ashby yes/no + checkbox | `tests.yml` → `extension-fill` |
 | **Curated Playwright** | Playwright | 54 priority scraped ATS fixtures | `tests-heavy.yml` (manual) |
@@ -677,7 +678,7 @@ Fast feedback runs on every push to `main` and `develop`; the heavy corpus eval 
 |----------|---------|-----------|
 | **`tests.yml` → `php-tests`** | Push / PR | Laravel suite on PostgreSQL 17 - excludes `@group playwright` and `@group extension-e2e`; corpus sanity checks only (not full extraction eval) |
 | **`tests.yml` → `extension-fill`** | Push / PR | `npm run build:extension` → curated JSDOM verify (70 scenarios) → Playwright platform smoke |
-| **`tests-heavy.yml`** | Manual dispatch | Full 3,495-scenario extraction eval · comprehensive fill verify · curated Playwright · visual regression · extension E2E batch (~103 scenarios) |
+| **`tests-heavy.yml`** | Manual dispatch | Full 3,942-scenario extraction eval · comprehensive fill verify · curated Playwright · visual regression · extension E2E batch (~103 scenarios) |
 | **`lint.yml`** | Push / PR | Laravel Pint, ESLint, Prettier |
 | **`prod_deploy.yml`** | Push to `main` | Docker build → GHCR push → deploy to production |
 
@@ -693,7 +694,7 @@ See [`scripts/form-corpus/README.md`](scripts/form-corpus/README.md) for the ful
 
 ## Job board Auto Apply testing
 
-LinkedIn, Indeed, Totaljobs, Glassdoor, and Reed Auto Apply have their own verification pyramid, separate from the 4,604-scenario ATS form corpus. It runs on every push via PHPUnit wrappers and can be exercised locally without a live session for most tiers.
+LinkedIn, Indeed, Totaljobs, Glassdoor, and Reed Auto Apply have their own verification pyramid, separate from the 6,229-scenario ATS form corpus. It runs on every push via PHPUnit wrappers and can be exercised locally without a live session for most tiers.
 
 ```mermaid
 flowchart TB
@@ -707,7 +708,7 @@ flowchart TB
     subgraph L2["Layer 2 - Offline corpus (JSDOM)"]
         C["linkedin-easy-apply-corpus.mjs<br/>212 live captures + 52 synthetic edge cases"]
         I["indeed-auto-apply-offline.mjs<br/>44 apply-step fixtures"]
-        TJ["syn-tj-500-* · syn-gd-300-* · syn-reed-300-*<br/>1,100 job board synthetic scenarios"]
+        TJ["syn-tj-500-* · syn-gd-300-* · syn-reed-300-* · syn-sh-300-* · syn-cvl-300-*<br/>1,700 job board synthetic scenarios"]
     end
 
     subgraph L3["Layer 3 - Browser offline"]
@@ -727,7 +728,7 @@ flowchart TB
 | **Unit** | `auto-apply-pause-resume.mjs`, `auto-apply-activity-visibility.mjs` | Validation blockers, pause/resume session state, sidebar activity panel visibility | Default PHPUnit |
 | **Offline corpus** | `linkedin-easy-apply-corpus.mjs` | Each fixture: modal open/closed, primary actions (Next/Review/Submit), validation errors, submitted confirmation, multi-step flow progression | `LinkedInEasyApplyCorpusTest` |
 | **Offline corpus** | `indeed-auto-apply-offline.mjs`, `indeed-apply-*.mjs` | Indeed Apply search URLs, step detection, contact/resume/questions/review fixtures | `npm run test:indeed-auto-apply-offline` |
-| **Offline corpus** | `syn-tj-500-*`, `syn-gd-300-*`, `syn-reed-300-*` | 1,100 synthetic Totaljobs, Glassdoor, and Reed search/apply scenarios in the form corpus | `npm run form-corpus:validate-*-corpus` |
+| **Offline corpus** | `syn-tj-500-*`, `syn-gd-300-*`, `syn-reed-300-*`, `syn-sh-300-*`, `syn-cvl-300-*` | 1,700 synthetic Totaljobs, Glassdoor, Reed, SimplyHired, and CV-Library search/apply scenarios in the form corpus | `npm run form-corpus:validate-*-corpus` |
 | **Unit** | `reed-platform.test.mjs` | Reed search URLs, job ID parsing, apply URL builders | `node --test scripts/extension-test/reed-platform.test.mjs` |
 | **Browser offline** | `linkedin-auto-apply-offline-step.mjs` | Real Chrome + unpacked extension clicking through a fixture modal step | `LinkedInFullFlowReportTest` (requires `EXTENSION_E2E=1`) |
 | **Live E2E** | `linkedin-auto-apply-full-flow.mjs` | Full orchestrator: search, open jobs, Draft All per step, advance, submit; writes `tests/output/linkedin-auto-apply-full-flow/report.json` | Manual (`LINKEDIN_LIVE_E2E=1`) |
@@ -922,5 +923,5 @@ Issues and pull requests welcome on [GitHub](https://github.com/tmwclaxton/autoa
 <p align="center">
   <strong><a href="https://autocvapply.com">Get started free at autocvapply.com</a></strong><br />
   <sub>Built for people who'd rather apply to jobs than retype their CV.<br />
-  Verified against 4,604 form scenarios. Battle-tested on real ATS platforms and UK job boards.</sub>
+  Verified against 6,229 form scenarios. Battle-tested on real ATS platforms and UK job boards.</sub>
 </p>

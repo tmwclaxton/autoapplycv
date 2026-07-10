@@ -5,8 +5,8 @@ export const DISCORD_INVITE_URL = 'https://discord.gg/DqqqTv3Spt';
 
 export const CONTACT_EMAIL = 'hello@autocvapply.com';
 
-export const FORM_CORPUS_SCENARIO_COUNT = 5304;
-export const FORM_CORPUS_VETTED_COUNT = 3495;
+export const FORM_CORPUS_SCENARIO_COUNT = 6229;
+export const FORM_CORPUS_VETTED_COUNT = 3942;
 
 /** ATS and employer career sites where extension autofill is verified. */
 export const SUPPORTED_PLATFORMS = [
